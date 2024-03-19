@@ -5,11 +5,10 @@
     },
     "files": [],
     "references": [
-        { "path": "./packages/safe-ds-cli/tsconfig.src.json" },
-        { "path": "./packages/safe-ds-cli/tsconfig.test.json" },
-        { "path": "./packages/safe-ds-eda/tsconfig.json" },
-        { "path": "./packages/safe-ds-lang/tsconfig.src.json" },
-        { "path": "./packages/safe-ds-lang/tsconfig.test.json" },
-        { "path": "./packages/safe-ds-vscode/tsconfig.json" }
+        { "path": "./packages/ttsl-cli/tsconfig.src.json" },
+        { "path": "./packages/ttsl-cli/tsconfig.test.json" },
+        { "path": "./packages/ttsl-lang/tsconfig.src.json" },
+        { "path": "./packages/ttsl-lang/tsconfig.test.json" },
+        { "path": "./packages/ttsl-vscode/tsconfig.json" }
     ]
 }

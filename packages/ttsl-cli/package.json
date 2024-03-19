@@ -1,0 +1,60 @@
+{
+    "name": "@ttsl/cli",
+    "version": "0.1.0",
+    "description": "A command line interface for the TTSL DSL.",
+    "author": {
+        "name": "Lars Reimann",
+        "email": "mail@larsreimann.com"
+    },
+    "license": "MIT",
+    "keywords": [
+        "dsl",
+        "data science",
+        "machine learning",
+        "programming language",
+        "static checking"
+    ],
+    "homepage": "https://dsl.safeds.com",
+    "bugs": {
+        "url": "https://github.com/SEEDS-Group/TTSL/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SEEDS-Group/TTSL.git",
+        "directory": "packages/ttsl-cli"
+    },
+    "type": "module",
+    "bin": {
+        "safe-ds": "./bin/cli.js"
+    },
+    "exports": null,
+    "files": [
+        "bin",
+        "lib",
+        "src"
+    ],
+    "scripts": {
+        "clean": "shx rm -rf dist lib *.tsbuildinfo",
+        "build": "tsc -b tsconfig.src.json",
+        "build:clean": "npm run clean && npm run build",
+        "watch": "concurrently -n tsc,esbuild -c blue,yellow \"tsc -b tsconfig.src.json --watch\""
+    },
+    "dependencies": {
+        "@ttsl/lang": ">=0.3.0",
+        "chalk": "^5.3.0",
+        "commander": "^12.0.0",
+        "glob": "^10.3.10",
+        "langium": "^3.0.0",
+        "true-myth": "^7.1.0"
+    },
+    "devDependencies": {
+        "@types/node": "^18.18.12",
+        "vscode-languageserver": "^9.0.1"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "publishConfig": {
+        "provenance": true
+    }
+}

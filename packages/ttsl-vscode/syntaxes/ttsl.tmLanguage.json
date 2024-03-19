@@ -1,0 +1,112 @@
+{
+    "name": "ttsl",
+    "scopeName": "source.ttsl",
+    "fileTypes": [".ttsl"],
+    "patterns": [
+        {
+            "include": "#comments"
+        },
+        {
+            "name": "constant.numeric.ttsl",
+            "match": "\\b([0-9]+(\\.[0-9]+)?([eE][+-]?[0-9]+)?)\\b"
+        },
+        {
+            "name": "constant.language.ttsl",
+            "match": "\\b(false|null|true)\\b"
+        },
+        {
+            "name": "storage.type.ttsl",
+            "match": "\\b(annotation|attr|class|enum|fun|package|pipeline|schema|segment|val)\\b"
+        },
+        {
+            "name": "storage.modifier.ttsl",
+            "match": "\\b(const|in|internal|out|private|static)\\b"
+        },
+        {
+            "name": "keyword.operator.expression.ttsl",
+            "match": "\\b(and|not|or|sub)\\b"
+        },
+        {
+            "name": "keyword.other.ttsl",
+            "match": "\\b(as|from|import|literal|union|where|yield)\\b"
+        },
+        {
+            "name": "meta.ttsl",
+            "begin": "\\`",
+            "end": "\\`"
+        },
+        {
+            "name": "string.interpolated.ttsl",
+            "begin": "\"|}}",
+            "end": "{{|\"",
+            "patterns": [
+                {
+                    "include": "#string-character-escape"
+                }
+            ]
+        },
+        {
+            "name": "string.quoted.double.ttsl",
+            "begin": "\"",
+            "end": "\"",
+            "patterns": [
+                {
+                    "include": "#string-character-escape"
+                }
+            ]
+        }
+    ],
+    "repository": {
+        "comments": {
+            "patterns": [
+                {
+                    "name": "comment.line.double-slash.ttsl",
+                    "begin": "//",
+                    "end": "(?=$)"
+                },
+                {
+                    "name": "comment.block.documentation.ttsl",
+                    "begin": "/\\*\\*",
+                    "end": "\\*/",
+                    "patterns": [
+                        {
+                            "match": "(@param|@result)\\s+([_a-zA-Z][_a-zA-Z0-9]*)?",
+                            "captures": {
+                                "1": {
+                                    "name": "keyword.other.ttsl"
+                                },
+                                "2": {
+                                    "name": "variable.parameter.ttsl"
+                                }
+                            }
+                        },
+                        {
+                            "match": "(@since)\\b",
+                            "name": "keyword.other.ttsl"
+                        },
+                        {
+                            "match": "(@typeParam)\\s+([_a-zA-Z][_a-zA-Z0-9]*)?",
+                            "captures": {
+                                "1": {
+                                    "name": "keyword.other.ttsl"
+                                },
+                                "2": {
+                                    "name": "entity.name.type.parameter"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "comment.block.ttsl",
+                    "begin": "/\\*",
+                    "end": "\\*/"
+                }
+            ]
+        },
+        "string-character-escape": {
+            "name": "constant.character.escape.ttsl",
+            "match": "\\\\(b|f|n|r|t|v|0|'|\"|{|\\\\|u[0-9a-fA-F]{4})"
+        }
+    }
+}
