@@ -12,7 +12,7 @@ module.exports = {
     },
     overrides: [
         {
-            files: ['packages/safe-ds-cli/src/**', 'packages/ttsl-vscode/src/extension/output.ts'],
+            files: ['packages/ttsl-cli/src/**', 'packages/ttsl-vscode/src/extension/output.ts'],
             rules: {
                 'no-console': 'off',
             },
