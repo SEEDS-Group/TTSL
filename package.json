@@ -12,7 +12,7 @@
         "langium:watch": "npm run langium:watch -w=@ttsl/lang",
         "build": "tsc -b tsconfig.json && npm run build --workspaces",
         "build:clean": "npm run clean && npm run build",
-        "watch": "concurrently -n tsc,cli,lang,vscode,eda -c blue,yellow,red,green \"tsc -b tsconfig.json\" \"npm run watch -w=@safe-ds/cli\" \"npm run watch -w=@ttsl/lang\" \"npm run watch -w=safe-ds\" \"npm run watch -w=@safe-ds/eda\"",
+        "watch": "concurrently -n tsc,cli,lang,vscode,eda -c blue,yellow,red,green \"tsc -b tsconfig.json\" \"npm run watch -w=@ttsl/cli\" \"npm run watch -w=@ttsl/lang\" \"npm run watch -w=ttsl\"",
         "test": "vitest",
         "test-with-coverage": "vitest --coverage",
         "test-ui": "vitest --ui --coverage"
