@@ -12,8 +12,6 @@ import { openDiagnosticsDumps } from './commands/openDiagnosticsDumps.js';
 
 let client: LanguageClient;
 let services: SafeDsServices;
-let lastFinishedPipelineId: string | undefined;
-let lastSuccessfulPlaceholderName: string | undefined;
 
 // This function is called when the extension is activated.
 export const activate = async function (context: vscode.ExtensionContext) {
@@ -144,16 +142,6 @@ const registerMessageLoggingCallbacks = function () {
 };
 
 const registerVSCodeCommands = function (context: vscode.ExtensionContext) {
-    const registerCommandWithCheck = (commandId: string, callback: (...args: any[]) => any) => {
-        return vscode.commands.registerCommand(commandId, (...args: any[]) => {
-            if (!services.runtime.Runner.isPythonServerAvailable()) {
-                vscode.window.showErrorMessage('Extension not fully started yet.');
-                return;
-            }
-            return callback(...args);
-        });
-    };
-
     context.subscriptions.push(vscode.commands.registerCommand('safe-ds.dumpDiagnostics', dumpDiagnostics(context)));
     context.subscriptions.push(
         vscode.commands.registerCommand('safe-ds.openDiagnosticsDumps', openDiagnosticsDumps(context)),
