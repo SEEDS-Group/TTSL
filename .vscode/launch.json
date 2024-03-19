@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "Launch Extension",
-            "args": ["--extensionDevelopmentPath=${workspaceFolder}/packages/safe-ds-vscode"],
+            "args": ["--extensionDevelopmentPath=${workspaceFolder}/packages/ttsl-vscode"],
             "preLaunchTask": "npm: build",
             "request": "launch",
             "type": "extensionHost",

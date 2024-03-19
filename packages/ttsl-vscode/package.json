@@ -1,0 +1,169 @@
+{
+    "name": "ttsl",
+    "version": "0.1.0",
+    "private": true,
+    "description": "A domain-specific language to simulate taxes and transfers.",
+    "author": {
+        "name": "Lars Reimann",
+        "email": "mail@larsreimann.com"
+    },
+    "license": "MIT",
+    "keywords": [
+        "dsl",
+        "taxes",
+        "machine learning",
+        "programming language",
+        "static checking"
+    ],
+    "homepage": "https://dsl.safeds.com",
+    "bugs": {
+        "url": "https://github.com/SEEDS-Group/TTSL/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SEEDS-Group/TTSL.git",
+        "directory": "packages/ttsl-vscode"
+    },
+    "publisher": "TTSL",
+    "displayName": "TTSL",
+    "preview": true,
+    "categories": [
+        "Programming Languages"
+    ],
+    "galleryBanner": {
+        "color": "#e9eded"
+    },
+    "icon": "img/safe-ds_logo_rounded_128x128.png",
+    "qna": "https://github.com/orgs/Safe-DS/discussions",
+    "badges": [
+        {
+            "url": "https://github.com/Safe-DS/DSL/actions/workflows/main.yml/badge.svg",
+            "href": "https://github.com/Safe-DS/DSL/actions/workflows/main.yml",
+            "description": "Main"
+        },
+        {
+            "url": "https://codecov.io/gh/Safe-DS/DSL/branch/main/graph/badge.svg?token=ma0ytglhO1",
+            "href": "https://codecov.io/gh/Safe-DS/DSL",
+            "description": "codecov"
+        }
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "ttsl",
+                "aliases": [
+                    "TTSL"
+                ],
+                "extensions": [
+                    ".ttsl"
+                ],
+                "configuration": "./language-configuration.json",
+                "icon": {
+                    "light": "img/safe-ds_file_icon_light.svg",
+                    "dark": "img/safe-ds_file_icon_dark.svg"
+                }
+            }
+        ],
+        "grammars": [
+            {
+                "language": "ttsl",
+                "scopeName": "source.ttsl",
+                "path": "./syntaxes/ttsl.tmLanguage.json"
+            }
+        ],
+        "configuration": {
+            "title": "Safe-DS",
+            "properties": {
+                "safe-ds.runner.command": {
+                    "description": "Command to start the Safe-DS runner",
+                    "type": "string",
+                    "default": "safe-ds-runner"
+                },
+                "safe-ds.validation.codeStyle": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show an info if code style can be improved."
+                },
+                "safe-ds.validation.experimentalLanguageFeature": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Warn if an experimental language feature is used."
+                },
+                "safe-ds.validation.experimentalLibraryElement": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Warn if an experimental library element is used."
+                },
+                "safe-ds.validation.nameConvention": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Warn if a name does not match the Safe-DS name convention."
+                }
+            }
+        },
+        "configurationDefaults": {
+            "[safe-ds]": {
+                "editor.semanticHighlighting.enabled": true,
+                "editor.wordSeparators": "`~!@#%^&*()-=+[]{}\\|;:'\",.<>/?»«",
+                "files.trimTrailingWhitespace": true
+            }
+        },
+        "menus": {
+            "editor/title/run": [
+                {
+                    "command": "safe-ds.runPipelineFile",
+                    "when": "resourceLangId == safe-ds",
+                    "group": "navigation@1"
+                }
+            ]
+        },
+        "commands": [
+            {
+                "command": "safe-ds.dumpDiagnostics",
+                "title": "Dump Diagnostics to JSON",
+                "category": "TTSL"
+            },
+            {
+                "command": "safe-ds.openDiagnosticsDumps",
+                "title": "Open Diagnostics Dumps in New VS Code Window",
+                "category": "TTSL"
+            },
+            {
+                "command": "safe-ds.runPipelineFile",
+                "title": "Run Pipeline",
+                "category": "TTSL",
+                "icon": "$(play)"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "ttsl",
+                "path": "./snippets/ttsl.json"
+            }
+        ]
+    },
+    "type": "module",
+    "main": "dist/extension/mainClient.cjs",
+    "scripts": {
+        "clean": "shx rm -rf dist lib *.tsbuildinfo",
+        "build": "tsc -b tsconfig.json && node esbuild.mjs",
+        "build:clean": "npm run clean && npm run build",
+        "watch": "concurrently -n tsc,esbuild -c blue,yellow \"tsc -b tsconfig.json --watch\" \"node esbuild.mjs --watch\"",
+        "vscode:prepublish": "npm run clean && npm run build -- --minify",
+        "package": "vsce package",
+        "deploy": "vsce publish"
+    },
+    "dependencies": {
+        "vscode-languageclient": "^9.0.1"
+    },
+    "devDependencies": {
+        "@types/node": "^18.18.12",
+        "@types/vscode": "^1.87.0",
+        "@vscode/vsce": "^2.24.0",
+        "esbuild": "^0.20.1",
+        "esbuild-plugin-copy": "^2.1.1"
+    },
+    "engines": {
+        "vscode": "^1.87.0"
+    }
+}

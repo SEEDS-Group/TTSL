@@ -1,0 +1,10 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "references": [{ "path": "../ttsl-lang/tsconfig.src.json" }],
+    "compilerOptions": {
+        "rootDir": ".",
+        "noEmit": true,
+        "allowImportingTsExtensions": true
+    },
+    "include": ["src/**/*", "test/**/*"]
+}

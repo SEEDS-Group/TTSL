@@ -5,24 +5,16 @@ module.exports = {
         project: 'tsconfig.eslint.json',
     },
 
-    extends: '@lars-reimann/svelte',
+    extends: '@lars-reimann',
     rules: {
         'import/extensions': 'off',
         'import/no-extraneous-dependencies': 'off',
-        'svelte/valid-compile': 'off',
     },
     overrides: [
         {
-            files: ['packages/safe-ds-cli/src/**', 'packages/safe-ds-vscode/src/extension/output.ts'],
+            files: ['packages/ttsl-cli/src/**', 'packages/ttsl-vscode/src/extension/output.ts'],
             rules: {
                 'no-console': 'off',
-            },
-        },
-        {
-            files: ['*.svelte'],
-            rules: {
-                // Leads to false positives when running ESLint in CI with the MegaLinter
-                'import/no-unresolved': 'off',
             },
         },
     ],

@@ -1,6 +1,6 @@
-site_name: Safe-DS DSL
-repo_url: https://github.com/Safe-DS/DSL
-repo_name: Safe-DS/DSL
+site_name: TTSL
+repo_url: https://github.com/SEEDS-Group/TTSL
+repo_name: SEEDS-Group/TTSL
 edit_uri: edit/main/docs/
 site_url: !ENV READTHEDOCS_CANONICAL_URL
 strict: true
@@ -36,9 +36,6 @@ nav:
           - Enumerations: language/stub-language/enumerations.md
           - Annotations: language/stub-language/annotations.md
           - Type Parameters: language/stub-language/type-parameters.md
-  - Standard Library:
-      - stdlib/README.md
-      - safeds.lang: stdlib/safeds_lang.md
   - Development:
       - Call Graph Testing: development/call-graph-testing.md
       - Formatting Testing: development/formatting-testing.md

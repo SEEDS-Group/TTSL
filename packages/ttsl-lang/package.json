@@ -1,0 +1,68 @@
+{
+    "name": "@ttsl/lang",
+    "version": "0.1.0",
+    "description": "A language server for the TTSL DSL.",
+    "author": {
+        "name": "Lars Reimann",
+        "email": "mail@larsreimann.com"
+    },
+    "license": "MIT",
+    "keywords": [
+        "dsl",
+        "data science",
+        "machine learning",
+        "programming language",
+        "static checking"
+    ],
+    "homepage": "https://dsl.safeds.com",
+    "bugs": {
+        "url": "https://github.com/SEEDS-Group/TTSL/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SEEDS-Group/TTSL.git",
+        "directory": "packages/ttsl-lang"
+    },
+    "type": "module",
+    "files": [
+        "lib",
+        "src"
+    ],
+    "exports": {
+        ".": {
+            "types": "./lib/language/index.d.ts",
+            "import": "./lib/language/index.js"
+        }
+    },
+    "scripts": {
+        "clean": "shx rm -rf dist lib *.tsbuildinfo",
+        "langium:generate": "langium generate",
+        "langium:watch": "langium generate --watch",
+        "build": "tsc -b tsconfig.src.json && shx cp -r src/resources/ lib/",
+        "build:clean": "npm run clean && npm run build",
+        "watch": "tsc -b tsconfig.src.json --watch"
+    },
+    "dependencies": {
+        "chevrotain": "^11.0.3",
+        "glob": "^10.3.10",
+        "langium": "^3.0.0",
+        "semver": "^7.6.0",
+        "source-map": "^0.7.4",
+        "tree-kill": "^1.2.2",
+        "vscode-languageserver": "^9.0.1",
+        "vscode-languageserver-textdocument": "^1.0.11",
+        "ws": "^8.16.0"
+    },
+    "devDependencies": {
+        "@types/node": "^18.18.12",
+        "@types/ws": "^8.5.10",
+        "langium-cli": "^3.0.1",
+        "true-myth": "^7.1.0"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "publishConfig": {
+        "provenance": true
+    }
+}
