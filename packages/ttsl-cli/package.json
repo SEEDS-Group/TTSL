@@ -48,7 +48,7 @@
         "true-myth": "^7.1.0"
     },
     "devDependencies": {
-        "@types/node": "^18.18.12",
+        "@types/node": "^20.12.2",
         "vscode-languageserver": "^9.0.1"
     },
     "engines": {
