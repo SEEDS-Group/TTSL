@@ -1,146 +1,106 @@
 # Statements
 
-Statements are used in the [pipeline language][pipeline-language] to run a specific action. Safe-DS supports only two type of statements, namely
+TTSL supports a variety of statements which can be divided into the following categories: 
 
-- [expression statements](#expression-statements), which are used to evaluate an expression exactly once and discard any results, and
-- [assignments](#assignments), which also evaluate an expression exactly once, but can then [assign selected results to placeholders](#declaring-placeholders) or [assign them to own results](#yielding-results).
-
-Other types of statements such as
-
-- if-statements to conditionally execute code or
-- while-statements to repeatedly execute code
-
-are not planned since we want to keep the language small and easy to learn. Moreover, we want to refrain from developing yet another general-purpose programming language. Instead, code that depends on such features can be implemented in Python, integrated into Safe-DS using the [stub language][stub-language], and called in a Safe-DS program using the provided statements.
+- [Expression Statements](#expression-statements), which are used to evaluate expressions and perform operations while discarding the result.
+- [Assignments](#assignments), which are used to assign values to variables.
+- [Conditional Expressions](#conditional-expressions), which are used to execute code based on conditions.
+- [Loops](#loops), which are used to execute code repeatedly.
 
 ## Expression Statements
 
-Expression statements are used to evaluate an [expression][expressions] exactly once. The results of this expression are ignored. Therefore, expression statements are only useful if the expression has side effects. The following snippet demonstrates this by [calling][calls] the `#!sds print` function that prints the given string to the console:
-
-```sds
-print("Hello, world!");
-```
-
-As we can see here, an expression statement has the following syntactic elements:
-
-- The [expression][expressions] to evaluate.
-- A semicolon at the end.
-
 ## Assignments
 
-An assignment evaluates an [expression][expressions], its _right-hand side_, exactly once. This is identical to [expression statements](#expression-statements). However, the results of this expression can then either be [assigned to placeholders](#declaring-placeholders), [assigned to results](#yielding-results), or [ignored](#ignoring-results).
+In an assignment a statement is evaluated to assign the result to a variable.
 
-### Declaring Placeholders
+### Declaring Variables
 
-Placeholders are used to provide a name for a fixed value. This later allows us to use this value without recomputing it. In line with those semantics, placeholders must be given a value exactly once: They must be given a value directly when they are declared and that value cannot be changed afterwards (immutability).
+Variables can be declared using the `var` keyword. The type of the variable is inferred from the assigned value. It is also possible to give the variable a value at the time of declaration using the `=` sign. After decleration and assignment, the variable can be used as a placeholder for the value it stores.
 
-The next snippet shows how the singular result of an expression (the integer `#!sds 1`) can be assigned to a placeholder called `#!sds one`:
-
-```sds
-val one = 1;
+```ttsl
+var x = 10;
 ```
 
-This assignment to a placeholder has the following syntactic elements:
+### Assigning Values
 
-- The keyword `#!sds val`, which indicates that we want to declare a placeholder.
-- The name of the placeholder, here `#!sds one`. This can be any combination of upper- and lowercase letters, underscores, and numbers, as long as it does not start with a number. However, we suggest to use `#!sds lowerCamelCase` for the names of placeholders.
-- An `#!sds =` sign.
-- The expression to evaluate (right-hand side).
-- A semicolon at the end.
+Variables that already have been [declared](#declaring-variables) can be assigned new values using the `=` operator. The value on the right side of the operator is assigned to the variable on the left side.
 
-#### References to Placeholder
+```ttsl
+x = 20;
+```
 
-We can access the value of a placeholder in any statement that follows the assignment of that placeholder in the closest containing [pipeline][pipelines], [segment][segments], or [block lambda][block-lambdas] using a [reference][references]. Here is a basic example, where we print the value of the `#!sds one` placeholder (here `#!sds 1`) to the console:
+This snipped overwrites the value of `x` with `20`.
 
-```sds
-segment loadMovieRatingsSample(nInstances: Int) {
-    val one = 1;
-    print(one);
+Similarly the result of a function can be assigned to a variable.
+
+```ttsl
+y = f();
+```
+
+## Conditional Expressions
+
+Conditional expressions are used to execute code based on conditions. A condition can be checked with the `if` keyword followed by a condition in parantheses. If the condition is true, the code block following the condition is executed.
+
+```ttsl
+if(x > 10) {
+    x = 10;
 }
 ```
 
-More information about references can be found in the [linked document][references].
+In the example above, the value of `x` is set to `10` if it is greater than `10`.
 
-### Yielding Results
+It is also possible to add an `else` block to the `if` statement. The code block following the `else` keyword is executed if the condition is false.
 
-In addition to the [declaration of placeholders](#declaring-placeholders), assignments are used to assign a value to a [result of a segment](#yielding-results-of-segments) or declare [results of a block lambda](#declare-results-of-block-lambdas).
-
-#### Yielding Results of Segments
-
-The following snippet shows how we can assign a value to a declared [result][results] of a [segment][segments]:
-
-```sds
-segment trulyRandomInt() -> result: Int {
-    yield result = 1;
+```ttsl
+if(x > 10) {
+    x = 10;
+} else {
+    x = 0;
 }
 ```
 
-The assignment here has the following syntactic elements:
+In the example above, the value of `x` is set to `10` if it is greater than `10`, otherwise it is set to `0`.
 
-- The keyword `#!sds yield`, which indicates that we want to assign to a result.
-- The name of the result, here `#!sds greeting`. This must be identical to one of the names of a declared result in the header of the segment.
-- An `#!sds =` sign.
-- The expression to evaluate (right-hand side).
-- A semicolon at the end.
+## Loops
 
-#### Declare Results of Block Lambdas
+TTSL supports three types of loops: `while`, `for` and `foreach`. Each one of them is used to execute code repeatedly.
 
-Similar syntax is used to yield results of [block lambdas][block-lambdas]. The difference to segments is that block lambdas do not declare their results in their header. Instead the results are declared within the assignments, just like [placeholders](#declaring-placeholders). The block lambda in the following snippet has a single result called `#!sds greeting`, which gets the value `#!sds "Hello, world!"`:
+### While Loop
 
-```sds
-() -> {
-    yield greeting = "Hello, world!";
+The `while` loop has a similar syntax to the [conditional expressions](#conditional-expressions). The code block following the condition is executed as long as the condition is true.
+
+```ttsl
+while(x > 0) {
+    x = x - 1;
 }
 ```
 
-The assignment here has the following syntactic elements:
+In the example above, the value of `x` is decremented by `1` as long as it is greater than `0`. As a result we can expect `x` to be `0` after the loop is finished.
 
-- The keyword `#!sds yield`, which indicates that we want to declare a result.
-- The name of the result, here `#!sds result`. This can be any combination of upper- and lowercase letters, underscores, and numbers, as long as it does not start with a number. However, we suggest to use `#!sds lowerCamelCase` for the names of results.
-- An `#!sds =` sign.
-- The expression to evaluate (right-hand side).
-- A semicolon at the end.
+### For Loop
 
-### Ignoring Results
+The `for` loop is used to execute code a specific number of times. It consists of three parts: an initialization, a condition and an increment. The initialization is executed once at the beginning of the loop. The condition is checked before each iteration and the increment is executed after each iteration.
 
-In case we want to ignore a result of the expression on the right-hand side of the assignment we can inserting an underscore (called _wildcard_). The following snippet is equivalent to the [expression statement](#expression-statements) `#!sds 1;`:
-
-```sds
-_ = 1;
-```
-
-### Multiple Assignees
-
-So far, the left-hand side of the assignment always had a single assignee. However, when the right-hand side of the assignment produces more than one value, it is possible to freely decide for each value whether it should be [assigned to a placeholder](#declaring-placeholders), [yielded](#yielding-results) or [ignored](#ignoring-results).
-
-For example, the `#!sds split` method in the next example splits a large dataset into two datasets according to a given ratio. We then ignore the first dataset using a [wildcard](#ignoring-results) and [assign the second result to a placeholder](#declaring-placeholders) called `#!sds trainingDataset`. Afterwards, we train a `#!sds DecisionTree` using the `#!sds trainingDataset` and yield the trained model as a result:
-
-```sds
-segment createModel(fullDataset: Dataset) -> trainedModel: Model {
-    _, val trainingDataset = fullDataset.split(0.2);
-    yield trainedModel = DecisionTree().fit(trainingDataset);
+```ttsl
+for(var i = 0; i < 10; i = i + 1) {
+    x = x + 1;
 }
 ```
 
-Let us sum up the complete syntax of an assignment:
+In the example above, the value of `x` is incremented by `1` ten times.
 
-- A comma-separated list of assignees, possibly with a trailing comma (left-hand side). Each entry is one of
-  - [Placeholder](#declaring-placeholders)
-  - [Yield](#yielding-results)
-  - [Wildcard](#ignoring-results)
-- An `#!sds =` sign.
-- The expression to evaluate (right-hand side).
-- A semicolon at the end.
+### Foreach Loop
 
-**There must be at most as many assignees on the left-hand side as the right-hand side has results.** For everything but calls this means only a single assignee can be specified. For calls it depends on the number of declared [results][results] of the callee.
+The `foreach` loop is used to iterate over a collection of elements. TTSL supports two kinds of collections:
+[Lists](../common/types.md#List) and [Dictionaries](../common/types.md#Dict).
 
-Assignment happens by index, so the first result is assigned to the first assignee, the second result is assigned to the second assignee, and so forth. If there are more results than assignees, any trailing results are implicitly ignored.
+<!-- 
+    TODO: Links anpassen
+-->
+```ttsl
+foreach(element in List) {
+    element = element + 10;
+}
+```
 
-[results]: ../common/results.md
-[stub-language]: ../stub-language/README.md
-[pipeline-language]: README.md
-[expressions]: expressions.md
-[block-lambdas]: expressions.md#block-lambdas
-[calls]: expressions.md#calls
-[references]: expressions.md#references
-[segments]: segments.md
-[pipelines]: pipelines.md
+In the example above, each element in the list is incremented by `10`.
