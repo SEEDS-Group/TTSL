@@ -12,7 +12,7 @@ It can be definied in the following ways:
 TODO: Hyperlinks updaten
 -->
 
-When defining a [function](#functions), the validity can be set by using the `valid from x to y` phrase right below the function definition.
+When defining a [function](#functions), the validity can be set by using the `valid from x to y` phrase right below the function definition. The date has to be in [ISO-Syntax][date syntax] (year-month-day).
 
 ```ttsl
 function foo() {
@@ -56,3 +56,5 @@ foo() is valid from 2024-01-01 with no upper bound while bar() is valid until 20
 When no validity is set, the function is always valid.
 
 ## Data
+
+[date syntax]: validity.md#date

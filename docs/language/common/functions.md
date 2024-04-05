@@ -11,7 +11,6 @@ The syntax to define a global function is as follows:
 - The body of the function. The body consists of [Statements][Statement].
 - At the end of the Body there must be a return statement signaled with the keyword `return`. The return value must be of the type given as the result type.
 
-
 ```ttsl
 function f(y: Int): Int {
     var x: Int
@@ -38,14 +37,7 @@ id function f(y: Int): Int {...}
 
 ## Validity
 
-with `valid from` Date ` to ` Date the period in which this constant is [valid][Validity] can be defined. Both `from` and `to` are optional. If not given the constant is [valid][Validity] the whole time, till a certain point or starting from a certain point till now. The Date is given in [ISO-Syntax][date syntax] (year-month-day). For example:
-
-```ttsl
-function f(y: Int): Int {
-valid from 2009-01-01 to 2011-01-01
-...
-}
-```
+The validity of functions can be defined as follows: [validity of functions][functionValidity]
 
 ## Timespan modifier
 
@@ -54,7 +46,6 @@ A function can calculate a value for a certain timespan. The timespan is indicat
 ```ttsl
 function taxes(name:String): List per month
 ```
-
 
 ## Grouped return value
 
@@ -66,13 +57,11 @@ function taxes(name: String): List GroupedBy XYZ_id {...}
 
 In this example the return value of the function is grouped by XYZ_id.
 
-
 [Parameters]: parameters.md
 [Type]: types.md
 [id]: modifier.md#id
 [Visibility]: visibility.md
-[Validity]: validity.md
-[date syntax]: validity.md#date
+[functionValidity]: validity.md#functions
 [groupedBy]: modifier.md#groupedBy
 [timespan modifier]:modifier.md#timespan
-[Statement]: statements.md
+[Statement]: statements.md]
