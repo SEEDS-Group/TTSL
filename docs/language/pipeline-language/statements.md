@@ -1,6 +1,6 @@
 # Statements
 
-TTSL supports a variety of statements which can be divided into the following categories: 
+TTSL supports a variety of statements which can be divided into the following categories:
 
 - [Expression Statements](#expression-statements), which are used to evaluate expressions and perform operations while discarding the result.
 - [Assignments](#assignments), which are used to assign values to variables.
