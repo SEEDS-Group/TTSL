@@ -37,7 +37,7 @@ id function f(y: Int): Int {...}
 
 ## Validity
 
-The validity of functions can be defined as follows: [validity of functions][functionValidity]
+The documentation for the [validity of functions][functionValidity] can be found in the [validity][Validity] section.
 
 ## Timespan modifier
 
@@ -61,6 +61,7 @@ In this example the return value of the function is grouped by XYZ_id.
 [Type]: types.md
 [id]: modifier.md#id
 [Visibility]: visibility.md
+[Validity]: validity.md
 [functionValidity]: validity.md#functions
 [groupedBy]: modifier.md#groupedBy
 [timespan modifier]:modifier.md#timespan

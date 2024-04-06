@@ -24,10 +24,11 @@ packageprivate constant: Int = 1
 
 ## [Validity][Validity]
 
-The documentation for the [validity of constants](validity.md#constants) can be found in the [validity][Validity] section.
+The documentation for the [validity of constants][constantValidity] can be found in the [validity][Validity] section.
 
 [types]: types.md
 [Expressions]: expressions.md
 [calls]: expressions.md#calls
 [Visibility]: visibility.md
 [Validity]: validity.md
+[constantValidity]: validity.md#constants
