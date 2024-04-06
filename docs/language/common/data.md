@@ -5,6 +5,7 @@ _Data_ defines a value. Data has a certain [type][types], [visibility][Visibilit
 ```ttsl
 data: String = 'data'
 ```
+
 Here are the pieces of syntax:
 
 - The name of the data (here `#!ttsl data`). This can be any combination of upper- and lowercase letters, underscores, and numbers, as long as it does not start with a number. However, we suggest to use `#!ttsl lowerCamelCase` for the names of parameters.
@@ -23,12 +24,7 @@ packageprivate data: String = 'data'
 
 ## Validity
 
-with `valid from` Date ` to ` Date the period in which this constant is [valid][Validity] can be defined. Both `from` and `to` are optional. If not given the constant is [valid][Validity] the whole time, till a certain point or starting from a certain point till now. The Date is given in [ISO-Syntax][date syntax] (year-month-day). For example:
-
-```ttsl
-valid from 2009-01-01 to 2011-01-01
-data: String = 'data'
-```
+The documentation for the [validity of data][dataValidity] can be found in the [validity][Validity] section.
 
 ## ID modifier
 
@@ -40,9 +36,6 @@ id data: String = 'data'
 
 [types]: types.md
 [id]: modifier.md#id
-[Expressions]: expressions.md
-[calls]: expressions.md#calls
 [Visibility]: visibility.md
 [Validity]: validity.md
-[date syntax]: validity.md#date
-
+[dataValidity]: validity.md#data
