@@ -7,9 +7,9 @@ The syntax to define a global function is as follows:
 - The keyword `#!ttsl function`
 - The name of the function ("loadDataset" in the following example)
 - The list of [_parameters_][Parameters] (inputs) enclosed in parentheses and separated by commas (`(name: String)` in the following snippet). For each parameter we list the name of the parameter followed by a colon and its type.
-- The [_result type_][Type] (outputs) after the symbol `#!ttsl :`.
+- If the function has a return value the [_result type_][Type] (outputs) must be after the symbol `#!ttsl :`.
 - The body of the function. The body consists of [Statements][Statement].
-- At the end of the Body there must be a return statement signaled with the keyword `return`. The return value must be of the type given as the result type.
+- At the end of the Body there can be a return statement signaled with the keyword `return`. The return value must be of the type given as the result type. If there is no result type given, there has to be no return value.
 
 
 ```ttsl
@@ -42,14 +42,14 @@ with `valid from` Date ` to ` Date the period in which this constant is [valid][
 
 ```ttsl
 function f(y: Int): Int {
-valid from 2009-01-01 to 2011-01-01
-...
+    valid from 2009-01-01 to 2011-01-01
+    ...
 }
 ```
 
-## Timespan modifier
+## Timespan
 
-A function can calculate a value for a certain timespan. The timespan is indicated by the [timespan modifier][timespan modifier].
+A function can calculate a value for a certain [timespan][timespan]. The [timespan][timespan] is indicated by `#!ttsl per day/week/month/year`.
 
 ```ttsl
 function taxes(name:String): List per month
@@ -70,9 +70,9 @@ In this example the return value of the function is grouped by XYZ_id.
 [Parameters]: parameters.md
 [Type]: types.md
 [id]: modifier.md#id
-[Visibility]: visibility.md
+[Visibility]: modifier.md#visibility
 [Validity]: validity.md
 [date syntax]: validity.md#date
 [groupedBy]: modifier.md#groupedBy
-[timespan modifier]:modifier.md#timespan
+[timespan]:timespan.mp
 [Statement]: statements.md
