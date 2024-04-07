@@ -41,10 +41,20 @@ The documentation for the [validity of functions][functionValidity] can be found
 
 ## Timespan modifier
 
-A function can calculate a value for a certain timespan. The timespan is indicated by the [timespan modifier][timespan modifier].
+A function can calculate a value for a certain timespan. The timespan is indicated by the timespan [expression][Expression]. When defining or calling a function with a timespan, the timespan is given using the `per x` syntax where x can either be day, week, month or year.
 
 ```ttsl
-function taxes(name:String): List per month
+# Function definition:
+function f(): Int per day {...}
+
+# Function call:
+var x = f() per day;
+```
+
+A function defined by a timespan can also be called for a different lifespan:
+
+```ttsl
+var x = f() per week;
 ```
 
 ## Grouped return value
@@ -64,5 +74,5 @@ In this example the return value of the function is grouped by XYZ_id.
 [Validity]: validity.md
 [functionValidity]: validity.md#functions
 [groupedBy]: modifier.md#groupedBy
-[timespan modifier]:modifier.md#timespan
+[Expression]: expressions.md
 [Statement]: statements.md]
