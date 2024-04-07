@@ -5,6 +5,7 @@ _Data_ defines a value. Data has a certain [type][types], [visibility][Visibilit
 ```ttsl
 data PersonAge: Int = 1
 ```
+
 Here are the pieces of syntax:
 
 - The keyword `#!ttsl data`
@@ -24,11 +25,7 @@ packageprivate data PersonAge: Int = 1
 
 ## Validity
 
-with `valid from` Date ` to ` Date the period in which this constant is [valid][Validity] can be defined. Both `from` and `to` are optional. If not given the constant is [valid][Validity] the whole time, till a certain point or starting from a certain point till now. The Date is given in [ISO-Syntax][date syntax] (year-month-day). For example:
-
-```ttsl
-data PersonAge: Int = 1 valid from 2009-01-01 to 2011-01-01
-```
+The documentation for the [validity of data][dataValidity] can be found in the [validity][Validity] section.
 
 ## ID modifier
 
@@ -42,7 +39,6 @@ id data PersonID: Int = 1
 [id]: modifier.md#id
 [Expressions]: expressions.md
 [calls]: expressions.md#calls
-[Visibility]: modifier.md#visibility
+[Visibility]: visibility.md
 [Validity]: validity.md
-[date syntax]: validity.md#date
-
+[dataValidity]: validity.md#data
