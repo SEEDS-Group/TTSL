@@ -46,8 +46,12 @@ var x: Int groupedBy XYZ_ID
 
 In this example the return value of the function/ the variable is grouped by XYZ_ID.
 
+## Timespan
+
+
+
 
 [Constants]:constants.md
 [Data]:data.md
 [Functions]:functions.md
-[Aggregation]: aggregation.md
+[Aggregation]: aggregations.md

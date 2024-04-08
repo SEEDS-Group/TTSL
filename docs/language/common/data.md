@@ -39,6 +39,6 @@ id data PersonID: Int = 1
 [id]: modifier.md#id
 [Expressions]: expressions.md
 [calls]: expressions.md#calls
-[Visibility]: visibility.md
+[Visibility]: modifier.md#visibility
 [Validity]: validity.md
 [dataValidity]: validity.md#data

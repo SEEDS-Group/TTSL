@@ -59,7 +59,7 @@ var x = f() per week;
 
 ## Grouped return value
 
-The [Grouped by modifier][groupedBy] can be added to implicate that the return value of the function is grouped by an Identifier. This can either happen by an aggregation in the body of the function or by using an already grouped List of Values.
+The [Grouped by modifier][groupedBy] can be added to implicate that the return value of the function is grouped by an Identifier. This can either happen by an [aggregation][Aggregations] in the body of the function or by using an already grouped List of Values.
 
 ```ttsl
 function taxes(name: String): List GroupedBy XYZ_id {...}
@@ -76,3 +76,4 @@ In this example the return value of the function is grouped by XYZ_id.
 [groupedBy]: modifier.md#groupedBy
 [Expression]: expressions.md
 [Statement]: statements.md]
+[Aggregations]: aggregations.md

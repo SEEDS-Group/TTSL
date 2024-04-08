@@ -92,9 +92,9 @@ In the example above, the value of `x` is incremented by `1` ten times.
 ### Foreach Loop
 
 The `foreach` loop is used to iterate over a collection of elements. TTSL supports two kinds of collections:
-[Lists](../common/types.md#List) and [Dictionaries](../common/types.md#Dict).
+[Lists][Lists] and [Dictionaries][Dictionaries].
 
-<!-- 
+<!--
     TODO: Links anpassen
 -->
 ```ttsl
@@ -104,3 +104,6 @@ foreach(element in List) {
 ```
 
 In the example above, each element in the list is incremented by `10`.
+
+[Lists]: types.md#Lists
+[Dictionaries]: types.md#Dictionaries
