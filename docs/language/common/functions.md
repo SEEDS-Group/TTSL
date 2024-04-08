@@ -41,7 +41,7 @@ The documentation for the [validity of functions][functionValidity] can be found
 
 ## Timespan
 
-A function can calculate a value for a certain timespan. The timespan is indicated by the timespan [expression][Expression]. When defining or calling a function with a timespan, the timespan is given using the `per x` syntax where x can either be day, week, month or year.
+A function can calculate a value for a certain timespan. The timespan is indicated by the timespan [modification][modifier timespan]. When defining or calling a function with a timespan, the timespan is given using the `per x` syntax where x can either be day, week, month or year.
 
 ```ttsl
 # Function definition:
@@ -73,7 +73,7 @@ In this example the return value of the function is grouped by XYZ_id.
 [Visibility]: modifier.md#visibility
 [Validity]: validity.md
 [functionValidity]: validity.md#functions
-[groupedBy]: modifier.md#groupedBy
-[Expression]: expressions.md
-[Statement]: statements.md]
+[groupedBy]: modifier.md#grouped-by
+[modifier timespan]: modifier.md#timespan
+[Statement]: statements.md
 [Aggregations]: aggregations.md

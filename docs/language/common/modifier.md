@@ -2,7 +2,7 @@
 
 ## ID
 
-There can also be an ID modifier added to the data and functions to implicate that the data or function is unique and can be used as an Identifier. The ID modifier is added by placing the keyword `id` in front of the declaration. For example:
+There can also be an ID modifier added to the data and functions to implicate that the data or function is unique and can be used as an identifier. The ID modifier is added by placing the keyword `id` in front of the declaration. For example:
 
 ```ttsl
 id function f(y: Int): Int {...}
@@ -48,7 +48,23 @@ In this example the return value of the function/ the variable is grouped by XYZ
 
 ## Timespan
 
+[Functions][Functions] and [data][Data] can be specified for a specific timespan such as a `#!ttsl day/ week/ month/ year`. For example:
 
+```ttsl
+# Function definition:
+function f(): Int per day {...}
+
+# Data definition:
+data salary: Int per month = 5000
+```
+
+when calling the [Functions][Functions] or [data][Data] the timespan also has to be given. It doesn't have to be the same as given in the declaration.
+
+```ttsl
+var x = f() per week
+
+y = salary per year
+```
 
 
 [Constants]:constants.md

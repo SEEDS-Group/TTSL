@@ -27,13 +27,17 @@ packageprivate data PersonAge: Int = 1
 
 The documentation for the [validity of data][dataValidity] can be found in the [validity][Validity] section.
 
-## ID modifier
+## ID
 
 There can also be an [ID modifier][id] added to the data to implicate that the data is unique and can be used to identify an object. The [ID modifier][id] is added by placing the keyword `id` in front of the data declaration. For example:
 
 ```ttsl
 id data PersonID: Int = 1
 ```
+
+## Timespan
+
+Data can also be specified for a specific [timespan][timespan].
 
 [types]: types.md
 [id]: modifier.md#id
@@ -42,3 +46,4 @@ id data PersonID: Int = 1
 [Visibility]: modifier.md#visibility
 [Validity]: validity.md
 [dataValidity]: validity.md#data
+[timespan]: modifier.md#timespan
