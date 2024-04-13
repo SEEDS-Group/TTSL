@@ -9,6 +9,18 @@ TTSL supports a variety of statements which can be divided into the following ca
 
 ## Expression Statements
 
+Expression Statements are Expressions like [function calls][Call] that just execute the function without returning a return value.
+
+First, we show the code of the [function][functions] that we want to call.
+
+```ttsl
+function f(x: Int = 1){
+    // ... do something ...
+}
+```
+
+The [call][Call] for this function would either be `#!ttsl f();` or with another parameter instead of the default parameter `#!ttsl f(5)`.
+
 ## Assignments
 
 In an assignment a statement is evaluated to assign the result to a variable.
@@ -107,3 +119,5 @@ In the example above, each element in the list is incremented by `10`.
 
 [Lists]: types.md#Lists
 [Dictionaries]: types.md#Dictionaries
+[Call]: expressions.md#calls
+[functions]: functions.md

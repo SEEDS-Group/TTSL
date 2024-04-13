@@ -185,10 +185,10 @@ function f(x: Int = 1): Int {
 }
 ```
 
-This [function][functions] has a single [parameter][parameters] `#!ttsl x`, which must have [type][types] `#!ttsl Int`, and has the default value `#!sds 1`. The call can end with a `#!ttsl ;`. Since it has a default value, we are not required to specify a value when we call this [function][functions]. The most basic legal call of the [function][functions] is, thus, this:
+This [function][functions] has a single [parameter][parameters] `#!ttsl x`, which must have [type][types] `#!ttsl Int`, and has the default value `#!sds 1`. In case of an [Expression Statement][ExpressionStatement] the call has to end with a `#!ttsl ;`. Since it has a default value, we are not required to specify a value when we call this [function][functions]. The most basic legal call of the [function][functions] is, thus, this:
 
 ```ttsl
-f()
+y = f()
 ```
 
 This calls the [function][functions] `#!ttsl f`, using the default `#!ttsl s` of `#!ttsl 1`.
@@ -203,7 +203,7 @@ If we want to override the default value of an optional [parameter][parameters] 
 In the case of positional arguments, they are mapped to parameters by position, i.e. the first argument is assigned to the first parameter, the second argument is assigned to the second parameter and so forth. We do this in the following example to set `#!ttsl x` to 5:
 
 ```ttsl
-f(5)
+y = f(5)
 ```
 
 The syntax for positional argument is simply the expression we want to pass as value.
@@ -257,18 +257,9 @@ Depending on the callee, a call can do different things. The following table lis
 | Callee                                           | Meaning                                                                                                                        |
 |--------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
 | [Function][functions]                            | Invokes the function and runs the associated Python code. The call evaluates to the result record of the function.             |
-| [Expression Lambda](#expression-lambdas)         | Invokes the lambda and runs the Safe-DS code in its body. The call evaluates to the result record of the lambda.               |
-| Declaration with [Callable Type][callable-types] | Call whatever the value of the declaration is.                                                                                 |
-
-> ⚠️ was ist lambda? data und constanten sind keine callable types also gibts das in TTSL auch nicht oder?
-
 #### Result Record
 
 The term _result record_ warrants further explanation: A result record maps [results][results] of a [function][functions] to their computed values.
-
-If the result record only has a single entry, its value can be accessed directly. Otherwise, the result record must be _deconstructed_ either by an [assignment][assignment-multiple-assignees] (can access multiple results) or by a [member access](#member-access-of-results) (can access a single result).
-
-> ⚠️ Member access?
 
 ### Null-Safe Calls
 
@@ -282,154 +273,23 @@ nullableCallee?()
 
 ## Member Accesses
 
-> ⚠️ wird das noch gebraucht?
-
-A member access is used to refer to members of a complex data structure such as
-
-- a [class][classes],
-- an [enum][enums], or
-- the [result record](#result-record) of a [call](#calls).
+A member access is used to refer to members of a complex data structure.
 
 The general syntax of a member access is this:
 
-```sds
+```ttsl
 <receiver>.<member>
 ```
 
 Here, the receiver is some expression (the legal choices are explained below), while the member is always a [reference](#references).
 
-### Member Access of Class Members
-
-To understand how we can access members of a [class][classes] we must first look briefly at a declaration of the [class][classes] we use in the following examples:
-
-```sds
-class DecisionTree() {
-    static attr verboseTraining: Boolean
-
-    attr maxDepth: Int
-}
-```
-
-This class has a static [attribute][attributes] called `#!sds verboseTraining`, which has type `#!sds Boolean`. Static means that the attribute is shared between all instances of the class and can be accessed on the class itself, rather than a specific instance.
-
-Moreover, the class has an instance [attribute][attributes]`maxDepth`, which is an integer. This must be accessed on a specific instance of the class.
-
-#### Member Access of Static Class Member
-
-Let us look at how to access the static [attribute][attributes] `#!sds verboseTraining` to retrieve its value:
-
-```sds
-DecisionTree.verboseTraining
-```
-
-These are the syntactic elements of this member access:
-
-- The receiver, which is the name of the class (here `#!sds DecisionTree`)
-- A dot.
-- The name of the static member of the class (here `#!sds verboseTraining`)
-
-Note that we cannot access a static member from an instance of the class. We must use the class itself.
-
-#### Member Access of Instance Class Member
-
-Contrary to static member accesses, we can only access instance members on an instance of a class:
-
-```sds
-DecisionTree().maxDepth
-```
-
-We now take apart the syntax again:
-
-- The receiver, here a [call](#calls) of the constructor of the class `#!sds DecisionTree`. This creates an instance of this class.
-- A dot.
-- The name of the instance member (here `#!sds maxDepth`).
-
-Note that instance members cannot be accessed from the class itself, but only from its instances.
-
-### Member Access of Enum Variants
-
-A member access can also be used to access the [variants][enum-variants] of an [enum][enums]. Here is the declaration of the [enum][enums] that we use in the example:
-
-```sds
-enum SvmKernel {
-    Linear,
-    RBF
-}
-```
-
-This [enum][enums] is called `#!sds SvmKernel` and has the two [variants][enum-variants] `#!sds Linear` and `#!sds RBF`.
-
-We can access the [variant][enum-variants] `#!sds Linear` using this member access:
-
-```sds
-SvmKernel.Linear
-```
-
-These are the elements of the syntax:
-
-- The receiver, which is the name of the [enum][enums] (here `#!sds SvmKernel`).
-- A dot.
-- The name of the [variant][enum-variants] (here `#!sds Linear`).
-
-This syntax is identical to the [member access of static class members](#member-access-of-static-class-member).
-
-### Member Access of Results
-
-If the [result record](#result-record) that is produced by a [call](#calls) has multiple results, we can use a member access to select a single one. Here is the [global function][global-functions] we use to explain this concept:
-
-```sds
-fun divideWithRemainder(dividend: Int, divisor: Int) -> (quotient: Int, remainder: Int)
-```
-
-The [global function][global-functions] `#!sds divideWithRemainder` has two [parameters][parameters], namely `#!sds dividend` and `#!sds divisor`, both of which have type `#!sds Int`. It produces two [results][results], `#!sds quotient` and `#!sds remainder`, which also have type `#!sds Int`.
-
-If we are only interested in the remainder of `#!sds 12` divided by `#!sds 5`, we can use a member access:
-
-```sds
-divideWithRemainder(12, 5).remainder
-```
-
-Here are the syntactic elements:
-
-- The receiver, which is a [call](#calls).
-- A dot.
-- The name of the result (here `#!sds remainder`).
-
-While it is also possible to access the result by name if the [result record](#result-record) contains only a single entry, there is no need to do so, since this result can be used directly. If you still use a member access and the singular result of the call has the same name as an instance member of the corresponding class, the instance member wins.
-
-To explain this concept further, we need the following declarations:
-
-```sds
-class ValueWrapper {
-    attr value: Int
-}
-
-fun createValueWrapper() -> value: ValueWrapper
-```
-
-We first declare a [class][classes] called `#!sds ValueWrapper`, which has an [attribute][attributes] `#!sds value` of type `#!sds Int`. Next, we declare a function, which is supposed to create an instance of the [class][classes] `#!sds ValueWrapper` and put it into the [result][results] `#!sds value`.
-
-Let us now look at this member access:
-
-```sds
-createValueWrapper().value
-```
-
-This evaluates to the [attribute][attributes], i.e. an integer, rather than the [result][results], which would be an instance of `#!sds ValueWrapper`.
-
-If you want the result instead, simply omit the member access:
-
-```sds
-createValueWrapper()
-```
-
 ### Null-Safe Member Accesses
 
-If an expression can be `#!sds null`, it cannot be used as the receiver of a regular member access, since `#!sds null` does not have members. Instead, a null-safe member access must be used. A null-safe member access evaluates to `#!sds null` if its receiver is `#!sds null`. Otherwise, it evaluates to the accessed member, just like a normal member access.
+If an expression can be `#!ttsl null`, it cannot be used as the receiver of a regular member access, since `#!ttsl null` does not have members. Instead, a null-safe member access must be used. A null-safe member access evaluates to `#!ttsl null` if its receiver is `#!ttsl null`. Otherwise, it evaluates to the accessed member, just like a normal member access.
 
-The syntax is identical to a normal member access except that we replace the dot with the operator `#!sds ?.`:
+The syntax is identical to a normal member access except that we replace the dot with the operator `#!ttsl ?.`:
 
-```sds
+```ttsl
 nullableExpression?.member
 ```
 
@@ -464,7 +324,7 @@ nullableList?[0]
 
 ## Chaining
 
-Multiple [calls](#calls), ⚠️? [member accesses](#member-accesses), and [indexed accesses](#member-accesses) can be chained together. Let us first look at the declaration of the [function][functions] we need for the example:
+Multiple [calls](#calls),  [member accesses](#member-accesses), and [indexed accesses](#member-accesses) can be chained together. Let us first look at the declaration of the [function][functions] we need for the example:
 
 ```ttsl
 function f() {
@@ -472,25 +332,7 @@ function f() {
 }
 ```
 
-> ️️⚠️ das wäre ja wieder member access
-This is a [class][classes] `#!sds LinearRegression`, which has a constructor and an instance [method][methods] called `#!sds drawAsGraph`.
-
-We can then use those declarations in a [segment][segments]:
-
-```sds
-segment mySegment(regressions: List<LinearRegression>) {
-    regressions[0].drawAsGraph();
-}
-```
-
-This segment is called `#!sds mySegment` and has a [parameter][parameters] `#!sds regressions` of type `#!sds List<LinearRegression>`.
-
-In the body of the segment we then
-
-1. access the first instance in the list using an [indexed access](#indexed-accesses),
-2. access the instance method `#!sds drawAsGraph` of this instance using a [member access](#member-accesses),
-3. [call](#calls) this method.
-
+This is a [function][functions] `#!ttsl f`, which has another [function][functions] in the functionbody called `#!sds drawAsGraph`.
 
 ## Type Casts
 
@@ -516,8 +358,8 @@ We all know that `#!ttsl 2 + 3 * 7` is `#!ttsl 23` and not `#!ttsl 35`. The reas
 
 - **HIGHER PRECEDENCE**
 - `#!ttsl ()` (parentheses around an expression)
-- `#!ttsl 1` ([integer literals](#int-literals)), `#!ttsl 1.0` ([float literals](#float-literals)), `#!ttsl "a"` ([string literals](#string-literals)), `#!ttsl true`/`false` ([boolean literals](#boolean-literals)), `#!ttsl null` ([null literal](#null-literal)), `#!ttsl someName` ([references](#references)), `#!ttsl "age: {{ age }}"` ([template strings](#template-strings))
-- `#!ttsl ()` ([calls](#calls)), `#!ttsl ?()` ([null-safe calls](#null-safe-calls)), ⚠️`#!sds .` ([member accesses](#member-accesses)), `#!sds ?.` ([null-safe member accesses](#null-safe-member-accesses)), `#!ttsl []` ([indexed accesses](#indexed-accesses)), `#!ttsl ?[]` ([null-safe indexed accesses](#null-safe-indexed-accesses))
+- `#!ttsl 1` ([integer literals](#int-literals)), `#!ttsl 1.0` ([float literals](#float-literals)), `#!ttsl "a"` ([string literals](#string-literals)), `#!ttsl true`/`false` ([boolean literals](#boolean-literals)), `#!ttsl null` ([null literal](#ttsl-null-literal)), `#!ttsl someName` ([references](#references)), `#!ttsl "age: {{ age }}"` ([template strings](#template-strings))
+- `#!ttsl ()` ([calls](#calls)), `#!ttsl ?()` ([null-safe calls](#null-safe-calls)), `#!ttsl .` ([member accesses](#member-accesses)), `#!ttsl ?.` ([null-safe member accesses](#null-safe-member-accesses)), `#!ttsl []` ([indexed accesses](#indexed-accesses)), `#!ttsl ?[]` ([null-safe indexed accesses](#null-safe-indexed-accesses))
 - `#!ttsl -` (unary, [arithmetic negations](#operations-on-numbers))
 - `#!ttsl as` ([type casts](#type-casts))
 - `#!ttsl ?:` ([Elvis operators](#elvis-operator))
@@ -528,7 +370,6 @@ We all know that `#!ttsl 2 + 3 * 7` is `#!ttsl 23` and not `#!ttsl 35`. The reas
 - `#!ttsl not` ([logical negations](#logical-operations))
 - `#!ttsl and` ([conjunctions](#logical-operations))
 - `#!ttsl or` ([disjunctions](#logical-operations))
-- ⚠️`#!sds () -> 1` ([expression lambdas](#expression-lambdas)), `#!sds () {}` ([block lambdas](#block-lambdas))
 - **LOWER PRECEDENCE**
 
 If the default precedence of operators is not sufficient, parentheses can be used to force a part of an expression to be evaluated first.
@@ -537,8 +378,8 @@ If the default precedence of operators is not sufficient, parentheses can be use
 [imports]: imports.md
 [packages]: packages.md
 [parameters]: parameters.md
-[required-parameters]: parameters.md#required-parameter
+[required-parameters]: parameters.md#required-parameters
 [functions]: functions.md
 [types]: types.md
 [timespan modifier]: modifier.md#timespan
-
+[ExpressionStatement]: statements.md#expression-statements
