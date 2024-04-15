@@ -1,101 +1,108 @@
-grammar SafeDs
+grammar TSL
 
 // -----------------------------------------------------------------------------
 // Base interfaces
 // -----------------------------------------------------------------------------
 
-interface SdsObject {}
+interface TslObject {}
 
-interface SdsAnnotatedObject extends SdsObject {
-    annotationCalls?: SdsAnnotationCall[]
+interface TslAnnotatedObject extends TslObject {
+    annotationCalls?: TslAnnotationCall[]
 }
 
-interface SdsAbstractCall extends SdsObject {
-    argumentList: SdsArgumentList
+interface TslAbstractCall extends TslObject {
+    argumentList: TslArgumentList
 }
 
-interface SdsDeclaration extends SdsAnnotatedObject {
-    annotationCallList?: SdsAnnotationCallList
+interface TslDeclaration extends TslAnnotatedObject {
+    annotationCallList?: TslAnnotationCallList
     name: string
 }
 
-interface SdsLocalVariable extends SdsDeclaration {}
+interface TslLocalVariable extends TslDeclaration {
+    groupedBy?: TslGroupedBy
+    type: TslType
+    value?: TslExpression
+}
 
+TslLocalVariable returns TslLocalVariable:
+    'var' name=String ':' type=TslType groupedBy?=TslGroupedBy? ('=' value=TslExpression)?
+;
 
 // -----------------------------------------------------------------------------
 // Module
 // -----------------------------------------------------------------------------
 
-interface SdsModule extends SdsDeclaration {
-    imports: SdsImport[];
-    members: SdsAnnotatedObject[]
+interface TslModule extends TslDeclaration {
+    imports: TslImport[];
+    members: TslAnnotatedObject[]
 }
 
-entry SdsModule returns SdsModule:
-    {SdsModule}
-    annotationCalls+=SdsAnnotationCall*
+entry TslModule returns TslModule:
+    {TslModule}
+    annotationCalls+=TslAnnotationCall*
     (
         ('package' name=QualifiedName)
-        imports+=SdsImport*
-        members+=(SdsAnnotatedModuleMember | SdsUnannotatedModuleMember)*
+        imports+=TslImport*
+        members+=(TslAnnotatedModuleMember | TslUnannotatedModuleMember)*
 
-    |   imports+=SdsImport+
-        members+=(SdsAnnotatedModuleMember | SdsUnannotatedModuleMember)*
+    |   imports+=TslImport+
+        members+=(TslAnnotatedModuleMember | TslUnannotatedModuleMember)*
 
-    |   members+=SdsUnannotatedModuleMember
-        members+=(SdsAnnotatedModuleMember | SdsUnannotatedModuleMember)*
+    |   members+=TslUnannotatedModuleMember
+        members+=(TslAnnotatedModuleMember | TslUnannotatedModuleMember)*
     )?
 ;
 
-interface SdsImport extends SdsObject {
+interface TslImport extends TslObject {
     package: string;
 }
 
-SdsImport returns SdsImport:
-    SdsQualifiedImport
-  | SdsWildcardImport
+TslImport returns TslImport:
+    TslQualifiedImport
+  | TslWildcardImport
 ;
 
 
-interface SdsQualifiedImport extends SdsImport {
-    importedDeclarationList: SdsImportedDeclarationList;
+interface TslQualifiedImport extends TslImport {
+    importedDeclarationList: TslImportedDeclarationList;
 }
 
-SdsQualifiedImport returns SdsQualifiedImport:
+TslQualifiedImport returns TslQualifiedImport:
     'from'
     package=QualifiedName
     'import'
-    importedDeclarationList=SdsImportedDeclarationList
+    importedDeclarationList=TslImportedDeclarationList
 ;
 
-interface SdsImportedDeclarationList extends SdsObject {
-    importedDeclarations: SdsImportedDeclaration[]
+interface TslImportedDeclarationList extends TslObject {
+    importedDeclarations: TslImportedDeclaration[]
 }
 
-SdsImportedDeclarationList returns SdsImportedDeclarationList:
-    importedDeclarations+=SdsImportedDeclaration (',' importedDeclarations+=SdsImportedDeclaration)* ','?
+TslImportedDeclarationList returns TslImportedDeclarationList:
+    importedDeclarations+=TslImportedDeclaration (',' importedDeclarations+=TslImportedDeclaration)* ','?
 ;
 
-interface SdsImportedDeclaration extends SdsObject {
-    declaration?: @SdsModuleMember;
-    alias?: SdsImportedDeclarationAlias;
+interface TslImportedDeclaration extends TslObject {
+    declaration?: @TslModuleMember;
+    alias?: TslImportedDeclarationAlias;
 }
 
-SdsImportedDeclaration returns SdsImportedDeclaration:
-    declaration=[SdsModuleMember:ID] alias=SdsImportedDeclarationAlias?
+TslImportedDeclaration returns TslImportedDeclaration:
+    declaration=[TslModuleMember:ID] alias=TslImportedDeclarationAlias?
 ;
 
-interface SdsImportedDeclarationAlias extends SdsObject {
+interface TslImportedDeclarationAlias extends TslObject {
     alias: string;
 }
 
-SdsImportedDeclarationAlias returns SdsImportedDeclarationAlias:
-    {SdsImportedDeclarationAlias} 'as' alias=ID
+TslImportedDeclarationAlias returns TslImportedDeclarationAlias:
+    {TslImportedDeclarationAlias} 'as' alias=ID
 ;
 
-interface SdsWildcardImport extends SdsImport {}
+interface TslWildcardImport extends TslImport {}
 
-SdsWildcardImport returns SdsWildcardImport:
+TslWildcardImport returns TslWildcardImport:
     'from'
     package=QualifiedName
     'import'
@@ -111,227 +118,288 @@ QualifiedName returns string:
 // Declarations
 // -----------------------------------------------------------------------------
 
-interface SdsModuleMember extends SdsDeclaration {}
+interface TslModuleMember extends TslDeclaration {
+    visibility?: TslVisibility
+}
 
-SdsAnnotatedModuleMember returns SdsModuleMember:
-    {SdsAnnotationCallList}
-    annotationCalls+=SdsAnnotationCall+
+TslAnnotatedModuleMember returns TslModuleMember:
+    {TslAnnotationCallList}
+    annotationCalls+=TslAnnotationCall+
     (
-        {SdsAnnotation.annotationCallList=current}
-        SdsAnnotationFragment
+        {TslAnnotation.annotationCallList=current}
+        TslAnnotationFragment
 
-      | {SdsClass.annotationCallList=current}
-        SdsClassFragment
+      | {TslClass.annotationCallList=current}
+        TslClassFragment
 
-      | {SdsEnum.annotationCallList=current}
-        SdsEnumFragment
+      | {TslEnum.annotationCallList=current}
+        TslEnumFragment
 
-      | {SdsFunction.annotationCallList=current}
-        SdsFunctionFragment
+      | {TslFunction.annotationCallList=current}
+        TslFunctionFragment
 
-      | {SdsSchema.annotationCallList=current}
-        SdsSchemaFragment
+      | {TslSchema.annotationCallList=current}
+        TslSchemaFragment
 
-      | {SdsPipeline.annotationCallList=current}
-        SdsPipelineFragment
+      | {TslPipeline.annotationCallList=current}
+        TslPipelineFragment
 
-      | {SdsSegment.annotationCallList=current}
-        SdsSegmentFragment
+      | {TslSegment.annotationCallList=current}
+        TslSegmentFragment
     )
 ;
 
-SdsUnannotatedModuleMember returns SdsModuleMember:
-      {SdsAnnotation}
-      SdsAnnotationFragment
+TslUnannotatedModuleMember returns TslModuleMember:
+      {TslAnnotation}
+      TslAnnotationFragment
 
-    | {SdsClass}
-      SdsClassFragment
+    | {TslClass}
+      TslClassFragment
 
-    | {SdsEnum}
-      SdsEnumFragment
+    | {TslEnum}
+      TslEnumFragment
 
-    | {SdsFunction}
-      SdsFunctionFragment
+    | {TslFunction}
+      TslFunctionFragment
 
-    | {SdsSchema}
-      SdsSchemaFragment
+    | {TslConstant}
+      TslConstantFragment
 
-    | {SdsPipeline}
-      SdsPipelineFragment
+    | {TslData}
+      TslDataFragment
 
-    | {SdsSegment}
-      SdsSegmentFragment
+    | {TslSchema}
+      TslSchemaFragment
+
+    | {TslPipeline}
+      TslPipelineFragment
+
+    | {TslSegment}
+      TslSegmentFragment
 ;
 
-interface SdsAnnotation extends SdsCallable, SdsModuleMember {
-    constraintList?: SdsConstraintList
+interface TslAnnotation extends TslCallable, TslModuleMember {
+    constraintList?: TslConstraintList
 }
 
-fragment SdsAnnotationFragment:
+fragment TslAnnotationFragment:
     'annotation' name=ID
-    parameterList=SdsParameterList?
-    constraintList=SdsConstraintList?
+    parameterList=TslParameterList?
+    constraintList=TslConstraintList?
 ;
 
-interface SdsClass extends SdsCallable, SdsClassMember, SdsModuleMember, SdsNamedTypeDeclaration {
-    typeParameterList?: SdsTypeParameterList
-    parentTypeList?: SdsParentTypeList
-    constraintList?: SdsConstraintList
-    body?: SdsClassBody
+interface TslClass extends TslCallable, TslClassMember, TslModuleMember, TslNamedTypeDeclaration {
+    typeParameterList?: TslTypeParameterList
+    parentTypeList?: TslParentTypeList
+    constraintList?: TslConstraintList
+    body?: TslClassBody
 }
 
-fragment SdsClassFragment:
+fragment TslClassFragment:
     'class'
     name=ID
-    typeParameterList=SdsTypeParameterList?
-    parameterList=SdsParameterList?
-    parentTypeList=SdsParentTypeList?
-    constraintList=SdsConstraintList?
-    body=SdsClassBody?
+    typeParameterList=TslTypeParameterList?
+    parameterList=TslParameterList?
+    parentTypeList=TslParentTypeList?
+    constraintList=TslConstraintList?
+    body=TslClassBody?
 ;
 
-interface SdsParentTypeList extends SdsObject {
-    parentTypes: SdsType[]
+interface TslParentTypeList extends TslObject {
+    parentTypes: TslType[]
 }
 
-SdsParentTypeList returns SdsParentTypeList:
+TslParentTypeList returns TslParentTypeList:
     'sub'
-    parentTypes+=SdsParentType
-    (',' parentTypes+=SdsParentType)*
+    parentTypes+=TslParentType
+    (',' parentTypes+=TslParentType)*
     ','?
 ;
 
-interface SdsClassBody extends SdsObject {
-    members: SdsClassMember[]
+interface TslClassBody extends TslObject {
+    members: TslClassMember[]
 }
 
-SdsClassBody returns SdsClassBody:
-    {SdsClassBody} '{' members+=SdsClassMember* '}'
+TslClassBody returns TslClassBody:
+    {TslClassBody} '{' members+=TslClassMember* '}'
 ;
 
-interface SdsClassMember extends SdsDeclaration {}
+interface TslClassMember extends TslDeclaration {
+    isStatic?: boolean
+}
 
-SdsClassMember returns SdsClassMember:
-    SdsAnnotatedClassMember
-  | SdsUnannotatedClassMember
+TslClassMember returns TslClassMember:
+    TslAnnotatedClassMember
+  | TslUnannotatedClassMember
 ;
 
-SdsAnnotatedClassMember returns SdsClassMember:
-    {SdsAnnotationCallList}
-    annotationCalls+=SdsAnnotationCall+
+TslAnnotatedClassMember returns TslClassMember:
+    {TslAnnotationCallList}
+    annotationCalls+=TslAnnotationCall+
     (
-        {SdsAttribute.annotationCallList=current}
-        SdsAttributeFragment
+        {TslAttribute.annotationCallList=current}
+        TslAttributeFragment
 
-      | {SdsClass.annotationCallList=current}
-        SdsClassFragment
+      | {TslClass.annotationCallList=current}
+        TslClassFragment
 
-      | {SdsEnum.annotationCallList=current}
-        SdsEnumFragment
+      | {TslEnum.annotationCallList=current}
+        TslEnumFragment
 
-      | {SdsFunction.annotationCallList=current}
+      | {TslFunction.annotationCallList=current}
         isStatic?='static'?
-        SdsFunctionFragment
+        TslFunctionFragment
     )
 ;
 
-SdsUnannotatedClassMember returns SdsClassMember:
-      {SdsAttribute}
-      SdsAttributeFragment
+TslUnannotatedClassMember returns TslClassMember:
+      {TslAttribute}
+      TslAttributeFragment
 
-    | {SdsClass}
-      SdsClassFragment
+    | {TslClass}
+      TslClassFragment
 
-    | {SdsEnum}
-      SdsEnumFragment
+    | {TslEnum}
+      TslEnumFragment
 
-    | {SdsFunction}
+    | {TslFunction}
       isStatic?='static'?
-      SdsFunctionFragment
+      TslFunctionFragment
 ;
 
-interface SdsAttribute extends SdsClassMember {
-    isStatic: boolean
-    ^type?: SdsType
+interface TslAttribute extends TslClassMember {
+    ^type?: TslType
 }
 
-fragment SdsAttributeFragment:
+fragment TslAttributeFragment:
     isStatic?='static'?
     'attr'
     name=ID
-    (':' ^type=SdsType)?
+    (':' ^type=TslType)?
 ;
 
-interface SdsEnum extends SdsNamedTypeDeclaration, SdsClassMember, SdsModuleMember {
-    body?: SdsEnumBody
+
+interface TslEnum extends TslNamedTypeDeclaration, TslClassMember, TslModuleMember {
+    body?: TslEnumBody
 }
 
-fragment SdsEnumFragment:
+fragment TslEnumFragment:
     'enum'
     name=ID
-    body=SdsEnumBody?
+    body=TslEnumBody?
 ;
 
-interface SdsEnumBody extends SdsObject {
-    variants: SdsEnumVariant[]
+interface TslEnumBody extends TslObject {
+    variants: TslEnumVariant[]
 }
 
-SdsEnumBody returns SdsEnumBody:
-    {SdsEnumBody} '{' variants+=SdsEnumVariant * '}'
+TslEnumBody returns TslEnumBody:
+    {TslEnumBody} '{' variants+=TslEnumVariant * '}'
 ;
 
-interface SdsEnumVariant extends SdsCallable, SdsNamedTypeDeclaration {
-    constraintList?: SdsConstraintList
+interface TslEnumVariant extends TslCallable, TslNamedTypeDeclaration {
+    constraintList?: TslConstraintList
 }
 
-SdsEnumVariant returns SdsEnumVariant:
-    annotationCalls+=SdsAnnotationCall*
+TslEnumVariant returns TslEnumVariant:
+    annotationCalls+=TslAnnotationCall*
     name=ID
-    parameterList=SdsParameterList?
-    constraintList=SdsConstraintList?
+    parameterList=TslParameterList?
+    constraintList=TslConstraintList?
 ;
 
-interface SdsFunction extends SdsCallable, SdsClassMember, SdsModuleMember {
-    isStatic: boolean
-    typeParameterList?: SdsTypeParameterList
-    resultList?: SdsResultList
-    constraintList?: SdsConstraintList
+interface TslFunction extends TslCallable, TslClassMember, TslModuleMember {
+    isID: boolean
+    typeParameterList?: TslTypeParameterList
+    resultList?: TslResultList
+    timespan?: TslTimespan
+    groupedBy?: TslGroupedBy
+    constraintList?: TslConstraintList
+    body: TslFunctionBlock
 }
 
-fragment SdsFunctionFragment:
-    'fun'
+fragment TslFunctionFragment:
+    visibility?=TslVisibility?
+    isID?='id'?
+    'function'
     name=ID
-    typeParameterList=SdsTypeParameterList?
-    parameterList=SdsParameterList
-    resultList=SdsResultList?
-    constraintList=SdsConstraintList?
+    typeParameterList=TslTypeParameterList?
+    parameterList=TslParameterList
+    resultList=TslResultList?
+    timespan?=TslTimespan?
+    groupedBy?=TslGroupedBy?
+    constraintList=TslConstraintList?
+    body=TslFunctionBlock
 ;
 
-interface SdsPipeline extends SdsModuleMember {
-    body: SdsBlock
+interface TslFunctionBlock extends TslBlock{
+    validity: TslValidity
 }
 
-fragment SdsPipelineFragment:
+TslFunctionBlock returns TslFunctionBlock:
+    {TslFunctionBlock} '{' (validity=TslValidity statements+=TslStatement*)* '}'
+;
+
+interface TslConstant extends TslModuleMember {
+    validity: TslValidity
+    ^type: TslType
+    value: TslExpression
+}
+
+fragment TslConstantFragment:
+    validity=TslValidity
+    visibility?=TslVisibility?
+    'constant'
+    name=ID
+    ':' ^type=TslType
+    '=' value=TslExpression
+;
+
+interface TslData extends TslModuleMember {
+    isID: boolean
+    validity: TslValidity
+    ^type: TslType
+    timespan?: TslTimespan
+    groupedBy?: TslGroupedBy
+    value?: TslExpression
+}
+
+fragment TslDataFragment:
+    validity=TslValidity
+    visibility?=TslVisibility?
+    isID?='id'?
+    'data'
+    name=ID
+    ':' ^type=TslType
+    timespan?=TslTimespan?
+    groupedBy?=TslGroupedBy?
+    ('=' value=TslExpression)?
+;
+
+interface TslPipeline extends TslModuleMember {
+    body: TslBlock
+}
+
+fragment TslPipelineFragment:
     'pipeline'
     name=ID
-    body=SdsBlock
+    body=TslBlock
 ;
 
-interface SdsSegment extends SdsCallable, SdsModuleMember {
-    visibility?: string
-    resultList?: SdsResultList
-    constraintList?: SdsConstraintList
-    body: SdsBlock
+interface TslSegment extends TslCallable, TslModuleMember {
+    resultList?: TslResultList
+    constraintList?: TslConstraintList
+    body: TslBlock
 }
 
-fragment SdsSegmentFragment:
+fragment TslSegmentFragment:
     visibility=('internal' | 'private')?
     'segment'
     name=ID
-    parameterList=SdsParameterList
-    resultList=SdsResultList?
-    constraintList=SdsConstraintList?
-    body=SdsBlock
+    parameterList=TslParameterList
+    resultList=TslResultList?
+    constraintList=TslConstraintList?
+    body=TslBlock
 ;
 
 
@@ -339,22 +407,22 @@ fragment SdsSegmentFragment:
 // Annotation calls
 // -----------------------------------------------------------------------------
 
-interface SdsAnnotationCallList extends SdsAnnotatedObject {}
+interface TslAnnotationCallList extends TslAnnotatedObject {}
 
-interface SdsAnnotationCall extends SdsAbstractCall {
-    annotation?: @SdsAnnotation
+interface TslAnnotationCall extends TslAbstractCall {
+    annotation?: @TslAnnotation
 }
 
-SdsAnnotationCall returns SdsAnnotationCall:
-    '@' annotation=[SdsAnnotation:ID] argumentList=SdsAnnotationCallArgumentList?
+TslAnnotationCall returns TslAnnotationCall:
+    '@' annotation=[TslAnnotation:ID] argumentList=TslAnnotationCallArgumentList?
 ;
 
-SdsAnnotationCallArgumentList returns SdsArgumentList:
-    {SdsArgumentList} '(' (arguments+=SdsAnnotationCallArgument  (',' arguments+=SdsAnnotationCallArgument)* ','? )? ')'
+TslAnnotationCallArgumentList returns TslArgumentList:
+    {TslArgumentList} '(' (arguments+=TslAnnotationCallArgument  (',' arguments+=TslAnnotationCallArgument)* ','? )? ')'
 ;
 
-SdsAnnotationCallArgument returns SdsArgument:
-    (parameter=[SdsParameter:ID ] '=')? value=SdsExpression
+TslAnnotationCallArgument returns TslArgument:
+    (parameter=[TslParameter:ID ] '=')? value=TslExpression
 ;
 
 
@@ -362,37 +430,37 @@ SdsAnnotationCallArgument returns SdsArgument:
 // Constraints
 // -----------------------------------------------------------------------------
 
-interface SdsConstraintList extends SdsObject {
-    constraints: SdsConstraint[]
+interface TslConstraintList extends TslObject {
+    constraints: TslConstraint[]
 }
 
-SdsConstraintList returns SdsConstraintList:
+TslConstraintList returns TslConstraintList:
     'where'
     '{'
     (
-        constraints+=SdsConstraint
-        (',' constraints+=SdsConstraint)*
+        constraints+=TslConstraint
+        (',' constraints+=TslConstraint)*
         ','?
     )?
     '}'
 ;
 
-interface SdsConstraint extends SdsObject {}
+interface TslConstraint extends TslObject {}
 
-SdsConstraint returns SdsConstraint:
-    SdsParameterBound
+TslConstraint returns TslConstraint:
+    TslParameterBound
 ;
 
-interface SdsParameterBound extends SdsConstraint {
-    leftOperand?: @SdsParameter
+interface TslParameterBound extends TslConstraint {
+    leftOperand?: @TslParameter
     operator: string
-    rightOperand: SdsExpression
+    rightOperand: TslExpression
 }
 
-SdsParameterBound returns SdsParameterBound:
-    leftOperand=[SdsParameter:ID]
-    operator=SdsComparisonOperator
-    rightOperand=SdsExpression
+TslParameterBound returns TslParameterBound:
+    leftOperand=[TslParameter:ID]
+    operator=TslComparisonOperator
+    rightOperand=TslExpression
 ;
 
 
@@ -400,58 +468,58 @@ SdsParameterBound returns SdsParameterBound:
 // Callables, parameters, and results
 // -----------------------------------------------------------------------------
 
-interface SdsCallable extends SdsObject {
-    parameterList?: SdsParameterList
+interface TslCallable extends TslObject {
+    parameterList?: TslParameterList
 }
 
-interface SdsParameterList extends SdsObject {
-    parameters: SdsParameter[]
+interface TslParameterList extends TslObject {
+    parameters: TslParameter[]
 }
 
-SdsParameterList returns SdsParameterList:
-    {SdsParameterList}
+TslParameterList returns TslParameterList:
+    {TslParameterList}
     '('
     (
-        parameters+=SdsParameter
-        (',' parameters+=SdsParameter)*
+        parameters+=TslParameter
+        (',' parameters+=TslParameter)*
         ','?
     )?
     ')'
 ;
 
-interface SdsParameter extends SdsLocalVariable {
+interface TslParameter extends TslLocalVariable {
     isConstant: boolean
-    ^type?: SdsType
-    defaultValue?: SdsExpression
+    ^type?: TslType
+    defaultValue?: TslExpression
 }
 
-SdsParameter returns SdsParameter:
-    annotationCalls+=SdsAnnotationCall*
-    isConstant?='const'?
+TslParameter returns TslParameter:
+    annotationCalls+=TslAnnotationCall*
+    isConstant?='constant'?
     name=ID
-    (':' ^type=SdsType)?
-    ('=' defaultValue=SdsExpression)?
+    (':' ^type=TslType)?
+    ('=' defaultValue=TslExpression)?
 ;
 
-interface SdsResultList extends SdsObject {
-    results: SdsResult[]
+interface TslResultList extends TslObject {
+    results: TslResult[]
 }
 
-SdsResultList returns SdsResultList:
-    {SdsResultList} '->' results+=SdsResult
-  | {SdsResultList} '->' '(' (results+=SdsResult (',' results+=SdsResult)* ','? )? ')'
+TslResultList returns TslResultList:
+    {TslResultList} ':' results+=TslResult
+  | {TslResultList} ':' '(' (results+=TslResult (',' results+=TslResult)* ','? )? ')'
 ;
 
-interface SdsAbstractResult extends SdsDeclaration {}
+interface TslAbstractResult extends TslDeclaration {}
 
-interface SdsResult extends SdsAbstractResult {
-    ^type?: SdsType
+interface TslResult extends TslAbstractResult {
+    ^type?: TslType
 }
 
-SdsResult returns SdsResult:
-    annotationCalls+=SdsAnnotationCall*
+TslResult returns TslResult:
+    annotationCalls+=TslAnnotationCall*
     name=ID
-    (':' ^type=SdsType)?
+    (':' ^type=TslType)?
 ;
 
 
@@ -459,571 +527,676 @@ SdsResult returns SdsResult:
 // Statements
 // -----------------------------------------------------------------------------
 
-interface SdsStatement extends SdsObject {}
+interface TslStatement extends TslObject {}
 
-interface SdsBlock extends SdsObject {
-    statements: SdsStatement[]
+interface TslBlock extends TslObject {
+    statements: TslStatement[]
 }
 
-SdsBlock returns SdsBlock:
-    {SdsBlock} '{' statements+=SdsStatement* '}'
+TslBlock returns TslBlock:
+    {TslBlock} '{' statements+=TslStatement* '}'
 ;
 
-SdsStatement returns SdsStatement:
-    SdsAssignment
-  | SdsExpressionStatement
+TslStatement returns TslStatement:
+    TslAssignment
+  | TslExpressionStatement
 ;
 
-interface SdsAssignment extends SdsStatement {
-    assigneeList?: SdsAssigneeList
-    expression?: SdsExpression
+interface TslAssignment extends TslStatement {
+    assigneeList?: TslAssigneeList
+    expression?: TslExpression
 }
 
-SdsAssignment returns SdsAssignment:
-    assigneeList=SdsAssigneeList '=' expression=SdsExpression ';'
+TslAssignment returns TslAssignment:
+    assigneeList=TslAssigneeList '=' expression=TslExpression ';'
 ;
 
-interface SdsAssigneeList extends SdsObject {
-    assignees: SdsAssignee[]
+interface TslAssigneeList extends TslObject {
+    assignees: TslAssignee[]
 }
 
-SdsAssigneeList returns SdsAssigneeList:
-    assignees+=SdsAssignee  (',' assignees+=SdsAssignee)* ','?
+TslAssigneeList returns TslAssigneeList:
+    assignees+=TslAssignee  (',' assignees+=TslAssignee)* ','?
 ;
 
-interface SdsAssignee extends SdsObject {}
+interface TslAssignee extends TslObject {}
 
-interface SdsPlaceholder extends SdsAssignee, SdsLocalVariable {}
+interface TslPlaceholder extends TslAssignee, TslLocalVariable {}
 
-interface SdsWildcard extends SdsAssignee {}
+interface TslWildcard extends TslAssignee {}
 
-interface SdsYield extends SdsAssignee {
-    result?: @SdsResult
+interface TslYield extends TslAssignee {
+    result?: @TslResult
 }
 
-SdsAssignee returns SdsAssignee:
-    {SdsPlaceholder} 'val' name=ID
-  | {SdsWildcard} '_'
-  | {SdsYield} 'yield' result=[SdsResult:ID]
+TslAssignee returns TslAssignee:
+    {TslPlaceholder} 'val' name=ID
+  | {TslWildcard} '_'
+  | {TslYield} 'yield' result=[TslResult:ID]
 ;
 
-interface SdsExpressionStatement extends SdsStatement {
-    expression: SdsExpression
+interface TslExpressionStatement extends TslStatement {
+    expression: TslExpression
 }
 
-SdsExpressionStatement returns SdsExpressionStatement:
-    expression=SdsExpression ';'
+TslExpressionStatement returns TslExpressionStatement:
+    expression=TslExpression ';'
 ;
 
+interface TslConditionalStatement extends TslStatement{
+    expression: TslOrExpression
+    ifBlock: TslBlock
+    elseBlock?: TslBlock
+}
+
+TslConditionalStatement returns TslConditionalStatement:
+    'if(' expression=TslOrExpression ')' ifBlock=TslBlock
+    ('else' elseBlock=TslBlock)?
+;
+
+interface TslLoop extends TslStatement{
+    block: TslBlock
+}
+
+interface TslWhileLoop extends TslLoop{
+    condition: TslOrExpression
+}
+
+TslWhileLoop returns TslWhileLoop:
+    'while(' condition=TslOrExpression ')' block=TslBlock
+;
+
+interface TslForLoop extends TslLoop{
+    definitionStatement?: TslStatement
+    condition: TslOrExpression
+    iteration?: TslStatement
+}
+
+TslForLoop returns TslForLoop:
+    'for(' (definitionStatement=TslStatement)?
+    ';' condition=TslOrExpression
+    ';' (iteration=TslStatement)?
+    ')' block=TslBlock
+;
+
+interface TslForeachLoop extends TslLoop{
+    element: string
+    list: @TslList
+}
+
+TslForeachLoop returns TslForeachLoop:
+    'foreach(' element=STRING 'in' list=[TslList:ID] ')'
+    block=TslBlock
+;
 
 // -----------------------------------------------------------------------------
 // Expressions
 // -----------------------------------------------------------------------------
 
-interface SdsExpression extends SdsObject {}
+interface TslExpression extends TslObject {}
 
-SdsExpression returns SdsExpression:
-    SdsLambda | SdsOrExpression
+TslExpression returns TslExpression:
+    TslLambda | TslOrExpression
 ;
 
-interface SdsLambda extends SdsCallable, SdsExpression {}
+interface TslLambda extends TslCallable, TslExpression {}
 
-interface SdsBlockLambda extends SdsLambda {
-    body: SdsBlock
+interface TslBlockLambda extends TslLambda {
+    body: TslBlock
 }
 
-interface SdsExpressionLambda extends SdsLambda {
-    result: SdsExpression
+interface TslExpressionLambda extends TslLambda {
+    result: TslExpression
 }
 
-SdsLambda returns SdsExpression:
-    SdsParameterList
+TslLambda returns TslExpression:
+    TslParameterList
     (
-      {SdsBlockLambda.parameterList=current} body=SdsBlockLambdaBlock
-    | {SdsExpressionLambda.parameterList=current} '->' result=SdsExpression
+      {TslBlockLambda.parameterList=current} body=TslBlockLambdaBlock
+    | {TslExpressionLambda.parameterList=current} '->' result=TslExpression
     )
 ;
 
-SdsBlockLambdaBlock returns SdsBlock:
-    {SdsBlock} '{' statements+=SdsBlockLambdaStatement* '}'
+TslBlockLambdaBlock returns TslBlock:
+    {TslBlock} '{' statements+=TslBlockLambdaStatement* '}'
 ;
 
-SdsBlockLambdaStatement returns SdsStatement:
-    SdsBlockLambdaAssignment | SdsExpressionStatement
+TslBlockLambdaStatement returns TslStatement:
+    TslBlockLambdaAssignment | TslExpressionStatement
 ;
 
-SdsBlockLambdaAssignment returns SdsAssignment:
-    assigneeList=SdsBlockLambdaAssigneeList  '=' expression=SdsExpression  ';'
+TslBlockLambdaAssignment returns TslAssignment:
+    assigneeList=TslBlockLambdaAssigneeList  '=' expression=TslExpression  ';'
 ;
 
-SdsBlockLambdaAssigneeList returns SdsAssigneeList:
-    assignees+=SdsBlockLambdaAssignee  (',' assignees+=SdsBlockLambdaAssignee)* ','?
+TslBlockLambdaAssigneeList returns TslAssigneeList:
+    assignees+=TslBlockLambdaAssignee  (',' assignees+=TslBlockLambdaAssignee)* ','?
 ;
 
-interface SdsBlockLambdaResult extends SdsAssignee, SdsAbstractResult {}
+interface TslBlockLambdaResult extends TslAssignee, TslAbstractResult {}
 
-SdsBlockLambdaAssignee returns SdsAssignee:
-    {SdsWildcard} '_'
-  | {SdsPlaceholder} 'val' name=ID
-  | {SdsBlockLambdaResult} 'yield' name=ID
+TslBlockLambdaAssignee returns TslAssignee:
+    {TslWildcard} '_'
+  | {TslPlaceholder} 'val' name=ID
+  | {TslBlockLambdaResult} 'yield' name=ID
 ;
 
-interface SdsInfixOperation extends SdsExpression {
-    leftOperand: SdsExpression
+interface TslInfixOperation extends TslExpression {
+    leftOperand: TslExpression
     operator: string
-    rightOperand: SdsExpression
+    rightOperand: TslExpression
 }
 
-interface SdsPrefixOperation extends SdsExpression {
-    operand: SdsExpression
+interface TslPrefixOperation extends TslExpression {
+    operand: TslExpression
     operator: string
 }
 
-SdsOrExpression returns SdsExpression:
-    SdsAndExpression
+TslOrExpression returns TslExpression:
+    TslAndExpression
     (
-        {SdsInfixOperation.leftOperand=current}
+        {TslInfixOperation.leftOperand=current}
         operator='or'
-        rightOperand=SdsAndExpression
+        rightOperand=TslAndExpression
     )*
 ;
 
-SdsAndExpression returns SdsExpression:
-    SdsNotExpression
+TslAndExpression returns TslExpression:
+    TslNotExpression
     (
-        {SdsInfixOperation.leftOperand=current}
+        {TslInfixOperation.leftOperand=current}
         operator='and'
-        rightOperand=SdsNotExpression
+        rightOperand=TslNotExpression
     )*
 ;
 
-SdsNotExpression returns SdsExpression:
-    {SdsPrefixOperation} operator='not' operand=SdsNotExpression
-  | SdsEqualityExpression
+TslNotExpression returns TslExpression:
+    {TslPrefixOperation} operator='not' operand=TslNotExpression
+  | TslEqualityExpression
 ;
 
-SdsEqualityExpression returns SdsExpression:
-    SdsComparisonExpression
+TslEqualityExpression returns TslExpression:
+    TslComparisonExpression
     (
-        {SdsInfixOperation.leftOperand=current}
-        operator=SdsEqualityOperator
-        rightOperand=SdsComparisonExpression
+        {TslInfixOperation.leftOperand=current}
+        operator=TslEqualityOperator
+        rightOperand=TslComparisonExpression
     )?
 ;
 
-SdsEqualityOperator returns string:
+TslEqualityOperator returns string:
     '==' | '!=' | '===' | '!=='
 ;
 
-SdsComparisonExpression returns SdsExpression:
-    SdsAdditiveExpression
+TslComparisonExpression returns TslExpression:
+    TslAdditiveExpression
     (
-        {SdsInfixOperation.leftOperand=current}
-        operator=SdsComparisonOperator
-        rightOperand=SdsAdditiveExpression
+        {TslInfixOperation.leftOperand=current}
+        operator=TslComparisonOperator
+        rightOperand=TslAdditiveExpression
     )?
 ;
 
-SdsComparisonOperator returns string:
+TslComparisonOperator returns string:
     '<' | '<=' | '>=' | '>'
 ;
 
-SdsAdditiveExpression returns SdsExpression:
-    SdsMultiplicativeExpression
+TslAdditiveExpression returns TslExpression:
+    TslMultiplicativeExpression
     (
-        {SdsInfixOperation.leftOperand=current}
-        operator=SdsAdditiveOperator
-        rightOperand=SdsMultiplicativeExpression
+        {TslInfixOperation.leftOperand=current}
+        operator=TslAdditiveOperator
+        rightOperand=TslMultiplicativeExpression
     )*
 ;
 
-SdsAdditiveOperator returns string:
+TslAdditiveOperator returns string:
     '+' | '-'
 ;
 
-SdsMultiplicativeExpression returns SdsExpression:
-    SdsElvisExpression
+TslMultiplicativeExpression returns TslExpression:
+    TslElvisExpression
     (
-        {SdsInfixOperation.leftOperand=current}
-        operator=SdsMultiplicativeOperator
-        rightOperand=SdsElvisExpression
+        {TslInfixOperation.leftOperand=current}
+        operator=TslMultiplicativeOperator
+        rightOperand=TslElvisExpression
     )*
 ;
 
-SdsMultiplicativeOperator returns string:
+TslMultiplicativeOperator returns string:
     '*' | '/'
 ;
 
-SdsElvisExpression returns SdsExpression:
-    SdsTypeCast
+TslElvisExpression returns TslExpression:
+    TslTypeCast
     (
-        {SdsInfixOperation.leftOperand=current}
+        {TslInfixOperation.leftOperand=current}
         operator='?:'
-        rightOperand=SdsTypeCast
+        rightOperand=TslTypeCast
     )*
 ;
 
-interface SdsTypeCast extends SdsExpression {
-    expression: SdsExpression
-    ^type: SdsType
+interface TslTypeCast extends TslExpression {
+    expression: TslExpression
+    ^type: TslType
 }
 
-SdsTypeCast returns SdsExpression:
-    SdsUnaryOperation
+TslTypeCast returns TslExpression:
+    TslUnaryOperation
     (
-        {SdsTypeCast.expression=current}
+        {TslTypeCast.expression=current}
         'as'
-        ^type=SdsType
+        ^type=TslType
     )*
 ;
 
-SdsUnaryOperation returns SdsExpression:
-    {SdsPrefixOperation} operator='-' operand=SdsUnaryOperation
-  | SdsChainedExpression
+TslUnaryOperation returns TslExpression:
+    {TslPrefixOperation} operator='-' operand=TslUnaryOperation
+  | TslChainedExpression
 ;
 
-interface SdsChainedExpression extends SdsExpression {
-    receiver: SdsExpression
+interface TslChainedExpression extends TslExpression {
+    receiver: TslExpression
     isNullSafe: boolean
 }
 
-interface SdsCall extends SdsAbstractCall, SdsChainedExpression {}
+interface TslCall extends TslAbstractCall, TslChainedExpression {}
 
-interface SdsIndexedAccess extends SdsChainedExpression {
-    index: SdsExpression
+interface TslIndexedAccess extends TslChainedExpression {
+    index: TslExpression
 }
 
-interface SdsMemberAccess extends SdsChainedExpression {
-    member?: SdsReference
+interface TslMemberAccess extends TslChainedExpression {
+    member?: TslReference
 }
 
-SdsChainedExpression returns SdsExpression:
-    SdsPrimaryExpression
+TslChainedExpression returns TslExpression:
+    TslPrimaryExpression
     (
-        {SdsCall.receiver=current}
+        {TslCall.receiver=current}
         (isNullSafe?='?')?
-        argumentList=SdsCallArgumentList
+        argumentList=TslCallArgumentList
 
-    |   {SdsIndexedAccess.receiver=current}
+    |   {TslIndexedAccess.receiver=current}
         (isNullSafe?='?')?
-        '[' index=SdsExpression ']'
+        '[' index=TslExpression ']'
 
-    |   {SdsMemberAccess.receiver=current}
+    |   {TslMemberAccess.receiver=current}
         (isNullSafe?='?')?
         '.'
-        member=SdsReference
+        member=TslReference
     )*
 ;
 
-interface SdsArgumentList extends SdsObject {
-    arguments: SdsArgument[]
+interface TslArgumentList extends TslObject {
+    arguments: TslArgument[]
 }
 
-SdsCallArgumentList returns SdsArgumentList:
-    {SdsArgumentList}
+TslCallArgumentList returns TslArgumentList:
+    {TslArgumentList}
     '('
     (
-        arguments+=SdsCallArgument
-        (',' arguments+=SdsCallArgument)*
+        arguments+=TslCallArgument
+        (',' arguments+=TslCallArgument)*
         ','?
     )?
     ')'
 ;
 
-interface SdsArgument extends SdsExpression {
-    parameter?: @SdsParameter
-    value: SdsExpression
+interface TslArgument extends TslExpression {
+    parameter?: @TslParameter
+    value: TslExpression
 }
 
-SdsCallArgument returns SdsArgument:
-    (parameter=[SdsParameter:ID] '=')? value=SdsExpression
+TslCallArgument returns TslArgument:
+    (parameter=[TslParameter:ID] '=')? value=TslExpression
 ;
 
-SdsPrimaryExpression returns SdsExpression:
-    SdsLiteral
-  | SdsParenthesizedExpression
-  | SdsReference
-  | SdsTemplateString
+TslPrimaryExpression returns TslExpression:
+    TslLiteral
+  | TslParenthesizedExpression
+  | TslReference
+  | TslTemplateString
 ;
 
-interface SdsLiteral extends SdsExpression {}
+interface TslLiteral extends TslExpression {}
 
-SdsLiteral returns SdsLiteral:
-    SdsBoolean
-  | SdsFloat
-  | SdsInt
-  | SdsList
-  | SdsMap
-  | SdsNull
-  | SdsString
+TslLiteral returns TslLiteral:
+    TslBoolean
+  | TslFloat
+  | TslInt
+  | TslList
+  | TslDictionary
+  | TslNull
+  | TslString
+  | TslDate
 ;
 
-interface SdsBoolean extends SdsLiteral {
+interface TslBoolean extends TslLiteral {
     value: boolean
 }
 
-SdsBoolean returns SdsBoolean:
+TslBoolean returns TslBoolean:
     value?='true'
-  | {SdsBoolean} 'false'
+  | {TslBoolean} 'false'
 ;
 
-interface SdsNumber extends SdsLiteral {}
+interface TslNumber extends TslLiteral {}
 
-interface SdsFloat extends SdsNumber {
+interface TslFloat extends TslNumber {
     value: number
 }
 
-SdsFloat returns SdsFloat:
+TslFloat returns TslFloat:
     value=FLOAT
 ;
 
-interface SdsInt extends SdsNumber {
+interface TslInt extends TslNumber {
     value: bigint
 }
 
-SdsInt returns SdsInt:
+TslInt returns TslInt:
     value=INT
 ;
 
-interface SdsList extends SdsLiteral {
-    elements: SdsExpression[]
+interface TslList extends TslLiteral {
+    elements: TslExpression[]
 }
 
-SdsList returns SdsList:
-    {SdsList} '[' (elements+=SdsExpression (',' elements+=SdsExpression)* ','? )? ']'
+TslList returns TslList:
+    {TslList} '[' (elements+=TslExpression (',' elements+=TslExpression)* ','? )? ']'
 ;
 
-interface SdsMap extends SdsLiteral {
-    entries: SdsMapEntry[]
+interface TslDictionary extends TslLiteral {
+    entries: TslDictionaryEntry[]
 }
 
-SdsMap returns SdsMap:
-    {SdsMap} '{' (entries+=SdsMapEntry (',' entries+=SdsMapEntry)* ','? )? '}'
+TslDictionary returns TslDictionary:
+    {TslDictionary} '{' (entries+=TslDictionaryEntry (',' entries+=TslDictionaryEntry)* ','? )? '}'
 ;
 
-interface SdsMapEntry extends SdsObject {
-    key: SdsExpression
-    value: SdsExpression
+interface TslDictionaryEntry extends TslObject {
+    key: TslExpression
+    value: TslExpression
 }
 
-SdsMapEntry returns SdsMapEntry:
-    key=SdsExpression ':' value=SdsExpression
+TslDictionaryEntry returns TslDictionaryEntry:
+    key=TslExpression ':' value=TslExpression
 ;
 
-interface SdsNull extends SdsLiteral {}
+interface TslNull extends TslLiteral {}
 
-SdsNull returns SdsNull:
-    {SdsNull} 'null'
+TslNull returns TslNull:
+    {TslNull} 'null'
 ;
 
-interface SdsString extends SdsLiteral {
+interface TslString extends TslLiteral {
     value: string
 }
 
-SdsString returns SdsString:
+TslString returns TslString:
     value=STRING
 ;
 
-interface SdsParenthesizedExpression extends SdsExpression {
-    expression: SdsExpression
+interface TslDate extends TslLiteral{
+    date: Date
 }
 
-SdsParenthesizedExpression returns SdsParenthesizedExpression:
-    '(' expression=SdsExpression  ')'
+TslDate returns TslDate:
+    date=DATE
 ;
 
-interface SdsReference extends SdsExpression {
-    target: @SdsDeclaration
+
+interface TslParenthesizedExpression extends TslExpression {
+    expression: TslExpression
 }
 
-SdsReference returns SdsReference:
-    target=[SdsDeclaration:ID]
+TslParenthesizedExpression returns TslParenthesizedExpression:
+    '(' expression=TslExpression  ')'
 ;
 
-interface SdsTemplateString extends SdsExpression {
-    expressions: SdsExpression[]
+interface TslReference extends TslExpression {
+    target: @TslDeclaration
 }
 
-SdsTemplateString returns SdsTemplateString:
-    expressions+=SdsTemplateStringStart
-    expressions+=SdsExpression?
-    (expressions+=SdsTemplateStringInner expressions+=SdsExpression?)*
-    expressions+=SdsTemplateStringEnd
+TslReference returns TslReference:
+    target=[TslDeclaration:ID]
 ;
 
-interface SdsTemplateStringPart extends SdsLiteral {
+interface TslTemplateString extends TslExpression {
+    expressions: TslExpression[]
+}
+
+TslTemplateString returns TslTemplateString:
+    expressions+=TslTemplateStringStart
+    expressions+=TslExpression?
+    (expressions+=TslTemplateStringInner expressions+=TslExpression?)*
+    expressions+=TslTemplateStringEnd
+;
+
+interface TslTemplateStringPart extends TslLiteral {
     value: string
 }
 
-interface SdsTemplateStringStart extends SdsTemplateStringPart {}
+interface TslTemplateStringStart extends TslTemplateStringPart {}
 
-SdsTemplateStringStart returns SdsExpression:
-    {SdsTemplateStringStart}
+TslTemplateStringStart returns TslExpression:
+    {TslTemplateStringStart}
     value=TEMPLATE_STRING_START
 ;
 
-interface SdsTemplateStringInner extends SdsTemplateStringPart {}
+interface TslTemplateStringInner extends TslTemplateStringPart {}
 
-SdsTemplateStringInner returns SdsExpression:
-    {SdsTemplateStringInner}
+TslTemplateStringInner returns TslExpression:
+    {TslTemplateStringInner}
     value=TEMPLATE_STRING_INNER
 ;
 
-interface SdsTemplateStringEnd extends SdsTemplateStringPart {}
+interface TslTemplateStringEnd extends TslTemplateStringPart {}
 
-SdsTemplateStringEnd returns SdsExpression:
-    {SdsTemplateStringEnd}
+TslTemplateStringEnd returns TslExpression:
+    {TslTemplateStringEnd}
     value=TEMPLATE_STRING_END
 ;
 
 
 // -----------------------------------------------------------------------------
+// Aggregation
+// -----------------------------------------------------------------------------
+
+
+// -----------------------------------------------------------------------------
+// Modifier
+// -----------------------------------------------------------------------------
+
+interface TslModifier extends TslObject{}
+
+interface TslVisibility extends TslModifier{
+    isPublic?: boolean 
+    isPackageprivate?: boolean
+    isPrivate?: boolean
+}
+
+TslVisibility returns TslVisibility:
+    isPublic?='public'? | isPackageprivate?='packageprivate'? | isPrivate?='private'?
+;
+
+interface TslTimespan extends TslModifier{
+    timespan: string
+}
+
+TslTimespan returns TslTimespan:
+    'per' timespan=('day'|'week'|'month'|'year')
+;
+
+interface TslGroupedBy extends TslModifier{
+    id: @TslFunction | @TslLocalVariable | @TslData
+}
+
+TslGroupedBy returns TslGroupedBy:
+    'groupedBy' id=[TslFunction:ID | TslLocalVariable:ID | TslData:ID]
+;
+
+// -----------------------------------------------------------------------------
+// Validity
+// -----------------------------------------------------------------------------
+
+interface TslValidity extends TslObject{
+    start?: TslDate
+    end?: TslDate
+}
+
+TslValidity returns TslValidity:
+    'valid' ('from' start=TslDate)? ('to' end=TslDate)?
+;
+
+// -----------------------------------------------------------------------------
 // Types
 // -----------------------------------------------------------------------------
 
-interface SdsType extends SdsObject {}
+interface TslType extends TslObject {}
 
-interface SdsNamedTypeDeclaration extends SdsDeclaration {}
+interface TslNamedTypeDeclaration extends TslDeclaration {}
 
-interface SdsMemberType extends SdsType {
-    receiver: SdsType
-    member?: SdsNamedType
+interface TslMemberType extends TslType {
+    receiver: TslType
+    member?: TslNamedType
 }
 
-SdsType returns SdsType:
-    SdsPrimaryType ({SdsMemberType.receiver=current} '.' member=SdsNamedType)*
+TslType returns TslType:
+    TslPrimaryType ({TslMemberType.receiver=current} '.' member=TslNamedType)*
 ;
 
-SdsPrimaryType returns SdsType:
-    SdsCallableType
-  | SdsLiteralType
-  | SdsNamedType
-  | SdsUnionType
+TslPrimaryType returns TslType:
+    TslCallableType
+  | TslLiteralType
+  | TslNamedType
+  | TslUnionType
 ;
 
-interface SdsCallableType extends SdsCallable, SdsType {
-    resultList: SdsResultList
+interface TslCallableType extends TslCallable, TslType {
+    resultList: TslResultList
 }
 
-SdsCallableType returns SdsCallableType:
-    parameterList=SdsParameterList
-    resultList=SdsResultList
+TslCallableType returns TslCallableType:
+    parameterList=TslParameterList
+    resultList=TslResultList
 ;
 
-interface SdsLiteralType extends SdsType {
-    literalList: SdsLiteralList
+interface TslLiteralType extends TslType {
+    literalList: TslLiteralList
 }
 
-SdsLiteralType returns SdsLiteralType:
-    'literal' literalList=SdsLiteralList
+TslLiteralType returns TslLiteralType:
+    'literal' literalList=TslLiteralList
 ;
 
-interface SdsLiteralList extends SdsObject {
-    literals: SdsLiteral[]
+interface TslLiteralList extends TslObject {
+    literals: TslLiteral[]
 }
 
-SdsLiteralList returns SdsLiteralList:
-    {SdsLiteralList}
+TslLiteralList returns TslLiteralList:
+    {TslLiteralList}
     '<'
     (
-        literals+=SdsLiteral
-        (',' literals+=SdsLiteral)*
+        literals+=TslLiteral
+        (',' literals+=TslLiteral)*
         ','?
     )?
     '>'
 ;
 
-interface SdsNamedType extends SdsType {
-    declaration?: @SdsNamedTypeDeclaration
-    typeArgumentList?: SdsTypeArgumentList
+interface TslNamedType extends TslType {
+    declaration?: @TslNamedTypeDeclaration
+    typeArgumentList?: TslTypeArgumentList
     isNullable: boolean
 }
 
-SdsNamedType returns SdsNamedType:
-    declaration=[SdsNamedTypeDeclaration:ID]
-    typeArgumentList=SdsTypeArgumentList?
+TslNamedType returns TslNamedType:
+    declaration=[TslNamedTypeDeclaration:ID]
+    typeArgumentList=TslTypeArgumentList?
     (isNullable?='?' )?
 ;
 
-interface SdsUnionType extends SdsType {
-    typeArgumentList: SdsTypeArgumentList
+interface TslUnionType extends TslType {
+    typeArgumentList: TslTypeArgumentList
 }
 
-SdsUnionType returns SdsUnionType:
-    'union' typeArgumentList=SdsUnionTypeArgumentList
+TslUnionType returns TslUnionType:
+    'union' typeArgumentList=TslUnionTypeArgumentList
 ;
 
-SdsUnionTypeArgumentList returns SdsTypeArgumentList:
-    {SdsTypeArgumentList}
+TslUnionTypeArgumentList returns TslTypeArgumentList:
+    {TslTypeArgumentList}
     '<'
     (
-        typeArguments+=SdsUnionTypeArgument
-        (',' typeArguments+=SdsUnionTypeArgument)*
+        typeArguments+=TslUnionTypeArgument
+        (',' typeArguments+=TslUnionTypeArgument)*
         ','?
     )?
     '>'
 ;
 
-SdsUnionTypeArgument returns SdsTypeArgument:
-    value=SdsType
+TslUnionTypeArgument returns TslTypeArgument:
+    value=TslType
 ;
 
-SdsParentType returns SdsType:
-    SdsNamedType ({SdsMemberType.receiver=current} '.' member=SdsNamedType)*
+TslParentType returns TslType:
+    TslNamedType ({TslMemberType.receiver=current} '.' member=TslNamedType)*
 ;
 
-interface SdsTypeParameterList extends SdsObject {
-    typeParameters: SdsTypeParameter[]
+interface TslTypeParameterList extends TslObject {
+    typeParameters: TslTypeParameter[]
 }
 
-SdsTypeParameterList returns SdsTypeParameterList:
-    {SdsTypeParameterList}
+TslTypeParameterList returns TslTypeParameterList:
+    {TslTypeParameterList}
     '<'
         (
-            typeParameters+=SdsTypeParameter
-            (',' typeParameters+=SdsTypeParameter)*
+            typeParameters+=TslTypeParameter
+            (',' typeParameters+=TslTypeParameter)*
             ','?
         )?
     '>'
 ;
 
-interface SdsTypeParameter extends SdsNamedTypeDeclaration {
+interface TslTypeParameter extends TslNamedTypeDeclaration {
     variance?: string
-    upperBound?: SdsType
-    defaultValue?: SdsType
+    upperBound?: TslType
+    defaultValue?: TslType
 }
 
-SdsTypeParameter returns SdsTypeParameter:
-    annotationCalls+=SdsAnnotationCall*
-    variance=SdsTypeParameterVariance?
+TslTypeParameter returns TslTypeParameter:
+    annotationCalls+=TslAnnotationCall*
+    variance=TslTypeParameterVariance?
     name=ID
-    ('sub' upperBound=SdsType)?
-    ('=' defaultValue=SdsType)?
+    ('sub' upperBound=TslType)?
+    ('=' defaultValue=TslType)?
 ;
 
-SdsTypeParameterVariance returns string:
+TslTypeParameterVariance returns string:
     'in' | 'out'
 ;
 
-interface SdsTypeArgumentList extends SdsObject {
-    typeArguments: SdsTypeArgument[]
+interface TslTypeArgumentList extends TslObject {
+    typeArguments: TslTypeArgument[]
 }
 
-SdsTypeArgumentList returns SdsTypeArgumentList:
-    {SdsTypeArgumentList}
+TslTypeArgumentList returns TslTypeArgumentList:
+    {TslTypeArgumentList}
     '<'
-    (typeArguments+=SdsTypeArgument (',' typeArguments+=SdsTypeArgument)* ','? )?
+    (typeArguments+=TslTypeArgument (',' typeArguments+=TslTypeArgument)* ','? )?
     '>'
 ;
 
-interface SdsTypeArgument extends SdsObject {
-    typeParameter?: @SdsTypeParameter
-    value: SdsType
+interface TslTypeArgument extends TslObject {
+    typeParameter?: @TslTypeParameter
+    value: TslType
 }
 
-SdsTypeArgument returns SdsTypeArgument:
-    (typeParameter=[SdsTypeParameter:ID] '=' )?
-    value=SdsType
+TslTypeArgument returns TslTypeArgument:
+    (typeParameter=[TslTypeParameter:ID] '=' )?
+    value=TslType
 ;
 
 
@@ -1031,31 +1204,31 @@ SdsTypeArgument returns SdsTypeArgument:
 // Schemas
 // -----------------------------------------------------------------------------
 
-interface SdsSchema extends SdsModuleMember {
-    columnList: SdsColumnList
+interface TslSchema extends TslModuleMember {
+    columnList: TslColumnList
 }
 
-fragment SdsSchemaFragment:
+fragment TslSchemaFragment:
     'schema'
     name=ID
-    columnList=SdsColumnList
+    columnList=TslColumnList
 ;
 
-interface SdsColumnList extends SdsObject {
-    columns: SdsColumn[]
+interface TslColumnList extends TslObject {
+    columns: TslColumn[]
 }
 
-SdsColumnList returns SdsColumnList:
-    {SdsColumnList} '{' (columns+=SdsColumn  (',' columns+=SdsColumn)* ','? )? '}'
+TslColumnList returns TslColumnList:
+    {TslColumnList} '{' (columns+=TslColumn  (',' columns+=TslColumn)* ','? )? '}'
 ;
 
-interface SdsColumn extends SdsObject {
-    columnName: SdsString
-    columnType: SdsType
+interface TslColumn extends TslObject {
+    columnName: TslString
+    columnType: TslType
 }
 
-SdsColumn returns SdsColumn:
-    columnName=SdsString ":" columnType=SdsType
+TslColumn returns TslColumn:
+    columnName=TslString ":" columnType=TslType
 ;
 
 
@@ -1070,6 +1243,7 @@ terminal FLOAT returns number
     : DECIMAL_DIGIT+ '.' DECIMAL_DIGIT+ FLOAT_EXPONENT?
     | DECIMAL_DIGIT+ FLOAT_EXPONENT;
 terminal fragment DECIMAL_DIGIT: /[0-9]/;
+terminal DATE returns Date: /[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}/;
 terminal fragment FLOAT_EXPONENT: ('e' | 'E' )('+' | '-' )? DECIMAL_DIGIT+;
 terminal INT returns bigint: DECIMAL_DIGIT+;
 terminal STRING returns string: STRING_START STRING_TEXT* STRING_END;
@@ -1088,6 +1262,6 @@ terminal TEMPLATE_STRING_INNER returns string: TEMPLATE_EXPRESSION_END STRING_TE
 terminal TEMPLATE_STRING_END returns string: TEMPLATE_EXPRESSION_END STRING_TEXT* STRING_END;
 
 hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\//;
-hidden terminal SL_COMMENT: /\/\/[^\n\r]*/;
+hidden terminal SL_COMMENT: /\#[^\n\r]*/;
 hidden terminal TEST_MARKER: /[»«]/;
 hidden terminal WS: /\s+/;
