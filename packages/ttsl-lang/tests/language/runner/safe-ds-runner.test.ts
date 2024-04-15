@@ -31,18 +31,18 @@ describe('SafeDsRunner', async () => {
         });
     });
     describe('getMainModuleName', async () => {
-        it('sdspipe', async () => {
+        it('Tslpipe', async () => {
             const document = services.shared.workspace.LangiumDocumentFactory.fromString(
                 '',
-                URI.file('/a-b c.sdspipe'),
+                URI.file('/a-b c.Tslpipe'),
             );
             const mainModuleName = runner.getMainModuleName(document);
             expect(mainModuleName).toBe('a_b_c');
         });
-        it('sdstest', async () => {
+        it('Tsltest', async () => {
             const document = services.shared.workspace.LangiumDocumentFactory.fromString(
                 '',
-                URI.file('/a-b c.sdstest'),
+                URI.file('/a-b c.Tsltest'),
             );
             const mainModuleName = runner.getMainModuleName(document);
             expect(mainModuleName).toBe('a_b_c');
@@ -50,17 +50,17 @@ describe('SafeDsRunner', async () => {
         it('other', async () => {
             const document = services.shared.workspace.LangiumDocumentFactory.fromString(
                 '',
-                URI.file('/a-b c.sdstest2'),
+                URI.file('/a-b c.Tsltest2'),
             );
             const mainModuleName = runner.getMainModuleName(document);
-            expect(mainModuleName).toBe('a_b_c_sdstest2');
+            expect(mainModuleName).toBe('a_b_c_Tsltest2');
         });
     });
     describe('generateCodeForRunner', async () => {
         it('generateCodeForRunner', async () => {
             const document = services.shared.workspace.LangiumDocumentFactory.fromString(
                 'package a\n\npipeline mainpipeline {}',
-                URI.file('/b.sdstest'),
+                URI.file('/b.Tsltest'),
             );
             const [programCodeMap] = runner.generateCodeForRunner(document, undefined);
             expect(JSON.stringify(programCodeMap).replaceAll('\\r\\n', '\\n')).toBe(

@@ -1,13 +1,13 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
 import {
-    isSdsAttribute,
-    isSdsClass,
-    isSdsEnum,
-    isSdsEnumVariant,
-    isSdsFunction,
-    isSdsModule,
-    SdsDeclaration,
+    isTslAttribute,
+    isTslClass,
+    isTslEnum,
+    isTslEnumVariant,
+    isTslFunction,
+    isTslModule,
+    TslDeclaration,
 } from '../../../../src/language/generated/ast.js';
 import {
     createSafeDsServices,
@@ -67,8 +67,8 @@ const basic = async (): Promise<IsSubOrSupertypeOfTest[]> => {
         }
         enum Enum2
     `;
-    const module = await getNodeOfType(services, code, isSdsModule);
-    const functions = getModuleMembers(module).filter(isSdsFunction);
+    const module = await getNodeOfType(services, code, isTslModule);
+    const functions = getModuleMembers(module).filter(isTslFunction);
     const callableType1 = typeComputer.computeType(functions[0]);
     const callableType2 = typeComputer.computeType(functions[1]);
     const callableType3 = typeComputer.computeType(functions[2]);
@@ -82,7 +82,7 @@ const basic = async (): Promise<IsSubOrSupertypeOfTest[]> => {
     const callableType11 = typeComputer.computeType(functions[10]);
     const callableType12 = typeComputer.computeType(functions[11]);
 
-    const classes = getModuleMembers(module).filter(isSdsClass);
+    const classes = getModuleMembers(module).filter(isTslClass);
     const class1 = classes[0];
     const class2 = classes[1];
     const class3 = classes[2];
@@ -90,13 +90,13 @@ const basic = async (): Promise<IsSubOrSupertypeOfTest[]> => {
     const classType2 = typeComputer.computeType(class2) as ClassType;
     const classType3 = typeComputer.computeType(class3) as ClassType;
 
-    const enums = getModuleMembers(module).filter(isSdsEnum);
+    const enums = getModuleMembers(module).filter(isTslEnum);
     const enum1 = enums[0];
     const enum2 = enums[1];
     const enumType1 = typeComputer.computeType(enum1) as EnumType;
     const enumType2 = typeComputer.computeType(enum2) as EnumType;
 
-    const enumVariants = AstUtils.streamAllContents(module).filter(isSdsEnumVariant).toArray();
+    const enumVariants = AstUtils.streamAllContents(module).filter(isTslEnumVariant).toArray();
     const enumVariant1 = enumVariants[0];
     const enumVariant2 = enumVariants[1];
     const enumVariantType1 = typeComputer.computeType(enumVariant1) as EnumVariantType;
@@ -754,9 +754,9 @@ const classTypesWithTypeParameters = async (): Promise<IsSubOrSupertypeOfTest[]>
         class SubclassFixedCovariant sub BaseClassCovariant<MyNumber>
         class SubclassFixedContravariant sub BaseClassContravariant<MyNumber>
     `;
-    const module = await getNodeOfType(services, code, isSdsModule);
-    const classes = getModuleMembers(module).filter(isSdsClass);
-    const attributes = getClassMembers(classes[0]).filter(isSdsAttribute);
+    const module = await getNodeOfType(services, code, isTslModule);
+    const classes = getModuleMembers(module).filter(isTslClass);
+    const attributes = getClassMembers(classes[0]).filter(isTslAttribute);
 
     const computeTypeOfAttributeWithName = computeTypeOfDeclarationWithName(attributes);
 
@@ -1023,8 +1023,8 @@ const typeParameterTypes = async (): Promise<IsSubOrSupertypeOfTest[]> => {
             Unresolved sub Unknown,
         >
     `;
-    const module = await getNodeOfType(services, code, isSdsModule);
-    const classes = getModuleMembers(module).filter(isSdsClass);
+    const module = await getNodeOfType(services, code, isTslModule);
+    const classes = getModuleMembers(module).filter(isTslClass);
     const typeParameters = getTypeParameters(classes[0]);
 
     const computeTypeOfTypeParameterWithName = computeTypeOfDeclarationWithName(typeParameters);
@@ -1228,7 +1228,7 @@ describe('SafeDsTypeChecker', async () => {
     });
 });
 
-const computeTypeOfDeclarationWithName = <T extends SdsDeclaration>(declarations: T[]) => {
+const computeTypeOfDeclarationWithName = <T extends TslDeclaration>(declarations: T[]) => {
     return (name: string): Type => {
         const result = declarations.find((declaration) => declaration.name === name);
         return typeComputer.computeType(result);

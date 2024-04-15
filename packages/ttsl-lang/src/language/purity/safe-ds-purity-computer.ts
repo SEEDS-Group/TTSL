@@ -12,22 +12,22 @@ import {
     UnknownCallableCall,
 } from './model.js';
 import {
-    isSdsAnnotation,
-    isSdsAssignment,
-    isSdsCallable,
-    isSdsClass,
-    isSdsEnumVariant,
-    isSdsExpressionStatement,
-    isSdsFunction,
-    isSdsLambda,
-    isSdsParameter,
-    isSdsWildcard,
-    SdsCall,
-    SdsCallable,
-    SdsExpression,
-    SdsFunction,
-    SdsParameter,
-    SdsStatement,
+    isTslAnnotation,
+    isTslAssignment,
+    isTslCallable,
+    isTslClass,
+    isTslEnumVariant,
+    isTslExpressionStatement,
+    isTslFunction,
+    isTslLambda,
+    isTslParameter,
+    isTslWildcard,
+    TslCall,
+    TslCallable,
+    TslExpression,
+    TslFunction,
+    TslParameter,
+    TslStatement,
 } from '../generated/ast.js';
 import { EvaluatedEnumVariant, ParameterSubstitutions, StringConstant } from '../partialEvaluation/model.js';
 import { SafeDsAnnotations } from '../builtins/safe-ds-annotations.js';
@@ -66,7 +66,7 @@ export class SafeDsPurityComputer {
      * The parameter substitutions to use. These are **not** the argument of a call, but the values of the parameters
      * of any containing callables, i.e. the context of the node.
      */
-    isPureCallable(node: SdsCallable | undefined, substitutions = NO_SUBSTITUTIONS): boolean {
+    isPureCallable(node: TslCallable | undefined, substitutions = NO_SUBSTITUTIONS): boolean {
         return isEmpty(this.getImpurityReasonsForCallable(node, substitutions));
     }
 
@@ -80,7 +80,7 @@ export class SafeDsPurityComputer {
      * The parameter substitutions to use. These are **not** the argument of a call, but the values of the parameters
      * of any containing callables, i.e. the context of the node.
      */
-    isPureExpression(node: SdsExpression | undefined, substitutions = NO_SUBSTITUTIONS): boolean {
+    isPureExpression(node: TslExpression | undefined, substitutions = NO_SUBSTITUTIONS): boolean {
         return isEmpty(this.getImpurityReasonsForExpression(node, substitutions));
     }
 
@@ -90,16 +90,16 @@ export class SafeDsPurityComputer {
      * @param node
      * The parameter to check.
      */
-    isPureParameter(node: SdsParameter | undefined): boolean {
-        const containingCallable = AstUtils.getContainerOfType(node, isSdsCallable);
+    isPureParameter(node: TslParameter | undefined): boolean {
+        const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
         if (
             !containingCallable ||
-            isSdsAnnotation(containingCallable) ||
-            isSdsClass(containingCallable) ||
-            isSdsEnumVariant(containingCallable)
+            isTslAnnotation(containingCallable) ||
+            isTslClass(containingCallable) ||
+            isTslEnumVariant(containingCallable)
         ) {
             return true;
-        } else if (isSdsFunction(containingCallable)) {
+        } else if (isTslFunction(containingCallable)) {
             const expectedImpurityReason = new PotentiallyImpureParameterCall(node);
             return !this.getImpurityReasons(containingCallable).some((it) => it.equals(expectedImpurityReason));
         } else {
@@ -117,7 +117,7 @@ export class SafeDsPurityComputer {
      * The parameter substitutions to use. These are **not** the argument of a call, but the values of the parameters
      * of any containing callables, i.e. the context of the node.
      */
-    callableHasSideEffects(node: SdsCallable | undefined, substitutions = NO_SUBSTITUTIONS): boolean {
+    callableHasSideEffects(node: TslCallable | undefined, substitutions = NO_SUBSTITUTIONS): boolean {
         return this.getImpurityReasonsForCallable(node, substitutions).some((it) => it.isSideEffect);
     }
 
@@ -131,7 +131,7 @@ export class SafeDsPurityComputer {
      * The parameter substitutions to use. These are **not** the argument of a call, but the values of the parameters
      * of any containing callables, i.e. the context of the node.
      */
-    expressionHasSideEffects(node: SdsExpression | undefined, substitutions = NO_SUBSTITUTIONS): boolean {
+    expressionHasSideEffects(node: TslExpression | undefined, substitutions = NO_SUBSTITUTIONS): boolean {
         return this.getImpurityReasonsForExpression(node, substitutions).some((it) => it.isSideEffect);
     }
 
@@ -148,13 +148,13 @@ export class SafeDsPurityComputer {
      * The parameter substitutions to use. These are **not** the argument of a call, but the values of the parameters
      * of any containing callables, i.e. the context of the node.
      */
-    statementDoesSomething(node: SdsStatement, substitutions = NO_SUBSTITUTIONS): boolean {
-        if (isSdsAssignment(node)) {
+    statementDoesSomething(node: TslStatement, substitutions = NO_SUBSTITUTIONS): boolean {
+        if (isTslAssignment(node)) {
             return (
-                !getAssignees(node).every(isSdsWildcard) ||
+                !getAssignees(node).every(isTslWildcard) ||
                 this.expressionHasSideEffects(node.expression, substitutions)
             );
-        } else if (isSdsExpressionStatement(node)) {
+        } else if (isTslExpressionStatement(node)) {
             return this.expressionHasSideEffects(node.expression, substitutions);
         } else {
             /* c8 ignore next 2 */
@@ -172,7 +172,7 @@ export class SafeDsPurityComputer {
      * The parameter substitutions to use. These are **not** the argument of a call, but the values of the parameters
      * of any containing callables, i.e. the context of the node.
      */
-    getImpurityReasonsForCallable(node: SdsCallable | undefined, substitutions = NO_SUBSTITUTIONS): ImpurityReason[] {
+    getImpurityReasonsForCallable(node: TslCallable | undefined, substitutions = NO_SUBSTITUTIONS): ImpurityReason[] {
         return this.getImpurityReasons(node, substitutions);
     }
 
@@ -186,10 +186,10 @@ export class SafeDsPurityComputer {
      * The parameter substitutions to use. These are **not** the argument of a call, but the values of the parameters
      * of any containing callables, i.e. the context of the node.
      */
-    getImpurityReasonsForStatement(node: SdsStatement | undefined, substitutions = NO_SUBSTITUTIONS): ImpurityReason[] {
-        if (isSdsAssignment(node)) {
+    getImpurityReasonsForStatement(node: TslStatement | undefined, substitutions = NO_SUBSTITUTIONS): ImpurityReason[] {
+        if (isTslAssignment(node)) {
             return this.getImpurityReasonsForExpression(node.expression, substitutions);
-        } else if (isSdsExpressionStatement(node)) {
+        } else if (isTslExpressionStatement(node)) {
             return this.getImpurityReasonsForExpression(node.expression, substitutions);
         } else {
             /* c8 ignore next 2 */
@@ -208,14 +208,14 @@ export class SafeDsPurityComputer {
      * of any containing callables, i.e. the context of the node.
      */
     getImpurityReasonsForExpression(
-        node: SdsExpression | undefined,
+        node: TslExpression | undefined,
         substitutions = NO_SUBSTITUTIONS,
     ): ImpurityReason[] {
         return this.getExecutedCallsInExpression(node).flatMap((it) => this.getImpurityReasons(it, substitutions));
     }
 
     private getImpurityReasons(
-        node: SdsCall | SdsCallable | undefined,
+        node: TslCall | TslCallable | undefined,
         substitutions = NO_SUBSTITUTIONS,
     ): ImpurityReason[] {
         if (!node) {
@@ -233,7 +233,7 @@ export class SafeDsPurityComputer {
         }
     }
 
-    private doGetImpurityReasons(node: SdsCall | SdsCallable, substitutions = NO_SUBSTITUTIONS): ImpurityReason[] {
+    private doGetImpurityReasons(node: TslCall | TslCallable, substitutions = NO_SUBSTITUTIONS): ImpurityReason[] {
         const callGraph = this.callGraphComputer.getCallGraph(node, substitutions);
 
         const recursionImpurityReason: ImpurityReason[] = [];
@@ -244,13 +244,13 @@ export class SafeDsPurityComputer {
         const otherImpurityReasons = callGraph.streamCalledCallables().flatMap((it) => {
             if (!it) {
                 return [UnknownCallableCall];
-            } else if (isSdsFunction(it)) {
+            } else if (isTslFunction(it)) {
                 return this.getImpurityReasonsForFunction(it);
             } else if (
-                isSdsParameter(it) &&
+                isTslParameter(it) &&
                 // Leads to endless recursion if we don't check this
                 // (see test case "should return the impurity reasons of a parameter call in a function")
-                !isSdsFunction(AstUtils.getContainerOfType(it, isSdsCallable)) &&
+                !isTslFunction(AstUtils.getContainerOfType(it, isTslCallable)) &&
                 !this.isPureParameter(it)
             ) {
                 return [new PotentiallyImpureParameterCall(it)];
@@ -262,15 +262,15 @@ export class SafeDsPurityComputer {
         return [...recursionImpurityReason, ...otherImpurityReasons];
     }
 
-    private getExecutedCallsInExpression(expression: SdsExpression | undefined): SdsCall[] {
+    private getExecutedCallsInExpression(expression: TslExpression | undefined): TslCall[] {
         return this.callGraphComputer.getAllContainedCalls(expression).filter((it) => {
             // Keep only calls that are not contained in a lambda inside the expression
-            const containingLambda = AstUtils.getContainerOfType(it, isSdsLambda);
+            const containingLambda = AstUtils.getContainerOfType(it, isTslLambda);
             return !containingLambda || !isContainedInOrEqual(containingLambda, expression);
         });
     }
 
-    private getImpurityReasonsForFunction(node: SdsFunction): Stream<ImpurityReason> {
+    private getImpurityReasonsForFunction(node: TslFunction): Stream<ImpurityReason> {
         return this.builtinAnnotations.streamImpurityReasons(node).flatMap((it) => {
             switch (it.variant) {
                 case this.builtinImpurityReasons.FileReadFromConstantPath:
@@ -301,7 +301,7 @@ export class SafeDsPurityComputer {
         }
     }
 
-    private getParameter(node: SdsFunction, variant: EvaluatedEnumVariant): SdsParameter | undefined {
+    private getParameter(node: TslFunction, variant: EvaluatedEnumVariant): TslParameter | undefined {
         const parameterName = variant.getParameterValueByName('parameterName');
         if (!(parameterName instanceof StringConstant)) {
             return undefined;

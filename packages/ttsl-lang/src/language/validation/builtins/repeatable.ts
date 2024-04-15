@@ -1,13 +1,13 @@
 import { ValidationAcceptor } from 'langium';
 import { duplicatesBy } from '../../../helpers/collections.js';
-import { SdsDeclaration } from '../../generated/ast.js';
+import { TslDeclaration } from '../../generated/ast.js';
 import { getAnnotationCalls } from '../../helpers/nodeProperties.js';
 import { SafeDsServices } from '../../safe-ds-module.js';
 
 export const CODE_ANNOTATION_NOT_REPEATABLE = 'annotation/not-repeatable';
 
 export const singleUseAnnotationsMustNotBeRepeated =
-    (services: SafeDsServices) => (node: SdsDeclaration, accept: ValidationAcceptor) => {
+    (services: SafeDsServices) => (node: TslDeclaration, accept: ValidationAcceptor) => {
         const callsOfSingleUseAnnotations = getAnnotationCalls(node).filter((it) => {
             const annotation = it.annotation?.ref;
             return annotation && !services.builtins.Annotations.callsRepeatable(annotation);

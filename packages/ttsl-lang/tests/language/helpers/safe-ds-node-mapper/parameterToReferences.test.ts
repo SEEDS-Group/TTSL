@@ -1,6 +1,6 @@
 import { EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
-import { isSdsParameter } from '../../../../src/language/generated/ast.js';
+import { isTslParameter } from '../../../../src/language/generated/ast.js';
 import { createSafeDsServices } from '../../../../src/language/index.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
 
@@ -18,7 +18,7 @@ describe('SafeDsNodeMapper', () => {
                 fun myFunction(p1: Int, p2: Int = p1)
             `;
 
-            const parameter = await getNodeOfType(services, code, isSdsParameter);
+            const parameter = await getNodeOfType(services, code, isTslParameter);
             expect(nodeMapper.parameterToReferences(parameter).toArray()).toHaveLength(1);
         });
 
@@ -30,7 +30,7 @@ describe('SafeDsNodeMapper', () => {
                 };
             `;
 
-            const parameter = await getNodeOfType(services, code, isSdsParameter);
+            const parameter = await getNodeOfType(services, code, isTslParameter);
             expect(nodeMapper.parameterToReferences(parameter).toArray()).toHaveLength(2);
         });
 
@@ -44,7 +44,7 @@ describe('SafeDsNodeMapper', () => {
                 };
             `;
 
-            const parameter = await getNodeOfType(services, code, isSdsParameter);
+            const parameter = await getNodeOfType(services, code, isTslParameter);
             expect(nodeMapper.parameterToReferences(parameter).toArray()).toHaveLength(2);
         });
 
@@ -53,7 +53,7 @@ describe('SafeDsNodeMapper', () => {
                 segment mySegment(p1: Int, p2: Int = p1) {};
             `;
 
-            const parameter = await getNodeOfType(services, code, isSdsParameter);
+            const parameter = await getNodeOfType(services, code, isTslParameter);
             expect(nodeMapper.parameterToReferences(parameter).toArray()).toHaveLength(1);
         });
 
@@ -65,7 +65,7 @@ describe('SafeDsNodeMapper', () => {
                 };
             `;
 
-            const parameter = await getNodeOfType(services, code, isSdsParameter);
+            const parameter = await getNodeOfType(services, code, isTslParameter);
             expect(nodeMapper.parameterToReferences(parameter).toArray()).toHaveLength(2);
         });
 
@@ -77,7 +77,7 @@ describe('SafeDsNodeMapper', () => {
                 };
             `;
 
-            const parameter = await getNodeOfType(services, code, isSdsParameter);
+            const parameter = await getNodeOfType(services, code, isTslParameter);
             expect(nodeMapper.parameterToReferences(parameter).toArray()).toHaveLength(1);
         });
     });

@@ -1,12 +1,12 @@
 import { AstNode, DefaultCommentProvider, isAstNodeWithComment } from 'langium';
 import { MarkupContent } from 'vscode-languageserver';
 import {
-    isSdsBlockLambdaResult,
-    isSdsDeclaration,
-    isSdsParameter,
-    isSdsPlaceholder,
-    isSdsResult,
-    isSdsTypeParameter,
+    isTslBlockLambdaResult,
+    isTslDeclaration,
+    isTslParameter,
+    isTslPlaceholder,
+    isTslResult,
+    isTslTypeParameter,
 } from '../generated/ast.js';
 
 export class SafeDsCommentProvider extends DefaultCommentProvider {
@@ -14,12 +14,12 @@ export class SafeDsCommentProvider extends DefaultCommentProvider {
         /* c8 ignore start */ if (isAstNodeWithComment(node)) {
             return node.$comment;
         } /* c8 ignore stop */ else if (
-            !isSdsDeclaration(node) ||
-            isSdsBlockLambdaResult(node) ||
-            isSdsParameter(node) ||
-            isSdsPlaceholder(node) ||
-            isSdsResult(node) ||
-            isSdsTypeParameter(node)
+            !isTslDeclaration(node) ||
+            isTslBlockLambdaResult(node) ||
+            isTslParameter(node) ||
+            isTslPlaceholder(node) ||
+            isTslResult(node) ||
+            isTslTypeParameter(node)
         ) {
             return undefined;
         }

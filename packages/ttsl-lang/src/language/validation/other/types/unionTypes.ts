@@ -1,11 +1,11 @@
 import {
-    isSdsAnnotation,
-    isSdsCallable,
-    isSdsClass,
-    isSdsFunction,
-    isSdsParameter,
-    isSdsUnionType,
-    SdsUnionType,
+    isTslAnnotation,
+    isTslCallable,
+    isTslClass,
+    isTslFunction,
+    isTslParameter,
+    isTslUnionType,
+    TslUnionType,
 } from '../../../generated/ast.js';
 import { AstUtils, ValidationAcceptor } from 'langium';
 import { getTypeArguments } from '../../../helpers/nodeProperties.js';
@@ -17,7 +17,7 @@ export const CODE_UNION_TYPE_CONTEXT = 'union-type/context';
 export const CODE_UNION_TYPE_DUPLICATE_TYPE = 'union-type/duplicate-type';
 export const CODE_UNION_TYPE_MISSING_TYPES = 'union-type/missing-types';
 
-export const unionTypeMustBeUsedInCorrectContext = (node: SdsUnionType, accept: ValidationAcceptor): void => {
+export const unionTypeMustBeUsedInCorrectContext = (node: TslUnionType, accept: ValidationAcceptor): void => {
     if (!contextIsCorrect(node)) {
         accept('error', 'Union types must only be used for parameters of annotations, classes, and functions.', {
             node,
@@ -26,26 +26,26 @@ export const unionTypeMustBeUsedInCorrectContext = (node: SdsUnionType, accept: 
     }
 };
 
-const contextIsCorrect = (node: SdsUnionType): boolean => {
-    if (AstUtils.hasContainerOfType(node.$container, isSdsUnionType)) {
+const contextIsCorrect = (node: TslUnionType): boolean => {
+    if (AstUtils.hasContainerOfType(node.$container, isTslUnionType)) {
         return true;
     }
 
     const container = node.$container;
-    if (!isSdsParameter(container)) {
+    if (!isTslParameter(container)) {
         return false;
     }
 
-    const containingCallable = AstUtils.getContainerOfType(container, isSdsCallable);
+    const containingCallable = AstUtils.getContainerOfType(container, isTslCallable);
     return (
         !containingCallable ||
-        isSdsAnnotation(containingCallable) ||
-        isSdsClass(containingCallable) ||
-        isSdsFunction(containingCallable)
+        isTslAnnotation(containingCallable) ||
+        isTslClass(containingCallable) ||
+        isTslFunction(containingCallable)
     );
 };
 
-export const unionTypeMustHaveTypes = (node: SdsUnionType, accept: ValidationAcceptor): void => {
+export const unionTypeMustHaveTypes = (node: TslUnionType, accept: ValidationAcceptor): void => {
     if (isEmpty(getTypeArguments(node.typeArgumentList))) {
         accept('error', 'A union type must have at least one type.', {
             node,
@@ -58,7 +58,7 @@ export const unionTypeMustHaveTypes = (node: SdsUnionType, accept: ValidationAcc
 export const unionTypeShouldNotHaveDuplicateTypes = (services: SafeDsServices) => {
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsUnionType, accept: ValidationAcceptor): void => {
+    return (node: TslUnionType, accept: ValidationAcceptor): void => {
         const typeArguments = getTypeArguments(node.typeArgumentList);
         const knownTypes: Type[] = [];
 

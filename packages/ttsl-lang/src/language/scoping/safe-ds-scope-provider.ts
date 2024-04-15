@@ -10,49 +10,49 @@ import {
     WorkspaceCache,
 } from 'langium';
 import {
-    isSdsAbstractCall,
-    isSdsAnnotationCall,
-    isSdsArgument,
-    isSdsAssignment,
-    isSdsBlock,
-    isSdsCall,
-    isSdsCallable,
-    isSdsClass,
-    isSdsEnum,
-    isSdsImportedDeclaration,
-    isSdsLambda,
-    isSdsMemberAccess,
-    isSdsMemberType,
-    isSdsModule,
-    isSdsNamedType,
-    isSdsNamedTypeDeclaration,
-    isSdsParameter,
-    isSdsPlaceholder,
-    isSdsQualifiedImport,
-    isSdsReference,
-    isSdsSegment,
-    isSdsStatement,
-    isSdsTypeArgument,
-    isSdsTypeParameter,
-    isSdsWildcardImport,
-    isSdsYield,
-    SdsAnnotation,
-    SdsArgument,
-    type SdsCallable,
-    SdsDeclaration,
-    SdsExpression,
-    SdsImportedDeclaration,
-    SdsMemberAccess,
-    SdsMemberType,
-    SdsNamedType,
-    SdsNamedTypeDeclaration,
-    type SdsParameter,
-    SdsPlaceholder,
-    SdsReference,
-    SdsStatement,
-    SdsType,
-    SdsTypeArgument,
-    SdsYield,
+    isTslAbstractCall,
+    isTslAnnotationCall,
+    isTslArgument,
+    isTslAssignment,
+    isTslBlock,
+    isTslCall,
+    isTslCallable,
+    isTslClass,
+    isTslEnum,
+    isTslImportedDeclaration,
+    isTslLambda,
+    isTslMemberAccess,
+    isTslMemberType,
+    isTslModule,
+    isTslNamedType,
+    isTslNamedTypeDeclaration,
+    isTslParameter,
+    isTslPlaceholder,
+    isTslQualifiedImport,
+    isTslReference,
+    isTslSegment,
+    isTslStatement,
+    isTslTypeArgument,
+    isTslTypeParameter,
+    isTslWildcardImport,
+    isTslYield,
+    TslAnnotation,
+    TslArgument,
+    type TslCallable,
+    TslDeclaration,
+    TslExpression,
+    TslImportedDeclaration,
+    TslMemberAccess,
+    TslMemberType,
+    TslNamedType,
+    TslNamedTypeDeclaration,
+    type TslParameter,
+    TslPlaceholder,
+    TslReference,
+    TslStatement,
+    TslType,
+    TslTypeArgument,
+    TslYield,
 } from '../generated/ast.js';
 import { isContainedInOrEqual } from '../helpers/astUtils.js';
 import {
@@ -101,27 +101,27 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
     override getScope(context: ReferenceInfo): Scope {
         const node = context.container;
 
-        if (isSdsAnnotationCall(node) && context.property === 'annotation') {
+        if (isTslAnnotationCall(node) && context.property === 'annotation') {
             return this.getScopeForAnnotationCallAnnotation(context);
-        } else if (isSdsArgument(node) && context.property === 'parameter') {
+        } else if (isTslArgument(node) && context.property === 'parameter') {
             return this.getScopeForArgumentParameter(node);
-        } else if (isSdsImportedDeclaration(node) && context.property === 'declaration') {
+        } else if (isTslImportedDeclaration(node) && context.property === 'declaration') {
             return this.getScopeForImportedDeclarationDeclaration(node);
-        } else if (isSdsNamedType(node) && context.property === 'declaration') {
-            if (isSdsMemberType(node.$container) && node.$containerProperty === 'member') {
+        } else if (isTslNamedType(node) && context.property === 'declaration') {
+            if (isTslMemberType(node.$container) && node.$containerProperty === 'member') {
                 return this.getScopeForMemberTypeMember(node.$container);
             } else {
                 return this.getScopeForNamedTypeDeclaration(node, context);
             }
-        } else if (isSdsReference(node) && context.property === 'target') {
-            if (isSdsMemberAccess(node.$container) && node.$containerProperty === 'member') {
+        } else if (isTslReference(node) && context.property === 'target') {
+            if (isTslMemberAccess(node.$container) && node.$containerProperty === 'member') {
                 return this.getScopeForMemberAccessMember(node.$container);
             } else {
                 return this.getScopeForReferenceTarget(node, context);
             }
-        } else if (isSdsTypeArgument(node) && context.property === 'typeParameter') {
+        } else if (isTslTypeArgument(node) && context.property === 'typeParameter') {
             return this.getScopeForTypeArgumentTypeParameter(node);
-        } else if (isSdsYield(node) && context.property === 'result') {
+        } else if (isTslYield(node) && context.property === 'result') {
             return this.getScopeForYieldResult(node);
         } else {
             return super.getScope(context);
@@ -129,11 +129,11 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
     }
 
     private getScopeForAnnotationCallAnnotation(context: ReferenceInfo) {
-        return this.coreDeclarations(SdsAnnotation, super.getScope(context));
+        return this.coreDeclarations(TslAnnotation, super.getScope(context));
     }
 
-    private getScopeForArgumentParameter(node: SdsArgument): Scope {
-        const containingAbstractCall = AstUtils.getContainerOfType(node, isSdsAbstractCall);
+    private getScopeForArgumentParameter(node: TslArgument): Scope {
+        const containingAbstractCall = AstUtils.getContainerOfType(node, isTslAbstractCall);
         const callable = this.nodeMapper.callToCallable(containingAbstractCall);
         if (!callable) {
             return EMPTY_SCOPE;
@@ -143,32 +143,32 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
         return this.createScopeForNodes(parameters);
     }
 
-    private getScopeForImportedDeclarationDeclaration(node: SdsImportedDeclaration): Scope {
+    private getScopeForImportedDeclarationDeclaration(node: TslImportedDeclaration): Scope {
         const ownPackageName = getPackageName(node);
 
-        const containingQualifiedImport = AstUtils.getContainerOfType(node, isSdsQualifiedImport);
+        const containingQualifiedImport = AstUtils.getContainerOfType(node, isTslQualifiedImport);
         if (!containingQualifiedImport) {
             /* c8 ignore next 2 */
             return EMPTY_SCOPE;
         }
 
         const declarationsInPackage = this.packageManager.getDeclarationsInPackage(containingQualifiedImport.package, {
-            nodeType: SdsDeclaration,
+            nodeType: TslDeclaration,
             hideInternal: containingQualifiedImport.package !== ownPackageName,
         });
         return this.createScope(declarationsInPackage);
     }
 
-    private getScopeForMemberTypeMember(node: SdsMemberType): Scope {
+    private getScopeForMemberTypeMember(node: TslMemberType): Scope {
         const declaration = this.getUniqueReferencedDeclarationForType(node.receiver);
         if (!declaration) {
             return EMPTY_SCOPE;
         }
 
-        if (isSdsClass(declaration)) {
+        if (isTslClass(declaration)) {
             const members = declaration.body?.members ?? [];
-            return this.createScopeForNodes(members.filter(isSdsNamedTypeDeclaration));
-        } else if (isSdsEnum(declaration)) {
+            return this.createScopeForNodes(members.filter(isTslNamedTypeDeclaration));
+        } else if (isTslEnum(declaration)) {
             const variants = declaration.body?.variants ?? [];
             return this.createScopeForNodes(variants);
         } else {
@@ -183,22 +183,22 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
      * @param node The type to get the referenced declaration for.
      * @returns The referenced declaration or undefined.
      */
-    private getUniqueReferencedDeclarationForType(node: SdsType): SdsNamedTypeDeclaration | undefined {
-        if (isSdsNamedType(node)) {
+    private getUniqueReferencedDeclarationForType(node: TslType): TslNamedTypeDeclaration | undefined {
+        if (isTslNamedType(node)) {
             return node.declaration?.ref;
-        } else if (isSdsMemberType(node)) {
+        } else if (isTslMemberType(node)) {
             return node.member?.declaration?.ref;
         } else {
             return undefined;
         }
     }
 
-    private getScopeForNamedTypeDeclaration(node: SdsNamedType, context: ReferenceInfo): Scope {
+    private getScopeForNamedTypeDeclaration(node: TslNamedType, context: ReferenceInfo): Scope {
         // Default scope
-        let currentScope = this.coreDeclarations(SdsNamedTypeDeclaration, super.getScope(context));
+        let currentScope = this.coreDeclarations(TslNamedTypeDeclaration, super.getScope(context));
 
         // Type parameters (up to the containing type parameter)
-        const containingTypeParameter = AstUtils.getContainerOfType(node, isSdsTypeParameter);
+        const containingTypeParameter = AstUtils.getContainerOfType(node, isTslTypeParameter);
         if (containingTypeParameter) {
             const allTypeParameters = getTypeParameters(containingTypeParameter?.$container);
             const priorTypeParameters = allTypeParameters.slice(0, containingTypeParameter.$containerIndex);
@@ -208,21 +208,21 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
         return currentScope;
     }
 
-    private getScopeForMemberAccessMember(node: SdsMemberAccess): Scope {
+    private getScopeForMemberAccessMember(node: TslMemberAccess): Scope {
         // Static access
         const declaration = this.getUniqueReferencedDeclarationForExpression(node.receiver);
-        if (isSdsClass(declaration)) {
+        if (isTslClass(declaration)) {
             const ownStaticMembers = getClassMembers(declaration).filter(isStatic);
             const superclassStaticMembers = this.classHierarchy.streamSuperclassMembers(declaration).filter(isStatic);
 
             return this.createScopeForNodes(ownStaticMembers, this.createScopeForNodes(superclassStaticMembers));
-        } else if (isSdsEnum(declaration)) {
+        } else if (isTslEnum(declaration)) {
             return this.createScopeForNodes(getEnumVariants(declaration));
         }
 
         // Call results
         let resultScope = EMPTY_SCOPE;
-        if (isSdsCall(node.receiver)) {
+        if (isTslCall(node.receiver)) {
             const callable = this.nodeMapper.callToCallable(node.receiver);
             const results = getAbstractResults(callable);
 
@@ -268,19 +268,19 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
      * @param node The expression to get the referenced declaration for.
      * @returns The referenced declaration or undefined.
      */
-    private getUniqueReferencedDeclarationForExpression(node: SdsExpression): SdsDeclaration | undefined {
-        if (isSdsReference(node)) {
+    private getUniqueReferencedDeclarationForExpression(node: TslExpression): TslDeclaration | undefined {
+        if (isTslReference(node)) {
             return node.target.ref;
-        } else if (isSdsMemberAccess(node)) {
+        } else if (isTslMemberAccess(node)) {
             return node.member?.target?.ref;
         } else {
             return undefined;
         }
     }
 
-    private getScopeForReferenceTarget(node: SdsReference, context: ReferenceInfo): Scope {
+    private getScopeForReferenceTarget(node: TslReference, context: ReferenceInfo): Scope {
         // Declarations in other files
-        let currentScope = this.getGlobalScope(SdsDeclaration, context);
+        let currentScope = this.getGlobalScope(TslDeclaration, context);
 
         // Declarations in this file
         currentScope = this.globalDeclarationsInSameFile(node, currentScope);
@@ -292,7 +292,7 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
         currentScope = this.localDeclarations(node, currentScope);
 
         // Core declarations
-        return this.coreDeclarations(SdsDeclaration, currentScope);
+        return this.coreDeclarations(TslDeclaration, currentScope);
     }
 
     private containingDeclarations(node: AstNode, outerScope: Scope): Scope {
@@ -300,7 +300,7 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
 
         // Cannot reference the target of an annotation call from inside the annotation call
         let start: AstNode | undefined;
-        const containingAnnotationCall = AstUtils.getContainerOfType(node, isSdsAnnotationCall);
+        const containingAnnotationCall = AstUtils.getContainerOfType(node, isTslAnnotationCall);
         if (containingAnnotationCall) {
             start = getAnnotationCallTarget(containingAnnotationCall)?.$container;
         } else {
@@ -308,17 +308,17 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
         }
 
         // Only containing classes, enums, and enum variants can be referenced
-        let current = AstUtils.getContainerOfType(start, isSdsNamedTypeDeclaration);
+        let current = AstUtils.getContainerOfType(start, isTslNamedTypeDeclaration);
         while (current) {
             result.push(current);
-            current = AstUtils.getContainerOfType(current.$container, isSdsNamedTypeDeclaration);
+            current = AstUtils.getContainerOfType(current.$container, isTslNamedTypeDeclaration);
         }
 
         return this.createScopeForNodes(result, outerScope);
     }
 
     private globalDeclarationsInSameFile(node: AstNode, outerScope: Scope): Scope {
-        const module = AstUtils.getContainerOfType(node, isSdsModule);
+        const module = AstUtils.getContainerOfType(node, isTslModule);
         if (!module) {
             /* c8 ignore next 2 */
             return outerScope;
@@ -334,12 +334,12 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
     }
 
     private localDeclarations(node: AstNode, outerScope: Scope): Scope {
-        const containingCallable = AstUtils.getContainerOfType(node.$container, isSdsCallable);
+        const containingCallable = AstUtils.getContainerOfType(node.$container, isTslCallable);
 
         // Parameters (up to the containing parameter)
-        const containingParameter = AstUtils.getContainerOfType(node, isSdsParameter);
+        const containingParameter = AstUtils.getContainerOfType(node, isTslParameter);
 
-        let parameters: Iterable<SdsParameter>;
+        let parameters: Iterable<TslParameter>;
         if (containingCallable && containingParameter) {
             parameters = this.parametersUpToParameter(containingCallable, containingParameter);
         } else {
@@ -347,9 +347,9 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
         }
 
         // Placeholders up to the containing statement
-        const containingStatement = AstUtils.getContainerOfType(node.$container, isSdsStatement);
+        const containingStatement = AstUtils.getContainerOfType(node.$container, isTslStatement);
 
-        let placeholders: Iterable<SdsPlaceholder>;
+        let placeholders: Iterable<TslPlaceholder>;
         if (!containingCallable || isContainedInOrEqual(containingStatement, containingCallable)) {
             placeholders = this.placeholdersUpToStatement(containingStatement);
         } else {
@@ -361,7 +361,7 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
         const localDeclarations = [...parameters, ...placeholders];
 
         // Lambdas can be nested
-        if (isSdsLambda(containingCallable)) {
+        if (isTslLambda(containingCallable)) {
             return this.createScopeForNodes(localDeclarations, this.localDeclarations(containingCallable, outerScope));
         } else {
             return this.createScopeForNodes(localDeclarations, outerScope);
@@ -369,9 +369,9 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
     }
 
     private *parametersUpToParameter(
-        callable: SdsCallable,
-        parameter: SdsParameter,
-    ): Generator<SdsParameter, void, undefined> {
+        callable: TslCallable,
+        parameter: TslParameter,
+    ): Generator<TslParameter, void, undefined> {
         for (const current of getParameters(callable)) {
             if (current === parameter) {
                 return;
@@ -382,33 +382,33 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
     }
 
     private *placeholdersUpToStatement(
-        statement: SdsStatement | undefined,
-    ): Generator<SdsPlaceholder, void, undefined> {
+        statement: TslStatement | undefined,
+    ): Generator<TslPlaceholder, void, undefined> {
         if (!statement) {
             return;
         }
 
-        const containingBlock = AstUtils.getContainerOfType(statement, isSdsBlock);
+        const containingBlock = AstUtils.getContainerOfType(statement, isTslBlock);
         for (const current of getStatements(containingBlock)) {
             if (current === statement) {
                 return;
             }
 
-            if (isSdsAssignment(current)) {
-                yield* getAssignees(current).filter(isSdsPlaceholder);
+            if (isTslAssignment(current)) {
+                yield* getAssignees(current).filter(isTslPlaceholder);
             }
         }
     }
 
-    private getScopeForTypeArgumentTypeParameter(node: SdsTypeArgument): Scope {
-        const containingNamedType = AstUtils.getContainerOfType(node, isSdsNamedType);
+    private getScopeForTypeArgumentTypeParameter(node: TslTypeArgument): Scope {
+        const containingNamedType = AstUtils.getContainerOfType(node, isTslNamedType);
         if (!containingNamedType) {
             /* c8 ignore next 2 */
             return EMPTY_SCOPE;
         }
 
         const namedTypeDeclaration = containingNamedType.declaration?.ref;
-        if (isSdsClass(namedTypeDeclaration)) {
+        if (isTslClass(namedTypeDeclaration)) {
             const typeParameters = getTypeParameters(namedTypeDeclaration.typeParameterList);
             return this.createScopeForNodes(typeParameters);
         } else {
@@ -416,8 +416,8 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
         }
     }
 
-    private getScopeForYieldResult(node: SdsYield): Scope {
-        const containingSegment = AstUtils.getContainerOfType(node, isSdsSegment);
+    private getScopeForYieldResult(node: TslYield): Scope {
+        const containingSegment = AstUtils.getContainerOfType(node, isTslSegment);
         if (!containingSegment) {
             return EMPTY_SCOPE;
         }
@@ -465,12 +465,12 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
     }
 
     private explicitlyImportedDeclarations(referenceType: string, node: AstNode): AstNodeDescription[] {
-        const containingModule = AstUtils.getContainerOfType(node, isSdsModule);
+        const containingModule = AstUtils.getContainerOfType(node, isTslModule);
         const imports = getImports(containingModule);
 
         const result: AstNodeDescription[] = [];
         for (const imp of imports) {
-            if (isSdsQualifiedImport(imp)) {
+            if (isTslQualifiedImport(imp)) {
                 for (const importedDeclaration of getImportedDeclarations(imp)) {
                     const description = importedDeclaration.declaration?.$nodeDescription;
                     if (!description || !this.astReflection.isSubtype(description.type, referenceType)) {
@@ -483,7 +483,7 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
                         result.push(description);
                     }
                 }
-            } else if (isSdsWildcardImport(imp)) {
+            } else if (isTslWildcardImport(imp)) {
                 const declarationsInPackage = this.packageManager.getDeclarationsInPackage(imp.package, {
                     nodeType: referenceType,
                     hideInternal: true,

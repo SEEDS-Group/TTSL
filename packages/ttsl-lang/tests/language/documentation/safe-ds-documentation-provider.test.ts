@@ -2,11 +2,11 @@ import { AstNode, EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
 import { normalizeLineBreaks } from '../../../src/helpers/strings.js';
 import {
-    isSdsAnnotation,
-    isSdsFunction,
-    isSdsParameter,
-    isSdsResult,
-    isSdsTypeParameter,
+    isTslAnnotation,
+    isTslFunction,
+    isTslParameter,
+    isTslResult,
+    isTslTypeParameter,
 } from '../../../src/language/generated/ast.js';
 import { createSafeDsServices } from '../../../src/language/index.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
@@ -26,7 +26,7 @@ describe('SafeDsDocumentationProvider', () => {
                  */
                 annotation MyAnnotation
             `,
-            predicate: isSdsAnnotation,
+            predicate: isTslAnnotation,
             expectedDocumentation: testDocumentation,
         },
         {
@@ -37,7 +37,7 @@ describe('SafeDsDocumentationProvider', () => {
                  */
                 fun myFunction(param: String)
             `,
-            predicate: isSdsParameter,
+            predicate: isTslParameter,
             expectedDocumentation: testDocumentation,
         },
         {
@@ -49,7 +49,7 @@ describe('SafeDsDocumentationProvider', () => {
                  */
                 fun myFunction(param: String)
             `,
-            predicate: isSdsParameter,
+            predicate: isTslParameter,
             expectedDocumentation: testDocumentation,
         },
         {
@@ -60,7 +60,7 @@ describe('SafeDsDocumentationProvider', () => {
                  */
                 fun myFunction(param2: String)
             `,
-            predicate: isSdsParameter,
+            predicate: isTslParameter,
             expectedDocumentation: undefined,
         },
         {
@@ -68,7 +68,7 @@ describe('SafeDsDocumentationProvider', () => {
             code: `
                 fun myFunction(p: Int)
             `,
-            predicate: isSdsParameter,
+            predicate: isTslParameter,
             expectedDocumentation: undefined,
         },
         {
@@ -79,7 +79,7 @@ describe('SafeDsDocumentationProvider', () => {
                  */
                 fun myFunction() -> (res: String)
             `,
-            predicate: isSdsResult,
+            predicate: isTslResult,
             expectedDocumentation: testDocumentation,
         },
         {
@@ -91,7 +91,7 @@ describe('SafeDsDocumentationProvider', () => {
                  */
                 fun myFunction() -> (res: String)
             `,
-            predicate: isSdsResult,
+            predicate: isTslResult,
             expectedDocumentation: testDocumentation,
         },
         {
@@ -102,7 +102,7 @@ describe('SafeDsDocumentationProvider', () => {
                  */
                 fun myFunction() -> (res2: String)
             `,
-            predicate: isSdsResult,
+            predicate: isTslResult,
             expectedDocumentation: undefined,
         },
         {
@@ -110,7 +110,7 @@ describe('SafeDsDocumentationProvider', () => {
             code: `
                 fun myFunction() -> r: Int
             `,
-            predicate: isSdsResult,
+            predicate: isTslResult,
             expectedDocumentation: undefined,
         },
         {
@@ -122,7 +122,7 @@ describe('SafeDsDocumentationProvider', () => {
                  */
                 class MyClass<T>
             `,
-            predicate: isSdsTypeParameter,
+            predicate: isTslTypeParameter,
             expectedDocumentation: testDocumentation,
         },
         {
@@ -134,7 +134,7 @@ describe('SafeDsDocumentationProvider', () => {
                  */
                 class MyClass<T>
             `,
-            predicate: isSdsTypeParameter,
+            predicate: isTslTypeParameter,
             expectedDocumentation: testDocumentation,
         },
         {
@@ -146,7 +146,7 @@ describe('SafeDsDocumentationProvider', () => {
                  */
                 class MyClass<T2>
             `,
-            predicate: isSdsTypeParameter,
+            predicate: isTslTypeParameter,
             expectedDocumentation: undefined,
         },
         {
@@ -154,7 +154,7 @@ describe('SafeDsDocumentationProvider', () => {
             code: `
                 fun myFunction<T>()
             `,
-            predicate: isSdsTypeParameter,
+            predicate: isTslTypeParameter,
             expectedDocumentation: undefined,
         },
         {
@@ -170,7 +170,7 @@ describe('SafeDsDocumentationProvider', () => {
                  */
                 fun myFunction<T>(param: String) -> result: String
             `,
-            predicate: isSdsFunction,
+            predicate: isTslFunction,
             expectedDocumentation: expandToString`
                 Lorem ipsum.
 
@@ -201,7 +201,7 @@ describe('SafeDsDocumentationProvider', () => {
 
             fun myFunction2()
         `;
-        const node = await getNodeOfType(services, code, isSdsFunction);
+        const node = await getNodeOfType(services, code, isTslFunction);
         expect(documentationProvider.getDocumentation(node)).toMatch(/\[myFunction2\]\(.*\)/u);
     });
 });

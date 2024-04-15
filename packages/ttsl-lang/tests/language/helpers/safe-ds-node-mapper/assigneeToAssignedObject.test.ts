@@ -1,10 +1,10 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
 import {
-    isSdsAbstractResult,
-    isSdsAssignment,
-    isSdsPlaceholder,
-    SdsAssignee,
+    isTslAbstractResult,
+    isTslAssignment,
+    isTslPlaceholder,
+    TslAssignee,
 } from '../../../../src/language/generated/ast.js';
 import { getAssignees } from '../../../../src/language/helpers/nodeProperties.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
@@ -48,7 +48,7 @@ describe('SafeDsNodeMapper', () => {
                 `,
             },
         ])('should return undefined if nothing is assigned ($name)', async ({ code }) => {
-            const placeholder = await getNodeOfType(services, code, isSdsPlaceholder);
+            const placeholder = await getNodeOfType(services, code, isTslPlaceholder);
             expect(nodeMapper.assigneeToAssignedObject(placeholder)?.$type).toBeUndefined();
         });
 
@@ -59,8 +59,8 @@ describe('SafeDsNodeMapper', () => {
                 };
             `;
 
-            const placeholder = await getNodeOfType(services, code, isSdsPlaceholder);
-            expect(nodeMapper.assigneeToAssignedObject(placeholder)?.$type).toBe('SdsInt');
+            const placeholder = await getNodeOfType(services, code, isTslPlaceholder);
+            expect(nodeMapper.assigneeToAssignedObject(placeholder)?.$type).toBe('TslInt');
         });
 
         it('should return the entire RHS of an assignment if it is a call of a class', async () => {
@@ -71,8 +71,8 @@ describe('SafeDsNodeMapper', () => {
                 };
             `;
 
-            const placeholder = await getNodeOfType(services, code, isSdsPlaceholder);
-            expect(nodeMapper.assigneeToAssignedObject(placeholder)?.$type).toBe('SdsCall');
+            const placeholder = await getNodeOfType(services, code, isTslPlaceholder);
+            expect(nodeMapper.assigneeToAssignedObject(placeholder)?.$type).toBe('TslCall');
         });
 
         it('should return the entire RHS of an assignment if it is a call of an enum variant', async () => {
@@ -85,8 +85,8 @@ describe('SafeDsNodeMapper', () => {
                 };
             `;
 
-            const placeholder = await getNodeOfType(services, code, isSdsPlaceholder);
-            expect(nodeMapper.assigneeToAssignedObject(placeholder)?.$type).toBe('SdsCall');
+            const placeholder = await getNodeOfType(services, code, isTslPlaceholder);
+            expect(nodeMapper.assigneeToAssignedObject(placeholder)?.$type).toBe('TslCall');
         });
 
         it('should return the entire RHS of an assignment if it is not a call (unresolved reference)', async () => {
@@ -96,8 +96,8 @@ describe('SafeDsNodeMapper', () => {
                 };
             `;
 
-            const placeholder = await getNodeOfType(services, code, isSdsPlaceholder);
-            expect(nodeMapper.assigneeToAssignedObject(placeholder)?.$type).toBe('SdsReference');
+            const placeholder = await getNodeOfType(services, code, isTslPlaceholder);
+            expect(nodeMapper.assigneeToAssignedObject(placeholder)?.$type).toBe('TslReference');
         });
 
         it.each([
@@ -173,17 +173,17 @@ describe('SafeDsNodeMapper', () => {
         ])(
             'should return the corresponding result if the RHS is a call of a $name',
             async ({ code, expected, index = 0 }) => {
-                const assignment = await getNodeOfType(services, code, isSdsAssignment, index);
+                const assignment = await getNodeOfType(services, code, isTslAssignment, index);
                 const abstractResultNames = getAssignees(assignment).map(abstractResultNameOrNull);
                 expect(abstractResultNames).toStrictEqual(expected);
             },
         );
 
-        const abstractResultNameOrNull = (node: SdsAssignee): string | undefined => {
+        const abstractResultNameOrNull = (node: TslAssignee): string | undefined => {
             const assignedObject = nodeMapper.assigneeToAssignedObject(node);
             if (!assignedObject) {
                 return undefined;
-            } else if (isSdsAbstractResult(assignedObject)) {
+            } else if (isTslAbstractResult(assignedObject)) {
                 return assignedObject.name;
             } else {
                 return assignedObject.$cstNode?.text;

@@ -1,9 +1,9 @@
 import { SafeDsServices } from '../safe-ds-module.js';
-import { isSdsModule, SdsModuleMember } from '../generated/ast.js';
+import { isTslModule, TslModuleMember } from '../generated/ast.js';
 import { LangiumDocuments, URI, WorkspaceCache } from 'langium';
 import { getModuleMembers } from '../helpers/nodeProperties.js';
 
-export abstract class SafeDsModuleMembers<T extends SdsModuleMember> {
+export abstract class SafeDsModuleMembers<T extends TslModuleMember> {
     private readonly langiumDocuments: LangiumDocuments;
     private readonly cache: WorkspaceCache<string, T>;
 
@@ -26,7 +26,7 @@ export abstract class SafeDsModuleMembers<T extends SdsModuleMember> {
         }
 
         const root = document.parseResult.value;
-        if (!isSdsModule(root)) {
+        if (!isTslModule(root)) {
             /* c8 ignore next 2 */
             return undefined;
         }

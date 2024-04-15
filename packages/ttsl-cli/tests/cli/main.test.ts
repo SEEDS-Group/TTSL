@@ -63,25 +63,25 @@ describe('safe-ds', () => {
         });
 
         it('should show not show errors in correct files', () => {
-            const process = spawnCheckProcess([], ['correct.sdstest']);
+            const process = spawnCheckProcess([], ['correct.Tsltest']);
             expect(process.stdout.toString()).toContain('No errors found.');
             expect(process.status).toBe(ExitCode.Success);
         });
 
         it('should handle references to builtins', () => {
-            const process = spawnCheckProcess([], ['references builtins.sdstest']);
+            const process = spawnCheckProcess([], ['references builtins.Tsltest']);
             expect(process.stdout.toString()).toContain('No errors found.');
             expect(process.status).toBe(ExitCode.Success);
         });
 
         it('should treat warnings as errors in strict mode', () => {
-            const process = spawnCheckProcess(['-s'], ['contains warnings.sdstest']);
+            const process = spawnCheckProcess(['-s'], ['contains warnings.Tsltest']);
             expect(process.stderr.toString()).toMatch(/Found \d+ errors?\./u);
             expect(process.status).toBe(ExitCode.FileHasErrors);
         });
 
         it('should show an error if the file does not exist', () => {
-            const process = spawnCheckProcess([], ['missing.sdstest']);
+            const process = spawnCheckProcess([], ['missing.Tsltest']);
             expect(process.stderr.toString()).toMatch(/Path .* does not exist\./u);
             expect(process.status).toBe(ExitCode.MissingPath);
         });
@@ -121,13 +121,13 @@ describe('safe-ds', () => {
         });
 
         it('should show not show errors in correct files', () => {
-            const process = spawnFormatProcess([], ['correct.sdstest']);
+            const process = spawnFormatProcess([], ['correct.Tsltest']);
             expect(process.stdout.toString()).toContain('Safe-DS code formatted successfully.');
             expect(process.status).toBe(ExitCode.Success);
         });
 
         it('should show an error if the file does not exist', () => {
-            const process = spawnFormatProcess([], ['missing.sdstest']);
+            const process = spawnFormatProcess([], ['missing.Tsltest']);
             expect(process.stderr.toString()).toMatch(/Path .* does not exist\./u);
             expect(process.status).toBe(ExitCode.MissingPath);
         });
@@ -165,19 +165,19 @@ describe('safe-ds', () => {
         });
 
         it('should generate Python code', () => {
-            const process = spawnGenerateProcess([], ['correct.sdstest']);
+            const process = spawnGenerateProcess([], ['correct.Tsltest']);
             expect(process.stdout.toString()).toContain('Python code generated successfully.');
             expect(process.status).toBe(ExitCode.Success);
         });
 
         it('should generate Python code (Safe-DS code references builtins)', () => {
-            const process = spawnGenerateProcess([], ['references builtins.sdstest']);
+            const process = spawnGenerateProcess([], ['references builtins.Tsltest']);
             expect(process.stdout.toString()).toContain('Python code generated successfully.');
             expect(process.status).toBe(ExitCode.Success);
         });
 
         it('should show an error if the file does not exist', () => {
-            const process = spawnGenerateProcess([], ['missing.sdstest']);
+            const process = spawnGenerateProcess([], ['missing.Tsltest']);
             expect(process.stderr.toString()).toMatch(/Path .* does not exist./u);
             expect(process.status).toBe(ExitCode.MissingPath);
         });
@@ -191,7 +191,7 @@ describe('safe-ds', () => {
         it('should show an error if a Safe-DS file has errors', () => {
             const process = spawnGenerateProcess([], ['.']);
             expect(process.stderr.toString()).toContain(
-                "Could not resolve reference to SdsNamedTypeDeclaration named 'Unresolved'",
+                "Could not resolve reference to TslNamedTypeDeclaration named 'Unresolved'",
             );
             expect(process.status).toBe(ExitCode.FileHasErrors);
         });

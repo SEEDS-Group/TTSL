@@ -9,13 +9,13 @@ import {
     parseJSDoc,
 } from 'langium';
 import {
-    isSdsCallable,
-    isSdsParameter,
-    isSdsResult,
-    isSdsTypeParameter,
-    SdsParameter,
-    SdsResult,
-    SdsTypeParameter,
+    isTslCallable,
+    isTslParameter,
+    isTslResult,
+    isTslTypeParameter,
+    TslParameter,
+    TslResult,
+    TslTypeParameter,
 } from '../generated/ast.js';
 
 const PARAM_TAG = 'param';
@@ -24,8 +24,8 @@ const TYPE_PARAM_TAG = 'typeParam';
 
 export class SafeDsDocumentationProvider extends JSDocDocumentationProvider {
     override getDocumentation(node: AstNode): string | undefined {
-        if (isSdsParameter(node) || isSdsResult(node) || isSdsTypeParameter(node)) {
-            const containingCallable = AstUtils.getContainerOfType(node, isSdsCallable);
+        if (isTslParameter(node) || isTslResult(node) || isTslTypeParameter(node)) {
+            const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
             /* c8 ignore start */
             if (!containingCallable) {
                 return undefined;
@@ -64,7 +64,7 @@ export class SafeDsDocumentationProvider extends JSDocDocumentationProvider {
 
     private getMatchingTagContent(
         comment: JSDocComment,
-        node: SdsParameter | SdsResult | SdsTypeParameter,
+        node: TslParameter | TslResult | TslTypeParameter,
     ): string | undefined {
         const name = node.name;
         /* c8 ignore start */
@@ -83,10 +83,10 @@ export class SafeDsDocumentationProvider extends JSDocDocumentationProvider {
             ?.match(matchRegex)?.groups?.content;
     }
 
-    private getTagName(node: SdsParameter | SdsResult | SdsTypeParameter): string {
-        if (isSdsParameter(node)) {
+    private getTagName(node: TslParameter | TslResult | TslTypeParameter): string {
+        if (isTslParameter(node)) {
             return PARAM_TAG;
-        } else if (isSdsResult(node)) {
+        } else if (isTslResult(node)) {
             return RESULT_TAG;
         } else {
             return TYPE_PARAM_TAG;

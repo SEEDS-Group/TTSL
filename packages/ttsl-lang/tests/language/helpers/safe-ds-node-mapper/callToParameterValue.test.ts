@@ -1,11 +1,11 @@
 import { EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
 import {
-    isSdsModule,
-    SdsAbstractCall,
-    SdsFunction,
-    SdsParameter,
-    SdsPipeline,
+    isTslModule,
+    TslAbstractCall,
+    TslFunction,
+    TslParameter,
+    TslPipeline,
 } from '../../../../src/language/generated/ast.js';
 import { createSafeDsServices, getModuleMembers, getParameters } from '../../../../src/language/index.js';
 import { Constant, IntConstant } from '../../../../src/language/partialEvaluation/model.js';
@@ -25,11 +25,11 @@ const code = `
         unresolved();
     }
 `;
-const module = await getNodeOfType(services, code, isSdsModule);
-const myFunction = getModuleMembers(module)[0] as SdsFunction;
+const module = await getNodeOfType(services, code, isTslModule);
+const myFunction = getModuleMembers(module)[0] as TslFunction;
 const p1 = getParameters(myFunction)[0]!;
 const p2 = getParameters(myFunction)[1]!;
-const myPipeline = module?.members[1] as SdsPipeline;
+const myPipeline = module?.members[1] as TslPipeline;
 const call1 = callGraphComputer.getAllContainedCalls(myPipeline)[0]!;
 const call2 = callGraphComputer.getAllContainedCalls(myPipeline)[1]!;
 const call3 = callGraphComputer.getAllContainedCalls(myPipeline)[2]!;
@@ -154,12 +154,12 @@ interface CallToParameterValueTest {
     /**
      * The abstract call to test.
      */
-    call: SdsAbstractCall | undefined;
+    call: TslAbstractCall | undefined;
 
     /**
      * The parameter to test.
      */
-    parameter: SdsParameter | string | undefined;
+    parameter: TslParameter | string | undefined;
 
     /**
      * The expected result.

@@ -1,6 +1,6 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, it } from 'vitest';
-import { isSdsClass, isSdsModule, SdsTypeParameter } from '../../../../src/language/generated/ast.js';
+import { isTslClass, isTslModule, TslTypeParameter } from '../../../../src/language/generated/ast.js';
 import { createSafeDsServices, getModuleMembers, getTypeParameters } from '../../../../src/language/index.js';
 import { Type, UnknownType } from '../../../../src/language/typing/model.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
@@ -19,9 +19,9 @@ const code = `
         UnresolvedBounds sub unknown,
     >
 `;
-const module = await getNodeOfType(services, code, isSdsModule);
+const module = await getNodeOfType(services, code, isTslModule);
 
-const classes = getModuleMembers(module).filter(isSdsClass);
+const classes = getModuleMembers(module).filter(isTslClass);
 const typeParameters = getTypeParameters(classes[0]);
 
 const unbounded = typeParameters[0]!;
@@ -67,7 +67,7 @@ interface ComputeUpperBoundTest {
     /**
      * The type parameter to get the bound for.
      */
-    typeParameter: SdsTypeParameter;
+    typeParameter: TslTypeParameter;
 
     /**
      * The expected bound
