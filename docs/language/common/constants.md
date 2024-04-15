@@ -29,6 +29,6 @@ The documentation for the [validity of constants][constantValidity] can be found
 [types]: types.md
 [Expressions]: expressions.md
 [calls]: expressions.md#calls
-[Visibility]: visibility.md
+[Visibility]: modifier.md#visibility
 [Validity]: validity.md
 [constantValidity]: validity.md#constants
