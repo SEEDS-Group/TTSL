@@ -26,7 +26,7 @@ interface TslLocalVariable extends TslDeclaration {
 }
 
 TslLocalVariable returns TslLocalVariable:
-    'var' name=String ':' type=TslType groupedBy?=TslGroupedBy? ('=' value=TslExpression)?
+    'var' name=ID ':' type=TslType (groupedBy=TslGroupedBy)? ('=' value=TslExpression)?
 ;
 
 // -----------------------------------------------------------------------------
@@ -636,7 +636,17 @@ TslForeachLoop returns TslForeachLoop:
 interface TslExpression extends TslObject {}
 
 TslExpression returns TslExpression:
-    TslLambda | TslOrExpression
+    TslLambda | TslOrExpression | TslAggregation
+;
+
+interface TslAggregation extends TslExpression{
+    function: @TslFunction
+    data: @TslData[]
+    groupedBy: TslGroupedBy
+}
+
+TslAggregation returns TslAggregation:
+    'aggregate' function=[TslFunction:ID] 'of' data+=[TslData:ID] (',' data+=[TslData:ID])* groupedBy=TslGroupedBy
 ;
 
 interface TslLambda extends TslCallable, TslExpression {}
@@ -998,12 +1008,6 @@ TslTemplateStringEnd returns TslExpression:
     {TslTemplateStringEnd}
     value=TEMPLATE_STRING_END
 ;
-
-
-// -----------------------------------------------------------------------------
-// Aggregation
-// -----------------------------------------------------------------------------
-
 
 // -----------------------------------------------------------------------------
 // Modifier
