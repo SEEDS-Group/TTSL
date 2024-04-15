@@ -185,7 +185,7 @@ function f(x: Int = 1): Int {
 }
 ```
 
-This [function][functions] has a single [parameter][parameters] `#!ttsl x`, which must have [type][types] `#!ttsl Int`, and has the default value `#!sds 1`. In case of an [Expression Statement][ExpressionStatement] the call has to end with a `#!ttsl ;`. Since it has a default value, we are not required to specify a value when we call this [function][functions]. The most basic legal call of the [function][functions] is, thus, this:
+This [function][functions] has a single [parameter][parameters] `#!ttsl x`, which must have [type][types] `#!ttsl Int`, and has the default value `#!ttsl 1`. In case of an [Expression Statement][ExpressionStatement] the call has to end with a `#!ttsl ;`. Since it has a default value, we are not required to specify a value when we call this [function][functions]. The most basic legal call of the [function][functions] is, thus, this:
 
 ```ttsl
 y = f()
@@ -332,7 +332,7 @@ function f() {
 }
 ```
 
-This is a [function][functions] `#!ttsl f`, which has another [function][functions] in the functionbody called `#!sds drawAsGraph`.
+This is a [function][functions] `#!ttsl f`, which has another [function][functions] in the functionbody called `#!Tsl drawAsGraph`.
 
 ## Type Casts
 

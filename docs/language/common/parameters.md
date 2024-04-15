@@ -15,7 +15,7 @@ requiredParameter: Int
 
 Here are the pieces of syntax:
 
-- The name of the parameter (here `#!ttsl requiredParameter`). This can be any combination of upper- and lowercase letters, underscores, and numbers, as long as it does not start with a number. However, we suggest to use `#!sds lowerCamelCase` for the names of parameters.
+- The name of the parameter (here `#!ttsl requiredParameter`). This can be any combination of upper- and lowercase letters, underscores, and numbers, as long as it does not start with a number. However, we suggest to use `#!Tsl lowerCamelCase` for the names of parameters.
 - A colon.
 - The [type][types] of the parameter (here `#!ttsl Int`).
 
@@ -29,7 +29,7 @@ optionalParameter: Int = 1
 
 These are the syntactic elements:
 
-- The name of the parameter (here `#!ttsl optionalParameter`). This can be any combination of upper- and lowercase letters, underscores, and numbers, as long as it does not start with a number. However, we suggest to use `#!sds lowerCamelCase` for the names of parameters.
+- The name of the parameter (here `#!ttsl optionalParameter`). This can be any combination of upper- and lowercase letters, underscores, and numbers, as long as it does not start with a number. However, we suggest to use `#!Tsl lowerCamelCase` for the names of parameters.
 - A colon.
 - The [type][types] of the parameter (here `#!ttsl Int`).
 - An equals sign.
