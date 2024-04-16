@@ -4,7 +4,7 @@ Comments are mostly used to add explanations to the code for future readers — 
 used to "comment out" code that you want to keep but that should not be run right now, since comments are ignored by the
 compiler.
 
-TTSL has three types of comments, namely
+TTSL has two types of comments, namely
 
 * [_line comments_](#line-comments), which end at a linebreak, and
 * [_block comments_](#block-comments), which can cover multiple lines.

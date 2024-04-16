@@ -1,6 +1,6 @@
 # Validity
 
-The validity of [constants](#constants), [functions](#functions) and [data](#data) show in which timeframe they are valid. This is especially important when working in specific time periods. Dates always have to be in [ISO Syntax][date syntax] (year-month-day).
+The validity of [constants](#constants), [functions](#functions) and [data](#data) show in which timeframe they are valid. This is especially important when working in specific time periods. Dates always have to be in [ISO Syntax][date syntax] (yyyy-mm-dd).
 
 It can be definied in the following ways:
 
@@ -17,7 +17,7 @@ The constant is valid from 2009-01-01 to 2011-01-01.
 
 ## Functions
 
-<!-- 
+<!--
 TODO: Hyperlinks updaten
 -->
 
