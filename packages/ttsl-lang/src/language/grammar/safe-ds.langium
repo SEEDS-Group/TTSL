@@ -312,7 +312,7 @@ interface TslFunction extends TslCallable, TslClassMember, TslModuleMember {
     isID: boolean
     typeParameterList?: TslTypeParameterList
     resultList?: TslResultList
-    timespan?: TslTimespan
+    timeunit?: TslTimeunit
     groupedBy?: TslGroupedBy
     constraintList?: TslConstraintList
     body: TslFunctionBlock
@@ -326,28 +326,28 @@ fragment TslFunctionFragment:
     typeParameterList=TslTypeParameterList?
     parameterList=TslParameterList
     resultList=TslResultList?
-    timespan?=TslTimespan?
+    timeunit?=TslTimeunit?
     groupedBy?=TslGroupedBy?
     constraintList=TslConstraintList?
     body=TslFunctionBlock
 ;
 
 interface TslFunctionBlock extends TslBlock{
-    validity: TslValidity
+    timespan: TslTimespan
 }
 
 TslFunctionBlock returns TslFunctionBlock:
-    {TslFunctionBlock} '{' (validity=TslValidity statements+=TslStatement*)* '}'
+    {TslFunctionBlock} '{' (timespan=TslTimespan statements+=TslStatement*)* '}'
 ;
 
 interface TslConstant extends TslModuleMember {
-    validity: TslValidity
+    timespan: TslTimespan
     ^type: TslType
     value: TslExpression
 }
 
 fragment TslConstantFragment:
-    validity=TslValidity
+    timespan=TslTimespan
     visibility?=TslVisibility?
     'constant'
     name=ID
@@ -357,21 +357,21 @@ fragment TslConstantFragment:
 
 interface TslData extends TslModuleMember {
     isID: boolean
-    validity: TslValidity
+    timespan: TslTimespan
     ^type: TslType
-    timespan?: TslTimespan
+    timeunit?: TslTimeunit
     groupedBy?: TslGroupedBy
     value?: TslExpression
 }
 
 fragment TslDataFragment:
-    validity=TslValidity
+    timespan=TslTimespan
     visibility?=TslVisibility?
     isID?='id'?
     'data'
     name=ID
     ':' ^type=TslType
-    timespan?=TslTimespan?
+    timeunit?=TslTimeunit?
     groupedBy?=TslGroupedBy?
     ('=' value=TslExpression)?
 ;
@@ -1025,12 +1025,12 @@ TslVisibility returns TslVisibility:
     isPublic?='public'? | isPackageprivate?='packageprivate'? | isPrivate?='private'?
 ;
 
-interface TslTimespan extends TslModifier{
-    timespan: string
+interface TslTimeunit extends TslModifier{
+    timeunit: string
 }
 
-TslTimespan returns TslTimespan:
-    'per' timespan=('day'|'week'|'month'|'year')
+TslTimeunit returns TslTimeunit:
+    'per' timeunit=('day'|'week'|'month'|'year')
 ;
 
 interface TslGroupedBy extends TslModifier{
@@ -1042,15 +1042,15 @@ TslGroupedBy returns TslGroupedBy:
 ;
 
 // -----------------------------------------------------------------------------
-// Validity
+// Timespan
 // -----------------------------------------------------------------------------
 
-interface TslValidity extends TslObject{
+interface TslTimespan extends TslObject{
     start?: TslDate
     end?: TslDate
 }
 
-TslValidity returns TslValidity:
+TslTimespan returns TslTimespan:
     'valid' ('from' start=TslDate)? ('to' end=TslDate)?
 ;
 
