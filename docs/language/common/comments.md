@@ -8,6 +8,7 @@ TTSL has two types of comments, namely
 
 * [_line comments_](#line-comments), which end at a linebreak, and
 * [_block comments_](#block-comments), which can cover multiple lines.
+* [_documentation comments_](#documentation-comments), which are used to document declarations.
 
 ## Line Comments
 
