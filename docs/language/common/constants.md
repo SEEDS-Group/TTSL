@@ -12,7 +12,7 @@ Here are the pieces of syntax:
 - A colon.
 - The [type][types] of the constant (here `#!ttsl Int`).
 - An equals sign.
-- The default value of the constant (here `#!ttsl 1`). This must be a constant [expression][Expressions], i.e. something that can be evaluated by the compiler. Particularly [calls][calls] usually do not fulfill this requirement.
+- The value of the constant (here `#!ttsl 1`). This must be a constant [expression][Expressions], i.e. something that can be evaluated by the compiler. Particularly [calls][calls] usually do not fulfill this requirement.
 
 ## Visibility
 

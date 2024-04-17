@@ -1,4 +1,4 @@
-# Modifier
+# Modifiers
 
 ## ID
 
@@ -9,7 +9,7 @@ id function f(y: Int): Int {...}
 id data x: Int
 ```
 
-## visibility
+## Visibility
 
 The visibility indicates in what parts of the project a [constant][Constants], [data][Data] or a [function][Functions] can be used.
 
@@ -34,9 +34,9 @@ If the keyword `#!ttsl private` is used, the object can only be used in the scop
 private constant: Int = 1
 ```
 
-## Grouped By
+## Grouping
 
-The _Grouped by modifier_ can be added to implicate that the return value of the function is grouped by an [Identifier](#id). Grouping values happens by using[aggregations][Aggregation]. A [function][Functions] and local variables can have the modifier grouped by. When a function is grouped by an ID there are checks to make sure either a local variable used in the function is grouped by that ID or there is an [aggregation][Aggregation] in the [function][Functions] body.
+The `groupedBy` modifier_ can be added to implicate that the return value of the function is grouped by an [Identifier](#id). Grouping values happens by using[aggregations][Aggregation]. A [function][Functions] and local variables can have the modifier grouped by. When a function is grouped by an ID there are checks to make sure either a local variable used in the function is grouped by that ID or there is an [aggregation][Aggregation] in the [function][Functions] body.
 
 ```ttsl
 function taxes(name: String): List GroupedBy XYZ_ID {...}
@@ -46,24 +46,24 @@ var x: Int groupedBy XYZ_ID
 
 In this example the return value of the function/ the variable is grouped by XYZ_ID.
 
-## Timespan
+## Time Unit
 
 [Functions][Functions] and [data][Data] can be specified for a specific timespan such as a `#!ttsl day/ week/ month/ year`. For example:
 
 ```ttsl
 # Function definition:
-function f(): Int per day {...}
+function per day f(): Int {...}
 
 # Data definition:
-data salary: Int per month = 5000
+data per month salary: Int = 5000
 ```
 
-when calling the [Functions][Functions] or [data][Data] the timespan also has to be given. It doesn't have to be the same as given in the declaration.
+when calling the [functions][Functions] or [data][Data] the timespan also has to be given. It doesn't have to be the same as given in the declaration.
 
 ```ttsl
-var x = f() per week
+var x = per week f() 
 
-y = salary per year
+y = per year salary
 ```
 
 
