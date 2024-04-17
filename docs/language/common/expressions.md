@@ -1,6 +1,6 @@
 # Expressions
 
-Expressions evaluate to some value. A multitude of different expression types known from other programming languages are supported by TTSL, from basic [literals](#literals) to [lambdas](#lambdas).
+Expressions evaluate to some value.
 
 ## Literals
 
@@ -54,7 +54,7 @@ To work with truthiness, Safe-DS has the two boolean literals `#!ttsl false` and
 
 To denote that a value is unknown or absent, use the literal `#!ttsl null`.
 
-## Date Literals
+### Date Literals
 
 Especially when working with [validities][Validity] users are required to use date literals to define dates. The date literals have to be in ISO-Syntax. This means that the date has to be in the format `year-month-day`. The following example shows how to define date literals:
 
@@ -66,7 +66,7 @@ Especially when working with [validities][Validity] users are required to use da
 2024-12-31
 ```
 
-## Date-Time Literals
+### Date-Time Literals
 
 Date-Time literals are used to define a specific point in time. The date-time literals have to be in ISO-Syntax. This means that the date has to be in the format `year-month-dayThour:minute:second`. The following example shows how to define date-time literals:
 
@@ -167,7 +167,7 @@ These template expressions are evaluated, converted to a string and inserted int
 References are used to refer to a declaration, such as a [function][functions] or a placeholder. The syntax is simply the name of the declaration, as shown in the next snippet where we first declare a placeholder called `#!ttsl one` and then refer to it when computing the value for the placeholder called `#!ttsl two`:
 
 ```ttsl
-data one: Int = 1;
+constant one: Int = 1;
 val two = one + one;
 ```
 
@@ -257,9 +257,6 @@ Depending on the callee, a call can do different things. The following table lis
 | Callee                                           | Meaning                                                                                                                        |
 |--------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
 | [Function][functions]                            | Invokes the function and runs the associated Python code. The call evaluates to the result record of the function.             |
-#### Result Record
-
-The term _result record_ warrants further explanation: A result record maps [results][results] of a [function][functions] to their computed values.
 
 ### Null-Safe Calls
 
