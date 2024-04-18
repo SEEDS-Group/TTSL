@@ -25,15 +25,6 @@ If the keyword `#!ttsl packageprivate` is used, the object can be used just in t
 
 If the keyword `#!ttsl private` is used, the object can only be used in the scope it was declared in.
 
-### Syntax
-
-- One of the keywords or none for public
-- The declaration of a [constant][Constants], [data][Data] or a [function][Functions]
-
-```ttsl
-private constant: Int = 1
-```
-
 ## Grouping
 
 The `groupedBy` modifier_ can be added to implicate that the return value of the function is grouped by an [Identifier](#id). Grouping values happens by using[aggregations][Aggregation]. A [function][Functions] and local variables can have the modifier grouped by. When a function is grouped by an ID there are checks to make sure either a local variable used in the function is grouped by that ID or there is an [aggregation][Aggregation] in the [function][Functions] body.
@@ -55,7 +46,7 @@ In this example the return value of the function/ the variable is grouped by XYZ
 function per day f(): Int {...}
 
 # Data definition:
-data per month salary: Int = 5000
+data per month salary: Int;
 ```
 
 when calling the [functions][Functions] or [data][Data] the timespan also has to be given. It doesn't have to be the same as given in the declaration.
@@ -65,7 +56,6 @@ var x = per week f()
 
 y = per year salary
 ```
-
 
 [Constants]:constants.md
 [Data]:data.md
