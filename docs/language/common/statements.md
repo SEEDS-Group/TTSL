@@ -4,7 +4,7 @@ TTSL supports a variety of statements which can be divided into the following ca
 
 - [Expression Statements](#expression-statements), which are used to evaluate expressions and perform operations while discarding the result.
 - [Assignments](#assignments), which are used to assign values to variables.
-- [Conditional Expressions](#conditional-expressions), which are used to execute code based on conditions.
+- [Conditional statements](#conditional-statements), which are used to execute code based on conditions.
 - [Loops](#loops), which are used to execute code repeatedly.
 
 ## Expression Statements
@@ -49,9 +49,9 @@ Similarly the result of a function can be assigned to a variable.
 y = f();
 ```
 
-## Conditional Expressions
+## Conditional statements
 
-Conditional expressions are used to execute code based on conditions. A condition can be checked with the `if` keyword followed by a condition in parantheses. If the condition is true, the code block following the condition is executed.
+Conditional statements are used to execute code based on conditions. A condition can be checked with the `if` keyword followed by a condition in parantheses. If the condition is true, the code block following the condition is executed.
 
 ```ttsl
 if(x > 10) {
@@ -79,7 +79,7 @@ TTSL supports three types of loops: `while`, `for` and `foreach`. Each one of th
 
 ### While Loop
 
-The `while` loop has a similar syntax to the [conditional expressions](#conditional-expressions). The code block following the condition is executed as long as the condition is true.
+The `while` loop has a similar syntax to the [conditional statements](#conditional-statements). The code block following the condition is executed as long as the condition is true.
 
 ```ttsl
 while(x > 0) {
