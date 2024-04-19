@@ -319,25 +319,30 @@ interface TslFunction extends TslCallable, TslClassMember, TslModuleMember {
 }
 
 fragment TslFunctionFragment:
-    visibility?=TslVisibility?
+    (visibility=TslVisibility)?
     isID?='id'?
     'function'
+    (timeunit=TslTimeunit)?
     name=ID
     typeParameterList=TslTypeParameterList?
     parameterList=TslParameterList
     resultList=TslResultList?
-    timeunit?=TslTimeunit?
-    groupedBy?=TslGroupedBy?
+    (groupedBy=TslGroupedBy)?
     constraintList=TslConstraintList?
     body=TslFunctionBlock
 ;
 
 interface TslFunctionBlock extends TslBlock{
-    timespan: TslTimespan
+    timespans: TslTimespan[]
 }
 
 TslFunctionBlock returns TslFunctionBlock:
-    {TslFunctionBlock} '{' (timespan=TslTimespan statements+=TslStatement*)* '}'
+    {TslFunctionBlock} 
+    '{' ( statements+=TslStatement* 
+    | timespans+=TslTimespan 
+    '{' ( timespans+=TslTimespan statements+=TslStatement 
+    | statements+=TslStatement)* 
+    '}')* '}'
 ;
 
 interface TslConstant extends TslModuleMember {
@@ -347,33 +352,29 @@ interface TslConstant extends TslModuleMember {
 }
 
 fragment TslConstantFragment:
-    timespan=TslTimespan
-    visibility?=TslVisibility?
+    (visibility=TslVisibility)?
     'constant'
     name=ID
     ':' ^type=TslType
-    '=' value=TslExpression
+    ('{' (timespan=TslTimespan '=' value=TslExpression)*'}' |
+    '=' value=TslExpression) ';'?
 ;
 
 interface TslData extends TslModuleMember {
     isID: boolean
-    timespan: TslTimespan
     ^type: TslType
     timeunit?: TslTimeunit
     groupedBy?: TslGroupedBy
-    value?: TslExpression
 }
 
 fragment TslDataFragment:
-    timespan=TslTimespan
-    visibility?=TslVisibility?
+    (visibility=TslVisibility)?
     isID?='id'?
     'data'
+    (timeunit=TslTimeunit)?
     name=ID
     ':' ^type=TslType
-    timeunit?=TslTimeunit?
-    groupedBy?=TslGroupedBy?
-    ('=' value=TslExpression)?
+    (groupedBy=TslGroupedBy)? ';'?
 ;
 
 interface TslPipeline extends TslModuleMember {
@@ -1051,7 +1052,7 @@ interface TslTimespan extends TslObject{
 }
 
 TslTimespan returns TslTimespan:
-    'valid' ('from' start=TslDate)? ('to' end=TslDate)?
+    ('from' start=TslDate)? ('to' end=TslDate)?
 ;
 
 // -----------------------------------------------------------------------------
