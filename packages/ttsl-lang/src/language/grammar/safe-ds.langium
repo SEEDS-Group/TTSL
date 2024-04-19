@@ -490,7 +490,6 @@ TslParameterList returns TslParameterList:
 
 interface TslParameter extends TslLocalVariable {
     isConstant: boolean
-    ^type?: TslType
     defaultValue?: TslExpression
 }
 
@@ -585,7 +584,7 @@ TslExpressionStatement returns TslExpressionStatement:
 ;
 
 interface TslConditionalStatement extends TslStatement{
-    expression: TslOrExpression
+    expression: TslExpression
     ifBlock: TslBlock
     elseBlock?: TslBlock
 }
@@ -600,7 +599,7 @@ interface TslLoop extends TslStatement{
 }
 
 interface TslWhileLoop extends TslLoop{
-    condition: TslOrExpression
+    condition: TslExpression
 }
 
 TslWhileLoop returns TslWhileLoop:
@@ -609,7 +608,7 @@ TslWhileLoop returns TslWhileLoop:
 
 interface TslForLoop extends TslLoop{
     definitionStatement?: TslStatement
-    condition: TslOrExpression
+    condition: TslExpression
     iteration?: TslStatement
 }
 
@@ -1035,11 +1034,11 @@ TslTimeunit returns TslTimeunit:
 ;
 
 interface TslGroupedBy extends TslModifier{
-    id: @TslFunction | @TslLocalVariable | @TslData
+    id: TslExpression
 }
 
 TslGroupedBy returns TslGroupedBy:
-    'groupedBy' id=[TslFunction:ID | TslLocalVariable:ID | TslData:ID]
+    'groupedBy' id=TslExpression
 ;
 
 // -----------------------------------------------------------------------------
