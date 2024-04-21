@@ -1,6 +1,22 @@
 # Types
 
-Types describe the values that a declaration can accept. TTSL has [Int][Int], [String][String], [Float][Float], [Boolean][Boolean], [List](#List) and [Dictionaries](#dictionaries)
+Types describe the values that a declaration can accept. TTSL has [Int](#integer), [Float](#float), [String](#string), [Boolean](#boolean), [List](#lists) and [Dictionaries](#dictionaries)
+
+## Integer
+
+An Integer is a whole number. For example, `#!ttsl 1` is an Integer.
+
+## Float
+
+A Float describes a floating point number. The syntax is the same as for [Float literals](expressions.md#float-literals).
+
+## String
+
+Strings are a sequence of characters. For example, `#!ttsl "Hello, World!"` is a String. Strings are always enclosed in double quotes. More information on Strings can be found [here](expressions.md#string-literals).
+
+## Boolean
+
+A Boolean is a value that can be either `#!ttsl true` or `#!ttsl false`. These values are used to represent the truth value of an expression and can be used in [conditional statements](statements.md#conditional-statements) or [loops](statements.md#loops).
 
 ## Lists
 
