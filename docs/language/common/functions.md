@@ -13,9 +13,9 @@ The syntax to define a global function is as follows:
 
 ```ttsl
 function f(y: Int): Int {
-    var x: Int
-    x = y
-    return x
+    var x: Int;
+    x = y;
+    return x;
 }
 ```
 

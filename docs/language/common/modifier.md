@@ -6,7 +6,7 @@ There can also be an ID modifier added to the data and functions to implicate th
 
 ```ttsl
 id function f(y: Int): Int {...}
-id data x: Int
+id data x: Int;
 ```
 
 ## Visibility
@@ -32,7 +32,7 @@ The `groupedBy` modifier_ can be added to implicate that the return value of the
 ```ttsl
 function taxes(name: String): List GroupedBy XYZ_ID {...}
 
-var x: Int groupedBy XYZ_ID
+var x: Int groupedBy XYZ_ID;
 ```
 
 In this example the return value of the function/ the variable is grouped by XYZ_ID.

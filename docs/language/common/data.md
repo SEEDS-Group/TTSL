@@ -29,12 +29,7 @@ There can also be an [ID modifier][id] added to the data to implicate that the d
 id data PersonID: Int;
 ```
 
-## Timespan
-
-Data can also be specified for a specific [timespan][timespan].
-
 [types]: types.md
 [id]: modifier.md#id
 [Visibility]: modifier.md#visibility
 [Validity]: validity.md
-[timespan]: modifier.md#timespan

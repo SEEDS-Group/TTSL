@@ -57,7 +57,6 @@ Several restrictions apply to the order of parameters and to combinations of the
 
 - After an [optional parameter](#optional-parameters) all parameters must be optional.
 
-
 [calls]: expressions.md#calls
 [types]: types.md
 [functions]: functions.md

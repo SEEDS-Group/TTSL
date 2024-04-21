@@ -15,5 +15,4 @@ Multiple files can belong to the same package but each non-empty file must decla
 
 Continue with the explanation of [imports][imports] to understand how to access declarations that are defined in other packages.
 
-
 [imports]: imports.md
