@@ -100,8 +100,3 @@ Dict["a"]
 - Opening square bracket.
 - The key of the Element we want (`#!ttsl "a"`).
 - A closing square bracket.
-
-[Int]: expressions.md#int-literals
-[Float]: expressions.md#float-literals
-[String]: expressions.md#string-literals
-[Boolean]: expressions.md#boolean-literals
