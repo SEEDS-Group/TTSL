@@ -21,10 +21,6 @@ The [visibility][Visibility] of data can be chosen by putting one of the three k
 packageprivate data PersonAge: Int;
 ```
 
-## Validity
-
-The documentation for the [validity of data][dataValidity] can be found in the [validity][Validity] section.
-
 ## ID
 
 There can also be an [ID modifier][id] added to the data to implicate that the data is unique and can be used to identify an object. The [ID modifier][id] is added by placing the keyword `id` in front of the data declaration. For example:
@@ -41,5 +37,4 @@ Data can also be specified for a specific [timespan][timespan].
 [id]: modifier.md#id
 [Visibility]: modifier.md#visibility
 [Validity]: validity.md
-[dataValidity]: validity.md#data
 [timespan]: modifier.md#timespan

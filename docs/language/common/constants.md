@@ -4,7 +4,8 @@ _Constants_ define a constant value, that can only be defined once and can not b
 
 ```ttsl
 constant value1: Int = 1
-```
+
+
 Here are the pieces of syntax:
 
 - The keyword `#!ttsl constant`
@@ -27,8 +28,6 @@ packageprivate constant value1: Int = 1
 The documentation for the [validity of constants][constantValidity] can be found in the [validity][Validity] section.
 
 [types]: types.md
-[Expressions]: expressions.md
-[calls]: expressions.md#calls
 [Visibility]: modifier.md#visibility
 [Validity]: validity.md
 [constantValidity]: validity.md#constants
