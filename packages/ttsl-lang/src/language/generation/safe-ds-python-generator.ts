@@ -68,6 +68,9 @@ import {
     TslStatement,
     isTslConditionalStatement,
     isTslLoop,
+    isTslForLoop,
+    isTslForeachLoop,
+    isTslWhileLoop,
 } from '../generated/ast.js';
 import { isInStubFile, isStubFile } from '../helpers/fileExtensions.js';
 import { IdManager } from '../helpers/idManager.js';
@@ -609,21 +612,30 @@ export class SafeDsPythonGenerator {
                 separator: NL,
             })!;
         } else if (isTslConditionalStatement(statement)) {
-            for (const lambda of AstUtils.streamAllContents(statement.expression).filter(isTslBlockLambda)) {
-                blockLambdaCode.push(this.generateBlockLambda(lambda, frame));
-            }
-            blockLambdaCode.push(this.generateExpression(statement.expression, frame));
-            return joinTracedToNode(statement)(blockLambdaCode, (stmt) => stmt, {
-                separator: NL,
-            })!;
+            return expandTracedToNode(statement)`if ${this.generateExpression((statement.expression) as TslExpression, frame)}:
+                ${this.generateBlock((statement.ifBlock as TslBlock), frame)}
+                else: ${this.generateBlock((statement.elseBlock as TslBlock), frame)}`;
         } else if (isTslLoop(statement)) {
-            for (const lambda of AstUtils.streamAllContents(statement.expression).filter(isTslBlockLambda)) {
-                blockLambdaCode.push(this.generateBlockLambda(lambda, frame));
+            if (isTslWhileLoop(statement)){
+                return expandTracedToNode(statement)`while ${this.generateExpression((statement.condition) as TslExpression, frame)}:
+                ${this.generateBlock((statement.block as TslBlock), frame)}`;
+            } else if (isTslForLoop(statement)){
+                let firstParameter, thirdParameter = new CompositeGeneratorNode
+                if (statement.definitionStatement){
+                    firstParameter = this.generateStatement((statement.definitionStatement as TslStatement), frame, false)
+                }
+                if (statement.iteration){
+                    thirdParameter = this.generateStatement((statement.iteration as TslStatement), frame, false)
+                }
+                return expandTracedToNode(statement)`${firstParameter}
+                    while ${this.generateExpression((statement.condition) as TslExpression, frame)}:
+                    ${this.generateBlock((statement.block as TslBlock), frame), thirdParameter
+                    }`;
+            } else if (isTslForeachLoop(statement)){
+                return expandTracedToNode(statement)`for ${statement.element} in ${statement.list}:
+                ${this.generateBlock((statement.block as TslBlock), frame)}`;
             }
-            blockLambdaCode.push(this.generateExpression(statement.expression, frame));
-            return joinTracedToNode(statement)(blockLambdaCode, (stmt) => stmt, {
-                separator: NL,
-            })!;
+        }
         /* c8 ignore next 2 */
         throw new Error(`Unknown TslStatement: ${statement}`);
     }
