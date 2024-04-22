@@ -25,10 +25,6 @@ interface TslLocalVariable extends TslDeclaration {
     value?: TslExpression
 }
 
-TslLocalVariable returns TslLocalVariable:
-    'var' name=ID ':' type=TslType (groupedBy=TslGroupedBy)? ('=' value=TslExpression)?
-;
-
 // -----------------------------------------------------------------------------
 // Module
 // -----------------------------------------------------------------------------
@@ -394,7 +390,6 @@ interface TslSegment extends TslCallable, TslModuleMember {
 }
 
 fragment TslSegmentFragment:
-    visibility=('internal' | 'private')?
     'segment'
     name=ID
     parameterList=TslParameterList
@@ -540,6 +535,8 @@ TslBlock returns TslBlock:
 TslStatement returns TslStatement:
     TslAssignment
   | TslExpressionStatement
+  | TslConditionalStatement
+  | TslLoop
 ;
 
 interface TslAssignment extends TslStatement {
@@ -570,7 +567,7 @@ interface TslYield extends TslAssignee {
 }
 
 TslAssignee returns TslAssignee:
-    {TslPlaceholder} 'val' name=ID
+    {TslPlaceholder} 'var' name=ID ':' type=TslType (groupedBy=TslGroupedBy)?
   | {TslWildcard} '_'
   | {TslYield} 'yield' result=[TslResult:ID]
 ;
@@ -597,6 +594,12 @@ TslConditionalStatement returns TslConditionalStatement:
 interface TslLoop extends TslStatement{
     block: TslBlock
 }
+
+TslLoop returns TslLoop:
+    TslWhileLoop
+    | TslForLoop
+    | TslForeachLoop
+;
 
 interface TslWhileLoop extends TslLoop{
     condition: TslExpression
@@ -687,7 +690,7 @@ interface TslBlockLambdaResult extends TslAssignee, TslAbstractResult {}
 
 TslBlockLambdaAssignee returns TslAssignee:
     {TslWildcard} '_'
-  | {TslPlaceholder} 'val' name=ID
+  | {TslPlaceholder} 'var' name=ID ':' type=TslType (groupedBy=TslGroupedBy)?
   | {TslBlockLambdaResult} 'yield' name=ID
 ;
 
