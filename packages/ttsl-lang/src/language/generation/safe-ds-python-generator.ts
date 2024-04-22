@@ -66,6 +66,8 @@ import {
     TslPlaceholder,
     TslSegment,
     TslStatement,
+    isTslConditionalStatement,
+    isTslLoop,
 } from '../generated/ast.js';
 import { isInStubFile, isStubFile } from '../helpers/fileExtensions.js';
 import { IdManager } from '../helpers/idManager.js';
@@ -606,7 +608,22 @@ export class SafeDsPythonGenerator {
             return joinTracedToNode(statement)(blockLambdaCode, (stmt) => stmt, {
                 separator: NL,
             })!;
-        }
+        } else if (isTslConditionalStatement(statement)) {
+            for (const lambda of AstUtils.streamAllContents(statement.expression).filter(isTslBlockLambda)) {
+                blockLambdaCode.push(this.generateBlockLambda(lambda, frame));
+            }
+            blockLambdaCode.push(this.generateExpression(statement.expression, frame));
+            return joinTracedToNode(statement)(blockLambdaCode, (stmt) => stmt, {
+                separator: NL,
+            })!;
+        } else if (isTslLoop(statement)) {
+            for (const lambda of AstUtils.streamAllContents(statement.expression).filter(isTslBlockLambda)) {
+                blockLambdaCode.push(this.generateBlockLambda(lambda, frame));
+            }
+            blockLambdaCode.push(this.generateExpression(statement.expression, frame));
+            return joinTracedToNode(statement)(blockLambdaCode, (stmt) => stmt, {
+                separator: NL,
+            })!;
         /* c8 ignore next 2 */
         throw new Error(`Unknown TslStatement: ${statement}`);
     }
@@ -733,7 +750,7 @@ export class SafeDsPythonGenerator {
             }
         }
 
-        // Handled after constant expressions: EnumVariant, List, Map
+        // Handled after constant expressions: EnumVariant, List, Dictionary
         if (isTslTemplateString(expression)) {
             return expandTracedToNode(expression)`f'${joinTracedToNode(expression, 'expressions')(
                 expression.expressions,
