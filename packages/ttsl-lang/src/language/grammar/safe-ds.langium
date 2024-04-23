@@ -587,7 +587,7 @@ interface TslConditionalStatement extends TslStatement{
 }
 
 TslConditionalStatement returns TslConditionalStatement:
-    'if(' expression=TslOrExpression ')' ifBlock=TslBlock
+    'if''(' expression=TslExpression ')' ifBlock=TslBlock
     ('else' elseBlock=TslBlock)?
 ;
 
@@ -606,7 +606,7 @@ interface TslWhileLoop extends TslLoop{
 }
 
 TslWhileLoop returns TslWhileLoop:
-    'while(' condition=TslOrExpression ')' block=TslBlock
+    'while''(' condition=TslExpression ')' block=TslBlock
 ;
 
 interface TslForLoop extends TslLoop{
@@ -616,19 +616,19 @@ interface TslForLoop extends TslLoop{
 }
 
 TslForLoop returns TslForLoop:
-    'for(' (definitionStatement=TslStatement)?
-    ';' condition=TslOrExpression
+    'for''(' (definitionStatement=TslStatement)?
+    ';' condition=TslExpression
     ';' (iteration=TslStatement)?
     ')' block=TslBlock
 ;
 
 interface TslForeachLoop extends TslLoop{
     element: string
-    list: @TslList
+    list: TslExpression
 }
 
 TslForeachLoop returns TslForeachLoop:
-    'foreach(' element=STRING 'in' list=[TslList:ID] ')'
+    'foreach''(' element=STRING 'in' list=TslExpression ')'
     block=TslBlock
 ;
 
