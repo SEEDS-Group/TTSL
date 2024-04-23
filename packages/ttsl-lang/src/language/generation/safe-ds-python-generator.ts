@@ -66,6 +66,11 @@ import {
     TslPlaceholder,
     TslSegment,
     TslStatement,
+    isTslConditionalStatement,
+    isTslLoop,
+    isTslForLoop,
+    isTslForeachLoop,
+    isTslWhileLoop,
 } from '../generated/ast.js';
 import { isInStubFile, isStubFile } from '../helpers/fileExtensions.js';
 import { IdManager } from '../helpers/idManager.js';
@@ -606,6 +611,30 @@ export class SafeDsPythonGenerator {
             return joinTracedToNode(statement)(blockLambdaCode, (stmt) => stmt, {
                 separator: NL,
             })!;
+        } else if (isTslConditionalStatement(statement)) {
+            return expandTracedToNode(statement)`if ${this.generateExpression((statement.expression) as TslExpression, frame)}:
+                ${this.generateBlock((statement.ifBlock as TslBlock), frame)}
+                else: ${this.generateBlock((statement.elseBlock as TslBlock), frame)}`;
+        } else if (isTslLoop(statement)) {
+            if (isTslWhileLoop(statement)){
+                return expandTracedToNode(statement)`while ${this.generateExpression((statement.condition) as TslExpression, frame)}:
+                ${this.generateBlock((statement.block as TslBlock), frame)}`;
+            } else if (isTslForLoop(statement)){
+                let firstParameter, thirdParameter = new CompositeGeneratorNode
+                if (statement.definitionStatement){
+                    firstParameter = this.generateStatement((statement.definitionStatement as TslStatement), frame, false)
+                }
+                if (statement.iteration){
+                    thirdParameter = this.generateStatement((statement.iteration as TslStatement), frame, false)
+                }
+                return expandTracedToNode(statement)`${firstParameter}
+                    while ${this.generateExpression((statement.condition) as TslExpression, frame)}:
+                    ${this.generateBlock((statement.block as TslBlock), frame), thirdParameter
+                    }`;
+            } else if (isTslForeachLoop(statement)){
+                return expandTracedToNode(statement)`for ${statement.element} in ${statement.list}:
+                ${this.generateBlock((statement.block as TslBlock), frame)}`;
+            }
         }
         /* c8 ignore next 2 */
         throw new Error(`Unknown TslStatement: ${statement}`);
@@ -733,7 +762,7 @@ export class SafeDsPythonGenerator {
             }
         }
 
-        // Handled after constant expressions: EnumVariant, List, Map
+        // Handled after constant expressions: EnumVariant, List, Dictionary
         if (isTslTemplateString(expression)) {
             return expandTracedToNode(expression)`f'${joinTracedToNode(expression, 'expressions')(
                 expression.expressions,
