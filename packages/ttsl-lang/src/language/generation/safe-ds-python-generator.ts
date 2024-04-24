@@ -66,6 +66,11 @@ import {
     TslPlaceholder,
     TslSegment,
     TslStatement,
+    isTslConditionalStatement,
+    isTslLoop,
+    isTslForLoop,
+    isTslForeachLoop,
+    isTslWhileLoop,
 } from '../generated/ast.js';
 import { isInStubFile, isStubFile } from '../helpers/fileExtensions.js';
 import { IdManager } from '../helpers/idManager.js';
@@ -606,6 +611,34 @@ export class SafeDsPythonGenerator {
             return joinTracedToNode(statement)(blockLambdaCode, (stmt) => stmt, {
                 separator: NL,
             })!;
+        } else if (isTslConditionalStatement(statement)) {
+            let elseBlock = new CompositeGeneratorNode
+            if (statement.elseBlock){
+                elseBlock = this.generateBlock((statement.elseBlock), frame, false)
+            }
+            return expandTracedToNode(statement)`if ${this.generateExpression((statement.expression), frame)}:
+                ${this.generateBlock((statement.ifBlock), frame)}
+                else: ${elseBlock}`;
+        } else if (isTslLoop(statement)) {
+            if (isTslWhileLoop(statement)){
+                return expandTracedToNode(statement)`while ${this.generateExpression((statement.condition), frame)}:
+                ${this.generateBlock((statement.block), frame)}`;
+            } else if (isTslForLoop(statement)){
+                let firstParameter, thirdParameter = new CompositeGeneratorNode
+                if (statement.definitionStatement){
+                    firstParameter = this.generateStatement((statement.definitionStatement), frame, false)
+                }
+                if (statement.iteration){
+                    thirdParameter = this.generateStatement((statement.iteration), frame, false)
+                }
+                return expandTracedToNode(statement)`${firstParameter}
+                    while ${this.generateExpression((statement.condition), frame)}:
+                        ${this.generateBlock((statement.block), frame), thirdParameter
+                    }`;
+            } else if (isTslForeachLoop(statement)){
+                return expandTracedToNode(statement)`for ${statement.element} in ${statement.list}:
+                ${this.generateBlock((statement.block), frame)}`;
+            }
         }
         /* c8 ignore next 2 */
         throw new Error(`Unknown TslStatement: ${statement}`);
