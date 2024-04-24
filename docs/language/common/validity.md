@@ -26,6 +26,17 @@ constant income: Int {
 }
 ```
 
+When providing multiple timeframes, the upper bound of the first timeframe can be left out and will implicitly be set to the lower bound of the second timeframe.
+
+```ttsl
+constant income: Int {
+    from 2009-01-01 = 1;
+    from 2010-01-01 to 2010-12-31 = 2;
+}
+```
+
+The constant has the value 1 for the timeframe 2009-01-01 to 2009-12-31 and the value 2 for the timeframe 2010-01-01 to 2010-12-31.
+
 ## Functions
 
 When defining a [function](#functions), the validity can be set by using `from x to y {...}` inside of the function block.
@@ -75,6 +86,22 @@ function bar() {
 foo() is valid from 2024-01-01 with no upper bound while bar() is valid until 2024-12-31 with no lower bound.
 
 When no validity is set, the function is always valid.
+
+When providing multiple timeframes, the upper bound of the first timeframe can be left out and will implicitly be set to the lower bound of the second timeframe.
+
+```ttsl
+function foo() {
+    from 2024-01-01 {
+        return 42;
+    }
+
+    from 2025-01-01 to 2025-12-31 {
+        return 43;
+    }
+}
+```
+
+The function foo() returns 42 for the timeframe 2024-01-01 to 2024-12-31 and 43 for the timeframe 2025-01-01 to 2025-12-31.
 
 ## Data
 
