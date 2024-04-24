@@ -4,7 +4,7 @@
         {
             "id": "safe-ds",
             "grammar": "src/language/grammar/safe-ds.langium",
-            "fileExtensions": [".Tslpipe", ".Tslstub", ".Tsltest"]
+            "fileExtensions": [".tsl", ".tsltest"]
         }
     ],
     "out": "src/language/generated"
