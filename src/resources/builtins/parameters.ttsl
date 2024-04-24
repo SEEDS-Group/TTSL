@@ -1,0 +1,260 @@
+package (?)
+
+// abgelt_st.yaml --------------------------------------------------------
+
+/**
+ * Constant for the Capital Income Tax Rate as defined in §32d (1) EStG.
+ * Reference: Art. 1 G. v. 14.08.2007
+ */
+public const abgeltungssteuersatz: Float {
+    to 2008-12-31 = 0.0;
+    from 2009-01-01 = 0.25;
+}
+
+// arbeitsl_geld_2.yaml --------------------------------------------------
+
+/**
+ * Income shares not subject to transfer withdrawal.
+ * Einkommensanteile, die anrechnungsfrei bleiben. § 30 SGB II. Seit 01.10.2005
+ * zudem definiert durch Freibetrag in § 11 SGB II, s. § 67 SGB II. Seit 01.04.2011
+ * § 11b (2) SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
+ * G. v. 24.03.2011 BGBl. I S. 453).
+ */
+public const anrechnungsfreieEinkommensanteile: Dict<Date, Dict<Int, Dict<String, Float>>> {
+    // Reference: Artikel 1. G. v. 24.12.2003 BGBl. I S. 2954.
+    from 2005-01-01 = {
+        0: {
+            lower_threshold: -inf,
+            upper_threshold: 0,
+            rate: 0,
+            intercept_at_lower_threshold: 0
+        },
+        1: {
+            lower_threshold: 0,
+            upper_threshold: 400,
+            rate: 0.15
+        },
+        2: {
+            upper_threshold: 900,
+            rate: 0.3
+        },
+        3: {
+            upper_threshold: 1500,
+            rate: 0.15
+        },
+        4: {
+            upper_threshold: inf,
+            rate: 0
+        }
+    }
+
+    // Reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
+    from 2005-10-01 = {
+        0: {
+            lower_threshold: -inf,
+            upper_threshold: 0,
+            rate: 0,
+            intercept_at_lower_threshold: 0
+        },
+        1: {
+            lower_threshold: 0,
+            upper_threshold: 100,
+            rate: 1.0
+        },
+        2: {
+            upper_threshold: 800,
+            rate: 0.2
+        },
+        3: {
+            upper_threshold: 1200,
+            rate: 0.1
+        },
+        4: {
+            upper_threshold: inf,
+            rate: 0
+        }
+    }
+
+    // Reference: Artikel 1 G. v. 20.12.2011 BGBl. I 2854.
+    from 2011-04-01 = {
+        2: {
+            upper_threshold: 1000
+        }
+    }
+
+    // Reference: G. v. 20.12.2022 BGBl. I S. 2328.
+    from 2023-07-01 = {
+        0: {
+            lower_threshold: -inf,
+            upper_threshold: 0,
+            rate: 0,
+            intercept_at_lower_threshold: 0
+        },
+        1: {
+            lower_threshold: 0,
+            upper_threshold: 100,
+            rate: 1.0
+        },
+        2: {
+            upper_threshold: 520,
+            rate: 0.2
+        },
+        3: {
+            upper_threshold: 1000,
+            rate: 0.3
+        },
+        4: {
+            upper_threshold: 1200,
+            rate: 0.1
+        },
+        5: {
+            upper_threshold: inf,
+            rate: 0
+        }
+    }
+}
+
+
+
+/**
+ * Abweichende anrechnungsfreie Einkommensanteile falls Kinder im Haushalt
+ * Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3, Haushalt mit
+ * Kindern. Gilt statt der Parameter in eink_anr_frei für Leistungsbezieher, die mit
+ * minderjährigem Kind in BG leben oder die ein minderjähriges Kind haben (zweiteres
+ * wird aktuell noch nicht im Code beachtet). § 30 SGB II. Seit 01.04.2011 § 11b SGB
+ * II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011
+ * BGBl. I S. 453).
+ */
+public const eink_anr_frei_kinder: Dict<Date, Dict<Int, Dict<String, Float>>> {
+    // Reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
+    from 2005-10-01 = {
+        3: {
+            upper_threshold: 1500
+        }
+    }
+
+    // Reference: G. v. 20.12.2022 BGBl. I S. 2328.
+    from 2023-07-01 = {
+        4: {
+            upper_threshold: 1500
+        }
+    }
+}
+
+public const regelsatz {
+    
+}
+
+// arbeitsl_geld.yaml ----------------------------------------------------
+
+/**
+ * Income which is not deducted from unemployment benefit.
+ * § 155 SGB III, vorher § 141 (1) S. 1
+ */
+public const arbeitslosenGeldFreibetrag {
+    from 1999-08-01 = 161;
+    from 2002-01-01 = 165;
+}
+
+/**
+ * Fictitious social insurance contribution rate
+ * § 153 (1) Nr. 1 SGB III. Wird angewendet auf das Bemessungsentgelt. ACHTUNG! Beim
+ * Elterngeld gibt es eine ähnliche Größe.
+ */
+public const arbeitslosenGeldSozialVersicherungsPauschale: Float {
+    from 1984-01-01 = 0.1727;
+    from 1985-01-01 = 0.1745;
+    from 1986-01-01 = 0.1775;
+    from 1987-01-01 = 0.1774;
+    from 1988-01-01 = 0.1794;
+    from 1989-01-01 = 0.1795;
+    from 1990-01-01 = 0.1775;
+    from 1991-01-01 = 0.179;
+    from 1992-01-01 = 0.184;
+    from 1993-01-01 = 0.187;
+    from 1994-01-01 = 0.1955;
+    from 1995-01-01 = 0.1915;
+    from 1996-01-01 = 0.1995;
+    from 1997-01-01 = 0.2095;
+    from 1998-01-01 = 0.2105;
+    from 2000-01-01 = 0.20535;
+    from 2001-01-01 = 0.2044;
+    from 2002-01-01 = 0.2065;
+    from 2003-01-01 = 0.2105;
+    from 2004-01-01 = 0.2095;
+    from 2005-01-01 = 0.2074;
+    from 2006-01-01 = 0.2141;
+    from 2007-01-01 = 0.2075;
+    from 2008-01-01 = 0.20475;
+    from 2009-01-01 = 0.20525;
+    from 2010-01-01 = 0.20225;
+    from 2011-01-01 = 0.20625;
+
+    // Reference: Art. 2 G. v. 20.12.2011 BGBl. I S. 2854
+    from 2012-01-01 = 0.21;
+
+    // Reference: Art. 1 G. v. 18.12.2018 BGBl. I S. 2651
+    from 2019-01-01 = 0.2; 
+}
+
+/**
+ * Replacement Rate Unemployment Benefit, for childless persons.
+ * §149 Nr. 2 SGB III, vorher § 129 (2) SGB III. Höhe des Arbeitslosengeldes im
+ * Verhältnis zum letzten Nettoentgelt bei Personen ohne Kinder im Sinne des EStG.
+ */
+public const satz_ohne_kinder: Float {
+    // Reference: Art. 1 G. v. 24.03.1997 BGBl. I S. 594
+    from 1998-08-01 = 0.6; 
+}
+
+/**
+ * Replacement Rate Unemployment Benefit for persons with children.
+ * §149 Nr. 1 SGB III, vorher §129 Nr. 1 SGB III. Höhe des Arbeitslosengeldes im
+ * Verhältnis zum letzten Nettoentgelt bei Personen mit Kindern im Sinne des EStG
+ */
+public const satz_mit_kindern: Float {
+    // Reference: Art. 1 G. v. 24.03.1997 BGBl. I S. 594
+    from 1998-08-01 = 0.67; 
+}
+
+/**
+ * Working hours limit to receive unemployment benefit
+ * §138 (3) SGB III, früher auch §102 (2) AFG. Grenze, ab der nicht mehr
+ * Arbeitslosigkeit unterstellt wird.
+ */
+public const stundengrenze: Int {
+    from 1969-07-01 = 20;
+    // Reference: Art. 1 G. v. 20.12.1985 BGBl I S. 2484
+    from 1986-01-01 = 19; 
+
+    // Reference: Art. 1 G. v. 20.12.1988 BGBl I S. 2343
+    from 1989-01-01 = 18; 
+
+    // Reference: Art. 2 G. v. 20.12.2011 BGBl I S. 2854
+    from 2012-04-01 = 15; 
+}
+
+/**
+ * Length of ALG 1 eligibility
+ * Dauer des Anspruchs auf ALG 1 richtet sich nach Alter und wie viele Monate
+ * eine Person versicherungsplichtig in den letzten 5 Jahren war.
+ */
+public const anspruchsdauer: Dict<Int, Int> {
+    from 1997-03-24 = {
+        0: 12,
+        50: 15,
+        55: 18,
+        58: 24
+    };
+
+    // Reference: § 147 Abs. 2 SGB III
+    from 1997-03-24 = {
+        12: 6,
+        18: 8,
+        20: 10,
+        24: 12,
+        30: 15,
+        36: 18,
+        48: 24
+    };
+}
