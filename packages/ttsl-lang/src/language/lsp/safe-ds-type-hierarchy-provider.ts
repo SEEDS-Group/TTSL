@@ -1,13 +1,13 @@
 import { type AstNode, AstUtils, CstUtils, type ReferenceDescription, stream, type Stream } from 'langium';
 import { type TypeHierarchyItem } from 'vscode-languageserver';
 import {
-    isSdsClass,
-    isSdsEnum,
-    isSdsEnumVariant,
-    isSdsParentTypeList,
-    SdsClass,
-    SdsEnum,
-    SdsEnumVariant,
+    isTslClass,
+    isTslEnum,
+    isTslEnumVariant,
+    isTslParentTypeList,
+    TslClass,
+    TslEnum,
+    TslEnumVariant,
 } from '../generated/ast.js';
 import type { SafeDsServices } from '../safe-ds-module.js';
 import { SafeDsClassHierarchy } from '../typing/safe-ds-class-hierarchy.js';
@@ -38,16 +38,16 @@ export class SafeDsTypeHierarchyProvider extends AbstractTypeHierarchyProvider {
     }
 
     protected override getSupertypes(node: AstNode): TypeHierarchyItem[] | undefined {
-        if (isSdsClass(node)) {
+        if (isTslClass(node)) {
             return this.getSupertypesOfClass(node);
-        } else if (isSdsEnumVariant(node)) {
+        } else if (isTslEnumVariant(node)) {
             return this.getSupertypesOfEnumVariant(node);
         } else {
             return undefined;
         }
     }
 
-    private getSupertypesOfClass(node: SdsClass): TypeHierarchyItem[] | undefined {
+    private getSupertypesOfClass(node: TslClass): TypeHierarchyItem[] | undefined {
         const parentClass = this.classHierarchy.streamProperSuperclasses(node).head();
         if (!parentClass) {
             /* c8 ignore next 2 */
@@ -57,8 +57,8 @@ export class SafeDsTypeHierarchyProvider extends AbstractTypeHierarchyProvider {
         return this.getTypeHierarchyItems(parentClass, AstUtils.getDocument(parentClass));
     }
 
-    private getSupertypesOfEnumVariant(node: SdsEnumVariant): TypeHierarchyItem[] | undefined {
-        const containingEnum = AstUtils.getContainerOfType(node, isSdsEnum);
+    private getSupertypesOfEnumVariant(node: TslEnumVariant): TypeHierarchyItem[] | undefined {
+        const containingEnum = AstUtils.getContainerOfType(node, isTslEnum);
         if (!containingEnum) {
             /* c8 ignore next 2 */
             return undefined;
@@ -74,9 +74,9 @@ export class SafeDsTypeHierarchyProvider extends AbstractTypeHierarchyProvider {
 
         let items: TypeHierarchyItem[];
 
-        if (isSdsClass(node)) {
+        if (isTslClass(node)) {
             items = this.getSubtypesOfClass(references);
-        } else if (isSdsEnum(node)) {
+        } else if (isTslEnum(node)) {
             items = this.getSubtypesOfEnum(node);
         } else {
             return undefined;
@@ -108,11 +108,11 @@ export class SafeDsTypeHierarchyProvider extends AbstractTypeHierarchyProvider {
 
                 // Only consider the first parent type
                 const targetNode = targetCstNode.astNode;
-                if (!isSdsParentTypeList(targetNode.$container) || targetNode.$containerIndex !== 0) {
+                if (!isTslParentTypeList(targetNode.$container) || targetNode.$containerIndex !== 0) {
                     return [];
                 }
 
-                const containingClass = AstUtils.getContainerOfType(targetNode, isSdsClass);
+                const containingClass = AstUtils.getContainerOfType(targetNode, isTslClass);
                 if (!containingClass) {
                     /* c8 ignore next 2 */
                     return [];
@@ -123,7 +123,7 @@ export class SafeDsTypeHierarchyProvider extends AbstractTypeHierarchyProvider {
             .toArray();
     }
 
-    private getSubtypesOfEnum(node: SdsEnum): TypeHierarchyItem[] {
+    private getSubtypesOfEnum(node: TslEnum): TypeHierarchyItem[] {
         const variants = getEnumVariants(node);
         const document = AstUtils.getDocument(node);
 

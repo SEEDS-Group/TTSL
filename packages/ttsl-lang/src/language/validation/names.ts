@@ -3,27 +3,27 @@ import { duplicatesBy } from '../../helpers/collections.js';
 import { listBuiltinFiles } from '../builtins/fileFinder.js';
 import { BUILTINS_LANG_PACKAGE, BUILTINS_ROOT_PACKAGE } from '../builtins/packageNames.js';
 import {
-    isSdsQualifiedImport,
-    SdsAnnotation,
-    SdsAttribute,
-    SdsBlockLambda,
-    SdsBlockLambdaResult,
-    SdsCallableType,
-    SdsClass,
-    SdsDeclaration,
-    SdsEnum,
-    SdsEnumVariant,
-    SdsExpressionLambda,
-    SdsFunction,
-    SdsImportedDeclaration,
-    SdsModule,
-    SdsParameter,
-    SdsPipeline,
-    SdsPlaceholder,
-    SdsResult,
-    SdsSchema,
-    SdsSegment,
-    SdsTypeParameter,
+    isTslQualifiedImport,
+    TslAnnotation,
+    TslAttribute,
+    TslBlockLambda,
+    TslBlockLambdaResult,
+    TslCallableType,
+    TslClass,
+    TslDeclaration,
+    TslEnum,
+    TslEnumVariant,
+    TslExpressionLambda,
+    TslFunction,
+    TslImportedDeclaration,
+    TslModule,
+    TslParameter,
+    TslPipeline,
+    TslPlaceholder,
+    TslResult,
+    TslSchema,
+    TslSegment,
+    TslTypeParameter,
 } from '../generated/ast.js';
 import { CODEGEN_PREFIX } from '../generation/safe-ds-python-generator.js';
 import { isInPipelineFile, isInStubFile, isInTestFile } from '../helpers/fileExtensions.js';
@@ -54,7 +54,7 @@ export const CODE_NAME_DUPLICATE = 'name/duplicate';
 // Codegen prefix
 // -----------------------------------------------------------------------------
 
-export const nameMustNotStartWithCodegenPrefix = (node: SdsDeclaration, accept: ValidationAcceptor) => {
+export const nameMustNotStartWithCodegenPrefix = (node: TslDeclaration, accept: ValidationAcceptor) => {
     const name = node.name ?? '';
     if (name.startsWith(CODEGEN_PREFIX)) {
         accept(
@@ -76,7 +76,7 @@ export const nameMustNotStartWithCodegenPrefix = (node: SdsDeclaration, accept: 
 export const nameMustNotOccurOnCoreDeclaration = (services: SafeDsServices) => {
     const packageManager = services.workspace.PackageManager;
 
-    return (node: SdsDeclaration, accept: ValidationAcceptor) => {
+    return (node: TslDeclaration, accept: ValidationAcceptor) => {
         if (!node.name) {
             /* c8 ignore next 2 */
             return;
@@ -106,28 +106,28 @@ export const nameMustNotOccurOnCoreDeclaration = (services: SafeDsServices) => {
 export const nameShouldHaveCorrectCasing = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsDeclaration, accept: ValidationAcceptor) => {
+    return async (node: TslDeclaration, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateNameConvention())) {
             /* c8 ignore next 2 */
             return;
         }
 
         switch (node.$type) {
-            case SdsAnnotation:
+            case TslAnnotation:
                 return nameShouldBeUpperCamelCase(node, 'annotations', accept);
-            case SdsAttribute:
+            case TslAttribute:
                 return nameShouldBeLowerCamelCase(node, 'attributes', accept);
-            case SdsBlockLambdaResult:
+            case TslBlockLambdaResult:
                 return nameShouldBeLowerCamelCase(node, 'block lambda results', accept);
-            case SdsClass:
+            case TslClass:
                 return nameShouldBeUpperCamelCase(node, 'classes', accept);
-            case SdsEnum:
+            case TslEnum:
                 return nameShouldBeUpperCamelCase(node, 'enums', accept);
-            case SdsEnumVariant:
+            case TslEnumVariant:
                 return nameShouldBeUpperCamelCase(node, 'enum variants', accept);
-            case SdsFunction:
+            case TslFunction:
                 return nameShouldBeLowerCamelCase(node, 'functions', accept);
-            case SdsModule:
+            case TslModule:
                 const name = node.name ?? '';
                 const segments = name.split('.');
                 if (name !== '' && segments.every((it) => it !== '') && !segments.every(isLowerCamelCase)) {
@@ -138,26 +138,26 @@ export const nameShouldHaveCorrectCasing = (services: SafeDsServices) => {
                     });
                 }
                 return;
-            case SdsParameter:
+            case TslParameter:
                 return nameShouldBeLowerCamelCase(node, 'parameters', accept);
-            case SdsPipeline:
+            case TslPipeline:
                 return nameShouldBeLowerCamelCase(node, 'pipelines', accept);
-            case SdsPlaceholder:
+            case TslPlaceholder:
                 return nameShouldBeLowerCamelCase(node, 'placeholders', accept);
-            case SdsResult:
+            case TslResult:
                 return nameShouldBeLowerCamelCase(node, 'results', accept);
-            case SdsSchema:
+            case TslSchema:
                 return nameShouldBeUpperCamelCase(node, 'schemas', accept);
-            case SdsSegment:
+            case TslSegment:
                 return nameShouldBeLowerCamelCase(node, 'segments', accept);
-            case SdsTypeParameter:
+            case TslTypeParameter:
                 return nameShouldBeUpperCamelCase(node, 'type parameters', accept);
         }
         /* c8 ignore next */
     };
 };
 
-const nameShouldBeLowerCamelCase = (node: SdsDeclaration, nodeName: string, accept: ValidationAcceptor): void => {
+const nameShouldBeLowerCamelCase = (node: TslDeclaration, nodeName: string, accept: ValidationAcceptor): void => {
     const name = node.name ?? '';
     if (!isLowerCamelCase(name)) {
         acceptCasingWarning(node, nodeName, 'lowerCamelCase', accept);
@@ -168,7 +168,7 @@ const isLowerCamelCase = (name: string): boolean => {
     return /^[a-z][a-zA-Z0-9]*$/gu.test(name);
 };
 
-const nameShouldBeUpperCamelCase = (node: SdsDeclaration, nodeName: string, accept: ValidationAcceptor): void => {
+const nameShouldBeUpperCamelCase = (node: TslDeclaration, nodeName: string, accept: ValidationAcceptor): void => {
     const name = node.name ?? '';
     if (!isUpperCamelCase(name)) {
         acceptCasingWarning(node, nodeName, 'UpperCamelCase', accept);
@@ -180,7 +180,7 @@ const isUpperCamelCase = (name: string): boolean => {
 };
 
 const acceptCasingWarning = (
-    node: SdsDeclaration,
+    node: TslDeclaration,
     nodeName: string,
     expectedCasing: string,
     accept: ValidationAcceptor,
@@ -196,11 +196,11 @@ const acceptCasingWarning = (
 // Uniqueness
 // -----------------------------------------------------------------------------
 
-export const annotationMustContainUniqueNames = (node: SdsAnnotation, accept: ValidationAcceptor): void => {
+export const annotationMustContainUniqueNames = (node: TslAnnotation, accept: ValidationAcceptor): void => {
     namesMustBeUnique(getParameters(node), (name) => `A parameter with name '${name}' exists already.`, accept);
 };
 
-export const blockLambdaMustContainUniqueNames = (node: SdsBlockLambda, accept: ValidationAcceptor): void => {
+export const blockLambdaMustContainUniqueNames = (node: TslBlockLambda, accept: ValidationAcceptor): void => {
     const parametersAndPlaceholders = [...getParameters(node), ...streamPlaceholders(node.body)];
     namesMustBeUnique(
         parametersAndPlaceholders,
@@ -211,12 +211,12 @@ export const blockLambdaMustContainUniqueNames = (node: SdsBlockLambda, accept: 
     namesMustBeUnique(streamBlockLambdaResults(node), (name) => `A result with name '${name}' exists already.`, accept);
 };
 
-export const callableTypeMustContainUniqueNames = (node: SdsCallableType, accept: ValidationAcceptor): void => {
+export const callableTypeMustContainUniqueNames = (node: TslCallableType, accept: ValidationAcceptor): void => {
     namesMustBeUnique(getParameters(node), (name) => `A parameter with name '${name}' exists already.`, accept);
     namesMustBeUnique(getResults(node.resultList), (name) => `A result with name '${name}' exists already.`, accept);
 };
 
-export const classMustContainUniqueNames = (node: SdsClass, accept: ValidationAcceptor): void => {
+export const classMustContainUniqueNames = (node: TslClass, accept: ValidationAcceptor): void => {
     const typeParametersAndParameters = [...getTypeParameters(node.typeParameterList), ...getParameters(node)];
     namesMustBeUnique(
         typeParametersAndParameters,
@@ -231,20 +231,20 @@ export const classMustContainUniqueNames = (node: SdsClass, accept: ValidationAc
     namesMustBeUnique(staticMembers, (name) => `A static member with name '${name}' exists already.`, accept);
 };
 
-export const enumMustContainUniqueNames = (node: SdsEnum, accept: ValidationAcceptor): void => {
+export const enumMustContainUniqueNames = (node: TslEnum, accept: ValidationAcceptor): void => {
     namesMustBeUnique(getEnumVariants(node), (name) => `A variant with name '${name}' exists already.`, accept);
 };
 
-export const enumVariantMustContainUniqueNames = (node: SdsEnumVariant, accept: ValidationAcceptor): void => {
+export const enumVariantMustContainUniqueNames = (node: TslEnumVariant, accept: ValidationAcceptor): void => {
     const parameters = [...getParameters(node)];
     namesMustBeUnique(parameters, (name) => `A parameter with name '${name}' exists already.`, accept);
 };
 
-export const expressionLambdaMustContainUniqueNames = (node: SdsExpressionLambda, accept: ValidationAcceptor): void => {
+export const expressionLambdaMustContainUniqueNames = (node: TslExpressionLambda, accept: ValidationAcceptor): void => {
     namesMustBeUnique(getParameters(node), (name) => `A parameter with name '${name}' exists already.`, accept);
 };
 
-export const functionMustContainUniqueNames = (node: SdsFunction, accept: ValidationAcceptor): void => {
+export const functionMustContainUniqueNames = (node: TslFunction, accept: ValidationAcceptor): void => {
     const typeParametersAndParameters = [...getTypeParameters(node.typeParameterList), ...getParameters(node)];
     namesMustBeUnique(
         typeParametersAndParameters,
@@ -259,7 +259,7 @@ export const moduleMemberMustHaveNameThatIsUniqueInPackage = (services: SafeDsSe
     const packageManager = services.workspace.PackageManager;
     const builtinUris = new Set(listBuiltinFiles().map((it) => it.toString()));
 
-    return (node: SdsModule, accept: ValidationAcceptor): void => {
+    return (node: TslModule, accept: ValidationAcceptor): void => {
         const moduleUri = AstUtils.getDocument(node).uri?.toString();
         if (builtinUris.has(moduleUri)) {
             return;
@@ -297,9 +297,9 @@ export const moduleMemberMustHaveNameThatIsUniqueInPackage = (services: SafeDsSe
     };
 };
 
-export const moduleMustContainUniqueNames = (node: SdsModule, accept: ValidationAcceptor): void => {
+export const moduleMustContainUniqueNames = (node: TslModule, accept: ValidationAcceptor): void => {
     // Names of imported declarations must be unique
-    const importedDeclarations = getImports(node).filter(isSdsQualifiedImport).flatMap(getImportedDeclarations);
+    const importedDeclarations = getImports(node).filter(isTslQualifiedImport).flatMap(getImportedDeclarations);
     for (const duplicate of duplicatesBy(importedDeclarations, importedDeclarationName)) {
         if (duplicate.alias) {
             accept('error', `A declaration with name '${importedDeclarationName(duplicate)}' was imported already.`, {
@@ -340,11 +340,11 @@ export const moduleMustContainUniqueNames = (node: SdsModule, accept: Validation
     }
 };
 
-const importedDeclarationName = (node: SdsImportedDeclaration | undefined): string | undefined => {
+const importedDeclarationName = (node: TslImportedDeclaration | undefined): string | undefined => {
     return node?.alias?.alias ?? node?.declaration?.ref?.name;
 };
 
-export const pipelineMustContainUniqueNames = (node: SdsPipeline, accept: ValidationAcceptor): void => {
+export const pipelineMustContainUniqueNames = (node: TslPipeline, accept: ValidationAcceptor): void => {
     namesMustBeUnique(
         streamPlaceholders(node.body),
         (name) => `A placeholder with name '${name}' exists already.`,
@@ -352,7 +352,7 @@ export const pipelineMustContainUniqueNames = (node: SdsPipeline, accept: Valida
     );
 };
 
-export const schemaMustContainUniqueNames = (node: SdsSchema, accept: ValidationAcceptor): void => {
+export const schemaMustContainUniqueNames = (node: TslSchema, accept: ValidationAcceptor): void => {
     const duplicates = duplicatesBy(getColumns(node), (it) => it.columnName.value);
     for (const duplicate of duplicates) {
         accept('error', `A column with name '${duplicate.columnName.value}' exists already.`, {
@@ -363,7 +363,7 @@ export const schemaMustContainUniqueNames = (node: SdsSchema, accept: Validation
     }
 };
 
-export const segmentMustContainUniqueNames = (node: SdsSegment, accept: ValidationAcceptor): void => {
+export const segmentMustContainUniqueNames = (node: TslSegment, accept: ValidationAcceptor): void => {
     const parametersAndPlaceholder = [...getParameters(node), ...streamPlaceholders(node.body)];
     namesMustBeUnique(
         parametersAndPlaceholder,
@@ -375,10 +375,10 @@ export const segmentMustContainUniqueNames = (node: SdsSegment, accept: Validati
 };
 
 const namesMustBeUnique = (
-    nodes: Iterable<SdsDeclaration>,
+    nodes: Iterable<TslDeclaration>,
     createMessage: (name: string) => string,
     accept: ValidationAcceptor,
-    shouldReportErrorOn: (node: SdsDeclaration) => boolean = () => true,
+    shouldReportErrorOn: (node: TslDeclaration) => boolean = () => true,
 ): void => {
     for (const node of duplicatesBy(nodes, (it) => it.name)) {
         if (shouldReportErrorOn(node)) {

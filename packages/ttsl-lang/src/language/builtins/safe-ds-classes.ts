@@ -1,50 +1,50 @@
-import { isSdsClass, SdsClass } from '../generated/ast.js';
+import { isTslClass, TslClass } from '../generated/ast.js';
 import { SafeDsModuleMembers } from './safe-ds-module-members.js';
 import { resourceNameToUri } from '../../helpers/resources.js';
 
-const CORE_CLASSES_URI = resourceNameToUri('builtins/safeds/lang/coreClasses.sdsstub');
+const CORE_CLASSES_URI = resourceNameToUri('builtins/safeds/lang/coreClasses.Tslstub');
 
-export class SafeDsClasses extends SafeDsModuleMembers<SdsClass> {
-    get Any(): SdsClass | undefined {
+export class SafeDsClasses extends SafeDsModuleMembers<TslClass> {
+    get Any(): TslClass | undefined {
         return this.getClass('Any');
     }
 
-    get Boolean(): SdsClass | undefined {
+    get Boolean(): TslClass | undefined {
         return this.getClass('Boolean');
     }
 
-    get Float(): SdsClass | undefined {
+    get Float(): TslClass | undefined {
         return this.getClass('Float');
     }
 
-    get Int(): SdsClass | undefined {
+    get Int(): TslClass | undefined {
         return this.getClass('Int');
     }
 
-    get List(): SdsClass | undefined {
+    get List(): TslClass | undefined {
         return this.getClass('List');
     }
 
-    get Map(): SdsClass | undefined {
+    get Map(): TslClass | undefined {
         return this.getClass('Map');
     }
 
-    get Nothing(): SdsClass | undefined {
+    get Nothing(): TslClass | undefined {
         return this.getClass('Nothing');
     }
 
-    get Number(): SdsClass | undefined {
+    get Number(): TslClass | undefined {
         return this.getClass('Number');
     }
 
-    get String(): SdsClass | undefined {
+    get String(): TslClass | undefined {
         return this.getClass('String');
     }
 
     /**
      * Returns whether the given node is a builtin class.
      */
-    isBuiltinClass(node: SdsClass | undefined): boolean {
+    isBuiltinClass(node: TslClass | undefined): boolean {
         return (
             Boolean(node) &&
             [
@@ -61,7 +61,7 @@ export class SafeDsClasses extends SafeDsModuleMembers<SdsClass> {
         );
     }
 
-    private getClass(name: string): SdsClass | undefined {
-        return this.getModuleMember(CORE_CLASSES_URI, name, isSdsClass);
+    private getClass(name: string): TslClass | undefined {
+        return this.getModuleMember(CORE_CLASSES_URI, name, isTslClass);
     }
 }

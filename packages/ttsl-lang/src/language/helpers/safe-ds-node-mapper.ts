@@ -1,33 +1,33 @@
 import { AstUtils, EMPTY_STREAM, Stream } from 'langium';
 import {
-    isSdsAbstractCall,
-    isSdsAnnotationCall,
-    isSdsAssignment,
-    isSdsBlock,
-    isSdsCall,
-    isSdsCallable,
-    isSdsClass,
-    isSdsEnumVariant,
-    isSdsExpressionLambda,
-    isSdsNamedType,
-    isSdsParameter,
-    isSdsReference,
-    isSdsSegment,
-    isSdsType,
-    isSdsYield,
-    SdsAbstractCall,
-    SdsAbstractResult,
-    SdsArgument,
-    SdsAssignee,
-    SdsCallable,
-    SdsExpression,
-    SdsParameter,
-    SdsPlaceholder,
-    SdsReference,
-    SdsResult,
-    SdsTypeArgument,
-    SdsTypeParameter,
-    SdsYield,
+    isTslAbstractCall,
+    isTslAnnotationCall,
+    isTslAssignment,
+    isTslBlock,
+    isTslCall,
+    isTslCallable,
+    isTslClass,
+    isTslEnumVariant,
+    isTslExpressionLambda,
+    isTslNamedType,
+    isTslParameter,
+    isTslReference,
+    isTslSegment,
+    isTslType,
+    isTslYield,
+    TslAbstractCall,
+    TslAbstractResult,
+    TslArgument,
+    TslAssignee,
+    TslCallable,
+    TslExpression,
+    TslParameter,
+    TslPlaceholder,
+    TslReference,
+    TslResult,
+    TslTypeArgument,
+    TslTypeParameter,
+    TslYield,
 } from '../generated/ast.js';
 import { SafeDsServices } from '../safe-ds-module.js';
 import { CallableType, StaticType } from '../typing/model.js';
@@ -52,7 +52,7 @@ export class SafeDsNodeMapper {
     /**
      * Returns the parameter that the argument is assigned to. If there is no matching parameter, returns `undefined`.
      */
-    argumentToParameter(node: SdsArgument | undefined): SdsParameter | undefined {
+    argumentToParameter(node: TslArgument | undefined): TslParameter | undefined {
         if (!node) {
             return undefined;
         }
@@ -63,7 +63,7 @@ export class SafeDsNodeMapper {
         }
 
         // Positional argument
-        const containingAbstractCall = AstUtils.getContainerOfType(node, isSdsAbstractCall)!;
+        const containingAbstractCall = AstUtils.getContainerOfType(node, isTslAbstractCall)!;
         const args = getArguments(containingAbstractCall);
         const argumentPosition = node.$containerIndex ?? -1;
 
@@ -88,12 +88,12 @@ export class SafeDsNodeMapper {
      * Returns the result, block lambda result, or expression that is assigned to the given assignee. If nothing is
      * assigned, `undefined` is returned.
      */
-    assigneeToAssignedObject(node: SdsAssignee | undefined): SdsAbstractResult | SdsExpression | undefined {
+    assigneeToAssignedObject(node: TslAssignee | undefined): TslAbstractResult | TslExpression | undefined {
         if (!node) {
             return undefined;
         }
 
-        const containingAssignment = AstUtils.getContainerOfType(node, isSdsAssignment);
+        const containingAssignment = AstUtils.getContainerOfType(node, isTslAssignment);
         /* c8 ignore start */
         if (!containingAssignment) {
             return undefined;
@@ -104,7 +104,7 @@ export class SafeDsNodeMapper {
         const expression = containingAssignment.expression;
 
         // If the RHS is not a call, the first assignee gets the entire RHS
-        if (!isSdsCall(expression)) {
+        if (!isTslCall(expression)) {
             if (assigneePosition === 0) {
                 return expression;
             } else {
@@ -114,7 +114,7 @@ export class SafeDsNodeMapper {
 
         // If the RHS instantiates a class or enum variant, the first assignee gets the entire RHS
         const callable = this.callToCallable(expression);
-        if (isSdsClass(callable) || isSdsEnumVariant(callable)) {
+        if (isTslClass(callable) || isTslEnumVariant(callable)) {
             if (assigneePosition === 0) {
                 return expression;
             } else {
@@ -123,7 +123,7 @@ export class SafeDsNodeMapper {
         }
 
         // If the RHS calls an expression lambda, the first assignee gets its result
-        if (isSdsExpressionLambda(callable)) {
+        if (isTslExpressionLambda(callable)) {
             if (assigneePosition === 0) {
                 return callable.result;
             } else {
@@ -139,14 +139,14 @@ export class SafeDsNodeMapper {
     /**
      * Returns the callable that is called by the given call. If no callable can be found, returns `undefined`.
      */
-    callToCallable(node: SdsAbstractCall | undefined): SdsCallable | undefined {
+    callToCallable(node: TslAbstractCall | undefined): TslCallable | undefined {
         if (!node) {
             return undefined;
         }
 
-        if (isSdsAnnotationCall(node)) {
+        if (isTslAnnotationCall(node)) {
             return node.annotation?.ref;
-        } else if (isSdsCall(node)) {
+        } else if (isTslCall(node)) {
             // We ignore nullability, since calls can be made null-safe. For scoping, for instance, we still want to
             // link the arguments of the call properly, even if the user forgot to make the call null-safe. In this
             // case, an error is being shown anyway.
@@ -157,7 +157,7 @@ export class SafeDsNodeMapper {
                 return nonNullableReceiverType.callable;
             } else if (nonNullableReceiverType instanceof StaticType) {
                 const declaration = nonNullableReceiverType.instanceType.declaration;
-                if (isSdsCallable(declaration)) {
+                if (isTslCallable(declaration)) {
                     return declaration;
                 }
             }
@@ -175,16 +175,16 @@ export class SafeDsNodeMapper {
      * @param parameter The parameter whose value to return. Can be either a parameter itself or its name.
      */
     callToParameterValue(
-        call: SdsAbstractCall | undefined,
-        parameter: SdsParameter | string | undefined,
-    ): SdsExpression | undefined {
+        call: TslAbstractCall | undefined,
+        parameter: TslParameter | string | undefined,
+    ): TslExpression | undefined {
         if (!call || !parameter) {
             return undefined;
         }
 
         // Parameter is set explicitly
         const argument = getArguments(call).find((it) => {
-            if (isSdsParameter(parameter)) {
+            if (isTslParameter(parameter)) {
                 return this.argumentToParameter(it) === parameter;
             } else {
                 return this.argumentToParameter(it)?.name === parameter;
@@ -198,7 +198,7 @@ export class SafeDsNodeMapper {
         // We must ensure the parameter belongs to the called callable, so we cannot directly get the defaultValue
         const callable = this.callToCallable(call);
         return getParameters(callable).find((it) => {
-            if (isSdsParameter(parameter)) {
+            if (isTslParameter(parameter)) {
                 return it === parameter;
             } else {
                 return it.name === parameter;
@@ -214,8 +214,8 @@ export class SafeDsNodeMapper {
      * @param parameters The parameters to map to arguments.
      * @param args The arguments.
      */
-    parametersToArguments(parameters: SdsParameter[], args: SdsArgument[]): Map<SdsParameter, SdsArgument> {
-        const result = new Map<SdsParameter, SdsArgument>();
+    parametersToArguments(parameters: TslParameter[], args: TslArgument[]): Map<TslParameter, TslArgument> {
+        const result = new Map<TslParameter, TslArgument>();
 
         for (const argument of args) {
             const parameterIndex = this.argumentToParameter(argument)?.$containerIndex ?? -1;
@@ -244,12 +244,12 @@ export class SafeDsNodeMapper {
     /**
      * Returns all references that target the given parameter.
      */
-    parameterToReferences(node: SdsParameter | undefined): Stream<SdsReference> {
+    parameterToReferences(node: TslParameter | undefined): Stream<TslReference> {
         if (!node) {
             return EMPTY_STREAM;
         }
 
-        const containingCallable = AstUtils.getContainerOfType(node, isSdsCallable);
+        const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
         /* c8 ignore start */
         if (!containingCallable) {
             return EMPTY_STREAM;
@@ -258,18 +258,18 @@ export class SafeDsNodeMapper {
 
         return AstUtils.findLocalReferences(node, containingCallable)
             .map((it) => it.$refNode?.astNode)
-            .filter(isSdsReference);
+            .filter(isTslReference);
     }
 
     /**
      * Returns all references that target the given placeholder.
      */
-    placeholderToReferences(node: SdsPlaceholder | undefined): Stream<SdsReference> {
+    placeholderToReferences(node: TslPlaceholder | undefined): Stream<TslReference> {
         if (!node) {
             return EMPTY_STREAM;
         }
 
-        const containingBlock = AstUtils.getContainerOfType(node, isSdsBlock);
+        const containingBlock = AstUtils.getContainerOfType(node, isTslBlock);
         /* c8 ignore start */
         if (!containingBlock) {
             return EMPTY_STREAM;
@@ -278,32 +278,32 @@ export class SafeDsNodeMapper {
 
         return AstUtils.findLocalReferences(node, containingBlock)
             .map((it) => it.$refNode?.astNode)
-            .filter(isSdsReference);
+            .filter(isTslReference);
     }
 
     /**
      * Returns all yields that assign to the given result.
      */
-    resultToYields(node: SdsResult | undefined): Stream<SdsYield> {
+    resultToYields(node: TslResult | undefined): Stream<TslYield> {
         if (!node) {
             return EMPTY_STREAM;
         }
 
-        const containingSegment = AstUtils.getContainerOfType(node, isSdsSegment);
+        const containingSegment = AstUtils.getContainerOfType(node, isTslSegment);
         if (!containingSegment) {
             return EMPTY_STREAM;
         }
 
         return AstUtils.findLocalReferences(node, containingSegment)
             .map((it) => it.$refNode?.astNode)
-            .filter(isSdsYield);
+            .filter(isTslYield);
     }
 
     /**
      * Returns the type parameter that the type argument is assigned to. If there is no matching type parameter, returns
      * `undefined`.
      */
-    typeArgumentToTypeParameter(node: SdsTypeArgument | undefined): SdsTypeParameter | undefined {
+    typeArgumentToTypeParameter(node: TslTypeArgument | undefined): TslTypeParameter | undefined {
         if (!node) {
             return undefined;
         }
@@ -314,8 +314,8 @@ export class SafeDsNodeMapper {
         }
 
         // Positional type argument
-        const containingType = AstUtils.getContainerOfType(node, isSdsType);
-        if (!isSdsNamedType(containingType)) {
+        const containingType = AstUtils.getContainerOfType(node, isTslType);
+        if (!isTslNamedType(containingType)) {
             return undefined;
         }
 

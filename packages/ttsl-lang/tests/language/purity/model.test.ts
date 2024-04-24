@@ -1,6 +1,6 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
-import { isSdsParameter } from '../../../src/language/generated/ast.js';
+import { isTslParameter } from '../../../src/language/generated/ast.js';
 import {
     EndlessRecursion,
     FileRead,
@@ -15,7 +15,7 @@ import { type EqualsTest, ToStringTest } from '../../helpers/testDescription.js'
 import { createSafeDsServices } from '../../../src/language/index.js';
 
 const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
-const parameter = await getNodeOfType(services, 'fun f(p: Int)', isSdsParameter);
+const parameter = await getNodeOfType(services, 'fun f(p: Int)', isTslParameter);
 
 describe('purity model', async () => {
     const equalsTests: EqualsTest<ImpurityReason>[] = [

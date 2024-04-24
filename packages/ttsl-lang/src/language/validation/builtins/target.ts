@@ -1,21 +1,21 @@
 import { ValidationAcceptor } from 'langium';
 import {
-    isSdsAnnotation,
-    isSdsAttribute,
-    isSdsClass,
-    isSdsEnum,
-    isSdsEnumVariant,
-    isSdsFunction,
-    isSdsList,
-    isSdsModule,
-    isSdsParameter,
-    isSdsPipeline,
-    isSdsResult,
-    isSdsSegment,
-    isSdsTypeParameter,
-    SdsAnnotation,
-    SdsAnnotationCall,
-    SdsEnumVariant,
+    isTslAnnotation,
+    isTslAttribute,
+    isTslClass,
+    isTslEnum,
+    isTslEnumVariant,
+    isTslFunction,
+    isTslList,
+    isTslModule,
+    isTslParameter,
+    isTslPipeline,
+    isTslResult,
+    isTslSegment,
+    isTslTypeParameter,
+    TslAnnotation,
+    TslAnnotationCall,
+    TslEnumVariant,
 } from '../../generated/ast.js';
 import { findFirstAnnotationCallOf, getAnnotationCallTarget } from '../../helpers/nodeProperties.js';
 import { SafeDsServices } from '../../safe-ds-module.js';
@@ -29,18 +29,18 @@ export const targetShouldNotHaveDuplicateEntries = (services: SafeDsServices) =>
     const partialEvaluator = services.evaluation.PartialEvaluator;
     const nodeMapper = services.helpers.NodeMapper;
 
-    return (node: SdsAnnotation, accept: ValidationAcceptor) => {
+    return (node: TslAnnotation, accept: ValidationAcceptor) => {
         const annotationCall = findFirstAnnotationCallOf(node, builtinAnnotations.Target);
         if (!annotationCall) {
             return;
         }
 
         const targets = nodeMapper.callToParameterValue(annotationCall, 'targets');
-        if (!isSdsList(targets)) {
+        if (!isTslList(targets)) {
             return;
         }
 
-        const knownTargets = new Set<SdsEnumVariant>();
+        const knownTargets = new Set<TslEnumVariant>();
         for (const target of targets.elements) {
             const evaluatedTarget = partialEvaluator.evaluate(target);
             if (!builtinEnums.isEvaluatedAnnotationTarget(evaluatedTarget)) {
@@ -62,7 +62,7 @@ export const targetShouldNotHaveDuplicateEntries = (services: SafeDsServices) =>
 export const annotationCallMustHaveCorrectTarget = (services: SafeDsServices) => {
     const builtinAnnotations = services.builtins.Annotations;
 
-    return (node: SdsAnnotationCall, accept: ValidationAcceptor) => {
+    return (node: TslAnnotationCall, accept: ValidationAcceptor) => {
         const annotation = node.annotation?.ref;
         if (!annotation) {
             return;
@@ -90,65 +90,65 @@ export const annotationCallMustHaveCorrectTarget = (services: SafeDsServices) =>
     };
 };
 
-const getActualTarget = (node: SdsAnnotationCall): GetActualTargetResult | void => {
+const getActualTarget = (node: TslAnnotationCall): GetActualTargetResult | void => {
     const annotatedObject = getAnnotationCallTarget(node);
 
-    if (isSdsAnnotation(annotatedObject)) {
+    if (isTslAnnotation(annotatedObject)) {
         return {
             enumVariantName: 'Annotation',
             prettyName: 'an annotation',
         };
-    } else if (isSdsAttribute(annotatedObject)) {
+    } else if (isTslAttribute(annotatedObject)) {
         return {
             enumVariantName: 'Attribute',
             prettyName: 'an attribute',
         };
-    } else if (isSdsClass(annotatedObject)) {
+    } else if (isTslClass(annotatedObject)) {
         return {
             enumVariantName: 'Class',
             prettyName: 'a class',
         };
-    } else if (isSdsEnum(annotatedObject)) {
+    } else if (isTslEnum(annotatedObject)) {
         return {
             enumVariantName: 'Enum',
             prettyName: 'an enum',
         };
-    } else if (isSdsEnumVariant(annotatedObject)) {
+    } else if (isTslEnumVariant(annotatedObject)) {
         return {
             enumVariantName: 'EnumVariant',
             prettyName: 'an enum variant',
         };
-    } else if (isSdsFunction(annotatedObject)) {
+    } else if (isTslFunction(annotatedObject)) {
         return {
             enumVariantName: 'Function',
             prettyName: 'a function',
         };
-    } else if (isSdsModule(annotatedObject)) {
+    } else if (isTslModule(annotatedObject)) {
         return {
             enumVariantName: 'Module',
             prettyName: 'a module',
         };
-    } else if (isSdsParameter(annotatedObject)) {
+    } else if (isTslParameter(annotatedObject)) {
         return {
             enumVariantName: 'Parameter',
             prettyName: 'a parameter',
         };
-    } else if (isSdsPipeline(annotatedObject)) {
+    } else if (isTslPipeline(annotatedObject)) {
         return {
             enumVariantName: 'Pipeline',
             prettyName: 'a pipeline',
         };
-    } else if (isSdsResult(annotatedObject)) {
+    } else if (isTslResult(annotatedObject)) {
         return {
             enumVariantName: 'Result',
             prettyName: 'a result',
         };
-    } else if (isSdsSegment(annotatedObject)) {
+    } else if (isTslSegment(annotatedObject)) {
         return {
             enumVariantName: 'Segment',
             prettyName: 'a segment',
         };
-    } else if (isSdsTypeParameter(annotatedObject)) {
+    } else if (isTslTypeParameter(annotatedObject)) {
         return {
             enumVariantName: 'TypeParameter',
             prettyName: 'a type parameter',

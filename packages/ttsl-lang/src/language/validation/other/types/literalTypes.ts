@@ -1,4 +1,4 @@
-import { isSdsList, isSdsMap, SdsLiteralType } from '../../../generated/ast.js';
+import { isTslList, isTslDictionary, TslLiteralType } from '../../../generated/ast.js';
 import { ValidationAcceptor } from 'langium';
 import { getLiterals } from '../../../helpers/nodeProperties.js';
 import { SafeDsServices } from '../../../safe-ds-module.js';
@@ -10,7 +10,7 @@ export const CODE_LITERAL_TYPE_LIST_LITERAL = 'literal-type/list-literal';
 export const CODE_LITERAL_TYPE_MAP_LITERAL = 'literal-type/map-literal';
 export const CODE_LITERAL_TYPE_MISSING_LITERALS = 'literal-type/missing-literals';
 
-export const literalTypeMustHaveLiterals = (node: SdsLiteralType, accept: ValidationAcceptor): void => {
+export const literalTypeMustHaveLiterals = (node: TslLiteralType, accept: ValidationAcceptor): void => {
     if (isEmpty(getLiterals(node))) {
         accept('error', 'A literal type must have at least one literal.', {
             node,
@@ -20,9 +20,9 @@ export const literalTypeMustHaveLiterals = (node: SdsLiteralType, accept: Valida
     }
 };
 
-export const literalTypeMustNotContainListLiteral = (node: SdsLiteralType, accept: ValidationAcceptor): void => {
+export const literalTypeMustNotContainListLiteral = (node: TslLiteralType, accept: ValidationAcceptor): void => {
     for (const literal of getLiterals(node)) {
-        if (isSdsList(literal)) {
+        if (isTslList(literal)) {
             accept('error', 'Literal types must not contain list literals.', {
                 node: literal,
                 code: CODE_LITERAL_TYPE_LIST_LITERAL,
@@ -31,9 +31,9 @@ export const literalTypeMustNotContainListLiteral = (node: SdsLiteralType, accep
     }
 };
 
-export const literalTypeMustNotContainMapLiteral = (node: SdsLiteralType, accept: ValidationAcceptor): void => {
+export const literalTypeMustNotContainMapLiteral = (node: TslLiteralType, accept: ValidationAcceptor): void => {
     for (const literal of getLiterals(node)) {
-        if (isSdsMap(literal)) {
+        if (isTslDictionary(literal)) {
             accept('error', 'Literal types must not contain map literals.', {
                 node: literal,
                 code: CODE_LITERAL_TYPE_MAP_LITERAL,
@@ -45,7 +45,7 @@ export const literalTypeMustNotContainMapLiteral = (node: SdsLiteralType, accept
 export const literalTypeShouldNotHaveDuplicateLiteral = (services: SafeDsServices) => {
     const partialEvaluator = services.evaluation.PartialEvaluator;
 
-    return (node: SdsLiteralType, accept: ValidationAcceptor): void => {
+    return (node: TslLiteralType, accept: ValidationAcceptor): void => {
         const literals = getLiterals(node);
         const constants: EvaluatedNode[] = [];
 

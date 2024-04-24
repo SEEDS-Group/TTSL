@@ -1,11 +1,11 @@
 import { EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
 import {
-    isSdsModule,
-    SdsArgument,
-    SdsFunction,
-    SdsParameter,
-    SdsPipeline,
+    isTslModule,
+    TslArgument,
+    TslFunction,
+    TslParameter,
+    TslPipeline,
 } from '../../../../src/language/generated/ast.js';
 import { createSafeDsServices, getArguments, getModuleMembers, getParameters } from '../../../../src/language/index.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
@@ -21,10 +21,10 @@ const code = `
         myFunction(1, 2, p1 = 3, p3 = 4);
     }
 `;
-const module = await getNodeOfType(services, code, isSdsModule);
-const myFunction = getModuleMembers(module)[0] as SdsFunction;
+const module = await getNodeOfType(services, code, isTslModule);
+const myFunction = getModuleMembers(module)[0] as TslFunction;
 const p1 = getParameters(myFunction)[0]!;
-const myPipeline = module?.members[1] as SdsPipeline;
+const myPipeline = module?.members[1] as TslPipeline;
 const call1 = callGraphComputer.getAllContainedCalls(myPipeline)[0]!;
 const arg1 = getArguments(call1)[0]!;
 const arg2 = getArguments(call1)[1]!;
@@ -97,15 +97,15 @@ interface ParametersToArgumentsTest {
     /**
      * The parameter to test.
      */
-    parameters: SdsParameter[];
+    parameters: TslParameter[];
 
     /**
      * The arguments to test.
      */
-    args: SdsArgument[];
+    args: TslArgument[];
 
     /**
      * The expected result.
      */
-    expectedResult: [SdsParameter, SdsArgument][];
+    expectedResult: [TslParameter, TslArgument][];
 }

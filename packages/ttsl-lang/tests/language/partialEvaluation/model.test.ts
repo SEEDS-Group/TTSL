@@ -1,12 +1,12 @@
 import { EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
 import {
-    isSdsBlockLambda,
-    isSdsEnumVariant,
-    isSdsExpressionLambda,
-    isSdsResult,
-    isSdsSegment,
-    type SdsBlockLambdaResult,
+    isTslBlockLambda,
+    isTslEnumVariant,
+    isTslExpressionLambda,
+    isTslResult,
+    isTslSegment,
+    type TslBlockLambdaResult,
 } from '../../../src/language/generated/ast.js';
 import { createSafeDsServices, getAbstractResults, getParameters } from '../../../src/language/index.js';
 import {
@@ -46,21 +46,21 @@ segment mySegment() -> (result1: Int, result2: Int) {
 
 segment mySegment2() {}
 `;
-const enumVariantWithoutParameters = await getNodeOfType(services, code, isSdsEnumVariant, 0);
-const enumVariantWithParameters = await getNodeOfType(services, code, isSdsEnumVariant, 1);
+const enumVariantWithoutParameters = await getNodeOfType(services, code, isTslEnumVariant, 0);
+const enumVariantWithParameters = await getNodeOfType(services, code, isTslEnumVariant, 1);
 const enumVariantParameter = getParameters(enumVariantWithParameters)[0]!;
 
-const result1 = await getNodeOfType(services, code, isSdsResult, 0);
-const result2 = await getNodeOfType(services, code, isSdsResult, 0);
+const result1 = await getNodeOfType(services, code, isTslResult, 0);
+const result2 = await getNodeOfType(services, code, isTslResult, 0);
 
-const expressionLambda1 = await getNodeOfType(services, code, isSdsExpressionLambda, 0);
-const expressionLambda2 = await getNodeOfType(services, code, isSdsExpressionLambda, 1);
+const expressionLambda1 = await getNodeOfType(services, code, isTslExpressionLambda, 0);
+const expressionLambda2 = await getNodeOfType(services, code, isTslExpressionLambda, 1);
 
-const blockLambda1 = await getNodeOfType(services, code, isSdsBlockLambda, 0);
-const blockLambdaResult1 = getAbstractResults(blockLambda1)[0]! as SdsBlockLambdaResult;
+const blockLambda1 = await getNodeOfType(services, code, isTslBlockLambda, 0);
+const blockLambdaResult1 = getAbstractResults(blockLambda1)[0]! as TslBlockLambdaResult;
 
-const segment1 = await getNodeOfType(services, code, isSdsSegment, 0);
-const segment2 = await getNodeOfType(services, code, isSdsSegment, 1);
+const segment1 = await getNodeOfType(services, code, isTslSegment, 0);
+const segment2 = await getNodeOfType(services, code, isTslSegment, 1);
 
 describe('partial evaluation model', async () => {
     const equalsTests: EqualsTest<EvaluatedNode>[] = [

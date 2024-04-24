@@ -76,7 +76,7 @@ describe('SafeDsPackageManager', () => {
         });
 
         it('should filter by node type if specified', () => {
-            const result = packageManager.getDeclarationsInPackage('myPackage1', { nodeType: 'SdsEnum' });
+            const result = packageManager.getDeclarationsInPackage('myPackage1', { nodeType: 'TslEnum' });
 
             expect(result.map((desc) => desc.name)).toStrictEqual(['Enum1']);
         });
@@ -103,7 +103,7 @@ describe('SafeDsPackageManager', () => {
         });
 
         it('should filter by node type if specified', () => {
-            const result = packageManager.getDeclarationsInPackageOrSubpackage('myPackage1', { nodeType: 'SdsEnum' });
+            const result = packageManager.getDeclarationsInPackageOrSubpackage('myPackage1', { nodeType: 'TslEnum' });
 
             expect(result.map((desc) => desc.name)).toStrictEqual(['Enum1', 'Enum2']);
         });

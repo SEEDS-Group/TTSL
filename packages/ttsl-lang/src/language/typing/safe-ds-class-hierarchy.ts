@@ -1,6 +1,6 @@
 import { AstUtils, EMPTY_STREAM, stream, Stream } from 'langium';
 import { SafeDsClasses } from '../builtins/safe-ds-classes.js';
-import { isSdsClass, isSdsNamedType, SdsClass, type SdsClassMember } from '../generated/ast.js';
+import { isTslClass, isTslNamedType, TslClass, type TslClassMember } from '../generated/ast.js';
 import { getClassMembers, getParentTypes, isStatic } from '../helpers/nodeProperties.js';
 import { SafeDsServices } from '../safe-ds-module.js';
 
@@ -15,7 +15,7 @@ export class SafeDsClassHierarchy {
      * Returns `true` if the given node is equal to or a subclass of the given other node. If one of the nodes is
      * `undefined`, `false` is returned.
      */
-    isEqualToOrSubclassOf(node: SdsClass | undefined, other: SdsClass | undefined): boolean {
+    isEqualToOrSubclassOf(node: TslClass | undefined, other: TslClass | undefined): boolean {
         if (!node || !other) {
             return false;
         }
@@ -33,7 +33,7 @@ export class SafeDsClassHierarchy {
      * ancestors and so on. The class itself is not included in the stream unless there is a cycle in the inheritance
      * hierarchy.
      */
-    streamProperSuperclasses(node: SdsClass | undefined): Stream<SdsClass> {
+    streamProperSuperclasses(node: TslClass | undefined): Stream<TslClass> {
         if (!node) {
             return EMPTY_STREAM;
         }
@@ -41,8 +41,8 @@ export class SafeDsClassHierarchy {
         return stream(this.properSuperclassesGenerator(node));
     }
 
-    private *properSuperclassesGenerator(node: SdsClass): Generator<SdsClass, void> {
-        const visited = new Set<SdsClass>();
+    private *properSuperclassesGenerator(node: TslClass): Generator<TslClass, void> {
+        const visited = new Set<TslClass>();
         let current = this.parentClass(node);
         while (current && !visited.has(current)) {
             yield current;
@@ -56,7 +56,7 @@ export class SafeDsClassHierarchy {
         }
     }
 
-    streamSuperclassMembers(node: SdsClass | undefined): Stream<SdsClassMember> {
+    streamSuperclassMembers(node: TslClass | undefined): Stream<TslClassMember> {
         if (!node) {
             return EMPTY_STREAM;
         }
@@ -68,11 +68,11 @@ export class SafeDsClassHierarchy {
      * Returns the parent class of the given class, or undefined if there is no parent class. Only the first parent
      * type is considered, i.e. multiple inheritance is not supported.
      */
-    private parentClass(node: SdsClass | undefined): SdsClass | undefined {
+    private parentClass(node: TslClass | undefined): TslClass | undefined {
         const [firstParentType] = getParentTypes(node);
-        if (isSdsNamedType(firstParentType)) {
+        if (isTslNamedType(firstParentType)) {
             const declaration = firstParentType.declaration?.ref;
-            if (isSdsClass(declaration)) {
+            if (isTslClass(declaration)) {
                 return declaration;
             }
         }
@@ -84,14 +84,14 @@ export class SafeDsClassHierarchy {
      * Returns the member that is overridden by the given member, or `undefined` if the member does not override
      * anything.
      */
-    getOverriddenMember(node: SdsClassMember | undefined): SdsClassMember | undefined {
+    getOverriddenMember(node: TslClassMember | undefined): TslClassMember | undefined {
         // Static members cannot override anything
         if (!node || isStatic(node)) {
             return undefined;
         }
 
         // Don't consider members with the same name as a previous member
-        const containingClass = AstUtils.getContainerOfType(node, isSdsClass);
+        const containingClass = AstUtils.getContainerOfType(node, isTslClass);
         if (!containingClass) {
             return undefined;
         }

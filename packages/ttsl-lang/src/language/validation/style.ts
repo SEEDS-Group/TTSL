@@ -1,27 +1,27 @@
 import { ValidationAcceptor } from 'langium';
 import { isEmpty } from '../../helpers/collections.js';
 import {
-    isSdsCall,
-    isSdsEnumVariant,
-    isSdsIndexedAccess,
-    isSdsMemberAccess,
-    isSdsWildcard,
-    SdsAnnotation,
-    SdsAnnotationCall,
-    SdsAssignment,
-    SdsCall,
-    SdsChainedExpression,
-    SdsClassBody,
-    SdsConstraintList,
-    SdsEnumBody,
-    SdsEnumVariant,
-    SdsFunction,
-    SdsImportedDeclaration,
-    SdsInfixOperation,
-    SdsNamedType,
-    SdsSegment,
-    SdsTypeParameterList,
-    SdsUnionType,
+    isTslCall,
+    isTslEnumVariant,
+    isTslIndexedAccess,
+    isTslMemberAccess,
+    isTslWildcard,
+    TslAnnotation,
+    TslAnnotationCall,
+    TslAssignment,
+    TslCall,
+    TslChainedExpression,
+    TslClassBody,
+    TslConstraintList,
+    TslEnumBody,
+    TslEnumVariant,
+    TslFunction,
+    TslImportedDeclaration,
+    TslInfixOperation,
+    TslNamedType,
+    TslSegment,
+    TslTypeParameterList,
+    TslUnionType,
 } from '../generated/ast.js';
 import { getParameters, getTypeParameters, Parameter } from '../helpers/nodeProperties.js';
 import { NullConstant } from '../partialEvaluation/model.js';
@@ -49,7 +49,7 @@ export const CODE_STYLE_UNNECESSARY_UNION_TYPE = 'style/unnecessary-union-type';
 export const annotationCallArgumentListShouldBeNeeded = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsAnnotationCall, accept: ValidationAcceptor) => {
+    return async (node: TslAnnotationCall, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;
@@ -79,7 +79,7 @@ export const annotationCallArgumentListShouldBeNeeded = (services: SafeDsService
 export const callArgumentListShouldBeNeeded = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsCall, accept: ValidationAcceptor) => {
+    return async (node: TslCall, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;
@@ -92,7 +92,7 @@ export const callArgumentListShouldBeNeeded = (services: SafeDsServices) => {
         }
 
         const callable = services.helpers.NodeMapper.callToCallable(node);
-        if (!isSdsEnumVariant(callable)) {
+        if (!isTslEnumVariant(callable)) {
             return;
         }
 
@@ -112,14 +112,14 @@ export const callArgumentListShouldBeNeeded = (services: SafeDsServices) => {
 export const assignmentShouldHaveMoreThanWildcardsAsAssignees = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsAssignment, accept: ValidationAcceptor) => {
+    return async (node: TslAssignment, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;
         }
 
         const assignees = node.assigneeList?.assignees ?? [];
-        if (assignees.every(isSdsWildcard)) {
+        if (assignees.every(isTslWildcard)) {
             accept('info', 'This assignment can be replaced by an expression statement.', {
                 node,
                 code: CODE_STYLE_UNNECESSARY_ASSIGNMENT,
@@ -135,7 +135,7 @@ export const assignmentShouldHaveMoreThanWildcardsAsAssignees = (services: SafeD
 export const classBodyShouldNotBeEmpty = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsClassBody, accept: ValidationAcceptor) => {
+    return async (node: TslClassBody, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;
@@ -153,7 +153,7 @@ export const classBodyShouldNotBeEmpty = (services: SafeDsServices) => {
 export const enumBodyShouldNotBeEmpty = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsEnumBody, accept: ValidationAcceptor) => {
+    return async (node: TslEnumBody, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;
@@ -175,7 +175,7 @@ export const enumBodyShouldNotBeEmpty = (services: SafeDsServices) => {
 export const annotationParameterShouldNotHaveConstModifier = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsAnnotation, accept: ValidationAcceptor) => {
+    return async (node: TslAnnotation, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;
@@ -200,7 +200,7 @@ export const annotationParameterShouldNotHaveConstModifier = (services: SafeDsSe
 export const constraintListShouldNotBeEmpty = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsConstraintList, accept: ValidationAcceptor) => {
+    return async (node: TslConstraintList, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;
@@ -225,7 +225,7 @@ export const elvisOperatorShouldBeNeeded = (services: SafeDsServices) => {
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
-    return async (node: SdsInfixOperation, accept: ValidationAcceptor) => {
+    return async (node: TslInfixOperation, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;
@@ -287,7 +287,7 @@ export const elvisOperatorShouldBeNeeded = (services: SafeDsServices) => {
 export const importedDeclarationAliasShouldDifferFromDeclarationName = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsImportedDeclaration, accept: ValidationAcceptor) => {
+    return async (node: TslImportedDeclaration, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;
@@ -312,7 +312,7 @@ export const chainedExpressionNullSafetyShouldBeNeeded = (services: SafeDsServic
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
-    return async (node: SdsChainedExpression, accept: ValidationAcceptor) => {
+    return async (node: TslChainedExpression, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;
@@ -328,9 +328,9 @@ export const chainedExpressionNullSafetyShouldBeNeeded = (services: SafeDsServic
         }
 
         if (
-            (isSdsCall(node) && typeChecker.canBeCalled(receiverType)) ||
-            (isSdsIndexedAccess(node) && typeChecker.canBeAccessedByIndex(receiverType)) ||
-            isSdsMemberAccess(node)
+            (isTslCall(node) && typeChecker.canBeCalled(receiverType)) ||
+            (isTslIndexedAccess(node) && typeChecker.canBeAccessedByIndex(receiverType)) ||
+            isTslMemberAccess(node)
         ) {
             accept('info', 'The receiver is never null, so null-safety is unnecessary.', {
                 node,
@@ -347,7 +347,7 @@ export const chainedExpressionNullSafetyShouldBeNeeded = (services: SafeDsServic
 export const annotationParameterListShouldNotBeEmpty = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsAnnotation, accept: ValidationAcceptor) => {
+    return async (node: TslAnnotation, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;
@@ -366,7 +366,7 @@ export const annotationParameterListShouldNotBeEmpty = (services: SafeDsServices
 export const enumVariantParameterListShouldNotBeEmpty = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsEnumVariant, accept: ValidationAcceptor) => {
+    return async (node: TslEnumVariant, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;
@@ -389,7 +389,7 @@ export const enumVariantParameterListShouldNotBeEmpty = (services: SafeDsService
 export const functionResultListShouldNotBeEmpty = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsFunction, accept: ValidationAcceptor) => {
+    return async (node: TslFunction, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;
@@ -408,7 +408,7 @@ export const functionResultListShouldNotBeEmpty = (services: SafeDsServices) => 
 export const segmentResultListShouldNotBeEmpty = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsSegment, accept: ValidationAcceptor) => {
+    return async (node: TslSegment, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;
@@ -431,7 +431,7 @@ export const segmentResultListShouldNotBeEmpty = (services: SafeDsServices) => {
 export const namedTypeTypeArgumentListShouldBeNeeded = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsNamedType, accept: ValidationAcceptor) => {
+    return async (node: TslNamedType, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;
@@ -464,7 +464,7 @@ export const namedTypeTypeArgumentListShouldBeNeeded = (services: SafeDsServices
 export const typeParameterListShouldNotBeEmpty = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsTypeParameterList, accept: ValidationAcceptor) => {
+    return async (node: TslTypeParameterList, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;
@@ -486,7 +486,7 @@ export const typeParameterListShouldNotBeEmpty = (services: SafeDsServices) => {
 export const unionTypeShouldNotHaveASingularTypeArgument = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsUnionType, accept: ValidationAcceptor) => {
+    return async (node: TslUnionType, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateCodeStyle())) {
             /* c8 ignore next 2 */
             return;

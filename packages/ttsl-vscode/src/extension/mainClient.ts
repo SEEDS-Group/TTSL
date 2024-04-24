@@ -62,7 +62,7 @@ const startLanguageClient = function (context: vscode.ExtensionContext): Languag
         debug: { module: serverModule, transport: TransportKind.ipc, options: debugOptions },
     };
 
-    const fileSystemWatcher = vscode.workspace.createFileSystemWatcher('**/*.{sdspipe,sdsstub,sdstest}');
+    const fileSystemWatcher = vscode.workspace.createFileSystemWatcher('**/*.{Tslpipe,Tslstub,Tsltest}');
     context.subscriptions.push(fileSystemWatcher);
 
     // Options to control the language client
@@ -173,22 +173,22 @@ const runPipelineFile = async function (filePath: vscode.Uri | undefined, pipeli
         .filter(
             (document) =>
                 !(
-                    ast.isSdsModule(document.parseResult.value) &&
-                    (<ast.SdsModule>document.parseResult.value).name === 'safeds.lang'
+                    ast.isTslModule(document.parseResult.value) &&
+                    (<ast.TslModule>document.parseResult.value).name === 'safeds.lang'
                 ),
         )
         .forEach((oldDocument) => {
             services.shared.workspace.LangiumDocuments.deleteDocument(oldDocument.uri);
         });
-    const workspaceSdsFiles = await vscode.workspace.findFiles('**/*.{sdspipe,sdsstub,sdstest}');
+    const workspaceTslFiles = await vscode.workspace.findFiles('**/*.{Tslpipe,Tslstub,Tsltest}');
     // Load all documents
-    const unvalidatedSdsDocuments = await Promise.all(
-        workspaceSdsFiles.map((newDocumentUri) =>
+    const unvalidatedTslDocuments = await Promise.all(
+        workspaceTslFiles.map((newDocumentUri) =>
             services.shared.workspace.LangiumDocuments.getOrCreateDocument(newDocumentUri),
         ),
     );
     // Validate them
-    const validationErrorMessage = await validateDocuments(services, unvalidatedSdsDocuments);
+    const validationErrorMessage = await validateDocuments(services, unvalidatedTslDocuments);
     if (validationErrorMessage) {
         vscode.window.showErrorMessage(validationErrorMessage);
         return;
@@ -206,7 +206,7 @@ const runPipelineFile = async function (filePath: vscode.Uri | undefined, pipeli
         mainDocument = await services.shared.workspace.LangiumDocuments.getOrCreateDocument(pipelinePath);
     }
 
-    const firstPipeline = getModuleMembers(<ast.SdsModule>mainDocument.parseResult.value).find(ast.isSdsPipeline);
+    const firstPipeline = getModuleMembers(<ast.TslModule>mainDocument.parseResult.value).find(ast.isTslPipeline);
     if (firstPipeline === undefined) {
         logError('Cannot execute: no pipeline found');
         vscode.window.showErrorMessage('The current file cannot be executed, as no pipeline could be found.');
@@ -225,10 +225,10 @@ const commandRunPipelineFile = async function (filePath: vscode.Uri | undefined)
 };
 
 const validateDocuments = async function (
-    sdsServices: SafeDsServices,
+    TslServices: SafeDsServices,
     documents: LangiumDocument[],
 ): Promise<undefined | string> {
-    await sdsServices.shared.workspace.DocumentBuilder.build(documents, { validation: true });
+    await TslServices.shared.workspace.DocumentBuilder.build(documents, { validation: true });
 
     const errors = documents.flatMap((validatedDocument) => {
         const validationInfo = {

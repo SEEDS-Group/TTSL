@@ -3,7 +3,7 @@ import { CallGraph } from '../../../src/language/flow/model.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
 import { createSafeDsServices } from '../../../src/language/index.js';
 import { EmptyFileSystem } from 'langium';
-import { isSdsModule, SdsCallable } from '../../../src/language/generated/ast.js';
+import { isTslModule, TslCallable } from '../../../src/language/generated/ast.js';
 
 const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
 const code = `
@@ -12,10 +12,10 @@ const code = `
     fun f3()
 `;
 
-const module = await getNodeOfType(services, code, isSdsModule);
-const f1 = module.members[0] as SdsCallable;
-const f2 = module.members[1] as SdsCallable;
-const f3 = module.members[2] as SdsCallable;
+const module = await getNodeOfType(services, code, isTslModule);
+const f1 = module.members[0] as TslCallable;
+const f2 = module.members[1] as TslCallable;
+const f3 = module.members[2] as TslCallable;
 
 describe('call graph model', () => {
     describe('streamCalledCallables', () => {

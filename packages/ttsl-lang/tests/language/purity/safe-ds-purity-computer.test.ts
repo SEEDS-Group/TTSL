@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { NodeFileSystem } from 'langium/node';
-import { isSdsCall, isSdsCallable, isSdsExpression, isSdsParameter } from '../../../src/language/generated/ast.js';
+import { isTslCall, isTslCallable, isTslExpression, isTslParameter } from '../../../src/language/generated/ast.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
 import { createSafeDsServices } from '../../../src/language/index.js';
 
@@ -83,7 +83,7 @@ describe('SafeDsPurityComputer', async () => {
                 expected: true,
             },
         ])('should return whether a callable is pure ($testName)', async ({ code, expected }) => {
-            const callable = await getNodeOfType(services, code, isSdsCallable);
+            const callable = await getNodeOfType(services, code, isTslCallable);
             expect(purityComputer.isPureCallable(callable)).toBe(expected);
         });
     });
@@ -189,7 +189,7 @@ describe('SafeDsPurityComputer', async () => {
                 expected: true,
             },
         ])('should return whether an expression is pure ($testName)', async ({ code, expected }) => {
-            const expression = await getNodeOfType(services, code, isSdsExpression);
+            const expression = await getNodeOfType(services, code, isTslExpression);
             expect(purityComputer.isPureExpression(expression)).toBe(expected);
         });
     });
@@ -286,7 +286,7 @@ describe('SafeDsPurityComputer', async () => {
                 expected: false,
             },
         ])('should return whether a parameter is pure ($testName)', async ({ code, expected }) => {
-            const parameter = await getNodeOfType(services, code, isSdsParameter);
+            const parameter = await getNodeOfType(services, code, isTslParameter);
             expect(purityComputer.isPureParameter(parameter)).toBe(expected);
         });
     });
@@ -376,7 +376,7 @@ describe('SafeDsPurityComputer', async () => {
                 expected: false,
             },
         ])('should return whether a callable has side effects ($testName)', async ({ code, expected }) => {
-            const callable = await getNodeOfType(services, code, isSdsCallable);
+            const callable = await getNodeOfType(services, code, isTslCallable);
             expect(purityComputer.callableHasSideEffects(callable)).toBe(expected);
         });
     });
@@ -496,7 +496,7 @@ describe('SafeDsPurityComputer', async () => {
                 expected: false,
             },
         ])('should return whether an expression has side effects ($testName)', async ({ code, expected }) => {
-            const expression = await getNodeOfType(services, code, isSdsExpression);
+            const expression = await getNodeOfType(services, code, isTslExpression);
             expect(purityComputer.expressionHasSideEffects(expression)).toBe(expected);
         });
     });
@@ -636,7 +636,7 @@ describe('SafeDsPurityComputer', async () => {
                 expected: [],
             },
         ])('should return the impurity reasons of a callable ($testName)', async ({ code, expected }) => {
-            const callable = await getNodeOfType(services, code, isSdsCallable);
+            const callable = await getNodeOfType(services, code, isTslCallable);
             const actual = purityComputer.getImpurityReasonsForCallable(callable).map((reason) => reason.toString());
             expect(actual).toStrictEqual(expected);
         });
@@ -757,7 +757,7 @@ describe('SafeDsPurityComputer', async () => {
                 expected: [],
             },
         ])('should return the impurity reasons of an expression ($testName)', async ({ code, expected }) => {
-            const expression = await getNodeOfType(services, code, isSdsExpression);
+            const expression = await getNodeOfType(services, code, isTslExpression);
             const actual = purityComputer
                 .getImpurityReasonsForExpression(expression)
                 .map((reason) => reason.toString());
@@ -786,7 +786,7 @@ describe('SafeDsPurityComputer', async () => {
                     g: Any = f()
                 )
             `,
-                isSdsCall,
+                isTslCall,
             );
 
             expect(() => purityComputer.getImpurityReasonsForExpression(call)).not.toThrow();

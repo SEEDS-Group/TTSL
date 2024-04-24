@@ -1,14 +1,14 @@
 import { isEmpty } from '../../helpers/collections.js';
 import {
-    isSdsEnum,
-    SdsAbstractResult,
-    SdsCallable,
-    SdsClass,
-    SdsDeclaration,
-    SdsEnum,
-    SdsEnumVariant,
-    SdsParameter,
-    SdsTypeParameter,
+    isTslEnum,
+    TslAbstractResult,
+    TslCallable,
+    TslClass,
+    TslDeclaration,
+    TslEnum,
+    TslEnumVariant,
+    TslParameter,
+    TslTypeParameter,
 } from '../generated/ast.js';
 import { getTypeParameters, Parameter } from '../helpers/nodeProperties.js';
 import { Constant, NullConstant } from '../partialEvaluation/model.js';
@@ -18,7 +18,7 @@ import { SafeDsServices } from '../safe-ds-module.js';
 import { SafeDsTypeFactory } from './safe-ds-type-factory.js';
 import { SafeDsTypeChecker } from './safe-ds-type-checker.js';
 
-export type TypeParameterSubstitutions = Map<SdsTypeParameter, Type>;
+export type TypeParameterSubstitutions = Map<TslTypeParameter, Type>;
 
 /**
  * The type of an AST node.
@@ -71,10 +71,10 @@ export class CallableType extends Type {
 
     constructor(
         services: SafeDsServices,
-        readonly callable: SdsCallable,
-        readonly parameter: SdsParameter | undefined,
-        readonly inputType: NamedTupleType<SdsParameter>,
-        readonly outputType: NamedTupleType<SdsAbstractResult>,
+        readonly callable: TslCallable,
+        readonly parameter: TslParameter | undefined,
+        readonly inputType: NamedTupleType<TslParameter>,
+        readonly outputType: NamedTupleType<TslAbstractResult>,
     ) {
         super();
 
@@ -232,7 +232,7 @@ export class LiteralType extends Type {
     }
 }
 
-export class NamedTupleType<T extends SdsDeclaration> extends Type {
+export class NamedTupleType<T extends TslDeclaration> extends Type {
     private readonly factory: SafeDsTypeFactory;
 
     readonly entries: NamedTupleEntry<T>[];
@@ -315,7 +315,7 @@ export class NamedTupleType<T extends SdsDeclaration> extends Type {
     }
 }
 
-export class NamedTupleEntry<T extends SdsDeclaration> {
+export class NamedTupleEntry<T extends TslDeclaration> {
     constructor(
         readonly declaration: T | undefined,
         readonly name: string,
@@ -352,7 +352,7 @@ export class NamedTupleEntry<T extends SdsDeclaration> {
     }
 }
 
-export abstract class NamedType<T extends SdsDeclaration> extends Type {
+export abstract class NamedType<T extends TslDeclaration> extends Type {
     protected constructor(readonly declaration: T) {
         super();
     }
@@ -372,11 +372,11 @@ export abstract class NamedType<T extends SdsDeclaration> extends Type {
     abstract override withExplicitNullability(isExplicitlyNullable: boolean): NamedType<T>;
 }
 
-export class ClassType extends NamedType<SdsClass> {
+export class ClassType extends NamedType<TslClass> {
     private _isFullySubstituted: boolean | undefined;
 
     constructor(
-        declaration: SdsClass,
+        declaration: TslClass,
         readonly substitutions: TypeParameterSubstitutions,
         override readonly isExplicitlyNullable: boolean,
     ) {
@@ -456,11 +456,11 @@ export class ClassType extends NamedType<SdsClass> {
     }
 }
 
-export class EnumType extends NamedType<SdsEnum> {
+export class EnumType extends NamedType<TslEnum> {
     override readonly isFullySubstituted = true;
 
     constructor(
-        declaration: SdsEnum,
+        declaration: TslEnum,
         override readonly isExplicitlyNullable: boolean,
     ) {
         super(declaration);
@@ -489,11 +489,11 @@ export class EnumType extends NamedType<SdsEnum> {
     }
 }
 
-export class EnumVariantType extends NamedType<SdsEnumVariant> {
+export class EnumVariantType extends NamedType<TslEnumVariant> {
     override readonly isFullySubstituted = true;
 
     constructor(
-        declaration: SdsEnumVariant,
+        declaration: TslEnumVariant,
         override readonly isExplicitlyNullable: boolean,
     ) {
         super(declaration);
@@ -514,7 +514,7 @@ export class EnumVariantType extends NamedType<SdsEnumVariant> {
     }
 
     override toString(): string {
-        const containingEnum = AstUtils.getContainerOfType(this.declaration, isSdsEnum);
+        const containingEnum = AstUtils.getContainerOfType(this.declaration, isTslEnum);
         if (containingEnum) {
             return `${containingEnum.name}.${super.toString()}`;
         } else {
@@ -532,11 +532,11 @@ export class EnumVariantType extends NamedType<SdsEnumVariant> {
     }
 }
 
-export class TypeParameterType extends NamedType<SdsTypeParameter> {
+export class TypeParameterType extends NamedType<TslTypeParameter> {
     override readonly isFullySubstituted = false;
 
     constructor(
-        declaration: SdsTypeParameter,
+        declaration: TslTypeParameter,
         override readonly isExplicitlyNullable: boolean,
     ) {
         super(declaration);
@@ -584,7 +584,7 @@ export class StaticType extends Type {
 
     constructor(
         services: SafeDsServices,
-        readonly instanceType: NamedType<SdsDeclaration>,
+        readonly instanceType: NamedType<TslDeclaration>,
     ) {
         super();
 
@@ -809,8 +809,8 @@ export const UnknownType = new UnknownTypeClass();
 // -------------------------------------------------------------------------------------------------
 
 const substitutionsAreEqual = (
-    a: Map<SdsDeclaration, Type> | undefined,
-    b: Map<SdsDeclaration, Type> | undefined,
+    a: Map<TslDeclaration, Type> | undefined,
+    b: Map<TslDeclaration, Type> | undefined,
 ): boolean => {
     if (a?.size !== b?.size) {
         return false;

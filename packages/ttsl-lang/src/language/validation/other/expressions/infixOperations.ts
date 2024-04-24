@@ -1,4 +1,4 @@
-import { SdsInfixOperation } from '../../../generated/ast.js';
+import { TslInfixOperation } from '../../../generated/ast.js';
 import { ValidationAcceptor } from 'langium';
 import { SafeDsServices } from '../../../safe-ds-module.js';
 import { FloatConstant, IntConstant, NumberConstant } from '../../../partialEvaluation/model.js';
@@ -16,7 +16,7 @@ export const divisionDivisorMustNotBeZero = (services: SafeDsServices) => {
     const zeroFloat = new FloatConstant(0.0);
     const minusZeroFloat = new FloatConstant(-0.0);
 
-    return (node: SdsInfixOperation, accept: ValidationAcceptor): void => {
+    return (node: TslInfixOperation, accept: ValidationAcceptor): void => {
         if (node.operator !== '/') {
             return;
         }

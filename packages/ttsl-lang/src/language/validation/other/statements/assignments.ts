@@ -1,4 +1,4 @@
-import { isSdsCall, isSdsPipeline, SdsAssignment, SdsYield } from '../../../generated/ast.js';
+import { isTslCall, isTslPipeline, TslAssignment, TslYield } from '../../../generated/ast.js';
 import { AstUtils, ValidationAcceptor } from 'langium';
 import { SafeDsServices } from '../../../safe-ds-module.js';
 import { getAbstractResults, getAssignees } from '../../../helpers/nodeProperties.js';
@@ -10,7 +10,7 @@ export const CODE_ASSIGMENT_YIELD_FORBIDDEN_IN_PIPELINE = 'assignment/yield-forb
 
 export const assignmentAssigneeMustGetValue =
     (services: SafeDsServices) =>
-    (node: SdsAssignment, accept: ValidationAcceptor): void => {
+    (node: TslAssignment, accept: ValidationAcceptor): void => {
         for (const assignee of getAssignees(node)) {
             if (!services.helpers.NodeMapper.assigneeToAssignedObject(assignee)) {
                 accept('error', 'No value is assigned to this assignee.', {
@@ -24,9 +24,9 @@ export const assignmentAssigneeMustGetValue =
 export const assignmentShouldNotImplicitlyIgnoreResult = (services: SafeDsServices) => {
     const nodeMapper = services.helpers.NodeMapper;
 
-    return (node: SdsAssignment, accept: ValidationAcceptor): void => {
+    return (node: TslAssignment, accept: ValidationAcceptor): void => {
         const expression = node.expression;
-        if (!isSdsCall(expression)) {
+        if (!isTslCall(expression)) {
             return;
         }
 
@@ -49,8 +49,8 @@ export const assignmentShouldNotImplicitlyIgnoreResult = (services: SafeDsServic
     };
 };
 
-export const yieldMustNotBeUsedInPipeline = (node: SdsYield, accept: ValidationAcceptor): void => {
-    const containingPipeline = AstUtils.getContainerOfType(node, isSdsPipeline);
+export const yieldMustNotBeUsedInPipeline = (node: TslYield, accept: ValidationAcceptor): void => {
+    const containingPipeline = AstUtils.getContainerOfType(node, isTslPipeline);
 
     if (containingPipeline) {
         accept('error', 'Yield must not be used in a pipeline.', {

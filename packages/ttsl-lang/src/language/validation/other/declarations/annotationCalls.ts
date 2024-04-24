@@ -1,13 +1,13 @@
 import { AstUtils, ValidationAcceptor } from 'langium';
 import { isEmpty } from '../../../../helpers/collections.js';
 import {
-    isSdsCallable,
-    isSdsCallableType,
-    isSdsLambda,
-    SdsAnnotationCall,
-    SdsCallableType,
-    SdsLambda,
-    SdsParameter,
+    isTslCallable,
+    isTslCallableType,
+    isTslLambda,
+    TslAnnotationCall,
+    TslCallableType,
+    TslLambda,
+    TslParameter,
 } from '../../../generated/ast.js';
 import {
     getAnnotationCalls,
@@ -26,7 +26,7 @@ export const CODE_ANNOTATION_CALL_TARGET_RESULT = 'annotation-call/target-result
 export const annotationCallArgumentsMustBeConstant = (services: SafeDsServices) => {
     const partialEvaluator = services.evaluation.PartialEvaluator;
 
-    return (node: SdsAnnotationCall, accept: ValidationAcceptor) => {
+    return (node: TslAnnotationCall, accept: ValidationAcceptor) => {
         for (const argument of getArguments(node)) {
             if (!partialEvaluator.canBeValueOfConstantParameter(argument.value)) {
                 accept('error', 'Values assigned to annotation parameters must be constant.', {
@@ -39,7 +39,7 @@ export const annotationCallArgumentsMustBeConstant = (services: SafeDsServices) 
     };
 };
 
-export const annotationCallMustNotLackArgumentList = (node: SdsAnnotationCall, accept: ValidationAcceptor) => {
+export const annotationCallMustNotLackArgumentList = (node: TslAnnotationCall, accept: ValidationAcceptor) => {
     if (node.argumentList) {
         return;
     }
@@ -58,7 +58,7 @@ export const annotationCallMustNotLackArgumentList = (node: SdsAnnotationCall, a
     }
 };
 
-export const callableTypeParametersMustNotBeAnnotated = (node: SdsCallableType, accept: ValidationAcceptor) => {
+export const callableTypeParametersMustNotBeAnnotated = (node: TslCallableType, accept: ValidationAcceptor) => {
     for (const parameter of getParameters(node)) {
         for (const annotationCall of getAnnotationCalls(parameter)) {
             accept('error', 'Parameters of callable types must not be annotated.', {
@@ -69,7 +69,7 @@ export const callableTypeParametersMustNotBeAnnotated = (node: SdsCallableType, 
     }
 };
 
-export const callableTypeResultsMustNotBeAnnotated = (node: SdsCallableType, accept: ValidationAcceptor) => {
+export const callableTypeResultsMustNotBeAnnotated = (node: TslCallableType, accept: ValidationAcceptor) => {
     for (const result of getResults(node.resultList)) {
         for (const annotationCall of getAnnotationCalls(result)) {
             accept('error', 'Results of callable types must not be annotated.', {
@@ -80,7 +80,7 @@ export const callableTypeResultsMustNotBeAnnotated = (node: SdsCallableType, acc
     }
 };
 
-export const lambdaParametersMustNotBeAnnotated = (node: SdsLambda, accept: ValidationAcceptor) => {
+export const lambdaParametersMustNotBeAnnotated = (node: TslLambda, accept: ValidationAcceptor) => {
     for (const parameter of getParameters(node)) {
         for (const annotationCall of getAnnotationCalls(parameter)) {
             accept('error', 'Lambda parameters must not be annotated.', {
@@ -91,7 +91,7 @@ export const lambdaParametersMustNotBeAnnotated = (node: SdsLambda, accept: Vali
     }
 };
 
-export const parameterCanBeAnnotated = (node: SdsParameter) => {
-    const containingCallable = AstUtils.getContainerOfType(node, isSdsCallable);
-    return !isSdsCallableType(containingCallable) && !isSdsLambda(containingCallable);
+export const parameterCanBeAnnotated = (node: TslParameter) => {
+    const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
+    return !isTslCallableType(containingCallable) && !isTslLambda(containingCallable);
 };

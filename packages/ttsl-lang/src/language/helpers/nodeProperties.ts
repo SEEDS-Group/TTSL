@@ -1,72 +1,72 @@
 import { AstNode, AstUtils, Stream, stream } from 'langium';
 import {
-    isSdsAnnotation,
-    isSdsArgument,
-    isSdsArgumentList,
-    isSdsAssignment,
-    isSdsAttribute,
-    isSdsBlockLambda,
-    isSdsBlockLambdaResult,
-    isSdsCallable,
-    isSdsCallableType,
-    isSdsClass,
-    isSdsDeclaration,
-    isSdsEnum,
-    isSdsEnumVariant,
-    isSdsFunction,
-    isSdsLambda,
-    isSdsModule,
-    isSdsModuleMember,
-    isSdsNamedType,
-    isSdsParameter,
-    isSdsParameterBound,
-    isSdsPlaceholder,
-    isSdsQualifiedImport,
-    isSdsSegment,
-    isSdsTypeArgumentList,
-    isSdsTypeParameter,
-    isSdsTypeParameterList,
-    SdsAbstractCall,
-    SdsAbstractResult,
-    SdsAnnotatedObject,
-    SdsAnnotation,
-    SdsAnnotationCall,
-    SdsArgument,
-    SdsArgumentList,
-    SdsAssignee,
-    SdsAssignment,
-    SdsBlock,
-    SdsBlockLambda,
-    SdsBlockLambdaResult,
-    SdsCallable,
-    SdsClass,
-    SdsClassMember,
-    SdsColumn,
-    SdsConstraint,
-    SdsDeclaration,
-    SdsEnum,
-    SdsEnumVariant,
-    SdsImport,
-    SdsImportedDeclaration,
-    SdsLiteral,
-    SdsLiteralType,
-    SdsModule,
-    SdsModuleMember,
-    SdsNamedType,
-    SdsNamedTypeDeclaration,
-    SdsParameter,
-    SdsParameterBound,
-    SdsPlaceholder,
-    SdsQualifiedImport,
-    SdsResult,
-    SdsResultList,
-    SdsSchema,
-    SdsStatement,
-    SdsType,
-    SdsTypeArgument,
-    SdsTypeArgumentList,
-    SdsTypeParameter,
-    SdsTypeParameterList,
+    isTslAnnotation,
+    isTslArgument,
+    isTslArgumentList,
+    isTslAssignment,
+    isTslAttribute,
+    isTslBlockLambda,
+    isTslBlockLambdaResult,
+    isTslCallable,
+    isTslCallableType,
+    isTslClass,
+    isTslDeclaration,
+    isTslEnum,
+    isTslEnumVariant,
+    isTslFunction,
+    isTslLambda,
+    isTslModule,
+    isTslModuleMember,
+    isTslNamedType,
+    isTslParameter,
+    isTslParameterBound,
+    isTslPlaceholder,
+    isTslQualifiedImport,
+    isTslSegment,
+    isTslTypeArgumentList,
+    isTslTypeParameter,
+    isTslTypeParameterList,
+    TslAbstractCall,
+    TslAbstractResult,
+    TslAnnotatedObject,
+    TslAnnotation,
+    TslAnnotationCall,
+    TslArgument,
+    TslArgumentList,
+    TslAssignee,
+    TslAssignment,
+    TslBlock,
+    TslBlockLambda,
+    TslBlockLambdaResult,
+    TslCallable,
+    TslClass,
+    TslClassMember,
+    TslColumn,
+    TslConstraint,
+    TslDeclaration,
+    TslEnum,
+    TslEnumVariant,
+    TslImport,
+    TslImportedDeclaration,
+    TslLiteral,
+    TslLiteralType,
+    TslModule,
+    TslModuleMember,
+    TslNamedType,
+    TslNamedTypeDeclaration,
+    TslParameter,
+    TslParameterBound,
+    TslPlaceholder,
+    TslQualifiedImport,
+    TslResult,
+    TslResultList,
+    TslSchema,
+    TslStatement,
+    TslType,
+    TslTypeArgument,
+    TslTypeArgumentList,
+    TslTypeParameter,
+    TslTypeParameterList,
 } from '../generated/ast.js';
 
 // -------------------------------------------------------------------------------------------------
@@ -74,8 +74,8 @@ import {
 // -------------------------------------------------------------------------------------------------
 
 export const hasAnnotationCallOf = (
-    node: SdsAnnotatedObject | undefined,
-    expected: SdsAnnotation | undefined,
+    node: TslAnnotatedObject | undefined,
+    expected: TslAnnotation | undefined,
 ): boolean => {
     return getAnnotationCalls(node).some((it) => {
         const actual = it.annotation?.ref;
@@ -83,69 +83,69 @@ export const hasAnnotationCallOf = (
     });
 };
 
-export const isInternal = (node: SdsDeclaration | undefined): boolean => {
-    return isSdsSegment(node) && node.visibility === 'internal';
+export const isInternal = (node: TslDeclaration | undefined): boolean => {
+    return isTslSegment(node) && node.visibility === 'internal';
 };
 
 export namespace Argument {
-    export const isNamed = (node: SdsArgument | undefined): boolean => {
+    export const isNamed = (node: TslArgument | undefined): boolean => {
         return Boolean(node?.parameter);
     };
 
-    export const isPositional = (node: SdsArgument | undefined): boolean => {
-        return isSdsArgument(node) && !node.parameter;
+    export const isPositional = (node: TslArgument | undefined): boolean => {
+        return isTslArgument(node) && !node.parameter;
     };
 }
 
 export namespace Enum {
-    export const isConstant = (node: SdsEnum | undefined): boolean => {
+    export const isConstant = (node: TslEnum | undefined): boolean => {
         return Boolean(node) && getEnumVariants(node).every((it) => EnumVariant.isConstant(it));
     };
 }
 
 export namespace EnumVariant {
-    export const isConstant = (node: SdsEnumVariant | undefined): boolean => {
+    export const isConstant = (node: TslEnumVariant | undefined): boolean => {
         return Boolean(node) && getParameters(node).every((it) => Parameter.isConstant(it));
     };
 }
 
 export namespace Parameter {
-    export const isConstant = (node: SdsParameter | undefined): boolean => {
+    export const isConstant = (node: TslParameter | undefined): boolean => {
         if (!node) {
             return false;
         }
 
-        const containingCallable = AstUtils.getContainerOfType(node, isSdsCallable);
+        const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
 
         // In those cases, the const modifier is not applicable
-        if (isSdsCallableType(containingCallable) || isSdsLambda(containingCallable)) {
+        if (isTslCallableType(containingCallable) || isTslLambda(containingCallable)) {
             return false;
         }
 
-        return node.isConstant || isSdsAnnotation(containingCallable);
+        return node.isConstant || isTslAnnotation(containingCallable);
     };
 
-    export const isOptional = (node: SdsParameter | undefined): boolean => {
+    export const isOptional = (node: TslParameter | undefined): boolean => {
         return Boolean(node?.defaultValue);
     };
 
-    export const isRequired = (node: SdsParameter | undefined): boolean => {
-        return isSdsParameter(node) && !node.defaultValue;
+    export const isRequired = (node: TslParameter | undefined): boolean => {
+        return isTslParameter(node) && !node.defaultValue;
     };
 
-    export const getBounds = (node: SdsParameter | undefined): SdsParameterBound[] => {
-        const callable = AstUtils.getContainerOfType(node, isSdsCallable);
-        const result = getConstraints(callable).filter((it) => isSdsParameterBound(it) && it.leftOperand?.ref === node);
-        return result as SdsParameterBound[];
+    export const getBounds = (node: TslParameter | undefined): TslParameterBound[] => {
+        const callable = AstUtils.getContainerOfType(node, isTslCallable);
+        const result = getConstraints(callable).filter((it) => isTslParameterBound(it) && it.leftOperand?.ref === node);
+        return result as TslParameterBound[];
     };
 }
 
-export const isStatic = (node: SdsClassMember | undefined): boolean => {
-    if (isSdsClass(node) || isSdsEnum(node)) {
+export const isStatic = (node: TslClassMember | undefined): boolean => {
+    if (isTslClass(node) || isTslEnum(node)) {
         return true;
-    } else if (isSdsAttribute(node)) {
+    } else if (isTslAttribute(node)) {
         return node.isStatic;
-    } else if (isSdsFunction(node)) {
+    } else if (isTslFunction(node)) {
         return node.isStatic;
     } else {
         /* c8 ignore next 2 */
@@ -154,30 +154,30 @@ export const isStatic = (node: SdsClassMember | undefined): boolean => {
 };
 
 export namespace TypeArgument {
-    export const isNamed = (node: SdsTypeArgument | undefined): boolean => {
+    export const isNamed = (node: TslTypeArgument | undefined): boolean => {
         return Boolean(node?.typeParameter);
     };
 }
 
 export namespace TypeParameter {
-    export const isOptional = (node: SdsTypeParameter | undefined): boolean => {
+    export const isOptional = (node: TslTypeParameter | undefined): boolean => {
         return Boolean(node?.defaultValue);
     };
 
-    export const isRequired = (node: SdsTypeParameter | undefined): boolean => {
-        return isSdsTypeParameter(node) && !node.defaultValue;
+    export const isRequired = (node: TslTypeParameter | undefined): boolean => {
+        return isTslTypeParameter(node) && !node.defaultValue;
     };
 
-    export const isContravariant = (node: SdsTypeParameter | undefined): boolean => {
-        return isSdsTypeParameter(node) && node.variance === 'in';
+    export const isContravariant = (node: TslTypeParameter | undefined): boolean => {
+        return isTslTypeParameter(node) && node.variance === 'in';
     };
 
-    export const isCovariant = (node: SdsTypeParameter | undefined): boolean => {
-        return isSdsTypeParameter(node) && node.variance === 'out';
+    export const isCovariant = (node: TslTypeParameter | undefined): boolean => {
+        return isTslTypeParameter(node) && node.variance === 'out';
     };
 
-    export const isInvariant = (node: SdsTypeParameter | undefined): boolean => {
-        return isSdsTypeParameter(node) && !node.variance;
+    export const isInvariant = (node: TslTypeParameter | undefined): boolean => {
+        return isTslTypeParameter(node) && !node.variance;
     };
 }
 
@@ -185,31 +185,31 @@ export namespace TypeParameter {
 // Accessors for list elements
 // -------------------------------------------------------------------------------------------------
 
-export const getAbstractResults = (node: SdsCallable | undefined): SdsAbstractResult[] => {
+export const getAbstractResults = (node: TslCallable | undefined): TslAbstractResult[] => {
     if (!node) {
         return [];
     }
 
-    if (isSdsBlockLambda(node)) {
+    if (isTslBlockLambda(node)) {
         return streamBlockLambdaResults(node).toArray();
-    } else if (isSdsCallableType(node)) {
+    } else if (isTslCallableType(node)) {
         return getResults(node.resultList);
-    } else if (isSdsFunction(node)) {
+    } else if (isTslFunction(node)) {
         return getResults(node.resultList);
-    } else if (isSdsSegment(node)) {
+    } else if (isTslSegment(node)) {
         return getResults(node.resultList);
     } /* c8 ignore start */ else {
         return [];
     } /* c8 ignore stop */
 };
 
-export const getAnnotationCalls = (node: SdsAnnotatedObject | undefined): SdsAnnotationCall[] => {
+export const getAnnotationCalls = (node: TslAnnotatedObject | undefined): TslAnnotationCall[] => {
     if (!node) {
         /* c8 ignore next 2 */
         return [];
     }
 
-    if (isSdsDeclaration(node)) {
+    if (isTslDeclaration(node)) {
         return node?.annotationCallList?.annotationCalls ?? node?.annotationCalls ?? [];
     } else {
         /* c8 ignore next 2 */
@@ -217,14 +217,14 @@ export const getAnnotationCalls = (node: SdsAnnotatedObject | undefined): SdsAnn
     }
 };
 
-export const getAnnotationCallTarget = (node: SdsAnnotationCall | undefined): SdsDeclaration | undefined => {
-    return AstUtils.getContainerOfType(node, isSdsDeclaration);
+export const getAnnotationCallTarget = (node: TslAnnotationCall | undefined): TslDeclaration | undefined => {
+    return AstUtils.getContainerOfType(node, isTslDeclaration);
 };
 
 export const findFirstAnnotationCallOf = (
-    node: SdsAnnotatedObject | undefined,
-    expected: SdsAnnotation | undefined,
-): SdsAnnotationCall | undefined => {
+    node: TslAnnotatedObject | undefined,
+    expected: TslAnnotation | undefined,
+): TslAnnotationCall | undefined => {
     if (!node || !expected) {
         return undefined;
     }
@@ -235,61 +235,61 @@ export const findFirstAnnotationCallOf = (
     });
 };
 
-export const getArguments = (node: SdsArgumentList | SdsAbstractCall | undefined): SdsArgument[] => {
-    if (isSdsArgumentList(node)) {
+export const getArguments = (node: TslArgumentList | TslAbstractCall | undefined): TslArgument[] => {
+    if (isTslArgumentList(node)) {
         return node.arguments;
     } else {
         return node?.argumentList?.arguments ?? [];
     }
 };
 
-export const getAssignees = (node: SdsAssignment | undefined): SdsAssignee[] => {
+export const getAssignees = (node: TslAssignment | undefined): TslAssignee[] => {
     return node?.assigneeList?.assignees ?? [];
 };
 
-export const streamBlockLambdaResults = (node: SdsBlockLambda | undefined): Stream<SdsBlockLambdaResult> => {
+export const streamBlockLambdaResults = (node: TslBlockLambda | undefined): Stream<TslBlockLambdaResult> => {
     return stream(getStatements(node?.body))
-        .filter(isSdsAssignment)
+        .filter(isTslAssignment)
         .flatMap(getAssignees)
-        .filter(isSdsBlockLambdaResult);
+        .filter(isTslBlockLambdaResult);
 };
 
-export const getClassMembers = (node: SdsClass | undefined): SdsClassMember[] => {
+export const getClassMembers = (node: TslClass | undefined): TslClassMember[] => {
     return node?.body?.members ?? [];
 };
 
-export const getConstraints = (node: SdsCallable | undefined): SdsConstraint[] => {
-    if (isSdsAnnotation(node)) {
+export const getConstraints = (node: TslCallable | undefined): TslConstraint[] => {
+    if (isTslAnnotation(node)) {
         return node.constraintList?.constraints ?? [];
-    } else if (isSdsClass(node)) {
+    } else if (isTslClass(node)) {
         return node.constraintList?.constraints ?? [];
-    } else if (isSdsEnumVariant(node)) {
+    } else if (isTslEnumVariant(node)) {
         return node.constraintList?.constraints ?? [];
-    } else if (isSdsFunction(node)) {
+    } else if (isTslFunction(node)) {
         return node.constraintList?.constraints ?? [];
-    } else if (isSdsSegment(node)) {
+    } else if (isTslSegment(node)) {
         return node.constraintList?.constraints ?? [];
     } else {
         return [];
     }
 };
 
-export const getColumns = (node: SdsSchema | undefined): SdsColumn[] => {
+export const getColumns = (node: TslSchema | undefined): TslColumn[] => {
     return node?.columnList?.columns ?? [];
 };
 
-export const getEnumVariants = (node: SdsEnum | undefined): SdsEnumVariant[] => {
+export const getEnumVariants = (node: TslEnum | undefined): TslEnumVariant[] => {
     return node?.body?.variants ?? [];
 };
 
-export const getImports = (node: SdsModule | undefined): SdsImport[] => {
+export const getImports = (node: TslModule | undefined): TslImport[] => {
     return node?.imports ?? [];
 };
 
-export const getImportedDeclarations = (node: SdsModule | SdsQualifiedImport | undefined): SdsImportedDeclaration[] => {
-    if (isSdsModule(node)) {
+export const getImportedDeclarations = (node: TslModule | TslQualifiedImport | undefined): TslImportedDeclaration[] => {
+    if (isTslModule(node)) {
         return getImports(node).flatMap((imp) => {
-            if (isSdsQualifiedImport(imp)) {
+            if (isTslQualifiedImport(imp)) {
                 return getImportedDeclarations(imp);
             } else {
                 return [];
@@ -300,64 +300,64 @@ export const getImportedDeclarations = (node: SdsModule | SdsQualifiedImport | u
     }
 };
 
-export const getLiterals = (node: SdsLiteralType | undefined): SdsLiteral[] => {
+export const getLiterals = (node: TslLiteralType | undefined): TslLiteral[] => {
     return node?.literalList?.literals ?? [];
 };
 
-export const getModuleMembers = (node: SdsModule | undefined): SdsModuleMember[] => {
-    return node?.members?.filter(isSdsModuleMember) ?? [];
+export const getModuleMembers = (node: TslModule | undefined): TslModuleMember[] => {
+    return node?.members?.filter(isTslModuleMember) ?? [];
 };
 
 export const getPackageName = (node: AstNode | undefined): string | undefined => {
-    return AstUtils.getContainerOfType(node, isSdsModule)?.name;
+    return AstUtils.getContainerOfType(node, isTslModule)?.name;
 };
 
-export const getParameters = (node: SdsCallable | undefined): SdsParameter[] => {
+export const getParameters = (node: TslCallable | undefined): TslParameter[] => {
     return node?.parameterList?.parameters ?? [];
 };
 
-export const getParentTypes = (node: SdsClass | undefined): SdsType[] => {
+export const getParentTypes = (node: TslClass | undefined): TslType[] => {
     return node?.parentTypeList?.parentTypes ?? [];
 };
 
-export const getQualifiedName = (node: SdsDeclaration | undefined): string | undefined => {
+export const getQualifiedName = (node: TslDeclaration | undefined): string | undefined => {
     const segments = [];
 
-    let current: SdsDeclaration | undefined = node;
+    let current: TslDeclaration | undefined = node;
     while (current) {
         if (current.name) {
             segments.unshift(current.name);
         }
-        current = AstUtils.getContainerOfType(current.$container, isSdsDeclaration);
+        current = AstUtils.getContainerOfType(current.$container, isTslDeclaration);
     }
 
     return segments.join('.');
 };
 
-export const streamPlaceholders = (node: SdsBlock | undefined): Stream<SdsPlaceholder> => {
-    return stream(getStatements(node)).filter(isSdsAssignment).flatMap(getAssignees).filter(isSdsPlaceholder);
+export const streamPlaceholders = (node: TslBlock | undefined): Stream<TslPlaceholder> => {
+    return stream(getStatements(node)).filter(isTslAssignment).flatMap(getAssignees).filter(isTslPlaceholder);
 };
 
-export const getPlaceholderByName = (block: SdsBlock, name: string | undefined): SdsPlaceholder | undefined => {
+export const getPlaceholderByName = (block: TslBlock, name: string | undefined): TslPlaceholder | undefined => {
     return name ? streamPlaceholders(block).find((placeholder) => placeholder.name === name) : undefined;
 };
 
-export const getResults = (node: SdsResultList | undefined): SdsResult[] => {
+export const getResults = (node: TslResultList | undefined): TslResult[] => {
     return node?.results ?? [];
 };
 
-export const getStatements = (node: SdsBlock | undefined): SdsStatement[] => {
+export const getStatements = (node: TslBlock | undefined): TslStatement[] => {
     return node?.statements ?? [];
 };
 
-export const getTypeArguments = (node: SdsTypeArgumentList | SdsNamedType | undefined): SdsTypeArgument[] => {
+export const getTypeArguments = (node: TslTypeArgumentList | TslNamedType | undefined): TslTypeArgument[] => {
     if (!node) {
         return [];
     }
 
-    if (isSdsTypeArgumentList(node)) {
+    if (isTslTypeArgumentList(node)) {
         return node.typeArguments;
-    } else if (isSdsNamedType(node)) {
+    } else if (isTslNamedType(node)) {
         return getTypeArguments(node.typeArgumentList);
     } /* c8 ignore start */ else {
         return [];
@@ -365,17 +365,17 @@ export const getTypeArguments = (node: SdsTypeArgumentList | SdsNamedType | unde
 };
 
 export const getTypeParameters = (
-    node: SdsTypeParameterList | SdsCallable | SdsNamedTypeDeclaration | undefined,
-): SdsTypeParameter[] => {
+    node: TslTypeParameterList | TslCallable | TslNamedTypeDeclaration | undefined,
+): TslTypeParameter[] => {
     if (!node) {
         return [];
     }
 
-    if (isSdsTypeParameterList(node)) {
+    if (isTslTypeParameterList(node)) {
         return node.typeParameters;
-    } else if (isSdsClass(node)) {
+    } else if (isTslClass(node)) {
         return getTypeParameters(node.typeParameterList);
-    } else if (isSdsFunction(node)) {
+    } else if (isTslFunction(node)) {
         return getTypeParameters(node.typeParameterList);
     } /* c8 ignore start */ else {
         return [];

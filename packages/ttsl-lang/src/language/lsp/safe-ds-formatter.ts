@@ -26,168 +26,168 @@ export class SafeDsFormatter extends AbstractFormatter {
         // -----------------------------------------------------------------------------
         // Module
         // -----------------------------------------------------------------------------
-        if (ast.isSdsModule(node)) {
-            this.formatSdsModule(node);
-        } else if (ast.isSdsImport(node)) {
-            this.formatSdsImport(node);
-        } else if (ast.isSdsImportedDeclarationList(node)) {
-            this.formatSdsImportedDeclarationList(node);
-        } else if (ast.isSdsImportedDeclaration(node)) {
-            this.formatSdsImportedDeclaration(node);
-        } else if (ast.isSdsImportedDeclarationAlias(node)) {
-            this.formatSdsImportedDeclarationAlias(node);
+        if (ast.isTslModule(node)) {
+            this.formatTslModule(node);
+        } else if (ast.isTslImport(node)) {
+            this.formatTslImport(node);
+        } else if (ast.isTslImportedDeclarationList(node)) {
+            this.formatTslImportedDeclarationList(node);
+        } else if (ast.isTslImportedDeclaration(node)) {
+            this.formatTslImportedDeclaration(node);
+        } else if (ast.isTslImportedDeclarationAlias(node)) {
+            this.formatTslImportedDeclarationAlias(node);
         }
 
         // -----------------------------------------------------------------------------
         // Declarations
         // -----------------------------------------------------------------------------
-        else if (ast.isSdsAnnotation(node)) {
-            this.formatSdsAnnotation(node);
-        } else if (ast.isSdsAttribute(node)) {
-            this.formatSdsAttribute(node);
-        } else if (ast.isSdsClass(node)) {
-            this.formatSdsClass(node);
-        } else if (ast.isSdsParentTypeList(node)) {
-            this.formatSdsParentTypeList(node);
-        } else if (ast.isSdsClassBody(node)) {
-            this.formatSdsClassBody(node);
-        } else if (ast.isSdsEnum(node)) {
-            this.formatSdsEnum(node);
-        } else if (ast.isSdsEnumBody(node)) {
-            this.formatSdsEnumBody(node);
-        } else if (ast.isSdsEnumVariant(node)) {
-            this.formatSdsEnumVariant(node);
-        } else if (ast.isSdsFunction(node)) {
-            this.formatSdsFunction(node);
-        } else if (ast.isSdsPipeline(node)) {
-            this.formatSdsPipeline(node);
-        } else if (ast.isSdsSegment(node)) {
-            this.formatSdsSegment(node);
+        else if (ast.isTslAnnotation(node)) {
+            this.formatTslAnnotation(node);
+        } else if (ast.isTslAttribute(node)) {
+            this.formatTslAttribute(node);
+        } else if (ast.isTslClass(node)) {
+            this.formatTslClass(node);
+        } else if (ast.isTslParentTypeList(node)) {
+            this.formatTslParentTypeList(node);
+        } else if (ast.isTslClassBody(node)) {
+            this.formatTslClassBody(node);
+        } else if (ast.isTslEnum(node)) {
+            this.formatTslEnum(node);
+        } else if (ast.isTslEnumBody(node)) {
+            this.formatTslEnumBody(node);
+        } else if (ast.isTslEnumVariant(node)) {
+            this.formatTslEnumVariant(node);
+        } else if (ast.isTslFunction(node)) {
+            this.formatTslFunction(node);
+        } else if (ast.isTslPipeline(node)) {
+            this.formatTslPipeline(node);
+        } else if (ast.isTslSegment(node)) {
+            this.formatTslSegment(node);
         }
 
         // -----------------------------------------------------------------------------
         // Annotation calls
         // -----------------------------------------------------------------------------
-        else if (ast.isSdsAnnotationCallList(node)) {
-            this.formatSdsAnnotationCallList(node);
-        } else if (ast.isSdsAnnotationCall(node)) {
-            this.formatSdsAnnotationCall(node);
+        else if (ast.isTslAnnotationCallList(node)) {
+            this.formatTslAnnotationCallList(node);
+        } else if (ast.isTslAnnotationCall(node)) {
+            this.formatTslAnnotationCall(node);
         }
 
         // -----------------------------------------------------------------------------
         // Constraints
         // -----------------------------------------------------------------------------
-        else if (ast.isSdsConstraintList(node)) {
-            this.formatSdsConstraintList(node);
-        } else if (ast.isSdsParameterBound(node)) {
-            this.formatSdsParameterBound(node);
+        else if (ast.isTslConstraintList(node)) {
+            this.formatTslConstraintList(node);
+        } else if (ast.isTslParameterBound(node)) {
+            this.formatTslParameterBound(node);
         }
 
         // -----------------------------------------------------------------------------
         // Callables, parameters, and results
         // -----------------------------------------------------------------------------
-        else if (ast.isSdsParameterList(node)) {
-            this.formatSdsParameterList(node);
-        } else if (ast.isSdsParameter(node)) {
-            this.formatSdsParameter(node);
-        } else if (ast.isSdsResultList(node)) {
-            this.formatSdsResultList(node);
-        } else if (ast.isSdsResult(node)) {
-            this.formatSdsResult(node);
+        else if (ast.isTslParameterList(node)) {
+            this.formatTslParameterList(node);
+        } else if (ast.isTslParameter(node)) {
+            this.formatTslParameter(node);
+        } else if (ast.isTslResultList(node)) {
+            this.formatTslResultList(node);
+        } else if (ast.isTslResult(node)) {
+            this.formatTslResult(node);
         }
 
         // -----------------------------------------------------------------------------
         // Statements
         // -----------------------------------------------------------------------------
-        else if (ast.isSdsBlock(node)) {
-            this.formatSdsBlock(node);
-        } else if (ast.isSdsAssignment(node)) {
-            this.formatSdsAssignment(node);
-        } else if (ast.isSdsAssigneeList(node)) {
-            this.formatSdsAssigneeList(node);
-        } else if (ast.isSdsPlaceholder(node)) {
-            this.formatSdsPlaceholder(node);
-        } else if (ast.isSdsYield(node)) {
-            this.formatSdsYield(node);
-        } else if (ast.isSdsExpressionStatement(node)) {
-            this.formatSdsExpressionStatement(node);
+        else if (ast.isTslBlock(node)) {
+            this.formatTslBlock(node);
+        } else if (ast.isTslAssignment(node)) {
+            this.formatTslAssignment(node);
+        } else if (ast.isTslAssigneeList(node)) {
+            this.formatTslAssigneeList(node);
+        } else if (ast.isTslPlaceholder(node)) {
+            this.formatTslPlaceholder(node);
+        } else if (ast.isTslYield(node)) {
+            this.formatTslYield(node);
+        } else if (ast.isTslExpressionStatement(node)) {
+            this.formatTslExpressionStatement(node);
         }
 
         // -----------------------------------------------------------------------------
         // Expressions
         // -----------------------------------------------------------------------------
-        else if (ast.isSdsBlockLambda(node)) {
-            this.formatSdsBlockLambda(node);
-        } else if (ast.isSdsBlockLambdaResult(node)) {
-            this.formatSdsBlockLambdaResult(node);
-        } else if (ast.isSdsExpressionLambda(node)) {
-            this.formatSdsExpressionLambda(node);
-        } else if (ast.isSdsInfixOperation(node)) {
-            this.formatSdsInfixOperation(node);
-        } else if (ast.isSdsPrefixOperation(node)) {
-            this.formatSdsPrefixOperation(node);
-        } else if (ast.isSdsCall(node)) {
-            this.formatSdsCall(node);
-        } else if (ast.isSdsArgumentList(node)) {
-            this.formatSdsArgumentList(node);
-        } else if (ast.isSdsArgument(node)) {
-            this.formatSdsArgument(node);
-        } else if (ast.isSdsIndexedAccess(node)) {
-            this.formatSdsIndexedAccess(node);
-        } else if (ast.isSdsMemberAccess(node)) {
-            this.formatSdsMemberAccess(node);
-        } else if (ast.isSdsList(node)) {
-            this.formatSdsList(node);
-        } else if (ast.isSdsMap(node)) {
-            this.formatSdsMap(node);
-        } else if (ast.isSdsMapEntry(node)) {
-            this.formatSdsMapEntry(node);
-        } else if (ast.isSdsParenthesizedExpression(node)) {
-            this.formatSdsParenthesizedExpression(node);
-        } else if (ast.isSdsTemplateStringStart(node)) {
-            this.formatSdsTemplateStringStart(node);
-        } else if (ast.isSdsTemplateStringInner(node)) {
-            this.formatSdsTemplateStringInner(node);
-        } else if (ast.isSdsTemplateStringEnd(node)) {
-            this.formatSdsTemplateStringEnd(node);
-        } else if (ast.isSdsTypeCast(node)) {
-            this.formatSdsTypeCast(node);
+        else if (ast.isTslBlockLambda(node)) {
+            this.formatTslBlockLambda(node);
+        } else if (ast.isTslBlockLambdaResult(node)) {
+            this.formatTslBlockLambdaResult(node);
+        } else if (ast.isTslExpressionLambda(node)) {
+            this.formatTslExpressionLambda(node);
+        } else if (ast.isTslInfixOperation(node)) {
+            this.formatTslInfixOperation(node);
+        } else if (ast.isTslPrefixOperation(node)) {
+            this.formatTslPrefixOperation(node);
+        } else if (ast.isTslCall(node)) {
+            this.formatTslCall(node);
+        } else if (ast.isTslArgumentList(node)) {
+            this.formatTslArgumentList(node);
+        } else if (ast.isTslArgument(node)) {
+            this.formatTslArgument(node);
+        } else if (ast.isTslIndexedAccess(node)) {
+            this.formatTslIndexedAccess(node);
+        } else if (ast.isTslMemberAccess(node)) {
+            this.formatTslMemberAccess(node);
+        } else if (ast.isTslList(node)) {
+            this.formatTslList(node);
+        } else if (ast.isTslDictionary(node)) {
+            this.formatTslDictionary(node);
+        } else if (ast.isTslDictionaryEntry(node)) {
+            this.formatTslDictionaryEntry(node);
+        } else if (ast.isTslParenthesizedExpression(node)) {
+            this.formatTslParenthesizedExpression(node);
+        } else if (ast.isTslTemplateStringStart(node)) {
+            this.formatTslTemplateStringStart(node);
+        } else if (ast.isTslTemplateStringInner(node)) {
+            this.formatTslTemplateStringInner(node);
+        } else if (ast.isTslTemplateStringEnd(node)) {
+            this.formatTslTemplateStringEnd(node);
+        } else if (ast.isTslTypeCast(node)) {
+            this.formatTslTypeCast(node);
         }
 
         // -----------------------------------------------------------------------------
         // Types
         // -----------------------------------------------------------------------------
-        else if (ast.isSdsMemberType(node)) {
-            this.formatSdsMemberType(node);
-        } else if (ast.isSdsCallableType(node)) {
-            this.formatSdsCallableType(node);
-        } else if (ast.isSdsLiteralType(node)) {
-            this.formatSdsLiteralType(node);
-        } else if (ast.isSdsLiteralList(node)) {
-            this.formatSdsLiteralList(node);
-        } else if (ast.isSdsNamedType(node)) {
-            this.formatSdsNamedType(node);
-        } else if (ast.isSdsUnionType(node)) {
-            this.formatSdsUnionType(node);
-        } else if (ast.isSdsTypeParameterList(node)) {
-            this.formatSdsTypeParameterList(node);
-        } else if (ast.isSdsTypeParameter(node)) {
-            this.formatSdsTypeParameter(node);
-        } else if (ast.isSdsTypeArgumentList(node)) {
-            this.formatSdsTypeArgumentList(node);
-        } else if (ast.isSdsTypeArgument(node)) {
-            this.formatSdsTypeArgument(node);
+        else if (ast.isTslMemberType(node)) {
+            this.formatTslMemberType(node);
+        } else if (ast.isTslCallableType(node)) {
+            this.formatTslCallableType(node);
+        } else if (ast.isTslLiteralType(node)) {
+            this.formatTslLiteralType(node);
+        } else if (ast.isTslLiteralList(node)) {
+            this.formatTslLiteralList(node);
+        } else if (ast.isTslNamedType(node)) {
+            this.formatTslNamedType(node);
+        } else if (ast.isTslUnionType(node)) {
+            this.formatTslUnionType(node);
+        } else if (ast.isTslTypeParameterList(node)) {
+            this.formatTslTypeParameterList(node);
+        } else if (ast.isTslTypeParameter(node)) {
+            this.formatTslTypeParameter(node);
+        } else if (ast.isTslTypeArgumentList(node)) {
+            this.formatTslTypeArgumentList(node);
+        } else if (ast.isTslTypeArgument(node)) {
+            this.formatTslTypeArgument(node);
         }
 
         // -----------------------------------------------------------------------------
         // Schemas
         // -----------------------------------------------------------------------------
-        else if (ast.isSdsSchema(node)) {
-            this.formatSdsSchema(node);
-        } else if (ast.isSdsColumnList(node)) {
-            this.formatSdsColumnList(node);
-        } else if (ast.isSdsColumn(node)) {
-            this.formatSdsColumn(node);
+        else if (ast.isTslSchema(node)) {
+            this.formatTslSchema(node);
+        } else if (ast.isTslColumnList(node)) {
+            this.formatTslColumnList(node);
+        } else if (ast.isTslColumn(node)) {
+            this.formatTslColumn(node);
         }
     }
 
@@ -195,7 +195,7 @@ export class SafeDsFormatter extends AbstractFormatter {
     // Module
     // -----------------------------------------------------------------------------
 
-    private formatSdsModule(node: ast.SdsModule): void {
+    private formatTslModule(node: ast.TslModule): void {
         const formatter = this.getNodeFormatter(node);
         const annotations = getAnnotationCalls(node);
         const name = node.name;
@@ -276,7 +276,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         });
     }
 
-    private formatSdsImport(node: ast.SdsImport): void {
+    private formatTslImport(node: ast.TslImport): void {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('from').append(oneSpace());
@@ -284,19 +284,19 @@ export class SafeDsFormatter extends AbstractFormatter {
         formatter.keyword('import').surround(oneSpace());
     }
 
-    private formatSdsImportedDeclarationList(node: ast.SdsImportedDeclarationList): void {
+    private formatTslImportedDeclarationList(node: ast.TslImportedDeclarationList): void {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keywords(',').prepend(noSpace()).append(oneSpace());
     }
 
-    private formatSdsImportedDeclaration(node: ast.SdsImportedDeclaration): void {
+    private formatTslImportedDeclaration(node: ast.TslImportedDeclaration): void {
         const formatter = this.getNodeFormatter(node);
 
         formatter.property('alias').prepend(oneSpace());
     }
 
-    private formatSdsImportedDeclarationAlias(node: ast.SdsImportedDeclarationAlias): void {
+    private formatTslImportedDeclarationAlias(node: ast.TslImportedDeclarationAlias): void {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('as').append(oneSpace());
@@ -306,7 +306,7 @@ export class SafeDsFormatter extends AbstractFormatter {
     // Declarations
     // -----------------------------------------------------------------------------
 
-    private formatSdsAnnotation(node: ast.SdsAnnotation): void {
+    private formatTslAnnotation(node: ast.TslAnnotation): void {
         const formatter = this.getNodeFormatter(node);
 
         if (getAnnotationCalls(node).length > 0) {
@@ -318,7 +318,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         formatter.property('constraintList').prepend(oneSpace());
     }
 
-    private formatSdsAttribute(node: ast.SdsAttribute): void {
+    private formatTslAttribute(node: ast.TslAttribute): void {
         const formatter = this.getNodeFormatter(node);
 
         if (getAnnotationCalls(node).length > 0) {
@@ -334,7 +334,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         formatter.keyword(':').prepend(noSpace()).append(oneSpace());
     }
 
-    private formatSdsClass(node: ast.SdsClass): void {
+    private formatTslClass(node: ast.TslClass): void {
         const formatter = this.getNodeFormatter(node);
 
         if (getAnnotationCalls(node).length > 0) {
@@ -354,14 +354,14 @@ export class SafeDsFormatter extends AbstractFormatter {
         }
     }
 
-    formatSdsParentTypeList(node: ast.SdsParentTypeList): void {
+    formatTslParentTypeList(node: ast.TslParentTypeList): void {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('sub').append(oneSpace());
         formatter.keywords(',').prepend(noSpace()).append(oneSpace());
     }
 
-    private formatSdsClassBody(node: ast.SdsClassBody): void {
+    private formatTslClassBody(node: ast.TslClassBody): void {
         const formatter = this.getNodeFormatter(node);
 
         const members = node.members ?? [];
@@ -380,7 +380,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         }
     }
 
-    private formatSdsEnum(node: ast.SdsEnum): void {
+    private formatTslEnum(node: ast.TslEnum): void {
         const formatter = this.getNodeFormatter(node);
 
         if (getAnnotationCalls(node).length > 0) {
@@ -391,7 +391,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         formatter.property('body').prepend(oneSpace());
     }
 
-    private formatSdsEnumBody(node: ast.SdsEnumBody): void {
+    private formatTslEnumBody(node: ast.TslEnumBody): void {
         const formatter = this.getNodeFormatter(node);
 
         const variants = node.variants ?? [];
@@ -410,7 +410,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         }
     }
 
-    private formatSdsEnumVariant(node: ast.SdsEnumVariant): void {
+    private formatTslEnumVariant(node: ast.TslEnumVariant): void {
         const formatter = this.getNodeFormatter(node);
 
         const annotationCalls = getAnnotationCalls(node);
@@ -425,7 +425,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         formatter.property('constraintList').prepend(oneSpace());
     }
 
-    formatSdsFunction(node: ast.SdsFunction): void {
+    formatTslFunction(node: ast.TslFunction): void {
         const formatter = this.getNodeFormatter(node);
 
         if (getAnnotationCalls(node).length > 0) {
@@ -444,7 +444,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         formatter.property('constraintList').prepend(oneSpace());
     }
 
-    private formatSdsPipeline(node: ast.SdsPipeline): void {
+    private formatTslPipeline(node: ast.TslPipeline): void {
         const formatter = this.getNodeFormatter(node);
 
         formatter.property('annotationCallList').prepend(noSpace());
@@ -457,7 +457,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         formatter.node(node.body).prepend(oneSpace());
     }
 
-    private formatSdsSegment(node: ast.SdsSegment): void {
+    private formatTslSegment(node: ast.TslSegment): void {
         const formatter = this.getNodeFormatter(node);
 
         if (getAnnotationCalls(node).length === 0) {
@@ -484,14 +484,14 @@ export class SafeDsFormatter extends AbstractFormatter {
     // Annotation calls
     // -----------------------------------------------------------------------------
 
-    private formatSdsAnnotationCallList(node: ast.SdsAnnotationCallList): void {
+    private formatTslAnnotationCallList(node: ast.TslAnnotationCallList): void {
         const formatter = this.getNodeFormatter(node);
         const annotationCalls = node.annotationCalls ?? [];
 
         formatter.nodes(...annotationCalls.slice(1)).prepend(newLine());
     }
 
-    private formatSdsAnnotationCall(node: ast.SdsAnnotationCall): void {
+    private formatTslAnnotationCall(node: ast.TslAnnotationCall): void {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('@').append(noSpace());
@@ -502,7 +502,7 @@ export class SafeDsFormatter extends AbstractFormatter {
     // Constraints
     // -----------------------------------------------------------------------------
 
-    private formatSdsConstraintList(node: ast.SdsConstraintList) {
+    private formatTslConstraintList(node: ast.TslConstraintList) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('where').append(oneSpace());
@@ -522,7 +522,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         }
     }
 
-    private formatSdsParameterBound(node: ast.SdsParameterBound) {
+    private formatTslParameterBound(node: ast.TslParameterBound) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.property('operator').surround(oneSpace());
@@ -532,7 +532,7 @@ export class SafeDsFormatter extends AbstractFormatter {
     // Callables, parameters, and results
     // -----------------------------------------------------------------------------
 
-    private formatSdsParameterList(node: ast.SdsParameterList): void {
+    private formatTslParameterList(node: ast.TslParameterList): void {
         const formatter = this.getNodeFormatter(node);
 
         const openingParenthesis = formatter.keyword('(');
@@ -555,7 +555,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         }
     }
 
-    private formatSdsParameter(node: ast.SdsParameter): void {
+    private formatTslParameter(node: ast.TslParameter): void {
         const formatter = this.getNodeFormatter(node);
 
         const lastAnnotationCall = last(getAnnotationCalls(node));
@@ -569,7 +569,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         formatter.keyword('=').surround(oneSpace());
     }
 
-    private formatSdsResultList(node: ast.SdsResultList): void {
+    private formatTslResultList(node: ast.TslResultList): void {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('->').surround(oneSpace());
@@ -594,7 +594,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         }
     }
 
-    private formatSdsResult(node: ast.SdsResult): void {
+    private formatTslResult(node: ast.TslResult): void {
         const formatter = this.getNodeFormatter(node);
 
         if (getAnnotationCalls(node).length > 0) {
@@ -608,7 +608,7 @@ export class SafeDsFormatter extends AbstractFormatter {
     // Statements
     // -----------------------------------------------------------------------------
 
-    private formatSdsBlock(node: ast.SdsBlock): void {
+    private formatTslBlock(node: ast.TslBlock): void {
         const formatter = this.getNodeFormatter(node);
         const openingBrace = formatter.keyword('{');
         const closingBrace = formatter.keyword('}');
@@ -622,33 +622,33 @@ export class SafeDsFormatter extends AbstractFormatter {
         }
     }
 
-    private formatSdsAssignment(node: ast.SdsAssignment) {
+    private formatTslAssignment(node: ast.TslAssignment) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('=').surround(oneSpace());
         formatter.keyword(';').prepend(noSpace());
     }
 
-    private formatSdsAssigneeList(node: ast.SdsAssigneeList) {
+    private formatTslAssigneeList(node: ast.TslAssigneeList) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keywords(',').prepend(noSpace()).append(oneSpace());
     }
 
-    private formatSdsPlaceholder(node: ast.SdsPlaceholder) {
+    private formatTslPlaceholder(node: ast.TslPlaceholder) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('val').append(oneSpace());
     }
 
-    private formatSdsYield(node: ast.SdsYield) {
+    private formatTslYield(node: ast.TslYield) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('yield').append(oneSpace());
         formatter.property('result').prepend(oneSpace());
     }
 
-    private formatSdsExpressionStatement(node: ast.SdsExpressionStatement) {
+    private formatTslExpressionStatement(node: ast.TslExpressionStatement) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword(';').prepend(noSpace());
@@ -658,45 +658,45 @@ export class SafeDsFormatter extends AbstractFormatter {
     // Expressions
     // -----------------------------------------------------------------------------
 
-    private formatSdsBlockLambda(node: ast.SdsBlockLambda): void {
+    private formatTslBlockLambda(node: ast.TslBlockLambda): void {
         const formatter = this.getNodeFormatter(node);
 
         formatter.property('body').prepend(oneSpace());
     }
 
-    private formatSdsBlockLambdaResult(node: ast.SdsBlockLambdaResult) {
+    private formatTslBlockLambdaResult(node: ast.TslBlockLambdaResult) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('yield').append(oneSpace());
     }
 
-    private formatSdsExpressionLambda(node: ast.SdsExpressionLambda) {
+    private formatTslExpressionLambda(node: ast.TslExpressionLambda) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('->').surround(oneSpace());
     }
 
-    private formatSdsInfixOperation(node: ast.SdsInfixOperation) {
+    private formatTslInfixOperation(node: ast.TslInfixOperation) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.property('operator').surround(oneSpace());
     }
 
-    private formatSdsPrefixOperation(node: ast.SdsPrefixOperation) {
+    private formatTslPrefixOperation(node: ast.TslPrefixOperation) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('not').append(oneSpace());
         formatter.keyword('-').append(noSpace());
     }
 
-    private formatSdsCall(node: ast.SdsCall) {
+    private formatTslCall(node: ast.TslCall) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('?').surround(noSpace());
         formatter.property('argumentList').prepend(noSpace());
     }
 
-    private formatSdsArgumentList(node: ast.SdsArgumentList): void {
+    private formatTslArgumentList(node: ast.TslArgumentList): void {
         const formatter = this.getNodeFormatter(node);
 
         const openingParenthesis = formatter.keyword('(');
@@ -716,13 +716,13 @@ export class SafeDsFormatter extends AbstractFormatter {
         }
     }
 
-    private formatSdsArgument(node: ast.SdsArgument): void {
+    private formatTslArgument(node: ast.TslArgument): void {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('=').surround(oneSpace());
     }
 
-    private formatSdsIndexedAccess(node: ast.SdsIndexedAccess) {
+    private formatTslIndexedAccess(node: ast.TslIndexedAccess) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('?').surround(noSpace());
@@ -730,14 +730,14 @@ export class SafeDsFormatter extends AbstractFormatter {
         formatter.keyword(']').prepend(noSpace());
     }
 
-    private formatSdsMemberAccess(node: ast.SdsMemberAccess) {
+    private formatTslMemberAccess(node: ast.TslMemberAccess) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('?').surround(noSpace());
         formatter.keyword('.').surround(noSpace());
     }
 
-    private formatSdsList(node: ast.SdsList) {
+    private formatTslList(node: ast.TslList) {
         const formatter = this.getNodeFormatter(node);
 
         const openingSquareBracket = formatter.keyword('[');
@@ -757,7 +757,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         }
     }
 
-    private formatSdsMap(node: ast.SdsMap) {
+    private formatTslDictionary(node: ast.TslDictionary) {
         const formatter = this.getNodeFormatter(node);
 
         const openingCurlyBrace = formatter.keyword('{');
@@ -780,38 +780,38 @@ export class SafeDsFormatter extends AbstractFormatter {
         }
     }
 
-    private formatSdsMapEntry(node: ast.SdsMapEntry) {
+    private formatTslDictionaryEntry(node: ast.TslDictionaryEntry) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword(':').prepend(noSpace()).append(oneSpace());
     }
 
-    private formatSdsParenthesizedExpression(node: ast.SdsParenthesizedExpression): void {
+    private formatTslParenthesizedExpression(node: ast.TslParenthesizedExpression): void {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('(').append(noSpace());
         formatter.keyword(')').prepend(noSpace());
     }
 
-    private formatSdsTemplateStringStart(node: ast.SdsTemplateStringStart) {
+    private formatTslTemplateStringStart(node: ast.TslTemplateStringStart) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.node(node).append(oneSpace());
     }
 
-    private formatSdsTemplateStringInner(node: ast.SdsTemplateStringInner) {
+    private formatTslTemplateStringInner(node: ast.TslTemplateStringInner) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.node(node).surround(oneSpace());
     }
 
-    private formatSdsTemplateStringEnd(node: ast.SdsTemplateStringEnd) {
+    private formatTslTemplateStringEnd(node: ast.TslTemplateStringEnd) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.node(node).prepend(oneSpace());
     }
 
-    private formatSdsTypeCast(node: ast.SdsTypeCast) {
+    private formatTslTypeCast(node: ast.TslTypeCast) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('as').surround(oneSpace());
@@ -823,33 +823,33 @@ export class SafeDsFormatter extends AbstractFormatter {
      *
      * @param node The expression to check.
      */
-    private isComplexExpression(node: ast.SdsExpression | undefined): boolean {
-        return ast.isSdsChainedExpression(node) || ast.isSdsList(node) || ast.isSdsMap(node);
+    private isComplexExpression(node: ast.TslExpression | undefined): boolean {
+        return ast.isTslChainedExpression(node) || ast.isTslList(node) || ast.isTslDictionary(node);
     }
 
     // -----------------------------------------------------------------------------
     // Types
     // -----------------------------------------------------------------------------
 
-    private formatSdsMemberType(node: ast.SdsMemberType) {
+    private formatTslMemberType(node: ast.TslMemberType) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('.').surround(noSpace());
     }
 
-    private formatSdsCallableType(node: ast.SdsCallableType) {
+    private formatTslCallableType(node: ast.TslCallableType) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('->').surround(oneSpace());
     }
 
-    private formatSdsLiteralType(node: ast.SdsLiteralType): void {
+    private formatTslLiteralType(node: ast.TslLiteralType): void {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('literal').append(noSpace());
     }
 
-    private formatSdsLiteralList(node: ast.SdsLiteralList): void {
+    private formatTslLiteralList(node: ast.TslLiteralList): void {
         const formatter = this.getNodeFormatter(node);
         const literals = node.literals ?? [];
 
@@ -862,20 +862,20 @@ export class SafeDsFormatter extends AbstractFormatter {
         formatter.keyword('>').prepend(noSpace());
     }
 
-    private formatSdsNamedType(node: ast.SdsNamedType) {
+    private formatTslNamedType(node: ast.TslNamedType) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('?').prepend(noSpace());
         formatter.property('typeArgumentList').prepend(noSpace());
     }
 
-    private formatSdsUnionType(node: ast.SdsUnionType): void {
+    private formatTslUnionType(node: ast.TslUnionType): void {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('union').append(noSpace());
     }
 
-    private formatSdsTypeParameterList(node: ast.SdsTypeParameterList): void {
+    private formatTslTypeParameterList(node: ast.TslTypeParameterList): void {
         const formatter = this.getNodeFormatter(node);
 
         const closingBracket = formatter.keyword('>');
@@ -896,7 +896,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         }
     }
 
-    private formatSdsTypeParameter(node: ast.SdsTypeParameter) {
+    private formatTslTypeParameter(node: ast.TslTypeParameter) {
         const formatter = this.getNodeFormatter(node);
 
         if (getAnnotationCalls(node).length > 0) {
@@ -912,7 +912,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         formatter.keyword('=').surround(oneSpace());
     }
 
-    private formatSdsTypeArgumentList(node: ast.SdsTypeArgumentList): void {
+    private formatTslTypeArgumentList(node: ast.TslTypeArgumentList): void {
         const formatter = this.getNodeFormatter(node);
         const typeArguments = node.typeArguments ?? [];
 
@@ -925,7 +925,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         formatter.keyword('>').prepend(noSpace());
     }
 
-    private formatSdsTypeArgument(node: ast.SdsTypeArgument) {
+    private formatTslTypeArgument(node: ast.TslTypeArgument) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword('=').surround(oneSpace());
@@ -937,18 +937,18 @@ export class SafeDsFormatter extends AbstractFormatter {
      *
      * @param node The type to check.
      */
-    private isComplexType(node: ast.SdsType | undefined): boolean {
+    private isComplexType(node: ast.TslType | undefined): boolean {
         if (!node) {
             return false;
         }
 
-        if (ast.isSdsCallableType(node) || ast.isSdsMemberType(node)) {
+        if (ast.isTslCallableType(node) || ast.isTslMemberType(node)) {
             return true;
-        } else if (ast.isSdsLiteralType(node)) {
+        } else if (ast.isTslLiteralType(node)) {
             return getLiterals(node).length > 0;
-        } else if (ast.isSdsNamedType(node)) {
+        } else if (ast.isTslNamedType(node)) {
             return getTypeArguments(node.typeArgumentList).length > 0;
-        } else if (ast.isSdsUnionType(node)) {
+        } else if (ast.isTslUnionType(node)) {
             return getTypeArguments(node.typeArgumentList).length > 0;
         } else {
             /* c8 ignore next 2 */
@@ -960,7 +960,7 @@ export class SafeDsFormatter extends AbstractFormatter {
     // Schemas
     // -----------------------------------------------------------------------------
 
-    private formatSdsSchema(node: ast.SdsSchema) {
+    private formatTslSchema(node: ast.TslSchema) {
         const formatter = this.getNodeFormatter(node);
 
         if (getAnnotationCalls(node).length > 0) {
@@ -971,7 +971,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         formatter.property('columnList').prepend(oneSpace());
     }
 
-    private formatSdsColumnList(node: ast.SdsColumnList) {
+    private formatTslColumnList(node: ast.TslColumnList) {
         const formatter = this.getNodeFormatter(node);
         const columns = node.columns ?? [];
 
@@ -985,7 +985,7 @@ export class SafeDsFormatter extends AbstractFormatter {
         }
     }
 
-    private formatSdsColumn(node: ast.SdsColumn) {
+    private formatTslColumn(node: ast.TslColumn) {
         const formatter = this.getNodeFormatter(node);
 
         formatter.keyword(':').prepend(noSpace()).append(oneSpace());

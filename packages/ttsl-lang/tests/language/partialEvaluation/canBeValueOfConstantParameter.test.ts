@@ -1,6 +1,6 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
-import { isSdsExpression } from '../../../src/language/generated/ast.js';
+import { isTslExpression } from '../../../src/language/generated/ast.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
 import { createSafeDsServices } from '../../../src/language/index.js';
 
@@ -161,7 +161,7 @@ describe('SafeDsTypeChecker', async () => {
                 }
             `;
 
-            const expression = await getNodeOfType(services, codeWithContext, isSdsExpression);
+            const expression = await getNodeOfType(services, codeWithContext, isTslExpression);
             expect(partialEvaluator.canBeValueOfConstantParameter(expression)).toBe(expected);
         });
     });

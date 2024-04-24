@@ -1,5 +1,5 @@
 import { AstUtils, ValidationAcceptor } from 'langium';
-import { isSdsClass, SdsFunction } from '../../generated/ast.js';
+import { isTslClass, TslFunction } from '../../generated/ast.js';
 import { SafeDsServices } from '../../safe-ds-module.js';
 import { findFirstAnnotationCallOf, getParameters } from '../../helpers/nodeProperties.js';
 import { pluralize } from '../../../helpers/strings.js';
@@ -9,7 +9,7 @@ export const CODE_PYTHON_CALL_INVALID_TEMPLATE_EXPRESSION = 'python-call/invalid
 export const pythonCallMustOnlyContainValidTemplateExpressions = (services: SafeDsServices) => {
     const builtinAnnotations = services.builtins.Annotations;
 
-    return (node: SdsFunction, accept: ValidationAcceptor) => {
+    return (node: TslFunction, accept: ValidationAcceptor) => {
         const pythonCall = builtinAnnotations.getPythonCall(node);
         if (!pythonCall) {
             return;
@@ -21,7 +21,7 @@ export const pythonCallMustOnlyContainValidTemplateExpressions = (services: Safe
 
         // Compute valid template expressions
         const validTemplateExpressions = new Set(getParameters(node).map((it) => `\$${it.name}`));
-        if (AstUtils.hasContainerOfType(node, isSdsClass)) {
+        if (AstUtils.hasContainerOfType(node, isTslClass)) {
             validTemplateExpressions.add('$this');
         }
 

@@ -1,9 +1,9 @@
-import { SdsCallable, SdsParameter } from '../generated/ast.js';
+import { TslCallable, TslParameter } from '../generated/ast.js';
 import { stream, Stream } from 'langium';
 
 export class CallGraph {
     constructor(
-        readonly root: SdsCallable | SdsParameter | undefined,
+        readonly root: TslCallable | TslParameter | undefined,
         readonly children: CallGraph[],
         readonly isRecursive: boolean = false,
     ) {}
@@ -12,11 +12,11 @@ export class CallGraph {
      * Traverses the call graph depth-first in pre-order and returns a stream of all callables that are called directly
      * or indirectly.
      */
-    streamCalledCallables(): Stream<SdsCallable | SdsParameter | undefined> {
+    streamCalledCallables(): Stream<TslCallable | TslParameter | undefined> {
         return stream(this.streamCalledCallablesGenerator());
     }
 
-    private *streamCalledCallablesGenerator(): Generator<SdsCallable | SdsParameter | undefined, void> {
+    private *streamCalledCallablesGenerator(): Generator<TslCallable | TslParameter | undefined, void> {
         yield this.root;
 
         for (const child of this.children) {

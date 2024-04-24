@@ -1,23 +1,23 @@
 import { AstNode, AstNodeDescription, AstUtils, isAstNode } from 'langium';
 import { CompletionItemKind, SymbolKind } from 'vscode-languageserver';
 import {
-    isSdsClass,
-    isSdsFunction,
-    SdsAnnotation,
-    SdsAttribute,
-    SdsBlockLambdaResult,
-    SdsClass,
-    SdsEnum,
-    SdsEnumVariant,
-    SdsFunction,
-    SdsModule,
-    SdsParameter,
-    SdsPipeline,
-    SdsPlaceholder,
-    SdsResult,
-    SdsSchema,
-    SdsSegment,
-    SdsTypeParameter,
+    isTslClass,
+    isTslFunction,
+    TslAnnotation,
+    TslAttribute,
+    TslBlockLambdaResult,
+    TslClass,
+    TslEnum,
+    TslEnumVariant,
+    TslFunction,
+    TslModule,
+    TslParameter,
+    TslPipeline,
+    TslPlaceholder,
+    TslResult,
+    TslSchema,
+    TslSegment,
+    TslTypeParameter,
 } from '../generated/ast.js';
 import { NodeKindProvider } from 'langium/lsp';
 
@@ -25,46 +25,46 @@ export class SafeDsNodeKindProvider implements NodeKindProvider {
     getSymbolKind(nodeOrDescription: AstNode | AstNodeDescription): SymbolKind {
         // The WorkspaceSymbolProvider only passes descriptions, where the node might be undefined
         const node = this.getNode(nodeOrDescription);
-        if (isSdsFunction(node) && AstUtils.hasContainerOfType(node, isSdsClass)) {
+        if (isTslFunction(node) && AstUtils.hasContainerOfType(node, isTslClass)) {
             return SymbolKind.Method;
         }
 
         const type = this.getNodeType(nodeOrDescription);
         switch (type) {
-            case SdsAnnotation:
+            case TslAnnotation:
                 return SymbolKind.Interface;
-            case SdsAttribute:
+            case TslAttribute:
                 return SymbolKind.Property;
             /* c8 ignore next 2 */
-            case SdsBlockLambdaResult:
+            case TslBlockLambdaResult:
                 return SymbolKind.Variable;
-            case SdsClass:
+            case TslClass:
                 return SymbolKind.Class;
-            case SdsEnum:
+            case TslEnum:
                 return SymbolKind.Enum;
-            case SdsEnumVariant:
+            case TslEnumVariant:
                 return SymbolKind.EnumMember;
-            case SdsFunction:
+            case TslFunction:
                 return SymbolKind.Function;
-            case SdsModule:
+            case TslModule:
                 return SymbolKind.Package;
             /* c8 ignore next 2 */
-            case SdsParameter:
+            case TslParameter:
                 return SymbolKind.Variable;
-            case SdsPipeline:
+            case TslPipeline:
                 return SymbolKind.Function;
             /* c8 ignore next 2 */
-            case SdsPlaceholder:
+            case TslPlaceholder:
                 return SymbolKind.Variable;
             /* c8 ignore next 2 */
-            case SdsResult:
+            case TslResult:
                 return SymbolKind.Variable;
-            case SdsSchema:
+            case TslSchema:
                 return SymbolKind.Struct;
-            case SdsSegment:
+            case TslSegment:
                 return SymbolKind.Function;
             /* c8 ignore next 2 */
-            case SdsTypeParameter:
+            case TslTypeParameter:
                 return SymbolKind.TypeParameter;
             /* c8 ignore next 2 */
             default:

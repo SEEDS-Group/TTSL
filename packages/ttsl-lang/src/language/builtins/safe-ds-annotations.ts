@@ -1,13 +1,13 @@
 import { EMPTY_STREAM, Stream, stream, URI } from 'langium';
 import { resourceNameToUri } from '../../helpers/resources.js';
 import {
-    isSdsAnnotation,
-    SdsAnnotatedObject,
-    SdsAnnotation,
-    SdsEnumVariant,
-    SdsFunction,
-    SdsModule,
-    SdsParameter,
+    isTslAnnotation,
+    TslAnnotatedObject,
+    TslAnnotation,
+    TslEnumVariant,
+    TslFunction,
+    TslModule,
+    TslParameter,
 } from '../generated/ast.js';
 import { findFirstAnnotationCallOf, getEnumVariants, hasAnnotationCallOf } from '../helpers/nodeProperties.js';
 import { SafeDsNodeMapper } from '../helpers/safe-ds-node-mapper.js';
@@ -23,13 +23,13 @@ import { SafeDsServices } from '../safe-ds-module.js';
 import { SafeDsEnums } from './safe-ds-enums.js';
 import { SafeDsModuleMembers } from './safe-ds-module-members.js';
 
-const ANNOTATION_USAGE_URI = resourceNameToUri('builtins/safeds/lang/annotationUsage.sdsstub');
-const CODE_GENERATION_URI = resourceNameToUri('builtins/safeds/lang/codeGeneration.sdsstub');
-const IDE_INTEGRATION_URI = resourceNameToUri('builtins/safeds/lang/ideIntegration.sdsstub');
-const MATURITY_URI = resourceNameToUri('builtins/safeds/lang/maturity.sdsstub');
-const PURITY_URI = resourceNameToUri('builtins/safeds/lang/purity.sdsstub');
+const ANNOTATION_USAGE_URI = resourceNameToUri('builtins/safeds/lang/annotationUsage.Tslstub');
+const CODE_GENERATION_URI = resourceNameToUri('builtins/safeds/lang/codeGeneration.Tslstub');
+const IDE_INTEGRATION_URI = resourceNameToUri('builtins/safeds/lang/ideIntegration.Tslstub');
+const MATURITY_URI = resourceNameToUri('builtins/safeds/lang/maturity.Tslstub');
+const PURITY_URI = resourceNameToUri('builtins/safeds/lang/purity.Tslstub');
 
-export class SafeDsAnnotations extends SafeDsModuleMembers<SdsAnnotation> {
+export class SafeDsAnnotations extends SafeDsModuleMembers<TslAnnotation> {
     private readonly builtinEnums: SafeDsEnums;
     private readonly nodeMapper: SafeDsNodeMapper;
     private readonly partialEvaluator: SafeDsPartialEvaluator;
@@ -42,35 +42,35 @@ export class SafeDsAnnotations extends SafeDsModuleMembers<SdsAnnotation> {
         this.partialEvaluator = services.evaluation.PartialEvaluator;
     }
 
-    callsDeprecated(node: SdsAnnotatedObject | undefined): boolean {
+    callsDeprecated(node: TslAnnotatedObject | undefined): boolean {
         return hasAnnotationCallOf(node, this.Deprecated);
     }
 
-    private get Deprecated(): SdsAnnotation | undefined {
+    private get Deprecated(): TslAnnotation | undefined {
         return this.getAnnotation(MATURITY_URI, 'Deprecated');
     }
 
-    callsExperimental(node: SdsAnnotatedObject | undefined): boolean {
+    callsExperimental(node: TslAnnotatedObject | undefined): boolean {
         return hasAnnotationCallOf(node, this.Experimental);
     }
 
-    private get Experimental(): SdsAnnotation | undefined {
+    private get Experimental(): TslAnnotation | undefined {
         return this.getAnnotation(MATURITY_URI, 'Experimental');
     }
 
-    callsExpert(node: SdsParameter | undefined): boolean {
+    callsExpert(node: TslParameter | undefined): boolean {
         return hasAnnotationCallOf(node, this.Expert);
     }
 
-    private get Expert(): SdsAnnotation | undefined {
+    private get Expert(): TslAnnotation | undefined {
         return this.getAnnotation(IDE_INTEGRATION_URI, 'Expert');
     }
 
-    callsImpure(node: SdsFunction | undefined): boolean {
+    callsImpure(node: TslFunction | undefined): boolean {
         return hasAnnotationCallOf(node, this.Impure);
     }
 
-    streamImpurityReasons(node: SdsFunction | undefined): Stream<EvaluatedEnumVariant> {
+    streamImpurityReasons(node: TslFunction | undefined): Stream<EvaluatedEnumVariant> {
         // If allReasons are specified, but we could not evaluate them to a list, no reasons apply
         const value = this.getParameterValue(node, this.Impure, 'allReasons');
         if (!(value instanceof EvaluatedList)) {
@@ -81,19 +81,19 @@ export class SafeDsAnnotations extends SafeDsModuleMembers<SdsAnnotation> {
         return stream(value.elements).filter(this.builtinEnums.isEvaluatedImpurityReason);
     }
 
-    get Impure(): SdsAnnotation | undefined {
+    get Impure(): TslAnnotation | undefined {
         return this.getAnnotation(PURITY_URI, 'Impure');
     }
 
-    callsPure(node: SdsFunction | undefined): boolean {
+    callsPure(node: TslFunction | undefined): boolean {
         return hasAnnotationCallOf(node, this.Pure);
     }
 
-    get Pure(): SdsAnnotation | undefined {
+    get Pure(): TslAnnotation | undefined {
         return this.getAnnotation(PURITY_URI, 'Pure');
     }
 
-    getPythonCall(node: SdsFunction | undefined): string | undefined {
+    getPythonCall(node: TslFunction | undefined): string | undefined {
         const value = this.getParameterValue(node, this.PythonCall, 'callSpecification');
         if (value instanceof StringConstant) {
             return value.value;
@@ -102,11 +102,11 @@ export class SafeDsAnnotations extends SafeDsModuleMembers<SdsAnnotation> {
         }
     }
 
-    get PythonCall(): SdsAnnotation | undefined {
+    get PythonCall(): TslAnnotation | undefined {
         return this.getAnnotation(CODE_GENERATION_URI, 'PythonCall');
     }
 
-    getPythonModule(node: SdsModule | undefined): string | undefined {
+    getPythonModule(node: TslModule | undefined): string | undefined {
         const value = this.getParameterValue(node, this.PythonModule, 'qualifiedName');
         if (value instanceof StringConstant) {
             return value.value;
@@ -115,11 +115,11 @@ export class SafeDsAnnotations extends SafeDsModuleMembers<SdsAnnotation> {
         }
     }
 
-    get PythonModule(): SdsAnnotation | undefined {
+    get PythonModule(): TslAnnotation | undefined {
         return this.getAnnotation(CODE_GENERATION_URI, 'PythonModule');
     }
 
-    getPythonName(node: SdsAnnotatedObject | undefined): string | undefined {
+    getPythonName(node: TslAnnotatedObject | undefined): string | undefined {
         const value = this.getParameterValue(node, this.PythonName, 'name');
         if (value instanceof StringConstant) {
             return value.value;
@@ -128,19 +128,19 @@ export class SafeDsAnnotations extends SafeDsModuleMembers<SdsAnnotation> {
         }
     }
 
-    get PythonName(): SdsAnnotation | undefined {
+    get PythonName(): TslAnnotation | undefined {
         return this.getAnnotation(CODE_GENERATION_URI, 'PythonName');
     }
 
-    callsRepeatable(node: SdsAnnotation | undefined): boolean {
+    callsRepeatable(node: TslAnnotation | undefined): boolean {
         return hasAnnotationCallOf(node, this.Repeatable);
     }
 
-    private get Repeatable(): SdsAnnotation | undefined {
+    private get Repeatable(): TslAnnotation | undefined {
         return this.getAnnotation(ANNOTATION_USAGE_URI, 'Repeatable');
     }
 
-    streamValidTargets(node: SdsAnnotation | undefined): Stream<SdsEnumVariant> {
+    streamValidTargets(node: TslAnnotation | undefined): Stream<TslEnumVariant> {
         // If no targets are specified, every target is valid
         if (!hasAnnotationCallOf(node, this.Target)) {
             return stream(getEnumVariants(this.builtinEnums.AnnotationTarget));
@@ -158,12 +158,12 @@ export class SafeDsAnnotations extends SafeDsModuleMembers<SdsAnnotation> {
             .map((it) => it.variant);
     }
 
-    get Target(): SdsAnnotation | undefined {
+    get Target(): TslAnnotation | undefined {
         return this.getAnnotation(ANNOTATION_USAGE_URI, 'Target');
     }
 
-    private getAnnotation(uri: URI, name: string): SdsAnnotation | undefined {
-        return this.getModuleMember(uri, name, isSdsAnnotation);
+    private getAnnotation(uri: URI, name: string): TslAnnotation | undefined {
+        return this.getModuleMember(uri, name, isTslAnnotation);
     }
 
     /**
@@ -171,8 +171,8 @@ export class SafeDsAnnotations extends SafeDsModuleMembers<SdsAnnotation> {
      * parameter with the given name.
      */
     private getParameterValue(
-        node: SdsAnnotatedObject | undefined,
-        annotation: SdsAnnotation | undefined,
+        node: TslAnnotatedObject | undefined,
+        annotation: TslAnnotation | undefined,
         parameterName: string,
     ): EvaluatedNode {
         const annotationCall = findFirstAnnotationCallOf(node, annotation);

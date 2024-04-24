@@ -1,5 +1,5 @@
 import { ValidationAcceptor } from 'langium';
-import { type SdsCall } from '../../../generated/ast.js';
+import { type TslCall } from '../../../generated/ast.js';
 import { getArguments, Parameter } from '../../../helpers/nodeProperties.js';
 import { SafeDsServices } from '../../../safe-ds-module.js';
 
@@ -10,7 +10,7 @@ export const callArgumentMustBeConstantIfParameterIsConstant = (services: SafeDs
     const nodeMapper = services.helpers.NodeMapper;
     const partialEvaluator = services.evaluation.PartialEvaluator;
 
-    return (node: SdsCall, accept: ValidationAcceptor) => {
+    return (node: TslCall, accept: ValidationAcceptor) => {
         for (const argument of getArguments(node)) {
             if (!argument.value) {
                 /* c8 ignore next 2 */
@@ -36,7 +36,7 @@ export const callArgumentMustBeConstantIfParameterIsConstant = (services: SafeDs
 export const callMustNotBeRecursive = (services: SafeDsServices) => {
     const callGraphComputer = services.flow.CallGraphComputer;
 
-    return (node: SdsCall, accept: ValidationAcceptor) => {
+    return (node: TslCall, accept: ValidationAcceptor) => {
         if (callGraphComputer.isRecursive(node)) {
             accept('error', 'Call leads to infinite recursion.', {
                 node,
