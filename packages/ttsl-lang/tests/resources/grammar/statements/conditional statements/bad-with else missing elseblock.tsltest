@@ -1,0 +1,6 @@
+// $TEST$ syntax_error
+
+function myFunction(): {
+    if (true){}
+    else 
+}
