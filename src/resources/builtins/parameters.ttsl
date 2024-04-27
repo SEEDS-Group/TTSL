@@ -1,4 +1,4 @@
-package (?)
+package parameter
 
 // abgelt_st.yaml --------------------------------------------------------
 
@@ -7,7 +7,7 @@ package (?)
  * Reference: Art. 1 G. v. 14.08.2007
  */
 public const abgeltungssteuersatz: Float {
-    to 2008-12-31 = 0.0;
+    from 1984-01-01 = 0.0;
     from 2009-01-01 = 0.25;
 }
 
@@ -20,7 +20,7 @@ public const abgeltungssteuersatz: Float {
  * § 11b (2) SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
  * G. v. 24.03.2011 BGBl. I S. 453).
  */
-public const anrechnungsfreieEinkommensanteile: Dict<Date, Dict<Int, Dict<String, Float>>> {
+public const arbeitslosengeldAnrechnungsfreieEinkommensanteile: Dict<Date, Dict<Int, Dict<String, Float>>> {
     // Reference: Artikel 1. G. v. 24.12.2003 BGBl. I S. 2954.
     from 2005-01-01 = {
         0: {
@@ -114,8 +114,6 @@ public const anrechnungsfreieEinkommensanteile: Dict<Date, Dict<Int, Dict<String
     }
 }
 
-
-
 /**
  * Abweichende anrechnungsfreie Einkommensanteile falls Kinder im Haushalt
  * Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3, Haushalt mit
@@ -125,7 +123,7 @@ public const anrechnungsfreieEinkommensanteile: Dict<Date, Dict<Int, Dict<String
  * II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011
  * BGBl. I S. 453).
  */
-public const eink_anr_frei_kinder: Dict<Date, Dict<Int, Dict<String, Float>>> {
+public const arbeitslosengeldAnrechnungsfreieEinkommensanteileFallsKinder: Dict<Date, Dict<Int, Dict<String, Float>>> {
     // Reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
     from 2005-10-01 = {
         3: {
@@ -141,8 +139,391 @@ public const eink_anr_frei_kinder: Dict<Date, Dict<Int, Dict<String, Float>>> {
     }
 }
 
-public const regelsatz {
-    
+/**
+ * Regelsatz, seit 2011 Beträge differenzieren sich nach Regelbedarfsstufen
+ * § 20 V SGB II. Für 2005 bis 2010 siehe Bekanntmachungen zu § 20. Seit 2011
+ * wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt.
+ * Neufassung SGB II § 20 (1a) und (2) durch Artikel 6 G. v. 22.12.2016 BGBl. I
+ * S. 
+ * 3159.
+ */
+public const arbeitslosenGeldRegelsatz: Int | Dict<Int, Int> {
+    from 2005-01-01 = {
+        scalar: 338,
+        reference: "Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.",
+        note: "Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Korrekte Werte sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro."
+    },
+
+    // Reference: B. v. 01.09.2005 BGBl. I S. 2718.
+    // Betrag unverändert. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Hier wurde vereinfachend 338 Euro als ungewichteter Mittelwert genommen. Korrekte Werte für die Zeit ab 1. Juli 2005 sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
+    from 2005-07-01 = 338
+
+    // Reference: B. v. 20.07.2006 BGBl. I S. 1702.
+    from 2006-07-01 = 345
+
+    // Reference: B. v. 18.06.2007 BGBl. I S. 1139.
+    from 2007-07-01 = 347
+
+    // Reference: B. v. 26.06.2008 BGBl. I S. 1102.
+    from 2008-07-01 = 351
+
+    // Reference: B. v. 17.06.2009 BGBl. I S. 1342.
+    from 2009-07-01 = 359
+
+    // Reference: B. v. 07.06.2010 BGBl. I S. 820. Betrag unverändert.
+    from 2010-07-01 = 359
+
+    // Reference: Artikel 1 G. v. 24.03.2011 BGBl. I S. 453.
+    from 2011-01-01 = {
+        1: 364,
+        2: 328,
+        3: 291,
+        4: 287,
+        5: 251,
+        6: 215,
+    }
+
+    // Reference: V. v. 20.10.2011 BGBl. I S. 2093.
+    from 2012-01-01 = {
+        1: 374,
+        2: 337,
+        3: 299,
+        4: 287,
+        5: 251,
+        6: 219,
+    }
+
+    // Reference: B. v. 18.10.2012 BGBl. I S. 2175.
+    from 2013-01-01 = {
+        1: 382,
+        2: 345,
+        3: 306,
+        4: 289,
+        5: 255,
+        6: 224,
+    }
+
+    // Reference: B. v. 16.10.2013 BGBl. I S. 3857.
+    from 2014-01-01 = {
+        1: 391,
+        2: 353,
+        3: 313,
+        4: 296,
+        5: 261,
+        6: 229,
+    }
+
+    // Reference: B. v. 15.10.2014 BGBl. I S. 1620.
+    from 2015-01-01 = {
+        1: 399,
+        2: 360,
+        3: 320,
+        4: 302,
+        5: 267,
+        6: 234,
+    }
+
+    // Reference: B. v. 22.10.2015 BGBl. I S. 1792.
+    from 2016-01-01 = {
+        1: 404,
+        2: 364,
+        3: 324,
+        4: 306,
+        5: 270,
+        6: 237,
+    }
+
+    // Reference: G. v. 22.12.2016 BGBl. I S. 3159.
+    from 2017-01-01 = {
+        1: 409,
+        2: 368,
+        3: 327,
+        4: 311,
+        5: 291,
+        6: 236,
+    }
+
+    // Reference: V. v. 08.11.2017 BGBl. I S. 3767.
+    from 2018-01-01 = {
+        1: 416,
+        2: 374,
+        3: 332,
+        4: 316,
+        5: 296,
+        6: 240,
+    }
+
+    // Reference: V. v. 19.10.2018 BGBl. I S. 1766.
+    from 2019-01-01 = {
+        1: 424,
+        2: 382,
+        3: 339,
+        4: 322,
+        5: 302,
+        6: 245,
+    }
+
+    // Reference: V. v. 18.10.2019 BGBl. I S. 1452.
+    from 2020-01-01 = {
+        1: 432,
+        2: 389,
+        3: 345,
+        4: 328,
+        5: 308,
+        6: 250
+    }
+
+    // Reference: G. v. 09.12.2020 BGBl. I S. 2855.
+    from 2021-01-01 = {
+        1: 446,
+        2: 401,
+        3: 357,
+        4: 373,
+        5: 309,
+        6: 283
+    }
+
+    // Reference: V. v. 13.10.2021 BGBl. I S. 4674.
+    from 2022-01-01 = {
+        1: 449,
+        2: 404,
+        3: 360,
+        4: 376,
+        5: 311,
+        6: 285
+    }
+
+    // Reference: G. v. 20.12.2022 BGBl. I S. 2328.
+    // Bürgergeld-Gesetz
+    from 2023-01-01 = {
+        1: 502,
+        2: 451,
+        3: 402,
+        4: 420,
+        5: 348,
+        6: 318
+    }
+}
+
+/**
+ * Anteil am Regelsatz für weitere Personen im Haushalt
+ * 20 (3) SGB II, eigentliche Wirknorm ist § 20 IV SGB II i.V.m Absatz V
+ * derselben Norm. 2005 bis 2010.
+ * 2005-2010 der Regelsatz für weitere Haushaltsmitglieder wurden als Anteil
+ * des Standardsatzes bestimmt.
+ */
+ public const arbeitslosenGeldAnteilRegelsatz: Dict<String, Float> {
+    // Reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
+    from 2005-01-01 = {
+        zwei_erwachsene: 0.9,
+        weitere_erwachsene: 0.8,
+        kinder_bis_5: 0.6,
+        kinder_ab_6_bis_13: 0.6,
+        kinder_ab_14_bis_24: 0.8
+    }
+
+
+    // TODO: WAS HEIßT DEVIATION_FROM
+    // Reference: Artikel 1 G. v. 02.03.2009 BGBl. I S. 416.
+    from 2009-07-01 = {
+        zwei_erwachsene: 0.9,
+        weitere_erwachsene: 0.8,
+        kinder_bis_5: 0.6,
+        kinder_ab_6_bis_13: 0.7,
+        kinder_ab_14_bis_24: 0.8
+    }
+ }
+
+/**
+ * Anteil am Regelsatz für weitere Personen im Haushalt
+ * ``kind_unter_7_oder_mehr`` gibt Mehrbedarf AE bei mind. einem Kind unter 7 Jahren
+ * oder zwei oder drei Kindern unter 16 Jahre an. ``min_1_kind`` gibt den Mehrbedarf
+ * an wenn der Anspruch größer ist als der für den ersten Schlüssel. ``max`` gibt
+ * den Maximalanteil für den Mehrbedarf für Alleinerziehende gemessen am
+ * maßgebenden Regelbedarf.
+ * § 21 (3) Nr. 1 SGB II.
+ * reference_period: Month
+ */
+public const arbeitslosenGeldMehrbedarfAnteil: Dict<String, Float> {
+    // Reference: G. v. 24.12.2003 BGBl. I S. 2954.
+    from 2005-01-01 = {
+        min_1_kind: 0.12,
+        kind_unter_7_oder_mehr: 0.36,
+        max: 0.6
+    }
+}
+
+/**
+ * Maximaler Vermögensgrundfreibetrag
+ * § 12 (2) Satz 1 Nr. 1 SGB II. Ausnahmeregelung für Personen,
+ * die vor 1948 geboren wurden. Die Ausnahmeregelung taucht im aktuellen Gesetz nicht
+ * mehr auf und ist nicht mehr relevant,
+ * da alle betroffenen Personen zu alt für ALG 2 sind.
+ */
+ def arbeitslosenGeldVermögensGrundfreibetragObergrenze: Dict<Int, Int> {
+    // Reference: Artikel 1 G. v. 23.12.2002 BGBl. I S. 4607.
+    from 2005-01-01 = {
+        1947: 33800,
+        1948: 13000,
+        1958: 13000,
+        1964: 13000
+    }
+
+    // Reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
+    from 2006-08-01 = {
+        1947: 33800,
+        1948: 9750,
+        1958: 9750,
+        1964: 9750
+    }
+
+    // Reference: Artikel 1 G. v. 20.04.2007 BGBl. I S. 554.
+    from 2008-01-01 = {
+        1947: 33800,
+        1948: 9750,
+        1958: 9900,
+        1964: 10050
+    }
+
+    // Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
+    from 2023-01-01 = {
+        1947: null,
+        1948: null,
+        1958: null,
+        1964: null
+    }
+ }
+
+/**
+ * Schonvermögen beim Bürgergeld
+ * Seit der Einführung des Bürgergelds zum 01.01.2023 gilt ein Vermögensfreibetrag
+ * von 15.000 Euro pro Mitglied der Bedarfsgemeinschaft nach Ablauf der Karenzzeit
+ * von einem Jahr. Während der Karenzzeit ist ein Vermögen von 40.000 Euro für die
+ * erste Person einer Bedarfsgemeinschaft und 15.000 Euro für jede weitere erlaubt.
+ */
+ const arbeitslosenGeldSchonvermoegenBuergergeld: Dict<String, Int> {
+    // Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
+    from 2023-01-01 = {
+        während_karenzzeit: 40000,
+        normaler_satz: 15000
+    }
+ }
+
+/**
+ * Vermögensfreibetrag für Erstausstattung
+ * § 12 (2) Satz 1 Nr. 4 SGB II.
+ */
+const arbeitslosenGeldVermoegensfreibetragAusstattung: Int {
+    // Reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
+    from 2005-01-01 = 750;
+
+    // Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
+    from 2023-01-01 = null;
+}
+
+/**
+ * Vermögensgrundfreibetrag je Kind
+ * § 12 (2) Satz 1 Nr. 1 SGB II.
+ */
+const arbeitslosenGeldVermoegensfreibetragKind: Int {
+    // Reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
+    from 2005-01-01 = 4100;
+
+    // Reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
+    from 2006-08-01 = 3100;
+
+    // Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
+    from 2023-01-01 = null;
+}
+
+/**
+ * Altersgrenzen für Vermögensfreibetrag
+ * Vermögensfreibetrag ändert sich nach Geburtsjahr
+ */
+const arbeitslosenGeldVermoegensfreibetragAlter: Dict<Int, Int> {
+    2005-01-01: {
+        1: 1948,
+        2: 1958,
+        3: 1963
+    }
+
+    // Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
+    2023-01-01: {
+        1: null,
+        2: null,
+        3: null
+    }
+}
+
+/**
+ * Abzugsfähige Pauschalen für Werbungskosten und Versicherung
+ * § 6 (1) Nr. 3 a) ALG II-V. 2005-01.01 bis 2016-07-31. Betrag mit V. v. 26.07
+ * .2016 BGBl. I S. 1858 entfallen. Wie entfallen?
+ * § 3 Alg II-V. Seit 01.01.2008 in § 6 Alg II-V.
+ */
+const arbeitslosenGeldAbzugfaehigePauschale: Dict<String, Float> {
+    // Reference: V. v. 20.10.2004 BGBl. I S. 2622
+    from 2005-01-01 = {
+        werbung: 15.33,
+        versicherung: 30.0
+    }
+
+    // Reference: V. v. 21.06.2011 BGBl. I S. 1175.
+    from 2011-01-01 = {
+        werbung: 15.33,
+        versicherung: 30.0
+    }
+}
+
+/**
+ * Obergenze Miete pro Quadratmeter
+ * Die Miete pro Quadratmeter darf einen angemessenen Betrag nicht übersteigen, um
+ * für ALG2 berechtigt zu sein. Diese Grenze ist nicht konkret im Gesetz
+ * festgehalten, sondern wird als Faustregel von den Arbeitsargenturen verwendet.
+ * § 22 SGB II
+ * unit: Euro / Quadratmeter
+ */
+const arbeitslosenGeldMaxMieteProQuadratMeter: Int {
+    from 1984-01-01 = 10
+}
+
+/**
+ * Berechtigte Miet-Wohnfläche für ALG2-Empfänger*innen
+ * Eine Mietwohnung darf für einen Single 45 Quadratmeter (+15 für jede weitere
+ * Person) groß sein.
+ */
+const arbeitslosenGeldBerechtigteWohnflaecheMiete: Dict<String, Int> {
+    from 1984-01-01 = {
+        single: 45,
+        je_weitere_person: 15
+    }
+}
+
+/**
+ * Berechtigte Eigentumsfläche für ALG2-Empfänger*innen
+ * Vor 2023 gilt, dass Eigentum für zwei Personen im Haushalt 80 Quadratmeter (+20
+ * für jede weitere Person) groß sein darf. Ab 2023 ist die erlaubte Größe für
+ * Eigenheime auf 140 Quadratmeter (für Eigentumswohnungen aus 130 Quadratmeter)
+ * gestiegen und wird ab 5 Personen im Haushalt um 20 Quadratmeter pro Person
+ * angehoben.
+ */
+const arbeitslosenGeldBerechtigteWohnflaecheEigentum: Dict<String, Int> {
+    from 1984-01-01 = {
+        1: 80,
+        2: 80,
+        3: 100,
+        4: 120,
+        je_weitere_person: 20
+    }
+
+    // Reference: Art. 1 Nr.12 Abschnitt 5, G. v. 20.12.2022 BGBl. I S. 2328
+    from 2023-01-01 = {
+        1: 140,
+        2: 140,
+        3: 140,
+        4: 140,
+        je_weitere_person: 20
+    }
 }
 
 // arbeitsl_geld.yaml ----------------------------------------------------
@@ -151,8 +532,11 @@ public const regelsatz {
  * Income which is not deducted from unemployment benefit.
  * § 155 SGB III, vorher § 141 (1) S. 1
  */
-public const arbeitslosenGeldFreibetrag {
+public const arbeitslosenGeldFreibetrag: Int {
+    // Art. 1 G. v. 21.07.1999 BGBl. I S. 1648
     from 1999-08-01 = 161;
+
+    // Art. 3 G. v. 21.12.2000 BGBl. I S. 1983
     from 2002-01-01 = 165;
 }
 
@@ -202,7 +586,7 @@ public const arbeitslosenGeldSozialVersicherungsPauschale: Float {
  * §149 Nr. 2 SGB III, vorher § 129 (2) SGB III. Höhe des Arbeitslosengeldes im
  * Verhältnis zum letzten Nettoentgelt bei Personen ohne Kinder im Sinne des EStG.
  */
-public const satz_ohne_kinder: Float {
+public const arbeitslosenGeldSatzOhneKinder: Float {
     // Reference: Art. 1 G. v. 24.03.1997 BGBl. I S. 594
     from 1998-08-01 = 0.6; 
 }
@@ -212,9 +596,9 @@ public const satz_ohne_kinder: Float {
  * §149 Nr. 1 SGB III, vorher §129 Nr. 1 SGB III. Höhe des Arbeitslosengeldes im
  * Verhältnis zum letzten Nettoentgelt bei Personen mit Kindern im Sinne des EStG
  */
-public const satz_mit_kindern: Float {
+public const arbeitslosenGeldSatzMitKindern: Float {
     // Reference: Art. 1 G. v. 24.03.1997 BGBl. I S. 594
-    from 1998-08-01 = 0.67; 
+    from 1998-08-01 = 0.67;
 }
 
 /**
@@ -222,7 +606,7 @@ public const satz_mit_kindern: Float {
  * §138 (3) SGB III, früher auch §102 (2) AFG. Grenze, ab der nicht mehr
  * Arbeitslosigkeit unterstellt wird.
  */
-public const stundengrenze: Int {
+public const arbeitslosenGeldStundengrenze: Int {
     from 1969-07-01 = 20;
     // Reference: Art. 1 G. v. 20.12.1985 BGBl I S. 2484
     from 1986-01-01 = 19; 
@@ -239,22 +623,24 @@ public const stundengrenze: Int {
  * Dauer des Anspruchs auf ALG 1 richtet sich nach Alter und wie viele Monate
  * eine Person versicherungsplichtig in den letzten 5 Jahren war.
  */
-public const anspruchsdauer: Dict<Int, Int> {
+public const arbeitslosenGeldAnspruchsdauer: Dict<Int, Int> {
     from 1997-03-24 = {
-        0: 12,
-        50: 15,
-        55: 18,
-        58: 24
-    };
-
-    // Reference: § 147 Abs. 2 SGB III
-    from 1997-03-24 = {
-        12: 6,
-        18: 8,
-        20: 10,
-        24: 12,
-        30: 15,
-        36: 18,
-        48: 24
-    };
+        nach_alter: {
+            0: 12
+            50: 15
+            55: 18
+            58: 24
+        },
+        nach_versicherungspflichtige_monate: {
+            12: 6
+            18: 8
+            20: 10
+            24: 12
+            30: 15
+            36: 18
+            48: 24
+        }
+    }
 }
+
+// eink_st_abzuege.yaml --------------------------------------------------
