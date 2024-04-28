@@ -1256,4 +1256,178 @@ const vorsorgepauschaleKvMax: Dict<String, Int> {
 
 // eink_st.yaml ----------------------------------------------------------
 
+/**
+ * Einkommenssteuer Tarif
+ * §32a EStG
+ * Der quadratische Anstieg in den mittleren Intervallen wird nach der Formel
+ * des Progressionsfaktors berechnet. Einzelheiten sind im docstring der Funktion
+ * add_progressionsfaktor beschrieben.
+ */
+const eink_st_tarif: Dict<Int, Dict<String, Float>> {
+
+	// TODO: klären wie das mit deviation_from aussieht
+
+
+	from 2002-01-01 = {
+		0: {lower_threshold: -inf, upper_threshold: 7235, rate_linear: 0, rate_quadratic: 0, intercept_at_lower_threshold: 0},
+		1: {upper_threshold: 9251, rate_linear: 0.199},
+		2: {upper_threshold: 55007, rate_linear: 0.23},
+		3: {upper_threshold: inf, rate_linear: 0.485, rate_quadratic: 0}
+	}
+
+	from 2004-01-01 = {
+		0: {lower_threshold: -inf, upper_threshold: 7664, rate_linear: 0, intercept_at_lower_threshold: 0},
+		1: {upper_threshold: 12739, rate_linear: 0.16},
+		2: {upper_threshold: 52151, rate_linear: 0.2405},
+		3: {upper_threshold: inf, rate_linear: 0.45, rate_quadratic: 0}
+	}
+
+	from 2005-01-01 = {
+		0: {lower_threshold: -inf, upper_threshold: 7664, rate_linear: 0, rate_quadratic: 0, intercept_at_lower_threshold: 0},
+		1: {upper_threshold: 12739, rate_linear: 0.15},
+		2: {upper_threshold: 52151, rate_linear: 0.2397},
+		3: {upper_threshold: inf, rate_linear: 0.42, rate_quadratic: 0}
+	}
+
+	from 2007-01-01 = {
+		0: {lower_threshold: -inf, upper_threshold: 7664, rate_linear: 0, rate_quadratic: 0, intercept_at_lower_threshold: 0},
+		1: {upper_threshold: 12739, rate_linear: 0.15},
+		2: {upper_threshold: 52151, rate_linear: 0.2397},
+		3: {upper_threshold: 250000, rate_linear: 0.42, rate_quadratic: 0},
+		4: {upper_threshold: inf, rate_linear: 0.45, rate_quadratic: 0}
+	}
+
+	from 2009-01-01 = {
+		deviation_from: previous,
+		0: {upper_threshold: 7834},
+		1: {upper_threshold: 13139, rate_linear: 0.14},
+		2: {upper_threshold: 52551},
+		3: {upper_threshold: 250400}
+	}
+
+	from 2010-01-01 = {
+		deviation_from: previous,
+		0: {upper_threshold: 8004},
+		1: {upper_threshold: 13469},
+		2: {upper_threshold: 52881},
+		3: {upper_threshold: 250730}
+	}
+
+	from 2013-01-01 = {
+		deviation_from: previous,
+		0: {upper_threshold: 8130}
+	}
+
+	from 2014-01-01 = {
+		// Reference: G. v. 20.2.2013, BGBl I S.283
+		deviation_from: previous,
+		0: {upper_threshold: 8354}
+	}
+
+	from 2015-07-01 = {
+		// Reference: G. v. 15.07.2015, BGBl. Nr. 30 2015
+		deviation_from: previous,
+		0: {upper_threshold: 8472}
+	}
+
+	from 2016-01-01 = {
+		// Reference: G. v. 15.07.2015, BGBl. Nr. 30 2015
+		deviation_from: previous,
+		0: {upper_threshold: 8652},
+		1: {upper_threshold: 13669},
+		2: {upper_threshold: 53665},
+		3: {upper_threshold: 254446}
+	}
+
+	from 2017-01-01 = {
+		// Reference: Artikel 8 G. v. 20.12.2016, BGBl I S. 3000
+		deviation_from: previous,
+		0: {upper_threshold: 8820},
+		1: {upper_threshold: 13769},
+		2: {upper_threshold: 54057},
+		3: {upper_threshold: 256303}
+	}
+
+	from 2018-01-01 = {
+		// Reference: Artikel 9 G. v 23.12.2016, BGBL I, S. 3000
+		deviation_from: previous,
+		0: {upper_threshold: 9000},
+		1: {upper_threshold: 13996},
+		2: {upper_threshold: 54949},
+		3: {upper_threshold: 260532}
+	}
+
+	from 2019-01-01 = {
+		deviation_from: previous,
+		0: {upper_threshold: 9169},
+		1: {upper_threshold: 14255},
+		2: {upper_threshold: 55961},
+		3: {upper_threshold: 265327}
+	}
+
+	from 2020-01-01 = {
+		// Reference: Art. 3 G. v. 29.11.2018 BGBl. I S. 2210
+		deviation_from: previous,
+		0: {upper_threshold: 9408},
+		1: {upper_threshold: 14532},
+		2: {upper_threshold: 57051},
+		3: {upper_threshold: 270501}
+	}
+
+	from 2021-01-01 = {
+		// Reference: Art. 1 G. v. 01.12.2020 BGBl. I S. 2616
+		deviation_from: previous,
+		0: {upper_threshold: 9744},
+		1: {upper_threshold: 14753},
+		2: {upper_threshold: 57918},
+		3: {upper_threshold: 274613}
+	}
+
+	from 2022-01-01 = {
+		// Reference: Art. 1 G. v. 23.05.2022 BGBl. I S. 749
+		deviation_from: previous,
+		0: {upper_threshold: 10347},
+		1: {upper_threshold: 14926},
+		2: {upper_threshold: 58596},
+		3: {upper_threshold: 277826}
+	}
+
+	from 2023-01-01 = {
+		// Reference: Art. 2 G. v. 08.12.2022 BGBl. I S. 2230.,
+		deviation_from: previous,
+		0: {upper_threshold: 10909},
+		1: {upper_threshold: 16000},
+		2: {upper_threshold: 62810},
+		3: {upper_threshold: 277826}
+	}
+
+	from 2024-01-01 = {
+		// Reference: Art. 3 G. v. 08.12.2022 BGBl. I S. 2230.
+		deviation_from: previous,
+		0: {upper_threshold: 11605},
+		1: {upper_threshold: 17006},
+		2: {upper_threshold: 66761},
+		3: {upper_threshold: 277826}
+	}
+}
+
+/**
+ * Ertragsanteil-Funktion für den Anteil an sozialversicherungspflichtigen
+ * Renteneinkommen, der versteuert werden muss (piecewise linear)
+ * § 22 EStG
+ * Diese Funktion ist hier ab 2002 angegeben. Vor 2002 das Steuersystem ist nicht
+ * implementiert.
+ */
+const renteErtragsanteil: Dict<Int, Dict<String, Float>> {
+	from 2002-01-01 = {
+		0: {lower_threshold: -inf, upper_threshold: 2005, rate_linear: 0, intercept_at_lower_threshold: 0.27},
+		1: {lower_threshold: 2005, upper_threshold: 2021, rate_linear: 0.02, intercept_at_lower_threshold: 0.5},
+		2: {lower_threshold: 2021, upper_threshold: 2041, rate_linear: 0.01, intercept_at_lower_threshold: 0.8},
+		3: {lower_threshold: 2041, upper_threshold: inf, rate_linear: 0.0, intercept_at_lower_threshold: 1}
+	}
+}
+
+// TODO: rounding
+
+// elterngeld.yaml -------------------------------------------------------
 
