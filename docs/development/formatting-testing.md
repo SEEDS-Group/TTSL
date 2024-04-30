@@ -5,7 +5,7 @@ formatting test.
 
 ## Adding a formatting test
 
-1. Create a new file with the extension `.sdstest` in the `tests/resources/formatting` directory or any subdirectory.
+1. Create a new file with the extension `.Tsltest` in the `tests/resources/formatting` directory or any subdirectory.
    Give the file a descriptive name, since the file name becomes part of the test name.
 
     !!! tip "Skipping a test"
@@ -14,7 +14,7 @@ formatting test.
 
 2. Add the original unformatted Safe-DS code to the top of the file. The code must be syntactically valid.
 3. Add the following separator to the file:
-    ```sds
+    ```Tsl
     // -----------------------------------------------------------------------------
     ```
 4. Add the expected formatted Safe-DS code to the file below the separator.

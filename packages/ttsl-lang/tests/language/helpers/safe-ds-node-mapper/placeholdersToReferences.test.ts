@@ -1,6 +1,6 @@
 import { EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
-import { isSdsPlaceholder } from '../../../../src/language/generated/ast.js';
+import { isTslPlaceholder } from '../../../../src/language/generated/ast.js';
 import { createSafeDsServices } from '../../../../src/language/index.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
 
@@ -21,7 +21,7 @@ describe('SafeDsNodeMapper', () => {
                 }
             `;
 
-            const placeholder = await getNodeOfType(services, code, isSdsPlaceholder);
+            const placeholder = await getNodeOfType(services, code, isTslPlaceholder);
             expect(nodeMapper.placeholderToReferences(placeholder).toArray()).toHaveLength(1);
         });
 
@@ -35,7 +35,7 @@ describe('SafeDsNodeMapper', () => {
                 };
             `;
 
-            const placeholder = await getNodeOfType(services, code, isSdsPlaceholder);
+            const placeholder = await getNodeOfType(services, code, isTslPlaceholder);
             expect(nodeMapper.placeholderToReferences(placeholder).toArray()).toHaveLength(2);
         });
 
@@ -53,7 +53,7 @@ describe('SafeDsNodeMapper', () => {
                 };
             `;
 
-            const placeholder = await getNodeOfType(services, code, isSdsPlaceholder);
+            const placeholder = await getNodeOfType(services, code, isTslPlaceholder);
             expect(nodeMapper.placeholderToReferences(placeholder).toArray()).toHaveLength(2);
         });
 
@@ -67,7 +67,7 @@ describe('SafeDsNodeMapper', () => {
                 };
             `;
 
-            const placeholder = await getNodeOfType(services, code, isSdsPlaceholder);
+            const placeholder = await getNodeOfType(services, code, isTslPlaceholder);
             expect(nodeMapper.placeholderToReferences(placeholder).toArray()).toHaveLength(2);
         });
 
@@ -82,7 +82,7 @@ describe('SafeDsNodeMapper', () => {
                 };
             `;
 
-            const placeholder = await getNodeOfType(services, code, isSdsPlaceholder);
+            const placeholder = await getNodeOfType(services, code, isTslPlaceholder);
             expect(nodeMapper.placeholderToReferences(placeholder).toArray()).toHaveLength(1);
         });
     });

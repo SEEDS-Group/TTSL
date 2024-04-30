@@ -1,5 +1,5 @@
 import { ValidationAcceptor } from 'langium';
-import { SdsDeclaration, SdsFunction } from '../../generated/ast.js';
+import { TslDeclaration, TslFunction } from '../../generated/ast.js';
 import { SafeDsServices } from '../../safe-ds-module.js';
 import { findFirstAnnotationCallOf, hasAnnotationCallOf } from '../../helpers/nodeProperties.js';
 
@@ -9,7 +9,7 @@ export const CODE_PYTHON_NAME_SAME_AS_SAFE_DS_NAME = 'python-name/same-as-safe-d
 export const pythonNameMustNotBeSetIfPythonCallIsSet = (services: SafeDsServices) => {
     const builtinAnnotations = services.builtins.Annotations;
 
-    return (node: SdsFunction, accept: ValidationAcceptor) => {
+    return (node: TslFunction, accept: ValidationAcceptor) => {
         if (!hasAnnotationCallOf(node, builtinAnnotations.PythonCall)) {
             return;
         }
@@ -30,7 +30,7 @@ export const pythonNameMustNotBeSetIfPythonCallIsSet = (services: SafeDsServices
 export const pythonNameShouldDifferFromSafeDsName = (services: SafeDsServices) => {
     const builtinAnnotations = services.builtins.Annotations;
 
-    return (node: SdsDeclaration, accept: ValidationAcceptor) => {
+    return (node: TslDeclaration, accept: ValidationAcceptor) => {
         const pythonName = builtinAnnotations.getPythonName(node);
         if (!pythonName || pythonName !== node.name) {
             return;

@@ -15,7 +15,7 @@ import { BasicSourceMapConsumer, SourceMapConsumer } from 'source-map';
 import treeKill from 'tree-kill';
 import { SafeDsAnnotations } from '../builtins/safe-ds-annotations.js';
 import { SafeDsPythonGenerator } from '../generation/safe-ds-python-generator.js';
-import { isSdsModule } from '../generated/ast.js';
+import { isTslModule } from '../generated/ast.js';
 import semver from 'semver';
 
 // Most of the functionality cannot be tested automatically as a functioning runner setup would always be required
@@ -300,7 +300,7 @@ export class SafeDsRunner {
             }
         }
         const node = pipelineDocument.parseResult.value;
-        if (!isSdsModule(node)) {
+        if (!isTslModule(node)) {
             return;
         }
         // Pipeline / Module name handling
@@ -347,15 +347,15 @@ export class SafeDsRunner {
         for (const generatedDocument of generatedDocuments) {
             const fsPath = URI.parse(generatedDocument.uri).fsPath;
             const workspaceRelativeFilePath = path.relative(rootGenerationDir, path.dirname(fsPath));
-            const sdsFileName = path.basename(fsPath);
-            const sdsNoExtFilename =
-                path.extname(sdsFileName).length > 0
-                    ? sdsFileName.substring(0, sdsFileName.length - path.extname(sdsFileName).length)
+            const TslFileName = path.basename(fsPath);
+            const TslNoExtFilename =
+                path.extname(TslFileName).length > 0
+                    ? TslFileName.substring(0, TslFileName.length - path.extname(TslFileName).length)
                     : /* c8 ignore next */
-                      sdsFileName;
+                      TslFileName;
             // Put code in map for further use in the extension (e.g. to remap errors)
             lastGeneratedSources.set(
-                path.join(workspaceRelativeFilePath, sdsFileName).replaceAll('\\', '/'),
+                path.join(workspaceRelativeFilePath, TslFileName).replaceAll('\\', '/'),
                 generatedDocument.getText(),
             );
             // Check for sourcemaps after they are already added to the pipeline context
@@ -369,16 +369,16 @@ export class SafeDsRunner {
                 codeMap[modulePath] = {};
             }
             // Put code in object for runner
-            codeMap[modulePath]![sdsNoExtFilename] = generatedDocument.getText();
+            codeMap[modulePath]![TslNoExtFilename] = generatedDocument.getText();
         }
         return [codeMap, lastGeneratedSources];
     }
 
     public getMainModuleName(pipelineDocument: LangiumDocument): string {
-        if (pipelineDocument.uri.fsPath.endsWith('.sdspipe')) {
-            return this.generator.sanitizeModuleNameForPython(path.basename(pipelineDocument.uri.fsPath, '.sdspipe'));
-        } else if (pipelineDocument.uri.fsPath.endsWith('.sdstest')) {
-            return this.generator.sanitizeModuleNameForPython(path.basename(pipelineDocument.uri.fsPath, '.sdstest'));
+        if (pipelineDocument.uri.fsPath.endsWith('.Tslpipe')) {
+            return this.generator.sanitizeModuleNameForPython(path.basename(pipelineDocument.uri.fsPath, '.Tslpipe'));
+        } else if (pipelineDocument.uri.fsPath.endsWith('.Tsltest')) {
+            return this.generator.sanitizeModuleNameForPython(path.basename(pipelineDocument.uri.fsPath, '.Tsltest'));
         } else {
             return this.generator.sanitizeModuleNameForPython(path.basename(pipelineDocument.uri.fsPath));
         }

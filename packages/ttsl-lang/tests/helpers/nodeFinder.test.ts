@@ -4,7 +4,7 @@ import { createSafeDsServices } from '../../src/language/index.js';
 import { EmptyFileSystem } from 'langium';
 import { AssertionError } from 'assert';
 import { clearDocuments, parseHelper } from 'langium/test';
-import { isSdsClass, isSdsDeclaration, isSdsEnum } from '../../src/language/generated/ast.js';
+import { isTslClass, isTslDeclaration, isTslEnum } from '../../src/language/generated/ast.js';
 
 describe('getNodeByLocation', async () => {
     const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
@@ -16,7 +16,7 @@ describe('getNodeByLocation', async () => {
     it('should throw if no document is found', () => {
         expect(() => {
             getNodeByLocation(services, {
-                uri: 'file:///test.sdstest',
+                uri: 'file:///test.Tsltest',
                 range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
             });
         }).toThrowErrorMatchingSnapshot();
@@ -41,7 +41,7 @@ describe('getNodeByLocation', async () => {
                 uri: document.uri.toString(),
                 range: { start: { line: 0, character: 0 }, end: { line: 0, character: 7 } },
             }),
-        ).to.satisfy(isSdsClass);
+        ).to.satisfy(isTslClass);
     });
 
     it('should return the node whose name fills the range completely', async () => {
@@ -52,7 +52,7 @@ describe('getNodeByLocation', async () => {
                 uri: document.uri.toString(),
                 range: { start: { line: 0, character: 6 }, end: { line: 0, character: 7 } },
             }),
-        ).to.satisfy(isSdsClass);
+        ).to.satisfy(isTslClass);
     });
 });
 
@@ -66,21 +66,21 @@ describe('getNodeOfType', async () => {
     it('should throw if no node is found', async () => {
         const code = '';
         expect(async () => {
-            await getNodeOfType(services, code, isSdsClass);
+            await getNodeOfType(services, code, isTslClass);
         }).rejects.toThrowErrorMatchingSnapshot();
     });
 
     it('should throw if not enough nodes are found', async () => {
         const code = `class C`;
         expect(async () => {
-            await getNodeOfType(services, code, isSdsClass, 1);
+            await getNodeOfType(services, code, isTslClass, 1);
         }).rejects.toThrowErrorMatchingSnapshot();
     });
 
     it('should return the first matching node if no index is set', async () => {
         const code = 'class C';
-        const node = await getNodeOfType(services, code, isSdsClass);
-        expect(node).to.satisfy(isSdsClass);
+        const node = await getNodeOfType(services, code, isTslClass);
+        expect(node).to.satisfy(isTslClass);
     });
 
     it('should return the nth matching node if an index is set', async () => {
@@ -90,7 +90,7 @@ describe('getNodeOfType', async () => {
             class C
             enum D
         `;
-        const node = await getNodeOfType(services, code, isSdsDeclaration, 2);
-        expect(node).to.satisfy(isSdsEnum);
+        const node = await getNodeOfType(services, code, isTslDeclaration, 2);
+        expect(node).to.satisfy(isTslEnum);
     });
 });

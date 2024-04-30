@@ -11,7 +11,7 @@ import {
 } from 'langium';
 import { Position, RenameParams, TextEdit, WorkspaceEdit } from 'vscode-languageserver';
 import { SafeDsServices } from '../safe-ds-module.js';
-import { isSdsImportedDeclaration, isSdsModule } from '../generated/ast.js';
+import { isTslImportedDeclaration, isTslModule } from '../generated/ast.js';
 import { getImportedDeclarations } from '../helpers/nodeProperties.js';
 import { DefaultRenameProvider } from 'langium/lsp';
 
@@ -66,12 +66,12 @@ export class SafeDsRenameProvider extends DefaultRenameProvider {
 
         // References in imported declaration nodes must always be renamed
         const sourceNode = this.getAstNode(ref.sourceUri, ref.sourcePath);
-        if (isSdsImportedDeclaration(sourceNode)) {
+        if (isTslImportedDeclaration(sourceNode)) {
             return true;
         }
 
         // Other references must be renamed unless they are imported under an alias
-        const sourceModule = AstUtils.getContainerOfType(sourceNode, isSdsModule);
+        const sourceModule = AstUtils.getContainerOfType(sourceNode, isTslModule);
         if (!sourceModule) {
             /* c8 ignore next 2 */
             return false;

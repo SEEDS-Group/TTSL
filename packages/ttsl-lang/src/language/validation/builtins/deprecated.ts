@@ -1,15 +1,15 @@
 import { ValidationAcceptor } from 'langium';
 import { DiagnosticTag } from 'vscode-languageserver';
 import {
-    isSdsParameter,
-    isSdsResult,
-    isSdsWildcard,
-    SdsAnnotationCall,
-    SdsArgument,
-    SdsAssignee,
-    SdsNamedType,
-    SdsParameter,
-    SdsReference,
+    isTslParameter,
+    isTslResult,
+    isTslWildcard,
+    TslAnnotationCall,
+    TslArgument,
+    TslAssignee,
+    TslNamedType,
+    TslParameter,
+    TslReference,
 } from '../../generated/ast.js';
 import { Parameter } from '../../helpers/nodeProperties.js';
 import { SafeDsServices } from '../../safe-ds-module.js';
@@ -19,13 +19,13 @@ export const CODE_DEPRECATED_LIBRARY_ELEMENT = 'deprecated/library-element';
 export const CODE_DEPRECATED_REQUIRED_PARAMETER = 'deprecated/required-parameter';
 
 export const assigneeAssignedResultShouldNotBeDeprecated =
-    (services: SafeDsServices) => (node: SdsAssignee, accept: ValidationAcceptor) => {
-        if (isSdsWildcard(node)) {
+    (services: SafeDsServices) => (node: TslAssignee, accept: ValidationAcceptor) => {
+        if (isTslWildcard(node)) {
             return;
         }
 
         const assignedObject = services.helpers.NodeMapper.assigneeToAssignedObject(node);
-        if (!isSdsResult(assignedObject)) {
+        if (!isTslResult(assignedObject)) {
             return;
         }
 
@@ -39,7 +39,7 @@ export const assigneeAssignedResultShouldNotBeDeprecated =
     };
 
 export const annotationCallAnnotationShouldNotBeDeprecated =
-    (services: SafeDsServices) => (node: SdsAnnotationCall, accept: ValidationAcceptor) => {
+    (services: SafeDsServices) => (node: TslAnnotationCall, accept: ValidationAcceptor) => {
         const annotation = node.annotation?.ref;
         if (!annotation) {
             return;
@@ -56,7 +56,7 @@ export const annotationCallAnnotationShouldNotBeDeprecated =
     };
 
 export const argumentCorrespondingParameterShouldNotBeDeprecated =
-    (services: SafeDsServices) => (node: SdsArgument, accept: ValidationAcceptor) => {
+    (services: SafeDsServices) => (node: TslArgument, accept: ValidationAcceptor) => {
         const parameter = services.helpers.NodeMapper.argumentToParameter(node);
         if (!parameter) {
             return;
@@ -72,7 +72,7 @@ export const argumentCorrespondingParameterShouldNotBeDeprecated =
     };
 
 export const namedTypeDeclarationShouldNotBeDeprecated =
-    (services: SafeDsServices) => (node: SdsNamedType, accept: ValidationAcceptor) => {
+    (services: SafeDsServices) => (node: TslNamedType, accept: ValidationAcceptor) => {
         const declaration = node.declaration?.ref;
         if (!declaration) {
             return;
@@ -88,9 +88,9 @@ export const namedTypeDeclarationShouldNotBeDeprecated =
     };
 
 export const referenceTargetShouldNotBeDeprecated =
-    (services: SafeDsServices) => (node: SdsReference, accept: ValidationAcceptor) => {
+    (services: SafeDsServices) => (node: TslReference, accept: ValidationAcceptor) => {
         const target = node.target.ref;
-        if (!target || isSdsParameter(target)) {
+        if (!target || isTslParameter(target)) {
             return;
         }
 
@@ -104,7 +104,7 @@ export const referenceTargetShouldNotBeDeprecated =
     };
 
 export const requiredParameterMustNotBeDeprecated =
-    (services: SafeDsServices) => (node: SdsParameter, accept: ValidationAcceptor) => {
+    (services: SafeDsServices) => (node: TslParameter, accept: ValidationAcceptor) => {
         if (Parameter.isRequired(node) && parameterCanBeAnnotated(node)) {
             if (services.builtins.Annotations.callsDeprecated(node)) {
                 accept('error', 'A deprecated parameter must be optional.', {

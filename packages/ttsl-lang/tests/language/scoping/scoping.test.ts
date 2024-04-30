@@ -9,7 +9,7 @@ import { isLocationEqual, locationToString } from '../../../src/helpers/location
 import { loadDocuments } from '../../helpers/testResources.js';
 import { createScopingTests, ExpectedReference } from './creator.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
-import { isSdsAnnotationCall, isSdsNamedType, isSdsReference } from '../../../src/language/generated/ast.js';
+import { isTslAnnotationCall, isTslNamedType, isTslReference } from '../../../src/language/generated/ast.js';
 
 const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
 const builtinAnnotations = services.builtins.Annotations;
@@ -82,7 +82,7 @@ describe('scoping', async () => {
             @PythonName(name: String)
             segment mySegment() {}
         `;
-        const annotationCall = await getNodeOfType(services, code, isSdsAnnotationCall);
+        const annotationCall = await getNodeOfType(services, code, isTslAnnotationCall);
         expectSameDocument(annotationCall.annotation?.ref, builtinAnnotations.PythonName);
     });
 
@@ -92,7 +92,7 @@ describe('scoping', async () => {
 
             segment mySegment(p: Any) {}
         `;
-        const namedType = await getNodeOfType(services, code, isSdsNamedType);
+        const namedType = await getNodeOfType(services, code, isTslNamedType);
         expectSameDocument(namedType.declaration?.ref, builtinClasses.Any);
     });
 
@@ -103,7 +103,7 @@ describe('scoping', async () => {
             @Target([AnnotationTarget.Annotation])
             annotation MyAnnotation
         `;
-        const reference = await getNodeOfType(services, code, isSdsReference);
+        const reference = await getNodeOfType(services, code, isTslReference);
         expectSameDocument(reference.target?.ref, builtinEnums.AnnotationTarget);
     });
 

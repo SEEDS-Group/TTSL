@@ -1,6 +1,6 @@
 import { WorkspaceCache } from 'langium';
 import { SafeDsClasses } from '../builtins/safe-ds-classes.js';
-import { SdsClass } from '../generated/ast.js';
+import { TslClass } from '../generated/ast.js';
 import { SafeDsServices } from '../safe-ds-module.js';
 import { ClassType, Type, TypeParameterSubstitutions, UnknownType } from './model.js';
 import { getTypeParameters } from '../helpers/nodeProperties.js';
@@ -80,7 +80,7 @@ export class SafeDsCoreTypes {
         return this.createCoreType(this.builtinClasses.String);
     }
 
-    private createCoreType(coreClass: SdsClass | undefined, isNullable: boolean = false): Type {
+    private createCoreType(coreClass: TslClass | undefined, isNullable: boolean = false): Type {
         if (!coreClass) {
             /* c8 ignore next 2 */
             return UnknownType;

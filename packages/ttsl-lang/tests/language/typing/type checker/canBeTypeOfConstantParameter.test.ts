@@ -1,6 +1,6 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
-import { isSdsClass, isSdsEnum, isSdsModule } from '../../../../src/language/generated/ast.js';
+import { isTslClass, isTslEnum, isTslModule } from '../../../../src/language/generated/ast.js';
 import { createSafeDsServices, getEnumVariants, getModuleMembers } from '../../../../src/language/index.js';
 import { ClassType, EnumType, EnumVariantType, Type, UnknownType } from '../../../../src/language/typing/model.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
@@ -24,11 +24,11 @@ const code = `
         Variant2(param: Int)
     }
 `;
-const module = await getNodeOfType(services, code, isSdsModule);
-const classes = getModuleMembers(module).filter(isSdsClass);
+const module = await getNodeOfType(services, code, isTslModule);
+const classes = getModuleMembers(module).filter(isTslClass);
 const myClassType = typeComputer.computeType(classes[0]) as ClassType;
 
-const enums = getModuleMembers(module).filter(isSdsEnum);
+const enums = getModuleMembers(module).filter(isTslEnum);
 const constantEnum = enums[0];
 const normalEnum = enums[1];
 const constantEnumType = typeComputer.computeType(constantEnum) as EnumType;

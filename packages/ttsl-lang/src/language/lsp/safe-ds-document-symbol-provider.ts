@@ -1,13 +1,13 @@
 import { type AstNode, type LangiumDocument } from 'langium';
 import type { DocumentSymbol } from 'vscode-languageserver';
 import {
-    isSdsAnnotation,
-    isSdsAttribute,
-    isSdsClass,
-    isSdsEnumVariant,
-    isSdsFunction,
-    isSdsPipeline,
-    isSdsSegment,
+    isTslAnnotation,
+    isTslAttribute,
+    isTslClass,
+    isTslEnumVariant,
+    isTslFunction,
+    isTslPipeline,
+    isTslSegment,
 } from '../generated/ast.js';
 import type { SafeDsServices } from '../safe-ds-module.js';
 import type { SafeDsNodeInfoProvider } from './safe-ds-node-info-provider.js';
@@ -46,7 +46,7 @@ export class SafeDsDocumentSymbolProvider extends DefaultDocumentSymbolProvider 
     protected override getChildSymbols(document: LangiumDocument, node: AstNode): DocumentSymbol[] | undefined {
         if (this.isLeaf(node)) {
             return undefined;
-        } else if (isSdsClass(node)) {
+        } else if (isTslClass(node)) {
             if (node.body) {
                 return super.getChildSymbols(document, node.body);
             } else {
@@ -59,12 +59,12 @@ export class SafeDsDocumentSymbolProvider extends DefaultDocumentSymbolProvider 
 
     private isLeaf(node: AstNode): boolean {
         return (
-            isSdsAnnotation(node) ||
-            isSdsAttribute(node) ||
-            isSdsEnumVariant(node) ||
-            isSdsFunction(node) ||
-            isSdsPipeline(node) ||
-            isSdsSegment(node)
+            isTslAnnotation(node) ||
+            isTslAttribute(node) ||
+            isTslEnumVariant(node) ||
+            isTslFunction(node) ||
+            isTslPipeline(node) ||
+            isTslSegment(node)
         );
     }
 }

@@ -1,4 +1,4 @@
-import { SdsIndexedAccess } from '../../../generated/ast.js';
+import { TslIndexedAccess } from '../../../generated/ast.js';
 import { ValidationAcceptor } from 'langium';
 import { SafeDsServices } from '../../../safe-ds-module.js';
 import { EvaluatedList, EvaluatedMap, IntConstant } from '../../../partialEvaluation/model.js';
@@ -10,7 +10,7 @@ export const indexedAccessIndexMustBeValid = (services: SafeDsServices) => {
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsIndexedAccess, accept: ValidationAcceptor): void => {
+    return (node: TslIndexedAccess, accept: ValidationAcceptor): void => {
         const indexValue = partialEvaluator.evaluate(node.index);
         if (!indexValue.isFullyEvaluated) {
             return;

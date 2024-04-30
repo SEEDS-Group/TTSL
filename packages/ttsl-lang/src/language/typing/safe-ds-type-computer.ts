@@ -1,69 +1,69 @@
 import { AstNode, AstNodeLocator, AstUtils, EMPTY_STREAM, Stream, stream, WorkspaceCache } from 'langium';
 import { isEmpty } from '../../helpers/collections.js';
 import {
-    isSdsAnnotation,
-    isSdsArgument,
-    isSdsAssignee,
-    isSdsAssignment,
-    isSdsAttribute,
-    isSdsBlockLambda,
-    isSdsCall,
-    isSdsCallable,
-    isSdsCallableType,
-    isSdsClass,
-    isSdsDeclaration,
-    isSdsEnum,
-    isSdsEnumVariant,
-    isSdsExpression,
-    isSdsExpressionLambda,
-    isSdsFunction,
-    isSdsIndexedAccess,
-    isSdsInfixOperation,
-    isSdsLambda,
-    isSdsList,
-    isSdsLiteralType,
-    isSdsMap,
-    isSdsMemberAccess,
-    isSdsMemberType,
-    isSdsNamedType,
-    isSdsNamedTypeDeclaration,
-    isSdsParameter,
-    isSdsParenthesizedExpression,
-    isSdsPipeline,
-    isSdsPrefixOperation,
-    isSdsReference,
-    isSdsResult,
-    isSdsSchema,
-    isSdsSegment,
-    isSdsTemplateString,
-    isSdsType,
-    isSdsTypeArgument,
-    isSdsTypeCast,
-    isSdsTypeParameter,
-    isSdsUnionType,
-    isSdsYield,
-    SdsAbstractResult,
-    SdsAssignee,
-    type SdsBlockLambda,
-    SdsCall,
-    SdsCallableType,
-    SdsClass,
-    SdsDeclaration,
-    SdsExpression,
-    type SdsExpressionLambda,
-    SdsFunction,
-    SdsIndexedAccess,
-    SdsInfixOperation,
-    SdsLiteralType,
-    SdsMemberAccess,
-    SdsNamedType,
-    SdsParameter,
-    SdsPrefixOperation,
-    SdsReference,
-    SdsSegment,
-    SdsType,
-    SdsTypeArgument,
-    SdsTypeParameter,
+    isTslAnnotation,
+    isTslArgument,
+    isTslAssignee,
+    isTslAssignment,
+    isTslAttribute,
+    isTslBlockLambda,
+    isTslCall,
+    isTslCallable,
+    isTslCallableType,
+    isTslClass,
+    isTslDeclaration,
+    isTslEnum,
+    isTslEnumVariant,
+    isTslExpression,
+    isTslExpressionLambda,
+    isTslFunction,
+    isTslIndexedAccess,
+    isTslInfixOperation,
+    isTslLambda,
+    isTslList,
+    isTslLiteralType,
+    isTslDictionary,
+    isTslMemberAccess,
+    isTslMemberType,
+    isTslNamedType,
+    isTslNamedTypeDeclaration,
+    isTslParameter,
+    isTslParenthesizedExpression,
+    isTslPipeline,
+    isTslPrefixOperation,
+    isTslReference,
+    isTslResult,
+    isTslSchema,
+    isTslSegment,
+    isTslTemplateString,
+    isTslType,
+    isTslTypeArgument,
+    isTslTypeCast,
+    isTslTypeParameter,
+    isTslUnionType,
+    isTslYield,
+    TslAbstractResult,
+    TslAssignee,
+    type TslBlockLambda,
+    TslCall,
+    TslCallableType,
+    TslClass,
+    TslDeclaration,
+    TslExpression,
+    type TslExpressionLambda,
+    TslFunction,
+    TslIndexedAccess,
+    TslInfixOperation,
+    TslLiteralType,
+    TslMemberAccess,
+    TslNamedType,
+    TslParameter,
+    TslPrefixOperation,
+    TslReference,
+    TslSegment,
+    TslType,
+    TslTypeArgument,
+    TslTypeParameter,
 } from '../generated/ast.js';
 import {
     getArguments,
@@ -168,23 +168,23 @@ export class SafeDsTypeComputer {
     }
 
     private doComputeType(node: AstNode): Type {
-        if (isSdsAssignee(node)) {
+        if (isTslAssignee(node)) {
             return this.computeTypeOfAssignee(node);
-        } else if (isSdsDeclaration(node)) {
+        } else if (isTslDeclaration(node)) {
             return this.computeTypeOfDeclaration(node);
-        } else if (isSdsExpression(node)) {
+        } else if (isTslExpression(node)) {
             return this.computeTypeOfExpression(node);
-        } else if (isSdsType(node)) {
+        } else if (isTslType(node)) {
             return this.computeTypeOfType(node);
-        } else if (isSdsTypeArgument(node)) {
+        } else if (isTslTypeArgument(node)) {
             return this.computeTypeOfType(node.value);
         } /* c8 ignore start */ else {
             return UnknownType;
         } /* c8 ignore stop */
     }
 
-    private computeTypeOfAssignee(node: SdsAssignee): Type {
-        const containingAssignment = AstUtils.getContainerOfType(node, isSdsAssignment);
+    private computeTypeOfAssignee(node: TslAssignee): Type {
+        const containingAssignment = AstUtils.getContainerOfType(node, isTslAssignment);
         if (!containingAssignment) {
             /* c8 ignore next 2 */
             return UnknownType;
@@ -201,8 +201,8 @@ export class SafeDsTypeComputer {
         return UnknownType;
     }
 
-    private computeTypeOfDeclaration(node: SdsDeclaration): Type {
-        if (isSdsAnnotation(node)) {
+    private computeTypeOfDeclaration(node: TslDeclaration): Type {
+        if (isTslAnnotation(node)) {
             const parameterEntries = getParameters(node).map(
                 (it) => new NamedTupleEntry(it, it.name, this.computeType(it.type)),
             );
@@ -213,34 +213,34 @@ export class SafeDsTypeComputer {
                 this.factory.createNamedTupleType(...parameterEntries),
                 this.factory.createNamedTupleType(),
             );
-        } else if (isSdsAttribute(node)) {
+        } else if (isTslAttribute(node)) {
             return this.computeType(node.type);
-        } else if (isSdsClass(node)) {
+        } else if (isTslClass(node)) {
             return this.factory.createClassType(node, NO_SUBSTITUTIONS, false);
-        } else if (isSdsEnum(node)) {
+        } else if (isTslEnum(node)) {
             return this.factory.createEnumType(node, false);
-        } else if (isSdsEnumVariant(node)) {
+        } else if (isTslEnumVariant(node)) {
             return this.factory.createEnumVariantType(node, false);
-        } else if (isSdsFunction(node)) {
+        } else if (isTslFunction(node)) {
             return this.computeTypeOfCallableWithManifestTypes(node);
-        } else if (isSdsParameter(node)) {
+        } else if (isTslParameter(node)) {
             return this.computeTypeOfParameter(node);
-        } else if (isSdsPipeline(node)) {
+        } else if (isTslPipeline(node)) {
             return UnknownType;
-        } else if (isSdsResult(node)) {
+        } else if (isTslResult(node)) {
             return this.computeType(node.type);
-        } else if (isSdsSchema(node)) {
+        } else if (isTslSchema(node)) {
             return UnknownType;
-        } else if (isSdsSegment(node)) {
+        } else if (isTslSegment(node)) {
             return this.computeTypeOfCallableWithManifestTypes(node);
-        } else if (isSdsTypeParameter(node)) {
+        } else if (isTslTypeParameter(node)) {
             return this.factory.createTypeParameterType(node, false);
         } /* c8 ignore start */ else {
             return UnknownType;
         } /* c8 ignore stop */
     }
 
-    private computeTypeOfCallableWithManifestTypes(node: SdsFunction | SdsSegment | SdsCallableType): Type {
+    private computeTypeOfCallableWithManifestTypes(node: TslFunction | TslSegment | TslCallableType): Type {
         const parameterEntries = getParameters(node).map(
             (it) => new NamedTupleEntry(it, it.name, this.computeType(it.type)),
         );
@@ -256,7 +256,7 @@ export class SafeDsTypeComputer {
         );
     }
 
-    private computeTypeOfParameter(node: SdsParameter): Type {
+    private computeTypeOfParameter(node: TslParameter): Type {
         // Manifest type
         if (node.type) {
             const type = this.computeType(node.type);
@@ -274,16 +274,16 @@ export class SafeDsTypeComputer {
         return this.rememberParameterInCallableType(node, type);
     }
 
-    private computeTypeOfParameterContext(node: SdsParameter): Type {
-        const containingCallable = AstUtils.getContainerOfType(node, isSdsCallable);
-        if (!isSdsLambda(containingCallable)) {
+    private computeTypeOfParameterContext(node: TslParameter): Type {
+        const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
+        if (!isTslLambda(containingCallable)) {
             return UnknownType;
         }
 
         const containerOfLambda = containingCallable.$container;
 
         // Lambda passed as argument
-        if (isSdsArgument(containerOfLambda)) {
+        if (isTslArgument(containerOfLambda)) {
             const parameter = this.nodeMapper.argumentToParameter(containerOfLambda);
             if (!parameter) {
                 return UnknownType;
@@ -292,14 +292,14 @@ export class SafeDsTypeComputer {
         }
 
         // Lambda passed as default value
-        if (isSdsParameter(containerOfLambda)) {
+        if (isTslParameter(containerOfLambda)) {
             return this.computeType(containerOfLambda);
         }
 
         // Yielded lambda
-        else if (isSdsAssignment(containerOfLambda)) {
+        else if (isTslAssignment(containerOfLambda)) {
             const firstAssignee = getAssignees(containerOfLambda)[0];
-            if (!isSdsYield(firstAssignee)) {
+            if (!isTslYield(firstAssignee)) {
                 return UnknownType;
             }
             return this.computeType(firstAssignee.result?.ref);
@@ -308,7 +308,7 @@ export class SafeDsTypeComputer {
         return UnknownType;
     }
 
-    private rememberParameterInCallableType(node: SdsParameter, type: Type) {
+    private rememberParameterInCallableType(node: TslParameter, type: Type) {
         if (type instanceof CallableType) {
             return this.factory.createCallableType(type.callable, node, type.inputType, type.outputType);
         } else {
@@ -316,23 +316,23 @@ export class SafeDsTypeComputer {
         }
     }
 
-    private computeTypeOfExpression(node: SdsExpression): Type {
+    private computeTypeOfExpression(node: TslExpression): Type {
         // Type cast
-        if (isSdsTypeCast(node)) {
+        if (isTslTypeCast(node)) {
             return this.computeType(node.type);
         }
 
-        // Partial evaluation (definitely handles SdsBoolean, SdsFloat, SdsInt, SdsNull, and SdsString)
+        // Partial evaluation (definitely handles TslBoolean, TslFloat, TslInt, TslNull, and TslString)
         const evaluatedNode = this.partialEvaluator.evaluate(node);
         if (evaluatedNode instanceof Constant) {
             return this.factory.createLiteralType(evaluatedNode);
         }
 
         // Terminal cases
-        if (isSdsList(node)) {
+        if (isTslList(node)) {
             const elementType = this.lowestCommonSupertype(node.elements.map((it) => this.computeType(it)));
             return this.coreTypes.List(elementType);
-        } else if (isSdsMap(node)) {
+        } else if (isTslDictionary(node)) {
             let keyType = this.lowestCommonSupertype(node.entries.map((it) => this.computeType(it.key)));
 
             // Keeping literal types for keys is too strict: We would otherwise infer the key type of `{"a": 1, "b": 2}`
@@ -343,22 +343,22 @@ export class SafeDsTypeComputer {
 
             const valueType = this.lowestCommonSupertype(node.entries.map((it) => this.computeType(it.value)));
             return this.coreTypes.Map(keyType, valueType);
-        } else if (isSdsTemplateString(node)) {
+        } else if (isTslTemplateString(node)) {
             return this.coreTypes.String;
         }
 
         // Recursive cases
-        else if (isSdsArgument(node)) {
+        else if (isTslArgument(node)) {
             return this.computeType(node.value);
-        } else if (isSdsBlockLambda(node)) {
+        } else if (isTslBlockLambda(node)) {
             return this.computeTypeOfBlockLambda(node);
-        } else if (isSdsCall(node)) {
+        } else if (isTslCall(node)) {
             return this.computeTypeOfCall(node);
-        } else if (isSdsExpressionLambda(node)) {
+        } else if (isTslExpressionLambda(node)) {
             return this.computeTypeOfExpressionLambda(node);
-        } else if (isSdsIndexedAccess(node)) {
+        } else if (isTslIndexedAccess(node)) {
             return this.computeTypeOfIndexedAccess(node);
-        } else if (isSdsInfixOperation(node)) {
+        } else if (isTslInfixOperation(node)) {
             switch (node.operator) {
                 // Boolean operators
                 case 'or':
@@ -395,11 +395,11 @@ export class SafeDsTypeComputer {
                 default:
                     return UnknownType;
             }
-        } else if (isSdsMemberAccess(node)) {
+        } else if (isTslMemberAccess(node)) {
             return this.computeTypeOfMemberAccess(node);
-        } else if (isSdsParenthesizedExpression(node)) {
+        } else if (isTslParenthesizedExpression(node)) {
             return this.computeType(node.expression);
-        } else if (isSdsPrefixOperation(node)) {
+        } else if (isTslPrefixOperation(node)) {
             switch (node.operator) {
                 case 'not':
                     return this.coreTypes.Boolean;
@@ -411,14 +411,14 @@ export class SafeDsTypeComputer {
                 default:
                     return UnknownType;
             }
-        } else if (isSdsReference(node)) {
+        } else if (isTslReference(node)) {
             return this.computeTypeOfReference(node);
         } /* c8 ignore start */ else {
             return UnknownType;
         } /* c8 ignore stop */
     }
 
-    private computeTypeOfBlockLambda(node: SdsBlockLambda): Type {
+    private computeTypeOfBlockLambda(node: TslBlockLambda): Type {
         const parameterEntries = getParameters(node).map(
             (it) => new NamedTupleEntry(it, it.name, this.computeType(it)),
         );
@@ -434,24 +434,24 @@ export class SafeDsTypeComputer {
         );
     }
 
-    private computeTypeOfCall(node: SdsCall): Type {
+    private computeTypeOfCall(node: TslCall): Type {
         const receiverType = this.computeType(node.receiver);
         const nonNullableReceiverType = this.computeNonNullableType(receiverType);
         let result: Type = UnknownType;
 
         if (nonNullableReceiverType instanceof CallableType) {
-            if (!isSdsAnnotation(nonNullableReceiverType.callable)) {
+            if (!isTslAnnotation(nonNullableReceiverType.callable)) {
                 result = nonNullableReceiverType.outputType;
             }
 
             // Substitute type parameters
-            if (isSdsFunction(nonNullableReceiverType.callable)) {
+            if (isTslFunction(nonNullableReceiverType.callable)) {
                 const substitutions = this.computeSubstitutionsForCall(node);
                 result = result.substituteTypeParameters(substitutions);
             }
         } else if (nonNullableReceiverType instanceof StaticType) {
             const instanceType = nonNullableReceiverType.instanceType;
-            if (isSdsCallable(instanceType.declaration)) {
+            if (isTslCallable(instanceType.declaration)) {
                 result = instanceType;
             }
 
@@ -471,12 +471,12 @@ export class SafeDsTypeComputer {
         return result.withExplicitNullability(receiverType.isExplicitlyNullable && node.isNullSafe);
     }
 
-    private computeTypeOfExpressionLambda(node: SdsExpressionLambda): Type {
+    private computeTypeOfExpressionLambda(node: TslExpressionLambda): Type {
         const parameterEntries = getParameters(node).map(
             (it) => new NamedTupleEntry(it, it.name, this.computeType(it)),
         );
         const resultEntries = [
-            new NamedTupleEntry<SdsAbstractResult>(undefined, 'result', this.computeType(node.result)),
+            new NamedTupleEntry<TslAbstractResult>(undefined, 'result', this.computeType(node.result)),
         ];
 
         return this.factory.createCallableType(
@@ -487,7 +487,7 @@ export class SafeDsTypeComputer {
         );
     }
 
-    private computeTypeOfIndexedAccess(node: SdsIndexedAccess): Type {
+    private computeTypeOfIndexedAccess(node: TslIndexedAccess): Type {
         const receiverType = this.computeType(node.receiver);
         if (!(receiverType instanceof ClassType) && !(receiverType instanceof TypeParameterType)) {
             return UnknownType;
@@ -512,7 +512,7 @@ export class SafeDsTypeComputer {
         return UnknownType;
     }
 
-    private computeTypeOfArithmeticInfixOperation(node: SdsInfixOperation): Type {
+    private computeTypeOfArithmeticInfixOperation(node: TslInfixOperation): Type {
         const leftOperandType = this.computeType(node.leftOperand);
         const rightOperandType = this.computeType(node.rightOperand);
 
@@ -526,7 +526,7 @@ export class SafeDsTypeComputer {
         }
     }
 
-    private computeTypeOfElvisOperation(node: SdsInfixOperation): Type {
+    private computeTypeOfElvisOperation(node: TslInfixOperation): Type {
         const leftOperandType = this.computeType(node.leftOperand);
         if (leftOperandType.isExplicitlyNullable) {
             const rightOperandType = this.computeType(node.rightOperand);
@@ -536,11 +536,11 @@ export class SafeDsTypeComputer {
         }
     }
 
-    private computeTypeOfMemberAccess(node: SdsMemberAccess) {
+    private computeTypeOfMemberAccess(node: TslMemberAccess) {
         const memberType = this.computeType(node.member);
 
         // A member access of an enum variant without parameters always yields an instance, even if it is not in a call
-        if (memberType instanceof StaticType && !isSdsCall(node.$container)) {
+        if (memberType instanceof StaticType && !isTslCall(node.$container)) {
             const instanceType = memberType.instanceType;
 
             if (instanceType instanceof EnumVariantType && isEmpty(getParameters(instanceType.declaration))) {
@@ -553,7 +553,7 @@ export class SafeDsTypeComputer {
 
         // Substitute type parameters (must also work for inherited members)
         if (receiverType instanceof ClassType) {
-            const classContainingMember = AstUtils.getContainerOfType(node.member?.target.ref, isSdsClass);
+            const classContainingMember = AstUtils.getContainerOfType(node.member?.target.ref, isTslClass);
             const typeContainingMember = this.computeMatchingSupertype(receiverType, classContainingMember);
 
             if (typeContainingMember) {
@@ -567,7 +567,7 @@ export class SafeDsTypeComputer {
         );
     }
 
-    private computeTypeOfArithmeticPrefixOperation(node: SdsPrefixOperation): Type {
+    private computeTypeOfArithmeticPrefixOperation(node: TslPrefixOperation): Type {
         const operandType = this.computeType(node.operand);
 
         if (this.typeChecker.isSubtypeOf(operandType, this.coreTypes.Int)) {
@@ -577,27 +577,27 @@ export class SafeDsTypeComputer {
         }
     }
 
-    private computeTypeOfReference(node: SdsReference): Type {
+    private computeTypeOfReference(node: TslReference): Type {
         const target = node.target.ref;
         const instanceType = this.computeType(target);
 
-        if (isSdsNamedTypeDeclaration(target) && instanceType instanceof NamedType) {
+        if (isTslNamedTypeDeclaration(target) && instanceType instanceof NamedType) {
             return this.factory.createStaticType(instanceType.withExplicitNullability(false));
         } else {
             return instanceType;
         }
     }
 
-    private computeTypeOfType(node: SdsType): Type {
-        if (isSdsCallableType(node)) {
+    private computeTypeOfType(node: TslType): Type {
+        if (isTslCallableType(node)) {
             return this.computeTypeOfCallableWithManifestTypes(node);
-        } else if (isSdsLiteralType(node)) {
+        } else if (isTslLiteralType(node)) {
             return this.computeTypeOfLiteralType(node);
-        } else if (isSdsMemberType(node)) {
+        } else if (isTslMemberType(node)) {
             return this.computeType(node.member);
-        } else if (isSdsNamedType(node)) {
+        } else if (isTslNamedType(node)) {
             return this.computeTypeOfNamedType(node);
-        } else if (isSdsUnionType(node)) {
+        } else if (isTslUnionType(node)) {
             const typeArguments = getTypeArguments(node.typeArgumentList);
             return this.factory.createUnionType(
                 ...typeArguments.map((typeArgument) => this.computeType(typeArgument.value)),
@@ -607,7 +607,7 @@ export class SafeDsTypeComputer {
         } /* c8 ignore stop */
     }
 
-    private computeTypeOfLiteralType(node: SdsLiteralType): Type {
+    private computeTypeOfLiteralType(node: TslLiteralType): Type {
         const constants = getLiterals(node).map((it) => this.partialEvaluator.evaluate(it));
         if (constants.every(isConstant)) {
             return this.factory.createLiteralType(...constants);
@@ -616,7 +616,7 @@ export class SafeDsTypeComputer {
         } /* c8 ignore stop */
     }
 
-    private computeTypeOfNamedType(node: SdsNamedType) {
+    private computeTypeOfNamedType(node: TslNamedType) {
         const unparameterizedType = this.computeType(node.declaration?.ref).withExplicitNullability(node.isNullable);
         if (!(unparameterizedType instanceof ClassType)) {
             return unparameterizedType;
@@ -627,8 +627,8 @@ export class SafeDsTypeComputer {
     }
 
     private computeTypeParameterSubstitutionsForNamedType(
-        node: SdsNamedType,
-        clazz: SdsClass,
+        node: TslNamedType,
+        clazz: TslClass,
     ): TypeParameterSubstitutions {
         const typeParameters = getTypeParameters(clazz);
         if (isEmpty(typeParameters)) {
@@ -636,7 +636,7 @@ export class SafeDsTypeComputer {
         }
 
         // Map type parameters to the first type argument that sets it
-        const typeArgumentsByTypeParameters = new Map<SdsTypeParameter, SdsTypeArgument>();
+        const typeArgumentsByTypeParameters = new Map<TslTypeParameter, TslTypeArgument>();
         for (const typeArgument of getTypeArguments(node)) {
             const typeParameter = this.nodeMapper.typeArgumentToTypeParameter(typeArgument);
             if (typeParameter && !typeArgumentsByTypeParameters.has(typeParameter)) {
@@ -645,7 +645,7 @@ export class SafeDsTypeComputer {
         }
 
         // Compute substitutions (ordered by the position of the type parameters)
-        const result = new Map<SdsTypeParameter, Type>();
+        const result = new Map<TslTypeParameter, Type>();
 
         for (const typeParameter of typeParameters) {
             const typeArgument = typeArgumentsByTypeParameters.get(typeParameter);
@@ -710,7 +710,7 @@ export class SafeDsTypeComputer {
                 ...getParameters(declaration).map((it) => new NamedTupleEntry(it, it.name, this.computeType(it))),
             );
             const resultEntries = this.factory.createNamedTupleType(
-                new NamedTupleEntry<SdsAbstractResult>(undefined, 'instance', instanceType),
+                new NamedTupleEntry<TslAbstractResult>(undefined, 'instance', instanceType),
             );
 
             return this.factory.createCallableType(declaration, undefined, parameterEntries, resultEntries);
@@ -721,7 +721,7 @@ export class SafeDsTypeComputer {
                 ...getParameters(declaration).map((it) => new NamedTupleEntry(it, it.name, this.computeType(it))),
             );
             const resultEntries = this.factory.createNamedTupleType(
-                new NamedTupleEntry<SdsAbstractResult>(undefined, 'instance', instanceType),
+                new NamedTupleEntry<TslAbstractResult>(undefined, 'instance', instanceType),
             );
 
             return this.factory.createCallableType(declaration, undefined, parameterEntries, resultEntries);
@@ -739,7 +739,7 @@ export class SafeDsTypeComputer {
      * invalid upper bounds are specified, but are invalid (e.g. because of an unresolved reference or a cycle),
      * `$unknown` is returned. The result is simplified as much as possible.
      */
-    computeUpperBound(nodeOrType: SdsTypeParameter | TypeParameterType, options: ComputeUpperBoundOptions = {}): Type {
+    computeUpperBound(nodeOrType: TslTypeParameter | TypeParameterType, options: ComputeUpperBoundOptions = {}): Type {
         let type: TypeParameterType;
         if (nodeOrType instanceof TypeParameterType) {
             type = nodeOrType;
@@ -777,7 +777,7 @@ export class SafeDsTypeComputer {
      * @param call The call to compute substitutions for.
      * @returns The computed substitutions for the type parameters of the callable.
      */
-    computeSubstitutionsForCall(call: SdsCall): TypeParameterSubstitutions {
+    computeSubstitutionsForCall(call: TslCall): TypeParameterSubstitutions {
         const callable = this.nodeMapper.callToCallable(call);
         const typeParameters = getTypeParameters(callable);
         if (isEmpty(typeParameters)) {
@@ -834,7 +834,7 @@ export class SafeDsTypeComputer {
      * @returns The computed substitutions for the type parameters in the parameter types.
      */
     private computeTypeParameterSubstitutionsForArguments(
-        typeParameters: SdsTypeParameter[],
+        typeParameters: TslTypeParameter[],
         parameterTypesToArgumentTypes: [Type, Type][],
     ): TypeParameterSubstitutions {
         // Build initial state
@@ -1160,7 +1160,7 @@ export class SafeDsTypeComputer {
     }
 
     private substitutionsForInvariantTypeParametersAreEqual(
-        allTypeParameters: SdsTypeParameter[],
+        allTypeParameters: TslTypeParameter[],
         candidate: ClassType,
         others: ClassType[],
     ): boolean {
@@ -1177,7 +1177,7 @@ export class SafeDsTypeComputer {
     }
 
     private newTypeParameterSubstitutionsLCS(
-        typeParameters: SdsTypeParameter[],
+        typeParameters: TslTypeParameter[],
         candidate: ClassType,
         others: ClassType[],
     ): TypeParameterSubstitutions {
@@ -1212,7 +1212,7 @@ export class SafeDsTypeComputer {
         } else if (!isEmpty(enumVariantTypes)) {
             candidates.push(enumVariantTypes[0]!.withExplicitNullability(isNullable));
 
-            const containingEnum = AstUtils.getContainerOfType(enumVariantTypes[0]!.declaration, isSdsEnum);
+            const containingEnum = AstUtils.getContainerOfType(enumVariantTypes[0]!.declaration, isTslEnum);
             if (containingEnum) {
                 candidates.push(this.factory.createEnumType(containingEnum, isNullable));
             }
@@ -1410,7 +1410,7 @@ export class SafeDsTypeComputer {
         }
 
         // See where the type parameters ended up in the computed super type
-        const invertedTypeParameterMap = new Map<SdsTypeParameter, SdsTypeParameter>();
+        const invertedTypeParameterMap = new Map<TslTypeParameter, TslTypeParameter>();
         for (const [key, value] of superType.substitutions) {
             if (value instanceof TypeParameterType) {
                 invertedTypeParameterMap.set(value.declaration, key);
@@ -1439,7 +1439,7 @@ export class SafeDsTypeComputer {
     }
 
     private newTypeParameterSubstitutionsHCS(
-        typeParameters: SdsTypeParameter[],
+        typeParameters: TslTypeParameter[],
         candidate: ClassType,
         others: ClassType[],
     ): TypeParameterSubstitutions {
@@ -1496,7 +1496,7 @@ export class SafeDsTypeComputer {
      */
     computeMatchingSupertype(
         type: ClassType | TypeParameterType | undefined,
-        target: SdsClass | undefined,
+        target: TslClass | undefined,
     ): ClassType | undefined {
         // Handle undefined
         if (!type || !target) {
@@ -1536,7 +1536,7 @@ export class SafeDsTypeComputer {
     private *properSupertypesGenerator(type: ClassType): Generator<ClassType, void> {
         // Compared to `ClassHierarchy.properSuperclassesGenerator`, we already include the given type in the list of
         // visited elements, since this method here is not used to detect cycles.
-        const visited = new Set<SdsClass>([type.declaration]);
+        const visited = new Set<TslClass>([type.declaration]);
         let current = this.parentClassType(type);
 
         while (current && !visited.has(current.declaration)) {
@@ -1579,7 +1579,7 @@ export class SafeDsTypeComputer {
     }
 
     private newTypeParameterSubstitutions(
-        typeParameters: SdsTypeParameter[],
+        typeParameters: TslTypeParameter[],
         candidate: ClassType,
         others: ClassType[],
         covariantUnifier: (types: Type[]) => Type,
@@ -1618,7 +1618,7 @@ interface ComputeUpperBoundOptions {
 
 interface ComputeTypeParameterSubstitutionsForParametersState {
     substitutions: TypeParameterSubstitutions;
-    remainingVariances: Map<SdsTypeParameter, Variance | undefined>;
+    remainingVariances: Map<TslTypeParameter, Variance | undefined>;
 }
 
 type Variance = 'bivariant' | 'covariant' | 'contravariant' | 'invariant';

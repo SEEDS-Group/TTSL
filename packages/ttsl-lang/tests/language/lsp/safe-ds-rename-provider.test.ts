@@ -2,7 +2,7 @@ import { NodeFileSystem } from 'langium/node';
 import { afterEach, describe, expect, it } from 'vitest';
 import { createSafeDsServices, getModuleMembers } from '../../../src/language/index.js';
 import { clearDocuments } from 'langium/test';
-import { SdsModule } from '../../../src/language/generated/ast.js';
+import { TslModule } from '../../../src/language/generated/ast.js';
 import { URI } from 'langium';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 
@@ -13,8 +13,8 @@ const langiumDocumentFactory = services.shared.workspace.LangiumDocumentFactory;
 const nameProvider = services.references.NameProvider;
 const renameProvider = services.lsp.RenameProvider!;
 
-const resourceUri = 'file:///resource.sdsstub';
-const mainUri = 'file:///main.sdspipe';
+const resourceUri = 'file:///resource.Tslstub';
+const mainUri = 'file:///main.Tslpipe';
 
 describe('SafeDsRenameProvider', async () => {
     const testCases: RenameProviderTest[] = [
@@ -267,7 +267,7 @@ describe('SafeDsRenameProvider', async () => {
 
         // Get the element to rename
         const firstDocument = documents[0]!;
-        const firstModule = firstDocument.parseResult.value as SdsModule;
+        const firstModule = firstDocument.parseResult.value as TslModule;
         const firstMember = getModuleMembers(firstModule)[0];
         if (!firstMember) {
             throw new Error('No member to rename.');

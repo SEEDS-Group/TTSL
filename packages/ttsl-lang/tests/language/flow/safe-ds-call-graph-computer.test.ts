@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { AstUtils, isNamed } from 'langium';
 import {
-    isSdsBlockLambda,
-    isSdsCall,
-    isSdsCallable,
-    isSdsExpressionLambda,
-    isSdsModule,
-    SdsCall,
-    SdsCallable,
+    isTslBlockLambda,
+    isTslCall,
+    isTslCallable,
+    isTslExpressionLambda,
+    isTslModule,
+    TslCall,
+    TslCallable,
 } from '../../../src/language/generated/ast.js';
 import { createSafeDsServices } from '../../../src/language/index.js';
 import { createCallGraphTests } from './creator.js';
@@ -28,13 +28,13 @@ describe('SafeDsCallGraphComputer', () => {
                 throw test.error;
             }
 
-            const module = await getNodeOfType(services, test.code, isSdsModule);
+            const module = await getNodeOfType(services, test.code, isTslModule);
 
             for (const { location, expectedCallables } of test.expectedCallGraphs) {
                 const node = AstUtils.streamAst(module).find((call) =>
                     isRangeEqual(call.$cstNode!.range, location.range),
                 );
-                if (!node || (!isSdsCall(node) && !isSdsCallable(node))) {
+                if (!node || (!isTslCall(node) && !isTslCallable(node))) {
                     throw new Error(`Could not find call/callable at ${locationToString(location)}`);
                 }
 
@@ -55,16 +55,16 @@ describe('SafeDsCallGraphComputer', () => {
     });
 });
 
-const getActualCallables = (node: SdsCall | SdsCallable): string[] => {
+const getActualCallables = (node: TslCall | TslCallable): string[] => {
     return callGraphComputer
         .getCallGraph(node)
         .streamCalledCallables()
         .map((callable) => {
             if (callable && isNamed(callable)) {
                 return callable.name;
-            } else if (isSdsBlockLambda(callable)) {
+            } else if (isTslBlockLambda(callable)) {
                 return '$blockLambda';
-            } else if (isSdsExpressionLambda(callable)) {
+            } else if (isTslExpressionLambda(callable)) {
                 return '$expressionLambda';
             } else {
                 return 'undefined';

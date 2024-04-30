@@ -3,13 +3,13 @@ import { createSafeDsServices } from '../../../src/language/index.js';
 import { EmptyFileSystem } from 'langium';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
 import {
-    isSdsClass,
-    isSdsInt,
-    isSdsModule,
-    isSdsString,
-    isSdsTemplateStringEnd,
-    isSdsTemplateStringInner,
-    isSdsTemplateStringStart,
+    isTslClass,
+    isTslInt,
+    isTslModule,
+    isTslString,
+    isTslTemplateStringEnd,
+    isTslTemplateStringInner,
+    isTslTemplateStringStart,
 } from '../../../src/language/generated/ast.js';
 import { escapeString } from '../../../src/language/grammar/safe-ds-value-converter.js';
 
@@ -22,7 +22,7 @@ describe('runConverter', () => {
                 package \`foo\`.bar
             `;
 
-            const module = await getNodeOfType(services, code, isSdsModule);
+            const module = await getNodeOfType(services, code, isTslModule);
             expect(module.name).toBe('foo.bar');
         });
 
@@ -31,7 +31,7 @@ describe('runConverter', () => {
                 class \`MyClass\`
             `;
 
-            const firstClass = await getNodeOfType(services, code, isSdsClass);
+            const firstClass = await getNodeOfType(services, code, isTslClass);
             expect(firstClass.name).toBe('MyClass');
         });
     });
@@ -44,7 +44,7 @@ describe('runConverter', () => {
                 }
             `;
 
-            const firstInt = await getNodeOfType(services, code, isSdsInt);
+            const firstInt = await getNodeOfType(services, code, isTslInt);
             expect(firstInt.value).toBe(123n);
         });
     });
@@ -128,7 +128,7 @@ describe('runConverter', () => {
                 }
             `;
 
-            const firstTemplateStringStart = await getNodeOfType(services, code, isSdsString);
+            const firstTemplateStringStart = await getNodeOfType(services, code, isTslString);
             expect(firstTemplateStringStart.value).toBe('text');
         });
 
@@ -139,7 +139,7 @@ describe('runConverter', () => {
                 }
             `;
 
-            const firstTemplateStringStart = await getNodeOfType(services, code, isSdsString);
+            const firstTemplateStringStart = await getNodeOfType(services, code, isTslString);
             expect(firstTemplateStringStart.value).toBe(unescaped);
         });
     });
@@ -152,7 +152,7 @@ describe('runConverter', () => {
                 }
             `;
 
-            const firstTemplateStringStart = await getNodeOfType(services, code, isSdsTemplateStringStart);
+            const firstTemplateStringStart = await getNodeOfType(services, code, isTslTemplateStringStart);
             expect(firstTemplateStringStart.value).toBe('start');
         });
 
@@ -163,7 +163,7 @@ describe('runConverter', () => {
                 }
             `;
 
-            const firstTemplateStringStart = await getNodeOfType(services, code, isSdsTemplateStringStart);
+            const firstTemplateStringStart = await getNodeOfType(services, code, isTslTemplateStringStart);
             expect(firstTemplateStringStart.value).toBe(unescaped);
         });
     });
@@ -176,7 +176,7 @@ describe('runConverter', () => {
                 }
             `;
 
-            const firstTemplateStringInner = await getNodeOfType(services, code, isSdsTemplateStringInner);
+            const firstTemplateStringInner = await getNodeOfType(services, code, isTslTemplateStringInner);
             expect(firstTemplateStringInner.value).toBe('inner');
         });
 
@@ -187,7 +187,7 @@ describe('runConverter', () => {
                 }
             `;
 
-            const firstTemplateStringInner = await getNodeOfType(services, code, isSdsTemplateStringInner);
+            const firstTemplateStringInner = await getNodeOfType(services, code, isTslTemplateStringInner);
             expect(firstTemplateStringInner.value).toBe(unescaped);
         });
     });
@@ -200,7 +200,7 @@ describe('runConverter', () => {
                 }
             `;
 
-            const firstTemplateStringEnd = await getNodeOfType(services, code, isSdsTemplateStringEnd);
+            const firstTemplateStringEnd = await getNodeOfType(services, code, isTslTemplateStringEnd);
             expect(firstTemplateStringEnd.value).toBe('end');
         });
 
@@ -211,7 +211,7 @@ describe('runConverter', () => {
                 }
             `;
 
-            const firstTemplateStringEnd = await getNodeOfType(services, code, isSdsTemplateStringEnd);
+            const firstTemplateStringEnd = await getNodeOfType(services, code, isTslTemplateStringEnd);
             expect(firstTemplateStringEnd.value).toBe(unescaped);
         });
     });

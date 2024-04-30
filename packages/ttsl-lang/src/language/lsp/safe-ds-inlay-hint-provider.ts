@@ -1,7 +1,7 @@
 import { AstNode, DocumentationProvider } from 'langium';
 import { InlayHintKind, MarkupContent } from 'vscode-languageserver';
 import { createMarkupContent } from '../documentation/safe-ds-comment-provider.js';
-import { isSdsArgument, isSdsBlockLambdaResult, isSdsPlaceholder, isSdsYield } from '../generated/ast.js';
+import { isTslArgument, isTslBlockLambdaResult, isTslPlaceholder, isTslYield } from '../generated/ast.js';
 import { Argument } from '../helpers/nodeProperties.js';
 import { SafeDsNodeMapper } from '../helpers/safe-ds-node-mapper.js';
 import { SafeDsServices } from '../safe-ds-module.js';
@@ -30,7 +30,7 @@ export class SafeDsInlayHintProvider extends AbstractInlayHintProvider {
         }
         /* c8 ignore stop */
 
-        if (isSdsArgument(node) && Argument.isPositional(node)) {
+        if (isTslArgument(node) && Argument.isPositional(node)) {
             const parameter = this.nodeMapper.argumentToParameter(node);
             if (parameter) {
                 acceptor({
@@ -40,7 +40,7 @@ export class SafeDsInlayHintProvider extends AbstractInlayHintProvider {
                     tooltip: createMarkupContent(this.documentationProvider.getDocumentation(parameter)),
                 });
             }
-        } else if (isSdsBlockLambdaResult(node) || isSdsPlaceholder(node) || isSdsYield(node)) {
+        } else if (isTslBlockLambdaResult(node) || isTslPlaceholder(node) || isTslYield(node)) {
             const type = this.typeComputer.computeType(node);
             let tooltip: MarkupContent | undefined = undefined;
             if (type instanceof NamedType) {

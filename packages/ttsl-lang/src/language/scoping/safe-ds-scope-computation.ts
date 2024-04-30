@@ -7,35 +7,35 @@ import {
     PrecomputedScopes,
 } from 'langium';
 import {
-    isSdsAnnotation,
-    isSdsClass,
-    isSdsDeclaration,
-    isSdsEnum,
-    isSdsEnumVariant,
-    isSdsFunction,
-    isSdsModule,
-    isSdsParameter,
-    isSdsParameterList,
-    isSdsPipeline,
-    isSdsSegment,
-    isSdsTypeParameter,
-    isSdsTypeParameterList,
-    SdsClass,
-    SdsEnum,
-    SdsEnumVariant,
-    SdsParameter,
-    SdsTypeParameter,
+    isTslAnnotation,
+    isTslClass,
+    isTslDeclaration,
+    isTslEnum,
+    isTslEnumVariant,
+    isTslFunction,
+    isTslModule,
+    isTslParameter,
+    isTslParameterList,
+    isTslPipeline,
+    isTslSegment,
+    isTslTypeParameter,
+    isTslTypeParameterList,
+    TslClass,
+    TslEnum,
+    TslEnumVariant,
+    TslParameter,
+    TslTypeParameter,
 } from '../generated/ast.js';
 
 export class SafeDsScopeComputation extends DefaultScopeComputation {
     protected override exportNode(node: AstNode, exports: AstNodeDescription[], document: LangiumDocument): void {
         // Modules, pipelines, and private segments cannot be referenced from other documents
-        if (isSdsModule(node) || isSdsPipeline(node) || (isSdsSegment(node) && node.visibility === 'private')) {
+        if (isTslModule(node) || isTslPipeline(node) || (isTslSegment(node) && node.visibility === 'private')) {
             return;
         }
 
         // Modules that don't state their package don't export anything
-        const containingModule = AstUtils.getContainerOfType(node, isSdsModule);
+        const containingModule = AstUtils.getContainerOfType(node, isTslModule);
         if (!containingModule || !containingModule.name) {
             return;
         }
@@ -44,22 +44,22 @@ export class SafeDsScopeComputation extends DefaultScopeComputation {
     }
 
     protected override processNode(node: AstNode, document: LangiumDocument, scopes: PrecomputedScopes): void {
-        if (isSdsClass(node)) {
-            this.processSdsClass(node, document, scopes);
-        } else if (isSdsEnum(node)) {
-            this.processSdsEnum(node, document, scopes);
-        } else if (isSdsEnumVariant(node)) {
-            this.processSdsEnumVariant(node, document, scopes);
-        } else if (isSdsParameter(node)) {
-            this.processSdsParameter(node, document, scopes);
-        } else if (isSdsTypeParameter(node)) {
-            this.processSdsTypeParameter(node, document, scopes);
+        if (isTslClass(node)) {
+            this.processTslClass(node, document, scopes);
+        } else if (isTslEnum(node)) {
+            this.processTslEnum(node, document, scopes);
+        } else if (isTslEnumVariant(node)) {
+            this.processTslEnumVariant(node, document, scopes);
+        } else if (isTslParameter(node)) {
+            this.processTslParameter(node, document, scopes);
+        } else if (isTslTypeParameter(node)) {
+            this.processTslTypeParameter(node, document, scopes);
         } else {
             super.processNode(node, document, scopes);
         }
     }
 
-    private processSdsClass(node: SdsClass, document: LangiumDocument, scopes: PrecomputedScopes): void {
+    private processTslClass(node: TslClass, document: LangiumDocument, scopes: PrecomputedScopes): void {
         const name = this.nameProvider.getName(node);
         if (!name) {
             return;
@@ -72,13 +72,13 @@ export class SafeDsScopeComputation extends DefaultScopeComputation {
         this.addToScopesIfKeyIsDefined(scopes, node.constraintList, description);
         this.addToScopesIfKeyIsDefined(scopes, node.body, description);
 
-        const containingDeclaration = AstUtils.getContainerOfType(node.$container, isSdsDeclaration);
-        if (isSdsModule(containingDeclaration)) {
+        const containingDeclaration = AstUtils.getContainerOfType(node.$container, isTslDeclaration);
+        if (isTslModule(containingDeclaration)) {
             this.addToScopesIfKeyIsDefined(scopes, containingDeclaration, description);
         }
     }
 
-    private processSdsEnum(node: SdsEnum, document: LangiumDocument, scopes: PrecomputedScopes): void {
+    private processTslEnum(node: TslEnum, document: LangiumDocument, scopes: PrecomputedScopes): void {
         const name = this.nameProvider.getName(node);
         if (!name) {
             return;
@@ -88,13 +88,13 @@ export class SafeDsScopeComputation extends DefaultScopeComputation {
 
         this.addToScopesIfKeyIsDefined(scopes, node.body, description);
 
-        const containingDeclaration = AstUtils.getContainerOfType(node.$container, isSdsDeclaration);
-        if (isSdsModule(containingDeclaration)) {
+        const containingDeclaration = AstUtils.getContainerOfType(node.$container, isTslDeclaration);
+        if (isTslModule(containingDeclaration)) {
             this.addToScopesIfKeyIsDefined(scopes, containingDeclaration, description);
         }
     }
 
-    private processSdsEnumVariant(node: SdsEnumVariant, document: LangiumDocument, scopes: PrecomputedScopes): void {
+    private processTslEnumVariant(node: TslEnumVariant, document: LangiumDocument, scopes: PrecomputedScopes): void {
         const name = this.nameProvider.getName(node);
         if (!name) {
             /* c8 ignore next 2 */
@@ -107,8 +107,8 @@ export class SafeDsScopeComputation extends DefaultScopeComputation {
         this.addToScopesIfKeyIsDefined(scopes, node.constraintList, description);
     }
 
-    private processSdsParameter(node: SdsParameter, document: LangiumDocument, scopes: PrecomputedScopes): void {
-        const containingCallable = AstUtils.getContainerOfType(node, isSdsParameterList)?.$container;
+    private processTslParameter(node: TslParameter, document: LangiumDocument, scopes: PrecomputedScopes): void {
+        const containingCallable = AstUtils.getContainerOfType(node, isTslParameterList)?.$container;
         if (!containingCallable) {
             /* c8 ignore next 2 */
             return;
@@ -122,25 +122,25 @@ export class SafeDsScopeComputation extends DefaultScopeComputation {
 
         const description = this.descriptions.createDescription(node, name, document);
 
-        if (isSdsAnnotation(containingCallable)) {
+        if (isTslAnnotation(containingCallable)) {
             this.addToScopesIfKeyIsDefined(scopes, containingCallable.constraintList, description);
-        } else if (isSdsClass(containingCallable)) {
+        } else if (isTslClass(containingCallable)) {
             this.addToScopesIfKeyIsDefined(scopes, containingCallable.constraintList, description);
-        } else if (isSdsEnumVariant(containingCallable)) {
+        } else if (isTslEnumVariant(containingCallable)) {
             this.addToScopesIfKeyIsDefined(scopes, containingCallable.constraintList, description);
-        } else if (isSdsFunction(containingCallable)) {
+        } else if (isTslFunction(containingCallable)) {
             this.addToScopesIfKeyIsDefined(scopes, containingCallable.constraintList, description);
-        } else if (isSdsSegment(containingCallable)) {
+        } else if (isTslSegment(containingCallable)) {
             this.addToScopesIfKeyIsDefined(scopes, containingCallable.constraintList, description);
         }
     }
 
-    private processSdsTypeParameter(
-        node: SdsTypeParameter,
+    private processTslTypeParameter(
+        node: TslTypeParameter,
         document: LangiumDocument,
         scopes: PrecomputedScopes,
     ): void {
-        const containingDeclaration = AstUtils.getContainerOfType(node, isSdsTypeParameterList)?.$container;
+        const containingDeclaration = AstUtils.getContainerOfType(node, isTslTypeParameterList)?.$container;
         if (!containingDeclaration) {
             /* c8 ignore next 2 */
             return;
@@ -154,11 +154,11 @@ export class SafeDsScopeComputation extends DefaultScopeComputation {
 
         const description = this.descriptions.createDescription(node, name, document);
 
-        if (isSdsClass(containingDeclaration)) {
+        if (isTslClass(containingDeclaration)) {
             this.addToScopesIfKeyIsDefined(scopes, containingDeclaration.parameterList, description);
             this.addToScopesIfKeyIsDefined(scopes, containingDeclaration.parentTypeList, description);
             this.addToScopesIfKeyIsDefined(scopes, containingDeclaration.body, description);
-        } else if (isSdsFunction(containingDeclaration)) {
+        } else if (isTslFunction(containingDeclaration)) {
             this.addToScopesIfKeyIsDefined(scopes, containingDeclaration.parameterList, description);
             this.addToScopesIfKeyIsDefined(scopes, containingDeclaration.resultList, description);
         }

@@ -1,5 +1,5 @@
 import type { SafeDsClasses } from '../builtins/safe-ds-classes.js';
-import { isSdsCallable, isSdsClass, isSdsEnum, SdsDeclaration } from '../generated/ast.js';
+import { isTslCallable, isTslClass, isTslEnum, TslDeclaration } from '../generated/ast.js';
 import { Enum, EnumVariant, getTypeParameters, Parameter, TypeParameter } from '../helpers/nodeProperties.js';
 import { Constant, NullConstant } from '../partialEvaluation/model.js';
 import { SafeDsServices } from '../safe-ds-module.js';
@@ -233,7 +233,7 @@ export class SafeDsTypeChecker {
         if (other instanceof ClassType) {
             return other.declaration === this.builtinClasses.Any;
         } else if (other instanceof EnumType) {
-            const containingEnum = AstUtils.getContainerOfType(type.declaration, isSdsEnum);
+            const containingEnum = AstUtils.getContainerOfType(type.declaration, isTslEnum);
             return containingEnum === other.declaration;
         } else if (other instanceof EnumVariantType) {
             return type.declaration === other.declaration;
@@ -274,7 +274,7 @@ export class SafeDsTypeChecker {
     }
 
     private namedTupleTypeIsSubtypeOf(
-        type: NamedTupleType<SdsDeclaration>,
+        type: NamedTupleType<TslDeclaration>,
         other: Type,
         options: TypeCheckOptions,
     ): boolean {
@@ -338,11 +338,11 @@ export class SafeDsTypeChecker {
             return true;
         } else if (nonNullableReceiverType instanceof StaticType) {
             const declaration = nonNullableReceiverType.instanceType.declaration;
-            if (isSdsClass(declaration)) {
+            if (isTslClass(declaration)) {
                 // Must have a constructor
                 return declaration.parameterList !== undefined;
             } else {
-                return isSdsCallable(declaration);
+                return isTslCallable(declaration);
             }
         } else {
             return false;

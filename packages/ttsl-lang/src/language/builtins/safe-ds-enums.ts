@@ -1,33 +1,33 @@
 import { AstUtils, URI } from 'langium';
 import { resourceNameToUri } from '../../helpers/resources.js';
-import { isSdsEnum, SdsEnum, type SdsEnumVariant } from '../generated/ast.js';
+import { isTslEnum, TslEnum, type TslEnumVariant } from '../generated/ast.js';
 import { getEnumVariants } from '../helpers/nodeProperties.js';
 import { EvaluatedEnumVariant, EvaluatedNode } from '../partialEvaluation/model.js';
 import type { SafeDsServices } from '../safe-ds-module.js';
 import { SafeDsModuleMembers } from './safe-ds-module-members.js';
 
-const ANNOTATION_USAGE_URI = resourceNameToUri('builtins/safeds/lang/annotationUsage.sdsstub');
-const PURITY_URI = resourceNameToUri('builtins/safeds/lang/purity.sdsstub');
+const ANNOTATION_USAGE_URI = resourceNameToUri('builtins/safeds/lang/annotationUsage.Tslstub');
+const PURITY_URI = resourceNameToUri('builtins/safeds/lang/purity.Tslstub');
 
-export class SafeDsEnums extends SafeDsModuleMembers<SdsEnum> {
-    get AnnotationTarget(): SdsEnum | undefined {
+export class SafeDsEnums extends SafeDsModuleMembers<TslEnum> {
+    get AnnotationTarget(): TslEnum | undefined {
         return this.getEnum(ANNOTATION_USAGE_URI, 'AnnotationTarget');
     }
 
     isEvaluatedAnnotationTarget = (node: EvaluatedNode): node is EvaluatedEnumVariant =>
         node instanceof EvaluatedEnumVariant &&
-        AstUtils.getContainerOfType(node.variant, isSdsEnum) === this.AnnotationTarget;
+        AstUtils.getContainerOfType(node.variant, isTslEnum) === this.AnnotationTarget;
 
-    get ImpurityReason(): SdsEnum | undefined {
+    get ImpurityReason(): TslEnum | undefined {
         return this.getEnum(PURITY_URI, 'ImpurityReason');
     }
 
     isEvaluatedImpurityReason = (node: EvaluatedNode): node is EvaluatedEnumVariant =>
         node instanceof EvaluatedEnumVariant &&
-        AstUtils.getContainerOfType(node.variant, isSdsEnum) === this.ImpurityReason;
+        AstUtils.getContainerOfType(node.variant, isTslEnum) === this.ImpurityReason;
 
-    private getEnum(uri: URI, name: string): SdsEnum | undefined {
-        return this.getModuleMember(uri, name, isSdsEnum);
+    private getEnum(uri: URI, name: string): TslEnum | undefined {
+        return this.getModuleMember(uri, name, isTslEnum);
     }
 }
 
@@ -38,31 +38,31 @@ export class SafeDsImpurityReasons {
         this.builtinEnums = services.builtins.Enums;
     }
 
-    get FileReadFromConstantPath(): SdsEnumVariant | undefined {
+    get FileReadFromConstantPath(): TslEnumVariant | undefined {
         return this.getEnumVariant('FileReadFromConstantPath');
     }
 
-    get FileReadFromParameterizedPath(): SdsEnumVariant | undefined {
+    get FileReadFromParameterizedPath(): TslEnumVariant | undefined {
         return this.getEnumVariant('FileReadFromParameterizedPath');
     }
 
-    get FileWriteToConstantPath(): SdsEnumVariant | undefined {
+    get FileWriteToConstantPath(): TslEnumVariant | undefined {
         return this.getEnumVariant('FileWriteToConstantPath');
     }
 
-    get FileWriteToParameterizedPath(): SdsEnumVariant | undefined {
+    get FileWriteToParameterizedPath(): TslEnumVariant | undefined {
         return this.getEnumVariant('FileWriteToParameterizedPath');
     }
 
-    get PotentiallyImpureParameterCall(): SdsEnumVariant | undefined {
+    get PotentiallyImpureParameterCall(): TslEnumVariant | undefined {
         return this.getEnumVariant('PotentiallyImpureParameterCall');
     }
 
-    get Other(): SdsEnumVariant | undefined {
+    get Other(): TslEnumVariant | undefined {
         return this.getEnumVariant('Other');
     }
 
-    private getEnumVariant(name: string): SdsEnumVariant | undefined {
+    private getEnumVariant(name: string): TslEnumVariant | undefined {
         return getEnumVariants(this.builtinEnums.ImpurityReason).find((variant) => variant.name === name);
     }
 }
