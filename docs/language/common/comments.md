@@ -95,7 +95,7 @@ function sum(x: Int, y: Int): Int { ...
 
 #### `@param`
 
-Use `@param` to document a [parameter](function.md) of a callable declaration. This tag takes the name of the parameter
+Use `@param` to document a parameter of a callable declaration. This tag takes the name of the parameter
 and its description as arguments. Since a callable can have multiple parameters, this tag can be used multiple times.
 
 ```ttsl
@@ -136,6 +136,5 @@ used only once.
 function sum(x: Int, y: Int): Int { ...
 ```
 
-[^1]: Except [parameter](function.md) and [results](functions.md), which are documented with
-the [`@param`](#param) and [`@result`](#result) tags on the containing declaration,
-respectively.
+[^1]: Except parameters and results, which are documented with the [`@param`](#param) and [`@result`](#result) tags on
+the containing declaration, respectively.
