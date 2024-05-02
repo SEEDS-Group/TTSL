@@ -13,21 +13,19 @@ nav:
   - Home:
       - README.md
   - Language:
-      - language/README.md
-      - Common:
-          - language/common/statements.md
-          - language/common/packages.md
-          - language/common/imports.md
-          - language/common/types.md
-          - language/common/expressions.md
-          - language/common/comments.md
-          - language/common/constants.md
-          - language/common/data.md
-          - language/common/functions.md
-          - language/common/parameters.md
-          - language/common/modifier.md
-          - language/common/validity.md
-          - language/common/aggregations.md
+        - language/common/statements.md
+        - language/common/packages.md
+        - language/common/imports.md
+        - language/common/types.md
+        - language/common/expressions.md
+        - language/common/comments.md
+        - language/common/constants.md
+        - language/common/data.md
+        - language/common/functions.md
+        - language/common/parameters.md
+        - language/common/modifier.md
+        - language/common/validity.md
+        - language/common/aggregations.md
   - Development:
       - Call Graph Testing: development/call-graph-testing.md
       - Formatting Testing: development/formatting-testing.md
