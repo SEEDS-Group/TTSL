@@ -14,28 +14,20 @@ nav:
       - README.md
   - Language:
       - language/README.md
-      - Pipeline Language:
-          - language/pipeline-language/README.md
-          - Pipelines: language/pipeline-language/pipelines.md
-          - Segments: language/pipeline-language/segments.md
-          - Statements: language/pipeline-language/statements.md
-          - Expressions: language/pipeline-language/expressions.md
       - Common:
           - language/common/README.md
-          - Comments: language/common/comments.md
-          - Packages: language/common/packages.md
-          - Imports: language/common/imports.md
-          - Parameters: language/common/parameters.md
-          - Results: language/common/results.md
-          - Types: language/common/types.md
-          - Variance: language/common/variance.md
-      - Stub Language:
-          - language/stub-language/README.md
-          - Classes: language/stub-language/classes.md
-          - Global Functions: language/stub-language/global-functions.md
-          - Enumerations: language/stub-language/enumerations.md
-          - Annotations: language/stub-language/annotations.md
-          - Type Parameters: language/stub-language/type-parameters.md
+          - language/common/packages.md
+          - language/common/imports.md
+          - language/common/types.md
+          - language/common/expressions.md
+          - language/common/comments.md
+          - language/common/constants.md
+          - language/common/data.md
+          - language/common/functions.md
+          - language/common/parameters.md
+          - language/common/modifiers.md
+          - language/common/validity.md
+          - language/common/aggregations.md
   - Development:
       - Call Graph Testing: development/call-graph-testing.md
       - Formatting Testing: development/formatting-testing.md
