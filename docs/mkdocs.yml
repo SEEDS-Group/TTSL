@@ -15,7 +15,7 @@ nav:
   - Language:
       - language/README.md
       - Common:
-          - language/common/README.md
+          - language/common/statements.md
           - language/common/packages.md
           - language/common/imports.md
           - language/common/types.md
@@ -25,7 +25,7 @@ nav:
           - language/common/data.md
           - language/common/functions.md
           - language/common/parameters.md
-          - language/common/modifiers.md
+          - language/common/modifier.md
           - language/common/validity.md
           - language/common/aggregations.md
   - Development:
