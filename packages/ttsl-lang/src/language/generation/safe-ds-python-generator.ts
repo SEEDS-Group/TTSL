@@ -1029,6 +1029,11 @@ export class SafeDsPythonGenerator {
                 this.getInternalReferenceNeededImport(expression, declaration);
             frame.addImport(referenceImport);
             return traceToNode(expression)(referenceImport?.alias || this.getPythonNameOrDefault(declaration));
+        } else if (isTslAggregation(expression)) {
+            frame.addUtility(UTILITY_AGGREGATION);
+            return expandTracedToNode(expression)`${traceToNode(
+                expression
+            )(UTILITY_AGGREGATION.name)}(${'dataframe'}, '${expression.data.toString()}', '${expression.groupedBy.id.toString()}', '${expression.function.toString()}')`;
         }
         /* c8 ignore next 2 */
         throw new Error(`Unknown expression type: ${expression.$type}`);
