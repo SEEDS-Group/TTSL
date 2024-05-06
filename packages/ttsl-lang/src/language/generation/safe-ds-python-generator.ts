@@ -178,6 +178,28 @@ const UTILITY_NULL_SAFE_MEMBER_ACCESS: UtilityFunction = {
     typeVariables: [`${CODEGEN_PREFIX}T`],
 };
 
+const UTILITY_AGGREGATION: UtilityFunction = {
+    name: `${CODEGEN_PREFIX}aggregation`,
+    code: expandToNode`def ${CODEGEN_PREFIX}aggregation(dataFrame: pd, data: str, id: str, function: str) -> pd | None:`
+        .appendNewLine()
+        .indent({
+            indentedChildren:['dataFrame = dataFrame.join(dataFrame[id])'],
+            indentation: PYTHON_INDENT,
+        })
+        .appendNewLine()
+        .indent({
+            indentedChildren:['dataFrame[data] = dataFrame.groupby(id)[data].transform(function)'],
+            indentation: PYTHON_INDENT,
+        })
+        .appendNewLine()
+        .indent({
+            indentedChildren: ['return dataFrame'],
+            indentation: PYTHON_INDENT,
+        }),
+    imports: [{ importPath: 'gettsim', declarationName: '(compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)' }],
+    typeVariables: [`${CODEGEN_PREFIX}T`],
+};
+
 export class SafeDsPythonGenerator {
     private readonly builtinAnnotations: SafeDsAnnotations;
     private readonly nodeMapper: SafeDsNodeMapper;

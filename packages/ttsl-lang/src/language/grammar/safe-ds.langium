@@ -643,12 +643,12 @@ TslExpression returns TslExpression:
 
 interface TslAggregation extends TslExpression{
     function: TslExpression
-    data: TslExpression[]
+    data: TslExpression
     groupedBy: TslGroupedBy
 }
 
 TslAggregation returns TslAggregation:
-    'aggregate' function=TslExpression 'of' data+=TslExpression (',' data+=TslExpression)* groupedBy=TslGroupedBy
+    'aggregate' function=TslExpression 'of' data=TslExpression groupedBy=TslGroupedBy
 ;
 
 interface TslLambda extends TslCallable, TslExpression {}
