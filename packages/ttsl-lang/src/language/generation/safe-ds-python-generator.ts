@@ -71,6 +71,10 @@ import {
     isTslForLoop,
     isTslForeachLoop,
     isTslWhileLoop,
+    TslFunction,
+    TslFunctionBlock,
+    isTslAggregation,
+    isTslTimespanStatement,
 } from '../generated/ast.js';
 import { isInStubFile, isStubFile } from '../helpers/fileExtensions.js';
 import { IdManager } from '../helpers/idManager.js';
@@ -336,6 +340,11 @@ export class SafeDsPythonGenerator {
             .map((pipeline) =>
                 this.generatePipeline(pipeline, importSet, utilitySet, typeVariableSet, generateOptions),
             );
+        const functions = getModuleMembers(module)
+            .filter(isTslFunction)
+            .map((funct) =>
+                this.generateFunction(funct, importSet, utilitySet, typeVariableSet, generateOptions),
+            );
         const imports = this.generateImports(Array.from(importSet.values()));
         const output = new CompositeGeneratorNode();
         output.trace(module);
@@ -380,6 +389,16 @@ export class SafeDsPythonGenerator {
             output.append(joinToNode(pipelines, (pipeline) => pipeline, { separator: SPACING }));
             output.appendNewLine();
         }
+        if (functions.length > 0) {
+            output.appendNewLineIf(
+                imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0 || segments.length > 0,
+            );
+            output.append('# Functions --------------------------------------------------------------------');
+            output.appendNewLine();
+            output.appendNewLine();
+            output.append(joinToNode(functions, (funct) => funct, { separator: SPACING }));
+            output.appendNewLine();
+        }
         return output;
     }
 
@@ -416,6 +435,52 @@ export class SafeDsPythonGenerator {
         )(this.getPythonNameOrDefault(segment))}(${this.generateParameters(segment.parameterList, infoFrame)}):`
             .appendNewLine()
             .indent({ indentedChildren: [segmentBlock], indentation: PYTHON_INDENT });
+    }
+
+    private generateFunction(
+        funct: TslFunction,
+        importSet: Map<String, ImportData>,
+        utilitySet: Set<UtilityFunction>,
+        typeVariableSet: Set<string>,
+        generateOptions: GenerateOptions,
+    ): CompositeGeneratorNode {
+        const infoFrame = new GenerationInfoFrame(
+            importSet,
+            utilitySet,
+            typeVariableSet,
+            true,
+            generateOptions.targetPlaceholder,
+            generateOptions.disableRunnerIntegration,
+        );
+
+        return expandTracedToNode(funct)`def ${traceToNode(
+            funct,
+            'name',
+        )(this.getPythonNameOrDefault(funct))}(${funct.timeunit}, ${funct.groupedBy}, date, ${funct.parameterList}):`
+            .appendNewLine()
+            .indent({ indentedChildren: [this.generateFunctionBlock(funct.body, infoFrame)], indentation: PYTHON_INDENT });
+    }
+
+    private generateFunctionBlock(
+        block: TslFunctionBlock,
+        frame: GenerationInfoFrame,
+        generateLambda: boolean = false,
+    ): CompositeGeneratorNode {
+        const targetPlaceholder = getPlaceholderByName(block, frame.targetPlaceholder);
+        let statements = getStatements(block).filter((stmt) => this.purityComputer.statementDoesSomething(stmt));
+        if (targetPlaceholder) {
+            statements = this.getStatementsNeededForPartialExecution(targetPlaceholder, statements);
+        }
+        if (statements.length === 0) {
+            return traceToNode(block)('pass');
+        }
+        return joinTracedToNode(block, 'statements')(
+            statements,
+            (stmt) => this.generateStatement(stmt, frame, generateLambda),
+            {
+                separator: NL,
+            },
+        )!;
     }
 
     private generateParameters(
@@ -611,6 +676,9 @@ export class SafeDsPythonGenerator {
             return joinTracedToNode(statement)(blockLambdaCode, (stmt) => stmt, {
                 separator: NL,
             })!;
+        } else if (isTslTimespanStatement(statement)) {          
+            return expandTracedToNode(statement)`if ${statement.timespan.start} <= date < ${statement.timespan.end}:
+                ${this.generateFunctionBlock(statement.block, frame)}`;
         } else if (isTslConditionalStatement(statement)) {
             let elseBlock = new CompositeGeneratorNode
             if (statement.elseBlock){

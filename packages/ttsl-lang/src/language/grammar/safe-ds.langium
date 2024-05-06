@@ -329,16 +329,14 @@ fragment TslFunctionFragment:
 ;
 
 interface TslFunctionBlock extends TslBlock{
-    timespans: TslTimespan[]
+    timespanStatement: TslTimespanStatement[]
 }
 
 TslFunctionBlock returns TslFunctionBlock:
     {TslFunctionBlock} 
-    '{' ( statements+=TslStatement* 
-    | timespans+=TslTimespan 
-    '{' ( timespans+=TslTimespan statements+=TslStatement 
+    '{' ( timespanStatement+=TslTimespanStatement
     | statements+=TslStatement)* 
-    '}')* '}'
+    '}'
 ;
 
 interface TslConstant extends TslModuleMember {
@@ -537,6 +535,7 @@ TslStatement returns TslStatement:
   | TslExpressionStatement
   | TslConditionalStatement
   | TslLoop
+  | TslTimespanStatement
 ;
 
 interface TslAssignment extends TslStatement {
@@ -643,13 +642,13 @@ TslExpression returns TslExpression:
 ;
 
 interface TslAggregation extends TslExpression{
-    function: @TslFunction
-    data: @TslData[]
+    function: TslExpression
+    data: TslExpression[]
     groupedBy: TslGroupedBy
 }
 
 TslAggregation returns TslAggregation:
-    'aggregate' function=[TslFunction:ID] 'of' data+=[TslData:ID] (',' data+=[TslData:ID])* groupedBy=TslGroupedBy
+    'aggregate' function=TslExpression 'of' data+=TslExpression (',' data+=TslExpression)* groupedBy=TslGroupedBy
 ;
 
 interface TslLambda extends TslCallable, TslExpression {}
@@ -1055,6 +1054,15 @@ interface TslTimespan extends TslObject{
 
 TslTimespan returns TslTimespan:
     ('from' start=TslDate)? ('to' end=TslDate)?
+;
+
+interface TslTimespanStatement extends TslBlock, TslStatement{
+    timespan: TslTimespan
+    block: TslFunctionBlock
+}
+
+TslTimespanStatement returns TslTimespanStatement:
+    timespan=TslTimespan '{' block=TslFunctionBlock '}'
 ;
 
 // -----------------------------------------------------------------------------
