@@ -3,6 +3,7 @@ import {
     CompositeGeneratorNode,
     expandToNode,
     expandTracedToNode,
+    IndentNode,
     joinToNode,
     joinTracedToNode,
     NL,
@@ -197,6 +198,36 @@ const UTILITY_AGGREGATION: UtilityFunction = {
             indentation: PYTHON_INDENT,
         }),
     imports: [{ importPath: 'gettsim', declarationName: '(compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)' }],
+    typeVariables: [`${CODEGEN_PREFIX}T`],
+};
+
+const UTILITY_CONSTANTS: UtilityFunction = {
+    name: `${CODEGEN_PREFIX}constants`,
+    code: expandToNode`class ${CODEGEN_PREFIX}constants():`
+        .appendNewLine()
+        .indent(indentingNode =>
+            indentingNode.append(
+                'def __init__(self, dictionary: dict):'
+            ).appendNewLine()
+            .indent({
+                indentedChildren: ['self.dict = dictionary'],
+                indentation: PYTHON_INDENT
+            }).appendNewLine()
+            .append('def getValue(self, date):').appendNewLine()
+            .indent(indentingNode =>
+                indentingNode.append(
+                    'for key in self.dict:'
+                ).appendNewLine()
+                .indent(indentingNode =>
+                    indentingNode.append(
+                        'if key <= date:'
+                    ).appendNewLine()
+                    .indent({
+                        indentedChildren: ['result = self.dict[key]'],
+                        indentation: PYTHON_INDENT
+                    })).appendNewLine()
+                .append('return result'))),
+    imports: [{ importPath: 'typing', declarationName: 'Any' }],
     typeVariables: [`${CODEGEN_PREFIX}T`],
 };
 
