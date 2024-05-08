@@ -76,6 +76,9 @@ import {
     TslFunctionBlock,
     isTslAggregation,
     isTslTimespanStatement,
+    isTslConstant,
+    TslConstant,
+    TslTimespan,
 } from '../generated/ast.js';
 import { isInStubFile, isStubFile } from '../helpers/fileExtensions.js';
 import { IdManager } from '../helpers/idManager.js';
@@ -202,8 +205,8 @@ const UTILITY_AGGREGATION: UtilityFunction = {
 };
 
 const UTILITY_CONSTANTS: UtilityFunction = {
-    name: `${CODEGEN_PREFIX}constants`,
-    code: expandToNode`class ${CODEGEN_PREFIX}constants():`
+    name: `${CODEGEN_PREFIX}ClassConstants`,
+    code: expandToNode`class ${CODEGEN_PREFIX}ClassConstants():`
         .appendNewLine()
         .indent(indentingNode =>
             indentingNode.append(
@@ -398,6 +401,11 @@ export class SafeDsPythonGenerator {
             .map((funct) =>
                 this.generateFunction(funct, importSet, utilitySet, typeVariableSet, generateOptions),
             );
+        const constants = getModuleMembers(module)
+            .filter(isTslConstant)
+            .map((constant) =>
+                this.generateConstant(constant, importSet, utilitySet, typeVariableSet, generateOptions),
+            );
         const imports = this.generateImports(Array.from(importSet.values()));
         const output = new CompositeGeneratorNode();
         output.trace(module);
@@ -450,6 +458,16 @@ export class SafeDsPythonGenerator {
             output.appendNewLine();
             output.appendNewLine();
             output.append(joinToNode(functions, (funct) => funct, { separator: SPACING }));
+            output.appendNewLine();
+        }
+        if (constants.length > 0) {
+            output.appendNewLineIf(
+                imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0 || segments.length > 0,
+            );
+            output.append('# Constants --------------------------------------------------------------------');
+            output.appendNewLine();
+            output.appendNewLine();
+            output.append(joinToNode(constants, (constant) => constant, { separator: SPACING }));
             output.appendNewLine();
         }
         return output;
@@ -534,6 +552,62 @@ export class SafeDsPythonGenerator {
                 separator: NL,
             },
         )!;
+    }
+
+    private generateConstant(
+        constant: TslConstant,
+        importSet: Map<String, ImportData>,
+        utilitySet: Set<UtilityFunction>,
+        typeVariableSet: Set<string>,
+        generateOptions: GenerateOptions,
+    ): CompositeGeneratorNode | undefined{
+        const infoFrame = new GenerationInfoFrame(
+            importSet,
+            utilitySet,
+            typeVariableSet,
+            true,
+            generateOptions.targetPlaceholder,
+            generateOptions.disableRunnerIntegration,
+        );
+        infoFrame.addUtility(UTILITY_CONSTANTS);
+
+        if(constant.value != null){
+            return expandTracedToNode(constant)`${traceToNode(
+                constant
+            )(UTILITY_CONSTANTS.name)}({'empty': ${constant.value}})`
+        } else if (constant.timespanValueEntries != null){
+            return expandTracedToNode(constant)`${constant.name}Dict = {${joinTracedToNode(constant, 'timespanValueEntries')(
+            constant.timespanValueEntries,
+            (entry) =>
+                expandTracedToNode(entry)`${traceToNode(
+                    entry, 
+                    'timespan',
+                )(this.generateDateString(entry.timespan, infoFrame))}: ${traceToNode(
+                    entry,
+                    'value',
+                )(this.generateExpression(entry.value, infoFrame))}`,
+            { separator: ', ' },
+            )}}`.appendNewLine()
+            .append(expandTracedToNode(constant)`${traceToNode(
+                constant
+            )(UTILITY_CONSTANTS.name)}(${constant.name}Dict)`)
+        } else{
+            return undefined;
+        }
+    }
+
+    private generateDateString(
+        timespan: TslTimespan,
+        frame: GenerationInfoFrame,
+    ): CompositeGeneratorNode | undefined {
+        if(timespan.start != null){
+            return expandToNode`s${timespan.start.date.toUTCString()}`   // add 's' to mark that it's the start of the timespan
+        } else if (timespan.end != null){
+            return expandToNode`e${timespan.end.date.toUTCString()}`     // add 'e' to mark that it's the end of the timespan
+        } else {
+            /* c8 ignore next 2 */
+            return undefined;
+        }
     }
 
     private generateParameters(

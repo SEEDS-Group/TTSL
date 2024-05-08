@@ -340,9 +340,9 @@ TslFunctionBlock returns TslFunctionBlock:
 ;
 
 interface TslConstant extends TslModuleMember {
-    timespan: TslTimespan
+    timespanValueEntries?: TslTimespanValueEntry[]
     ^type: TslType
-    value: TslExpression
+    value?: TslExpression
 }
 
 fragment TslConstantFragment:
@@ -350,7 +350,7 @@ fragment TslConstantFragment:
     'constant'
     name=ID
     ':' ^type=TslType
-    ('{' (timespan=TslTimespan '=' value=TslExpression)*'}' |
+    ('{' (timespanValueEntries+=TslTimespanValueEntry)* '}' |
     '=' value=TslExpression) ';'?
 ;
 
@@ -1063,6 +1063,15 @@ interface TslTimespanStatement extends TslBlock, TslStatement{
 
 TslTimespanStatement returns TslTimespanStatement:
     timespan=TslTimespan '{' block=TslFunctionBlock '}'
+;
+
+interface TslTimespanValueEntry extends TslObject{
+    timespan: TslTimespan
+    value: TslExpression
+}
+
+TslTimespanValueEntry returns TslTimespanValueEntry:
+    timespan=TslTimespan '=' value=TslExpression
 ;
 
 // -----------------------------------------------------------------------------
