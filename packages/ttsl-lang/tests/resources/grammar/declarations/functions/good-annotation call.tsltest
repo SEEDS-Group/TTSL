@@ -3,4 +3,4 @@
 package test
 
 @Annotation
-fun myFunction()
+function myFunction()
