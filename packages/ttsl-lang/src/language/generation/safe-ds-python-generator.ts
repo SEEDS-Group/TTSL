@@ -803,8 +803,19 @@ export class SafeDsPythonGenerator {
             return joinTracedToNode(statement)(blockLambdaCode, (stmt) => stmt, {
                 separator: NL,
             })!;
-        } else if (isTslTimespanStatement(statement)) {          
-            return expandTracedToNode(statement)`if ${statement.timespan.start} <= date < ${statement.timespan.end}:
+        } else if (isTslTimespanStatement(statement)) { 
+            var start = ''
+            var end = ''      
+            if (statement.timespan.start != null){
+                start = statement.timespan.start.date.toUTCString() + ' <='
+            }
+            if (statement.timespan.end != null){
+                end = '< ' + statement.timespan.end.date.toUTCString()
+            }
+            if (statement.timespan.start == null && statement.timespan.end == null){
+                throw new Error(`Timespan has neither a start nor an end value`);
+            }
+            return expandTracedToNode(statement)`if ${start} date ${end}:
                 ${this.generateFunctionBlock(statement.block, frame)}`;
         } else if (isTslConditionalStatement(statement)) {
             let elseBlock = new CompositeGeneratorNode
