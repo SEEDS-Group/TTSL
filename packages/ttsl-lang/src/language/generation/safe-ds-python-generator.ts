@@ -79,6 +79,8 @@ import {
     isTslConstant,
     TslConstant,
     TslTimespan,
+    isTslData,
+    TslData,
 } from '../generated/ast.js';
 import { isInStubFile, isStubFile } from '../helpers/fileExtensions.js';
 import { IdManager } from '../helpers/idManager.js';
@@ -406,6 +408,11 @@ export class SafeDsPythonGenerator {
             .map((constant) =>
                 this.generateConstant(constant, importSet, utilitySet, typeVariableSet, generateOptions),
             );
+        const data = getModuleMembers(module)
+            .filter(isTslData)
+            .map((data) =>
+                this.generateData(data, importSet, utilitySet, typeVariableSet, generateOptions),
+            );
         const imports = this.generateImports(Array.from(importSet.values()));
         const output = new CompositeGeneratorNode();
         output.trace(module);
@@ -468,6 +475,16 @@ export class SafeDsPythonGenerator {
             output.appendNewLine();
             output.appendNewLine();
             output.append(joinToNode(constants, (constant) => constant, { separator: SPACING }));
+            output.appendNewLine();
+        }
+        if (data.length > 0) {
+            output.appendNewLineIf(
+                imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0 || segments.length > 0,
+            );
+            output.append('# Data --------------------------------------------------------------------');
+            output.appendNewLine();
+            output.appendNewLine();
+            output.append(joinToNode(data, (data) => data, { separator: SPACING }));
             output.appendNewLine();
         }
         return output;
@@ -608,6 +625,26 @@ export class SafeDsPythonGenerator {
             /* c8 ignore next 2 */
             return undefined;
         }
+    }
+
+    private generateData(
+        data: TslData,
+        importSet: Map<String, ImportData>,
+        utilitySet: Set<UtilityFunction>,
+        typeVariableSet: Set<string>,
+        generateOptions: GenerateOptions,
+    ): CompositeGeneratorNode{
+        const infoFrame = new GenerationInfoFrame(
+            importSet,
+            utilitySet,
+            typeVariableSet,
+            true,
+            generateOptions.targetPlaceholder,
+            generateOptions.disableRunnerIntegration,
+        );
+        infoFrame.addUtility(UTILITY_CONSTANTS);
+
+        return expandToNode`${data.name} = ${data.type}()`  
     }
 
     private generateParameters(
