@@ -84,7 +84,7 @@ export const hasAnnotationCallOf = (
 };
 
 export const isInternal = (node: TslDeclaration | undefined): boolean => {
-    return isTslSegment(node) && node.visibility === 'internal';
+    return isTslSegment(node);
 };
 
 export namespace Argument {
