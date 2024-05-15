@@ -1286,6 +1286,6 @@ terminal TEMPLATE_STRING_INNER returns string: TEMPLATE_EXPRESSION_END STRING_TE
 terminal TEMPLATE_STRING_END returns string: TEMPLATE_EXPRESSION_END STRING_TEXT* STRING_END;
 
 hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\//;
-hidden terminal SL_COMMENT: /\#[^\n\r]*/;
+hidden terminal SL_COMMENT: /\/\/[^\n\r]*/;
 hidden terminal TEST_MARKER: /[»«]/;
 hidden terminal WS: /\s+/;
