@@ -16,25 +16,25 @@ segment mySegment(
     a4: Contravariant<CovariantNumber>,
     a5: Contravariant<SomeCovariant<String?>>,
 ) {
-    # $TEST$ serialization C1<Int>
+    // $TEST$ serialization C1<Int>
     »C1(a2, a1)«;
-    # $TEST$ serialization C1<Number>
+    // $TEST$ serialization C1<Number>
     »C1(a2, a2)«;
-    # $TEST$ serialization C1<Number>
+    // $TEST$ serialization C1<Number>
     »C1(a2, a3)«;
-    # $TEST$ serialization C1<Number>
+    // $TEST$ serialization C1<Number>
     »C1(a2, a4)«;
-    # $TEST$ serialization C1<Number>
+    // $TEST$ serialization C1<Number>
     »C1(a2, a5)«;
 
-    # $TEST$ serialization Int
+    // $TEST$ serialization Int
     »f1(a2, a1)«;
-    # $TEST$ serialization Number
+    // $TEST$ serialization Number
     »f1(a2, a2)«;
-    # $TEST$ serialization Number
+    // $TEST$ serialization Number
     »f1(a2, a3)«;
-    # $TEST$ serialization Number
+    // $TEST$ serialization Number
     »f1(a2, a4)«;
-    # $TEST$ serialization Number
+    // $TEST$ serialization Number
     »f1(a2, a5)«;
 }

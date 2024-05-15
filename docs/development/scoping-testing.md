@@ -19,17 +19,17 @@ test.
 4. Surround **the name** of any declaration that you want to reference with test markers, e.g. `class »C«`. Add a
    comment in the preceding line with the following format (replace `<id>` with some unique identifier):
     ```ts
-    # $TEST$ target <id>
+    // $TEST$ target <id>
     ```
 5. Surround references you want to test with test markers, e.g. `»C«()`. If you want to assert that the reference should be resolved,
    add a comment in the preceding line with the following format (replace `<target_id>` with the identifier you previously
    assigned to the referenced declaration):
 
     ```ts
-    # $TEST$ references <target_id>
+    // $TEST$ references <target_id>
     ```
    If you instead want to assert that the reference is unresolved, add the following comment to the preceding line:
     ```ts
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     ```
 6. Run the tests. The test runner will automatically pick up the new test.

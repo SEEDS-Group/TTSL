@@ -13,21 +13,21 @@ segment mySegment(
 
     // Named tuple types and static types are also not handled, but we can't test them here
 ) {
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[one, `union`]«;
 
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[oneOrNull, `union`]«;
 
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[one, unionOrNull]«;
 
-    # $TEST$ serialization List<Contravariant<Nothing?>>
+    // $TEST$ serialization List<Contravariant<Nothing?>>
     »[oneOrNull, unionOrNull]«;
 
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[one, callable]«;
 
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[oneOrNull, callable]«;
 }

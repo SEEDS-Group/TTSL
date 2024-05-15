@@ -5,6 +5,6 @@ from tests.scoping.references.acrossFiles.toGlobalFunctions.other import myFunct
 from tests.scoping.references.acrossFiles.toGlobalFunctions import myFunction
 
 pipeline myPipeline {
-    # $TEST$ references safeds_myFunction
+    // $TEST$ references safeds_myFunction
     »myFunction«;
 }

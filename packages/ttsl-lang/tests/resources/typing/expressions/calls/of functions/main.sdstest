@@ -4,15 +4,15 @@ fun f1() -> r: String
 fun f2() -> (r: String, s: Int)
 
 pipeline myPipeline {
-    # $TEST$ serialization String
+    // $TEST$ serialization String
     »f1()«;
 
-    # $TEST$ serialization (r: String, s: Int)
+    // $TEST$ serialization (r: String, s: Int)
     »f2()«;
 
-    # $TEST$ serialization String
+    // $TEST$ serialization String
     »f1?()«;
 
-    # $TEST$ serialization (r: String, s: Int)
+    // $TEST$ serialization (r: String, s: Int)
     »f2?()«;
 }

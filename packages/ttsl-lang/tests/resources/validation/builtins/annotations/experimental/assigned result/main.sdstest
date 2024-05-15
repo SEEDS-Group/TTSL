@@ -6,25 +6,25 @@ fun myFunction() -> (
 )
 
 segment mySegment() -> (result1: Int, result2: Int, result3: Int) {
-    # $TEST$ warning "The assigned result 'experimentalResult' is experimental."
-    # $TEST$ no warning r"The assigned result '\w*' is experimental\."
-    # $TEST$ no warning r"The assigned result '\w*' is experimental\."
+    // $TEST$ warning "The assigned result 'experimentalResult' is experimental."
+    // $TEST$ no warning r"The assigned result '\w*' is experimental\."
+    // $TEST$ no warning r"The assigned result '\w*' is experimental\."
     »val a«, »val b«, »val c« = myFunction();
 
-    # $TEST$ warning "The assigned result 'experimentalResult' is experimental."
-    # $TEST$ no warning r"The assigned result '\w*' is experimental\."
-    # $TEST$ no warning r"The assigned result '\w*' is experimental\."
+    // $TEST$ warning "The assigned result 'experimentalResult' is experimental."
+    // $TEST$ no warning r"The assigned result '\w*' is experimental\."
+    // $TEST$ no warning r"The assigned result '\w*' is experimental\."
     »yield result1«, »yield result2«, »yield result3« = myFunction();
 
-    # $TEST$ no warning r"The assigned result '\w*' is experimental\."
-    # $TEST$ no warning r"The assigned result '\w*' is experimental\."
-    # $TEST$ no warning r"The assigned result '\w*' is experimental\."
+    // $TEST$ no warning r"The assigned result '\w*' is experimental\."
+    // $TEST$ no warning r"The assigned result '\w*' is experimental\."
+    // $TEST$ no warning r"The assigned result '\w*' is experimental\."
     »_«, »_«, »_« = myFunction();
 
-    # $TEST$ no warning r"The assigned result '\w*' is experimental\."
+    // $TEST$ no warning r"The assigned result '\w*' is experimental\."
     »val d« = a;
-    # $TEST$ no warning r"The assigned result '\w*' is experimental\."
+    // $TEST$ no warning r"The assigned result '\w*' is experimental\."
     »val e« = b;
-    # $TEST$ no warning r"The assigned result '\w*' is experimental\."
+    // $TEST$ no warning r"The assigned result '\w*' is experimental\."
     »val f« = 1;
 }

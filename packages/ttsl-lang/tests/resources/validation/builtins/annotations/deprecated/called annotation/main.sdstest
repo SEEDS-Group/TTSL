@@ -4,10 +4,10 @@ package tests.validation.builtins.deprecated.calledAnnotation
 annotation DeprecatedAnnotation
 annotation ValidAnnotation
 
-# $TEST$ warning "The called annotation 'DeprecatedAnnotation' is deprecated."
+// $TEST$ warning "The called annotation 'DeprecatedAnnotation' is deprecated."
 @»DeprecatedAnnotation«
-# $TEST$ no warning r"The called annotation '\w*' is deprecated\."
+// $TEST$ no warning r"The called annotation '\w*' is deprecated\."
 @»ValidAnnotation«
-# $TEST$ no warning r"The called annotation '\w*' is deprecated\."
+// $TEST$ no warning r"The called annotation '\w*' is deprecated\."
 @»Unresolved«
 pipeline myPipeline {}

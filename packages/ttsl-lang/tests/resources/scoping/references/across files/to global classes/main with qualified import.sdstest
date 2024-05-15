@@ -4,21 +4,21 @@ from safeds.scoping.references.acrossFiles.toGlobalClasses import MyClass
 from tests.scoping.references.acrossFiles.toGlobalClasses.other import ClassInAnotherPackage, Class2InAnotherPackage
 
 pipeline myPipeline {
-    # $TEST$ references safeds_MyClass
+    // $TEST$ references safeds_MyClass
     »MyClass«;
 
-    # $TEST$ references same_ClassInSamePackage
+    // $TEST$ references same_ClassInSamePackage
     »ClassInSamePackage«;
 
-    # $TEST$ references safeds_ClassInSafeDsPackage
+    // $TEST$ references safeds_ClassInSafeDsPackage
     »ClassInSafeDsPackage«;
 
-    # $TEST$ references other_ClassInAnotherPackage
+    // $TEST$ references other_ClassInAnotherPackage
     »ClassInAnotherPackage«;
 
-    # $TEST$ references other_Class2InAnotherPackage
+    // $TEST$ references other_Class2InAnotherPackage
     »Class2InAnotherPackage«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »ClassWithoutPackage«;
 }

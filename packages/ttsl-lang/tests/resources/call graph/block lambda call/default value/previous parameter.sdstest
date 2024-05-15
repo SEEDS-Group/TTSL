@@ -8,6 +8,6 @@ pipeline myPipeline {
         g: Any = f()
     ) {};
 
-    # $TEST$ ["$blockLambda", "default"]
+    // $TEST$ ["$blockLambda", "default"]
     »lambda()«;
 }

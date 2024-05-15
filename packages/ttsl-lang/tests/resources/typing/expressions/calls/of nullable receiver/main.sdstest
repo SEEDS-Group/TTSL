@@ -8,13 +8,13 @@ class MyClass {
 segment mySegment(
     myClassOrNull: MyClass?
 ) {
-    # $TEST$ serialization Int
+    // $TEST$ serialization Int
     »myClassOrNull?.a()«;
-    # $TEST$ serialization Int
+    // $TEST$ serialization Int
     »myClassOrNull?.f()«;
 
-    # $TEST$ serialization Int?
+    // $TEST$ serialization Int?
     »myClassOrNull?.f?()«;
-    # $TEST$ serialization Int?
+    // $TEST$ serialization Int?
     »myClassOrNull?.f?()«;
 }

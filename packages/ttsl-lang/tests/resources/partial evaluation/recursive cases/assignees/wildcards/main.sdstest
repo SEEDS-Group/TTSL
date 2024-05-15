@@ -5,11 +5,11 @@ segment mySegment() -> r: Int {
 }
 
 pipeline test {
-    # $TEST$ serialization 1
-    # $TEST$ serialization ?
+    // $TEST$ serialization 1
+    // $TEST$ serialization ?
     »_«, »_« = 1;
 
-    # $TEST$ serialization 2
-    # $TEST$ serialization ?
+    // $TEST$ serialization 2
+    // $TEST$ serialization ?
     »_«, »_« = mySegment();
 }

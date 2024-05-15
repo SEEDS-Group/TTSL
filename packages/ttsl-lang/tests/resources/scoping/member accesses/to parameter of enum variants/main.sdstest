@@ -2,10 +2,10 @@ package tests.scoping.memberAccesses.toParametersOfEnumVariants
 
 enum MyEnum {
     MyEnumVariant(
-        # $TEST$ target param
+        // $TEST$ target param
         »param«: Int,
 
-        # $TEST$ target redeclared
+        // $TEST$ target redeclared
         »redeclared«: Int,
         redeclared: Int,
     )
@@ -18,28 +18,28 @@ enum MyOtherEnum {
 }
 
 pipeline myPipeline {
-    # $TEST$ references param
+    // $TEST$ references param
     MyEnum.MyEnumVariant().»param«;
 
-    # $TEST$ references redeclared
+    // $TEST$ references redeclared
     MyEnum.MyEnumVariant().»redeclared«;
 
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     MyOtherEnum.MyEnumVariant.»param«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     MyEnum.MyOtherEnumVariant().»param«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     MyOtherEnum.MyEnumVariant().»param«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     MyEnum.MyEnumVariant().»unresolved«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     MyEnum.unresolved().»param«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     unresolved.MyEnumVariant().»param«;
 }

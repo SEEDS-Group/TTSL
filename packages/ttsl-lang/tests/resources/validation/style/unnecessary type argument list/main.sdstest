@@ -5,21 +5,21 @@ class ClassWithEmptyTypeParameterList<>
 class ClassWithTypeParameters<T>
 
 fun myFunction(
-    # $TEST$ info "This type argument list can be removed."
+    // $TEST$ info "This type argument list can be removed."
     a1: ClassWithoutTypeParameterList»<>«,
-    # $TEST$ no info "This type argument list can be removed."
+    // $TEST$ no info "This type argument list can be removed."
     a2: ClassWithoutTypeParameterList»<Int>«,
-    # $TEST$ info "This type argument list can be removed."
+    // $TEST$ info "This type argument list can be removed."
     a3: ClassWithEmptyTypeParameterList»<>«,
-    # $TEST$ no info "This type argument list can be removed."
+    // $TEST$ no info "This type argument list can be removed."
     a4: ClassWithEmptyTypeParameterList»<Int>«,
-    # $TEST$ no info "This type argument list can be removed."
+    // $TEST$ no info "This type argument list can be removed."
     a5: ClassWithTypeParameters»<>«,
-    # $TEST$ no info "This type argument list can be removed."
+    // $TEST$ no info "This type argument list can be removed."
     a6: ClassWithTypeParameters»<Int>«,
 
-    # $TEST$ no info "This type argument list can be removed."
+    // $TEST$ no info "This type argument list can be removed."
     d1: Unresolved»<>«,
-    # $TEST$ no info "This type argument list can be removed."
+    // $TEST$ no info "This type argument list can be removed."
     d2: Unresolved»<Int>«,
 )

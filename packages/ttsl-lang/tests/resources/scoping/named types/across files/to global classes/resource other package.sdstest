@@ -1,13 +1,13 @@
 package tests.scoping.namedTypes.acrossFiles.toGlobalClasses.other
 
-# $TEST$ target other_MyClass
+// $TEST$ target other_MyClass
 class »MyClass«
 
-# $TEST$ target other_ClassInAnotherPackage
+// $TEST$ target other_ClassInAnotherPackage
 class »ClassInAnotherPackage«
 
-# $TEST$ target other_Class2InAnotherPackage
+// $TEST$ target other_Class2InAnotherPackage
 class »Class2InAnotherPackage«
 
-# $TEST$ target other_notANamedTypeDeclaration
+// $TEST$ target other_notANamedTypeDeclaration
 fun »notANamedTypeDeclaration«()

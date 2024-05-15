@@ -1,15 +1,15 @@
 package tests.scoping.references.inSameFile.toSchemas
 
-# $TEST$ target before
+// $TEST$ target before
 schema »Before« {}
 
 segment mySegment() {
-    # $TEST$ references before
+    // $TEST$ references before
     »Before«;
 
-    # $TEST$ references after
+    // $TEST$ references after
     »After«;
 }
 
-# $TEST$ target after
+// $TEST$ target after
 schema »After« {}

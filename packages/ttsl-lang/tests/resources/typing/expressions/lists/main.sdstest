@@ -5,18 +5,18 @@ package tests.typing.expressions.lists
 
 pipeline myPipeline {
 
-    # $TEST$ serialization List<Nothing>
+    // $TEST$ serialization List<Nothing>
     »[]«;
 
-    # $TEST$ serialization List<literal<1, 2, 3>>
+    // $TEST$ serialization List<literal<1, 2, 3>>
     »[1, 2, 3]«;
 
-    # $TEST$ serialization List<Number>
+    // $TEST$ serialization List<Number>
     »[1, float(), 3]«;
 
-    # $TEST$ serialization List<Any>
+    // $TEST$ serialization List<Any>
     »[1, string(), 3]«;
 
-    # $TEST$ serialization List<Any?>
+    // $TEST$ serialization List<Any?>
     »[1, string(), null]«;
 }

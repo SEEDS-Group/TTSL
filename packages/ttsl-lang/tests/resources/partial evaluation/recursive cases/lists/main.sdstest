@@ -1,9 +1,9 @@
 package tests.partialValidation.recursiveCases.lists
 
 pipeline test {
-    # $TEST$ serialization []
+    // $TEST$ serialization []
     »[]«;
 
-    # $TEST$ serialization [1, 2.5, null, ?]
+    // $TEST$ serialization [1, 2.5, null, ?]
     »[1, 2.5, null, unresolved]«;
 }

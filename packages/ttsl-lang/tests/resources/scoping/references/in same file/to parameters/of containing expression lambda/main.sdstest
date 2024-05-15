@@ -4,64 +4,64 @@ segment mySegment(myShadowedSegmentParameter: Int) {
     val myShadowedPlaceholder = 0;
 
     (
-        # $TEST$ target outer_myOuterExpressionLambdaParameter
+        // $TEST$ target outer_myOuterExpressionLambdaParameter
         »myOuterExpressionLambdaParameter«,
         
-        # $TEST$ target outer_myShadowedSegmentParameter
+        // $TEST$ target outer_myShadowedSegmentParameter
         »myShadowedSegmentParameter«,
         
-        # $TEST$ target outer_myShadowedExpressionLambdaParameter
+        // $TEST$ target outer_myShadowedExpressionLambdaParameter
         »myShadowedExpressionLambdaParameter«,
         
-        # $TEST$ target outer_myShadowedPlaceholder
+        // $TEST$ target outer_myShadowedPlaceholder
         »myShadowedPlaceholder«,
 
-        # $TEST$ target outer_redeclaredAsParameter
+        // $TEST$ target outer_redeclaredAsParameter
         »redeclaredAsParameter«,
         redeclaredAsParameter
     ) ->
-        # $TEST$ references outer_myOuterExpressionLambdaParameter
+        // $TEST$ references outer_myOuterExpressionLambdaParameter
         »myOuterExpressionLambdaParameter« +
 
-        # $TEST$ references outer_myShadowedSegmentParameter
+        // $TEST$ references outer_myShadowedSegmentParameter
         »myShadowedSegmentParameter« +
 
-        # $TEST$ references outer_myShadowedPlaceholder
+        // $TEST$ references outer_myShadowedPlaceholder
         »myShadowedPlaceholder« +
 
-        # $TEST$ references outer_redeclaredAsParameter
+        // $TEST$ references outer_redeclaredAsParameter
         »redeclaredAsParameter« +
 
-        # $TEST$ unresolved
+        // $TEST$ unresolved
         »myInnerExpressionLambdaParameter« +
 
-        # $TEST$ references outer_myShadowedExpressionLambdaParameter
+        // $TEST$ references outer_myShadowedExpressionLambdaParameter
         »myShadowedExpressionLambdaParameter« +
 
         ((
-            # $TEST$ target inner_myInnerExpressionLambdaParameter
+            // $TEST$ target inner_myInnerExpressionLambdaParameter
             »myInnerExpressionLambdaParameter«,
             
-            # $TEST$ target inner_myShadowedExpressionLambdaParameter
+            // $TEST$ target inner_myShadowedExpressionLambdaParameter
             »myShadowedExpressionLambdaParameter«,
         ) ->
             () {
-                # $TEST$ references outer_myOuterExpressionLambdaParameter
+                // $TEST$ references outer_myOuterExpressionLambdaParameter
                 »myOuterExpressionLambdaParameter«;
 
-                # $TEST$ references outer_myShadowedSegmentParameter
+                // $TEST$ references outer_myShadowedSegmentParameter
                 »myShadowedSegmentParameter«;
 
-                # $TEST$ references outer_myShadowedPlaceholder
+                // $TEST$ references outer_myShadowedPlaceholder
                 »myShadowedPlaceholder«;
 
-                # $TEST$ references outer_redeclaredAsParameter
+                // $TEST$ references outer_redeclaredAsParameter
                 »redeclaredAsParameter«;
 
-                # $TEST$ references inner_myInnerExpressionLambdaParameter
+                // $TEST$ references inner_myInnerExpressionLambdaParameter
                 »myInnerExpressionLambdaParameter«;
 
-                # $TEST$ references inner_myShadowedExpressionLambdaParameter
+                // $TEST$ references inner_myShadowedExpressionLambdaParameter
                 »myShadowedExpressionLambdaParameter«;
             }
         )

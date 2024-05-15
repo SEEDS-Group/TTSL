@@ -1,48 +1,48 @@
 package tests.scoping.memberAccesses.toClassMembers.instanceAttributes
 
 class MyClass {
-    # $TEST$ target myInstanceAttribute
+    // $TEST$ target myInstanceAttribute
     attr »myInstanceAttribute«: Int
 
 
-    # $TEST$ target redeclaredAsInstanceAttribute
+    // $TEST$ target redeclaredAsInstanceAttribute
     attr »redeclaredAsInstanceAttribute«: Int
     attr redeclaredAsInstanceAttribute: Int
 
-    # $TEST$ target redeclaredAsStaticAttribute
+    // $TEST$ target redeclaredAsStaticAttribute
     attr »redeclaredAsStaticAttribute«: Int
     static attr redeclaredAsStaticAttribute: Int
 
-    # $TEST$ target redeclaredAsNestedClass
+    // $TEST$ target redeclaredAsNestedClass
     attr »redeclaredAsNestedClass«: Int
     class redeclaredAsNestedClass
 
-    # $TEST$ target redeclaredAsNestedEnum
+    // $TEST$ target redeclaredAsNestedEnum
     attr »redeclaredAsNestedEnum«: Int
     enum redeclaredAsNestedEnum
 
-    # $TEST$ target redeclaredAsInstanceMethod
+    // $TEST$ target redeclaredAsInstanceMethod
     attr »redeclaredAsInstanceMethod«: Int
     fun redeclaredAsInstanceMethod()
 
-    # $TEST$ target redeclaredAsStaticMethod
+    // $TEST$ target redeclaredAsStaticMethod
     attr »redeclaredAsStaticMethod«: Int
     static fun redeclaredAsStaticMethod()
 
 
-    # $TEST$ target declaredPreviouslyAsStaticAttribute
+    // $TEST$ target declaredPreviouslyAsStaticAttribute
     static attr declaredPreviouslyAsStaticAttribute: Int
     attr »declaredPreviouslyAsStaticAttribute«: Int
 
-    # $TEST$ target declaredPreviouslyAsNestedClass
+    // $TEST$ target declaredPreviouslyAsNestedClass
     class declaredPreviouslyAsNestedClass
     attr »declaredPreviouslyAsNestedClass«: Int
 
-    # $TEST$ target declaredPreviouslyAsNestedEnum
+    // $TEST$ target declaredPreviouslyAsNestedEnum
     class declaredPreviouslyAsNestedEnum
     attr »declaredPreviouslyAsNestedEnum«: Int
 
-    # $TEST$ target declaredPreviouslyAsStaticMethod
+    // $TEST$ target declaredPreviouslyAsStaticMethod
     static fun declaredPreviouslyAsStaticMethod()
     attr »declaredPreviouslyAsStaticMethod«: Int
 }
@@ -52,57 +52,57 @@ class AnotherClass
 fun nullableMyClass() -> result: MyClass?
 
 pipeline myPipeline {
-    # $TEST$ references myInstanceAttribute
+    // $TEST$ references myInstanceAttribute
     val myClass = MyClass();
     myClass.»myInstanceAttribute«;
 
 
-    # $TEST$ references redeclaredAsInstanceAttribute
+    // $TEST$ references redeclaredAsInstanceAttribute
     MyClass().»redeclaredAsInstanceAttribute«;
 
-    # $TEST$ references redeclaredAsStaticAttribute
+    // $TEST$ references redeclaredAsStaticAttribute
     MyClass().»redeclaredAsStaticAttribute«;
 
-    # $TEST$ references redeclaredAsNestedClass
+    // $TEST$ references redeclaredAsNestedClass
     MyClass().»redeclaredAsNestedClass«;
 
-    # $TEST$ references redeclaredAsNestedEnum
+    // $TEST$ references redeclaredAsNestedEnum
     MyClass().»redeclaredAsNestedEnum«;
 
-    # $TEST$ references redeclaredAsInstanceMethod
+    // $TEST$ references redeclaredAsInstanceMethod
     MyClass().»redeclaredAsInstanceMethod«;
 
-    # $TEST$ references redeclaredAsStaticMethod
+    // $TEST$ references redeclaredAsStaticMethod
     MyClass().»redeclaredAsStaticMethod«;
 
-    # $TEST$ references declaredPreviouslyAsStaticAttribute
+    // $TEST$ references declaredPreviouslyAsStaticAttribute
     MyClass().»declaredPreviouslyAsStaticAttribute«;
 
-    # $TEST$ references declaredPreviouslyAsNestedClass
+    // $TEST$ references declaredPreviouslyAsNestedClass
     MyClass().»declaredPreviouslyAsNestedClass«;
 
-    # $TEST$ references declaredPreviouslyAsNestedEnum
+    // $TEST$ references declaredPreviouslyAsNestedEnum
     MyClass().»declaredPreviouslyAsNestedEnum«;
 
-    # $TEST$ references declaredPreviouslyAsStaticMethod
+    // $TEST$ references declaredPreviouslyAsStaticMethod
     MyClass().»declaredPreviouslyAsStaticMethod«;
 
-    # $TEST$ references myInstanceAttribute
+    // $TEST$ references myInstanceAttribute
     nullableMyClass().»myInstanceAttribute«;
 
-    # $TEST$ references myInstanceAttribute
+    // $TEST$ references myInstanceAttribute
     nullableMyClass()?.»myInstanceAttribute«;
 
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     MyClass.»myInstanceAttribute«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     AnotherClass().»myInstanceAttribute«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     unresolved.»myInstanceAttribute«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     MyClass.»unresolved«;
 }

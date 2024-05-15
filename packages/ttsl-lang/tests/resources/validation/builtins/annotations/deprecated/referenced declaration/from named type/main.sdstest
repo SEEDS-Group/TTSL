@@ -12,21 +12,21 @@ enum ValidEnum {
 }
 
 segment mySegment(
-    # $TEST$ warning "The referenced declaration 'DeprecatedClass' is deprecated."
+    // $TEST$ warning "The referenced declaration 'DeprecatedClass' is deprecated."
     p1: »DeprecatedClass«,
-    # $TEST$ no warning r"The referenced declaration '\w*' is deprecated\."
+    // $TEST$ no warning r"The referenced declaration '\w*' is deprecated\."
     p2: »ValidClass«,
 
-    # $TEST$ warning "The referenced declaration 'DeprecatedEnum' is deprecated."
+    // $TEST$ warning "The referenced declaration 'DeprecatedEnum' is deprecated."
     p3: »DeprecatedEnum«,
-    # $TEST$ no warning r"The referenced declaration '\w*' is deprecated\."
+    // $TEST$ no warning r"The referenced declaration '\w*' is deprecated\."
     p4: »ValidEnum«,
 
-    # $TEST$ warning "The referenced declaration 'DeprecatedEnumVariant' is deprecated."
+    // $TEST$ warning "The referenced declaration 'DeprecatedEnumVariant' is deprecated."
     p5: ValidEnum.»DeprecatedEnumVariant«,
-    # $TEST$ no warning r"The referenced declaration '\w*' is deprecated\."
+    // $TEST$ no warning r"The referenced declaration '\w*' is deprecated\."
     p6: ValidEnum.»ValidEnumVariant«,
 
-    # $TEST$ no warning r"The referenced declaration '\w*' is deprecated\."
+    // $TEST$ no warning r"The referenced declaration '\w*' is deprecated\."
     p7: »Unresolved«
 ) {}

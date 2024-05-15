@@ -1,15 +1,15 @@
 package tests.validation.purity.potentiallyImpureParameterMustHaveCallableType
 
 @Impure([
-    # $TEST$ error "The parameter 'a' must have a callable type."
+    // $TEST$ error "The parameter 'a' must have a callable type."
     ImpurityReason.PotentiallyImpureParameterCall(»"a"«),
-    # $TEST$ error "The parameter 'b' must have a callable type."
+    // $TEST$ error "The parameter 'b' must have a callable type."
     ImpurityReason.PotentiallyImpureParameterCall(»"b"«),
-    # $TEST$ no error r"The parameter '.*' must have a callable type\."
+    // $TEST$ no error r"The parameter '.*' must have a callable type\."
     ImpurityReason.PotentiallyImpureParameterCall(»"c"«),
-    # $TEST$ no error r"The parameter '.*' must have a callable type\."
+    // $TEST$ no error r"The parameter '.*' must have a callable type\."
     ImpurityReason.PotentiallyImpureParameterCall(»"d"«),
-    # $TEST$ no error r"The parameter '.*' must have a callable type\."
+    // $TEST$ no error r"The parameter '.*' must have a callable type\."
     ImpurityReason.PotentiallyImpureParameterCall(»"e"«),
 ])
 fun myFunction(

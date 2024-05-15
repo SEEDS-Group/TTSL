@@ -1,4 +1,4 @@
-# $TEST$ syntax_error
+// $TEST$ syntax_error
 
 segment mySegment(
     x: OuterClass.() -> ()

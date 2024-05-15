@@ -1,7 +1,7 @@
 package tests.scoping.memberAccesses.onTypeParameters
 
 class C {
-    # $TEST$ target attribute
+    // $TEST$ target attribute
     attr »a«: Int
 }
 
@@ -9,9 +9,9 @@ class MyClass<Unbounded, UpperBound sub C>(
     unbounded: Unbounded,
     upperBound: UpperBound,
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     p1: Any = unbounded.»a«,
-    # $TEST$ references attribute
+    // $TEST$ references attribute
     p2: Any = upperBound.»a«,
 ) {
     attr unbounded: Unbounded
@@ -19,9 +19,9 @@ class MyClass<Unbounded, UpperBound sub C>(
 }
 
 segment mySegment(instance: MyClass<C, C>) {
-    # $TEST$ references attribute
+    // $TEST$ references attribute
     instance.unbounded.»a«;
 
-    # $TEST$ references attribute
+    // $TEST$ references attribute
     instance.upperBound.»a«;
 }

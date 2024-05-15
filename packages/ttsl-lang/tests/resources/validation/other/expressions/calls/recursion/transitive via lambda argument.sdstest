@@ -1,7 +1,7 @@
 package tests.validation.other.expression.calls.recurcion.transitiveViaLambdaArgument
 
 segment s1() {
-    # $TEST$ error "Call leads to infinite recursion."
+    // $TEST$ error "Call leads to infinite recursion."
     »s2(() -> s1())«;
 }
 

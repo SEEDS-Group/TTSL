@@ -11,12 +11,12 @@ pipeline myPipeline {
 
     val expressionLambda = (p: Int) -> p;
 
-    # $TEST$ serialization 1
+    // $TEST$ serialization 1
     »mySegment(1)«;
 
-    # $TEST$ serialization 1
+    // $TEST$ serialization 1
     »blockLambda(1)«;
 
-    # $TEST$ serialization 1
+    // $TEST$ serialization 1
     »expressionLambda(1)«;
 }

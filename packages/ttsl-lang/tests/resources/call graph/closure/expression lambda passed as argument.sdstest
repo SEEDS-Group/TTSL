@@ -11,6 +11,6 @@ segment mySegment2(param2: () -> ()) {
 }
 
 pipeline myPipeline {
-    # $TEST$ ["mySegment1", "mySegment2", "$expressionLambda", "$expressionLambda", "f"]
+    // $TEST$ ["mySegment1", "mySegment2", "$expressionLambda", "$expressionLambda", "f"]
     »mySegment1(() -> f())«;
 }

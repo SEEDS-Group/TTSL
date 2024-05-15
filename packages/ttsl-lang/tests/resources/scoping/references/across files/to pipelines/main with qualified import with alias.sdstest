@@ -5,29 +5,29 @@ from safeds.scoping.references.acrossFiles.toPipelines import myPipeline as myPi
 from tests.scoping.references.acrossFiles.toPipelines.other import myPipeline as myPipelineInAnotherPackage
 
 segment mySegment() {
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »myPipeline«;
 
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »pipelineInSamePackage«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »pipelineInSafeDsPackage«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »pipelineInAnotherPackage«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »pipelineWithoutPackage«;
 
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »myPipelineInSamePackage«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »myPipelineInSafeDsPackage«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »myPipelineInAnotherPackage«;
 }

@@ -5,11 +5,11 @@ segment mySegment() -> r: Int {
 }
 
 segment mySegment2() -> (a: Int, b: Int, c: Int, d: Int) {
-    # $TEST$ serialization 1
-    # $TEST$ serialization ?
+    // $TEST$ serialization 1
+    // $TEST$ serialization ?
     »yield a«, »yield b« = 1;
 
-    # $TEST$ serialization 2
-    # $TEST$ serialization ?
+    // $TEST$ serialization 2
+    // $TEST$ serialization ?
     »yield c«, »yield d« = mySegment();
 }

@@ -3,6 +3,6 @@ package tests.partialValidation.recursiveCases.memberAccesses.onOtherReceivers
 @Pure fun f() -> result: Int
 
 pipeline test {
-    # $TEST$ serialization ?
+    // $TEST$ serialization ?
     »f().result«;
 }

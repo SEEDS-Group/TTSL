@@ -3,18 +3,18 @@ package tests.scoping.references.acrossFiles.toGlobalClasses
 from safeds.scoping.references.acrossFiles.toGlobalClasses import *
 
 pipeline myPipeline {
-    # $TEST$ references safeds_MyClass
+    // $TEST$ references safeds_MyClass
     »MyClass«;
 
-    # $TEST$ references same_ClassInSamePackage
+    // $TEST$ references same_ClassInSamePackage
     »ClassInSamePackage«;
 
-    # $TEST$ references safeds_ClassInSafeDsPackage
+    // $TEST$ references safeds_ClassInSafeDsPackage
     »ClassInSafeDsPackage«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »ClassInAnotherPackage«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »ClassWithoutPackage«;
 }

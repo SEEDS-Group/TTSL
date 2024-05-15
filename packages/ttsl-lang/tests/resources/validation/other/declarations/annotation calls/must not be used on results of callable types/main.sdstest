@@ -2,9 +2,9 @@ package tests.validation.other.declarations.annotationCalls.mustNotBeUsedOnResul
 
 annotation MyAnnotation
 
-# $TEST$ error "Results of callable types must not be annotated."
-# $TEST$ error "Results of callable types must not be annotated."
-# $TEST$ error "Results of callable types must not be annotated."
+// $TEST$ error "Results of callable types must not be annotated."
+// $TEST$ error "Results of callable types must not be annotated."
+// $TEST$ error "Results of callable types must not be annotated."
 segment mySegment(
     f: () -> (»@MyAnnotation« »@MyAnnotation« a: Int, »@MyAnnotation« b: Int)
 ) {}

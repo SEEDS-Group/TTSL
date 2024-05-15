@@ -53,68 +53,68 @@ segment mySegment2(
         other: Int = 1,
     ) -> 1;
 
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     MyAnnotation(»pureFunction«, »pureFunction«);
-    # $TEST$ error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     MyAnnotation(»impureFunction«, »impureFunction«);
 
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     MyClass(»pureFunction«, »pureFunction«);
-    # $TEST$ error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     MyClass(»impureFunction«, »impureFunction«);
 
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     MyEnum.MyEnumVariant(»pureFunction«, »pureFunction«);
-    # $TEST$ error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     MyEnum.MyEnumVariant(»impureFunction«, »impureFunction«);
 
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     myFunction(»pureFunction«, »pureFunction«, »pureFunction«);
-    # $TEST$ error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     myFunction(»impureFunction«, »impureFunction«, »impureFunction«);
 
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     mySegment1(»pureFunction«, »pureFunction«);
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     mySegment1(»impureFunction«, »impureFunction«);
 
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     myCallableType(»pureFunction«, »pureFunction«);
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     myCallableType(»impureFunction«, »impureFunction«);
 
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     myBlockLambda(»pureFunction«, »pureFunction«);
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     myBlockLambda(»impureFunction«, »impureFunction«);
 
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     myExpressionLambda(»pureFunction«, »pureFunction«);
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     myExpressionLambda(»impureFunction«, »impureFunction«);
 }
 
 // Argument does not have callable type
 pipeline myPipeline {
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
-    # $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
+    // $TEST$ no error "Cannot pass an impure callable to a pure parameter."
     MyClass(»1«, »1«);
 }

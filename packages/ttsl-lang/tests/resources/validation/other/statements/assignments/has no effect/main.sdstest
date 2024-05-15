@@ -1,29 +1,29 @@
 package tests.validation.other.statements.assignments.hasNoEffect
 
 segment mySegment() -> a: Int {
-    # $TEST$ warning "This statement does nothing."
+    // $TEST$ warning "This statement does nothing."
     »_ = 1 + 2;«
 
-    # $TEST$ no warning "This statement does nothing."
+    // $TEST$ no warning "This statement does nothing."
     »val a = 1;«
-    # $TEST$ no warning "This statement does nothing."
+    // $TEST$ no warning "This statement does nothing."
     »yield a = 1;«
 
     () {
-        # $TEST$ warning "This statement does nothing."
+        // $TEST$ warning "This statement does nothing."
         »_ = 1 + 2;«
 
-        # $TEST$ no warning "This statement does nothing."
+        // $TEST$ no warning "This statement does nothing."
         »val a = 1;«
-        # $TEST$ no warning "This statement does nothing."
+        // $TEST$ no warning "This statement does nothing."
         »yield a = 1;«
     };
 }
 
 segment mySegment2(f: () -> (r: Int)) {
-    # $TEST$ no warning "This statement does nothing."
+    // $TEST$ no warning "This statement does nothing."
     »_ = f();«
 
-    # $TEST$ no warning "This statement does nothing."
+    // $TEST$ no warning "This statement does nothing."
     »_ = unresolved();«
 }

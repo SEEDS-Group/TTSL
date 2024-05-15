@@ -21,32 +21,32 @@ schema MySchema {}
 segment mySegment1() {}
 
 segment mySegment2(myParameter: Int) {
-    # $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
+    // $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
     val »myPlaceholder« = 1;
-    # $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
+    // $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
     val »a« = MyAnnotation;
-    # $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
+    // $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
     val »b« = MyClass.myAttribute;
-    # $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
+    // $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
     val »c« = MyClass;
-    # $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
+    // $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
     val »d« = MyEnum;
-    # $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
+    // $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
     val »e« = MyEnum.MyEnumVariant;
-    # $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
+    // $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
     val »f« = myFunction;
-    # $TEST$ error "Aliases are not allowed to provide a cleaner graphical view."
-    # $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
+    // $TEST$ error "Aliases are not allowed to provide a cleaner graphical view."
+    // $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
     val »g1«, val »g2« = myParameter;
-    # $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
+    // $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
     val »h« = myPipeline;
-    # $TEST$ error "Aliases are not allowed to provide a cleaner graphical view."
-    # $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
+    // $TEST$ error "Aliases are not allowed to provide a cleaner graphical view."
+    // $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
     val »i1«, val »i2« = myPlaceholder;
-    # $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
+    // $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
     val »j« = MySchema;
-    # $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
+    // $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
     val »k« = mySegment1;
-    # $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
+    // $TEST$ no error "Aliases are not allowed to provide a cleaner graphical view."
     val »l« = unresolved;
 }

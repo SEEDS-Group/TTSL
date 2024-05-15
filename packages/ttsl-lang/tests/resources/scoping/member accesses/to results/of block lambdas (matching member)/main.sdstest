@@ -1,12 +1,12 @@
 package tests.scoping.memberAccesses.toResults.ofBlockLambdas.matchingMember
 
 class MyClass() {
-    # $TEST$ target MyClass_result
+    // $TEST$ target MyClass_result
     attr »result«: Int
 }
 
 enum MyEnum {
-    # $TEST$ target MyEnum_result
+    // $TEST$ target MyEnum_result
     MyEnumVariant(»result«: Int)
 }
 
@@ -19,9 +19,9 @@ pipeline myPipeline {
         yield result = MyEnum.MyEnumVariant(0);
     };
 
-    # $TEST$ references MyClass_result
+    // $TEST$ references MyClass_result
     f1().»result«;
 
-    # $TEST$ references MyEnum_result
+    // $TEST$ references MyEnum_result
     f2().»result«;
 }

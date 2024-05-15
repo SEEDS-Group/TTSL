@@ -1,8 +1,8 @@
 package tests.partialEvaluation.recursiveCases.assignees.results
 
-# $TEST$ serialization ?
-# $TEST$ serialization 1
-# $TEST$ serialization 2
+// $TEST$ serialization ?
+// $TEST$ serialization 1
+// $TEST$ serialization 2
 segment mySegment() -> (»a: Int«, »b: Int«, »c: Int«) {
     yield b = 1;
 

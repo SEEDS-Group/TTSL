@@ -1,6 +1,6 @@
 package tests.validation.other.types.unionTypes.duplicateTypes
 
-# $TEST$ no warning r"The type .* was already listed."
+// $TEST$ no warning r"The type .* was already listed."
 
 fun myFunction1(
     p: union<>

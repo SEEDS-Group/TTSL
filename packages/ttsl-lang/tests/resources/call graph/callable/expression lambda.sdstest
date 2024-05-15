@@ -4,6 +4,6 @@ package tests.callGraph.callable.expressionLambda
 @Pure fun g() -> r: Any
 
 pipeline myPipeline {
-    # $TEST$ ["$expressionLambda", "f", "g"]
+    // $TEST$ ["$expressionLambda", "f", "g"]
     »(param: Any = f()) -> g()«;
 }

@@ -3,29 +3,29 @@ package tests.scoping.yields.inSegment
 segment mySegment1() -> before: Int {}
 
 segment mySegment() -> (
-    # $TEST$ target result
+    // $TEST$ target result
     »result«: Int,  
     
-    # $TEST$ target redeclared
+    // $TEST$ target redeclared
     »redeclared«: Int,
     redeclared: Int,
 ) {
-    # $TEST$ references result
+    // $TEST$ references result
     yield »result« = 1;
 
-    # $TEST$ references redeclared
+    // $TEST$ references redeclared
     yield »redeclared« = 1;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     yield »before« = 1;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     yield »after« = 1;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     yield »NotAResult« = 1;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     yield »unresolved« = 1;
 }
 

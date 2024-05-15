@@ -1,11 +1,11 @@
 package tests.validation.other.declarations.segments.unusedParameters
 
 segment mySegment(
-    # $TEST$ warning "This parameter is unused and can be removed."
+    // $TEST$ warning "This parameter is unused and can be removed."
     »unused«: Int,
-    # $TEST$ warning "This parameter is unused and can be removed."
+    // $TEST$ warning "This parameter is unused and can be removed."
     »onlyHasBound«: Int,
-    # $TEST$ no warning "This parameter is unused and can be removed."
+    // $TEST$ no warning "This parameter is unused and can be removed."
     »used«: Int
 ) where {
     onlyHasBound < 0
@@ -17,37 +17,37 @@ segment mySegment(
      */
 
     (
-        # $TEST$ no warning "This parameter is unused and can be removed."
+        // $TEST$ no warning "This parameter is unused and can be removed."
         »unused«: Int,
-        # $TEST$ no warning "This parameter is unused and can be removed."
+        // $TEST$ no warning "This parameter is unused and can be removed."
         »used«: Int
     ) {
         used;
     };
 
     (
-        # $TEST$ no warning "This parameter is unused and can be removed."
+        // $TEST$ no warning "This parameter is unused and can be removed."
         »unused«: Int,
-        # $TEST$ no warning "This parameter is unused and can be removed."
+        // $TEST$ no warning "This parameter is unused and can be removed."
         »used«: Int
     ) -> used;
 }
 
-# $TEST$ no warning "This parameter is unused and can be removed."
+// $TEST$ no warning "This parameter is unused and can be removed."
 annotation MyAnnotation(»unused«: Int)
 
-# $TEST$ no warning "This parameter is unused and can be removed."
+// $TEST$ no warning "This parameter is unused and can be removed."
 class MyClass(»unused«: Int)
 
 enum MyEnum {
-    # $TEST$ no warning "This parameter is unused and can be removed."
+    // $TEST$ no warning "This parameter is unused and can be removed."
     MyEnumVariant(»unused«: Int)
 }
 
 fun myFunction(
-    # $TEST$ no warning "This parameter is unused and can be removed."
+    // $TEST$ no warning "This parameter is unused and can be removed."
     »unused«: Int,
 
-    # $TEST$ no warning "This parameter is unused and can be removed."
+    // $TEST$ no warning "This parameter is unused and can be removed."
     myCallableType: (»unused«: Int) -> (),
 )

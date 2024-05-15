@@ -1,40 +1,40 @@
 package tests.scoping.memberAccesses.toClassMembers.staticAttributes
 
 class MyClass() {
-    # $TEST$ target myStaticAttribute
+    // $TEST$ target myStaticAttribute
     static attr »myStaticAttribute«: Int
 
 
-    # $TEST$ target redeclaredAsInstanceAttribute
+    // $TEST$ target redeclaredAsInstanceAttribute
     static attr »redeclaredAsInstanceAttribute«: Int
     attr redeclaredAsInstanceAttribute: Int
 
-    # $TEST$ target redeclaredAsStaticAttribute
+    // $TEST$ target redeclaredAsStaticAttribute
     static attr »redeclaredAsStaticAttribute«: Int
     static attr redeclaredAsStaticAttribute: Int
 
-    # $TEST$ target redeclaredAsNestedClass
+    // $TEST$ target redeclaredAsNestedClass
     static attr »redeclaredAsNestedClass«: Int
     class redeclaredAsNestedClass
 
-    # $TEST$ target redeclaredAsNestedEnum
+    // $TEST$ target redeclaredAsNestedEnum
     static attr »redeclaredAsNestedEnum«: Int
     enum redeclaredAsNestedEnum
 
-    # $TEST$ target redeclaredAsInstanceMethod
+    // $TEST$ target redeclaredAsInstanceMethod
     static attr »redeclaredAsInstanceMethod«: Int
     fun redeclaredAsInstanceMethod()
 
-    # $TEST$ target redeclaredAsStaticMethod
+    // $TEST$ target redeclaredAsStaticMethod
     static attr »redeclaredAsStaticMethod«: Int
     static fun redeclaredAsStaticMethod()
 
 
-    # $TEST$ target declaredPreviouslyAsInstanceAttribute
+    // $TEST$ target declaredPreviouslyAsInstanceAttribute
     attr declaredPreviouslyAsInstanceAttribute: Int
     static attr »declaredPreviouslyAsInstanceAttribute«: Int
 
-    # $TEST$ target declaredPreviouslyAsInstanceMethod
+    // $TEST$ target declaredPreviouslyAsInstanceMethod
     fun declaredPreviouslyAsInstanceMethod()
     static attr »declaredPreviouslyAsInstanceMethod«: Int
 }
@@ -42,44 +42,44 @@ class MyClass() {
 class AnotherClass
 
 pipeline myPipeline {
-    # $TEST$ references myStaticAttribute
+    // $TEST$ references myStaticAttribute
     MyClass.»myStaticAttribute«;
 
 
-    # $TEST$ references redeclaredAsInstanceAttribute
+    // $TEST$ references redeclaredAsInstanceAttribute
     MyClass.»redeclaredAsInstanceAttribute«;
 
-    # $TEST$ references redeclaredAsStaticAttribute
+    // $TEST$ references redeclaredAsStaticAttribute
     MyClass.»redeclaredAsStaticAttribute«;
 
-    # $TEST$ references redeclaredAsNestedClass
+    // $TEST$ references redeclaredAsNestedClass
     MyClass.»redeclaredAsNestedClass«;
 
-    # $TEST$ references redeclaredAsNestedEnum
+    // $TEST$ references redeclaredAsNestedEnum
     MyClass.»redeclaredAsNestedEnum«;
 
-    # $TEST$ references redeclaredAsInstanceMethod
+    // $TEST$ references redeclaredAsInstanceMethod
     MyClass.»redeclaredAsInstanceMethod«;
 
-    # $TEST$ references redeclaredAsStaticMethod
+    // $TEST$ references redeclaredAsStaticMethod
     MyClass.»redeclaredAsStaticMethod«;
 
-    # $TEST$ references declaredPreviouslyAsInstanceAttribute
+    // $TEST$ references declaredPreviouslyAsInstanceAttribute
     MyClass.»declaredPreviouslyAsInstanceAttribute«;
 
-    # $TEST$ references declaredPreviouslyAsInstanceMethod
+    // $TEST$ references declaredPreviouslyAsInstanceMethod
     MyClass.»declaredPreviouslyAsInstanceMethod«;
 
 
-     # $TEST$ unresolved
+     // $TEST$ unresolved
     MyClass().»myStaticAttribute«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     AnotherClass.»myStaticAttribute«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     unresolved.»myStaticAttribute«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     MyClass.»unresolved«;
 }

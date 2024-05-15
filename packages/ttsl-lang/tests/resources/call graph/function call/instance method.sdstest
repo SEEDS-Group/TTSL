@@ -5,6 +5,6 @@ class MyClass {
 }
 
 pipeline myPipeline {
-    # $TEST$ ["myFunction"]
+    // $TEST$ ["myFunction"]
     »MyClass().myFunction()«;
 }

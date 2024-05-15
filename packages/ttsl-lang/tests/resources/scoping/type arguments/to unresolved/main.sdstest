@@ -1,10 +1,10 @@
 package tests.scoping.typeArguments.toUnresolved
 
 segment mySegment(
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     p1: MyClass<»unresolved« = Int>,
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     p2: unresolved<»T« = Int>,
 ) {}
 

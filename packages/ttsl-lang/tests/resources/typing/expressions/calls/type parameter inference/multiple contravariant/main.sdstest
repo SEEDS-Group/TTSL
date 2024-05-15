@@ -16,29 +16,29 @@ segment mySegment(
 
     c: (p1: Number) -> ()
 ) {
-    # $TEST$ serialization C1<Int>
+    // $TEST$ serialization C1<Int>
     »C1(a1, c)«;
-    # $TEST$ serialization C1<Number>
+    // $TEST$ serialization C1<Number>
     »C1(a2, c)«;
-    # $TEST$ serialization C1<Number>
+    // $TEST$ serialization C1<Number>
     »C1(a3, c)«;
-    # $TEST$ serialization C1<Number>
+    // $TEST$ serialization C1<Number>
     »C1(a4, c)«;
-    # $TEST$ serialization C1<Nothing>
+    // $TEST$ serialization C1<Nothing>
     »C1(a5, c)«;
-    # $TEST$ serialization C1<Int>
+    // $TEST$ serialization C1<Int>
     »C1(a1, (p1) {})«;
 
-    # $TEST$ serialization Int
+    // $TEST$ serialization Int
     »f1(a1, c)«;
-    # $TEST$ serialization Number
+    // $TEST$ serialization Number
     »f1(a2, c)«;
-    # $TEST$ serialization Number
+    // $TEST$ serialization Number
     »f1(a3, c)«;
-    # $TEST$ serialization Number
+    // $TEST$ serialization Number
     »f1(a4, c)«;
-    # $TEST$ serialization Nothing
+    // $TEST$ serialization Nothing
     »f1(a5, c)«;
-    # $TEST$ serialization Int
+    // $TEST$ serialization Int
     »f1(a1, (p1) {})«;
 }

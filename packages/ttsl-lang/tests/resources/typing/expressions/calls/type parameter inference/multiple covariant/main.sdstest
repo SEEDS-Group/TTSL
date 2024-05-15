@@ -20,33 +20,33 @@ segment mySegment(
 
     c: () -> r1: Number
 ) {
-    # $TEST$ serialization C1<Number>
+    // $TEST$ serialization C1<Number>
     »C1(a1, b1, c)«;
-    # $TEST$ serialization C1<Number>
+    // $TEST$ serialization C1<Number>
     »C1(a2, b1, c)«;
-    # $TEST$ serialization C1<Any?>
+    // $TEST$ serialization C1<Any?>
     »C1(a3, b1, c)«;
-    # $TEST$ serialization C1<Number>
+    // $TEST$ serialization C1<Number>
     »C1(a1, b2, c)«;
-    # $TEST$ serialization C1<Any?>
+    // $TEST$ serialization C1<Any?>
     »C1(a1, b3, c)«;
-    # $TEST$ serialization C1<Any>
+    // $TEST$ serialization C1<Any>
     »C1(a1, b1, () -> "")«;
-    # $TEST$ serialization C1<Any>
+    // $TEST$ serialization C1<Any>
     »C1(a1, b1, SomeClass)«;
 
-    # $TEST$ serialization Number
+    // $TEST$ serialization Number
     »f1(a1, b1, c)«;
-    # $TEST$ serialization Number
+    // $TEST$ serialization Number
     »f1(a2, b1, c)«;
-    # $TEST$ serialization Any?
+    // $TEST$ serialization Any?
     »f1(a3, b1, c)«;
-    # $TEST$ serialization Number
+    // $TEST$ serialization Number
     »f1(a1, b2, c)«;
-    # $TEST$ serialization Any?
+    // $TEST$ serialization Any?
     »f1(a1, b3, c)«;
-    # $TEST$ serialization Any
+    // $TEST$ serialization Any
     »f1(a1, b1, () -> "")«;
-    # $TEST$ serialization Any
+    // $TEST$ serialization Any
     »f1(a1, b1, SomeClass)«;
 }

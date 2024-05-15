@@ -3,6 +3,6 @@ package tests.scoping.references.inSameFile.toTypeParameters
 class MyClass<T>()
 
 pipeline myPipeline {
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »T«;
 }

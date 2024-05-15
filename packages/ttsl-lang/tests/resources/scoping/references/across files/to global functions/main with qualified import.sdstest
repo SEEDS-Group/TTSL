@@ -4,21 +4,21 @@ from safeds.scoping.references.acrossFiles.toGlobalFunctions import myFunction
 from tests.scoping.references.acrossFiles.toGlobalFunctions.other import functionInAnotherPackage, function2InAnotherPackage
 
 pipeline myPipeline {
-    # $TEST$ references safeds_myFunction
+    // $TEST$ references safeds_myFunction
     »myFunction«;
 
-    # $TEST$ references same_functionInSamePackage
+    // $TEST$ references same_functionInSamePackage
     »functionInSamePackage«;
 
-    # $TEST$ references safeds_functionInSafeDsPackage
+    // $TEST$ references safeds_functionInSafeDsPackage
     »functionInSafeDsPackage«;
 
-    # $TEST$ references other_functionInAnotherPackage
+    // $TEST$ references other_functionInAnotherPackage
     »functionInAnotherPackage«;
 
-    # $TEST$ references other_function2InAnotherPackage
+    // $TEST$ references other_function2InAnotherPackage
     »function2InAnotherPackage«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »functionWithoutPackage«;
 }

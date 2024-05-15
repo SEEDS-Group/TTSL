@@ -5,6 +5,6 @@ from tests.scoping.references.acrossFiles.toGlobalEnums.other import MyEnum
 from tests.scoping.references.acrossFiles.toGlobalEnums import MyEnum
 
 pipeline myPipeline {
-    # $TEST$ references safeds_MyEnum
+    // $TEST$ references safeds_MyEnum
     »MyEnum«;
 }

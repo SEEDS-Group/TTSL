@@ -1,10 +1,10 @@
 package tests.scoping.memberAccesses.toEnumVariants
 
 enum MyEnum {
-    # $TEST$ target myEnumVariant
+    // $TEST$ target myEnumVariant
     »MyEnumVariant«
 
-    # $TEST$ target redeclaredEnumVariant
+    // $TEST$ target redeclaredEnumVariant
     »RedeclaredEnumVariant«
     RedeclaredEnumVariant
 }
@@ -12,22 +12,22 @@ enum MyEnum {
 enum AnotherEnum
 
 pipeline myPipeline {
-    # $TEST$ references myEnumVariant
+    // $TEST$ references myEnumVariant
     MyEnum.»MyEnumVariant«;
 
-    # $TEST$ references redeclaredEnumVariant
+    // $TEST$ references redeclaredEnumVariant
     MyEnum.»RedeclaredEnumVariant«;
 
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     AnotherEnum().»MyEnumVariant«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     AnotherEnum.»MyEnumVariant«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     unresolved.»MyEnumVariant«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     MyEnum.»unresolved«;
 }

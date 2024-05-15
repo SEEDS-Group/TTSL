@@ -18,7 +18,7 @@ describe('SafeDsInlayHintProvider', async () => {
                 fun f(p: Int)
 
                 pipeline myPipeline {
-                    # $TEST$ before "p = "
+                    // $TEST$ before "p = "
                     f(»«1);
                 }
             `,
@@ -48,7 +48,7 @@ describe('SafeDsInlayHintProvider', async () => {
             code: `
                 pipeline myPipeline {
                     () {
-                        # $TEST$ after ": literal<1>"
+                        // $TEST$ after ": literal<1>"
                         yield r»« = 1;
                     };
                 }
@@ -58,7 +58,7 @@ describe('SafeDsInlayHintProvider', async () => {
             testName: 'placeholder',
             code: `
                 pipeline myPipeline {
-                    # $TEST$ after ": literal<1>"
+                    // $TEST$ after ": literal<1>"
                     val x»« = 1;
                 }
             `,
@@ -75,7 +75,7 @@ describe('SafeDsInlayHintProvider', async () => {
             testName: 'yield',
             code: `
                 segment s() -> r: Int {
-                    # $TEST$ after ": literal<1>"
+                    // $TEST$ after ": literal<1>"
                     yield r»« = 1;
                 }
             `,

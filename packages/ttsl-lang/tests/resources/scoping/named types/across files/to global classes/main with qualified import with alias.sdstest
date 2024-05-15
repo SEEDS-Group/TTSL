@@ -5,28 +5,28 @@ from safeds.scoping.namedTypes.acrossFiles.toGlobalClasses import MyClass as MyC
 from tests.scoping.namedTypes.acrossFiles.toGlobalClasses.other import MyClass as MyClassInAnotherPackage
 
 segment mySegment(
-    # $TEST$ references same_MyClass
+    // $TEST$ references same_MyClass
     p1: »MyClass«,
 
 
-    # $TEST$ references same_ClassInSamePackage
+    // $TEST$ references same_ClassInSamePackage
     p2: »ClassInSamePackage«,
 
-    # $TEST$ references safeds_ClassInSafeDsPackage
+    // $TEST$ references safeds_ClassInSafeDsPackage
     p3: »ClassInSafeDsPackage«,
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     p4: »ClassInAnotherPackage«,
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     p5: »ClassWithoutPackage«,
 
-    # $TEST$ references same_MyClass
+    // $TEST$ references same_MyClass
     p6: »MyClassInSamePackage«,
 
-    # $TEST$ references safeds_MyClass
+    // $TEST$ references safeds_MyClass
     p7: »MyClassInSafeDsPackage«,
 
-    # $TEST$ references other_MyClass
+    // $TEST$ references other_MyClass
     p8: »MyClassInAnotherPackage«,
 ) {}

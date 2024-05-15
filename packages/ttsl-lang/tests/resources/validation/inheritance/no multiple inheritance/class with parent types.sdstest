@@ -7,12 +7,12 @@ enum MyEnum {
     MyEnumVariant
 }
 
-# $TEST$ no error "Multiple inheritance is not supported. Only the first parent type will be considered."
-# $TEST$ error "Multiple inheritance is not supported. Only the first parent type will be considered."
-# $TEST$ error "Multiple inheritance is not supported. Only the first parent type will be considered."
-# $TEST$ error "Multiple inheritance is not supported. Only the first parent type will be considered."
-# $TEST$ error "Multiple inheritance is not supported. Only the first parent type will be considered."
-# $TEST$ error "Multiple inheritance is not supported. Only the first parent type will be considered."
+// $TEST$ no error "Multiple inheritance is not supported. Only the first parent type will be considered."
+// $TEST$ error "Multiple inheritance is not supported. Only the first parent type will be considered."
+// $TEST$ error "Multiple inheritance is not supported. Only the first parent type will be considered."
+// $TEST$ error "Multiple inheritance is not supported. Only the first parent type will be considered."
+// $TEST$ error "Multiple inheritance is not supported. Only the first parent type will be considered."
+// $TEST$ error "Multiple inheritance is not supported. Only the first parent type will be considered."
 class TestClass1 sub »MyClass«,
                     »MyClass.MyNestedClass«,
                     »MyEnum«,

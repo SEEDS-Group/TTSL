@@ -41,19 +41,19 @@ validation test.
 Here are some examples:
 
 ```ts
-# $TEST$ error "Incompatible type."
+// $TEST$ error "Incompatible type."
 ```
 
 We expect an error with the exact message `Incompatible type.`.
 
 ```ts
-# $TEST$ no warning "Name should be lowerCamelCase."
+// $TEST$ no warning "Name should be lowerCamelCase."
 ```
 
 We expect no warning with the exact message `Name should be lowerCamelCase.`.
 
 ```ts
-# $TEST$ info r".*empty.*"
+// $TEST$ info r".*empty.*"
 ```
 
 We expect an info with a message that matches the regular expression `.*empty.*`.

@@ -5,53 +5,53 @@ from tests.scoping.references.acrossFiles.toSegments.other import publicSegmentI
 from tests.scoping.references.acrossFiles.toSegments.other import internalSegmentInAnotherPackage
 from tests.scoping.references.acrossFiles.toSegments.other import privateSegmentInAnotherPackage
 
-# $TEST$ target own_myOwnSegment
+// $TEST$ target own_myOwnSegment
 segment »myOwnSegment«() {}
 
 pipeline myPipeline {
-    # $TEST$ references own_myOwnSegment
+    // $TEST$ references own_myOwnSegment
     »myOwnSegment«;
 
 
-    # $TEST$ references same_publicSegmentInSamePackage
+    // $TEST$ references same_publicSegmentInSamePackage
     »publicSegmentInSamePackage«;
 
-    # $TEST$ references same_internalSegmentInSamePackage
+    // $TEST$ references same_internalSegmentInSamePackage
     »internalSegmentInSamePackage«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »privateSegmentInSamePackage«;
 
 
-    # $TEST$ references safeds_publicSegmentInSafeDsPackage
+    // $TEST$ references safeds_publicSegmentInSafeDsPackage
     »publicSegmentInSafeDsPackage«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »internalSegmentInSafeDsPackage«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »privateSegmentInSafeDsPackage«;
 
 
-    # $TEST$ references other_publicSegmentInAnotherPackage
+    // $TEST$ references other_publicSegmentInAnotherPackage
     »publicSegmentInAnotherPackage«;
 
-    # $TEST$ references other_public2SegmentInAnotherPackage
+    // $TEST$ references other_public2SegmentInAnotherPackage
     »public2SegmentInAnotherPackage«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »internalSegmentInAnotherPackage«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »privateSegmentInAnotherPackage«;
 
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »publicSegmentWithoutPackage«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »internalSegmentWithoutPackage«;
 
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     »privateSegmentWithoutPackage«;
 }

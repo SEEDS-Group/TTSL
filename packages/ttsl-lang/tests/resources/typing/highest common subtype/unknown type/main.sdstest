@@ -7,9 +7,9 @@ segment mySegment(
     nullable: Contravariant<literal<null>>,
     unknown: Contravariant<Unresolved>,
 ) {
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[one, unknown]«;
 
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[nullable, unknown]«;
 }

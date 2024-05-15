@@ -16,24 +16,24 @@ segment mySegment(
     v: Contravariant<E.V>,
     vOrNull: Contravariant<E.V?>
 ) {
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[one, e]«;
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[oneOrNull, e]«;
 
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[one, eOrNull]«;
-    # $TEST$ serialization List<Contravariant<Nothing?>>
+    // $TEST$ serialization List<Contravariant<Nothing?>>
     »[oneOrNull, eOrNull]«;
 
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[one, v]«;
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[oneOrNull, v]«;
 
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[one, vOrNull]«;
-    # $TEST$ serialization List<Contravariant<Nothing?>>
+    // $TEST$ serialization List<Contravariant<Nothing?>>
     »[oneOrNull, vOrNull]«;
 }
 
@@ -44,13 +44,13 @@ class Test<T>(
     t: Contravariant<T>,
     tOrNull: Contravariant<T?>,
 
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     p1: Any = »[one, t]«,
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     p2: Any = »[one, tOrNull]«,
 
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     p3: Any = »[oneOrNull, t]«,
-    # $TEST$ serialization List<Contravariant<Nothing?>>
+    // $TEST$ serialization List<Contravariant<Nothing?>>
     p4: Any = »[oneOrNull, tOrNull]«
 )

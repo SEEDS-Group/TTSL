@@ -8,6 +8,6 @@ package tests.callGraph.functionCall.defaultValue.previousParameter
 )
 
 pipeline myPipeline {
-    # $TEST$ ["myFunction", "default", "default"]
+    // $TEST$ ["myFunction", "default", "default"]
     »myFunction()«;
 }

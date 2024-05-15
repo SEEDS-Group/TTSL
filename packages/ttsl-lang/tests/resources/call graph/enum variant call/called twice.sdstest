@@ -5,6 +5,6 @@ enum MyEnum {
 }
 
 pipeline myPipeline {
-    # $TEST$ ["undefined"]
+    // $TEST$ ["undefined"]
     »MyEnum.MyVariant()()«;
 }

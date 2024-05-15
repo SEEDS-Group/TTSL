@@ -6,7 +6,7 @@ package tests.callGraph.recursion.notRecursive
  */
 
 segment s1() {
-    # $TEST$ ["s2", "$expressionLambda", "s2", "$blockLambda"]
+    // $TEST$ ["s2", "$expressionLambda", "s2", "$blockLambda"]
     »s2(() -> s2())«;
 }
 

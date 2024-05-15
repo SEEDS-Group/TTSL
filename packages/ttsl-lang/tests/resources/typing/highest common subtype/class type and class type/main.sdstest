@@ -16,27 +16,27 @@ segment mySegment1(
     e: Contravariant<E>,
     eOrNull: Contravariant<E?>,
 ) {
-    # $TEST$ serialization List<Contravariant<C>>
+    // $TEST$ serialization List<Contravariant<C>>
     »[c, c]«;
-    # $TEST$ serialization List<Contravariant<C>>
+    // $TEST$ serialization List<Contravariant<C>>
     »[c, cOrNull]«;
-    # $TEST$ serialization List<Contravariant<D>>
+    // $TEST$ serialization List<Contravariant<D>>
     »[c, d]«;
-    # $TEST$ serialization List<Contravariant<D>>
+    // $TEST$ serialization List<Contravariant<D>>
     »[c, dOrNull]«;
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[c, e]«;
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[c, eOrNull]«;
 
-    # $TEST$ serialization List<Contravariant<C?>>
+    // $TEST$ serialization List<Contravariant<C?>>
     »[cOrNull, cOrNull]«;
-    # $TEST$ serialization List<Contravariant<D>>
+    // $TEST$ serialization List<Contravariant<D>>
     »[cOrNull, d]«;
-    # $TEST$ serialization List<Contravariant<D?>>
+    // $TEST$ serialization List<Contravariant<D?>>
     »[cOrNull, dOrNull]«;
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[cOrNull, e]«;
-    # $TEST$ serialization List<Contravariant<Nothing?>>
+    // $TEST$ serialization List<Contravariant<Nothing?>>
     »[cOrNull, eOrNull]«;
 }

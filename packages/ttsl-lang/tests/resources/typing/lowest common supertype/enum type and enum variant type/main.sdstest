@@ -14,16 +14,16 @@ segment mySegment(
     v2: E2.V2,
     v2OrNull: E2.V2?
 ) {
-    # $TEST$ serialization List<E1>
+    // $TEST$ serialization List<E1>
     »[e1, v1]«;
 
-    # $TEST$ serialization List<E1?>
+    // $TEST$ serialization List<E1?>
     »[e1, v1OrNull]«;
 
 
-    # $TEST$ serialization List<Any>
+    // $TEST$ serialization List<Any>
     »[e1, v2]«;
 
-    # $TEST$ serialization List<Any?>
+    // $TEST$ serialization List<Any?>
     »[e1, v2OrNull]«;
 }

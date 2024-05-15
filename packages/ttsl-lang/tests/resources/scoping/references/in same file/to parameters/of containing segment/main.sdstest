@@ -1,45 +1,45 @@
 package tests.scoping.references.inSameFile.toParameters.ofContainingExpressionLambda
 
 segment mySegment(
-    # $TEST$ target parameter
+    // $TEST$ target parameter
     »myParameter«: Int,
 
-    # $TEST$ target redeclaredAsParameter
+    // $TEST$ target redeclaredAsParameter
     »redeclaredAsParameter«: Int,
     redeclaredAsParameter: Int,
 
-    # $TEST$ target redeclaredAsPlaceholder
+    // $TEST$ target redeclaredAsPlaceholder
     »redeclaredAsPlaceholder«: Int
 ) {
     val redeclaredAsPlaceholder = 0;
     
-    # $TEST$ references parameter
+    // $TEST$ references parameter
     »myParameter«;
 
-    # $TEST$ references redeclaredAsParameter
+    // $TEST$ references redeclaredAsParameter
     »redeclaredAsParameter«;    
     
-    # $TEST$ references redeclaredAsPlaceholder
+    // $TEST$ references redeclaredAsPlaceholder
     »redeclaredAsPlaceholder«;
 
     () {
-        # $TEST$ references parameter
+        // $TEST$ references parameter
         »myParameter«;
 
-        # $TEST$ references redeclaredAsParameter
+        // $TEST$ references redeclaredAsParameter
         »redeclaredAsParameter«;    
         
-        # $TEST$ references redeclaredAsPlaceholder
+        // $TEST$ references redeclaredAsPlaceholder
         »redeclaredAsPlaceholder«;
     };
 
     () -> 
-        # $TEST$ references parameter
+        // $TEST$ references parameter
         »myParameter« +
 
-        # $TEST$ references redeclaredAsParameter
+        // $TEST$ references redeclaredAsParameter
         »redeclaredAsParameter« +
         
-        # $TEST$ references redeclaredAsPlaceholder
+        // $TEST$ references redeclaredAsPlaceholder
         »redeclaredAsPlaceholder«;
 }

@@ -1,12 +1,12 @@
 package tests.validation.names.casing
 
-# $TEST$ no warning "Names of annotations should be UpperCamelCase."
+// $TEST$ no warning "Names of annotations should be UpperCamelCase."
 annotation »AnnotationUppercase1«
-# $TEST$ no warning "Names of annotations should be UpperCamelCase."
+// $TEST$ no warning "Names of annotations should be UpperCamelCase."
 annotation »`AnnotationUppercase2`«
-# $TEST$ warning "Names of annotations should be UpperCamelCase."
+// $TEST$ warning "Names of annotations should be UpperCamelCase."
 annotation »annotationLowercase«
-# $TEST$ warning "Names of annotations should be UpperCamelCase."
+// $TEST$ warning "Names of annotations should be UpperCamelCase."
 annotation »_annotationUnderscore«
-# $TEST$ warning "Names of annotations should be UpperCamelCase."
+// $TEST$ warning "Names of annotations should be UpperCamelCase."
 annotation »Annotation_Snake_Case«

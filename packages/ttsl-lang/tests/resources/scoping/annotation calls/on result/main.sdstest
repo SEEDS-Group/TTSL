@@ -1,21 +1,21 @@
 package tests.scoping.annotationCalls.onResult
 
-# $TEST$ target before 
+// $TEST$ target before 
 annotation »Before«
 
 fun myFunction() -> (
-    # $TEST$ references before
+    // $TEST$ references before
     @»Before«
-    # $TEST$ references after
+    // $TEST$ references after
     @»After«
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     @»NotAnAnnotation«
-    # $TEST$ unresolved
+    // $TEST$ unresolved
     @»Unresolved«
     myResult: Int
 )
 
-# $TEST$ target after
+// $TEST$ target after
 annotation »After«
 
 class NotAnAnnotation

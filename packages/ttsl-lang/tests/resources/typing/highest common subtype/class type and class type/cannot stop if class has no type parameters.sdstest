@@ -9,6 +9,6 @@ segment mySegment(
     p1: Contravariant<C<String>>,
     p2: Contravariant<D>,
 ) {
-    # $TEST$ serialization List<Contravariant<Nothing>>
+    // $TEST$ serialization List<Contravariant<Nothing>>
     »[p1, p2]«;
 }

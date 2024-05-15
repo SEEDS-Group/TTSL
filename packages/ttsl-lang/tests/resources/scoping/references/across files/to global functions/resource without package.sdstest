@@ -1,5 +1,5 @@
-# $TEST$ target without_myFunction
+// $TEST$ target without_myFunction
 fun »myFunction«()
 
-# $TEST$ target without_functionWithoutPackage
+// $TEST$ target without_functionWithoutPackage
 fun »functionWithoutPackage«()
