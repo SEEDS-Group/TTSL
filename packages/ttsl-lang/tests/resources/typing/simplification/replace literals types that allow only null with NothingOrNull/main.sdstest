@@ -1,9 +1,9 @@
 package tests.typing.simplification.replaceLiteralTypesThatAllowOnlyNullWithNothingOrNull
 
 class C(
-    // $TEST$ serialization Nothing?
+    # $TEST$ serialization Nothing?
     p1: »literal<null>«,
 
-    // $TEST$ serialization Nothing?
+    # $TEST$ serialization Nothing?
     p2: »literal<null, null>«
 )

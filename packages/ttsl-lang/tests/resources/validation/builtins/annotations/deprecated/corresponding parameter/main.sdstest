@@ -7,20 +7,20 @@ fun f(
 
 pipeline myPipeline {
     f(
-        // $TEST$ warning "The corresponding parameter 'deprecatedParameter' is deprecated."
+        # $TEST$ warning "The corresponding parameter 'deprecatedParameter' is deprecated."
         »deprecatedParameter = 1«,
-        // $TEST$ no warning r"The corresponding parameter '\w*' is deprecated\."
+        # $TEST$ no warning r"The corresponding parameter '\w*' is deprecated\."
         »validParameter = 1«,
-        // $TEST$ no warning r"The corresponding parameter '\w*' is deprecated\."
+        # $TEST$ no warning r"The corresponding parameter '\w*' is deprecated\."
         »unresolved = 1«,
     );
 
     f(
-        // $TEST$ warning "The corresponding parameter 'deprecatedParameter' is deprecated."
+        # $TEST$ warning "The corresponding parameter 'deprecatedParameter' is deprecated."
         »1«,
-        // $TEST$ no warning r"The corresponding parameter '\w*' is deprecated\."
+        # $TEST$ no warning r"The corresponding parameter '\w*' is deprecated\."
         »1«,
-        // $TEST$ no warning r"The corresponding parameter '\w*' is deprecated\."
+        # $TEST$ no warning r"The corresponding parameter '\w*' is deprecated\."
         »1«,
     );
 }

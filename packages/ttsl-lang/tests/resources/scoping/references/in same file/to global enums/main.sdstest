@@ -1,15 +1,15 @@
 package tests.scoping.references.inSameFile.toGlobalEnums
 
-// $TEST$ target before
+# $TEST$ target before
 enum »Before«
 
 pipeline myPipeline {
-    // $TEST$ references before
+    # $TEST$ references before
     »Before«();
 
-    // $TEST$ references after
+    # $TEST$ references after
     »After«();
 }
 
-// $TEST$ target after
+# $TEST$ target after
 enum »After«

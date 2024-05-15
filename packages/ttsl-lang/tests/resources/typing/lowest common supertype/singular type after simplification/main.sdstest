@@ -10,30 +10,30 @@ enum E {
 segment mySegment(
     p1: E
 ) {
-    // $TEST$ serialization List<() -> ()>
+    # $TEST$ serialization List<() -> ()>
     »[() {}]«;
 
-    // $TEST$ serialization List<literal<1>>
+    # $TEST$ serialization List<literal<1>>
     »[1]«;
 
-    // $TEST$ serialization List<(r1: Int, r2: Int)>
+    # $TEST$ serialization List<(r1: Int, r2: Int)>
     »[f()]«;
 
-    // $TEST$ serialization List<C>
+    # $TEST$ serialization List<C>
     »[C()]«;
 
-    // $TEST$ serialization List<E>
+    # $TEST$ serialization List<E>
     »[p1]«;
 
-    // $TEST$ serialization List<E.V>
+    # $TEST$ serialization List<E.V>
     »[E.V]«;
 
-    // $TEST$ serialization List<$type<C>>
+    # $TEST$ serialization List<$type<C>>
     »[C]«;
 
-    // $TEST$ serialization List<$unknown>
+    # $TEST$ serialization List<$unknown>
     »[unknown]«;
 }
 
-// $TEST$ serialization List<T>
+# $TEST$ serialization List<T>
 class D<T>(t: T, list: Any = »[t]«)

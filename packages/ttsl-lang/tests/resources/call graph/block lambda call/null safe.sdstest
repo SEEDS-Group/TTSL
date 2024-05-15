@@ -3,6 +3,6 @@ package tests.callGraph.blockLambdaCall.nullSafe
 pipeline myPipeline {
     val lambda = () {};
 
-    // $TEST$ ["$blockLambda"]
+    # $TEST$ ["$blockLambda"]
     »lambda?()«;
 }

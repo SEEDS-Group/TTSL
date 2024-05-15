@@ -5,15 +5,15 @@ class C1<T sub Int = String>(p1: T)
 @Pure fun f1<T sub Int = String>(p1: T) -> r1: T
 
 pipeline myPipeline {
-    // $TEST$ serialization C1<Int>
+    # $TEST$ serialization C1<Int>
     »C1("")«;
 
-    // $TEST$ serialization C1<Int>
+    # $TEST$ serialization C1<Int>
     »C1()«;
 
-    // $TEST$ serialization Int
+    # $TEST$ serialization Int
     »f1("")«;
 
-    // $TEST$ serialization Int
+    # $TEST$ serialization Int
     »f1()«;
 }

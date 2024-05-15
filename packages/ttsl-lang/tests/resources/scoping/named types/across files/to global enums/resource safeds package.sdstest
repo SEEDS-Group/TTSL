@@ -1,7 +1,7 @@
 package safeds.scoping.namedTypes.acrossFiles.toGlobalEnums
 
-// $TEST$ target safeds_MyEnum
+# $TEST$ target safeds_MyEnum
 enum »MyEnum«
 
-// $TEST$ target safeds_EnumInSafeDsPackage
+# $TEST$ target safeds_EnumInSafeDsPackage
 enum »EnumInSafeDsPackage«

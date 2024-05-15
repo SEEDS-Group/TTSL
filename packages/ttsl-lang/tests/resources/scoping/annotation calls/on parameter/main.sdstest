@@ -1,16 +1,16 @@
 package tests.scoping.annotationCalls.onParameter
 
-// $TEST$ target before 
+# $TEST$ target before 
 annotation »Before«
 
 fun myFunction(
-    // $TEST$ references before
+    # $TEST$ references before
     @»Before«
-    // $TEST$ references after
+    # $TEST$ references after
     @»After«
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     @»NotAnAnnotation«
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     @»Unresolved«
     myParameter: Int
 )
@@ -18,14 +18,14 @@ fun myFunction(
 pipeline myPipeline {
     val alias = Before;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     (@»alias« myParameter) {};
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     (@»alias« myParameter) -> 1;
 }
 
-// $TEST$ target after
+# $TEST$ target after
 annotation »After«
 
 class NotAnAnnotation

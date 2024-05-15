@@ -12,23 +12,23 @@ segment mySegment1(
     e: E,
     eOrNull: E?,
 ) {
-    // $TEST$ serialization List<C>
+    # $TEST$ serialization List<C>
     »[c, c]«;
 
-    // $TEST$ serialization List<C?>
+    # $TEST$ serialization List<C?>
     »[c, cOrNull]«;
 
 
-    // $TEST$ serialization List<C>
+    # $TEST$ serialization List<C>
     »[c, d]«;
 
-    // $TEST$ serialization List<C?>
+    # $TEST$ serialization List<C?>
     »[c, dOrNull]«;
 
 
-    // $TEST$ serialization List<Any>
+    # $TEST$ serialization List<Any>
     »[c, e]«;
 
-    // $TEST$ serialization List<Any?>
+    # $TEST$ serialization List<Any?>
     »[c, eOrNull]«;
 }

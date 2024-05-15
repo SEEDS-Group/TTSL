@@ -5,21 +5,21 @@ package tests.typing.expressions.maps
 
 pipeline myPipeline {
 
-    // $TEST$ serialization Map<Nothing, Nothing>
+    # $TEST$ serialization Map<Nothing, Nothing>
     »{}«;
 
-    // $TEST$ serialization Map<Int, literal<1, 2, 3>>
+    # $TEST$ serialization Map<Int, literal<1, 2, 3>>
     »{1: 1, 2: 2, 3: 3}«;
 
-    // $TEST$ serialization Map<Number, Number>
+    # $TEST$ serialization Map<Number, Number>
     »{1: 1, float(): float(), 3: 3}«;
 
-    // $TEST$ serialization Map<Any, Any>
+    # $TEST$ serialization Map<Any, Any>
     »{1: 1, string(): string(), 3: 3}«;
 
-    // $TEST$ serialization Map<Any?, Any?>
+    # $TEST$ serialization Map<Any?, Any?>
     »{1: 1, string(): string(), null: null}«;
 
-    // $TEST$ serialization Map<Number, String?>
+    # $TEST$ serialization Map<Number, String?>
     »{float(): string(), 1: null}«;
 }

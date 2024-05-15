@@ -4,21 +4,21 @@ from safeds.scoping.references.acrossFiles.toSchemas import MySchema
 from tests.scoping.references.acrossFiles.toSchemas.other import SchemaInAnotherPackage, Schema2InAnotherPackage
 
 pipeline myPipeline {
-    // $TEST$ references safeds_MySchema
+    # $TEST$ references safeds_MySchema
     »MySchema«;
 
-    // $TEST$ references same_SchemaInSamePackage
+    # $TEST$ references same_SchemaInSamePackage
     »SchemaInSamePackage«;
 
-    // $TEST$ references safeds_SchemaInSafeDsPackage
+    # $TEST$ references safeds_SchemaInSafeDsPackage
     »SchemaInSafeDsPackage«;
 
-    // $TEST$ references other_SchemaInAnotherPackage
+    # $TEST$ references other_SchemaInAnotherPackage
     »SchemaInAnotherPackage«;
 
-    // $TEST$ references other_Schema2InAnotherPackage
+    # $TEST$ references other_Schema2InAnotherPackage
     »Schema2InAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »SchemaWithoutPackage«;
 }

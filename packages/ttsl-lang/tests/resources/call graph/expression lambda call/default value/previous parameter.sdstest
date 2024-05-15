@@ -8,6 +8,6 @@ pipeline myPipeline {
         g: Any = f()
     ) -> 1;
 
-    // $TEST$ ["$expressionLambda", "default"]
+    # $TEST$ ["$expressionLambda", "default"]
     »lambda()«;
 }

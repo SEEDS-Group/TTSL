@@ -5,6 +5,6 @@ from tests.scoping.references.acrossFiles.toAnnotations.other import MyAnnotatio
 from tests.scoping.references.acrossFiles.toAnnotations import MyAnnotation
 
 pipeline myPipeline {
-    // $TEST$ references safeds_MyAnnotation
+    # $TEST$ references safeds_MyAnnotation
     »MyAnnotation«;
 }

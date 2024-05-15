@@ -1,10 +1,10 @@
 package tests.typing.simplification.unwrap
 
 segment callableType(
-    // $TEST$ serialization () -> ()
+    # $TEST$ serialization () -> ()
     f1: »() -> ()«,
 
-    // $TEST$ serialization (p: String) -> (r: String)
+    # $TEST$ serialization (p: String) -> (r: String)
     f2: »(p: union<union<String>>) -> (r: union<union<String>>)«
 ) {}
 
@@ -13,34 +13,34 @@ segment namedTupleType(
     f2: () -> (r: String),
     f3: () -> (r1: union<union<String>>, r2: union<union<String>>)
 ) {
-    // $TEST$ serialization ()
+    # $TEST$ serialization ()
     »f1()«;
 
-    // $TEST$ serialization String
+    # $TEST$ serialization String
     »f2()«;
 
-    // $TEST$ serialization (r1: String, r2: String)
+    # $TEST$ serialization (r1: String, r2: String)
     »f3()«;
 }
 
 segment classType(
-    // $TEST$ serialization String
+    # $TEST$ serialization String
     p1: »String«,
 
-    // $TEST$ serialization List<String>
+    # $TEST$ serialization List<String>
     p2: »List<String>«,
 
-    // $TEST$ serialization List<String>
+    # $TEST$ serialization List<String>
     p3: »List<union<union<String>>>«,
 ) {}
 
 segment unionType(
-    // $TEST$ serialization String
+    # $TEST$ serialization String
     p1: »union<String>«,
 
-    // $TEST$ serialization String
+    # $TEST$ serialization String
     p2: »union<union<String>>«,
 
-    // $TEST$ serialization union<String, Int, Boolean>
+    # $TEST$ serialization union<String, Int, Boolean>
     p3: »union<union<String, Int>, Boolean>«,
 ) {}

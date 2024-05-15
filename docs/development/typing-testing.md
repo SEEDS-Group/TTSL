@@ -21,7 +21,7 @@ test.
 5. For each pair of test markers, add a test comment with one of the formats listed below. Test comments and test
    markers are mapped to each other by their position in the file, i.e. the first test comment corresponds to the first
    test marker, the second test comment corresponds to the second test marker, etc.
-    * `// $TEST$ equivalence_class <id>`: Assert that all nodes with the same `<id>` have the same type. All equivalence
+    * `# $TEST$ equivalence_class <id>`: Assert that all nodes with the same `<id>` have the same type. All equivalence
       classes must have at least two entries.
-    * `// $TEST$ serialization <type>`: Assert that the serialized type of the node is `<type>`.
+    * `# $TEST$ serialization <type>`: Assert that the serialized type of the node is `<type>`.
 6. Run the tests. The test runner will automatically pick up the new test.

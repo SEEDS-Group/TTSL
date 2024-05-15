@@ -19,52 +19,52 @@ segment mySegment(
     nothing: Contravariant<Nothing>,
     nothingOrNull: Contravariant<Nothing?>,
 ) {
-    // $TEST$ serialization List<Contravariant<Nothing>>
+    # $TEST$ serialization List<Contravariant<Nothing>>
     »[one, c]«;
 
-    // $TEST$ serialization List<Contravariant<Nothing>>
+    # $TEST$ serialization List<Contravariant<Nothing>>
     »[one, cOrNull]«;
 
-    // $TEST$ serialization List<Contravariant<Nothing?>>
+    # $TEST$ serialization List<Contravariant<Nothing?>>
     »[oneOrNull, cOrNull]«;
 
 
-    // $TEST$ serialization List<Contravariant<literal<1>>>
+    # $TEST$ serialization List<Contravariant<literal<1>>>
     »[one, int]«;
 
-    // $TEST$ serialization List<Contravariant<literal<1>>>
+    # $TEST$ serialization List<Contravariant<literal<1>>>
     »[one, intOrNull]«;
 
-    // $TEST$ serialization List<Contravariant<literal<1, null>>>
+    # $TEST$ serialization List<Contravariant<literal<1, null>>>
     »[oneOrNull, intOrNull]«;
 
 
-    // $TEST$ serialization List<Contravariant<literal<1>>>
+    # $TEST$ serialization List<Contravariant<literal<1>>>
     »[one, number]«;
 
-    // $TEST$ serialization List<Contravariant<literal<1>>>
+    # $TEST$ serialization List<Contravariant<literal<1>>>
     »[one, numberOrNull]«;
 
-    // $TEST$ serialization List<Contravariant<literal<1, null>>>
+    # $TEST$ serialization List<Contravariant<literal<1, null>>>
     »[oneOrNull, numberOrNull]«;
 
 
-    // $TEST$ serialization List<Contravariant<Nothing>>
+    # $TEST$ serialization List<Contravariant<Nothing>>
     »[one, string]«;
 
-    // $TEST$ serialization List<Contravariant<Nothing>>
+    # $TEST$ serialization List<Contravariant<Nothing>>
     »[one, stringOrNull]«;
 
-    // $TEST$ serialization List<Contravariant<Nothing?>>
+    # $TEST$ serialization List<Contravariant<Nothing?>>
     »[oneOrNull, stringOrNull]«;
 
 
-    // $TEST$ serialization List<Contravariant<Nothing>>
+    # $TEST$ serialization List<Contravariant<Nothing>>
     »[one, nothing]«;
 
-    // $TEST$ serialization List<Contravariant<Nothing>>
+    # $TEST$ serialization List<Contravariant<Nothing>>
     »[one, nothingOrNull]«;
 
-    // $TEST$ serialization List<Contravariant<Nothing?>>
+    # $TEST$ serialization List<Contravariant<Nothing?>>
     »[oneOrNull, nothingOrNull]«;
 }

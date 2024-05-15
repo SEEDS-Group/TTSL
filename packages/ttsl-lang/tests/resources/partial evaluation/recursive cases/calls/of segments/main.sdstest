@@ -5,6 +5,6 @@ segment mySegment() -> (r: Int, s: Int) {
 }
 
 pipeline test {
-    // $TEST$ serialization (r = 1, s = ?)
+    # $TEST$ serialization (r = 1, s = ?)
     »mySegment()«;
 }

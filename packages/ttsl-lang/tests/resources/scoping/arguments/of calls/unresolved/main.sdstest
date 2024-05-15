@@ -3,9 +3,9 @@ package tests.scoping.arguments.ofCalls.unresolved
 fun f(a: Int)
 
 pipeline myPipeline {
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     f(»unresolved« = 1);
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     unresolved(»a« = 1);
 }

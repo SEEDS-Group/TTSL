@@ -6,6 +6,6 @@ pipeline test {
         yield s = 2;
     };
 
-    // $TEST$ serialization (r = 1, s = 2)
+    # $TEST$ serialization (r = 1, s = 2)
     »blockLambda()«;
 }

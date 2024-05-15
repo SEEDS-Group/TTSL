@@ -5,9 +5,9 @@ class MyClass {
 }
 
 pipeline myPipeline {
-    // $TEST$ serialization $type<MyNestedClass>
+    # $TEST$ serialization $type<MyNestedClass>
     »MyClass.MyNestedClass«;
 
-    // $TEST$ serialization $type<MyNestedClass>
+    # $TEST$ serialization $type<MyNestedClass>
     »MyClass?.MyNestedClass«;
 }

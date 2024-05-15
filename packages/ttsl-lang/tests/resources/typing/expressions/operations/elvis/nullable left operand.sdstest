@@ -4,16 +4,16 @@ package tests.typing.operations.elvis.nullableLeftOperand
 @Pure fun stringOrNull() -> s: String?
 
 pipeline elvisWithNullableLeftOperand {
-    // $TEST$ serialization Int?
+    # $TEST$ serialization Int?
     »intOrNull() ?: intOrNull()«;
-    // $TEST$ serialization Int?
+    # $TEST$ serialization Int?
     »intOrNull() ?: null«;
-    // $TEST$ serialization Int
+    # $TEST$ serialization Int
     »intOrNull() ?: 1«;
-    // $TEST$ serialization Number
+    # $TEST$ serialization Number
     »intOrNull() ?: 1.0«;
-    // $TEST$ serialization Any
+    # $TEST$ serialization Any
     »intOrNull() ?: ""«;
-    // $TEST$ serialization Any?
+    # $TEST$ serialization Any?
     »intOrNull() ?: stringOrNull()«;
 }

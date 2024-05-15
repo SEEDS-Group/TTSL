@@ -5,6 +5,6 @@ from tests.scoping.references.acrossFiles.toSegments.other import mySegment
 from tests.scoping.references.acrossFiles.toSegments import mySegment
 
 pipeline myPipeline {
-    // $TEST$ references safeds_mySegment
+    # $TEST$ references safeds_mySegment
     »mySegment«;
 }

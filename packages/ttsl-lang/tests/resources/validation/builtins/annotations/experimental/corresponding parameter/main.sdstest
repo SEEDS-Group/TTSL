@@ -7,20 +7,20 @@ fun f(
 
 pipeline myPipeline {
     f(
-        // $TEST$ warning "The corresponding parameter 'experimentalParameter' is experimental."
+        # $TEST$ warning "The corresponding parameter 'experimentalParameter' is experimental."
         »experimentalParameter = 1«,
-        // $TEST$ no warning r"The corresponding parameter '\w*' is experimental\."
+        # $TEST$ no warning r"The corresponding parameter '\w*' is experimental\."
         »validParameter = 1«,
-        // $TEST$ no warning r"The corresponding parameter '\w*' is experimental\."
+        # $TEST$ no warning r"The corresponding parameter '\w*' is experimental\."
         »unresolved = 1«,
     );
 
     f(
-        // $TEST$ warning "The corresponding parameter 'experimentalParameter' is experimental."
+        # $TEST$ warning "The corresponding parameter 'experimentalParameter' is experimental."
         »1«,
-        // $TEST$ no warning r"The corresponding parameter '\w*' is experimental\."
+        # $TEST$ no warning r"The corresponding parameter '\w*' is experimental\."
         »1«,
-        // $TEST$ no warning r"The corresponding parameter '\w*' is experimental\."
+        # $TEST$ no warning r"The corresponding parameter '\w*' is experimental\."
         »1«,
     );
 }

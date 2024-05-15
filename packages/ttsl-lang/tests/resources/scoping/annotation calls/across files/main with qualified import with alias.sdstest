@@ -4,28 +4,28 @@ from tests.scoping.annotationCalls.acrossFiles import MyAnnotation as MyAnnotati
 from safeds.scoping.annotationCalls.acrossFiles import MyAnnotation as MyAnnotationInSafeDsPackage
 from tests.scoping.annotationCalls.acrossFiles.other import MyAnnotation as MyAnnotationInAnotherPackage
 
-// $TEST$ references same_MyAnnotation
+# $TEST$ references same_MyAnnotation
 @»MyAnnotation«
 
 
-// $TEST$ references same_AnnotationInSamePackage
+# $TEST$ references same_AnnotationInSamePackage
 @»AnnotationInSamePackage«
 
-// $TEST$ references safeds_AnnotationInSafeDsPackage
+# $TEST$ references safeds_AnnotationInSafeDsPackage
 @»AnnotationInSafeDsPackage«
 
-// $TEST$ unresolved
+# $TEST$ unresolved
 @»AnnotationInAnotherPackage«
 
-// $TEST$ unresolved
+# $TEST$ unresolved
 @»AnnotationWithoutPackage«
 
-// $TEST$ references same_MyAnnotation
+# $TEST$ references same_MyAnnotation
 @»MyAnnotationInSamePackage«
 
-// $TEST$ references safeds_MyAnnotation
+# $TEST$ references safeds_MyAnnotation
 @»MyAnnotationInSafeDsPackage«
 
-// $TEST$ references other_MyAnnotation
+# $TEST$ references other_MyAnnotation
 @»MyAnnotationInAnotherPackage«
 pipeline myPipeline {}

@@ -1,27 +1,27 @@
 package tests.partialValidation.recursiveCases.infixOperations.`and`
 
 pipeline test {
-    // $TEST$ serialization false
+    # $TEST$ serialization false
     »false and false«;
 
-    // $TEST$ serialization false
+    # $TEST$ serialization false
     »false and true«;
 
-    // $TEST$ serialization false
+    # $TEST$ serialization false
     »true and false«;
 
-    // $TEST$ serialization true
+    # $TEST$ serialization true
     »true and true«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »1 and true«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »true and 0«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »unresolved and true«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »true and unresolved«;
 }

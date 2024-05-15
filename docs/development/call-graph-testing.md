@@ -16,7 +16,7 @@ graph test.
 3. Surround calls or callables for which you want to compute a call graph with test markers, e.g. `»f()«`. Add a
    comment in the preceding line with the following format:
     ```ts
-    // $TEST$ ["f", "$blockLambda", "$expressionLambda", "undefined"]
+    # $TEST$ ["f", "$blockLambda", "$expressionLambda", "undefined"]
     ```
     The comment must contain an array with the names of the callables that are expected to be called. The order must
     match the actual call order. The names must be:

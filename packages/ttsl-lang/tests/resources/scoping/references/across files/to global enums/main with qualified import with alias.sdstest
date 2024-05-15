@@ -5,29 +5,29 @@ from safeds.scoping.references.acrossFiles.toGlobalEnums import MyEnum as MyEnum
 from tests.scoping.references.acrossFiles.toGlobalEnums.other import MyEnum as MyEnumInAnotherPackage
 
 pipeline myPipeline {
-    // $TEST$ references same_MyEnum
+    # $TEST$ references same_MyEnum
     »MyEnum«;
 
 
-    // $TEST$ references same_EnumInSamePackage
+    # $TEST$ references same_EnumInSamePackage
     »EnumInSamePackage«;
 
-    // $TEST$ references safeds_EnumInSafeDsPackage
+    # $TEST$ references safeds_EnumInSafeDsPackage
     »EnumInSafeDsPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »EnumInAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »EnumWithoutPackage«;
 
 
-    // $TEST$ references same_MyEnum
+    # $TEST$ references same_MyEnum
     »MyEnumInSamePackage«;
 
-    // $TEST$ references safeds_MyEnum
+    # $TEST$ references safeds_MyEnum
     »MyEnumInSafeDsPackage«;
 
-    // $TEST$ references other_MyEnum
+    # $TEST$ references other_MyEnum
     »MyEnumInAnotherPackage«;
 }

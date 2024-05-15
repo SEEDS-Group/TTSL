@@ -5,6 +5,6 @@ enum MyEnum {
 }
 
 pipeline myPipeline {
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »MyEnumVariant«;
 }

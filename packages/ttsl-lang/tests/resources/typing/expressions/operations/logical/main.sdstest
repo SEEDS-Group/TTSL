@@ -1,17 +1,17 @@
 package tests.typing.operations.logical
 
 pipeline myPipeline {
-    // $TEST$ serialization literal<true>
+    # $TEST$ serialization literal<true>
     val conjunction = »true and true«;
-    // $TEST$ serialization literal<true>
+    # $TEST$ serialization literal<true>
     val disjunction = »true or true«;
-    // $TEST$ serialization literal<false>
+    # $TEST$ serialization literal<false>
     val negation = »not true«;
 
-    // $TEST$ serialization Boolean
+    # $TEST$ serialization Boolean
     val conjunctionInvalid = »1 and 1«;
-    // $TEST$ serialization Boolean
+    # $TEST$ serialization Boolean
     val disjunctionInvalid = »1.0 or 1.0«;
-    // $TEST$ serialization Boolean
+    # $TEST$ serialization Boolean
     val negationInvalid = »not "true"«;
 }

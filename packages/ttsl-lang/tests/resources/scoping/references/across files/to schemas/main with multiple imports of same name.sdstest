@@ -5,6 +5,6 @@ from tests.scoping.references.acrossFiles.toSchemas.other import MySchema
 from tests.scoping.references.acrossFiles.toSchemas import MySchema
 
 pipeline myPipeline {
-    // $TEST$ references safeds_MySchema
+    # $TEST$ references safeds_MySchema
     »MySchema«;
 }

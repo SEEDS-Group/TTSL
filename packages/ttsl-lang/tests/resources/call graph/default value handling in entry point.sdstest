@@ -7,6 +7,6 @@ package tests.callGraph.defaultValueHandlingInEntryPoint
 @Pure fun default() -> r: Any
 
 segment mySegment(param: () -> () = default) {
-    // $TEST$ ["param"]
+    # $TEST$ ["param"]
     »param()«;
 }

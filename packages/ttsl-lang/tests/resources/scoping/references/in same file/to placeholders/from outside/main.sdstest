@@ -13,12 +13,12 @@ pipeline myPipeline2 {
         val blockLambdaPlaceholder = 1;
     };
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »pipelinePlaceholder«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »segmentPlaceholder«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »blockLambdaPlaceholder«;
 }

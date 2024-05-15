@@ -2,97 +2,97 @@ package tests.scoping.namedTypes.inSameFile.toTypeParameter.inNestedClasses
 
 fun myFunction1<BeforeGlobal>()
 
-// $TEST$ target container
+# $TEST$ target container
 class MyClass1<»Container«, Overridden> {
     fun myFunction2<BeforeMember>()
 
     class MyClass2<
-        // $TEST$ target own
+        # $TEST$ target own
         »Own«,
 
-        // $TEST$ target overridden
+        # $TEST$ target overridden
         »Overridden«,
 
-        // $TEST$ references own
+        # $TEST$ references own
         T1 sub »Own«,
 
-        // $TEST$ references overridden
+        # $TEST$ references overridden
         T2 sub »Overridden«,
 
-        // $TEST$ references container
+        # $TEST$ references container
         T3 sub »Container«,
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         T4 sub »BeforeMember«,
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         T5 sub »AfterMember«,
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         T6 sub »BeforeGlobal«,
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         T7 sub »AfterGlobal«,
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         T8 sub »Unresolved«,
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         T9 sub »Forward«,
 
         Forward,
     >(
-        // $TEST$ references own
+        # $TEST$ references own
         a: »Own«,
 
-        // $TEST$ references overridden
+        # $TEST$ references overridden
         b: »Overridden«,
 
-        // $TEST$ references container
+        # $TEST$ references container
         c: »Container«,
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         d: »BeforeMember«,
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         e: »AfterMember«,
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         f: »BeforeGlobal«,
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         g: »AfterGlobal«,
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         h: »Unresolved«,
     )
-    // $TEST$ references own
-    // $TEST$ references overridden
-    // $TEST$ references container
+    # $TEST$ references own
+    # $TEST$ references overridden
+    # $TEST$ references container
     sub »Own«, »Overridden«, »Container«
     {
-        // $TEST$ references own
+        # $TEST$ references own
         attr z: »Own«
 
-        // $TEST$ references overridden
+        # $TEST$ references overridden
         attr y: »Overridden«
 
-        // $TEST$ references container
+        # $TEST$ references container
         attr x: »Container«
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         attr w: »BeforeMember«
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         attr v: »AfterMember«
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         attr u: »BeforeGlobal«
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         attr t: »AfterGlobal«
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         attr s: »Unresolved«
     }
 

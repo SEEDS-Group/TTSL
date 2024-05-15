@@ -1,9 +1,9 @@
 package tests.validation.experimentalLanguageFeature.maps
 
 pipeline myPipeline {
-    // $TEST$ warning "Map literals are experimental and may change without prior notice."
+    # $TEST$ warning "Map literals are experimental and may change without prior notice."
     »{"a": "b"}«;
 
-    // $TEST$ no warning "Map literals are experimental and may change without prior notice."
+    # $TEST$ no warning "Map literals are experimental and may change without prior notice."
     {"a": »{}«};
 }

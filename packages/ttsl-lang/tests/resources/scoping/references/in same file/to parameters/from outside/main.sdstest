@@ -18,27 +18,27 @@ segment mySegment2(
     (myBlockLambdaParameter) {};
     (myExpressionLambdaParameter) -> 1;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »myAnnotationParameter«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »myClassParameter«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »myEnumVariantParameter«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »myFunctionParameter«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »mySegmentParameter«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »myCallableTypeParameter«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »myBlockLambdaParameter«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »myExpressionLambdaParameter«;
 }

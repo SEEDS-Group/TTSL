@@ -18,11 +18,11 @@ test.
 
 2. If you want to assert that a file is parsed without a syntax error[^1], add the following comment to the file:
     ```ts
-    // $TEST$ no_syntax_error
+    # $TEST$ no_syntax_error
     ```
    If you instead want to assert that the parser detects a syntax error, add the following comment to the file:
     ```ts
-    // $TEST$ syntax_error
+    # $TEST$ syntax_error
     ```
 
     !!! warning

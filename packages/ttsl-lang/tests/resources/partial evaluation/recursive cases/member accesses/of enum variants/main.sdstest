@@ -6,9 +6,9 @@ enum MyEnum {
 }
 
 pipeline test {
-    // $TEST$ serialization MyEnumVariantWithoutParameters
+    # $TEST$ serialization MyEnumVariantWithoutParameters
     »MyEnum.MyEnumVariantWithoutParameters«;
 
-    // $TEST$ serialization MyEnumVariantWithParameters
+    # $TEST$ serialization MyEnumVariantWithParameters
     »MyEnum.MyEnumVariantWithParameters«;
 }

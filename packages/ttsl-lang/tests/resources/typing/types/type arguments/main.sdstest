@@ -3,18 +3,18 @@ package tests.typing.types.typeArguments
 class MyClass<T>
 
 fun myFunction(
-    // $TEST$ serialization Int
+    # $TEST$ serialization Int
     a: MyClass<»Int«>,
-    // $TEST$ serialization Int
+    # $TEST$ serialization Int
     b: MyClass<»T = Int«>,
 
-    // $TEST$ serialization Boolean
+    # $TEST$ serialization Boolean
     e: unresolved<»Boolean«>,
-    // $TEST$ serialization Boolean
+    # $TEST$ serialization Boolean
     f: unresolved<»T = Boolean«>,
 
-    // $TEST$ serialization $unknown
+    # $TEST$ serialization $unknown
     g: MyClass<»unresolved«>,
-    // $TEST$ serialization $unknown
+    # $TEST$ serialization $unknown
     h: MyClass<»T = unresolved«>,
 )

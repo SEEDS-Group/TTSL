@@ -4,21 +4,21 @@ class C
 @Pure fun f() -> (r1: Int, r2: Int)
 
 segment mySegment() {
-    // $TEST$ serialization List<Any>
+    # $TEST$ serialization List<Any>
     »[1, f]«;
 
-    // $TEST$ serialization List<Any?>
+    # $TEST$ serialization List<Any?>
     »[null, f]«;
 
-    // $TEST$ serialization List<Any>
+    # $TEST$ serialization List<Any>
     »[1, C]«;
 
-    // $TEST$ serialization List<Any?>
+    # $TEST$ serialization List<Any?>
     »[null, C]«;
 
-    // $TEST$ serialization List<Any>
+    # $TEST$ serialization List<Any>
     »[1, f()]«;
 
-    // $TEST$ serialization List<Any?>
+    # $TEST$ serialization List<Any?>
     »[null, f()]«;
 }

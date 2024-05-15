@@ -11,21 +11,21 @@ pipeline test {
         yield s = q;
     };
 
-    // $TEST$ serialization 1
+    # $TEST$ serialization 1
     »mySegment(1).r«;
 
-    // $TEST$ serialization 2
+    # $TEST$ serialization 2
     »mySegment(1).s«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »mySegment(1).unresolved«;
 
-    // $TEST$ serialization 1
+    # $TEST$ serialization 1
     »blockLambda(1).r«;
 
-    // $TEST$ serialization 2
+    # $TEST$ serialization 2
     »blockLambda(1).s«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »blockLambda(1).unresolved«;
 }

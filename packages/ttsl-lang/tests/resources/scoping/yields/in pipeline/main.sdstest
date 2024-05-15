@@ -3,16 +3,16 @@ package tests.scoping.yields.inPipeline
 segment mySegment1() -> before: Int {}
 
 pipeline myPipeline {
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     yield »before« = 1;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     yield »after« = 1;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     yield »NotAResult« = 1;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     yield »unresolved« = 1;
 }
 

@@ -7,15 +7,15 @@ segment s2() -> (r: String, s: Int) {
 }
 
 pipeline myPipeline {
-    // $TEST$ serialization String
+    # $TEST$ serialization String
     »s1()«;
 
-    // $TEST$ serialization (r: String, s: Int)
+    # $TEST$ serialization (r: String, s: Int)
     »s2()«;
 
-    // $TEST$ serialization String
+    # $TEST$ serialization String
     »s1?()«;
 
-    // $TEST$ serialization (r: String, s: Int)
+    # $TEST$ serialization (r: String, s: Int)
     »s2?()«;
 }

@@ -19,40 +19,40 @@ segment mySegment(
     b2: Invariant<Number>,
     b3: Covariant<Number>,
 ) {
-    // $TEST$ serialization C1<Nothing>
+    # $TEST$ serialization C1<Nothing>
     »C1(a1, a2)«;
-    // $TEST$ serialization C1<Nothing>
+    # $TEST$ serialization C1<Nothing>
     »C1(a1, b2)«;
-    // $TEST$ serialization C1<Number>
+    # $TEST$ serialization C1<Number>
     »C1(b1, a2)«;
-    // $TEST$ serialization C1<Number>
+    # $TEST$ serialization C1<Number>
     »C1(b1, b2)«;
 
-    // $TEST$ serialization C2<Nothing>
+    # $TEST$ serialization C2<Nothing>
     »C2(a1, a3)«;
-    // $TEST$ serialization C2<Nothing>
+    # $TEST$ serialization C2<Nothing>
     »C2(a1, b3)«;
-    // $TEST$ serialization C2<Number>
+    # $TEST$ serialization C2<Number>
     »C2(b1, a3)«;
-    // $TEST$ serialization C2<Number>
+    # $TEST$ serialization C2<Number>
     »C2(b1, b3)«;
 
-    // $TEST$ serialization Nothing
+    # $TEST$ serialization Nothing
     »f1(a1, a2)«;
-    // $TEST$ serialization Nothing
+    # $TEST$ serialization Nothing
     »f1(a1, b2)«;
-    // $TEST$ serialization Number
+    # $TEST$ serialization Number
     »f1(b1, a2)«;
-    // $TEST$ serialization Number
+    # $TEST$ serialization Number
     »f1(b1, b2)«;
 
-    // $TEST$ serialization Nothing
+    # $TEST$ serialization Nothing
     »f2(a1, a3)«;
-    // $TEST$ serialization Nothing
+    # $TEST$ serialization Nothing
     »f2(a1, b3)«;
-    // $TEST$ serialization Number
+    # $TEST$ serialization Number
     »f2(b1, a3)«;
-    // $TEST$ serialization Number
+    # $TEST$ serialization Number
     »f2(b1, b3)«;
 
 }

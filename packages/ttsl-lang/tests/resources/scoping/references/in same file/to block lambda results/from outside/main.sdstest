@@ -5,6 +5,6 @@ pipeline myPipeline {
         yield myBlockLambdaResult = 1;
     };
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »myBlockLambdaResult«;
 }

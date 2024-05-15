@@ -5,19 +5,19 @@ class MyClass
 enum MyEnum
 
 fun nonNullableNamedTypes(
-    // $TEST$ serialization MyClass
+    # $TEST$ serialization MyClass
     a: »MyClass«,
-    // $TEST$ serialization MyEnum
+    # $TEST$ serialization MyEnum
     b: »MyEnum«,
-    // $TEST$ serialization $unknown
+    # $TEST$ serialization $unknown
     c: »unresolved«,
 )
 
 fun nullableNamedTypes(
-    // $TEST$ serialization MyClass?
+    # $TEST$ serialization MyClass?
     a: »MyClass?«,
-    // $TEST$ serialization MyEnum?
+    # $TEST$ serialization MyEnum?
     b: »MyEnum?«,
-    // $TEST$ serialization $unknown
+    # $TEST$ serialization $unknown
     c: »unresolved?«,
 )

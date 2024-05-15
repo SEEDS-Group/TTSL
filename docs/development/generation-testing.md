@@ -23,7 +23,7 @@ generation test.
    placeholder with test markers, e.g. `val »a« = 1;`. You may only mark a single placeholder this way. Add a comment in
    the preceding line with the following format:
     ```ts
-    // $TEST$ run_until
+    # $TEST$ run_until
     ```
 5. Add another folder called `generated` inside the folder that you created in step 1. Place folders and Python files
    inside the `generated` folder to specify the expected output of the program. The relative paths to the Python files

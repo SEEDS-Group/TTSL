@@ -1,10 +1,10 @@
 package tests.validation.other.declarations.segments.unassignedResult
 
-// $TEST$ no error "Nothing is assigned to this result."
-// $TEST$ no error "Nothing is assigned to this result."
-// $TEST$ no error "Nothing is assigned to this result."
-// $TEST$ no error "Nothing is assigned to this result."
-// $TEST$ error "Nothing is assigned to this result."
+# $TEST$ no error "Nothing is assigned to this result."
+# $TEST$ no error "Nothing is assigned to this result."
+# $TEST$ no error "Nothing is assigned to this result."
+# $TEST$ no error "Nothing is assigned to this result."
+# $TEST$ error "Nothing is assigned to this result."
 segment mySegment() -> (»a«: Int, »b«: Int, »c«: Int, »d«: Int, »e«: Int) {
     yield b = 1;
     yield a = 1;

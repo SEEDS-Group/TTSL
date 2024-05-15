@@ -1,31 +1,31 @@
 package tests.scoping.arguments.ofCalls.toParameterOfFunction
 
 fun myFunction(
-    // $TEST$ target a
+    # $TEST$ target a
     »a«: Int,
-    // $TEST$ target b
+    # $TEST$ target b
     »b«: Int = 0,
-    // $TEST$ target c
+    # $TEST$ target c
     »c«: Int
 )
 
 pipeline myPipeline {
     myFunction(
-        // $TEST$ references c
+        # $TEST$ references c
         »c« = 0,
-        // $TEST$ references a
+        # $TEST$ references a
         »a« = 0,
-        // $TEST$ references b
+        # $TEST$ references b
         »b« = 0
     );
 
     val alias = myFunction;
     alias(
-        // $TEST$ references c
+        # $TEST$ references c
         »c« = 0,
-        // $TEST$ references a
+        # $TEST$ references a
         »a« = 0,
-        // $TEST$ references b
+        # $TEST$ references b
         »b« = 0
     );
 }

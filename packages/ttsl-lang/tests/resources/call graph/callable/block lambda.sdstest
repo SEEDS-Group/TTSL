@@ -4,6 +4,6 @@ package tests.callGraph.callable.blockLambda
 @Pure fun g() -> r: Any
 
 pipeline myPipeline {
-    // $TEST$ ["$blockLambda", "f", "g"]
+    # $TEST$ ["$blockLambda", "f", "g"]
     »(param: Any = f()) { g(); }«;
 }

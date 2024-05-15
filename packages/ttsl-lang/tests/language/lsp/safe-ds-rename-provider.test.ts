@@ -28,14 +28,14 @@ describe('SafeDsRenameProvider', async () => {
 
                         class MyClass
 
-                        fun f(p: MyClass)
+                        function f(p: MyClass)
                     `,
                     expectedOutput: `
                         package test
 
                         class SomeClass
 
-                        fun f(p: SomeClass)
+                        function f(p: SomeClass)
                     `,
                 },
             ],
@@ -61,12 +61,12 @@ describe('SafeDsRenameProvider', async () => {
                     originalContent: `
                         package test
 
-                        fun f(p: MyClass)
+                        function f(p: MyClass)
                     `,
                     expectedOutput: `
                         package test
 
-                        fun f(p: SomeClass)
+                        function f(p: SomeClass)
                     `,
                 },
             ],
@@ -94,14 +94,14 @@ describe('SafeDsRenameProvider', async () => {
 
                         from test import *
 
-                        fun f(p: MyClass)
+                        function f(p: MyClass)
                     `,
                     expectedOutput: `
                         package test2
 
                         from test import *
 
-                        fun f(p: SomeClass)
+                        function f(p: SomeClass)
                     `,
                 },
             ],
@@ -129,14 +129,14 @@ describe('SafeDsRenameProvider', async () => {
 
                         from test import MyClass
 
-                        fun f(p: MyClass)
+                        function f(p: MyClass)
                     `,
                     expectedOutput: `
                         package test2
 
                         from test import SomeClass
 
-                        fun f(p: SomeClass)
+                        function f(p: SomeClass)
                     `,
                 },
             ],
@@ -164,14 +164,14 @@ describe('SafeDsRenameProvider', async () => {
 
                         from test import MyClass as MyClass2
 
-                        fun f(p: MyClass2)
+                        function f(p: MyClass2)
                     `,
                     expectedOutput: `
                         package test2
 
                         from test import SomeClass as MyClass2
 
-                        fun f(p: MyClass2)
+                        function f(p: MyClass2)
                     `,
                 },
             ],
@@ -199,14 +199,14 @@ describe('SafeDsRenameProvider', async () => {
 
                         from test import MyClass as MyClass
 
-                        fun f(p: MyClass)
+                        function f(p: MyClass)
                     `,
                     expectedOutput: `
                         package test2
 
                         from test import SomeClass as MyClass
 
-                        fun f(p: MyClass)
+                        function f(p: MyClass)
                     `,
                 },
             ],
@@ -234,14 +234,14 @@ describe('SafeDsRenameProvider', async () => {
 
                         from test import MyClass as MyClass2
 
-                        fun f(p: MyClass)
+                        function f(p: MyClass)
                     `,
                     expectedOutput: `
                         package test
 
                         from test import SomeClass as MyClass2
 
-                        fun f(p: SomeClass)
+                        function f(p: SomeClass)
                     `,
                 },
             ],

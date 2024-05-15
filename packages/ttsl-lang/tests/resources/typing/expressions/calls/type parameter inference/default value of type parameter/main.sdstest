@@ -7,13 +7,13 @@ class C2<T = Int>()
 @Pure fun f2<T = Int>() -> r1: T
 
 pipeline myPipeline {
-    // $TEST$ serialization C1<Nothing>
+    # $TEST$ serialization C1<Nothing>
     »C1()«;
-    // $TEST$ serialization C2<Int>
+    # $TEST$ serialization C2<Int>
     »C2()«;
 
-    // $TEST$ serialization Nothing
+    # $TEST$ serialization Nothing
     »f1()«;
-    // $TEST$ serialization Int
+    # $TEST$ serialization Int
     »f2()«;
 }

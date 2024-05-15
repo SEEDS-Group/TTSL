@@ -3,25 +3,25 @@ package tests.scoping.namedTypes.acrossFiles.toGlobalClasses
 from safeds.scoping.namedTypes.acrossFiles.toGlobalClasses import MyClass as MyOwnClass
 from tests.scoping.namedTypes.acrossFiles.toGlobalClasses.other import ClassInAnotherPackage, Class2InAnotherPackage
 
-// $TEST$ target own_MyOwnClass
+# $TEST$ target own_MyOwnClass
 class »MyOwnClass«
 
 segment mySegment(
-    // $TEST$ references own_MyOwnClass
+    # $TEST$ references own_MyOwnClass
     p1: »MyOwnClass«,
 
-    // $TEST$ references same_ClassInSamePackage
+    # $TEST$ references same_ClassInSamePackage
     p2: »ClassInSamePackage«,
 
-    // $TEST$ references safeds_ClassInSafeDsPackage
+    # $TEST$ references safeds_ClassInSafeDsPackage
     p3: »ClassInSafeDsPackage«,
 
-    // $TEST$ references other_ClassInAnotherPackage
+    # $TEST$ references other_ClassInAnotherPackage
     p4: »ClassInAnotherPackage«,
 
-    // $TEST$ references other_Class2InAnotherPackage
+    # $TEST$ references other_Class2InAnotherPackage
     p5: »Class2InAnotherPackage«,
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     p6: »ClassWithoutPackage«,
 ) {}

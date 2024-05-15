@@ -10,21 +10,21 @@ fun functionWithoutSideEffects() -> result: Boolean
 fun functionWithSideEffects() -> result: Boolean
 
 pipeline test {
-    // $TEST$ serialization 1
+    # $TEST$ serialization 1
     »1 ?: pureFunction()«;
 
-    // $TEST$ serialization 1
+    # $TEST$ serialization 1
     »1 ?: functionWithoutSideEffects()«;
 
-    // $TEST$ serialization 1
+    # $TEST$ serialization 1
     »1 ?: functionWithSideEffects()«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »null ?: pureFunction()«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »null ?: functionWithoutSideEffects()«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »null ?: functionWithSideEffects()«;
 }

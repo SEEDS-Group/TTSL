@@ -5,6 +5,6 @@ from tests.scoping.references.acrossFiles.toGlobalClasses.other import MyClass
 from tests.scoping.references.acrossFiles.toGlobalClasses import MyClass
 
 pipeline myPipeline {
-    // $TEST$ references safeds_MyClass
+    # $TEST$ references safeds_MyClass
     »MyClass«;
 }
