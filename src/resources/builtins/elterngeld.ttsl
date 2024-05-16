@@ -1,0 +1,144 @@
+package elterngeld
+
+// elterngeld.yaml -------------------------------------------------------
+
+/**
+ * Faktor bei der ElG-Berechung, 2. Stufe
+ * § 2 (1) BEEG
+ */
+const elterngeldFaktor: Float {
+	from 2007-01-01 = 0.67
+}
+
+/**
+ * Höchstbetrag des Elterngeldes
+ * § 2 (1) BEEG
+ */
+const elterngeldHoechstbetrag: Int {
+	from 2007-01-01 = 1800
+}
+
+/**
+ * Nettoeinkommen an 1. und 2. Stufe
+ * § 2 (2) BEEG. Maßgeblich ist das durchschnittlich erzielte monatliche Einkommen
+ * vor der Geburt
+ */
+const elterngeldNettoeinkommenStufen: Dict<Int, Int> {
+	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	from 2007-01-01 = {
+		1: 1000,
+		2: 1001
+	}
+
+	// Reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
+	from 2011-01-01 = {
+		1: 1000,
+		2: 1201
+	}
+}
+
+/**
+ * Mindestbetrag des Elterngeldes
+ * § 2 (5) BEEG
+ */
+const elterngeldMindestbetrag: Int {
+	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	from 2007-01-01 = 300
+}
+
+/**
+ * Korrektur des Prozentsatzes für hohe und niedrige Einkommen
+ * § 2 (2) BEEG
+ */
+const elterngeldProzentKorrektur: Float {
+	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	from 2007-01-01 = 0.001
+}
+
+/**
+ * Minimaler Anteil des Elterngelds am vorherigen Nettoeinkommen
+ * § 2 (2) BEEG
+ */
+const elterngeldProzentMinimum: Float {
+	from 2007-01-01 = 0.67
+
+	// Reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
+	from 2011-01-01 = 0.65
+}
+
+/**
+ * Einkommensschritte für die Korrektur
+ * § 2 (2) BEEG
+ */
+const elterngeldEinkommensSchrittKorrektur: Int {
+	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	from 2007-01-01 = 2
+}
+
+/**
+ * Altersgrenzen für Geschwisterbonus
+ * Leben im Haushalt zwei Kinder unter 3 Jahren oder mehr als zwei unter 6 Jahren
+ * wird das Elterngeld um 10% (max. um 75€) erhöht.
+ * Reference: § 2a BEEG
+ */
+const elterngeldGeschwisterbonusAltersgrenzenKinder: Dict<Int, Int> {
+	from 2007-01-01 = {
+		3: 2,
+		6: 3
+	}
+}
+
+/**
+ * Geschwisterbonus als prozentualer Aufschlag
+ * § 2a (1) BEEG. Früher § 2 (4) BEEG
+ */
+const elterngeldGeschwisterbonusAufschlag: Float {
+	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	from 2007-01-01 = 0.1
+}
+
+/**
+ * Minimaler Geschwisterbonus als Euro-Betrag
+ * § 2a (1) BEEG. Früher §2 (4)  BEEG
+ */
+const elterngeldGeschwisterbonusMinimum: Int {
+	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	from 2007-01-01 = 75
+}
+
+/**
+ * Pauschale für jedes weitere Mehrlingskind
+ * § 2a (4) BEEG, früher §2 (6) BEEG.
+ * pro Monat
+ */
+const elterngeldMehrlingbonus: Int {
+	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	from 2007-01-01 = 300
+}
+
+/**
+ * Sozialversicherungspauschale zur Berechnung des Nettoeinkommens
+ * §2f BEEG. Vor 2012 waren es die eigentlichen Pflichtbeiträge.
+ */
+const elterngeldSozialversicherungspauschale: Float {
+	// Reference: Art. 1 G. v. 10.09.2012 BGBl. I S. 1878
+	from 2012-09-18 = 0.21
+}
+
+/**
+ * Maximale Anzahl an Monaten, in denen ein Paar Elterngeld erhält
+ * § 4 (3) BEEG
+ */
+const elterngeldMaxMonatePaar: Int {
+	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	from 2007-01-01 = 14
+}
+
+/**
+ * Maximale Anzahl an Monaten, die jedes Elternteil Elterngeld erhält
+ * § 4 (3) BEEG
+ */
+const elterngeldMaxMonateIndividuell: Int {
+	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	from 2007-01-01 = 12
+}
