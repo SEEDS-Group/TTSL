@@ -1,0 +1,9 @@
+package tests.generator.aggregation
+
+data testData: Int
+id data testID: Int
+
+function testFunction() {
+    aggregate 'sum' of testData groupedBy testID;
+}
+
