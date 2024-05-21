@@ -354,7 +354,7 @@ fragment TslConstantFragment:
     '=' value=TslExpression) ';'?
 ;
 
-interface TslData extends TslModuleMember {
+interface TslData extends TslModuleMember, TslDeclaration {
     isID: boolean
     ^type: TslType
     timeunit?: TslTimeunit
@@ -642,13 +642,13 @@ TslExpression returns TslExpression:
 ;
 
 interface TslAggregation extends TslExpression{
-    function: TslExpression
+    function: TslString
     data: TslExpression
     groupedBy: TslGroupedBy
 }
 
 TslAggregation returns TslAggregation:
-    'aggregate' function=TslExpression 'of' data=TslExpression groupedBy=TslGroupedBy
+    'aggregate' function=TslString 'of' data=TslExpression groupedBy=TslGroupedBy
 ;
 
 interface TslLambda extends TslCallable, TslExpression {}
@@ -1267,7 +1267,7 @@ terminal FLOAT returns number
     : DECIMAL_DIGIT+ '.' DECIMAL_DIGIT+ FLOAT_EXPONENT?
     | DECIMAL_DIGIT+ FLOAT_EXPONENT;
 terminal fragment DECIMAL_DIGIT: /[0-9]/;
-terminal DATE returns Date: /[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}/;
+terminal DATE returns Date: /[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2})?/;
 terminal fragment FLOAT_EXPONENT: ('e' | 'E' )('+' | '-' )? DECIMAL_DIGIT+;
 terminal INT returns bigint: DECIMAL_DIGIT+;
 terminal STRING returns string: STRING_START STRING_TEXT* STRING_END;
