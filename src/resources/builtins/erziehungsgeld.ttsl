@@ -51,13 +51,14 @@ const erziehungsgeldSatz: Dict<String, Int> {
 }
 
 /**
+ * Abschlagfaktor
  * Faktor zur Berechnung des Abschlag des Erziehungsgeld bei einer
  * Überschreitung der Einkommensgrenze ab dem 7 Lebensmonat.
  * Der Faktor wird mit dem relevanten Einkommen multipliziert und
  * das Produkt entsprechend vom Erziehungsgeld Anspruch abgezogen
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
  */
-const erziehungsgeldAbschlagFaktor: Float {
+const abschlagFaktor: Float {
 	from 2004-02-09 = 0.052
 }
 
@@ -66,7 +67,7 @@ const erziehungsgeldAbschlagFaktor: Float {
  * relevanten Einkommen zu berechnen
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 6 (p.209)
  */
-const erziehungsgeldPauschalAbzugAufEinkommen: Float {
+const pauschalAbzugAufEinkommen: Float {
 	from 2004-02-09 = 0.76
 }
 
@@ -74,7 +75,7 @@ const erziehungsgeldPauschalAbzugAufEinkommen: Float {
  * Grenze der wöchentlichen Arbeitsstunden bis zu der Erziehungsgeld ausgezahlt wird
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 15 (p.211)
  */
-const erziehungsgeldArbeitsstundenWoechentlicheGrenze: Int {
+const arbeitsstundenWoechentlicheGrenze: Int {
 	from 2004-02-09 = 30
 }
 
@@ -82,7 +83,7 @@ const erziehungsgeldArbeitsstundenWoechentlicheGrenze: Int {
  * Alter des Kindes in Monaten bis zu dem der Regelsatz bezogen werden kann.
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
  */
-const erziehungsgeldEndAlterKindRegelsatz: Int {
+const endAlterKindRegelsatz: Int {
 	from 2004-01-01 = 24
 }
 
@@ -90,7 +91,7 @@ const erziehungsgeldEndAlterKindRegelsatz: Int {
  * Alter des Kindes in Monaten bis zu dem der Budgetsatz bezogen werden kann.
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
  */
-const erziehungsgeldEndAlterKindBudgetsatz: Int {
+const endAlterKindBudgetsatz: Int {
 	from 2004-01-01 = 12
 }
 

@@ -292,6 +292,16 @@ public const regelsatz: Int | Dict<Int, Int> {
         5: 348,
         6: 318
     }
+
+    // Reference: §2 V. v. 24.10.2024 BGBl. I Nr. 287
+    from 2024-01-01 = {
+        1: 563,
+        2: 506,
+        3: 451,
+        4: 471,
+        5: 390,
+        6: 357
+    }
 }
 
 /**

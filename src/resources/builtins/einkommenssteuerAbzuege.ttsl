@@ -9,7 +9,7 @@ pacakge einkommenssteuerAbzuege
  * veranlagte Paare. §32 (6) EStG, seit 2000.
  * Pro Jahr
  */
-const einkommensSteuerKinderFreibetrag: Dict<String, Int> {
+const kinderFreibetrag: Dict<String, Int> {
     // Reference: Art. 1 G. v. 23.12.1982 BGBl. I S. 1857.
     from 1983-01-01 = {
         saechlichesExistenzminimum: 110
@@ -117,10 +117,20 @@ const einkommensSteuerKinderFreibetrag: Dict<String, Int> {
         saechlichesExistenzminimum: 3012
     }
 
+    2024-01-01:
+    deviation_from: previous
+    sächl_existenzmin: 3306
+    reference: >-
+      Not implemented in law yet, but announced.
+      https://www.bmfsfj.de/bmfsfj/aktuelles/alle-meldungen/
+      spuerbare-verbesserungen-fuer-familien--234802
+
     // Reference: Art. 3 G. v. 08.12.2022 BGBl. I S. 2230.
+    // Not implemented in law yet, but announced. https://www.bmfsfj.de/bmfsfj/aktuelles/alle-meldungen/spuerbare-verbesserungen-fuer-familien--234802
     from 2024-01-01 = {
+        // deviation_from: previous
         beitragErziehungAusbildung: 2730, // previous
-        saechlichesExistenzminimum: 3192
+        saechlichesExistenzminimum: 3306
     }
 }
 

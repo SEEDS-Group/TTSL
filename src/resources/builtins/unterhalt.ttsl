@@ -61,6 +61,13 @@ const mindestunterhalt: Dict<Int, Int> {
         12: 502,
         18: 588
     }
+    
+    // Reference: Artikel 1 V. v. 29.11.2023 BGBl. I Nr. 330.
+    from 2024-01-01 = {
+        6: 480,
+        12: 551,
+        18: 645
+    }
 }
 
 /**

@@ -354,6 +354,14 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
             meanZusatzbeitrag: 0.016
         }
     }
+
+    // Reference: BAnz AT 31.10.2023 B3
+    from 2024-01-01 {
+        // deviation_from: previous
+        gesetzlicheKrankenversicherung: {
+            meanZusatzbeitrag: 0.017
+        }
+    }
 }
 
 /** 
@@ -788,6 +796,18 @@ const beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
             ost: 7100
         }
     }
+
+    // Reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 322
+    from 2024-01-01 {
+        ges_krankenv: {
+            west: 5175
+            ost: 5175
+        }
+        ges_rentenv: {
+            west: 7550
+            ost: 7450
+        }
+    }
 }
 
 /** 
@@ -990,6 +1010,12 @@ const monatlicheBezugsgroeße: Dict<String, Float> {
     from 2023-01-01 {
         west: 3395
         ost: 3290
+    }
+
+    // Reference: V. v. 29.11.2023 BGBl. 2023 I Nr. 322.
+    from 2024-01-01 {
+        west: 3535
+        ost: 3465
     }
 }
 
@@ -1251,6 +1277,12 @@ const mindestlohn: Float {
     from 2022-01-01 = 9.82
     from 2022-07-01 = 10.45
     from 2022-10-01 = 12
+
+    // Reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 321
+    from 2024-01-01 = 12.41
+
+    // Reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 321
+    from 2025-01-01 = 12.82
 }
 
 // TODO: rounding
