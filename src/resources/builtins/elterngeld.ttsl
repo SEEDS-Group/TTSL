@@ -6,7 +6,7 @@ package elterngeld
  * Faktor bei der ElG-Berechung, 2. Stufe
  * § 2 (1) BEEG
  */
-const elterngeldFaktor: Float {
+const faktor: Float {
 	from 2007-01-01 = 0.67
 }
 
@@ -14,7 +14,7 @@ const elterngeldFaktor: Float {
  * Höchstbetrag des Elterngeldes
  * § 2 (1) BEEG
  */
-const elterngeldHoechstbetrag: Int {
+const hoechstbetrag: Int {
 	from 2007-01-01 = 1800
 }
 
@@ -23,7 +23,7 @@ const elterngeldHoechstbetrag: Int {
  * § 2 (2) BEEG. Maßgeblich ist das durchschnittlich erzielte monatliche Einkommen
  * vor der Geburt
  */
-const elterngeldNettoeinkommenStufen: Dict<Int, Int> {
+const nettoeinkommenStufen: Dict<Int, Int> {
 	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = {
 		1: 1000,
@@ -41,7 +41,7 @@ const elterngeldNettoeinkommenStufen: Dict<Int, Int> {
  * Mindestbetrag des Elterngeldes
  * § 2 (5) BEEG
  */
-const elterngeldMindestbetrag: Int {
+const mindestbetrag: Int {
 	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = 300
 }
@@ -50,7 +50,7 @@ const elterngeldMindestbetrag: Int {
  * Korrektur des Prozentsatzes für hohe und niedrige Einkommen
  * § 2 (2) BEEG
  */
-const elterngeldProzentKorrektur: Float {
+const prozentKorrektur: Float {
 	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = 0.001
 }
@@ -59,7 +59,7 @@ const elterngeldProzentKorrektur: Float {
  * Minimaler Anteil des Elterngelds am vorherigen Nettoeinkommen
  * § 2 (2) BEEG
  */
-const elterngeldProzentMinimum: Float {
+const prozentMinimum: Float {
 	from 2007-01-01 = 0.67
 
 	// Reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
@@ -70,7 +70,7 @@ const elterngeldProzentMinimum: Float {
  * Einkommensschritte für die Korrektur
  * § 2 (2) BEEG
  */
-const elterngeldEinkommensSchrittKorrektur: Int {
+const einkommensSchrittKorrektur: Int {
 	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = 2
 }
@@ -81,7 +81,7 @@ const elterngeldEinkommensSchrittKorrektur: Int {
  * wird das Elterngeld um 10% (max. um 75€) erhöht.
  * Reference: § 2a BEEG
  */
-const elterngeldGeschwisterbonusAltersgrenzenKinder: Dict<Int, Int> {
+const geschwisterbonusAltersgrenzenKinder: Dict<Int, Int> {
 	from 2007-01-01 = {
 		3: 2,
 		6: 3
@@ -92,7 +92,7 @@ const elterngeldGeschwisterbonusAltersgrenzenKinder: Dict<Int, Int> {
  * Geschwisterbonus als prozentualer Aufschlag
  * § 2a (1) BEEG. Früher § 2 (4) BEEG
  */
-const elterngeldGeschwisterbonusAufschlag: Float {
+const geschwisterbonusAufschlag: Float {
 	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = 0.1
 }
@@ -101,7 +101,7 @@ const elterngeldGeschwisterbonusAufschlag: Float {
  * Minimaler Geschwisterbonus als Euro-Betrag
  * § 2a (1) BEEG. Früher §2 (4)  BEEG
  */
-const elterngeldGeschwisterbonusMinimum: Int {
+const geschwisterbonusMinimum: Int {
 	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = 75
 }
@@ -111,7 +111,7 @@ const elterngeldGeschwisterbonusMinimum: Int {
  * § 2a (4) BEEG, früher §2 (6) BEEG.
  * pro Monat
  */
-const elterngeldMehrlingbonus: Int {
+const mehrlingbonus: Int {
 	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = 300
 }
@@ -120,7 +120,7 @@ const elterngeldMehrlingbonus: Int {
  * Sozialversicherungspauschale zur Berechnung des Nettoeinkommens
  * §2f BEEG. Vor 2012 waren es die eigentlichen Pflichtbeiträge.
  */
-const elterngeldSozialversicherungspauschale: Float {
+const sozialversicherungspauschale: Float {
 	// Reference: Art. 1 G. v. 10.09.2012 BGBl. I S. 1878
 	from 2012-09-18 = 0.21
 }
@@ -129,7 +129,7 @@ const elterngeldSozialversicherungspauschale: Float {
  * Maximale Anzahl an Monaten, in denen ein Paar Elterngeld erhält
  * § 4 (3) BEEG
  */
-const elterngeldMaxMonatePaar: Int {
+const maxMonatePaar: Int {
 	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = 14
 }
@@ -138,7 +138,7 @@ const elterngeldMaxMonatePaar: Int {
  * Maximale Anzahl an Monaten, die jedes Elternteil Elterngeld erhält
  * § 4 (3) BEEG
  */
-const elterngeldMaxMonateIndividuell: Int {
+const maxMonateIndividuell: Int {
 	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = 12
 }
