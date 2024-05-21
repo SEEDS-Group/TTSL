@@ -1,0 +1,79 @@
+package unterhalt
+
+/**
+ * Mindestunterhalt für Kinder
+ * § 1612a BGB, § 1 Mindesunterhaltsverordnung. Mindestunterhalt für Kinder in
+ * Abhängigkeit des Alters (unter 6, unter 12, bis 17 Jahre)
+ */
+const mindestunterhalt: Dict<Int, Int> {
+    // Reference: V. v. 03.12.2015 BGBl. I S. 2188.
+    from 2016-01-01 = {
+        6: 335,
+        12: 384,
+        18: 450
+    }
+    
+    // Reference: V. v. 03.12.2015 BGBl. I S. 2188.
+    from 2017-01-01 = {
+        6: 342,
+        12: 393,
+        18: 460
+    }
+
+    // Reference: Artikel 1 V. v. 28.09.2017 BGBl. I S. 3525.
+    from 2018-01-01 = {
+        6: 348,
+        12: 399,
+        18: 467
+    }
+
+    // Reference: Artikel 1 V. v. 28.09.2017 BGBl. I S. 3525.
+    from 2019-01-01 = {
+        6: 354,
+        12: 406,
+        18: 476
+    }
+
+    // Reference: Artikel 1 V. v. 12.09.2019 BGBl. I S. 1393.
+    from 2020-01-01 = {
+        6: 369,
+        12: 424,
+        18: 497
+    }
+
+    // Reference: Artikel 1 V. v. 03.11.2020 BGBl. I S. 2344.
+    from 2021-01-01 = {
+        6: 393,
+        12: 451,
+        18: 528
+    }
+
+    // Reference: Artikel 1 V. v. 30.11.2021 BGBl. I S. 5066.
+    from 2022-01-01 = {
+        6: 396,
+        12: 455,
+        18: 533
+    }
+
+    // Reference: Artikel 1 V. v. 30.11.2022 BGBl. I S. 2130.
+    from 2023-01-01 = {
+        6: 437,
+        12: 502,
+        18: 588
+    }
+}
+
+/**
+ * Verringerung des Kindesunterhalts durch Kindergeld
+ * Das Kindergeld zählt als Einkommen des Kindes, weshalb es bei der Berechnung von
+ * Unterhalt Berücksichtigung findet. Erhält der betreuende Elternteil das
+ * Kindergeld für ein minderjähriges Kind, so kann der andere unterhaltspflichtige
+ * Elternteil das hälftige Kindergeld bei der Unterhaltsberechnung in Abzug bringen.
+ * Reference: § 1612b BGB
+ */
+const abzugsrateKindergeld: Dict<String, Float> {
+    from 2008-01-01 = {
+        kind: 0.5,
+        erwachsener: 1
+    }
+}
