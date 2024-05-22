@@ -272,7 +272,6 @@ export const registerValidationChecks = function (services: SafeDsServices) {
         TslFunction: [
             functionMustContainUniqueNames,
             functionResultListShouldNotBeEmpty(services),
-            functionPurityMustBeSpecified(services),
             impurityReasonsOfOverridingMethodMustBeSubsetOfOverriddenMethod(services),
             impurityReasonParameterNameMustBelongToParameterOfCorrectType(services),
             impurityReasonShouldNotBeSetMultipleTimes(services),
