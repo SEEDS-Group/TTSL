@@ -14,39 +14,6 @@ export const CODE_PURITY_MUST_BE_SPECIFIED = 'purity/must-be-specified';
 export const CODE_PURITY_POTENTIALLY_IMPURE_PARAMETER_NOT_CALLABLE = 'purity/potentially-impure-parameter-not-callable';
 export const CODE_PURITY_PURE_PARAMETER_SET_TO_IMPURE_CALLABLE = 'purity/pure-parameter-set-to-impure-callable';
 
-export const functionPurityMustBeSpecified = (services: SafeDsServices) => {
-    const annotations = services.builtins.Annotations;
-
-    return (node: TslFunction, accept: ValidationAcceptor) => {
-        if (annotations.callsPure(node) && annotations.callsImpure(node)) {
-            return accept('error', "'@Impure' and '@Pure' are mutually exclusive.", {
-                node,
-                property: 'name',
-                code: CODE_PURITY_IMPURE_AND_PURE,
-            });
-        } else if (!annotations.callsImpure(node) && !annotations.callsPure(node)) {
-            return accept(
-                'error',
-                "The purity of a function must be specified. Call the annotation '@Pure' or '@Impure'.",
-                {
-                    node,
-                    property: 'name',
-                    code: CODE_PURITY_MUST_BE_SPECIFIED,
-                },
-            );
-        }
-
-        const impureAnnotationCall = findFirstAnnotationCallOf(node, annotations.Impure);
-        if (impureAnnotationCall && annotations.streamImpurityReasons(node).isEmpty()) {
-            accept('error', 'At least one impurity reason must be specified.', {
-                node: impureAnnotationCall,
-                property: 'annotation',
-                code: CODE_PURITY_MUST_BE_SPECIFIED,
-            });
-        }
-    };
-};
-
 export const impurityReasonsOfOverridingMethodMustBeSubsetOfOverriddenMethod = (services: SafeDsServices) => {
     const builtinAnnotations = services.builtins.Annotations;
     const classHierarchy = services.types.ClassHierarchy;
