@@ -942,7 +942,7 @@ const behinderungsgrad: Dict<Int, Int> {
  * Die Werte sind nach Anzahl Personen - maximales Baujahr des Hauses (vor 2009) -
  * Mietstufe geordnet. Alle Werte in vollen Euro.
  */
-const maxMiete: Dit<Int | String, Dict<Int, Dict<Int, Int>>> {
+const maxMiete: Dict<Int | String, Dict<Int, Dict<Int, Int>>> {
   // Reference: Art. 1 G. v. 04.08.1980 BGBl I S. 1159.
   // Bis 1985 nur drei Mietstufen, streng abhängig von der Größe der Gemeinde. Es wird "Wohnung mit Sammelheizung und mit Bad oder Duschraum" angenommen.
   from 1981-01-01 = {
