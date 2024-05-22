@@ -1,7 +1,7 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
 import { ClassType } from '../../../../src/language/typing/model.js';
-import { isSdsAttribute } from '../../../../src/language/generated/ast.js';
+import { isTslAttribute } from '../../../../src/language/generated/ast.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
 import { AssertionError } from 'assert';
 import { createSafeDsServices } from '../../../../src/language/index.js';
@@ -132,7 +132,7 @@ describe('streamProperSupertypes', async () => {
     ];
 
     it.each(testCases)('$testName', async ({ code, expected }) => {
-        const firstAttribute = await getNodeOfType(services, code, isSdsAttribute);
+        const firstAttribute = await getNodeOfType(services, code, isTslAttribute);
         const type = typeComputer.computeType(firstAttribute);
         if (!(type instanceof ClassType)) {
             throw new AssertionError({ message: 'Expected type to be an instance of ClassType.', actual: type });

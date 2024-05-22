@@ -1,13 +1,25 @@
 # Statements
 
-TTSL supports a variety of statements which can be divided into the following categories: 
+TTSL supports a variety of statements which can be divided into the following categories:
 
 - [Expression Statements](#expression-statements), which are used to evaluate expressions and perform operations while discarding the result.
 - [Assignments](#assignments), which are used to assign values to variables.
-- [Conditional Expressions](#conditional-expressions), which are used to execute code based on conditions.
+- [Conditional statements](#conditional-statements), which are used to execute code based on conditions.
 - [Loops](#loops), which are used to execute code repeatedly.
 
 ## Expression Statements
+
+Expression Statements are Expressions like [function calls][Call] that just execute the function without returning a return value.
+
+First, we show the code of the [function][functions] that we want to call.
+
+```ttsl
+function f(x: Int = 1){
+    // ... do something ...
+}
+```
+
+The [call][Call] for this function would either be `#!ttsl f();` or with another parameter instead of the default parameter `#!ttsl f(5)`.
 
 ## Assignments
 
@@ -37,9 +49,9 @@ Similarly the result of a function can be assigned to a variable.
 y = f();
 ```
 
-## Conditional Expressions
+## Conditional statements
 
-Conditional expressions are used to execute code based on conditions. A condition can be checked with the `if` keyword followed by a condition in parantheses. If the condition is true, the code block following the condition is executed.
+Conditional statements are used to execute code based on conditions. A condition can be checked with the `if` keyword followed by a condition in parantheses. If the condition is true, the code block following the condition is executed.
 
 ```ttsl
 if(x > 10) {
@@ -67,7 +79,7 @@ TTSL supports three types of loops: `while`, `for` and `foreach`. Each one of th
 
 ### While Loop
 
-The `while` loop has a similar syntax to the [conditional expressions](#conditional-expressions). The code block following the condition is executed as long as the condition is true.
+The `while` loop has a similar syntax to the [conditional statements](#conditional-statements). The code block following the condition is executed as long as the condition is true.
 
 ```ttsl
 while(x > 0) {
@@ -92,9 +104,9 @@ In the example above, the value of `x` is incremented by `1` ten times.
 ### Foreach Loop
 
 The `foreach` loop is used to iterate over a collection of elements. TTSL supports two kinds of collections:
-[Lists](../common/types.md#List) and [Dictionaries](../common/types.md#Dict).
+[Lists][Lists] and [Dictionaries][Dictionaries].
 
-<!-- 
+<!--
     TODO: Links anpassen
 -->
 ```ttsl
@@ -104,3 +116,8 @@ foreach(element in List) {
 ```
 
 In the example above, each element in the list is incremented by `10`.
+
+[Lists]: types.md#Lists
+[Dictionaries]: types.md#Dictionaries
+[Call]: expressions.md#calls
+[functions]: functions.md

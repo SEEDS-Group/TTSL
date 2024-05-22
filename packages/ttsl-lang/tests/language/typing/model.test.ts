@@ -1,6 +1,6 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
-import { isSdsClass, isSdsEnum, isSdsEnumVariant, isSdsFunction } from '../../../src/language/generated/ast.js';
+import { isTslClass, isTslEnum, isTslEnumVariant, isTslFunction } from '../../../src/language/generated/ast.js';
 import { createSafeDsServices, getParameters, getResults, getTypeParameters } from '../../../src/language/index.js';
 import { BooleanConstant, IntConstant, NullConstant } from '../../../src/language/partialEvaluation/model.js';
 import {
@@ -34,19 +34,19 @@ const code = `
     }
     enum MyEnum2 {}
 `;
-const callable1 = await getNodeOfType(services, code, isSdsFunction, 0);
+const callable1 = await getNodeOfType(services, code, isTslFunction, 0);
 const parameter1 = getParameters(callable1)[0]!;
 const parameter2 = getParameters(callable1)[1]!;
 const result = getResults(callable1.resultList)[0]!;
-const callable2 = await getNodeOfType(services, code, isSdsFunction, 1);
-const class1 = await getNodeOfType(services, code, isSdsClass, 0);
-const class2 = await getNodeOfType(services, code, isSdsClass, 1);
+const callable2 = await getNodeOfType(services, code, isTslFunction, 1);
+const class1 = await getNodeOfType(services, code, isTslClass, 0);
+const class2 = await getNodeOfType(services, code, isTslClass, 1);
 const typeParameter1 = getTypeParameters(class2)[0]!;
 const typeParameter2 = getTypeParameters(class2)[1]!;
-const enum1 = await getNodeOfType(services, code, isSdsEnum, 0);
-const enum2 = await getNodeOfType(services, code, isSdsEnum, 1);
-const enumVariant1 = await getNodeOfType(services, code, isSdsEnumVariant, 0);
-const enumVariant2 = await getNodeOfType(services, code, isSdsEnumVariant, 1);
+const enum1 = await getNodeOfType(services, code, isTslEnum, 0);
+const enum2 = await getNodeOfType(services, code, isTslEnum, 1);
+const enumVariant1 = await getNodeOfType(services, code, isTslEnumVariant, 0);
+const enumVariant2 = await getNodeOfType(services, code, isTslEnumVariant, 1);
 
 describe('type model', async () => {
     const equalsTests: EqualsTest<Type>[] = [

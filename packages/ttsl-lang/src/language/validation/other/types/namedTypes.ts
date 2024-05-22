@@ -1,4 +1,4 @@
-import { SdsNamedType } from '../../../generated/ast.js';
+import { TslNamedType } from '../../../generated/ast.js';
 import { ValidationAcceptor } from 'langium';
 import { SafeDsServices } from '../../../safe-ds-module.js';
 import { getTypeArguments, getTypeParameters, TypeParameter } from '../../../helpers/nodeProperties.js';
@@ -13,7 +13,7 @@ export const namedTypeMustNotSetTypeParameterMultipleTimes = (services: SafeDsSe
     const nodeMapper = services.helpers.NodeMapper;
     const typeArgumentToTypeParameter = nodeMapper.typeArgumentToTypeParameter.bind(nodeMapper);
 
-    return (node: SdsNamedType, accept: ValidationAcceptor): void => {
+    return (node: TslNamedType, accept: ValidationAcceptor): void => {
         const typeArguments = getTypeArguments(node.typeArgumentList);
         const duplicates = duplicatesBy(typeArguments, typeArgumentToTypeParameter);
 
@@ -28,7 +28,7 @@ export const namedTypeMustNotSetTypeParameterMultipleTimes = (services: SafeDsSe
 };
 
 export const namedTypeTypeArgumentListMustNotHavePositionalArgumentsAfterNamedArguments = (
-    node: SdsNamedType,
+    node: TslNamedType,
     accept: ValidationAcceptor,
 ): void => {
     const typeArgumentList = node.typeArgumentList;
@@ -49,7 +49,7 @@ export const namedTypeTypeArgumentListMustNotHavePositionalArgumentsAfterNamedAr
     }
 };
 
-export const namedTypeMustNotHaveTooManyTypeArguments = (node: SdsNamedType, accept: ValidationAcceptor): void => {
+export const namedTypeMustNotHaveTooManyTypeArguments = (node: TslNamedType, accept: ValidationAcceptor): void => {
     const actualTypeArgumentCount = getTypeArguments(node).length;
 
     // We can never have too many arguments in this case

@@ -1,20 +1,20 @@
 import { stream } from 'langium';
 import {
-    type SdsAbstractResult,
-    type SdsBlockLambda,
-    type SdsBlockLambdaResult,
-    type SdsCallable,
-    type SdsDeclaration,
-    type SdsEnumVariant,
-    type SdsExpression,
-    type SdsExpressionLambda,
-    type SdsParameter,
+    type TslAbstractResult,
+    type TslBlockLambda,
+    type TslBlockLambdaResult,
+    type TslCallable,
+    type TslDeclaration,
+    type TslEnumVariant,
+    type TslExpression,
+    type TslExpressionLambda,
+    type TslParameter,
 } from '../generated/ast.js';
 import { getParameters, streamBlockLambdaResults } from '../helpers/nodeProperties.js';
 import { escapeString } from '../grammar/safe-ds-value-converter.js';
 
-export type ParameterSubstitutions = Map<SdsParameter, EvaluatedNode>;
-export type ResultSubstitutions = Map<SdsAbstractResult, EvaluatedNode>;
+export type ParameterSubstitutions = Map<TslParameter, EvaluatedNode>;
+export type ResultSubstitutions = Map<TslAbstractResult, EvaluatedNode>;
 
 /**
  * A node that has been partially evaluated.
@@ -149,16 +149,16 @@ export const isConstant = (node: EvaluatedNode): node is Constant => {
 // -------------------------------------------------------------------------------------------------
 
 export abstract class EvaluatedCallable extends EvaluatedNode {
-    abstract readonly callable: SdsCallable | SdsParameter;
+    abstract readonly callable: TslCallable | TslParameter;
     abstract readonly substitutionsOnCreation: ParameterSubstitutions;
     override readonly isFullyEvaluated: boolean = false;
 }
 
 export class BlockLambdaClosure extends EvaluatedCallable {
-    readonly results: SdsBlockLambdaResult[];
+    readonly results: TslBlockLambdaResult[];
 
     constructor(
-        override readonly callable: SdsBlockLambda,
+        override readonly callable: TslBlockLambda,
         override readonly substitutionsOnCreation: ParameterSubstitutions,
     ) {
         super();
@@ -184,10 +184,10 @@ export class BlockLambdaClosure extends EvaluatedCallable {
 }
 
 export class ExpressionLambdaClosure extends EvaluatedCallable {
-    readonly result: SdsExpression;
+    readonly result: TslExpression;
 
     constructor(
-        override readonly callable: SdsExpressionLambda,
+        override readonly callable: TslExpressionLambda,
         override readonly substitutionsOnCreation: ParameterSubstitutions,
     ) {
         super();
@@ -212,7 +212,7 @@ export class ExpressionLambdaClosure extends EvaluatedCallable {
     }
 }
 
-export class NamedCallable<T extends (SdsCallable & SdsDeclaration) | SdsParameter> extends EvaluatedCallable {
+export class NamedCallable<T extends (TslCallable & TslDeclaration) | TslParameter> extends EvaluatedCallable {
     override readonly isFullyEvaluated: boolean = false;
     override readonly substitutionsOnCreation: ParameterSubstitutions = new Map();
 
@@ -235,7 +235,7 @@ export class NamedCallable<T extends (SdsCallable & SdsDeclaration) | SdsParamet
 
 export class EvaluatedEnumVariant extends EvaluatedNode {
     constructor(
-        readonly variant: SdsEnumVariant,
+        readonly variant: TslEnumVariant,
         private readonly substitutions: ParameterSubstitutions | undefined,
     ) {
         super();
@@ -486,8 +486,8 @@ const isFullyEvaluated = (node: EvaluatedNode): boolean => {
 };
 
 export const substitutionsAreEqual = (
-    a: Map<SdsDeclaration, EvaluatedNode> | undefined,
-    b: Map<SdsDeclaration, EvaluatedNode> | undefined,
+    a: Map<TslDeclaration, EvaluatedNode> | undefined,
+    b: Map<TslDeclaration, EvaluatedNode> | undefined,
 ): boolean => {
     if (a?.size !== b?.size) {
         return false;

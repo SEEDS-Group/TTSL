@@ -6,7 +6,7 @@ import { AstNode, AstUtils, LangiumDocument } from 'langium';
  * @see isInPipelineFile
  * @see isPipelineFile
  */
-export const PIPELINE_FILE_EXTENSION = 'sdspipe';
+export const PIPELINE_FILE_EXTENSION = 'Tslpipe';
 
 /**
  * Marks the file as a stub file, which describes an external API.
@@ -14,7 +14,7 @@ export const PIPELINE_FILE_EXTENSION = 'sdspipe';
  * @see isInStubFile
  * @see isStubFile
  */
-export const STUB_FILE_EXTENSION = 'sdsstub';
+export const STUB_FILE_EXTENSION = 'Tslstub';
 
 /**
  * Marks the file as a test file, which disables some checks to simplify its use as input of test cases. This file
@@ -23,7 +23,7 @@ export const STUB_FILE_EXTENSION = 'sdsstub';
  * @see isInTestFile
  * @see isTestFile
  */
-export const TEST_FILE_EXTENSION = 'sdstest';
+export const TEST_FILE_EXTENSION = 'Tsltest';
 
 /**
  * All file extensions that are supported by the Safe-DS language.
@@ -33,7 +33,7 @@ export const SAFE_DS_FILE_EXTENSIONS = [PIPELINE_FILE_EXTENSION, STUB_FILE_EXTEN
 /**
  * All file extensions that are supported by the Safe-DS language.
  */
-export type SdSFileExtension = typeof PIPELINE_FILE_EXTENSION | typeof STUB_FILE_EXTENSION | typeof TEST_FILE_EXTENSION;
+export type TslFileExtension = typeof PIPELINE_FILE_EXTENSION | typeof STUB_FILE_EXTENSION | typeof TEST_FILE_EXTENSION;
 
 /**
  * Returns whether the object is contained in a pipeline file.
@@ -68,5 +68,5 @@ export const isTestFile = (document: LangiumDocument) => hasExtension(document, 
 /**
  * Returns whether the resource represents a file with the given extension.
  */
-const hasExtension = (document: LangiumDocument, extension: SdSFileExtension) =>
+const hasExtension = (document: LangiumDocument, extension: TslFileExtension) =>
     document.uri.path.endsWith(`.${extension}`);

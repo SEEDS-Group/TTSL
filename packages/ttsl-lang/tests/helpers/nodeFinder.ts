@@ -2,7 +2,7 @@ import { Location, Range } from 'vscode-languageserver';
 import { isRangeEqual, parseHelper } from 'langium/test';
 import { SafeDsServices } from '../../src/language/index.js';
 import { AstNode, AstUtils, URI } from 'langium';
-import { SdsModule } from '../../src/language/generated/ast.js';
+import { TslModule } from '../../src/language/generated/ast.js';
 import { AssertionError } from 'assert';
 import { locationToString } from '../../src/helpers/locations.js';
 
@@ -25,7 +25,7 @@ export const getNodeByLocation = (services: SafeDsServices, location: Location):
         });
     }
 
-    const module = document.parseResult.value as SdsModule;
+    const module = document.parseResult.value as TslModule;
 
     for (const node of AstUtils.streamAllContents(module)) {
         // Entire node matches the range
@@ -66,7 +66,7 @@ export const getNodeOfType = async <T extends AstNode>(
     index: number = 0,
 ): Promise<T> => {
     const document = await parseHelper(services)(code);
-    const module = document.parseResult.value as SdsModule;
+    const module = document.parseResult.value as TslModule;
     const candidates = AstUtils.streamAst(module).filter(predicate).toArray();
 
     if (candidates.length === 0) {

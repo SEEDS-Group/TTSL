@@ -1,4 +1,4 @@
-import { isSdsParameter, type SdsParameter } from '../generated/ast.js';
+import { isTslParameter, type TslParameter } from '../generated/ast.js';
 import { getQualifiedName } from '../helpers/nodeProperties.js';
 
 /**
@@ -35,7 +35,7 @@ export abstract class ImpurityReason {
 export class FileRead extends ImpurityReason {
     override isSideEffect = false;
 
-    constructor(readonly path: SdsParameter | string | undefined) {
+    constructor(readonly path: TslParameter | string | undefined) {
         super();
     }
 
@@ -44,7 +44,7 @@ export class FileRead extends ImpurityReason {
     }
 
     override toString(): string {
-        if (isSdsParameter(this.path)) {
+        if (isTslParameter(this.path)) {
             return `File read from ${getQualifiedName(this.path)}`;
         } else if (typeof this.path === 'string') {
             return `File read from "${this.path}"`;
@@ -67,7 +67,7 @@ export class FileRead extends ImpurityReason {
 export class FileWrite extends ImpurityReason {
     override isSideEffect = true;
 
-    constructor(readonly path: SdsParameter | string | undefined) {
+    constructor(readonly path: TslParameter | string | undefined) {
         super();
     }
 
@@ -76,7 +76,7 @@ export class FileWrite extends ImpurityReason {
     }
 
     override toString(): string {
-        if (isSdsParameter(this.path)) {
+        if (isTslParameter(this.path)) {
             return `File write to ${getQualifiedName(this.path)}`;
         } else if (typeof this.path === 'string') {
             return `File write to "${this.path}"`;
@@ -104,7 +104,7 @@ export class FileWrite extends ImpurityReason {
 export class PotentiallyImpureParameterCall extends ImpurityReason {
     override isSideEffect = true;
 
-    constructor(readonly parameter: SdsParameter | undefined) {
+    constructor(readonly parameter: TslParameter | undefined) {
         super();
     }
 
@@ -113,7 +113,7 @@ export class PotentiallyImpureParameterCall extends ImpurityReason {
     }
 
     override toString(): string {
-        if (isSdsParameter(this.parameter)) {
+        if (isTslParameter(this.parameter)) {
             return `Potentially impure call of ${getQualifiedName(this.parameter)}`;
         } else {
             return 'Potentially impure call of ?';

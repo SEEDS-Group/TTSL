@@ -1,11 +1,11 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
 import {
-    isSdsAttribute,
-    isSdsClass,
-    isSdsFunction,
-    SdsClass,
-    type SdsClassMember,
+    isTslAttribute,
+    isTslClass,
+    isTslFunction,
+    TslClass,
+    type TslClassMember,
 } from '../../../src/language/generated/ast.js';
 import { createSafeDsServices, getClassMembers } from '../../../src/language/index.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
@@ -61,7 +61,7 @@ describe('SafeDsClassHierarchy', async () => {
     });
 
     describe('streamProperSuperclasses', () => {
-        const properSuperclassesNames = (node: SdsClass | undefined) =>
+        const properSuperclassesNames = (node: TslClass | undefined) =>
             classHierarchy
                 .streamProperSuperclasses(node)
                 .map((clazz) => clazz.name)
@@ -123,13 +123,13 @@ describe('SafeDsClassHierarchy', async () => {
         ];
 
         it.each(testCases)('$testName', async ({ code, expected }) => {
-            const firstClass = await getNodeOfType(services, code, isSdsClass);
+            const firstClass = await getNodeOfType(services, code, isTslClass);
             expect(properSuperclassesNames(firstClass)).toStrictEqual(expected);
         });
     });
 
     describe('streamSuperclassMembers', () => {
-        const superclassMemberNames = (node: SdsClass | undefined) =>
+        const superclassMemberNames = (node: TslClass | undefined) =>
             classHierarchy
                 .streamSuperclassMembers(node)
                 .map((member) => member.name)
@@ -192,7 +192,7 @@ describe('SafeDsClassHierarchy', async () => {
         ];
 
         it.each(testCases)('$testName', async ({ code, index, expected }) => {
-            const firstClass = await getNodeOfType(services, code, isSdsClass, index);
+            const firstClass = await getNodeOfType(services, code, isTslClass, index);
             const anyMembers = getClassMembers(builtinClasses.Any).map((member) => member.name);
             expect(superclassMemberNames(firstClass)).toStrictEqual(expected.concat(anyMembers));
         });
@@ -207,7 +207,7 @@ describe('SafeDsClassHierarchy', async () => {
                 code: `
                     fun f()
                 `,
-                memberPredicate: isSdsFunction,
+                memberPredicate: isTslFunction,
                 index: 0,
                 expectedResultPredicate: isUndefined,
             },
@@ -218,7 +218,7 @@ describe('SafeDsClassHierarchy', async () => {
                         attr a: Int
                     }
                 `,
-                memberPredicate: isSdsAttribute,
+                memberPredicate: isTslAttribute,
                 index: 0,
                 expectedResultPredicate: isUndefined,
             },
@@ -229,7 +229,7 @@ describe('SafeDsClassHierarchy', async () => {
                         fun f()
                     }
                 `,
-                memberPredicate: isSdsFunction,
+                memberPredicate: isTslFunction,
                 index: 0,
                 expectedResultPredicate: isUndefined,
             },
@@ -244,7 +244,7 @@ describe('SafeDsClassHierarchy', async () => {
                         attr b: Int
                     }
                 `,
-                memberPredicate: isSdsAttribute,
+                memberPredicate: isTslAttribute,
                 index: 0,
                 expectedResultPredicate: isUndefined,
             },
@@ -259,7 +259,7 @@ describe('SafeDsClassHierarchy', async () => {
                         fun g()
                     }
                 `,
-                memberPredicate: isSdsFunction,
+                memberPredicate: isTslFunction,
                 index: 0,
                 expectedResultPredicate: isUndefined,
             },
@@ -274,7 +274,7 @@ describe('SafeDsClassHierarchy', async () => {
                         static attr a: Int
                     }
                 `,
-                memberPredicate: isSdsAttribute,
+                memberPredicate: isTslAttribute,
                 index: 0,
                 expectedResultPredicate: isUndefined,
             },
@@ -289,7 +289,7 @@ describe('SafeDsClassHierarchy', async () => {
                         static fun f()
                     }
                 `,
-                memberPredicate: isSdsFunction,
+                memberPredicate: isTslFunction,
                 index: 0,
                 expectedResultPredicate: isUndefined,
             },
@@ -304,7 +304,7 @@ describe('SafeDsClassHierarchy', async () => {
                         static attr a: Int
                     }
                 `,
-                memberPredicate: isSdsAttribute,
+                memberPredicate: isTslAttribute,
                 index: 0,
                 expectedResultPredicate: isUndefined,
             },
@@ -319,7 +319,7 @@ describe('SafeDsClassHierarchy', async () => {
                         static fun f()
                     }
                 `,
-                memberPredicate: isSdsFunction,
+                memberPredicate: isTslFunction,
                 index: 0,
                 expectedResultPredicate: isUndefined,
             },
@@ -334,9 +334,9 @@ describe('SafeDsClassHierarchy', async () => {
                         attr a: Int
                     }
                 `,
-                memberPredicate: isSdsAttribute,
+                memberPredicate: isTslAttribute,
                 index: 0,
-                expectedResultPredicate: isSdsAttribute,
+                expectedResultPredicate: isTslAttribute,
             },
             {
                 testName: 'method, superclass, match',
@@ -349,9 +349,9 @@ describe('SafeDsClassHierarchy', async () => {
                         fun f()
                     }
                 `,
-                memberPredicate: isSdsFunction,
+                memberPredicate: isTslFunction,
                 index: 0,
-                expectedResultPredicate: isSdsFunction,
+                expectedResultPredicate: isTslFunction,
             },
             {
                 testName: 'attribute, previous member with same name',
@@ -365,7 +365,7 @@ describe('SafeDsClassHierarchy', async () => {
                         attr a: Int
                     }
                 `,
-                memberPredicate: isSdsAttribute,
+                memberPredicate: isTslAttribute,
                 index: 1,
                 expectedResultPredicate: isUndefined,
             },
@@ -381,7 +381,7 @@ describe('SafeDsClassHierarchy', async () => {
                         fun f()
                     }
                 `,
-                memberPredicate: isSdsFunction,
+                memberPredicate: isTslFunction,
                 index: 1,
                 expectedResultPredicate: isUndefined,
             },
@@ -418,7 +418,7 @@ interface GetOverriddenMemberTest {
     /**
      * A predicate that matches the member that should be used as input.
      */
-    memberPredicate: (value: unknown) => value is SdsClassMember;
+    memberPredicate: (value: unknown) => value is TslClassMember;
 
     /**
      * The index of the member to use as input.

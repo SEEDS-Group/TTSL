@@ -8,11 +8,11 @@ import type {
 } from 'vscode-languageserver';
 import type { SafeDsCallGraphComputer } from '../flow/safe-ds-call-graph-computer.js';
 import {
-    isSdsDeclaration,
-    isSdsParameter,
-    type SdsCall,
-    type SdsCallable,
-    type SdsDeclaration,
+    isTslDeclaration,
+    isTslParameter,
+    type TslCall,
+    type TslCallable,
+    type TslDeclaration,
 } from '../generated/ast.js';
 import type { SafeDsNodeMapper } from '../helpers/safe-ds-node-mapper.js';
 import type { SafeDsServices } from '../safe-ds-module.js';
@@ -95,7 +95,7 @@ export class SafeDsCallHierarchyProvider extends AbstractCallHierarchyProvider {
      * Returns all declarations that contain at least one of the given references. Some of them might not be actual
      * callers, since the references might not occur in a call. This has to be checked later.
      */
-    private getUniquePotentialCallers(references: Stream<ReferenceDescription>): Stream<SdsDeclaration> {
+    private getUniquePotentialCallers(references: Stream<ReferenceDescription>): Stream<TslDeclaration> {
         return references
             .map((it) => {
                 const document = this.documents.getDocument(it.sourceUri);
@@ -116,19 +116,19 @@ export class SafeDsCallHierarchyProvider extends AbstractCallHierarchyProvider {
                     return undefined;
                 }
 
-                const containingDeclaration = AstUtils.getContainerOfType(targetCstNode.astNode, isSdsDeclaration);
-                if (isSdsParameter(containingDeclaration)) {
+                const containingDeclaration = AstUtils.getContainerOfType(targetCstNode.astNode, isTslDeclaration);
+                if (isTslParameter(containingDeclaration)) {
                     // For parameters, we return their containing callable instead
-                    return AstUtils.getContainerOfType(containingDeclaration.$container, isSdsDeclaration);
+                    return AstUtils.getContainerOfType(containingDeclaration.$container, isTslDeclaration);
                 } else {
                     return containingDeclaration;
                 }
             })
             .distinct()
-            .filter(isSdsDeclaration);
+            .filter(isTslDeclaration);
     }
 
-    private getCallsOf(caller: AstNode, callee: AstNode): SdsCall[] {
+    private getCallsOf(caller: AstNode, callee: AstNode): TslCall[] {
         return this.callGraphComputer
             .getAllContainedCalls(caller)
             .filter((call) => this.nodeMapper.callToCallable(call) === callee);
@@ -138,7 +138,7 @@ export class SafeDsCallHierarchyProvider extends AbstractCallHierarchyProvider {
         const calls = this.callGraphComputer.getAllContainedCalls(node);
         const callsGroupedByCallable = new Map<
             string,
-            { callable: SdsCallable; callableNameCstNode: CstNode; callableDocumentUri: string; fromRanges: Range[] }
+            { callable: TslCallable; callableNameCstNode: CstNode; callableDocumentUri: string; fromRanges: Range[] }
         >();
 
         // Group calls by the callable they refer to

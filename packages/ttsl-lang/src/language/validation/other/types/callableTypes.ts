@@ -1,5 +1,5 @@
 import { AstUtils, ValidationAcceptor } from 'langium';
-import { isSdsCallableType, isSdsParameter, SdsCallableType } from '../../../generated/ast.js';
+import { isTslCallableType, isTslParameter, TslCallableType } from '../../../generated/ast.js';
 
 import { getParameters, Parameter } from '../../../helpers/nodeProperties.js';
 
@@ -8,7 +8,7 @@ export const CODE_CALLABLE_TYPE_CONTEXT = 'callable-type/context';
 export const CODE_CALLABLE_TYPE_NO_OPTIONAL_PARAMETERS = 'callable-type/no-optional-parameters';
 
 export const callableTypeParameterMustNotHaveConstModifier = (
-    node: SdsCallableType,
+    node: TslCallableType,
     accept: ValidationAcceptor,
 ): void => {
     for (const parameter of getParameters(node)) {
@@ -22,7 +22,7 @@ export const callableTypeParameterMustNotHaveConstModifier = (
     }
 };
 
-export const callableTypeMustBeUsedInCorrectContext = (node: SdsCallableType, accept: ValidationAcceptor): void => {
+export const callableTypeMustBeUsedInCorrectContext = (node: TslCallableType, accept: ValidationAcceptor): void => {
     if (!contextIsCorrect(node)) {
         accept('error', 'Callable types must only be used for parameters.', {
             node,
@@ -31,24 +31,24 @@ export const callableTypeMustBeUsedInCorrectContext = (node: SdsCallableType, ac
     }
 };
 
-const contextIsCorrect = (node: SdsCallableType): boolean => {
-    if (isSdsParameter(node.$container)) {
+const contextIsCorrect = (node: TslCallableType): boolean => {
+    if (isTslParameter(node.$container)) {
         return true;
     }
 
     // Check whether we already show an error on a containing callable type
-    let containingCallableType = AstUtils.getContainerOfType(node.$container, isSdsCallableType);
+    let containingCallableType = AstUtils.getContainerOfType(node.$container, isTslCallableType);
     while (containingCallableType) {
-        if (!isSdsParameter(containingCallableType.$container)) {
+        if (!isTslParameter(containingCallableType.$container)) {
             return true; // Container already has wrong context
         }
-        containingCallableType = AstUtils.getContainerOfType(containingCallableType.$container, isSdsCallableType);
+        containingCallableType = AstUtils.getContainerOfType(containingCallableType.$container, isTslCallableType);
     }
 
     return false;
 };
 
-export const callableTypeMustNotHaveOptionalParameters = (node: SdsCallableType, accept: ValidationAcceptor): void => {
+export const callableTypeMustNotHaveOptionalParameters = (node: TslCallableType, accept: ValidationAcceptor): void => {
     for (const parameter of getParameters(node)) {
         if (Parameter.isOptional(parameter)) {
             accept('error', 'A callable type must not have optional parameters.', {

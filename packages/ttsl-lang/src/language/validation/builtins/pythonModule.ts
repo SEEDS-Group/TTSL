@@ -1,5 +1,5 @@
 import { ValidationAcceptor } from 'langium';
-import { SdsModule } from '../../generated/ast.js';
+import { TslModule } from '../../generated/ast.js';
 import { SafeDsServices } from '../../safe-ds-module.js';
 import { findFirstAnnotationCallOf } from '../../helpers/nodeProperties.js';
 
@@ -8,7 +8,7 @@ export const CODE_PYTHON_MODULE_SAME_AS_SAFE_DS_PACKAGE = 'python-module/same-as
 export const pythonModuleShouldDifferFromSafeDsPackage = (services: SafeDsServices) => {
     const builtinAnnotations = services.builtins.Annotations;
 
-    return (node: SdsModule, accept: ValidationAcceptor) => {
+    return (node: TslModule, accept: ValidationAcceptor) => {
         const pythonModule = builtinAnnotations.getPythonModule(node);
         if (!pythonModule || pythonModule !== node.name) {
             return;

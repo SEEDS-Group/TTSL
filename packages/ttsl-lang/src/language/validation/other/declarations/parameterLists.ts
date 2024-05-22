@@ -1,11 +1,11 @@
 import { ValidationAcceptor } from 'langium';
-import { SdsParameterList } from '../../../generated/ast.js';
+import { TslParameterList } from '../../../generated/ast.js';
 import { Parameter } from '../../../helpers/nodeProperties.js';
 
 export const CODE_PARAMETER_LIST_REQUIRED_AFTER_OPTIONAL = 'parameter-list/required-after-optional';
 
 export const parameterListMustNotHaveRequiredParametersAfterOptionalParameters = (
-    node: SdsParameterList,
+    node: TslParameterList,
     accept: ValidationAcceptor,
 ) => {
     let foundOptional = false;

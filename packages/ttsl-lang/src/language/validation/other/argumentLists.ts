@@ -1,7 +1,7 @@
 import { AstUtils, ValidationAcceptor } from 'langium';
 import { duplicatesBy, isEmpty } from '../../../helpers/collections.js';
 import { pluralize } from '../../../helpers/strings.js';
-import { isSdsAnnotation, isSdsCall, SdsAbstractCall, SdsArgumentList } from '../../generated/ast.js';
+import { isTslAnnotation, isTslCall, TslAbstractCall, TslArgumentList } from '../../generated/ast.js';
 import { getArguments, getParameters, Parameter } from '../../helpers/nodeProperties.js';
 import { SafeDsServices } from '../../safe-ds-module.js';
 
@@ -11,7 +11,7 @@ export const CODE_ARGUMENT_LIST_POSITIONAL_AFTER_NAMED = 'argument-list/position
 export const CODE_ARGUMENT_LIST_TOO_MANY_ARGUMENTS = 'argument-list/too-many-arguments';
 
 export const argumentListMustNotHavePositionalArgumentsAfterNamedArguments = (
-    node: SdsArgumentList,
+    node: TslArgumentList,
     accept: ValidationAcceptor,
 ): void => {
     let foundNamed = false;
@@ -30,7 +30,7 @@ export const argumentListMustNotHavePositionalArgumentsAfterNamedArguments = (
 export const argumentListMustNotHaveTooManyArguments = (services: SafeDsServices) => {
     const nodeMapper = services.helpers.NodeMapper;
 
-    return (node: SdsAbstractCall, accept: ValidationAcceptor): void => {
+    return (node: TslAbstractCall, accept: ValidationAcceptor): void => {
         const actualArgumentCount = getArguments(node).length;
 
         // We can never have too many arguments in this case
@@ -40,7 +40,7 @@ export const argumentListMustNotHaveTooManyArguments = (services: SafeDsServices
 
         // We already report other errors in those cases
         const callable = nodeMapper.callToCallable(node);
-        if (!callable || (isSdsCall(node) && isSdsAnnotation(callable))) {
+        if (!callable || (isTslCall(node) && isTslAnnotation(callable))) {
             return;
         }
 
@@ -78,11 +78,11 @@ export const argumentListMustNotSetParameterMultipleTimes = (services: SafeDsSer
     const nodeMapper = services.helpers.NodeMapper;
     const argumentToParameterOrUndefined = nodeMapper.argumentToParameter.bind(nodeMapper);
 
-    return (node: SdsArgumentList, accept: ValidationAcceptor): void => {
+    return (node: TslArgumentList, accept: ValidationAcceptor): void => {
         // We already report other errors in this case
-        const containingCall = AstUtils.getContainerOfType(node, isSdsCall);
+        const containingCall = AstUtils.getContainerOfType(node, isTslCall);
         const callable = nodeMapper.callToCallable(containingCall);
-        if (isSdsAnnotation(callable)) {
+        if (isTslAnnotation(callable)) {
             return;
         }
 
@@ -102,7 +102,7 @@ export const argumentListMustNotSetParameterMultipleTimes = (services: SafeDsSer
 export const argumentListMustSetAllRequiredParameters = (services: SafeDsServices) => {
     const nodeMapper = services.helpers.NodeMapper;
 
-    return (node: SdsAbstractCall, accept: ValidationAcceptor): void => {
+    return (node: TslAbstractCall, accept: ValidationAcceptor): void => {
         // We already report other errors in this case
         if (!node.argumentList) {
             return;
@@ -110,7 +110,7 @@ export const argumentListMustSetAllRequiredParameters = (services: SafeDsService
 
         // We already report other errors in those cases
         const callable = nodeMapper.callToCallable(node);
-        if (!callable || (isSdsCall(node) && isSdsAnnotation(callable))) {
+        if (!callable || (isTslCall(node) && isTslAnnotation(callable))) {
             return;
         }
 

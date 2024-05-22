@@ -3,30 +3,30 @@ import { AstNode, AstUtils } from 'langium';
 import { SemanticTokenModifiers, SemanticTokenTypes } from 'vscode-languageserver';
 import { SafeDsClasses } from '../builtins/safe-ds-classes.js';
 import {
-    isSdsAnnotation,
-    isSdsAnnotationCall,
-    isSdsArgument,
-    isSdsAttribute,
-    isSdsClass,
-    isSdsDeclaration,
-    isSdsEnum,
-    isSdsEnumVariant,
-    isSdsFunction,
-    isSdsImport,
-    isSdsImportedDeclaration,
-    isSdsModule,
-    isSdsNamedType,
-    isSdsParameter,
-    isSdsParameterBound,
-    isSdsPipeline,
-    isSdsPlaceholder,
-    isSdsReference,
-    isSdsResult,
-    isSdsSchema,
-    isSdsSegment,
-    isSdsTypeArgument,
-    isSdsTypeParameter,
-    isSdsYield,
+    isTslAnnotation,
+    isTslAnnotationCall,
+    isTslArgument,
+    isTslAttribute,
+    isTslClass,
+    isTslDeclaration,
+    isTslEnum,
+    isTslEnumVariant,
+    isTslFunction,
+    isTslImport,
+    isTslImportedDeclaration,
+    isTslModule,
+    isTslNamedType,
+    isTslParameter,
+    isTslParameterBound,
+    isTslPipeline,
+    isTslPlaceholder,
+    isTslReference,
+    isTslResult,
+    isTslSchema,
+    isTslSegment,
+    isTslTypeArgument,
+    isTslTypeParameter,
+    isTslYield,
 } from '../generated/ast.js';
 import { SafeDsServices } from '../safe-ds-module.js';
 
@@ -40,7 +40,7 @@ export class SafeDsSemanticTokenProvider extends AbstractSemanticTokenProvider {
     }
 
     protected highlightElement(node: AstNode, acceptor: SemanticTokenAcceptor): void {
-        if (isSdsAnnotationCall(node)) {
+        if (isTslAnnotationCall(node)) {
             acceptor({
                 node,
                 keyword: '@',
@@ -51,7 +51,7 @@ export class SafeDsSemanticTokenProvider extends AbstractSemanticTokenProvider {
                 property: 'annotation',
                 type: SemanticTokenTypes.decorator,
             });
-        } else if (isSdsArgument(node)) {
+        } else if (isTslArgument(node)) {
             if (node.parameter) {
                 acceptor({
                     node,
@@ -59,7 +59,7 @@ export class SafeDsSemanticTokenProvider extends AbstractSemanticTokenProvider {
                     type: SemanticTokenTypes.parameter,
                 });
             }
-        } else if (isSdsDeclaration(node)) {
+        } else if (isTslDeclaration(node)) {
             const info = this.computeSemanticTokenInfoForDeclaration(node, [SemanticTokenModifiers.declaration]);
             if (info) {
                 acceptor({
@@ -68,13 +68,13 @@ export class SafeDsSemanticTokenProvider extends AbstractSemanticTokenProvider {
                     ...info,
                 });
             }
-        } else if (isSdsImport(node)) {
+        } else if (isTslImport(node)) {
             acceptor({
                 node,
                 property: 'package',
                 type: SemanticTokenTypes.namespace,
             });
-        } else if (isSdsImportedDeclaration(node)) {
+        } else if (isTslImportedDeclaration(node)) {
             const info = this.computeSemanticTokenInfoForDeclaration(node.declaration?.ref);
             if (info) {
                 acceptor({
@@ -83,7 +83,7 @@ export class SafeDsSemanticTokenProvider extends AbstractSemanticTokenProvider {
                     ...info,
                 });
             }
-        } else if (isSdsNamedType(node)) {
+        } else if (isTslNamedType(node)) {
             const info = this.computeSemanticTokenInfoForDeclaration(node.declaration?.ref);
             if (info) {
                 acceptor({
@@ -92,13 +92,13 @@ export class SafeDsSemanticTokenProvider extends AbstractSemanticTokenProvider {
                     ...info,
                 });
             }
-        } else if (isSdsParameterBound(node)) {
+        } else if (isTslParameterBound(node)) {
             acceptor({
                 node,
                 property: 'leftOperand',
                 type: SemanticTokenTypes.parameter,
             });
-        } else if (isSdsReference(node)) {
+        } else if (isTslReference(node)) {
             const info = this.computeSemanticTokenInfoForDeclaration(node.target.ref);
             if (info) {
                 acceptor({
@@ -107,7 +107,7 @@ export class SafeDsSemanticTokenProvider extends AbstractSemanticTokenProvider {
                     ...info,
                 });
             }
-        } else if (isSdsTypeArgument(node)) {
+        } else if (isTslTypeArgument(node)) {
             if (node.typeParameter) {
                 acceptor({
                     node,
@@ -115,7 +115,7 @@ export class SafeDsSemanticTokenProvider extends AbstractSemanticTokenProvider {
                     type: SemanticTokenTypes.typeParameter,
                 });
             }
-        } else if (isSdsYield(node)) {
+        } else if (isTslYield(node)) {
             // For lack of a better option, we use the token type for parameters here
             acceptor({
                 node,
@@ -135,12 +135,12 @@ export class SafeDsSemanticTokenProvider extends AbstractSemanticTokenProvider {
         }
         /* c8 ignore stop */
 
-        if (isSdsAnnotation(node)) {
+        if (isTslAnnotation(node)) {
             return {
                 type: SemanticTokenTypes.decorator,
                 modifier: additionalModifiers,
             };
-        } else if (isSdsAttribute(node)) {
+        } else if (isTslAttribute(node)) {
             const modifier = [SemanticTokenModifiers.readonly, ...additionalModifiers];
             if (node.isStatic) {
                 modifier.push(SemanticTokenModifiers.static);
@@ -150,7 +150,7 @@ export class SafeDsSemanticTokenProvider extends AbstractSemanticTokenProvider {
                 type: SemanticTokenTypes.property,
                 modifier,
             };
-        } else if (isSdsClass(node)) {
+        } else if (isTslClass(node)) {
             const isBuiltinClass = this.builtinClasses.isBuiltinClass(node);
             return {
                 type: SemanticTokenTypes.class,
@@ -158,18 +158,18 @@ export class SafeDsSemanticTokenProvider extends AbstractSemanticTokenProvider {
                     ? [SemanticTokenModifiers.defaultLibrary, ...additionalModifiers]
                     : additionalModifiers,
             };
-        } else if (isSdsEnum(node)) {
+        } else if (isTslEnum(node)) {
             return {
                 type: SemanticTokenTypes.enum,
                 modifier: additionalModifiers,
             };
-        } else if (isSdsEnumVariant(node)) {
+        } else if (isTslEnumVariant(node)) {
             return {
                 type: SemanticTokenTypes.enumMember,
                 modifier: additionalModifiers,
             };
-        } else if (isSdsFunction(node)) {
-            if (AstUtils.hasContainerOfType(node, isSdsClass)) {
+        } else if (isTslFunction(node)) {
+            if (AstUtils.hasContainerOfType(node, isTslClass)) {
                 return {
                     type: SemanticTokenTypes.method,
                     modifier: node.isStatic
@@ -182,43 +182,43 @@ export class SafeDsSemanticTokenProvider extends AbstractSemanticTokenProvider {
                     modifier: additionalModifiers,
                 };
             }
-        } else if (isSdsModule(node)) {
+        } else if (isTslModule(node)) {
             return {
                 type: SemanticTokenTypes.namespace,
                 modifier: additionalModifiers,
             };
-        } else if (isSdsParameter(node)) {
+        } else if (isTslParameter(node)) {
             return {
                 type: SemanticTokenTypes.parameter,
                 modifier: additionalModifiers,
             };
-        } else if (isSdsPipeline(node)) {
+        } else if (isTslPipeline(node)) {
             return {
                 type: SemanticTokenTypes.function,
                 modifier: additionalModifiers,
             };
-        } else if (isSdsPlaceholder(node)) {
+        } else if (isTslPlaceholder(node)) {
             return {
                 type: SemanticTokenTypes.variable,
                 modifier: [SemanticTokenModifiers.readonly, ...additionalModifiers],
             };
-        } else if (isSdsResult(node)) {
+        } else if (isTslResult(node)) {
             return {
                 // For lack of a better option, we use the token type for parameters here
                 type: SemanticTokenTypes.parameter,
                 modifier: additionalModifiers,
             };
-        } else if (isSdsSchema(node)) {
+        } else if (isTslSchema(node)) {
             return {
                 type: SemanticTokenTypes.type,
                 modifier: additionalModifiers,
             };
-        } else if (isSdsSegment(node)) {
+        } else if (isTslSegment(node)) {
             return {
                 type: SemanticTokenTypes.function,
                 modifier: additionalModifiers,
             };
-        } else if (isSdsTypeParameter(node)) {
+        } else if (isTslTypeParameter(node)) {
             return {
                 type: SemanticTokenTypes.typeParameter,
                 modifier: additionalModifiers,

@@ -1,4 +1,4 @@
-import { SdsSegment } from '../../../generated/ast.js';
+import { TslSegment } from '../../../generated/ast.js';
 import { ValidationAcceptor } from 'langium';
 import { getParameters, getResults } from '../../../helpers/nodeProperties.js';
 import { SafeDsServices } from '../../../safe-ds-module.js';
@@ -12,7 +12,7 @@ export const CODE_SEGMENT_UNUSED_PARAMETER = 'segment/unused-parameter';
 export const segmentResultMustBeAssignedExactlyOnce = (services: SafeDsServices) => {
     const nodeMapper = services.helpers.NodeMapper;
 
-    return (node: SdsSegment, accept: ValidationAcceptor) => {
+    return (node: TslSegment, accept: ValidationAcceptor) => {
         const results = getResults(node.resultList);
         for (const result of results) {
             const yields = nodeMapper.resultToYields(result);
@@ -40,7 +40,7 @@ export const segmentResultMustBeAssignedExactlyOnce = (services: SafeDsServices)
 export const segmentShouldBeUsed = (services: SafeDsServices) => {
     const referenceProvider = services.references.References;
 
-    return (node: SdsSegment, accept: ValidationAcceptor) => {
+    return (node: TslSegment, accept: ValidationAcceptor) => {
         // Don't show this warning for public segments
         if (node.visibility === undefined) {
             return;
@@ -61,7 +61,7 @@ export const segmentShouldBeUsed = (services: SafeDsServices) => {
 export const segmentParameterShouldBeUsed = (services: SafeDsServices) => {
     const nodeMapper = services.helpers.NodeMapper;
 
-    return (node: SdsSegment, accept: ValidationAcceptor) => {
+    return (node: TslSegment, accept: ValidationAcceptor) => {
         for (const parameter of getParameters(node)) {
             const usages = nodeMapper.parameterToReferences(parameter);
 

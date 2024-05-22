@@ -15,7 +15,7 @@ import type {
     SignatureHelpParams,
 } from 'vscode-languageserver';
 import { createMarkupContent } from '../documentation/safe-ds-comment-provider.js';
-import { isSdsAbstractCall, SdsCallable, SdsParameter } from '../generated/ast.js';
+import { isTslAbstractCall, TslCallable, TslParameter } from '../generated/ast.js';
 import { getParameters, Parameter } from '../helpers/nodeProperties.js';
 import { type SafeDsNodeMapper } from '../helpers/safe-ds-node-mapper.js';
 import type { SafeDsServices } from '../safe-ds-module.js';
@@ -61,7 +61,7 @@ export class SafeDsSignatureHelpProvider implements SignatureHelpProvider {
      * Returns the signature help for the given node at the given offset.
      */
     private getSignature(node: AstNode, offset: number): MaybePromise<SignatureHelp | undefined> {
-        const containingAbstractCall = AstUtils.getContainerOfType(node, isSdsAbstractCall);
+        const containingAbstractCall = AstUtils.getContainerOfType(node, isTslAbstractCall);
         if (!containingAbstractCall) {
             return undefined;
         }
@@ -87,7 +87,7 @@ export class SafeDsSignatureHelpProvider implements SignatureHelpProvider {
         };
     }
 
-    private getLabel(callable: SdsCallable): string {
+    private getLabel(callable: TslCallable): string {
         const type = this.typeComputer.computeType(callable);
 
         if (type instanceof NamedType) {
@@ -101,13 +101,13 @@ export class SafeDsSignatureHelpProvider implements SignatureHelpProvider {
         }
     }
 
-    private getParameterInformation = (parameter: SdsParameter) => {
+    private getParameterInformation = (parameter: TslParameter) => {
         return {
             label: this.getParameterLabel(parameter),
         };
     };
 
-    private getParameterLabel = (parameter: SdsParameter) => {
+    private getParameterLabel = (parameter: TslParameter) => {
         const optionality = Parameter.isOptional(parameter) ? '?' : '';
         const type = this.typeComputer.computeType(parameter);
         return `${parameter.name}${optionality}: ${type}`;

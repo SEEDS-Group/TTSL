@@ -1,17 +1,17 @@
 import { AstNode, AstUtils, ValidationAcceptor } from 'langium';
 import {
-    isSdsCallable,
-    isSdsClass,
-    isSdsClassMember,
-    isSdsDeclaration,
-    isSdsNamedTypeDeclaration,
-    isSdsParameter,
-    isSdsParameterList,
-    isSdsTypeArgument,
-    isSdsUnionType,
-    SdsClass,
-    SdsDeclaration,
-    SdsTypeParameter,
+    isTslCallable,
+    isTslClass,
+    isTslClassMember,
+    isTslDeclaration,
+    isTslNamedTypeDeclaration,
+    isTslParameter,
+    isTslParameterList,
+    isTslTypeArgument,
+    isTslUnionType,
+    TslClass,
+    TslDeclaration,
+    TslTypeParameter,
 } from '../../../generated/ast.js';
 import { isStatic, TypeParameter } from '../../../helpers/nodeProperties.js';
 import { SafeDsServices } from '../../../safe-ds-module.js';
@@ -23,8 +23,8 @@ export const CODE_TYPE_PARAMETER_UPPER_BOUND = 'type-parameter/upper-bound';
 export const CODE_TYPE_PARAMETER_USAGE = 'type-parameter/usage';
 export const CODE_TYPE_PARAMETER_VARIANCE = 'type-parameter/variance';
 
-export const typeParameterMustHaveSufficientContext = (node: SdsTypeParameter, accept: ValidationAcceptor) => {
-    const containingCallable = AstUtils.getContainerOfType(node, isSdsCallable);
+export const typeParameterMustHaveSufficientContext = (node: TslTypeParameter, accept: ValidationAcceptor) => {
+    const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
     /* c8 ignore start */
     if (!containingCallable) {
         return;
@@ -32,7 +32,7 @@ export const typeParameterMustHaveSufficientContext = (node: SdsTypeParameter, a
     /* c8 ignore stop */
 
     // Classes without constructor can only be used as named types, where type arguments are manifest
-    if (isSdsClass(containingCallable) && !containingCallable.parameterList) {
+    if (isTslClass(containingCallable) && !containingCallable.parameterList) {
         return;
     }
 
@@ -43,10 +43,10 @@ export const typeParameterMustHaveSufficientContext = (node: SdsTypeParameter, a
             // ...but references in a union type or in the parameter list of a callable type don't count
             .filter((reference) => {
                 const referenceNode = reference.$refNode?.astNode;
-                const containingParameterList = AstUtils.getContainerOfType(referenceNode, isSdsParameterList);
+                const containingParameterList = AstUtils.getContainerOfType(referenceNode, isTslParameterList);
 
                 return (
-                    !AstUtils.hasContainerOfType(referenceNode, isSdsUnionType) &&
+                    !AstUtils.hasContainerOfType(referenceNode, isTslUnionType) &&
                     containingParameterList === containingCallable.parameterList
                 );
             })
@@ -64,7 +64,7 @@ export const typeParameterMustHaveSufficientContext = (node: SdsTypeParameter, a
 export const typeParameterUpperBoundMustBeNamedType = (services: SafeDsServices) => {
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsTypeParameter, accept: ValidationAcceptor) => {
+    return (node: TslTypeParameter, accept: ValidationAcceptor) => {
         const boundType = typeComputer.computeType(node.upperBound);
 
         if (boundType !== UnknownType && !(boundType instanceof NamedType)) {
@@ -80,13 +80,13 @@ export const typeParameterUpperBoundMustBeNamedType = (services: SafeDsServices)
 export const typeParameterMustBeUsedInCorrectPosition = (services: SafeDsServices) => {
     const nodeMapper = services.helpers.NodeMapper;
 
-    return (node: SdsTypeParameter, accept: ValidationAcceptor) => {
-        const declarationWithTypeParameter = AstUtils.getContainerOfType(node.$container, isSdsDeclaration);
+    return (node: TslTypeParameter, accept: ValidationAcceptor) => {
+        const declarationWithTypeParameter = AstUtils.getContainerOfType(node.$container, isTslDeclaration);
 
         // Early exit
         if (
             !declarationWithTypeParameter ||
-            (!isSdsClass(declarationWithTypeParameter) && TypeParameter.isInvariant(node))
+            (!isTslClass(declarationWithTypeParameter) && TypeParameter.isInvariant(node))
         ) {
             return;
         }
@@ -100,7 +100,7 @@ export const typeParameterMustBeUsedInCorrectPosition = (services: SafeDsService
 
             // Check usage of class type parameters
             if (
-                isSdsClass(declarationWithTypeParameter) &&
+                isTslClass(declarationWithTypeParameter) &&
                 !classTypeParameterIsUsedInCorrectPosition(declarationWithTypeParameter, reference)
             ) {
                 accept('error', 'This type parameter of a containing class cannot be used here.', {
@@ -141,12 +141,12 @@ export const typeParameterMustBeUsedInCorrectPosition = (services: SafeDsService
 };
 
 const isInConstructor = (node: AstNode) => {
-    const parameterList = AstUtils.getContainerOfType(node, isSdsParameterList);
-    return isSdsClass(parameterList?.$container);
+    const parameterList = AstUtils.getContainerOfType(node, isTslParameterList);
+    return isTslClass(parameterList?.$container);
 };
 
-const classTypeParameterIsUsedInCorrectPosition = (classWithTypeParameter: SdsClass, reference: AstNode) => {
-    const containingClassMember = AstUtils.getContainerOfType(reference, isSdsClassMember);
+const classTypeParameterIsUsedInCorrectPosition = (classWithTypeParameter: TslClass, reference: AstNode) => {
+    const containingClassMember = AstUtils.getContainerOfType(reference, isTslClassMember);
 
     // Handle usage in constructor
     if (!containingClassMember || containingClassMember === classWithTypeParameter) {
@@ -159,7 +159,7 @@ const classTypeParameterIsUsedInCorrectPosition = (classWithTypeParameter: SdsCl
     }
 
     // Handle usage inside nested enums and classes (could be an instance attribute/function)
-    const containingNamedTypeDeclaration = AstUtils.getContainerOfType(reference, isSdsNamedTypeDeclaration);
+    const containingNamedTypeDeclaration = AstUtils.getContainerOfType(reference, isTslNamedTypeDeclaration);
     return !containingNamedTypeDeclaration || containingNamedTypeDeclaration === classWithTypeParameter;
 };
 
@@ -167,7 +167,7 @@ type TypePosition = 'contravariant' | 'covariant' | 'invariant';
 
 const getTypePosition = (
     nodeMapper: SafeDsNodeMapper,
-    declarationWithTypeParameter: SdsDeclaration,
+    declarationWithTypeParameter: TslDeclaration,
     reference: AstNode,
 ): TypePosition => {
     let current: AstNode | undefined = reference;
@@ -176,9 +176,9 @@ const getTypePosition = (
     while (current && current !== declarationWithTypeParameter && result !== 'invariant') {
         let step: TypePosition;
 
-        if (isSdsParameter(current)) {
+        if (isTslParameter(current)) {
             step = 'contravariant';
-        } else if (isSdsTypeArgument(current)) {
+        } else if (isTslTypeArgument(current)) {
             const typeParameter = nodeMapper.typeArgumentToTypeParameter(current);
 
             if (TypeParameter.isContravariant(typeParameter)) {
@@ -217,13 +217,13 @@ const nextTypePosition = (aggregator: TypePosition, step: TypePosition): TypePos
     }
 };
 
-export const typeParameterMustOnlyBeVariantOnClass = (node: SdsTypeParameter, accept: ValidationAcceptor) => {
+export const typeParameterMustOnlyBeVariantOnClass = (node: TslTypeParameter, accept: ValidationAcceptor) => {
     if (TypeParameter.isInvariant(node)) {
         return;
     }
 
-    const declarationWithTypeParameter = AstUtils.getContainerOfType(node.$container, isSdsDeclaration);
-    if (declarationWithTypeParameter && !isSdsClass(declarationWithTypeParameter)) {
+    const declarationWithTypeParameter = AstUtils.getContainerOfType(node.$container, isTslDeclaration);
+    if (declarationWithTypeParameter && !isTslClass(declarationWithTypeParameter)) {
         accept('error', 'Only type parameters of classes can be variant.', {
             node,
             property: 'variance',

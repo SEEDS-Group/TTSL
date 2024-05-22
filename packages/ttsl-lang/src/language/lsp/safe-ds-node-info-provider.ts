@@ -1,7 +1,7 @@
 import { AstNode } from 'langium';
 import { SymbolTag } from 'vscode-languageserver';
 import type { SafeDsAnnotations } from '../builtins/safe-ds-annotations.js';
-import { isSdsAnnotatedObject, isSdsAttribute, isSdsFunction, isSdsSegment } from '../generated/ast.js';
+import { isTslAnnotatedObject, isTslAttribute, isTslFunction, isTslSegment } from '../generated/ast.js';
 import type { SafeDsServices } from '../safe-ds-module.js';
 import { SafeDsTypeComputer } from '../typing/safe-ds-type-computer.js';
 
@@ -19,9 +19,9 @@ export class SafeDsNodeInfoProvider {
      * hierarchies.
      */
     getDetails(node: AstNode): string | undefined {
-        if (isSdsAttribute(node)) {
+        if (isTslAttribute(node)) {
             return `: ${this.typeComputer.computeType(node)}`;
-        } else if (isSdsFunction(node) || isSdsSegment(node)) {
+        } else if (isTslFunction(node) || isTslSegment(node)) {
             return this.typeComputer.computeType(node)?.toString();
         } else {
             return undefined;
@@ -33,7 +33,7 @@ export class SafeDsNodeInfoProvider {
      * hierarchies.
      */
     getTags(node: AstNode): SymbolTag[] | undefined {
-        if (isSdsAnnotatedObject(node) && this.builtinAnnotations.callsDeprecated(node)) {
+        if (isTslAnnotatedObject(node) && this.builtinAnnotations.callsDeprecated(node)) {
             return [SymbolTag.Deprecated];
         } else {
             return undefined;

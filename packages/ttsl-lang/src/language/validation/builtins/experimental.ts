@@ -1,13 +1,13 @@
 import { ValidationAcceptor } from 'langium';
 import {
-    isSdsParameter,
-    isSdsResult,
-    isSdsWildcard,
-    SdsAnnotationCall,
-    SdsArgument,
-    SdsAssignee,
-    SdsNamedType,
-    SdsReference,
+    isTslParameter,
+    isTslResult,
+    isTslWildcard,
+    TslAnnotationCall,
+    TslArgument,
+    TslAssignee,
+    TslNamedType,
+    TslReference,
 } from '../../generated/ast.js';
 import { SafeDsServices } from '../../safe-ds-module.js';
 
@@ -16,18 +16,18 @@ export const CODE_EXPERIMENTAL_LIBRARY_ELEMENT = 'experimental/library-element';
 export const assigneeAssignedResultShouldNotBeExperimental = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsAssignee, accept: ValidationAcceptor) => {
+    return async (node: TslAssignee, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateExperimentalLibraryElement())) {
             /* c8 ignore next 2 */
             return;
         }
 
-        if (isSdsWildcard(node)) {
+        if (isTslWildcard(node)) {
             return;
         }
 
         const assignedObject = services.helpers.NodeMapper.assigneeToAssignedObject(node);
-        if (!isSdsResult(assignedObject)) {
+        if (!isTslResult(assignedObject)) {
             return;
         }
 
@@ -43,7 +43,7 @@ export const assigneeAssignedResultShouldNotBeExperimental = (services: SafeDsSe
 export const annotationCallAnnotationShouldNotBeExperimental = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsAnnotationCall, accept: ValidationAcceptor) => {
+    return async (node: TslAnnotationCall, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateExperimentalLibraryElement())) {
             /* c8 ignore next 2 */
             return;
@@ -67,7 +67,7 @@ export const annotationCallAnnotationShouldNotBeExperimental = (services: SafeDs
 export const argumentCorrespondingParameterShouldNotBeExperimental = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsArgument, accept: ValidationAcceptor) => {
+    return async (node: TslArgument, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateExperimentalLibraryElement())) {
             /* c8 ignore next 2 */
             return;
@@ -90,7 +90,7 @@ export const argumentCorrespondingParameterShouldNotBeExperimental = (services: 
 export const namedTypeDeclarationShouldNotBeExperimental = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsNamedType, accept: ValidationAcceptor) => {
+    return async (node: TslNamedType, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateExperimentalLibraryElement())) {
             /* c8 ignore next 2 */
             return;
@@ -113,14 +113,14 @@ export const namedTypeDeclarationShouldNotBeExperimental = (services: SafeDsServ
 export const referenceTargetShouldNotExperimental = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsReference, accept: ValidationAcceptor) => {
+    return async (node: TslReference, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateExperimentalLibraryElement())) {
             /* c8 ignore next 2 */
             return;
         }
 
         const target = node.target.ref;
-        if (!target || isSdsParameter(target)) {
+        if (!target || isTslParameter(target)) {
             return;
         }
 

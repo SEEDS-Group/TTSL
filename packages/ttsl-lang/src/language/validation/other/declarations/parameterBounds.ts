@@ -1,10 +1,10 @@
 import { SafeDsServices } from '../../../safe-ds-module.js';
 import {
-    isSdsCallable,
-    isSdsComparisonOperator,
-    type SdsCall,
-    SdsParameter,
-    SdsParameterBound,
+    isTslCallable,
+    isTslComparisonOperator,
+    type TslCall,
+    TslParameter,
+    TslParameterBound,
 } from '../../../generated/ast.js';
 import { AstUtils, ValidationAcceptor } from 'langium';
 import { getArguments, getParameters, Parameter } from '../../../helpers/nodeProperties.js';
@@ -18,7 +18,7 @@ export const callArgumentMustRespectParameterBounds = (services: SafeDsServices)
     const nodeMapper = services.helpers.NodeMapper;
     const partialEvaluator = services.evaluation.PartialEvaluator;
 
-    return (node: SdsCall, accept: ValidationAcceptor) => {
+    return (node: TslCall, accept: ValidationAcceptor) => {
         const substitutions = partialEvaluator.computeParameterSubstitutionsForCall(node);
 
         for (const argument of getArguments(node)) {
@@ -51,7 +51,7 @@ export const callArgumentMustRespectParameterBounds = (services: SafeDsServices)
 export const parameterDefaultValueMustRespectParameterBounds = (services: SafeDsServices) => {
     const partialEvaluator = services.evaluation.PartialEvaluator;
 
-    return (node: SdsParameter, accept: ValidationAcceptor) => {
+    return (node: TslParameter, accept: ValidationAcceptor) => {
         if (!node.defaultValue) {
             return;
         }
@@ -98,7 +98,7 @@ const checkBound = (
     // Arguments must be valid
     if (
         (!(leftOperand instanceof FloatConstant) && !(leftOperand instanceof IntConstant)) ||
-        !isSdsComparisonOperator(operator) ||
+        !isTslComparisonOperator(operator) ||
         (!(rightOperand instanceof FloatConstant) && !(rightOperand instanceof IntConstant))
     ) {
         return;
@@ -134,7 +134,7 @@ export const parameterBoundParameterMustBeConstFloatOrInt = (services: SafeDsSer
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsParameterBound, accept: ValidationAcceptor) => {
+    return (node: TslParameterBound, accept: ValidationAcceptor) => {
         const parameter = node.leftOperand?.ref;
         if (!parameter) {
             return;
@@ -167,7 +167,7 @@ export const parameterBoundRightOperandMustEvaluateToFloatConstantOrIntConstant 
     const partialEvaluator = services.evaluation.PartialEvaluator;
     const one = new IntConstant(1n);
 
-    return (node: SdsParameterBound, accept: ValidationAcceptor) => {
+    return (node: TslParameterBound, accept: ValidationAcceptor) => {
         const rightOperandType = typeComputer.computeType(node.rightOperand);
 
         // Must have correct type
@@ -177,7 +177,7 @@ export const parameterBoundRightOperandMustEvaluateToFloatConstantOrIntConstant 
 
         // Must evaluate to a constant after substituting constant parameters
         if (rightOperandIsValid) {
-            const containingCallable = AstUtils.getContainerOfType(node, isSdsCallable);
+            const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
             const constantParameters = getParameters(containingCallable).filter(Parameter.isConstant);
             const substitutions = new Map(constantParameters.map((it) => [it, one]));
             const value = partialEvaluator.evaluate(node.rightOperand, substitutions);

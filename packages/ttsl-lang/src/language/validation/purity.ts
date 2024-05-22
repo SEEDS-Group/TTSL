@@ -1,6 +1,6 @@
 import { stream, type ValidationAcceptor } from 'langium';
 import { isSubset } from '../../helpers/collections.js';
-import { isSdsCall, isSdsFunction, isSdsList, SdsCall, type SdsFunction, SdsParameter } from '../generated/ast.js';
+import { isTslCall, isTslFunction, isTslList, TslCall, type TslFunction, TslParameter } from '../generated/ast.js';
 import { findFirstAnnotationCallOf, getArguments, getParameters } from '../helpers/nodeProperties.js';
 import { StringConstant } from '../partialEvaluation/model.js';
 import type { SafeDsServices } from '../safe-ds-module.js';
@@ -17,7 +17,7 @@ export const CODE_PURITY_PURE_PARAMETER_SET_TO_IMPURE_CALLABLE = 'purity/pure-pa
 export const functionPurityMustBeSpecified = (services: SafeDsServices) => {
     const annotations = services.builtins.Annotations;
 
-    return (node: SdsFunction, accept: ValidationAcceptor) => {
+    return (node: TslFunction, accept: ValidationAcceptor) => {
         if (annotations.callsPure(node) && annotations.callsImpure(node)) {
             return accept('error', "'@Impure' and '@Pure' are mutually exclusive.", {
                 node,
@@ -51,9 +51,9 @@ export const impurityReasonsOfOverridingMethodMustBeSubsetOfOverriddenMethod = (
     const builtinAnnotations = services.builtins.Annotations;
     const classHierarchy = services.types.ClassHierarchy;
 
-    return (node: SdsFunction, accept: ValidationAcceptor): void => {
+    return (node: TslFunction, accept: ValidationAcceptor): void => {
         const overriddenMember = classHierarchy.getOverriddenMember(node);
-        if (!overriddenMember || !isSdsFunction(overriddenMember)) {
+        if (!overriddenMember || !isTslFunction(overriddenMember)) {
             return;
         }
 
@@ -95,7 +95,7 @@ export const impurityReasonParameterNameMustBelongToParameterOfCorrectType = (se
     const partialEvaluator = services.evaluation.PartialEvaluator;
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsFunction, accept: ValidationAcceptor) => {
+    return (node: TslFunction, accept: ValidationAcceptor) => {
         const annotationCall = findFirstAnnotationCallOf(node, builtinAnnotations.Impure);
 
         // Don't further validate if the function is marked as impure and as pure
@@ -105,7 +105,7 @@ export const impurityReasonParameterNameMustBelongToParameterOfCorrectType = (se
 
         // Check whether allReasons is valid
         const allReasons = nodeMapper.callToParameterValue(annotationCall, 'allReasons');
-        if (!isSdsList(allReasons)) {
+        if (!isTslList(allReasons)) {
             return;
         }
 
@@ -115,7 +115,7 @@ export const impurityReasonParameterNameMustBelongToParameterOfCorrectType = (se
 
         for (const reason of allReasons.elements) {
             // If it's not a call, no parameter name could've been provided
-            if (!isSdsCall(reason)) {
+            if (!isTslCall(reason)) {
                 continue;
             }
 
@@ -182,7 +182,7 @@ export const impurityReasonShouldNotBeSetMultipleTimes = (services: SafeDsServic
     const nodeMapper = services.helpers.NodeMapper;
     const partialEvaluator = services.evaluation.PartialEvaluator;
 
-    return (node: SdsFunction, accept: ValidationAcceptor) => {
+    return (node: TslFunction, accept: ValidationAcceptor) => {
         const annotationCall = findFirstAnnotationCallOf(node, builtinAnnotations.Impure);
 
         // Don't further validate if the function is marked as impure and as pure
@@ -192,7 +192,7 @@ export const impurityReasonShouldNotBeSetMultipleTimes = (services: SafeDsServic
 
         // Check whether allReasons is valid
         const allReasons = nodeMapper.callToParameterValue(annotationCall, 'allReasons');
-        if (!isSdsList(allReasons)) {
+        if (!isTslList(allReasons)) {
             return;
         }
 
@@ -221,7 +221,7 @@ export const pureParameterDefaultValueMustBePure = (services: SafeDsServices) =>
     const purityComputer = services.purity.PurityComputer;
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsParameter, accept: ValidationAcceptor) => {
+    return (node: TslParameter, accept: ValidationAcceptor) => {
         if (!node.defaultValue) {
             return;
         }
@@ -250,7 +250,7 @@ export const callArgumentAssignedToPureParameterMustBePure = (services: SafeDsSe
     const purityComputer = services.purity.PurityComputer;
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsCall, accept: ValidationAcceptor) => {
+    return (node: TslCall, accept: ValidationAcceptor) => {
         for (const argument of getArguments(node)) {
             const parameter = nodeMapper.argumentToParameter(argument);
             if (!parameter) {

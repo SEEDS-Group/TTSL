@@ -1,11 +1,11 @@
 import { AstUtils, ValidationAcceptor } from 'langium';
 import {
-    isSdsMap,
-    isSdsUnionType,
-    type SdsConstraintList,
-    type SdsLiteralType,
-    type SdsMap,
-    type SdsUnionType,
+    isTslDictionary,
+    isTslUnionType,
+    type TslConstraintList,
+    type TslLiteralType,
+    type TslDictionary,
+    type TslUnionType,
 } from '../generated/ast.js';
 import { SafeDsServices } from '../safe-ds-module.js';
 
@@ -14,7 +14,7 @@ export const CODE_EXPERIMENTAL_LANGUAGE_FEATURE = 'experimental/language-feature
 export const constraintListsShouldBeUsedWithCaution = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsConstraintList, accept: ValidationAcceptor) => {
+    return async (node: TslConstraintList, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateExperimentalLanguageFeature())) {
             /* c8 ignore next 2 */
             return;
@@ -31,7 +31,7 @@ export const constraintListsShouldBeUsedWithCaution = (services: SafeDsServices)
 export const literalTypesShouldBeUsedWithCaution = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsLiteralType, accept: ValidationAcceptor) => {
+    return async (node: TslLiteralType, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateExperimentalLanguageFeature())) {
             /* c8 ignore next 2 */
             return;
@@ -48,14 +48,14 @@ export const literalTypesShouldBeUsedWithCaution = (services: SafeDsServices) =>
 export const mapsShouldBeUsedWithCaution = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsMap, accept: ValidationAcceptor) => {
+    return async (node: TslDictionary, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateExperimentalLanguageFeature())) {
             /* c8 ignore next 2 */
             return;
         }
 
         // There's already a warning on the container
-        if (AstUtils.hasContainerOfType(node.$container, isSdsMap)) {
+        if (AstUtils.hasContainerOfType(node.$container, isTslDictionary)) {
             return;
         }
 
@@ -69,14 +69,14 @@ export const mapsShouldBeUsedWithCaution = (services: SafeDsServices) => {
 export const unionTypesShouldBeUsedWithCaution = (services: SafeDsServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
-    return async (node: SdsUnionType, accept: ValidationAcceptor) => {
+    return async (node: TslUnionType, accept: ValidationAcceptor) => {
         if (!(await settingsProvider.shouldValidateExperimentalLanguageFeature())) {
             /* c8 ignore next 2 */
             return;
         }
 
         // There's already a warning on the container
-        if (AstUtils.hasContainerOfType(node.$container, isSdsUnionType)) {
+        if (AstUtils.hasContainerOfType(node.$container, isTslUnionType)) {
             return;
         }
 

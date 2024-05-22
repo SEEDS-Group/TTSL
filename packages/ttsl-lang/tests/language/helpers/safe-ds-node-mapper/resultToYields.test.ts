@@ -1,6 +1,6 @@
 import { EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
-import { isSdsResult } from '../../../../src/language/generated/ast.js';
+import { isTslResult } from '../../../../src/language/generated/ast.js';
 import { createSafeDsServices } from '../../../../src/language/index.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
 
@@ -16,7 +16,7 @@ describe('SafeDsNodeMapper', () => {
         it('should return an empty list if result is not in a segment', async () => {
             const code = `fun myFunction() -> r1: Int`;
 
-            const result = await getNodeOfType(services, code, isSdsResult);
+            const result = await getNodeOfType(services, code, isTslResult);
             expect(nodeMapper.resultToYields(result).toArray()).toStrictEqual([]);
         });
 
@@ -28,7 +28,7 @@ describe('SafeDsNodeMapper', () => {
                 }
             `;
 
-            const result = await getNodeOfType(services, code, isSdsResult);
+            const result = await getNodeOfType(services, code, isTslResult);
             expect(nodeMapper.resultToYields(result).toArray()).toHaveLength(2);
         });
 
@@ -41,7 +41,7 @@ describe('SafeDsNodeMapper', () => {
                 }
             `;
 
-            const result = await getNodeOfType(services, code, isSdsResult);
+            const result = await getNodeOfType(services, code, isTslResult);
             expect(nodeMapper.resultToYields(result).toArray()).toHaveLength(1);
         });
     });

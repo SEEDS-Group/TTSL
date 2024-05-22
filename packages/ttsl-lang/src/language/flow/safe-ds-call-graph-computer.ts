@@ -1,25 +1,25 @@
 import { AstNode, type AstNodeLocator, AstUtils, stream, WorkspaceCache } from 'langium';
 import {
-    isSdsBlockLambda,
-    isSdsCall,
-    isSdsCallable,
-    isSdsClass,
-    isSdsEnumVariant,
-    isSdsExpressionLambda,
-    isSdsFunction,
-    isSdsParameter,
-    isSdsSegment,
-    SdsArgument,
-    SdsBlockLambda,
-    SdsCall,
-    SdsCallable,
-    SdsClass,
-    SdsEnumVariant,
-    SdsExpression,
-    SdsExpressionLambda,
-    SdsFunction,
-    SdsParameter,
-    SdsSegment,
+    isTslBlockLambda,
+    isTslCall,
+    isTslCallable,
+    isTslClass,
+    isTslEnumVariant,
+    isTslExpressionLambda,
+    isTslFunction,
+    isTslParameter,
+    isTslSegment,
+    TslArgument,
+    TslBlockLambda,
+    TslCall,
+    TslCallable,
+    TslClass,
+    TslEnumVariant,
+    TslExpression,
+    TslExpressionLambda,
+    TslFunction,
+    TslParameter,
+    TslSegment,
 } from '../generated/ast.js';
 import type { SafeDsNodeMapper } from '../helpers/safe-ds-node-mapper.js';
 import type { SafeDsServices } from '../safe-ds-module.js';
@@ -47,7 +47,7 @@ export class SafeDsCallGraphComputer {
     /**
      * Stores the calls inside the node with the given ID.
      */
-    private readonly callCache: WorkspaceCache<string, SdsCall[]>;
+    private readonly callCache: WorkspaceCache<string, TslCall[]>;
 
     /**
      * Stores the call graph for the callable with the given ID if it is called without substitutions.
@@ -74,7 +74,7 @@ export class SafeDsCallGraphComputer {
      * The parameter substitutions to use. These are **not** the argument of the call, but the values of the parameters
      * of any containing callables, i.e. the context of the call.
      */
-    isRecursive(node: SdsCall, substitutions: ParameterSubstitutions = NO_SUBSTITUTIONS): boolean {
+    isRecursive(node: TslCall, substitutions: ParameterSubstitutions = NO_SUBSTITUTIONS): boolean {
         return this.getCallGraph(node, substitutions).isRecursive;
     }
 
@@ -91,7 +91,7 @@ export class SafeDsCallGraphComputer {
      * The parameter substitutions to use. These are **not** the argument of the call, but the values of the parameters
      * of any containing callables, i.e. the context of the call/callable.
      */
-    getCallGraph(node: SdsCall | SdsCallable, substitutions: ParameterSubstitutions = NO_SUBSTITUTIONS): CallGraph {
+    getCallGraph(node: TslCall | TslCallable, substitutions: ParameterSubstitutions = NO_SUBSTITUTIONS): CallGraph {
         // Cache the result if no substitutions are given
         if (isEmpty(substitutions)) {
             const key = this.getNodeId(node);
@@ -104,8 +104,8 @@ export class SafeDsCallGraphComputer {
         }
     }
 
-    private doGetCallGraph(node: SdsCall | SdsCallable, substitutions: ParameterSubstitutions): CallGraph {
-        if (isSdsCall(node)) {
+    private doGetCallGraph(node: TslCall | TslCallable, substitutions: ParameterSubstitutions): CallGraph {
+        if (isTslCall(node)) {
             const call = this.createSyntheticCallForCall(node, substitutions);
             return this.getCallGraphWithRecursionCheck(call, []);
         } else {
@@ -153,12 +153,12 @@ export class SafeDsCallGraphComputer {
     }
 
     private getExecutedCallsInCallable(
-        callable: SdsCallable | SdsParameter,
+        callable: TslCallable | TslParameter,
         substitutions: ParameterSubstitutions,
     ): SyntheticCall[] {
-        if (isSdsBlockLambda(callable) || isSdsExpressionLambda(callable) || isSdsSegment(callable)) {
+        if (isTslBlockLambda(callable) || isTslExpressionLambda(callable) || isTslSegment(callable)) {
             return this.getExecutedCallsInPipelineCallable(callable, substitutions);
-        } else if (isSdsClass(callable) || isSdsEnumVariant(callable) || isSdsFunction(callable)) {
+        } else if (isTslClass(callable) || isTslEnumVariant(callable) || isTslFunction(callable)) {
             return this.getExecutedCallsInStubCallable(callable, substitutions);
         } else {
             /* c8 ignore next 2 */
@@ -167,7 +167,7 @@ export class SafeDsCallGraphComputer {
     }
 
     private getExecutedCallsInPipelineCallable(
-        callable: SdsBlockLambda | SdsExpressionLambda | SdsSegment,
+        callable: TslBlockLambda | TslExpressionLambda | TslSegment,
         substitutions: ParameterSubstitutions,
     ): SyntheticCall[] {
         const callsInDefaultValues = getParameters(callable).flatMap((it) => {
@@ -179,22 +179,22 @@ export class SafeDsCallGraphComputer {
             }
         });
 
-        let callsInBody: SdsCall[];
-        if (isSdsBlockLambda(callable)) {
+        let callsInBody: TslCall[];
+        if (isTslBlockLambda(callable)) {
             callsInBody = this.getAllContainedCalls(callable.body);
-        } else if (isSdsExpressionLambda(callable)) {
+        } else if (isTslExpressionLambda(callable)) {
             callsInBody = this.getAllContainedCalls(callable.result);
         } else {
             callsInBody = this.getAllContainedCalls(callable.body);
         }
 
         return [...callsInDefaultValues, ...callsInBody]
-            .filter((it) => AstUtils.getContainerOfType(it, isSdsCallable) === callable)
+            .filter((it) => AstUtils.getContainerOfType(it, isTslCallable) === callable)
             .map((it) => this.createSyntheticCallForCall(it, substitutions));
     }
 
     private getExecutedCallsInStubCallable(
-        callable: SdsClass | SdsEnumVariant | SdsFunction,
+        callable: TslClass | TslEnumVariant | TslFunction,
         substitutions: ParameterSubstitutions,
     ): SyntheticCall[] {
         const callsInDefaultValues = getParameters(callable).flatMap((parameter) => {
@@ -227,7 +227,7 @@ export class SafeDsCallGraphComputer {
         return [...callsInDefaultValues, ...callablesInSubstitutions];
     }
 
-    private createSyntheticCallForCall(call: SdsCall, substitutions: ParameterSubstitutions): SyntheticCall {
+    private createSyntheticCallForCall(call: TslCall, substitutions: ParameterSubstitutions): SyntheticCall {
         const evaluatedCallable = this.getEvaluatedCallable(call.receiver, substitutions);
         const newSubstitutions = this.getParameterSubstitutionsAfterCall(
             evaluatedCallable,
@@ -242,7 +242,7 @@ export class SafeDsCallGraphComputer {
     }
 
     private getEvaluatedCallable(
-        expression: SdsExpression | undefined,
+        expression: TslExpression | undefined,
         substitutions: ParameterSubstitutions,
     ): EvaluatedCallable | undefined {
         if (!expression) {
@@ -270,9 +270,9 @@ export class SafeDsCallGraphComputer {
         }
 
         const parameterOrCallable = nonNullType.parameter ?? nonNullType.callable;
-        if (isSdsParameter(parameterOrCallable)) {
+        if (isTslParameter(parameterOrCallable)) {
             return new NamedCallable(parameterOrCallable);
-        } else if (isSdsFunction(parameterOrCallable)) {
+        } else if (isTslFunction(parameterOrCallable)) {
             // Needed for instance methods
             return new NamedCallable(parameterOrCallable);
         }
@@ -282,10 +282,10 @@ export class SafeDsCallGraphComputer {
 
     private getParameterSubstitutionsAfterCall(
         callable: EvaluatedCallable | undefined,
-        args: SdsArgument[],
+        args: TslArgument[],
         substitutions: ParameterSubstitutions,
     ): ParameterSubstitutions {
-        if (!callable || isSdsParameter(callable.callable)) {
+        if (!callable || isTslParameter(callable.callable)) {
             return NO_SUBSTITUTIONS;
         }
 
@@ -319,14 +319,14 @@ export class SafeDsCallGraphComputer {
     /**
      * Returns all calls inside the given node. If the given node is a call, it is included as well.
      */
-    getAllContainedCalls(node: AstNode | undefined): SdsCall[] {
+    getAllContainedCalls(node: AstNode | undefined): TslCall[] {
         if (!node) {
             /* c8 ignore next 2 */
             return [];
         }
 
         const key = this.getNodeId(node);
-        return this.callCache.get(key, () => AstUtils.streamAst(node).filter(isSdsCall).toArray());
+        return this.callCache.get(key, () => AstUtils.streamAst(node).filter(isTslCall).toArray());
     }
 
     private getNodeId(node: AstNode) {

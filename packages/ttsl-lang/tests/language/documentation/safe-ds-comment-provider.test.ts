@@ -2,15 +2,15 @@ import { AssertionError } from 'assert';
 import { AstNode, EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
 import {
-    isSdsAnnotation,
-    isSdsAttribute,
-    isSdsBlockLambdaResult,
-    isSdsEnumVariant,
-    isSdsExpressionStatement,
-    isSdsParameter,
-    isSdsPlaceholder,
-    isSdsResult,
-    isSdsTypeParameter,
+    isTslAnnotation,
+    isTslAttribute,
+    isTslBlockLambdaResult,
+    isTslEnumVariant,
+    isTslExpressionStatement,
+    isTslParameter,
+    isTslPlaceholder,
+    isTslResult,
+    isTslTypeParameter,
 } from '../../../src/language/generated/ast.js';
 import { createSafeDsServices } from '../../../src/language/index.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
@@ -27,7 +27,7 @@ describe('SafeDsCommentProvider', () => {
                 ${testComment}
                 annotation MyAnnotation
             `,
-            predicate: isSdsAnnotation,
+            predicate: isTslAnnotation,
             expectedComment: testComment,
         },
         {
@@ -37,7 +37,7 @@ describe('SafeDsCommentProvider', () => {
                 @Test
                 annotation MyAnnotation
             `,
-            predicate: isSdsAnnotation,
+            predicate: isTslAnnotation,
             expectedComment: undefined,
         },
         {
@@ -49,7 +49,7 @@ describe('SafeDsCommentProvider', () => {
                 @Test
                 annotation MyAnnotation
             `,
-            predicate: isSdsAnnotation,
+            predicate: isTslAnnotation,
             expectedComment: testComment,
         },
         {
@@ -57,7 +57,7 @@ describe('SafeDsCommentProvider', () => {
             code: `
                 annotation MyAnnotation
             `,
-            predicate: isSdsAnnotation,
+            predicate: isTslAnnotation,
             expectedComment: undefined,
         },
         {
@@ -68,7 +68,7 @@ describe('SafeDsCommentProvider', () => {
                     attr a: Int
                 }
             `,
-            predicate: isSdsAttribute,
+            predicate: isTslAttribute,
             expectedComment: testComment,
         },
         {
@@ -80,7 +80,7 @@ describe('SafeDsCommentProvider', () => {
                     attr a: Int
                 }
             `,
-            predicate: isSdsAttribute,
+            predicate: isTslAttribute,
             expectedComment: testComment,
         },
         {
@@ -90,7 +90,7 @@ describe('SafeDsCommentProvider', () => {
                     attr a: Int
                 }
             `,
-            predicate: isSdsAttribute,
+            predicate: isTslAttribute,
             expectedComment: undefined,
         },
         {
@@ -101,7 +101,7 @@ describe('SafeDsCommentProvider', () => {
                     MyEnumVariant
                 }
             `,
-            predicate: isSdsEnumVariant,
+            predicate: isTslEnumVariant,
             expectedComment: testComment,
         },
         {
@@ -113,7 +113,7 @@ describe('SafeDsCommentProvider', () => {
                     MyEnumVariant
                 }
             `,
-            predicate: isSdsEnumVariant,
+            predicate: isTslEnumVariant,
             expectedComment: testComment,
         },
         {
@@ -123,7 +123,7 @@ describe('SafeDsCommentProvider', () => {
                     MyEnumVariant
                 }
             `,
-            predicate: isSdsEnumVariant,
+            predicate: isTslEnumVariant,
             expectedComment: undefined,
         },
         {
@@ -136,7 +136,7 @@ describe('SafeDsCommentProvider', () => {
                     }
                 }
             `,
-            predicate: isSdsBlockLambdaResult,
+            predicate: isTslBlockLambdaResult,
             expectedComment: undefined,
         },
         {
@@ -148,7 +148,7 @@ describe('SafeDsCommentProvider', () => {
                     }
                 }
             `,
-            predicate: isSdsBlockLambdaResult,
+            predicate: isTslBlockLambdaResult,
             expectedComment: undefined,
         },
         {
@@ -156,7 +156,7 @@ describe('SafeDsCommentProvider', () => {
             code: `
                 segment mySegment(${testComment} p: Int) {}
             `,
-            predicate: isSdsParameter,
+            predicate: isTslParameter,
             expectedComment: undefined,
         },
         {
@@ -164,7 +164,7 @@ describe('SafeDsCommentProvider', () => {
             code: `
                 segment mySegment(p: Int) {}
             `,
-            predicate: isSdsParameter,
+            predicate: isTslParameter,
             expectedComment: undefined,
         },
         {
@@ -175,7 +175,7 @@ describe('SafeDsCommentProvider', () => {
                     val p = 1;
                 }
             `,
-            predicate: isSdsPlaceholder,
+            predicate: isTslPlaceholder,
             expectedComment: undefined,
         },
         {
@@ -185,7 +185,7 @@ describe('SafeDsCommentProvider', () => {
                     val p = 1;
                 }
             `,
-            predicate: isSdsPlaceholder,
+            predicate: isTslPlaceholder,
             expectedComment: undefined,
         },
         {
@@ -193,7 +193,7 @@ describe('SafeDsCommentProvider', () => {
             code: `
                 segment mySegment() -> (${testComment} r: Int) {}
             `,
-            predicate: isSdsResult,
+            predicate: isTslResult,
             expectedComment: undefined,
         },
         {
@@ -201,7 +201,7 @@ describe('SafeDsCommentProvider', () => {
             code: `
                 segment mySegment() -> (r: Int) {}
             `,
-            predicate: isSdsResult,
+            predicate: isTslResult,
             expectedComment: undefined,
         },
         {
@@ -209,7 +209,7 @@ describe('SafeDsCommentProvider', () => {
             code: `
                 class MyClass<${testComment} T>
             `,
-            predicate: isSdsTypeParameter,
+            predicate: isTslTypeParameter,
             expectedComment: undefined,
         },
         {
@@ -217,7 +217,7 @@ describe('SafeDsCommentProvider', () => {
             code: `
                 class MyClass<T>
             `,
-            predicate: isSdsTypeParameter,
+            predicate: isTslTypeParameter,
             expectedComment: undefined,
         },
         {
@@ -228,7 +228,7 @@ describe('SafeDsCommentProvider', () => {
                     f();
                 }
             `,
-            predicate: isSdsExpressionStatement,
+            predicate: isTslExpressionStatement,
             expectedComment: undefined,
         },
         {
@@ -238,7 +238,7 @@ describe('SafeDsCommentProvider', () => {
                     f();
                 }
             `,
-            predicate: isSdsExpressionStatement,
+            predicate: isTslExpressionStatement,
             expectedComment: undefined,
         },
     ];

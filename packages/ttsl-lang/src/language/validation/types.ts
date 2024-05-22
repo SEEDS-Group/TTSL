@@ -2,27 +2,27 @@ import { AstNode, AstUtils, ValidationAcceptor } from 'langium';
 import { isEmpty } from '../../helpers/collections.js';
 import { pluralize } from '../../helpers/strings.js';
 import {
-    isSdsAnnotation,
-    isSdsCallable,
-    isSdsClass,
-    isSdsLambda,
-    isSdsMemberAccess,
-    isSdsPipeline,
-    isSdsReference,
-    isSdsSchema,
-    SdsAttribute,
-    SdsCall,
-    SdsIndexedAccess,
-    SdsInfixOperation,
-    SdsList,
-    SdsMap,
-    SdsNamedType,
-    SdsParameter,
-    SdsPrefixOperation,
-    SdsResult,
-    SdsTypeCast,
-    SdsTypeParameter,
-    SdsYield,
+    isTslAnnotation,
+    isTslCallable,
+    isTslClass,
+    isTslLambda,
+    isTslMemberAccess,
+    isTslPipeline,
+    isTslReference,
+    isTslSchema,
+    TslAttribute,
+    TslCall,
+    TslIndexedAccess,
+    TslInfixOperation,
+    TslList,
+    TslDictionary,
+    TslNamedType,
+    TslParameter,
+    TslPrefixOperation,
+    TslResult,
+    TslTypeCast,
+    TslTypeParameter,
+    TslYield,
 } from '../generated/ast.js';
 import { getArguments, getTypeArguments, getTypeParameters, TypeParameter } from '../helpers/nodeProperties.js';
 import { SafeDsServices } from '../safe-ds-module.js';
@@ -42,7 +42,7 @@ export const callArgumentTypesMustMatchParameterTypes = (services: SafeDsService
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsCall, accept: ValidationAcceptor) => {
+    return (node: TslCall, accept: ValidationAcceptor) => {
         const substitutions = typeComputer.computeSubstitutionsForCall(node);
 
         for (const argument of getArguments(node)) {
@@ -68,28 +68,28 @@ export const callArgumentTypesMustMatchParameterTypes = (services: SafeDsService
 export const callReceiverMustBeCallable = (services: SafeDsServices) => {
     const nodeMapper = services.helpers.NodeMapper;
 
-    return (node: SdsCall, accept: ValidationAcceptor): void => {
+    return (node: TslCall, accept: ValidationAcceptor): void => {
         let receiver: AstNode | undefined = node.receiver;
-        if (isSdsMemberAccess(receiver)) {
+        if (isTslMemberAccess(receiver)) {
             receiver = receiver.member;
         }
 
-        if (isSdsReference(receiver)) {
+        if (isTslReference(receiver)) {
             const target = receiver.target.ref;
 
             // We already report other errors at this position in those cases
-            if (!target || isSdsAnnotation(target) || isSdsPipeline(target) || isSdsSchema(target)) {
+            if (!target || isTslAnnotation(target) || isTslPipeline(target) || isTslSchema(target)) {
                 return;
             }
         }
 
         const callable = nodeMapper.callToCallable(node);
-        if (node.receiver && (!callable || isSdsAnnotation(callable))) {
+        if (node.receiver && (!callable || isTslAnnotation(callable))) {
             accept('error', 'This expression is not callable.', {
                 node: node.receiver,
                 code: CODE_TYPE_CALLABLE_RECEIVER,
             });
-        } else if (node.receiver && isSdsClass(callable) && !callable.parameterList) {
+        } else if (node.receiver && isTslClass(callable) && !callable.parameterList) {
             accept('error', 'Cannot instantiate a class that has no constructor.', {
                 node: node.receiver,
                 code: CODE_TYPE_CALLABLE_RECEIVER,
@@ -102,7 +102,7 @@ export const indexedAccessReceiverMustBeListOrMap = (services: SafeDsServices) =
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsIndexedAccess, accept: ValidationAcceptor): void => {
+    return (node: TslIndexedAccess, accept: ValidationAcceptor): void => {
         if (!node.receiver) {
             /* c8 ignore next 2 */
             return;
@@ -124,7 +124,7 @@ export const indexedAccessIndexMustHaveCorrectType = (services: SafeDsServices) 
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsIndexedAccess, accept: ValidationAcceptor): void => {
+    return (node: TslIndexedAccess, accept: ValidationAcceptor): void => {
         const receiverType = typeComputer.computeType(node.receiver);
         if (typeChecker.isList(receiverType)) {
             const indexType = typeComputer.computeType(node.index);
@@ -157,7 +157,7 @@ export const infixOperationOperandsMustHaveCorrectType = (services: SafeDsServic
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsInfixOperation, accept: ValidationAcceptor): void => {
+    return (node: TslInfixOperation, accept: ValidationAcceptor): void => {
         const leftType = typeComputer.computeType(node.leftOperand);
         const rightType = typeComputer.computeType(node.rightOperand);
         switch (node.operator) {
@@ -216,7 +216,7 @@ export const infixOperationOperandsMustHaveCorrectType = (services: SafeDsServic
 export const listMustNotContainNamedTuples = (services: SafeDsServices) => {
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsList, accept: ValidationAcceptor): void => {
+    return (node: TslList, accept: ValidationAcceptor): void => {
         for (const element of node.elements) {
             const elementType = typeComputer.computeType(element);
             if (elementType instanceof NamedTupleType) {
@@ -232,7 +232,7 @@ export const listMustNotContainNamedTuples = (services: SafeDsServices) => {
 export const mapMustNotContainNamedTuples = (services: SafeDsServices) => {
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsMap, accept: ValidationAcceptor): void => {
+    return (node: TslDictionary, accept: ValidationAcceptor): void => {
         for (const entry of node.entries) {
             const keyType = typeComputer.computeType(entry.key);
             if (keyType instanceof NamedTupleType) {
@@ -260,7 +260,7 @@ export const namedTypeTypeArgumentsMustMatchBounds = (services: SafeDsServices) 
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsNamedType, accept: ValidationAcceptor): void => {
+    return (node: TslNamedType, accept: ValidationAcceptor): void => {
         const type = typeComputer.computeType(node);
         if (!(type instanceof ClassType) || isEmpty(type.substitutions)) {
             return;
@@ -297,7 +297,7 @@ export const parameterDefaultValueTypeMustMatchParameterType = (services: SafeDs
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsParameter, accept: ValidationAcceptor) => {
+    return (node: TslParameter, accept: ValidationAcceptor) => {
         const defaultValue = node.defaultValue;
         if (!defaultValue) {
             return;
@@ -321,7 +321,7 @@ export const prefixOperationOperandMustHaveCorrectType = (services: SafeDsServic
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsPrefixOperation, accept: ValidationAcceptor): void => {
+    return (node: TslPrefixOperation, accept: ValidationAcceptor): void => {
         const operandType = typeComputer.computeType(node.operand);
         switch (node.operator) {
             case 'not':
@@ -356,7 +356,7 @@ export const prefixOperationOperandMustHaveCorrectType = (services: SafeDsServic
 export const typeCastExpressionMustHaveUnknownType = (services: SafeDsServices) => {
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsTypeCast, accept: ValidationAcceptor): void => {
+    return (node: TslTypeCast, accept: ValidationAcceptor): void => {
         const expressionType = typeComputer.computeType(node.expression);
         if (node.expression && expressionType !== UnknownType) {
             accept('error', 'Type casts can only be applied to expressions of unknown type.', {
@@ -372,7 +372,7 @@ export const typeParameterDefaultValueMustMatchUpperBound = (services: SafeDsSer
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsTypeParameter, accept: ValidationAcceptor): void => {
+    return (node: TslTypeParameter, accept: ValidationAcceptor): void => {
         if (!node.defaultValue || !node.upperBound) {
             return;
         }
@@ -394,7 +394,7 @@ export const yieldTypeMustMatchResultType = (services: SafeDsServices) => {
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
-    return (node: SdsYield, accept: ValidationAcceptor) => {
+    return (node: TslYield, accept: ValidationAcceptor) => {
         const result = node.result?.ref;
         if (!result) {
             return;
@@ -419,7 +419,7 @@ export const yieldTypeMustMatchResultType = (services: SafeDsServices) => {
 
 export const namedTypeMustSetAllTypeParameters =
     (services: SafeDsServices) =>
-    (node: SdsNamedType, accept: ValidationAcceptor): void => {
+    (node: TslNamedType, accept: ValidationAcceptor): void => {
         const expectedTypeParameters = getTypeParameters(node.declaration?.ref).filter(TypeParameter.isRequired);
         if (isEmpty(expectedTypeParameters)) {
             return;
@@ -457,7 +457,7 @@ export const namedTypeMustSetAllTypeParameters =
 // Missing type hints
 // -----------------------------------------------------------------------------
 
-export const attributeMustHaveTypeHint = (node: SdsAttribute, accept: ValidationAcceptor): void => {
+export const attributeMustHaveTypeHint = (node: TslAttribute, accept: ValidationAcceptor): void => {
     if (!node.type) {
         accept('error', 'An attribute must have a type hint.', {
             node,
@@ -467,11 +467,11 @@ export const attributeMustHaveTypeHint = (node: SdsAttribute, accept: Validation
     }
 };
 
-export const parameterMustHaveTypeHint = (node: SdsParameter, accept: ValidationAcceptor): void => {
+export const parameterMustHaveTypeHint = (node: TslParameter, accept: ValidationAcceptor): void => {
     if (!node.type) {
-        const containingCallable = AstUtils.getContainerOfType(node, isSdsCallable);
+        const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
 
-        if (!isSdsLambda(containingCallable)) {
+        if (!isTslLambda(containingCallable)) {
             accept('error', 'A parameter must have a type hint.', {
                 node,
                 property: 'name',
@@ -481,7 +481,7 @@ export const parameterMustHaveTypeHint = (node: SdsParameter, accept: Validation
     }
 };
 
-export const resultMustHaveTypeHint = (node: SdsResult, accept: ValidationAcceptor): void => {
+export const resultMustHaveTypeHint = (node: TslResult, accept: ValidationAcceptor): void => {
     if (!node.type) {
         accept('error', 'A result must have a type hint.', {
             node,
