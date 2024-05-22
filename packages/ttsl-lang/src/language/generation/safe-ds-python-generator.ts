@@ -81,6 +81,7 @@ import {
     TslTimespan,
     isTslData,
     TslData,
+    isTslBlock,
 } from '../generated/ast.js';
 import { isInStubFile, isStubFile } from '../helpers/fileExtensions.js';
 import { IdManager } from '../helpers/idManager.js';
@@ -221,16 +222,37 @@ const UTILITY_CONSTANTS: UtilityFunction = {
             .append('def getValue(self, date):').appendNewLine()
             .indent(indentingNode =>
                 indentingNode.append(
-                    'for key in self.dict:'
+                    'keys = sorted(self.dict.keys())'
+                ).appendNewLine().append(
+                    'if(keys[0] == "empty"):'
+                ).appendNewLine().indent(indentingNode =>
+                    indentingNode.append(
+                        'return self.dict["empty"]'
+                    )).appendNewLine()
+                .append(
+                    'for index, key in enumerate(keys):'
                 ).appendNewLine()
                 .indent(indentingNode =>
                     indentingNode.append(
-                        'if key <= date:'
+                        'if key[0] <= "s"'
                     ).appendNewLine()
-                    .indent({
-                        indentedChildren: ['result = self.dict[key]'],
-                        indentation: PYTHON_INDENT
-                    })).appendNewLine()
+                    .indent(indentingNode =>
+                        indentingNode.append(
+                            'if key.replace("s", "") <= date:'
+                        ).appendNewLine()
+                        .indent(indentingNode =>
+                            indentingNode.append(
+                                'result = self.dict[key]'
+                            )).appendNewLine()
+                    .append('if key[0] == "e":').appendNewLine()
+                    .indent(indentingNode =>
+                        indentingNode.append(
+                            'if date <= keys[len(keys)-1-index].replace("e",""):'
+                        ).appendNewLine()
+                        .indent(indentingNode =>
+                            indentingNode.append(
+                                'result = self.dict[keys[len(keys)-1-index]]'
+                            ).appendNewLine()))))
                 .append('return result'))),
     imports: [{ importPath: 'typing', declarationName: 'Any' }],
     typeVariables: [`${CODEGEN_PREFIX}T`],
@@ -544,7 +566,7 @@ export class SafeDsPythonGenerator {
         return expandTracedToNode(funct)`def ${traceToNode(
             funct,
             'name',
-        )(this.getPythonNameOrDefault(funct))}(${funct.timeunit}, ${funct.groupedBy}, date, ${funct.parameterList}):`
+        )(this.getPythonNameOrDefault(funct))}(timeunit, groupedBy, date`.appendIf(funct.parameterList?.parameters.length !== 0,`, ${this.generateParameters(funct.parameterList, infoFrame)}`).append(`):`)
             .appendNewLine()
             .indent({ indentedChildren: [this.generateFunctionBlock(funct.body, infoFrame)], indentation: PYTHON_INDENT });
     }
@@ -605,7 +627,7 @@ export class SafeDsPythonGenerator {
                 )(this.generateExpression(entry.value, infoFrame))}`,
             { separator: ', ' },
             )}}`.appendNewLine()
-            .append(expandTracedToNode(constant)`${traceToNode(
+            .append(expandTracedToNode(constant)`${constant.name} = ${traceToNode(
                 constant
             )(UTILITY_CONSTANTS.name)}(${constant.name}Dict)`)
         } else{
@@ -856,12 +878,15 @@ export class SafeDsPythonGenerator {
                 ${this.generateFunctionBlock(statement.block, frame)}`;
         } else if (isTslConditionalStatement(statement)) {
             let elseBlock = new CompositeGeneratorNode
-            if (statement.elseBlock){
-                elseBlock = this.generateBlock((statement.elseBlock), frame, false)
+            if (isTslBlock(statement.elseBlock)){
+                let generatedBlock = this.generateBlock((statement.elseBlock), frame, false)
+                elseBlock = expandTracedToNode(statement.elseBlock)`else:`.appendNewLine().indent(indentingNode =>
+                    indentingNode.append(`${generatedBlock}`))
             }
-            return expandTracedToNode(statement)`if ${this.generateExpression((statement.expression), frame)}:
-                ${this.generateBlock((statement.ifBlock), frame)}
-                else: ${elseBlock}`;
+            return expandTracedToNode(statement)`if ${this.generateExpression((statement.expression), frame)}:`
+                .appendNewLine().indent(indentingNode =>
+                    indentingNode.append(`${this.generateBlock((statement.ifBlock), frame)}`))
+                .appendNewLine().append(elseBlock);
         } else if (isTslLoop(statement)) {
             if (isTslWhileLoop(statement)){
                 return expandTracedToNode(statement)`while ${this.generateExpression((statement.condition), frame)}:
