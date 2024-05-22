@@ -187,7 +187,7 @@ const UTILITY_NULL_SAFE_MEMBER_ACCESS: UtilityFunction = {
 
 const UTILITY_AGGREGATION: UtilityFunction = {
     name: `${CODEGEN_PREFIX}aggregation`,
-    code: expandToNode`def ${CODEGEN_PREFIX}aggregation(dataFrame: pd, data: str, id: str, function: str) -> pd | None:`
+    code: expandToNode`def ${CODEGEN_PREFIX}aggregation(dataFrame: pd, data, id, function: str) -> pd | None:`
         .appendNewLine()
         .indent({
             indentedChildren:['dataFrame = dataFrame.join(dataFrame[id])'],

@@ -5,7 +5,7 @@ import pandas as pd
 
 # Utils --------------------------------------------------------------------
 
-def aggregation(dataFrame: pd, data: str, id: str, function: str) -> pd | None:
+def aggregation(dataFrame: pd, data, id, function: str) -> pd | None:
     dataFrame = dataFrame.join(dataFrame[id])
     dataFrame[data] = dataFrame.groupby(id)[data].transform(function)
     return dataFrame
