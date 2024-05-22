@@ -339,7 +339,7 @@ TslFunctionBlock returns TslFunctionBlock:
     '}'
 ;
 
-interface TslConstant extends TslModuleMember {
+interface TslConstant extends TslModuleMember, TslDeclaration {
     timespanValueEntries?: TslTimespanValueEntry[]
     ^type: TslType
     value?: TslExpression
