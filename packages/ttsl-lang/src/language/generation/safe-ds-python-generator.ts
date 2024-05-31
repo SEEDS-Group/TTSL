@@ -481,7 +481,8 @@ export class SafeDsPythonGenerator {
         }
         if (functions.length > 0) {
             output.appendNewLineIf(
-                imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0 || segments.length > 0,
+                imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0 || segments.length > 0
+                || pipelines.length > 0,
             );
             output.append('# Functions --------------------------------------------------------------------');
             output.appendNewLine();
@@ -491,7 +492,8 @@ export class SafeDsPythonGenerator {
         }
         if (constants.length > 0) {
             output.appendNewLineIf(
-                imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0 || segments.length > 0,
+                imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0 || segments.length > 0
+                || pipelines.length > 0 || functions.length > 0,
             );
             output.append('# Constants --------------------------------------------------------------------');
             output.appendNewLine();
@@ -501,7 +503,8 @@ export class SafeDsPythonGenerator {
         }
         if (data.length > 0) {
             output.appendNewLineIf(
-                imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0 || segments.length > 0,
+                imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0 || segments.length > 0
+                || pipelines.length > 0 || functions.length > 0 || constants.length > 0,
             );
             output.append('# Data --------------------------------------------------------------------');
             output.appendNewLine();
