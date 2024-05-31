@@ -234,7 +234,7 @@ const UTILITY_CONSTANTS: UtilityFunction = {
                 ).appendNewLine()
                 .indent(indentingNode =>
                     indentingNode.append(
-                        'if key[0] <= "s"'
+                        'if key[0] == "s":'
                     ).appendNewLine()
                     .indent(indentingNode =>
                         indentingNode.append(
@@ -243,16 +243,16 @@ const UTILITY_CONSTANTS: UtilityFunction = {
                         .indent(indentingNode =>
                             indentingNode.append(
                                 'result = self.dict[key]'
-                            )).appendNewLine()
+                            ))).appendNewLine()
                     .append('if key[0] == "e":').appendNewLine()
                     .indent(indentingNode =>
                         indentingNode.append(
-                            'if date <= keys[len(keys)-1-index].replace("e",""):'
+                            'if date <= keys[len(keys)-1-index].replace("e", ""):'
                         ).appendNewLine()
                         .indent(indentingNode =>
                             indentingNode.append(
                                 'result = self.dict[keys[len(keys)-1-index]]'
-                            ).appendNewLine()))))
+                            ).appendNewLine())))
                 .append('return result'))),
     imports: [{ importPath: 'typing', declarationName: 'Any' }],
     typeVariables: [`${CODEGEN_PREFIX}T`],
@@ -616,7 +616,7 @@ export class SafeDsPythonGenerator {
         if(constant.value != null){
             return expandTracedToNode(constant)`${traceToNode(
                 constant
-            )(UTILITY_CONSTANTS.name)}({'empty': ${constant.value}})`
+            )(UTILITY_CONSTANTS.name)}({"empty": ${constant.value}})`
         } else if (constant.timespanValueEntries != null){
             return expandTracedToNode(constant)`${constant.name}Dict = {${joinTracedToNode(constant, 'timespanValueEntries')(
             constant.timespanValueEntries,
@@ -667,7 +667,6 @@ export class SafeDsPythonGenerator {
             generateOptions.targetPlaceholder,
             generateOptions.disableRunnerIntegration,
         );
-        infoFrame.addUtility(UTILITY_CONSTANTS);
 
         return expandToNode`${data.name} = ${data.type}()`  
     }
@@ -764,7 +763,7 @@ export class SafeDsPythonGenerator {
         generateLambda: boolean = false,
     ): CompositeGeneratorNode {
         const targetPlaceholder = getPlaceholderByName(block, frame.targetPlaceholder);
-        let statements = getStatements(block).filter((stmt) => this.purityComputer.statementDoesSomething(stmt));
+        let statements = getStatements(block)/*.filter((stmt) => this.purityComputer.statementDoesSomething(stmt))*/;
         if (targetPlaceholder) {
             statements = this.getStatementsNeededForPartialExecution(targetPlaceholder, statements);
         }

@@ -1096,6 +1096,11 @@ TslPrimaryType returns TslType:
   | TslLiteralType
   | TslNamedType
   | TslUnionType
+  | 'Int'
+  | 'String'
+  | 'Boolean'
+  | 'Dict'
+  | 'List'
 ;
 
 interface TslCallableType extends TslCallable, TslType {
