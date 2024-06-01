@@ -329,16 +329,14 @@ fragment TslFunctionFragment:
 ;
 
 interface TslFunctionBlock extends TslBlock{
-    timespans: TslTimespan[]
+    timespanStatement: TslTimespanStatement[]
 }
 
 TslFunctionBlock returns TslFunctionBlock:
     {TslFunctionBlock} 
-    '{' ( statements+=TslStatement* 
-    | timespans+=TslTimespan 
-    '{' ( timespans+=TslTimespan statements+=TslStatement 
+    '{' ( timespanStatement+=TslTimespanStatement
     | statements+=TslStatement)* 
-    '}')* '}'
+    '}'
 ;
 
 interface TslConstant extends TslModuleMember {
@@ -1044,6 +1042,14 @@ TslGroupedBy returns TslGroupedBy:
     'groupedBy' id=TslExpression
 ;
 
+interface TslRounding extends TslModifier{
+    rounding: TslString
+}
+
+TslRounding returns TslRounding:
+    ':' rounding=TslString
+;
+
 // -----------------------------------------------------------------------------
 // Timespan
 // -----------------------------------------------------------------------------
@@ -1055,6 +1061,16 @@ interface TslTimespan extends TslObject{
 
 TslTimespan returns TslTimespan:
     ('from' start=TslDate)? ('to' end=TslDate)?
+;
+
+interface TslTimespanStatement extends TslBlock, TslStatement{
+    timespan: TslTimespan
+    rounding?: TslRounding
+    block: TslFunctionBlock
+}
+
+TslTimespanStatement returns TslTimespanStatement:
+    timespan=TslTimespan (rounding=TslRounding)* '{' block=TslFunctionBlock '}'
 ;
 
 // -----------------------------------------------------------------------------
