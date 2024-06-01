@@ -333,9 +333,9 @@ interface TslFunctionBlock extends TslBlock{
 }
 
 TslFunctionBlock returns TslFunctionBlock:
-    {TslFunctionBlock} 
+    {TslFunctionBlock}
     '{' ( timespanStatement+=TslTimespanStatement
-    | statements+=TslStatement)* 
+    | statements+=TslStatement)*
     '}'
 ;
 
@@ -535,7 +535,6 @@ TslStatement returns TslStatement:
   | TslExpressionStatement
   | TslConditionalStatement
   | TslLoop
-  | TslTimespanStatement
 ;
 
 interface TslAssignment extends TslStatement {
@@ -642,13 +641,13 @@ TslExpression returns TslExpression:
 ;
 
 interface TslAggregation extends TslExpression{
-    function: TslString
-    data: TslExpression
+    function: @TslFunction
+    data: @TslData[]
     groupedBy: TslGroupedBy
 }
 
 TslAggregation returns TslAggregation:
-    'aggregate' function=TslString 'of' data=TslExpression groupedBy=TslGroupedBy
+    'aggregate' function=[TslFunction:ID] 'of' data+=[TslData:ID] (',' data+=[TslData:ID])* groupedBy=TslGroupedBy
 ;
 
 interface TslLambda extends TslCallable, TslExpression {}
@@ -1018,7 +1017,7 @@ TslTemplateStringEnd returns TslExpression:
 interface TslModifier extends TslObject{}
 
 interface TslVisibility extends TslModifier{
-    isPublic?: boolean 
+    isPublic?: boolean
     isPackageprivate?: boolean
     isPrivate?: boolean
 }
