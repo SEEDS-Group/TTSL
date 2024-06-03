@@ -67,6 +67,11 @@ function taxes(name: String): List GroupedBy XYZ_id {...}
 
 In this example the return value of the function is grouped by XYZ_id.
 
+## Rounding
+
+The [rounding modifier][rounding] can be added to a function of a single [timespan][Validity] in the function to define the rounding direction for the return value. More detailed Documentation can be found in the [rounding modifier][rounding] section.
+
+
 [Parameters]: parameters.md
 [Type]: types.md
 [id]: modifier.md#id
@@ -77,3 +82,4 @@ In this example the return value of the function is grouped by XYZ_id.
 [modifier timespan]: modifier.md#timespan
 [Statement]: statements.md
 [Aggregations]: aggregations.md
+[rounding]: modifier.md#rounding

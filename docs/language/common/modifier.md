@@ -57,7 +57,25 @@ var x = per week f()
 y = per year salary
 ```
 
+## Rounding
+
+[Functions][Functions] can return a rounded value. The direction in which the value should be rounded can be specified for the whole function of for specific [timespans][Timespans].
+
+```ttsl
+# For the whole function:
+function f() round:ceil : Int {...}
+
+# For a specific timespan:
+from 2001-01-01: ceil {}
+```
+
+The options for rounding are following:
+- ceil: round up
+- floor: round down
+- round: round depending on the following
+
 [Constants]:constants.md
 [Data]:data.md
 [Functions]:functions.md
 [Aggregation]: aggregations.md
+[Timespans]: validity.md
