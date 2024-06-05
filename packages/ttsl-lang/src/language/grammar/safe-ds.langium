@@ -335,9 +335,9 @@ interface TslFunctionBlock extends TslBlock{
 }
 
 TslFunctionBlock returns TslFunctionBlock:
-    {TslFunctionBlock} 
+    {TslFunctionBlock}
     '{' ( timespanStatement+=TslTimespanStatement
-    | statements+=TslStatement)* 
+    | statements+=TslStatement)*
     '}'
 ;
 
@@ -1019,7 +1019,7 @@ TslTemplateStringEnd returns TslExpression:
 interface TslModifier extends TslObject{}
 
 interface TslVisibility extends TslModifier{
-    isPublic?: boolean 
+    isPublic?: boolean
     isPackageprivate?: boolean
     isPrivate?: boolean
 }
@@ -1045,11 +1045,11 @@ TslGroupedBy returns TslGroupedBy:
 ;
 
 interface TslRounding extends TslModifier{
-    rounding: TslString
+    rounding: string
 }
 
 TslRounding returns TslRounding:
-    ':' rounding=TslString
+    ':' rounding=('round'|'ceil'|'floor')
 ;
 
 // -----------------------------------------------------------------------------
