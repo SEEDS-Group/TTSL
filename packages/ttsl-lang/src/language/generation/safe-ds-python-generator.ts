@@ -82,6 +82,11 @@ import {
     isTslData,
     TslData,
     isTslBlock,
+    TslTimeunit,
+    TslResultList,
+    isTslReturn,
+    TslType,
+    isTslExpression,
 } from '../generated/ast.js';
 import { isInStubFile, isStubFile } from '../helpers/fileExtensions.js';
 import { IdManager } from '../helpers/idManager.js';
@@ -254,6 +259,54 @@ const UTILITY_CONSTANTS: UtilityFunction = {
                                 'result = self.dict[keys[len(keys)-1-index]]'
                             ).appendNewLine())))
                 .append('return result'))),
+    imports: [{ importPath: 'typing', declarationName: 'Any' }],
+    typeVariables: [`${CODEGEN_PREFIX}T`],
+};
+
+const UTILITY_TIMEUNIT_DAY: UtilityFunction = {
+    name: `${CODEGEN_PREFIX}TimeUnitDay`,
+    code: expandToNode`def ${CODEGEN_PREFIX}TimeUnitDay(value, timeunit):`
+        .appendNewLine()
+        .indent(indentingNode =>
+            indentingNode.append('if(timeunit == "per week"):').appendNewLine().indent([`result = result * 7`])
+            .appendNewLine().append(`if(timeunit == 'per month')`).appendNewLine().indent([`result = result * 30`])
+            .appendNewLine().append(`if(timeunit == 'per year')`).appendNewLine().indent([`result = result * 365`])),
+    imports: [{ importPath: 'typing', declarationName: 'Any' }],
+    typeVariables: [`${CODEGEN_PREFIX}T`],
+};
+
+const UTILITY_TIMEUNIT_WEEK: UtilityFunction = {
+    name: `${CODEGEN_PREFIX}TimeUnitWeek`,
+    code: expandToNode`def ${CODEGEN_PREFIX}TimeUnitWeek(value, timeunit):`
+        .appendNewLine()
+        .indent(indentingNode =>
+            indentingNode.append(`if(timeunit == 'per day')`).appendNewLine().indent([`result = result / 7`])
+                .appendNewLine().append(`if(timeunit == 'per month')`).appendNewLine().indent([`result = result * 4`])
+                .appendNewLine().append(`if(timeunit == 'per year')`).appendNewLine().indent([`result = result * 52`])),
+    imports: [{ importPath: 'typing', declarationName: 'Any' }],
+    typeVariables: [`${CODEGEN_PREFIX}T`],
+};
+
+const UTILITY_TIMEUNIT_MONTH: UtilityFunction = {
+    name: `${CODEGEN_PREFIX}TimeUnitMonth`,
+    code: expandToNode`def ${CODEGEN_PREFIX}TimeUnitMonth(value, timeunit):`
+        .appendNewLine()
+        .indent(indentingNode =>
+            indentingNode.append(`if(timeunit == 'per day')`).appendNewLine().indent([`result = result / 30`])
+                .appendNewLine().append(`if(timeunit == 'per week')`).appendNewLine().indent([`result = result / 4`])
+                .appendNewLine().append(`if(timeunit == 'per year')`).appendNewLine().indent([`result = result * 12`])),
+    imports: [{ importPath: 'typing', declarationName: 'Any' }],
+    typeVariables: [`${CODEGEN_PREFIX}T`],
+};
+
+const UTILITY_TIMEUNIT_YEAR: UtilityFunction = {
+    name: `${CODEGEN_PREFIX}TimeUnitYear`,
+    code: expandToNode`def ${CODEGEN_PREFIX}TimeUnitYear(value, timeunit):`
+        .appendNewLine()
+        .indent(indentingNode =>
+            indentingNode.append(`if(timeunit == 'per day')`).appendNewLine().indent([`result = result / 365`])
+                .appendNewLine().append(`if(timeunit == 'per week')`).appendNewLine().indent([`result = result / 52`])
+                .appendNewLine().append(`if(timeunit == 'per month')`).appendNewLine().indent([`result = result / 12`])),
     imports: [{ importPath: 'typing', declarationName: 'Any' }],
     typeVariables: [`${CODEGEN_PREFIX}T`],
 };
@@ -571,13 +624,15 @@ export class SafeDsPythonGenerator {
             'name',
         )(this.getPythonNameOrDefault(funct))}(timeunit, groupedBy, date`.appendIf(funct.parameterList?.parameters.length !== 0,`, ${this.generateParameters(funct.parameterList, infoFrame)}`).append(`):`)
             .appendNewLine()
-            .indent({ indentedChildren: [this.generateFunctionBlock(funct.body, infoFrame)], indentation: PYTHON_INDENT });
+            .indent({ indentedChildren: [this.generateFunctionBlock(funct.body, infoFrame, undefined, funct.timeunit)],
+                indentation: PYTHON_INDENT });
     }
 
     private generateFunctionBlock(
         block: TslFunctionBlock,
         frame: GenerationInfoFrame,
         generateLambda: boolean = false,
+        timeunit: TslTimeunit | undefined,
     ): CompositeGeneratorNode {
         const targetPlaceholder = getPlaceholderByName(block, frame.targetPlaceholder);
         let statements = getStatements(block).filter((stmt) => this.purityComputer.statementDoesSomething(stmt));
@@ -587,13 +642,26 @@ export class SafeDsPythonGenerator {
         if (statements.length === 0) {
             return traceToNode(block)('pass');
         }
+        let resultBlock = new CompositeGeneratorNode()
+        if (isTslExpression(block.returnValue)){
+            if (timeunit?.timeunit == 'day'){
+                frame.addUtility(UTILITY_TIMEUNIT_DAY);
+            } else if (timeunit?.timeunit == 'week'){
+                frame.addUtility(UTILITY_TIMEUNIT_WEEK);
+            } else if (timeunit?.timeunit == 'month'){
+                frame.addUtility(UTILITY_TIMEUNIT_MONTH);
+            } else if (timeunit?.timeunit == 'year'){
+                frame.addUtility(UTILITY_TIMEUNIT_YEAR);
+            }
+            resultBlock.append(`return ${this.generateExpression(block.returnValue, frame)}`)
+        }
         return joinTracedToNode(block, 'statements')(
             statements,
             (stmt) => this.generateStatement(stmt, frame, generateLambda),
             {
                 separator: NL,
             },
-        )!;
+        )?.appendNewLine().append(resultBlock)!;
     }
 
     private generateConstant(
@@ -877,7 +945,7 @@ export class SafeDsPythonGenerator {
                 throw new Error(`Timespan has neither a start nor an end value`);
             }
             return expandTracedToNode(statement)`if ${start} date ${end}:
-                ${this.generateFunctionBlock(statement.block, frame)}`;
+                ${this.generateFunctionBlock(statement.block, frame, false, undefined)}`;
         } else if (isTslConditionalStatement(statement)) {
             let elseBlock = new CompositeGeneratorNode
             if (isTslBlock(statement.elseBlock)){
