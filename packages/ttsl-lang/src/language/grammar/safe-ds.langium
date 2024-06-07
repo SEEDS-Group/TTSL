@@ -322,7 +322,7 @@ fragment TslFunctionFragment:
     name=ID
     (functParameterList+=TslParameter ':'
     typeParameterList+=TslTypeParameter)*
-    resulttype=TslType?
+    ':' resulttype=TslType?
     (groupedBy=TslGroupedBy)?
     constraintList=TslConstraintList?
     body=TslFunctionBlock
