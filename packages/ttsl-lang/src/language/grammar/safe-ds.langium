@@ -811,6 +811,7 @@ TslUnaryOperation returns TslExpression:
 
 interface TslChainedExpression extends TslExpression {
     receiver: TslExpression
+    timeunit?: TslTimeunit
     isNullSafe: boolean
 }
 
@@ -827,6 +828,12 @@ interface TslMemberAccess extends TslChainedExpression {
 TslChainedExpression returns TslExpression:
     TslPrimaryExpression
     (
+        {TslCall.receiver=current}
+        timeunit=TslTimeunit
+        (isNullSafe?='?')?
+        argumentList=TslCallArgumentList
+
+    | 
         {TslCall.receiver=current}
         (isNullSafe?='?')?
         argumentList=TslCallArgumentList

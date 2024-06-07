@@ -1300,7 +1300,13 @@ export class SafeDsPythonGenerator {
         sortedArgs: TslArgument[],
         frame: GenerationInfoFrame,
     ): CompositeGeneratorNode {
-        return expandTracedToNode(expression)`${this.generateExpression(expression.receiver, frame)}(${joinTracedToNode(
+        let timeunit = new CompositeGeneratorNode()
+        if(expression.timeunit != undefined){
+            timeunit.append(`${expression.timeunit.timeunit}, `)
+        } else{
+            timeunit.append(`None, `)
+        }
+        return expandTracedToNode(expression)`${this.generateExpression(expression.receiver, frame)}(${timeunit}${joinTracedToNode(
             expression.argumentList,
             'arguments',
         )(sortedArgs, (arg) => this.generateArgument(arg, frame), { separator: ', ' })})`;
