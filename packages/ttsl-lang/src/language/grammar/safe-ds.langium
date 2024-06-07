@@ -306,7 +306,7 @@ TslEnumVariant returns TslEnumVariant:
 
 interface TslFunction extends TslCallable, TslClassMember, TslModuleMember {
     isID: boolean
-    typeParameterList?: TslTypeParameterList
+    typeParameterList?: TslTypeParameter[]
     resulttype?: TslType
     timeunit?: TslTimeunit
     groupedBy?: TslGroupedBy
@@ -320,8 +320,8 @@ fragment TslFunctionFragment:
     'function'
     (timeunit=TslTimeunit)?
     name=ID
-    typeParameterList=TslTypeParameterList?
-    parameterList=TslParameterList
+    (functParameterList+=TslParameter ':'
+    typeParameterList+=TslTypeParameter)*
     resulttype=TslType?
     (groupedBy=TslGroupedBy)?
     constraintList=TslConstraintList?
@@ -466,6 +466,7 @@ TslParameterBound returns TslParameterBound:
 
 interface TslCallable extends TslObject {
     parameterList?: TslParameterList
+    functParameterList?: TslParameter[]
 }
 
 interface TslParameterList extends TslObject {
