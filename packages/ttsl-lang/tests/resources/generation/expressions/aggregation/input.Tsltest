@@ -4,6 +4,6 @@ data testData: Int
 id data testID: Int
 
 function testFunction() {
-    aggregate 'sum' of testData groupedBy testID;
+    aggregate "sum" of testData groupedBy testID;
 }
 

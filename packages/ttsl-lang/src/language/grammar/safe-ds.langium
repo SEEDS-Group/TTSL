@@ -320,9 +320,9 @@ fragment TslFunctionFragment:
     'function'
     (timeunit=TslTimeunit)?
     name=ID
-    (functParameterList+=TslParameter ':'
-    typeParameterList+=TslTypeParameter)*
-    ':' resulttype=TslType?
+    '('(functParameterList+=TslParameter ':'
+    typeParameterList+=TslTypeParameter)*')'
+    (':' resulttype=TslType)?
     (groupedBy=TslGroupedBy)?
     constraintList=TslConstraintList?
     body=TslFunctionBlock
@@ -644,13 +644,13 @@ TslExpression returns TslExpression:
 ;
 
 interface TslAggregation extends TslExpression{
-    function: @TslFunction
-    data: @TslData[]
+    function: TslString
+    data: TslReference
     groupedBy: TslGroupedBy
 }
 
 TslAggregation returns TslAggregation:
-    'aggregate' function=[TslFunction:ID] 'of' data+=[TslData:ID] (',' data+=[TslData:ID])* groupedBy=TslGroupedBy
+    'aggregate' function=TslString 'of' data=TslReference groupedBy=TslGroupedBy
 ;
 
 interface TslLambda extends TslCallable, TslExpression {}
@@ -1045,11 +1045,11 @@ TslTimeunit returns TslTimeunit:
 ;
 
 interface TslGroupedBy extends TslModifier{
-    id: TslExpression
+    id: TslReference
 }
 
 TslGroupedBy returns TslGroupedBy:
-    'groupedBy' id=TslExpression
+    'groupedBy' id=TslReference
 ;
 
 // -----------------------------------------------------------------------------

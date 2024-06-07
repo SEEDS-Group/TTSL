@@ -207,7 +207,7 @@ const UTILITY_AGGREGATION: UtilityFunction = {
             indentedChildren: ['return dataFrame'],
             indentation: PYTHON_INDENT,
         }),
-    imports: [{ importPath: 'gettsim', declarationName: '(compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)' }],
+    imports: [{ importPath: 'gettsim', declarationName: '(compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)' }, {importPath: '', declarationName: 'pandas', alias: 'pd'}],
     typeVariables: [`${CODEGEN_PREFIX}T`],
 };
 
@@ -625,7 +625,7 @@ export class SafeDsPythonGenerator {
         return expandTracedToNode(funct)`def ${traceToNode(
             funct,
             'name',
-        )(this.getPythonNameOrDefault(funct))}(timeunit, groupedBy, date`.appendIf(funct.parameterList?.parameters.length !== 0,`, ${this.generateParameters(funct.parameterList, infoFrame)}`).append(`):`)
+        )(this.getPythonNameOrDefault(funct))}(timeunit, groupedBy, date`.appendIf(funct.parameterList != undefined,`, ${this.generateParameters(funct.parameterList, infoFrame)}`).append(`):`)
             .appendNewLine()
             .indent({ indentedChildren: [this.generateFunctionBlock(funct.body, infoFrame, undefined, funct.timeunit)],
                 indentation: PYTHON_INDENT });
@@ -819,7 +819,11 @@ export class SafeDsPythonGenerator {
                             ? `${localValue.declarationName} as ${localValue.alias}`
                             : localValue.declarationName!,
                     ) || [];
-            declaredImports.push(`from ${key} import ${[...new Set(importedDecls)].join(', ')}`);
+            if(key  == ''){
+                declaredImports.push(`import ${[...new Set(importedDecls)].join(', ')}`);
+            }else{
+                declaredImports.push(`from ${key} import ${[...new Set(importedDecls)].join(', ')}`);
+            }
         }
         return [...new Set(qualifiedImports), ...new Set(declaredImports)];
     }
@@ -1289,7 +1293,7 @@ export class SafeDsPythonGenerator {
             frame.addUtility(UTILITY_AGGREGATION);
             return expandTracedToNode(expression)`${traceToNode(
                 expression
-            )(UTILITY_AGGREGATION.name)}(${'dataframe'}, '${expression.data.toString()}', '${expression.groupedBy.id.toString()}', '${expression.function.toString()}')`;
+            )(UTILITY_AGGREGATION.name)}(${'dataframe'}, ${expression.data.target.ref?.name}, ${expression.groupedBy.id.target.ref?.name}, '${expression.function.value}')`;
         }
         /* c8 ignore next 2 */
         throw new Error(`Unknown expression type: ${expression.$type}`);
