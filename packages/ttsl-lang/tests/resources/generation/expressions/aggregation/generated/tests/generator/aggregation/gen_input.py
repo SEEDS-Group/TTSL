@@ -19,8 +19,10 @@ def __gen_aggregation(dataFrame: pd, data, id, function: str) -> pd | None:
 
 def testFunction(timeunit, groupedBy, date):
     __gen_aggregation(dataframe, testData, testID, 'sum')
-    
+
+
 # Data --------------------------------------------------------------------
 
 testData = int()
+
 testID = int()

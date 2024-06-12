@@ -185,6 +185,7 @@ import {
     parameterBoundRightOperandMustEvaluateToFloatConstantOrIntConstant,
     parameterDefaultValueMustRespectParameterBounds,
 } from './other/declarations/parameterBounds.js';
+import { groupByVariableMustBeAnID, groupedFunctionHasAggregation, groupedFunctionHasValidID } from './aggregation.js';
 
 /**
  * Register custom validation checks.
@@ -228,6 +229,9 @@ export const registerValidationChecks = function (services: SafeDsServices) {
             argumentListMustNotSetParameterMultipleTimes(services),
         ],
         TslAttribute: [attributeMustHaveTypeHint],
+        TslAggregation: [
+            groupByVariableMustBeAnID(),
+        ],
         TslBlockLambda: [blockLambdaMustContainUniqueNames],
         TslCall: [
             callArgumentListShouldBeNeeded(services),
@@ -277,6 +281,8 @@ export const registerValidationChecks = function (services: SafeDsServices) {
             impurityReasonShouldNotBeSetMultipleTimes(services),
             pythonCallMustOnlyContainValidTemplateExpressions(services),
             pythonNameMustNotBeSetIfPythonCallIsSet(services),
+            groupedFunctionHasAggregation(),
+            groupedFunctionHasValidID(),
         ],
         TslImport: [importPackageMustExist(services), importPackageShouldNotBeEmpty(services)],
         TslImportedDeclaration: [importedDeclarationAliasShouldDifferFromDeclarationName(services)],
