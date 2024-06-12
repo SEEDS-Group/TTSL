@@ -48,6 +48,12 @@ import {
     type TslParameter,
     type TslPrefixOperation,
     type TslTemplateString,
+    isTslAggregation,
+    TslAggregation,
+    TslModifier,
+    isTslGroupedBy,
+    isTslVisibility,
+    isTslTimeunit,
 } from '../generated/ast.js';
 import { getAbstractResults, getArguments, getParameters } from '../helpers/nodeProperties.js';
 import { SafeDsNodeMapper } from '../helpers/safe-ds-node-mapper.js';
@@ -243,6 +249,8 @@ export class SafeDsPartialEvaluator {
             return this.evaluateTemplateString(node, substitutions, visited);
         } else if (isTslTypeCast(node)) {
             return this.evaluateWithRecursionCheck(node.expression, substitutions, visited);
+        } else if (isTslAggregation(node)) {
+            return this.evaluateAggregation(node, substitutions, visited);
         } /* c8 ignore start */ else {
             throw new Error(`Unexpected expression type: ${node.$type}`);
         } /* c8 ignore stop */
@@ -507,6 +515,26 @@ export class SafeDsPartialEvaluator {
         }
 
         return UnknownEvaluatedNode;
+    }
+
+    private evaluateAggregation(node: TslAggregation, substitutions: ParameterSubstitutions, visited: VisitedState[]): EvaluatedNode {
+        const data = this.evaluateExpression(node.data, substitutions, visited).unwrap();
+        const funct = this.evaluateExpression(node.function, substitutions, visited).unwrap();
+        const groupedBy = this.evaluateModifier(node.groupedBy, substitutions, visited).unwrap();
+
+        return UnknownEvaluatedNode;
+    }
+
+    private evaluateModifier(node: TslModifier, substitutions: ParameterSubstitutions, visited: VisitedState[]): EvaluatedNode {
+        if (isTslGroupedBy(node)) {
+            return this.evaluateExpression(node.id, substitutions, visited);
+        } else if (isTslVisibility(node)) {
+            throw new Error(`noch nicht evaluierbar`);
+        } else if (isTslTimeunit(node)) {
+            throw new Error(`noch nicht evaluierbar`);
+        }/* c8 ignore start */ else {
+            throw new Error(`Unexpected Modifier type: ${node.$type}`);
+        } /* c8 ignore stop */
     }
 
     private evaluateEnumVariantCall(
