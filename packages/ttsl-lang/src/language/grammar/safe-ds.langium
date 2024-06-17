@@ -337,7 +337,7 @@ TslFunctionBlock returns TslFunctionBlock:
     {TslFunctionBlock}
     '{' ( timespanStatement+=TslTimespanStatement
     | statements+=TslStatement)*
-    ('returns' returnValue=TslExpression)?
+    ('return' returnValue=TslExpression)?
     '}'
 ;
 

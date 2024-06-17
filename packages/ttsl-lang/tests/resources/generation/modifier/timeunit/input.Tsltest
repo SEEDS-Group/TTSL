@@ -1,0 +1,5 @@
+package tests.generator.timeunit
+
+function per day test (): Int {
+    return 1+1
+}

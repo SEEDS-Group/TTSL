@@ -270,7 +270,7 @@ const UTILITY_TIMEUNIT_DAY: UtilityFunction = {
             indentingNode.append('if(timeunit == "per week"):').appendNewLine().indent([`return value * 7`])
             .appendNewLine().append(`if(timeunit == 'per month')`).appendNewLine().indent([`return value * 30`])
             .appendNewLine().append(`if(timeunit == 'per year')`).appendNewLine().indent([`return value * 365`])
-            .appendNewLine().append(`return value')`)),
+            .appendNewLine().append(`return value`)),
     imports: [{ importPath: 'typing', declarationName: 'Any' }],
     typeVariables: [`${CODEGEN_PREFIX}T`],
 };
@@ -283,7 +283,7 @@ const UTILITY_TIMEUNIT_WEEK: UtilityFunction = {
             indentingNode.append(`if(timeunit == 'per day')`).appendNewLine().indent([`return value / 7`])
                 .appendNewLine().append(`if(timeunit == 'per month')`).appendNewLine().indent([`return value * 4`])
                 .appendNewLine().append(`if(timeunit == 'per year')`).appendNewLine().indent([`return value * 52`])
-                .appendNewLine().append(`return value')`)),
+                .appendNewLine().append(`return value`)),
     imports: [{ importPath: 'typing', declarationName: 'Any' }],
     typeVariables: [`${CODEGEN_PREFIX}T`],
 };
@@ -296,7 +296,7 @@ const UTILITY_TIMEUNIT_MONTH: UtilityFunction = {
             indentingNode.append(`if(timeunit == 'per day')`).appendNewLine().indent([`return value / 30`])
                 .appendNewLine().append(`if(timeunit == 'per week')`).appendNewLine().indent([`return value / 4`])
                 .appendNewLine().append(`if(timeunit == 'per year')`).appendNewLine().indent([`return value * 12`])
-                .appendNewLine().append(`return value')`)),
+                .appendNewLine().append(`return value`)),
     imports: [{ importPath: 'typing', declarationName: 'Any' }],
     typeVariables: [`${CODEGEN_PREFIX}T`],
 };
@@ -309,7 +309,7 @@ const UTILITY_TIMEUNIT_YEAR: UtilityFunction = {
             indentingNode.append(`if(timeunit == 'per day')`).appendNewLine().indent([`return value / 365`])
                 .appendNewLine().append(`if(timeunit == 'per week')`).appendNewLine().indent([`return value / 52`])
                 .appendNewLine().append(`if(timeunit == 'per month')`).appendNewLine().indent([`return value / 12`])
-                .appendNewLine().append(`return value')`)),
+                .appendNewLine().append(`return value`)),
     imports: [{ importPath: 'typing', declarationName: 'Any' }],
     typeVariables: [`${CODEGEN_PREFIX}T`],
 };
@@ -638,31 +638,31 @@ export class SafeDsPythonGenerator {
         timeunit: TslTimeunit | undefined,
     ): CompositeGeneratorNode {
         const targetPlaceholder = getPlaceholderByName(block, frame.targetPlaceholder);
-        let statements = getStatements(block).filter((stmt) => this.purityComputer.statementDoesSomething(stmt));
+        let statements = getStatements(block)/*.filter((stmt) => this.purityComputer.statementDoesSomething(stmt))*/;
         if (targetPlaceholder) {
             statements = this.getStatementsNeededForPartialExecution(targetPlaceholder, statements);
-        }
-        if (statements.length === 0) {
-            return traceToNode(block)('pass');
         }
         let resultBlock = new CompositeGeneratorNode()
         if (isTslExpression(block.returnValue)){
             resultBlock.append(`if timeunit != None:`)
             if (timeunit?.timeunit == 'day'){
                 frame.addUtility(UTILITY_TIMEUNIT_DAY);
-                resultBlock.indent([`${UTILITY_TIMEUNIT_DAY.name}(${block.returnValue}, timeunit)`])
+                resultBlock.appendNewLine().indent([`${UTILITY_TIMEUNIT_DAY.name}(${this.generateExpression(block.returnValue, frame).contents}, timeunit)`])
             } else if (timeunit?.timeunit == 'week'){
                 frame.addUtility(UTILITY_TIMEUNIT_WEEK);
-                resultBlock.indent([`${UTILITY_TIMEUNIT_WEEK.name}(${block.returnValue}, timeunit)`])
+                resultBlock.appendNewLine().indent([`${UTILITY_TIMEUNIT_WEEK.name}(${this.generateExpression(block.returnValue, frame).contents}, timeunit)`])
             } else if (timeunit?.timeunit == 'month'){
                 frame.addUtility(UTILITY_TIMEUNIT_MONTH);
-                resultBlock.indent([`${UTILITY_TIMEUNIT_MONTH.name}(${block.returnValue}, timeunit)`])
+                resultBlock.appendNewLine().indent([`${UTILITY_TIMEUNIT_MONTH.name}(${this.generateExpression(block.returnValue, frame).contents}, timeunit)`])
             } else if (timeunit?.timeunit == 'year'){
                 frame.addUtility(UTILITY_TIMEUNIT_YEAR);
-                resultBlock.indent([`${UTILITY_TIMEUNIT_YEAR.name}(${block.returnValue}, timeunit)`])
+                resultBlock.appendNewLine().indent([`${UTILITY_TIMEUNIT_YEAR.name}(${this.generateExpression(block.returnValue, frame).contents}, timeunit)`])
             }
-            resultBlock.appendNewLine().append(`return ${this.generateExpression(block.returnValue, frame)}`)
+            resultBlock.appendNewLine().append(`return ${this.generateExpression(block.returnValue, frame).contents}`)
+        } else if (statements.length === 0) {
+            return traceToNode(block)('pass');
         }
+        
         return joinTracedToNode(block, 'statements')(
             statements,
             (stmt) => this.generateStatement(stmt, frame, generateLambda),
