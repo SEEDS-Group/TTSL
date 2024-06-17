@@ -621,14 +621,12 @@ export class SafeDsPythonGenerator {
             generateOptions.targetPlaceholder,
             generateOptions.disableRunnerIntegration,
         );
-
         return expandTracedToNode(funct)`def ${traceToNode(
             funct,
             'name',
-        )(this.getPythonNameOrDefault(funct))}(timeunit, groupedBy, date`.appendIf(funct.parameterList != undefined,`, ${this.generateParameters(funct.parameterList, infoFrame)}`).append(`):`)
+        )(this.getPythonNameOrDefault(funct))}(timeunit, groupedBy, date, ${this.generateParameters(funct.parameterList, infoFrame)}):`
             .appendNewLine()
-            .indent({ indentedChildren: [this.generateFunctionBlock(funct.body, infoFrame, undefined, funct.timeunit)],
-                indentation: PYTHON_INDENT });
+            .indent({ indentedChildren: [this.generateFunctionBlock(funct.body, infoFrame, undefined, funct.timeunit)], indentation: PYTHON_INDENT });
     }
 
     private generateFunctionBlock(
@@ -644,21 +642,23 @@ export class SafeDsPythonGenerator {
         }
         let resultBlock = new CompositeGeneratorNode()
         if (isTslExpression(block.returnValue)){
-            resultBlock.append(`if timeunit != None:`)
+            if(timeunit){
+                resultBlock.append(`if timeunit != None:`)
+            }
             if (timeunit?.timeunit == 'day'){
                 frame.addUtility(UTILITY_TIMEUNIT_DAY);
-                resultBlock.appendNewLine().indent([`${UTILITY_TIMEUNIT_DAY.name}(${this.generateExpression(block.returnValue, frame).contents}, timeunit)`])
+                resultBlock.appendNewLine().indent([`${UTILITY_TIMEUNIT_DAY.name}(${this.generateExpression(block.returnValue, frame).contents}, timeunit)`]).appendNewLine()
             } else if (timeunit?.timeunit == 'week'){
                 frame.addUtility(UTILITY_TIMEUNIT_WEEK);
-                resultBlock.appendNewLine().indent([`${UTILITY_TIMEUNIT_WEEK.name}(${this.generateExpression(block.returnValue, frame).contents}, timeunit)`])
+                resultBlock.appendNewLine().indent([`${UTILITY_TIMEUNIT_WEEK.name}(${this.generateExpression(block.returnValue, frame).contents}, timeunit)`]).appendNewLine()
             } else if (timeunit?.timeunit == 'month'){
                 frame.addUtility(UTILITY_TIMEUNIT_MONTH);
-                resultBlock.appendNewLine().indent([`${UTILITY_TIMEUNIT_MONTH.name}(${this.generateExpression(block.returnValue, frame).contents}, timeunit)`])
+                resultBlock.appendNewLine().indent([`${UTILITY_TIMEUNIT_MONTH.name}(${this.generateExpression(block.returnValue, frame).contents}, timeunit)`]).appendNewLine()
             } else if (timeunit?.timeunit == 'year'){
                 frame.addUtility(UTILITY_TIMEUNIT_YEAR);
-                resultBlock.appendNewLine().indent([`${UTILITY_TIMEUNIT_YEAR.name}(${this.generateExpression(block.returnValue, frame).contents}, timeunit)`])
+                resultBlock.appendNewLine().indent([`${UTILITY_TIMEUNIT_YEAR.name}(${this.generateExpression(block.returnValue, frame).contents}, timeunit)`]).appendNewLine()
             }
-            resultBlock.appendNewLine().append(`return ${this.generateExpression(block.returnValue, frame).contents}`)
+            resultBlock.append(`return ${this.generateExpression(block.returnValue, frame).contents}`)
         } else if (statements.length === 0) {
             return traceToNode(block)('pass');
         }
@@ -692,7 +692,7 @@ export class SafeDsPythonGenerator {
         if(constant.value != null){
             return expandTracedToNode(constant)`${traceToNode(
                 constant
-            )(UTILITY_CONSTANTS.name)}({"empty": ${constant.value}})`
+            )(UTILITY_CONSTANTS.name)}({"empty": ${this.generateExpression(constant.value, infoFrame)}})`
         } else if (constant.timespanValueEntries != null){
             return expandTracedToNode(constant)`${constant.name}Dict = {${joinTracedToNode(constant, 'timespanValueEntries')(
             constant.timespanValueEntries,

@@ -306,7 +306,6 @@ TslEnumVariant returns TslEnumVariant:
 
 interface TslFunction extends TslCallable, TslClassMember, TslModuleMember {
     isID: boolean
-    typeParameterList?: TslTypeParameter[]
     resulttype?: TslType
     timeunit?: TslTimeunit
     groupedBy?: TslGroupedBy
@@ -320,8 +319,7 @@ fragment TslFunctionFragment:
     'function'
     (timeunit=TslTimeunit)?
     name=ID
-    '('(functParameterList+=TslParameter ':'
-    typeParameterList+=TslTypeParameter)*')'
+    parameterList=TslParameterList
     (':' resulttype=TslType)?
     (groupedBy=TslGroupedBy)?
     constraintList=TslConstraintList?
@@ -466,7 +464,6 @@ TslParameterBound returns TslParameterBound:
 
 interface TslCallable extends TslObject {
     parameterList?: TslParameterList
-    functParameterList?: TslParameter[]
 }
 
 interface TslParameterList extends TslObject {
@@ -493,7 +490,7 @@ TslParameter returns TslParameter:
     annotationCalls+=TslAnnotationCall*
     isConstant?='constant'?
     name=ID
-    (':' ^type=TslType)?
+    ':' ^type=TslType
     ('=' defaultValue=TslExpression)?
 ;
 
@@ -1106,10 +1103,11 @@ TslPrimaryType returns TslType:
   | TslNamedType
   | TslUnionType
   | 'Int'
+  | 'Float'
   | 'String'
   | 'Boolean'
-  | 'Dict'
-  | 'List'
+  | TslDictionaryType
+  | TslListType
 ;
 
 interface TslCallableType extends TslCallable, TslType {
@@ -1237,6 +1235,22 @@ TslTypeArgument returns TslTypeArgument:
     value=TslType
 ;
 
+interface TslDictionaryType extends TslType {
+    key: TslType
+    value: TslType
+}
+
+TslDictionaryType returns TslDictionaryType:
+    'Dict' '<' key=TslType ',' value=TslType '>'
+;
+
+interface TslListType extends TslType {
+    type: TslType
+}
+
+TslListType returns TslListType:
+    'List' '<' type=TslType '>'
+;
 
 // -----------------------------------------------------------------------------
 // Schemas
