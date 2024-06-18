@@ -23,6 +23,7 @@ import {
     TslClass,
     TslEnum,
     TslEnumVariant,
+    TslFunction,
     TslParameter,
     TslTypeParameter,
 } from '../generated/ast.js';
@@ -46,6 +47,8 @@ export class SafeDsScopeComputation extends DefaultScopeComputation {
     protected override processNode(node: AstNode, document: LangiumDocument, scopes: PrecomputedScopes): void {
         if (isTslClass(node)) {
             this.processTslClass(node, document, scopes);
+        } else if (isTslFunction(node)) {
+            this.processTslFunction(node, document, scopes);
         } else if (isTslEnum(node)) {
             this.processTslEnum(node, document, scopes);
         } else if (isTslEnumVariant(node)) {
@@ -69,6 +72,24 @@ export class SafeDsScopeComputation extends DefaultScopeComputation {
 
         this.addToScopesIfKeyIsDefined(scopes, node.parameterList, description);
         this.addToScopesIfKeyIsDefined(scopes, node.parentTypeList, description);
+        this.addToScopesIfKeyIsDefined(scopes, node.constraintList, description);
+        this.addToScopesIfKeyIsDefined(scopes, node.body, description);
+
+        const containingDeclaration = AstUtils.getContainerOfType(node.$container, isTslDeclaration);
+        if (isTslModule(containingDeclaration)) {
+            this.addToScopesIfKeyIsDefined(scopes, containingDeclaration, description);
+        }
+    }
+
+    private processTslFunction(node: TslFunction, document: LangiumDocument, scopes: PrecomputedScopes): void {
+        const name = this.nameProvider.getName(node);
+        if (!name) {
+            return;
+        }
+
+        const description = this.descriptions.createDescription(node, name, document);
+
+        this.addToScopesIfKeyIsDefined(scopes, node.parameterList, description);
         this.addToScopesIfKeyIsDefined(scopes, node.constraintList, description);
         this.addToScopesIfKeyIsDefined(scopes, node.body, description);
 
