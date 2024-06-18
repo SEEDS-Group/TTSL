@@ -17,7 +17,7 @@ def __gen_aggregation(dataFrame: pd, data, id, function: str) -> pd | None:
 
 # Functions --------------------------------------------------------------------
 
-def testFunction(timeunit, groupedBy, date):
+def testFunction(timeunit = None, groupedBy = None, date = None):
     __gen_aggregation(dataframe, testData, testID, 'sum')
 
 

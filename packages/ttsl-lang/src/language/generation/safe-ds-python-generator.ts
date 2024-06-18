@@ -223,7 +223,7 @@ const UTILITY_CONSTANTS: UtilityFunction = {
                 indentedChildren: ['self.dict = dictionary'],
                 indentation: PYTHON_INDENT
             }).appendNewLine()
-            .append('def getValue(self, date):').appendNewLine()
+            .append('def getValue(self, date = None):').appendNewLine()
             .indent(indentingNode =>
                 indentingNode.append(
                     'keys = sorted(self.dict.keys())'
@@ -624,7 +624,7 @@ export class SafeDsPythonGenerator {
         return expandTracedToNode(funct)`def ${traceToNode(
             funct,
             'name',
-        )(this.getPythonNameOrDefault(funct))}(timeunit, groupedBy, date, ${this.generateParameters(funct.parameterList, infoFrame)}):`
+        )(this.getPythonNameOrDefault(funct))}(${this.generateFunctionParameter(funct, infoFrame)}${this.generateParameters(funct.parameterList, infoFrame)}):`
             .appendNewLine()
             .indent({ indentedChildren: [this.generateFunctionBlock(funct.body, infoFrame, undefined, funct.timeunit)], indentation: PYTHON_INDENT });
     }
@@ -690,7 +690,7 @@ export class SafeDsPythonGenerator {
         infoFrame.addUtility(UTILITY_CONSTANTS);
 
         if(constant.value != null){
-            return expandTracedToNode(constant)`${traceToNode(
+            return expandTracedToNode(constant)`${this.getPythonNameOrDefault(constant)} = ${traceToNode(
                 constant
             )(UTILITY_CONSTANTS.name)}({"empty": ${this.generateExpression(constant.value, infoFrame)}})`
         } else if (constant.timespanValueEntries != null){
@@ -1304,16 +1304,20 @@ export class SafeDsPythonGenerator {
         sortedArgs: TslArgument[],
         frame: GenerationInfoFrame,
     ): CompositeGeneratorNode {
-        let timeunit = new CompositeGeneratorNode()
-        if(expression.timeunit != undefined){
-            timeunit.append(`${expression.timeunit.timeunit}, `)
-        } else{
-            timeunit.append(`None, `)
-        }
-        return expandTracedToNode(expression)`${this.generateExpression(expression.receiver, frame)}(${timeunit}${joinTracedToNode(
+        return expandTracedToNode(expression)`${this.generateExpression(expression.receiver, frame)}(${joinTracedToNode(
             expression.argumentList,
             'arguments',
         )(sortedArgs, (arg) => this.generateArgument(arg, frame), { separator: ', ' })})`;
+    }
+
+    private generateFunctionParameter(
+        funct: TslFunction,
+        frame: GenerationInfoFrame,
+    ): CompositeGeneratorNode | undefined {
+        if(funct.timeunit != undefined|| funct.groupedBy != undefined){
+            return expandToNode`timeunit = None, groupedBy = None, date = None`
+        }
+        return undefined
     }
 
     private generatePythonCall(

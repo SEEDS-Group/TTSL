@@ -1,4 +1,4 @@
 # Functions --------------------------------------------------------------------
 
-def test(timeunit, groupedBy, date, ):
+def test():
     pass

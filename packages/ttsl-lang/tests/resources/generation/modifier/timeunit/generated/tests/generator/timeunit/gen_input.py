@@ -19,7 +19,7 @@ def __gen_TimeUnitDay(value, timeunit):
 
 # Functions --------------------------------------------------------------------
 
-def test(timeunit, groupedBy, date):
+def test(timeunit = None, groupedBy = None, date = None):
 
     if timeunit != None:
         __gen_TimeUnitDay(2, timeunit)

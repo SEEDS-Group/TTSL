@@ -11,7 +11,7 @@ __gen_T = TypeVar("__gen_T")
 class __gen_ClassConstants():
     def __init__(self, dictionary: dict):
         self.dict = dictionary
-    def getValue(self, date):
+    def getValue(self, date = None):
         keys = sorted(self.dict.keys())
         if(keys[0] == "empty"):
             return self.dict["empty"]
@@ -26,4 +26,4 @@ class __gen_ClassConstants():
 
 # Constants --------------------------------------------------------------------
 
-__gen_ClassConstants({"empty": 1})
+test = __gen_ClassConstants({"empty": 1})
