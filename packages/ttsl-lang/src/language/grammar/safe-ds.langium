@@ -307,6 +307,7 @@ TslEnumVariant returns TslEnumVariant:
 interface TslFunction extends TslCallable, TslClassMember, TslModuleMember {
     isID: boolean
     typeParameterList?: TslTypeParameterList
+    rounding?: TslRounding
     resultList?: TslResultList
     timeunit?: TslTimeunit
     groupedBy?: TslGroupedBy
@@ -322,6 +323,7 @@ fragment TslFunctionFragment:
     name=ID
     typeParameterList=TslTypeParameterList?
     parameterList=TslParameterList
+    ('round' rounding=TslRounding)?
     resultList=TslResultList?
     (groupedBy=TslGroupedBy)?
     constraintList=TslConstraintList?
@@ -329,16 +331,14 @@ fragment TslFunctionFragment:
 ;
 
 interface TslFunctionBlock extends TslBlock{
-    timespans: TslTimespan[]
+    timespanStatement: TslTimespanStatement[]
 }
 
 TslFunctionBlock returns TslFunctionBlock:
-    {TslFunctionBlock} 
-    '{' ( statements+=TslStatement* 
-    | timespans+=TslTimespan 
-    '{' ( timespans+=TslTimespan statements+=TslStatement 
-    | statements+=TslStatement)* 
-    '}')* '}'
+    {TslFunctionBlock}
+    '{' ( timespanStatement+=TslTimespanStatement
+    | statements+=TslStatement)*
+    '}'
 ;
 
 interface TslConstant extends TslModuleMember {
@@ -1019,7 +1019,7 @@ TslTemplateStringEnd returns TslExpression:
 interface TslModifier extends TslObject{}
 
 interface TslVisibility extends TslModifier{
-    isPublic?: boolean 
+    isPublic?: boolean
     isPackageprivate?: boolean
     isPrivate?: boolean
 }
@@ -1044,6 +1044,14 @@ TslGroupedBy returns TslGroupedBy:
     'groupedBy' id=TslExpression
 ;
 
+interface TslRounding extends TslModifier{
+    rounding: string
+}
+
+TslRounding returns TslRounding:
+    ':' rounding=('round'|'ceil'|'floor')
+;
+
 // -----------------------------------------------------------------------------
 // Timespan
 // -----------------------------------------------------------------------------
@@ -1055,6 +1063,16 @@ interface TslTimespan extends TslObject{
 
 TslTimespan returns TslTimespan:
     ('from' start=TslDate)? ('to' end=TslDate)?
+;
+
+interface TslTimespanStatement extends TslBlock, TslStatement{
+    timespan: TslTimespan
+    rounding?: TslRounding
+    block: TslFunctionBlock
+}
+
+TslTimespanStatement returns TslTimespanStatement:
+    timespan=TslTimespan (rounding=TslRounding)? '{' block=TslFunctionBlock '}'
 ;
 
 // -----------------------------------------------------------------------------
