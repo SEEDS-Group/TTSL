@@ -244,17 +244,6 @@ export const expressionLambdaMustContainUniqueNames = (node: TslExpressionLambda
     namesMustBeUnique(getParameters(node), (name) => `A parameter with name '${name}' exists already.`, accept);
 };
 
-export const functionMustContainUniqueNames = (node: TslFunction, accept: ValidationAcceptor): void => {
-    const typeParametersAndParameters = [...getTypeParameters(node.typeParameterList), ...getParameters(node)];
-    namesMustBeUnique(
-        typeParametersAndParameters,
-        (name) => `A type parameter or parameter with name '${name}' exists already.`,
-        accept,
-    );
-
-    namesMustBeUnique(getResults(node.resultList), (name) => `A result with name '${name}' exists already.`, accept);
-};
-
 export const moduleMemberMustHaveNameThatIsUniqueInPackage = (services: SafeDsServices) => {
     const packageManager = services.workspace.PackageManager;
     const builtinUris = new Set(listBuiltinFiles().map((it) => it.toString()));

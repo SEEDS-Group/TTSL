@@ -395,10 +395,10 @@ export const functionResultListShouldNotBeEmpty = (services: SafeDsServices) => 
             return;
         }
 
-        if (node.resultList && isEmpty(node.resultList.results)) {
+        if (node.result && node.body.returnValue == undefined) {
             accept('info', 'This result list can be removed.', {
                 node,
-                property: 'resultList',
+                property: 'result',
                 code: CODE_STYLE_UNNECESSARY_RESULT_LIST,
             });
         }

@@ -64,6 +64,7 @@ import {
     TslType,
     TslTypeArgument,
     TslTypeParameter,
+    TslResult,
 } from '../generated/ast.js';
 import {
     getArguments,
@@ -244,9 +245,15 @@ export class SafeDsTypeComputer {
         const parameterEntries = getParameters(node).map(
             (it) => new NamedTupleEntry(it, it.name, this.computeType(it.type)),
         );
-        const resultEntries = getResults(node.resultList).map(
-            (it) => new NamedTupleEntry(it, it.name, this.computeType(it.type)),
-        );
+        let resultEntries: NamedTupleEntry<TslResult>[] = []
+        if(isTslFunction(node)){
+            resultEntries.with(0, new NamedTupleEntry(node.result, node.name, this.computeType(node.result?.type)))
+        }else{
+            resultEntries = getResults(node.resultList).map(
+                (it) => new NamedTupleEntry(it, it.name, this.computeType(it.type)),
+            );
+        }
+        
 
         return this.factory.createCallableType(
             node,

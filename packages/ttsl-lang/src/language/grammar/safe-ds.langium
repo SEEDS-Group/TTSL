@@ -306,7 +306,7 @@ TslEnumVariant returns TslEnumVariant:
 
 interface TslFunction extends TslCallable, TslClassMember, TslModuleMember {
     isID: boolean
-    resulttype?: TslType
+    result?: TslResult
     timeunit?: TslTimeunit
     groupedBy?: TslGroupedBy
     constraintList?: TslConstraintList
@@ -320,7 +320,7 @@ fragment TslFunctionFragment:
     (timeunit=TslTimeunit)?
     name=ID
     parameterList=TslParameterList
-    (':' resulttype=TslType)?
+    (result=TslResult)?
     (groupedBy=TslGroupedBy)?
     constraintList=TslConstraintList?
     body=TslFunctionBlock
@@ -511,7 +511,7 @@ interface TslResult extends TslAbstractResult {
 
 TslResult returns TslResult:
     annotationCalls+=TslAnnotationCall*
-    name=ID
+    (name=ID)?
     (':' ^type=TslType)?
 ;
 
@@ -1304,9 +1304,10 @@ terminal fragment STRING_END: '{'? STRING_DELIMITER;
 terminal fragment STRING_DELIMITER: '"';
 terminal fragment STRING_TEXT
     : '{'? ESCAPE_SEQUENCE
-    | /{?[^\\"{]/
+    | OTHER_SEQUENCE
 ;
 terminal fragment ESCAPE_SEQUENCE: '\\' .;
+terminal fragment OTHER_SEQUENCE: /{?[^\\"{]/;
 terminal fragment TEMPLATE_EXPRESSION_START: '{{';
 terminal fragment TEMPLATE_EXPRESSION_END: '}}';
 terminal TEMPLATE_STRING_START returns string: STRING_START STRING_TEXT* TEMPLATE_EXPRESSION_START;

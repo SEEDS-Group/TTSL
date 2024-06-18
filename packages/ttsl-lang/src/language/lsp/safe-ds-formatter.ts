@@ -438,9 +438,9 @@ export class SafeDsFormatter extends AbstractFormatter {
 
         formatter.keyword('static').append(oneSpace());
         formatter.property('name').prepend(oneSpace());
-        formatter.property('typeParameterList').prepend(noSpace());
+        formatter.property('visibility').prepend(noSpace());
         formatter.property('parameterList').prepend(noSpace());
-        formatter.property('resultList').prepend(oneSpace());
+        formatter.property('result').prepend(oneSpace());
         formatter.property('constraintList').prepend(oneSpace());
     }
 

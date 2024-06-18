@@ -194,8 +194,8 @@ export const getAbstractResults = (node: TslCallable | undefined): TslAbstractRe
         return streamBlockLambdaResults(node).toArray();
     } else if (isTslCallableType(node)) {
         return getResults(node.resultList);
-    } else if (isTslFunction(node)) {
-        return getResults(node.resultList);
+    } else if (isTslFunction(node) && node.result) {
+        return [node.result];
     } else if (isTslSegment(node)) {
         return getResults(node.resultList);
     } /* c8 ignore start */ else {
@@ -374,8 +374,6 @@ export const getTypeParameters = (
     if (isTslTypeParameterList(node)) {
         return node.typeParameters;
     } else if (isTslClass(node)) {
-        return getTypeParameters(node.typeParameterList);
-    } else if (isTslFunction(node)) {
         return getTypeParameters(node.typeParameterList);
     } /* c8 ignore start */ else {
         return [];

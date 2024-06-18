@@ -179,9 +179,6 @@ export class SafeDsScopeComputation extends DefaultScopeComputation {
             this.addToScopesIfKeyIsDefined(scopes, containingDeclaration.parameterList, description);
             this.addToScopesIfKeyIsDefined(scopes, containingDeclaration.parentTypeList, description);
             this.addToScopesIfKeyIsDefined(scopes, containingDeclaration.body, description);
-        } else if (isTslFunction(containingDeclaration)) {
-            this.addToScopesIfKeyIsDefined(scopes, containingDeclaration.parameterList, description);
-            this.addToScopesIfKeyIsDefined(scopes, containingDeclaration.resultList, description);
         }
     }
 

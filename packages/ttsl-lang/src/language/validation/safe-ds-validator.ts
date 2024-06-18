@@ -44,7 +44,6 @@ import {
     enumMustContainUniqueNames,
     enumVariantMustContainUniqueNames,
     expressionLambdaMustContainUniqueNames,
-    functionMustContainUniqueNames,
     moduleMemberMustHaveNameThatIsUniqueInPackage,
     moduleMustContainUniqueNames,
     nameMustNotOccurOnCoreDeclaration,
@@ -131,7 +130,6 @@ import {
 } from './other/types/unionTypes.js';
 import {
     callArgumentAssignedToPureParameterMustBePure,
-    functionPurityMustBeSpecified,
     impurityReasonParameterNameMustBelongToParameterOfCorrectType,
     impurityReasonShouldNotBeSetMultipleTimes,
     impurityReasonsOfOverridingMethodMustBeSubsetOfOverriddenMethod,
@@ -274,7 +272,6 @@ export const registerValidationChecks = function (services: SafeDsServices) {
         TslEnumVariant: [enumVariantMustContainUniqueNames, enumVariantParameterListShouldNotBeEmpty(services)],
         TslExpressionLambda: [expressionLambdaMustContainUniqueNames],
         TslFunction: [
-            functionMustContainUniqueNames,
             functionResultListShouldNotBeEmpty(services),
             impurityReasonsOfOverridingMethodMustBeSubsetOfOverriddenMethod(services),
             impurityReasonParameterNameMustBelongToParameterOfCorrectType(services),
