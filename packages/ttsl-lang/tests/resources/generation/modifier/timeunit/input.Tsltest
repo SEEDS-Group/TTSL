@@ -1,5 +1,17 @@
 package tests.generator.timeunit
 
-function per day test (): Int {
-    return 1+1
+function per day daytest (): Int {
+    return 100
+}
+
+function per week weektest (): Int {
+    return 100
+}
+
+function per month monthtest (): Int {
+    return 100
+}
+
+function per year yeartest (): Int {
+    return 100
 }

@@ -1,1 +1,1 @@
-{"version":3,"sources":["input.Tsltest"],"names":["test"],"mappings":"AAAA;;;;;;;;;;;;;;;;;;;;;AAEA,IAAiBA,IAAI","file":"gen_input.py"}
+{"version":3,"sources":["input.Tsltest"],"names":["daytest","weektest","monthtest","yeartest"],"mappings":"AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAEA,IAAiBA,OAAO;;;;;;AAIxB,IAAkBC,QAAQ;;;;;;AAI1B,IAAmBC,SAAS;;;;;;AAI5B,IAAkBC,QAAQ","file":"gen_input.py"}
