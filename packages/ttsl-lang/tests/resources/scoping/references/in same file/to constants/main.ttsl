@@ -1,0 +1,15 @@
+package tests.scoping.references.inSameFile.toConstant
+
+// $TEST$ target before
+constant »before« : Int = 1
+
+function myFunction() {
+    // $TEST$ references before
+    »before«;
+
+    // $TEST$ references after
+    »after«;
+}
+
+// $TEST$ target after
+constant »after«: Int = 2

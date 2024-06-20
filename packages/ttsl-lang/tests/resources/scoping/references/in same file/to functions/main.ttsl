@@ -1,0 +1,15 @@
+package tests.scoping.references.inSameFile.toFunction
+
+// $TEST$ target before
+function »before«() {}
+
+function myFunction() {
+    // $TEST$ references before
+    »before«();
+
+    // $TEST$ references after
+    »after«();
+}
+
+// $TEST$ target after
+function »after«() {}
