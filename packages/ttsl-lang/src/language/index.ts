@@ -6,7 +6,7 @@ export { createSafeDsServices } from './safe-ds-module.js';
 export { startLanguageServer } from './main.js';
 
 // Language Metadata
-export { TSLLanguageMetaData } from './generated/module.js';
+export { TTSLLanguageMetaData } from './generated/module.js';
 
 // AST
 export * as ast from './generated/ast.js';
@@ -14,6 +14,3 @@ export * from './helpers/nodeProperties.js';
 
 // Location
 export { locationToString, positionToString, rangeToString } from '../helpers/locations.js';
-
-// Messages
-export * as messages from './runner/messages.js';

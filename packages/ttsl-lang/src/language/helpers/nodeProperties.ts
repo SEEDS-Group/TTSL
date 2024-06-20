@@ -83,8 +83,8 @@ export const hasAnnotationCallOf = (
     });
 };
 
-export const isInternal = (node: TslDeclaration | undefined): boolean => {
-    return isTslSegment(node);
+export const isPackagePrivate = (node: TslDeclaration | undefined): boolean => {
+    return isTslSegment(node) && (node.visibility?.isPackageprivate ?? false);
 };
 
 export namespace Argument {

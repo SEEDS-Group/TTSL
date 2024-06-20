@@ -13,7 +13,7 @@ import { SafeDsEnums, SafeDsImpurityReasons } from './builtins/safe-ds-enums.js'
 import { SafeDsCommentProvider } from './documentation/safe-ds-comment-provider.js';
 import { SafeDsDocumentationProvider } from './documentation/safe-ds-documentation-provider.js';
 import { SafeDsCallGraphComputer } from './flow/safe-ds-call-graph-computer.js';
-import { TSLGeneratedModule, SafeDsGeneratedSharedModule } from './generated/module.js';
+import { TTSLGeneratedModule, TTSLGeneratedSharedModule } from './generated/module.js';
 import { SafeDsPythonGenerator } from './generation/safe-ds-python-generator.js';
 import { SafeDsValueConverter } from './grammar/safe-ds-value-converter.js';
 import { SafeDsNodeMapper } from './helpers/safe-ds-node-mapper.js';
@@ -40,7 +40,6 @@ import { SafeDsWorkspaceManager } from './workspace/safe-ds-workspace-manager.js
 import { SafeDsPurityComputer } from './purity/safe-ds-purity-computer.js';
 import { SafeDsSettingsProvider } from './workspace/safe-ds-settings-provider.js';
 import { SafeDsRenameProvider } from './lsp/safe-ds-rename-provider.js';
-import { SafeDsRunner } from './runner/safe-ds-runner.js';
 import { SafeDsTypeFactory } from './typing/safe-ds-type-factory.js';
 
 /**
@@ -81,9 +80,6 @@ export type SafeDsAddedServices = {
     workspace: {
         PackageManager: SafeDsPackageManager;
         SettingsProvider: SafeDsSettingsProvider;
-    };
-    runtime: {
-        Runner: SafeDsRunner;
     };
 };
 
@@ -153,9 +149,6 @@ export const SafeDsModule: Module<SafeDsServices, PartialLangiumServices & SafeD
         PackageManager: (services) => new SafeDsPackageManager(services),
         SettingsProvider: (services) => new SafeDsSettingsProvider(services),
     },
-    runtime: {
-        Runner: (services) => new SafeDsRunner(services),
-    },
 };
 
 export type SafeDsSharedServices = LangiumSharedServices;
@@ -193,8 +186,8 @@ export const createSafeDsServices = async function (
     shared: LangiumSharedServices;
     SafeDs: SafeDsServices;
 }> {
-    const shared = inject(createDefaultSharedModule(context), SafeDsGeneratedSharedModule, SafeDsSharedModule);
-    const SafeDs = inject(createDefaultModule({ shared }), TSLGeneratedModule, SafeDsModule);
+    const shared = inject(createDefaultSharedModule(context), TTSLGeneratedSharedModule, SafeDsSharedModule);
+    const SafeDs = inject(createDefaultModule({ shared }), TTSLGeneratedModule, SafeDsModule);
 
     shared.ServiceRegistry.register(SafeDs);
     registerValidationChecks(SafeDs);
@@ -208,10 +201,6 @@ export const createSafeDsServices = async function (
     if (!options?.omitBuiltins) {
         await shared.workspace.WorkspaceManager.initializeWorkspace([]);
     }
-    if (options?.runnerCommand) {
-        /* c8 ignore next 2 */
-        SafeDs.runtime.Runner.updateRunnerCommand(options?.runnerCommand);
-    }
 
     return { shared, SafeDs };
 };
@@ -224,9 +213,4 @@ export interface ModuleOptions {
      * By default, builtins are loaded into the workspace. If this option is set to true, builtins are omitted.
      */
     omitBuiltins?: boolean;
-
-    /**
-     * Command to start the runner.
-     */
-    runnerCommand?: string;
 }

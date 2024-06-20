@@ -1,5 +1,5 @@
 import { ValidationChecks } from 'langium';
-import { SafeDsAstType } from '../generated/ast.js';
+import { TTSLAstType } from '../generated/ast.js';
 import type { SafeDsServices } from '../safe-ds-module.js';
 import {
     annotationCallAnnotationShouldNotBeDeprecated,
@@ -190,7 +190,7 @@ import { groupByVariableMustBeAnID, groupedFunctionHasAggregation, groupedFuncti
  */
 export const registerValidationChecks = function (services: SafeDsServices) {
     const registry = services.validation.ValidationRegistry;
-    const checks: ValidationChecks<SafeDsAstType> = {
+    const checks: ValidationChecks<TTSLAstType> = {
         TslAssignee: [
             assigneeAssignedResultShouldNotBeDeprecated(services),
             assigneeAssignedResultShouldNotBeExperimental(services),
