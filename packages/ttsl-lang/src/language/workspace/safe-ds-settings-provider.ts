@@ -1,6 +1,6 @@
 import { ConfigurationProvider } from 'langium';
 import { SafeDsServices } from '../safe-ds-module.js';
-import { TSLLanguageMetaData } from '../generated/module.js';
+import { TTSLLanguageMetaData } from '../generated/module.js';
 
 export class SafeDsSettingsProvider {
     private readonly configurationProvider: ConfigurationProvider;
@@ -27,7 +27,7 @@ export class SafeDsSettingsProvider {
 
     private async getValidationSettings(): Promise<Partial<ValidationSettings>> {
         return (
-            (await this.configurationProvider.getConfiguration(TSLLanguageMetaData.languageId, 'validation')) ?? {}
+            (await this.configurationProvider.getConfiguration(TTSLLanguageMetaData.languageId, 'validation')) ?? {}
         );
     }
 }

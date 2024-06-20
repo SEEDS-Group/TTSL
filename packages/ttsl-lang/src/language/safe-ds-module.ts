@@ -13,7 +13,7 @@ import { SafeDsEnums, SafeDsImpurityReasons } from './builtins/safe-ds-enums.js'
 import { SafeDsCommentProvider } from './documentation/safe-ds-comment-provider.js';
 import { SafeDsDocumentationProvider } from './documentation/safe-ds-documentation-provider.js';
 import { SafeDsCallGraphComputer } from './flow/safe-ds-call-graph-computer.js';
-import { TSLGeneratedModule, SafeDsGeneratedSharedModule } from './generated/module.js';
+import { TTSLGeneratedModule, TTSLGeneratedSharedModule } from './generated/module.js';
 import { SafeDsPythonGenerator } from './generation/safe-ds-python-generator.js';
 import { SafeDsValueConverter } from './grammar/safe-ds-value-converter.js';
 import { SafeDsNodeMapper } from './helpers/safe-ds-node-mapper.js';
@@ -193,8 +193,8 @@ export const createSafeDsServices = async function (
     shared: LangiumSharedServices;
     SafeDs: SafeDsServices;
 }> {
-    const shared = inject(createDefaultSharedModule(context), SafeDsGeneratedSharedModule, SafeDsSharedModule);
-    const SafeDs = inject(createDefaultModule({ shared }), TSLGeneratedModule, SafeDsModule);
+    const shared = inject(createDefaultSharedModule(context), TTSLGeneratedSharedModule, SafeDsSharedModule);
+    const SafeDs = inject(createDefaultModule({ shared }), TTSLGeneratedModule, SafeDsModule);
 
     shared.ServiceRegistry.register(SafeDs);
     registerValidationChecks(SafeDs);

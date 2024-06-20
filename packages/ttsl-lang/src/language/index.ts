@@ -6,7 +6,7 @@ export { createSafeDsServices } from './safe-ds-module.js';
 export { startLanguageServer } from './main.js';
 
 // Language Metadata
-export { TSLLanguageMetaData } from './generated/module.js';
+export { TTSLLanguageMetaData } from './generated/module.js';
 
 // AST
 export * as ast from './generated/ast.js';
