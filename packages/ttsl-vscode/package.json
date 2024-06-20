@@ -34,7 +34,7 @@
         "color": "#e9eded"
     },
     "icon": "img/safe-ds_logo_rounded_128x128.png",
-    "qna": "https://github.com/orgs/Safe-DS/discussions",
+    "qna": "https://github.com/SEEDS-Group/TTSL/discussions",
     "badges": [
         {
             "url": "https://github.com/Safe-DS/DSL/actions/workflows/main.yml/badge.svg",
@@ -72,67 +72,47 @@
             }
         ],
         "configuration": {
-            "title": "Safe-DS",
+            "title": "TTSL",
             "properties": {
-                "safe-ds.runner.command": {
-                    "description": "Command to start the Safe-DS runner",
-                    "type": "string",
-                    "default": "safe-ds-runner"
-                },
-                "safe-ds.validation.codeStyle": {
+                "ttsl.validation.codeStyle": {
                     "type": "boolean",
                     "default": true,
                     "description": "Show an info if code style can be improved."
                 },
-                "safe-ds.validation.experimentalLanguageFeature": {
+                "ttsl.validation.experimentalLanguageFeature": {
                     "type": "boolean",
                     "default": true,
                     "description": "Warn if an experimental language feature is used."
                 },
-                "safe-ds.validation.experimentalLibraryElement": {
+                "ttsl.validation.experimentalLibraryElement": {
                     "type": "boolean",
                     "default": true,
                     "description": "Warn if an experimental library element is used."
                 },
-                "safe-ds.validation.nameConvention": {
+                "ttsl.validation.nameConvention": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Warn if a name does not match the Safe-DS name convention."
+                    "description": "Warn if a name does not match the TTSL name convention."
                 }
             }
         },
         "configurationDefaults": {
-            "[safe-ds]": {
+            "[ttsl]": {
                 "editor.semanticHighlighting.enabled": true,
                 "editor.wordSeparators": "`~!@#%^&*()-=+[]{}\\|;:'\",.<>/?»«",
                 "files.trimTrailingWhitespace": true
             }
         },
-        "menus": {
-            "editor/title/run": [
-                {
-                    "command": "safe-ds.runPipelineFile",
-                    "when": "resourceLangId == safe-ds",
-                    "group": "navigation@1"
-                }
-            ]
-        },
         "commands": [
             {
-                "command": "safe-ds.dumpDiagnostics",
+                "command": "ttsl.dumpDiagnostics",
                 "title": "Dump Diagnostics to JSON",
                 "category": "TTSL"
             },
             {
-                "command": "safe-ds.openDiagnosticsDumps",
+                "command": "ttsl.openDiagnosticsDumps",
                 "title": "Open Diagnostics Dumps in New VS Code Window",
                 "category": "TTSL"
-            },
-            {
-                "command": "safe-ds.runPipelineFile",
-                "title": "Run Pipeline",
-                "category": "TTSL",
-                "icon": "$(play)"
             }
         ],
         "snippets": [
