@@ -14,6 +14,3 @@ export * from './helpers/nodeProperties.js';
 
 // Location
 export { locationToString, positionToString, rangeToString } from '../helpers/locations.js';
-
-// Messages
-export * as messages from './runner/messages.js';

@@ -40,7 +40,6 @@ import { SafeDsWorkspaceManager } from './workspace/safe-ds-workspace-manager.js
 import { SafeDsPurityComputer } from './purity/safe-ds-purity-computer.js';
 import { SafeDsSettingsProvider } from './workspace/safe-ds-settings-provider.js';
 import { SafeDsRenameProvider } from './lsp/safe-ds-rename-provider.js';
-import { SafeDsRunner } from './runner/safe-ds-runner.js';
 import { SafeDsTypeFactory } from './typing/safe-ds-type-factory.js';
 
 /**
@@ -81,9 +80,6 @@ export type SafeDsAddedServices = {
     workspace: {
         PackageManager: SafeDsPackageManager;
         SettingsProvider: SafeDsSettingsProvider;
-    };
-    runtime: {
-        Runner: SafeDsRunner;
     };
 };
 
@@ -153,9 +149,6 @@ export const SafeDsModule: Module<SafeDsServices, PartialLangiumServices & SafeD
         PackageManager: (services) => new SafeDsPackageManager(services),
         SettingsProvider: (services) => new SafeDsSettingsProvider(services),
     },
-    runtime: {
-        Runner: (services) => new SafeDsRunner(services),
-    },
 };
 
 export type SafeDsSharedServices = LangiumSharedServices;
@@ -208,10 +201,6 @@ export const createSafeDsServices = async function (
     if (!options?.omitBuiltins) {
         await shared.workspace.WorkspaceManager.initializeWorkspace([]);
     }
-    if (options?.runnerCommand) {
-        /* c8 ignore next 2 */
-        SafeDs.runtime.Runner.updateRunnerCommand(options?.runnerCommand);
-    }
 
     return { shared, SafeDs };
 };
@@ -224,9 +213,4 @@ export interface ModuleOptions {
      * By default, builtins are loaded into the workspace. If this option is set to true, builtins are omitted.
      */
     omitBuiltins?: boolean;
-
-    /**
-     * Command to start the runner.
-     */
-    runnerCommand?: string;
 }
