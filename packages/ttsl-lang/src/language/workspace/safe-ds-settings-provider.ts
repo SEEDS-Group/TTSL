@@ -26,9 +26,7 @@ export class SafeDsSettingsProvider {
     }
 
     private async getValidationSettings(): Promise<Partial<ValidationSettings>> {
-        return (
-            (await this.configurationProvider.getConfiguration(TTSLLanguageMetaData.languageId, 'validation')) ?? {}
-        );
+        return (await this.configurationProvider.getConfiguration(TTSLLanguageMetaData.languageId, 'validation')) ?? {};
     }
 }
 
