@@ -41,7 +41,7 @@
     },
     "Function": {
         "prefix": ["function"],
-        "body": ["${1|@Pure,@Impure([])|}", "fun ${2:myFunction}${3:<$4>}($5) ${6:-> ($7)} ${8:where {$0\\}}"],
+        "body": ["function ${1:myFunction}($2)${3:: $4}{", "    $0", "}"],
         "description": "A function."
     },
     "Minimal Pure Method": {
@@ -91,5 +91,65 @@
         "prefix": ["documentation-comment"],
         "body": ["/**", " * $0", " */"],
         "description": "A documentation comment."
+    },
+    "Constant": {
+        "prefix": ["constant"],
+        "body": ["constant ${1:myConstant}${2:: $3}${4:= $5}"],
+        "description": "A Constant."
+    },
+    "Data": {
+        "prefix": ["data"],
+        "body": ["data ${1:myDatat}${2:: $3}"],
+        "description": "A Data."
+    },
+    "Aggregation": {
+        "prefix": ["aggregate"],
+        "body": ["aggregate $1 of $2 groupedBy $3"],
+        "description": "An aggregation."
+    },
+    "While": {
+        "prefix": ["while"],
+        "body": ["while($1){", "    $0","}"],
+        "description": "A while-loop."
+    },
+    "For": {
+        "prefix": ["for"],
+        "body": ["for($1; $2; $3){", "    $0","}"],
+        "description": "A for-loop."
+    },
+    "Foreach": {
+        "prefix": ["foreach"],
+        "body": ["foreach($1 in $2){", "    $0","}"],
+        "description": "A foreach loop."
+    },
+    "If": {
+        "prefix": ["if"],
+        "body": ["if($1){", "    $0", "}"],
+        "description": "A conditional statement."
+    },
+    "If-Else": {
+        "prefix": ["if-else"],
+        "body": ["if($1){", "    $0", "} else {", "    $0", "}"],
+        "description": "A conditional statement with an else-Block."
+    },
+    "GroupedBy": {
+        "prefix": ["GroupedBy"],
+        "body": ["GroupedBy $1"],
+        "description": "A GroupedBy modifier."
+    },
+    "TimeUnit": {
+        "prefix": ["per"],
+        "body": ["per ${1|day ,week ,month ,year |}"],
+        "description": "A Timeunit."
+    },
+    "TimeStamp": {
+        "prefix": ["from-to"],
+        "body": ["from $1-$2-$3 to $4-$5-$6"],
+        "description": "A Timestamp from one Date to another."
+    },
+    "LocalVariable": {
+        "prefix": ["var"],
+        "body": ["var ${1:myVariable}${2:: $3}"],
+        "description": "A Timestamp from one Date to another."
     }
 }
