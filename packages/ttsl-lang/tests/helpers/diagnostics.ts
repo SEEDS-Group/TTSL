@@ -64,7 +64,7 @@ export const getErrorsAtURI = (services: LangiumServices, uri: URI): Diagnostic[
 const getDiagnostics = async (services: LangiumServices, code: string): Promise<Diagnostic[]> => {
     const parse = parseHelper(services);
     const document = await parse(code, {
-        documentUri: `file:///$autogen$${nextId++}.Tsltest`,
+        documentUri: `file:///$autogen$${nextId++}.ttsl`,
         validation: true,
     });
     return document.diagnostics ?? [];

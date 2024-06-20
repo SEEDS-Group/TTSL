@@ -24,13 +24,13 @@ describe('processPaths', async () => {
         },
         {
             testName: 'test file',
-            paths: ['c.Tsltest'],
-            expected: Result.ok(['c.Tsltest']),
+            paths: ['c.ttsl'],
+            expected: Result.ok(['c.ttsl']),
         },
         {
             testName: 'multiple files',
-            paths: ['a.Tslpipe', 'b.Tslstub', 'c.Tsltest'],
-            expected: Result.ok(['a.Tslpipe', 'b.Tslstub', 'c.Tsltest']),
+            paths: ['a.Tslpipe', 'b.Tslstub', 'c.ttsl'],
+            expected: Result.ok(['a.Tslpipe', 'b.Tslstub', 'c.ttsl']),
         },
         {
             testName: 'duplicates',
@@ -43,10 +43,10 @@ describe('processPaths', async () => {
             expected: Result.ok([
                 'a.Tslpipe',
                 'b.Tslstub',
-                'c.Tsltest',
+                'c.ttsl',
                 'nested/a.Tslpipe',
                 'nested/b.Tslstub',
-                'nested/c.Tsltest',
+                'nested/c.ttsl',
             ]),
         },
         {

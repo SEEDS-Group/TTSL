@@ -14,7 +14,7 @@ generation test.
 
         If you want to skip a test, add the prefix `skip-` to the folder name.
 
-2. Add files with the extension `.Tsltest`, `.Tslpipe`, or `.Tslstub` **directly inside the folder**. All files in a
+2. Add files with the extension `.ttsl`, `.Tslpipe`, or `.Tslstub` **directly inside the folder**. All files in a
    folder will be loaded into the same workspace, so they can reference each other. Files in different folders are
    loaded into different workspaces, so they cannot reference each other. Generation will be triggered for all files in
    the folder.

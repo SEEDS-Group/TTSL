@@ -63,25 +63,25 @@ describe('safe-ds', () => {
         });
 
         it('should show not show errors in correct files', () => {
-            const process = spawnCheckProcess([], ['correct.Tsltest']);
+            const process = spawnCheckProcess([], ['correct.ttsl']);
             expect(process.stdout.toString()).toContain('No errors found.');
             expect(process.status).toBe(ExitCode.Success);
         });
 
         it('should handle references to builtins', () => {
-            const process = spawnCheckProcess([], ['references builtins.Tsltest']);
+            const process = spawnCheckProcess([], ['references builtins.ttsl']);
             expect(process.stdout.toString()).toContain('No errors found.');
             expect(process.status).toBe(ExitCode.Success);
         });
 
         it('should treat warnings as errors in strict mode', () => {
-            const process = spawnCheckProcess(['-s'], ['contains warnings.Tsltest']);
+            const process = spawnCheckProcess(['-s'], ['contains warnings.ttsl']);
             expect(process.stderr.toString()).toMatch(/Found \d+ errors?\./u);
             expect(process.status).toBe(ExitCode.FileHasErrors);
         });
 
         it('should show an error if the file does not exist', () => {
-            const process = spawnCheckProcess([], ['missing.Tsltest']);
+            const process = spawnCheckProcess([], ['missing.ttsl']);
             expect(process.stderr.toString()).toMatch(/Path .* does not exist\./u);
             expect(process.status).toBe(ExitCode.MissingPath);
         });
@@ -121,13 +121,13 @@ describe('safe-ds', () => {
         });
 
         it('should show not show errors in correct files', () => {
-            const process = spawnFormatProcess([], ['correct.Tsltest']);
+            const process = spawnFormatProcess([], ['correct.ttsl']);
             expect(process.stdout.toString()).toContain('Safe-DS code formatted successfully.');
             expect(process.status).toBe(ExitCode.Success);
         });
 
         it('should show an error if the file does not exist', () => {
-            const process = spawnFormatProcess([], ['missing.Tsltest']);
+            const process = spawnFormatProcess([], ['missing.ttsl']);
             expect(process.stderr.toString()).toMatch(/Path .* does not exist\./u);
             expect(process.status).toBe(ExitCode.MissingPath);
         });
@@ -165,19 +165,19 @@ describe('safe-ds', () => {
         });
 
         it('should generate Python code', () => {
-            const process = spawnGenerateProcess([], ['correct.Tsltest']);
+            const process = spawnGenerateProcess([], ['correct.ttsl']);
             expect(process.stdout.toString()).toContain('Python code generated successfully.');
             expect(process.status).toBe(ExitCode.Success);
         });
 
         it('should generate Python code (Safe-DS code references builtins)', () => {
-            const process = spawnGenerateProcess([], ['references builtins.Tsltest']);
+            const process = spawnGenerateProcess([], ['references builtins.ttsl']);
             expect(process.stdout.toString()).toContain('Python code generated successfully.');
             expect(process.status).toBe(ExitCode.Success);
         });
 
         it('should show an error if the file does not exist', () => {
-            const process = spawnGenerateProcess([], ['missing.Tsltest']);
+            const process = spawnGenerateProcess([], ['missing.ttsl']);
             expect(process.stderr.toString()).toMatch(/Path .* does not exist./u);
             expect(process.status).toBe(ExitCode.MissingPath);
         });

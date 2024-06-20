@@ -23,7 +23,7 @@ export const STUB_FILE_EXTENSION = 'Tslstub';
  * @see isInTestFile
  * @see isTestFile
  */
-export const TEST_FILE_EXTENSION = 'Tsltest';
+export const TEST_FILE_EXTENSION = 'ttsl';
 
 /**
  * All file extensions that are supported by the Safe-DS language.

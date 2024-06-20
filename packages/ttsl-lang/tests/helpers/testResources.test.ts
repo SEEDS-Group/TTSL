@@ -31,10 +31,10 @@ describe('listTestSafeDsFiles', () => {
         const expected = [
             'pipeline file.Tslpipe',
             'stub file.Tslstub',
-            'test file.Tsltest',
+            'test file.ttsl',
             'nested/pipeline file.Tslpipe',
             'nested/stub file.Tslstub',
-            'nested/test file.Tsltest',
+            'nested/test file.ttsl',
         ];
 
         expectFileListsToMatch(rootResourceName, actual, expected);
@@ -65,7 +65,7 @@ describe('listTestSafeDsFilesGroupedByParentDirectory', () => {
         const actualValuesDirectlyInRoot = [...result.entries()].find(
             ([key]) => uriToShortenedTestResourceName(key, rootResourceName) === '',
         )!;
-        const expectedValuesDirectlyInRoot = ['pipeline file.Tslpipe', 'stub file.Tslstub', 'test file.Tsltest'];
+        const expectedValuesDirectlyInRoot = ['pipeline file.Tslpipe', 'stub file.Tslstub', 'test file.ttsl'];
         expectFileListsToMatch(rootResourceName, actualValuesDirectlyInRoot[1], expectedValuesDirectlyInRoot);
 
         // Compare the values, i.e. the files, in the nested directory
@@ -75,7 +75,7 @@ describe('listTestSafeDsFilesGroupedByParentDirectory', () => {
         const expectedValuesInNested = [
             'nested/pipeline file.Tslpipe',
             'nested/stub file.Tslstub',
-            'nested/test file.Tsltest',
+            'nested/test file.ttsl',
         ];
         expectFileListsToMatch(rootResourceName, actualValuesInNested[1], expectedValuesInNested);
     });
