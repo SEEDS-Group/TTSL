@@ -1,5 +1,5 @@
 import { AstUtils, ValidationAcceptor } from 'langium';
-import { isTslClass, TslFunction } from '../../generated/ast.js';
+import { TslFunction } from '../../generated/ast.js';
 import { SafeDsServices } from '../../safe-ds-module.js';
 import { findFirstAnnotationCallOf, getParameters } from '../../helpers/nodeProperties.js';
 import { pluralize } from '../../../helpers/strings.js';
