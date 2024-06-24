@@ -22,17 +22,13 @@ import {
     TslDeclaration,
     TslImport,
     TslImportedDeclaration,
-    TslLiteral,
     TslModule,
     TslModuleMember,
-    TslNamedTypeDeclaration,
     TslParameter,
     TslPlaceholder,
     TslQualifiedImport,
     TslResult,
-    TslResultList,
     TslStatement,
-    TslType,
 } from '../generated/ast.js';
 
 // -------------------------------------------------------------------------------------------------
@@ -86,7 +82,7 @@ export namespace Parameter {
 // Accessors for list elements
 // -------------------------------------------------------------------------------------------------
 
-export const getyResults = (node: TslCallable | undefined): TslResult[] => {
+export const getResults = (node: TslCallable | undefined): TslResult[] => {
     if (!node) {
         return [];
     }
