@@ -8,7 +8,6 @@ import {
     IndexManager,
     LangiumDocuments,
 } from 'langium';
-import { isTslSegment } from '../generated/ast.js';
 import { getPackageName, isPackagePrivate } from '../helpers/nodeProperties.js';
 
 export class SafeDsPackageManager {
@@ -112,7 +111,7 @@ export class SafeDsPackageManager {
         }
 
         if (hideInternal) {
-            result = result.filter((it) => !isTslSegment(it.node) || !isPackagePrivate(it.node));
+            result = result.filter((it) => !isPackagePrivate(it.node) && !isPrivate(it.node));
         }
 
         return result;
