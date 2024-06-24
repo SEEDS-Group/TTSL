@@ -218,9 +218,7 @@ TslResultList returns TslResultList:
   | {TslResultList} ':' '(' (results+=TslResult (',' results+=TslResult)* ','? )? ')'
 ;
 
-interface TslAbstractResult extends TslDeclaration {}
-
-interface TslResult extends TslAbstractResult {
+interface TslResult extends TslDeclaration {
     ^type?: TslType
 }
 
@@ -360,13 +358,13 @@ TslExpression returns TslExpression:
 ;
 
 interface TslAggregation extends TslExpression{
-    function: TslTemplateString
+    function: string
     data: TslReference
     groupedBy: TslGroupedBy
 }
 
 TslAggregation returns TslAggregation:
-    'aggregate' function=TslTemplateString 'of' data=TslReference groupedBy=TslGroupedBy
+    'aggregate' function=STRING 'of' data=TslReference groupedBy=TslGroupedBy
 ;
 
 interface TslInfixOperation extends TslExpression {

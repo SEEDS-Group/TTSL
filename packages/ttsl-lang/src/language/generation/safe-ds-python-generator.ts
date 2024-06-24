@@ -18,16 +18,10 @@ import { groupBy, isEmpty } from '../../helpers/collections.js';
 import { SafeDsAnnotations } from '../builtins/safe-ds-annotations.js';
 import {
     isTslAbstractCall,
-    isTslAbstractResult,
     isTslAssignment,
-    isTslBlockLambda,
-    isTslBlockLambdaResult,
     isTslCall,
     isTslCallable,
-    isTslClass,
     isTslDeclaration,
-    isTslEnumVariant,
-    isTslExpressionLambda,
     isTslExpressionStatement,
     isTslFunction,
     isTslIndexedAccess,
@@ -37,35 +31,27 @@ import {
     isTslMemberAccess,
     isTslModule,
     isTslParameter,
-    isTslParenthesizedExpression,
-    isTslPipeline,
     isTslPlaceholder,
     isTslPrefixOperation,
     isTslQualifiedImport,
     isTslReference,
-    isTslSegment,
     isTslTemplateString,
     isTslTemplateStringEnd,
     isTslTemplateStringInner,
     isTslTemplateStringPart,
     isTslTemplateStringStart,
-    isTslWildcard,
     isTslWildcardImport,
-    isTslYield,
     TslArgument,
     TslAssignee,
     TslAssignment,
     TslBlock,
-    TslBlockLambda,
     TslCall,
     TslDeclaration,
     TslExpression,
     TslModule,
     TslParameter,
     TslParameterList,
-    TslPipeline,
     TslPlaceholder,
-    TslSegment,
     TslStatement,
     isTslConditionalStatement,
     isTslLoop,
@@ -83,8 +69,6 @@ import {
     TslData,
     isTslBlock,
     TslTimeunit,
-    TslResultList,
-    TslType,
     isTslExpression,
 } from '../generated/ast.js';
 import { isInStubFile, isStubFile } from '../helpers/fileExtensions.js';
@@ -351,22 +335,7 @@ export class SafeDsPythonGenerator {
             );
         }
         generatedFiles.set(pythonOutputPath, text);
-        for (const pipeline of getModuleMembers(node).filter(isTslPipeline)) {
-            const entryPointFilename = `${path.join(
-                parentDirectoryPath,
-                `${this.formatGeneratedFileName(name)}_${this.getPythonNameOrDefault(pipeline)}`,
-            )}.py`;
-            const entryPointContent = expandTracedToNode(pipeline)`from .${this.formatGeneratedFileName(
-                name,
-            )} import ${this.getPythonNameOrDefault(
-                pipeline,
-            )}\n\nif __name__ == '__main__':\n${PYTHON_INDENT}${this.getPythonNameOrDefault(
-                pipeline,
-            )}()`.appendNewLine();
-            const generatedPipelineEntry = toStringAndTrace(entryPointContent);
-            generatedFiles.set(entryPointFilename, generatedPipelineEntry.text);
-        }
-
+        
         return Array.from(generatedFiles.entries()).map(([fsPath, content]) =>
             TextDocument.create(URI.file(fsPath).toString(), 'py', 0, content),
         );
@@ -468,14 +437,7 @@ export class SafeDsPythonGenerator {
         const importSet = new Map<String, ImportData>();
         const utilitySet = new Set<UtilityFunction>();
         const typeVariableSet = new Set<string>();
-        const segments = getModuleMembers(module)
-            .filter(isTslSegment)
-            .map((segment) => this.generateSegment(segment, importSet, utilitySet, typeVariableSet, generateOptions));
-        const pipelines = getModuleMembers(module)
-            .filter(isTslPipeline)
-            .map((pipeline) =>
-                this.generatePipeline(pipeline, importSet, utilitySet, typeVariableSet, generateOptions),
-            );
+        
         const functions = getModuleMembers(module)
             .filter(isTslFunction)
             .map((funct) =>
@@ -517,28 +479,9 @@ export class SafeDsPythonGenerator {
             output.append(joinToNode(utilitySet, (importDecl) => importDecl.code, { separator: SPACING }));
             output.appendNewLine();
         }
-        if (segments.length > 0) {
-            output.appendNewLineIf(imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0);
-            output.append('# Segments ---------------------------------------------------------------------');
-            output.appendNewLine();
-            output.appendNewLine();
-            output.append(joinToNode(segments, (segment) => segment, { separator: SPACING }));
-            output.appendNewLine();
-        }
-        if (pipelines.length > 0) {
-            output.appendNewLineIf(
-                imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0 || segments.length > 0,
-            );
-            output.append('# Pipelines --------------------------------------------------------------------');
-            output.appendNewLine();
-            output.appendNewLine();
-            output.append(joinToNode(pipelines, (pipeline) => pipeline, { separator: SPACING }));
-            output.appendNewLine();
-        }
         if (functions.length > 0) {
             output.appendNewLineIf(
-                imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0 || segments.length > 0
-                || pipelines.length > 0,
+                imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0,
             );
             output.append('# Functions --------------------------------------------------------------------');
             output.appendNewLine();
@@ -548,8 +491,7 @@ export class SafeDsPythonGenerator {
         }
         if (constants.length > 0) {
             output.appendNewLineIf(
-                imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0 || segments.length > 0
-                || pipelines.length > 0 || functions.length > 0,
+                imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0 || functions.length > 0,
             );
             output.append('# Constants --------------------------------------------------------------------');
             output.appendNewLine();
@@ -559,8 +501,7 @@ export class SafeDsPythonGenerator {
         }
         if (data.length > 0) {
             output.appendNewLineIf(
-                imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0 || segments.length > 0
-                || pipelines.length > 0 || functions.length > 0 || constants.length > 0,
+                imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0 || functions.length > 0 || constants.length > 0,
             );
             output.append('# Data --------------------------------------------------------------------');
             output.appendNewLine();
@@ -569,41 +510,6 @@ export class SafeDsPythonGenerator {
             output.appendNewLine();
         }
         return output;
-    }
-
-    private generateSegment(
-        segment: TslSegment,
-        importSet: Map<String, ImportData>,
-        utilitySet: Set<UtilityFunction>,
-        typeVariableSet: Set<string>,
-        generateOptions: GenerateOptions,
-    ): CompositeGeneratorNode {
-        const infoFrame = new GenerationInfoFrame(
-            importSet,
-            utilitySet,
-            typeVariableSet,
-            false,
-            undefined,
-            generateOptions.disableRunnerIntegration,
-        );
-        const segmentResult = segment.resultList?.results || [];
-        const segmentBlock = this.generateBlock(segment.body, infoFrame);
-        if (segmentResult.length !== 0) {
-            segmentBlock.appendNewLine();
-            segmentBlock.append(
-                expandTracedToNode(segment.resultList!)`return ${joinTracedToNode(segment.resultList!, 'results')(
-                    segmentResult,
-                    (result) => expandTracedToNode(result)`${YIELD_PREFIX}${result.name}`,
-                    { separator: ', ' },
-                )}`,
-            );
-        }
-        return expandTracedToNode(segment)`def ${traceToNode(
-            segment,
-            'name',
-        )(this.getPythonNameOrDefault(segment))}(${this.generateParameters(segment.parameterList, infoFrame)}):`
-            .appendNewLine()
-            .indent({ indentedChildren: [segmentBlock], indentation: PYTHON_INDENT });
     }
 
     private generateFunction(
@@ -668,7 +574,7 @@ export class SafeDsPythonGenerator {
         
         return joinTracedToNode(block, 'statements')(
             statements,
-            (stmt) => this.generateStatement(stmt, frame, generateLambda),
+            (stmt) => this.generateStatement(stmt, frame),
             {
                 separator: NL,
             },
@@ -777,29 +683,6 @@ export class SafeDsPythonGenerator {
         }`;
     }
 
-    private generatePipeline(
-        pipeline: TslPipeline,
-        importSet: Map<String, ImportData>,
-        utilitySet: Set<UtilityFunction>,
-        typeVariableSet: Set<string>,
-        generateOptions: GenerateOptions,
-    ): CompositeGeneratorNode {
-        const infoFrame = new GenerationInfoFrame(
-            importSet,
-            utilitySet,
-            typeVariableSet,
-            true,
-            generateOptions.targetPlaceholder,
-            generateOptions.disableRunnerIntegration,
-        );
-        return expandTracedToNode(pipeline)`def ${traceToNode(
-            pipeline,
-            'name',
-        )(this.getPythonNameOrDefault(pipeline))}():`
-            .appendNewLine()
-            .indent({ indentedChildren: [this.generateBlock(pipeline.body, infoFrame)], indentation: PYTHON_INDENT });
-    }
-
     private generateImports(importSet: ImportData[]): string[] {
         const qualifiedImports = importSet
             .filter((importStmt) => importStmt.declarationName === undefined)
@@ -855,7 +738,7 @@ export class SafeDsPythonGenerator {
         }
         return joinTracedToNode(block, 'statements')(
             statements,
-            (stmt) => this.generateStatement(stmt, frame, generateLambda),
+            (stmt) => this.generateStatement(stmt, frame),
             {
                 separator: NL,
             },
@@ -926,25 +809,19 @@ export class SafeDsPythonGenerator {
     private generateStatement(
         statement: TslStatement,
         frame: GenerationInfoFrame,
-        generateLambda: boolean,
     ): CompositeGeneratorNode {
-        const blockLambdaCode: CompositeGeneratorNode[] = [];
+        const code: CompositeGeneratorNode[] = [];
         if (isTslAssignment(statement)) {
             if (statement.expression) {
-                for (const lambda of AstUtils.streamAllContents(statement.expression).filter(isTslBlockLambda)) {
-                    blockLambdaCode.push(this.generateBlockLambda(lambda, frame));
-                }
+                code.push(this.generateExpression(statement.expression, frame));
             }
-            blockLambdaCode.push(this.generateAssignment(statement, frame, generateLambda));
-            return joinTracedToNode(statement)(blockLambdaCode, (stmt) => stmt, {
+            code.push(this.generateAssignment(statement, frame));
+            return joinTracedToNode(statement)(code, (stmt) => stmt, {
                 separator: NL,
             })!;
         } else if (isTslExpressionStatement(statement)) {
-            for (const lambda of AstUtils.streamAllContents(statement.expression).filter(isTslBlockLambda)) {
-                blockLambdaCode.push(this.generateBlockLambda(lambda, frame));
-            }
-            blockLambdaCode.push(this.generateExpression(statement.expression, frame));
-            return joinTracedToNode(statement)(blockLambdaCode, (stmt) => stmt, {
+            code.push(this.generateExpression(statement.expression, frame));
+            return joinTracedToNode(statement)(code, (stmt) => stmt, {
                 separator: NL,
             })!;
         } else if (isTslTimespanStatement(statement)) { 
@@ -979,10 +856,10 @@ export class SafeDsPythonGenerator {
             } else if (isTslForLoop(statement)){
                 let firstParameter, thirdParameter = new CompositeGeneratorNode
                 if (statement.definitionStatement){
-                    firstParameter = this.generateStatement((statement.definitionStatement), frame, false)
+                    firstParameter = this.generateStatement((statement.definitionStatement), frame)
                 }
                 if (statement.iteration){
-                    thirdParameter = this.generateStatement((statement.iteration), frame, false)
+                    thirdParameter = this.generateStatement((statement.iteration), frame)
                 }
                 return expandTracedToNode(statement)`${firstParameter}
                     while ${this.generateExpression((statement.condition), frame)}:
@@ -1000,96 +877,43 @@ export class SafeDsPythonGenerator {
     private generateAssignment(
         assignment: TslAssignment,
         frame: GenerationInfoFrame,
-        generateLambda: boolean,
     ): CompositeGeneratorNode {
         const requiredAssignees = isTslCall(assignment.expression)
             ? getAbstractResults(this.nodeMapper.callToCallable(assignment.expression)).length
             : /* c8 ignore next */
               1;
         const assignees = getAssignees(assignment);
-        if (assignees.some((value) => !isTslWildcard(value))) {
-            const actualAssignees = assignees.map(this.generateAssignee);
-            const assignmentStatements = [];
-            if (requiredAssignees === actualAssignees.length) {
-                assignmentStatements.push(
-                    expandTracedToNode(assignment)`${joinToNode(actualAssignees, (actualAssignee) => actualAssignee, {
-                        separator: ', ',
-                    })} = ${this.generateExpression(assignment.expression!, frame)}`,
-                );
-            } else {
-                // Add wildcards to match given results
-                assignmentStatements.push(
-                    expandTracedToNode(assignment)`${joinToNode(
-                        actualAssignees.concat(Array(requiredAssignees - actualAssignees.length).fill('_')),
-                        (actualAssignee) => actualAssignee,
-                        { separator: ', ' },
-                    )} = ${this.generateExpression(assignment.expression!, frame)}`,
-                );
-            }
-            if (frame.isInsidePipeline && !generateLambda && !frame.disableRunnerIntegration) {
-                for (const savableAssignment of assignees.filter(isTslPlaceholder)) {
-                    // should always be TslPlaceholder
-                    frame.addImport({ importPath: RUNNER_PACKAGE });
-                    assignmentStatements.push(
-                        expandTracedToNode(
-                            savableAssignment,
-                        )`${RUNNER_PACKAGE}.save_placeholder('${savableAssignment.name}', ${savableAssignment.name})`,
-                    );
-                }
-            }
-            return joinTracedToNode(assignment)(assignmentStatements, (stmt) => stmt, {
-                separator: NL,
-            })!;
-        } else {
-            return traceToNode(assignment)(this.generateExpression(assignment.expression!, frame));
+        const actualAssignees = assignees.map(this.generateAssignee);
+        const assignmentStatements = [];
+        if (requiredAssignees === actualAssignees.length) {
+            assignmentStatements.push(
+                expandTracedToNode(assignment)`${joinToNode(actualAssignees, (actualAssignee) => actualAssignee, {
+                    separator: ', ',
+                })} = ${this.generateExpression(assignment.expression!, frame)}`,
+            );
         }
+        if (frame.isInsideFunction && !frame.disableRunnerIntegration) {
+            for (const savableAssignment of assignees.filter(isTslPlaceholder)) {
+                // should always be TslPlaceholder
+                frame.addImport({ importPath: RUNNER_PACKAGE });
+                assignmentStatements.push(
+                    expandTracedToNode(
+                        savableAssignment,
+                    )`${RUNNER_PACKAGE}.save_placeholder('${savableAssignment.name}', ${savableAssignment.name})`,
+                );
+            }
+        }
+        return joinTracedToNode(assignment)(assignmentStatements, (stmt) => stmt, {
+            separator: NL,
+        })!;
     }
 
     private generateAssignee(assignee: TslAssignee): CompositeGeneratorNode {
-        if (isTslBlockLambdaResult(assignee)) {
-            return expandTracedToNode(assignee)`${BLOCK_LAMBDA_RESULT_PREFIX}${traceToNode(
-                assignee,
-                'name',
-            )(assignee.name)}`;
-        } else if (isTslPlaceholder(assignee)) {
+        if (isTslPlaceholder(assignee)) {
             return traceToNode(assignee)(assignee.name);
-        } else if (isTslWildcard(assignee)) {
-            return traceToNode(assignee)('_');
-        } else if (isTslYield(assignee)) {
-            return expandTracedToNode(assignee)`${YIELD_PREFIX}${traceToNode(
-                assignee,
-                'result',
-            )(assignee.result?.ref?.name!)}`;
-        }
+        } 
         /* c8 ignore next 2 */
         throw new Error(`Unknown TslAssignment: ${assignee.$type}`);
-    }
-
-    private generateBlockLambda(blockLambda: TslBlockLambda, frame: GenerationInfoFrame): CompositeGeneratorNode {
-        const results = streamBlockLambdaResults(blockLambda).toArray();
-        const lambdaBlock = this.generateBlock(blockLambda.body, frame, true);
-        if (results.length !== 0) {
-            lambdaBlock.appendNewLine();
-            lambdaBlock.append(
-                expandTracedToNode(blockLambda)`return ${joinToNode(
-                    results,
-                    (result) =>
-                        expandTracedToNode(result)`${BLOCK_LAMBDA_RESULT_PREFIX}${traceToNode(
-                            result,
-                            'name',
-                        )(result.name)}`,
-                    { separator: ', ' },
-                )}`,
-            );
-        }
-        return expandTracedToNode(blockLambda)`def ${frame.getUniqueLambdaBlockName(
-            blockLambda,
-        )}(${this.generateParameters(blockLambda.parameterList, frame)}):`
-            .appendNewLine()
-            .indent({
-                indentedChildren: [lambdaBlock],
-                indentation: PYTHON_INDENT,
-            });
     }
 
     private generateExpression(expression: TslExpression, frame: GenerationInfoFrame): CompositeGeneratorNode {
@@ -1145,8 +969,6 @@ export class SafeDsPythonGenerator {
                 (value) => this.generateExpression(value, frame),
                 { separator: ', ' },
             )}]`;
-        } else if (isTslBlockLambda(expression)) {
-            return traceToNode(expression)(frame.getUniqueLambdaBlockName(expression));
         } else if (isTslCall(expression)) {
             const callable = this.nodeMapper.callToCallable(expression);
             const sortedArgs = this.sortArguments(getArguments(expression));
@@ -1154,7 +976,7 @@ export class SafeDsPythonGenerator {
             let call: CompositeGeneratorNode | undefined = undefined;
 
             // Memoize constructor or function call
-            if (isTslFunction(callable) || isTslClass(callable)) {
+            if (isTslFunction(callable)) {
                 if (isTslFunction(callable)) {
                     const pythonCall = this.builtinAnnotations.getPythonCall(callable);
                     if (pythonCall) {
@@ -1188,11 +1010,6 @@ export class SafeDsPythonGenerator {
             } else {
                 return call;
             }
-        } else if (isTslExpressionLambda(expression)) {
-            return expandTracedToNode(expression)`lambda ${this.generateParameters(
-                expression.parameterList,
-                frame,
-            )}: ${this.generateExpression(expression.result, frame)}`;
         } else if (isTslInfixOperation(expression)) {
             const leftOperand = this.generateExpression(expression.leftOperand, frame);
             const rightOperand = this.generateExpression(expression.rightOperand, frame);
@@ -1250,33 +1067,16 @@ export class SafeDsPythonGenerator {
         } else if (isTslMemberAccess(expression)) {
             const member = expression.member?.target.ref!;
             const receiver = this.generateExpression(expression.receiver, frame);
-            if (isTslEnumVariant(member)) {
-                const enumMember = this.generateExpression(expression.member!, frame);
-                const suffix = isTslCall(expression.$container) ? '' : '()';
-                return expandTracedToNode(expression)`${receiver}.${enumMember}${suffix}`;
-            } else if (isTslAbstractResult(member)) {
-                const resultList = getAbstractResults(AstUtils.getContainerOfType(member, isTslCallable));
-                if (resultList.length === 1) {
-                    return traceToNode(expression)(receiver);
-                }
-                const currentIndex = resultList.indexOf(member);
-                return expandTracedToNode(expression)`${receiver}[${traceToNode(expression.member!)(
-                    String(currentIndex),
-                )}]`;
+            const memberExpression = this.generateExpression(expression.member!, frame);
+            if (expression.isNullSafe) {
+                frame.addUtility(UTILITY_NULL_SAFE_MEMBER_ACCESS);
+                return expandTracedToNode(expression)`${traceToNode(
+                    expression,
+                    'isNullSafe',
+                )(UTILITY_NULL_SAFE_MEMBER_ACCESS.name)}(${receiver}, '${memberExpression}')`;
             } else {
-                const memberExpression = this.generateExpression(expression.member!, frame);
-                if (expression.isNullSafe) {
-                    frame.addUtility(UTILITY_NULL_SAFE_MEMBER_ACCESS);
-                    return expandTracedToNode(expression)`${traceToNode(
-                        expression,
-                        'isNullSafe',
-                    )(UTILITY_NULL_SAFE_MEMBER_ACCESS.name)}(${receiver}, '${memberExpression}')`;
-                } else {
-                    return expandTracedToNode(expression)`${receiver}.${memberExpression}`;
-                }
+                return expandTracedToNode(expression)`${receiver}.${memberExpression}`;
             }
-        } else if (isTslParenthesizedExpression(expression)) {
-            return expandTracedToNode(expression)`${this.generateExpression(expression.expression, frame)}`;
         } else if (isTslPrefixOperation(expression)) {
             const operand = this.generateExpression(expression.operand, frame);
             switch (expression.operator) {
@@ -1296,7 +1096,7 @@ export class SafeDsPythonGenerator {
             frame.addUtility(UTILITY_AGGREGATION);
             return expandTracedToNode(expression)`${traceToNode(
                 expression
-            )(UTILITY_AGGREGATION.name)}(${'dataframe'}, ${expression.data.target.ref?.name}, ${expression.groupedBy.id.target.ref?.name}, '${expression.function.value}')`;
+            )(UTILITY_AGGREGATION.name)}(${'dataframe'}, ${expression.data.target.ref?.name}, ${expression.groupedBy.id.target.ref?.name}, '${expression.function}')`;
         }
         /* c8 ignore next 2 */
         throw new Error(`Unknown expression type: ${expression.$type}`);
@@ -1371,35 +1171,8 @@ export class SafeDsPythonGenerator {
         const impurityReasons = this.purityComputer.getImpurityReasonsForExpression(expression);
         // If the file is not known, the call is not memoizable
         return (
-            !impurityReasons.some((reason) => !(reason instanceof FileRead) || reason.path === undefined) &&
-            !this.doesCallContainLambdaReferencingSegment(expression)
+            !impurityReasons.some((reason) => !(reason instanceof FileRead) || reason.path === undefined)
         );
-    }
-
-    private doesCallContainLambdaReferencingSegment(expression: TslCall): boolean {
-        return getArguments(expression).some((arg) => {
-            if (isTslExpressionLambda(arg.value)) {
-                return this.containsSegmentCall(arg.value.result);
-            } else if (isTslBlockLambda(arg.value)) {
-                return this.containsSegmentCall(arg.value.body);
-            } else {
-                /* c8 ignore next 2 */
-                return false;
-            }
-        });
-    }
-
-    private containsSegmentCall(node: AstNode | undefined): boolean {
-        if (!node) {
-            /* c8 ignore next 2 */
-            return false;
-        }
-        return AstUtils.streamAst(node)
-            .filter(isTslAbstractCall)
-            .some((call) => {
-                const callable = this.nodeMapper.callToCallable(call);
-                return isTslSegment(callable);
-            });
     }
 
     private generateMemoizedCall(
@@ -1415,7 +1188,7 @@ export class SafeDsPythonGenerator {
             (parameter) => this.nodeMapper.callToParameterValue(expression, parameter)!,
         );
         // For a static function, the thisParam would be the class containing the function. We do not need to generate it in this case
-        const generateThisParam = !isTslFunction(callable) || (!callable.isStatic && thisParam);
+        const generateThisParam = !isTslFunction(callable) || thisParam;
         const containsOptionalArgs = sortedArgs.some((arg) =>
             Parameter.isOptional(this.nodeMapper.argumentToParameter(arg)),
         );
@@ -1612,11 +1385,10 @@ interface ImportData {
 }
 
 class GenerationInfoFrame {
-    private readonly blockLambdaManager: IdManager<TslBlockLambda>;
     private readonly importSet: Map<String, ImportData>;
     private readonly utilitySet: Set<UtilityFunction>;
     private readonly typeVariableSet: Set<string>;
-    public readonly isInsidePipeline: boolean;
+    public readonly isInsideFunction: boolean;
     public readonly targetPlaceholder: string | undefined;
     public readonly disableRunnerIntegration: boolean;
 
@@ -1624,15 +1396,14 @@ class GenerationInfoFrame {
         importSet: Map<String, ImportData> = new Map<String, ImportData>(),
         utilitySet: Set<UtilityFunction> = new Set<UtilityFunction>(),
         typeVariableSet: Set<string> = new Set<string>(),
-        insidePipeline: boolean = false,
+        insideFunction: boolean = false,
         targetPlaceholder: string | undefined = undefined,
         disableRunnerIntegration: boolean = false,
     ) {
-        this.blockLambdaManager = new IdManager<TslBlockLambda>();
         this.importSet = importSet;
         this.utilitySet = utilitySet;
         this.typeVariableSet = typeVariableSet;
-        this.isInsidePipeline = insidePipeline;
+        this.isInsideFunction = insideFunction;
         this.targetPlaceholder = targetPlaceholder;
         this.disableRunnerIntegration = disableRunnerIntegration;
     }
@@ -1662,10 +1433,6 @@ class GenerationInfoFrame {
         for (const typeVariable of typeVariables) {
             this.typeVariableSet.add(typeVariable);
         }
-    }
-
-    getUniqueLambdaBlockName(lambda: TslBlockLambda): string {
-        return `${BLOCK_LAMBDA_PREFIX}${this.blockLambdaManager.assignId(lambda)}`;
     }
 }
 
