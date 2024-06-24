@@ -21,9 +21,6 @@ export const pythonCallMustOnlyContainValidTemplateExpressions = (services: Safe
 
         // Compute valid template expressions
         const validTemplateExpressions = new Set(getParameters(node).map((it) => `\$${it.name}`));
-        if (AstUtils.hasContainerOfType(node, isTslClass)) {
-            validTemplateExpressions.add('$this');
-        }
 
         // Compute invalid template expressions
         const invalidTemplateExpressions = actualTemplateExpressions.filter((it) => !validTemplateExpressions.has(it));

@@ -11,32 +11,22 @@ import {
 } from 'langium';
 import {
     isTslAbstractCall,
-    isTslAnnotationCall,
     isTslArgument,
     isTslAssignment,
     isTslBlock,
     isTslCall,
     isTslCallable,
-    isTslClass,
-    isTslEnum,
     isTslImportedDeclaration,
-    isTslLambda,
     isTslMemberAccess,
     isTslMemberType,
     isTslModule,
-    isTslNamedType,
     isTslNamedTypeDeclaration,
     isTslParameter,
     isTslPlaceholder,
     isTslQualifiedImport,
     isTslReference,
-    isTslSegment,
     isTslStatement,
-    isTslTypeArgument,
-    isTslTypeParameter,
     isTslWildcardImport,
-    isTslYield,
-    TslAnnotation,
     TslArgument,
     type TslCallable,
     TslDeclaration,
@@ -44,15 +34,12 @@ import {
     TslImportedDeclaration,
     TslMemberAccess,
     TslMemberType,
-    TslNamedType,
     TslNamedTypeDeclaration,
     type TslParameter,
     TslPlaceholder,
     TslReference,
     TslStatement,
     TslType,
-    TslTypeArgument,
-    TslYield,
 } from '../generated/ast.js';
 import { isContainedInOrEqual } from '../helpers/astUtils.js';
 import {
@@ -101,35 +88,19 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
     override getScope(context: ReferenceInfo): Scope {
         const node = context.container;
 
-        if (isTslAnnotationCall(node) && context.property === 'annotation') {
-            return this.getScopeForAnnotationCallAnnotation(context);
-        } else if (isTslArgument(node) && context.property === 'parameter') {
+        if (isTslArgument(node) && context.property === 'parameter') {
             return this.getScopeForArgumentParameter(node);
         } else if (isTslImportedDeclaration(node) && context.property === 'declaration') {
             return this.getScopeForImportedDeclarationDeclaration(node);
-        } else if (isTslNamedType(node) && context.property === 'declaration') {
-            if (isTslMemberType(node.$container) && node.$containerProperty === 'member') {
-                return this.getScopeForMemberTypeMember(node.$container);
-            } else {
-                return this.getScopeForNamedTypeDeclaration(node, context);
-            }
         } else if (isTslReference(node) && context.property === 'target') {
             if (isTslMemberAccess(node.$container) && node.$containerProperty === 'member') {
                 return this.getScopeForMemberAccessMember(node.$container);
             } else {
                 return this.getScopeForReferenceTarget(node, context);
             }
-        } else if (isTslTypeArgument(node) && context.property === 'typeParameter') {
-            return this.getScopeForTypeArgumentTypeParameter(node);
-        } else if (isTslYield(node) && context.property === 'result') {
-            return this.getScopeForYieldResult(node);
         } else {
             return super.getScope(context);
         }
-    }
-
-    private getScopeForAnnotationCallAnnotation(context: ReferenceInfo) {
-        return this.coreDeclarations(TslAnnotation, super.getScope(context));
     }
 
     private getScopeForArgumentParameter(node: TslArgument): Scope {
@@ -159,67 +130,7 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
         return this.createScope(declarationsInPackage);
     }
 
-    private getScopeForMemberTypeMember(node: TslMemberType): Scope {
-        const declaration = this.getUniqueReferencedDeclarationForType(node.receiver);
-        if (!declaration) {
-            return EMPTY_SCOPE;
-        }
-
-        if (isTslClass(declaration)) {
-            const members = declaration.body?.members ?? [];
-            return this.createScopeForNodes(members.filter(isTslNamedTypeDeclaration));
-        } else if (isTslEnum(declaration)) {
-            const variants = declaration.body?.variants ?? [];
-            return this.createScopeForNodes(variants);
-        } else {
-            return EMPTY_SCOPE;
-        }
-    }
-
-    /**
-     * Returns the unique declaration that is referenced by this type. If the type references none or multiple
-     * declarations, undefined is returned.
-     *
-     * @param node The type to get the referenced declaration for.
-     * @returns The referenced declaration or undefined.
-     */
-    private getUniqueReferencedDeclarationForType(node: TslType): TslNamedTypeDeclaration | undefined {
-        if (isTslNamedType(node)) {
-            return node.declaration?.ref;
-        } else if (isTslMemberType(node)) {
-            return node.member?.declaration?.ref;
-        } else {
-            return undefined;
-        }
-    }
-
-    private getScopeForNamedTypeDeclaration(node: TslNamedType, context: ReferenceInfo): Scope {
-        // Default scope
-        let currentScope = this.coreDeclarations(TslNamedTypeDeclaration, super.getScope(context));
-
-        // Type parameters (up to the containing type parameter)
-        const containingTypeParameter = AstUtils.getContainerOfType(node, isTslTypeParameter);
-        if (containingTypeParameter) {
-            const allTypeParameters = getTypeParameters(containingTypeParameter?.$container);
-            const priorTypeParameters = allTypeParameters.slice(0, containingTypeParameter.$containerIndex);
-            currentScope = this.createScopeForNodes(priorTypeParameters, currentScope);
-        }
-
-        return currentScope;
-    }
-
     private getScopeForMemberAccessMember(node: TslMemberAccess): Scope {
-        // Static access
-        const declaration = this.getUniqueReferencedDeclarationForExpression(node.receiver);
-        if (isTslClass(declaration)) {
-            const ownStaticMembers = getClassMembers(declaration).filter(isStatic);
-            const superclassStaticMembers = this.classHierarchy.streamSuperclassMembers(declaration).filter(isStatic);
-
-            return this.createScopeForNodes(ownStaticMembers, this.createScopeForNodes(superclassStaticMembers));
-        } else if (isTslEnum(declaration)) {
-            return this.createScopeForNodes(getEnumVariants(declaration));
-        }
-
         // Call results
         let resultScope = EMPTY_SCOPE;
         if (isTslCall(node.receiver)) {
@@ -261,23 +172,6 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
         return resultScope;
     }
 
-    /**
-     * Returns the unique declaration that is referenced by this expression. If the expression references none or
-     * multiple declarations, undefined is returned.
-     *
-     * @param node The expression to get the referenced declaration for.
-     * @returns The referenced declaration or undefined.
-     */
-    private getUniqueReferencedDeclarationForExpression(node: TslExpression): TslDeclaration | undefined {
-        if (isTslReference(node)) {
-            return node.target.ref;
-        } else if (isTslMemberAccess(node)) {
-            return node.member?.target?.ref;
-        } else {
-            return undefined;
-        }
-    }
-
     private getScopeForReferenceTarget(node: TslReference, context: ReferenceInfo): Scope {
         // Declarations in other files
         let currentScope = this.getGlobalScope(TslDeclaration, context);
@@ -300,12 +194,6 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
 
         // Cannot reference the target of an annotation call from inside the annotation call
         let start: AstNode | undefined;
-        const containingAnnotationCall = AstUtils.getContainerOfType(node, isTslAnnotationCall);
-        if (containingAnnotationCall) {
-            start = getAnnotationCallTarget(containingAnnotationCall)?.$container;
-        } else {
-            start = node.$container;
-        }
 
         // Only containing classes, enums, and enum variants can be referenced
         let current = AstUtils.getContainerOfType(start, isTslNamedTypeDeclaration);
@@ -360,12 +248,7 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
         // Local declarations
         const localDeclarations = [...parameters, ...placeholders];
 
-        // Lambdas can be nested
-        if (isTslLambda(containingCallable)) {
-            return this.createScopeForNodes(localDeclarations, this.localDeclarations(containingCallable, outerScope));
-        } else {
-            return this.createScopeForNodes(localDeclarations, outerScope);
-        }
+        return this.createScopeForNodes(localDeclarations, outerScope);
     }
 
     private *parametersUpToParameter(
@@ -398,31 +281,6 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
                 yield* getAssignees(current).filter(isTslPlaceholder);
             }
         }
-    }
-
-    private getScopeForTypeArgumentTypeParameter(node: TslTypeArgument): Scope {
-        const containingNamedType = AstUtils.getContainerOfType(node, isTslNamedType);
-        if (!containingNamedType) {
-            /* c8 ignore next 2 */
-            return EMPTY_SCOPE;
-        }
-
-        const namedTypeDeclaration = containingNamedType.declaration?.ref;
-        if (isTslClass(namedTypeDeclaration)) {
-            const typeParameters = getTypeParameters(namedTypeDeclaration.typeParameterList);
-            return this.createScopeForNodes(typeParameters);
-        } else {
-            return EMPTY_SCOPE;
-        }
-    }
-
-    private getScopeForYieldResult(node: TslYield): Scope {
-        const containingSegment = AstUtils.getContainerOfType(node, isTslSegment);
-        if (!containingSegment) {
-            return EMPTY_SCOPE;
-        }
-
-        return this.createScopeForNodes(getResults(containingSegment.resultList));
     }
 
     protected override getGlobalScope(referenceType: string, context: ReferenceInfo): Scope {
