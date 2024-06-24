@@ -1,7 +1,7 @@
 import { AstUtils, ValidationAcceptor } from 'langium';
 import { duplicatesBy, isEmpty } from '../../../helpers/collections.js';
 import { pluralize } from '../../../helpers/strings.js';
-import { isTslAnnotation, isTslCall, TslAbstractCall, TslArgumentList } from '../../generated/ast.js';
+import { isTslCall, TslAbstractCall, TslArgumentList } from '../../generated/ast.js';
 import { getArguments, getParameters, Parameter } from '../../helpers/nodeProperties.js';
 import { SafeDsServices } from '../../safe-ds-module.js';
 
@@ -38,11 +38,7 @@ export const argumentListMustNotHaveTooManyArguments = (services: SafeDsServices
             return;
         }
 
-        // We already report other errors in those cases
         const callable = nodeMapper.callToCallable(node);
-        if (!callable || (isTslCall(node) && isTslAnnotation(callable))) {
-            return;
-        }
 
         const parameters = getParameters(callable);
         const maxArgumentCount = parameters.length;
@@ -82,9 +78,6 @@ export const argumentListMustNotSetParameterMultipleTimes = (services: SafeDsSer
         // We already report other errors in this case
         const containingCall = AstUtils.getContainerOfType(node, isTslCall);
         const callable = nodeMapper.callToCallable(containingCall);
-        if (isTslAnnotation(callable)) {
-            return;
-        }
 
         const args = getArguments(node);
         const duplicates = duplicatesBy(args, argumentToParameterOrUndefined);
@@ -108,11 +101,7 @@ export const argumentListMustSetAllRequiredParameters = (services: SafeDsService
             return;
         }
 
-        // We already report other errors in those cases
         const callable = nodeMapper.callToCallable(node);
-        if (!callable || (isTslCall(node) && isTslAnnotation(callable))) {
-            return;
-        }
 
         const expectedParameters = getParameters(callable).filter(Parameter.isRequired);
         if (isEmpty(expectedParameters)) {

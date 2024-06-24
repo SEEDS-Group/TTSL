@@ -49,18 +49,13 @@ import {
 import { placeholderShouldBeUsed, placeholdersMustNotBeAnAlias } from './other/declarations/placeholders.js';
 import { callArgumentMustBeConstantIfParameterIsConstant, callMustNotBeRecursive } from './other/expressions/calls.js';
 import { divisionDivisorMustNotBeZero } from './other/expressions/infixOperations.js';
-import { memberAccessOfEnumVariantMustNotLackInstantiation } from './other/expressions/memberAccesses.js';
 import {
     referenceMustNotBeFunctionPointer,
-    referenceMustNotBeStaticClassOrEnumReference,
-    referenceTargetMustNotBeAnnotationPipelineOrSchema,
 } from './other/expressions/references.js';
 import { templateStringMustHaveExpressionBetweenTwoStringParts } from './other/expressions/templateStrings.js';
 import { importPackageMustExist, importPackageShouldNotBeEmpty } from './other/imports.js';
 import {
-    moduleDeclarationsMustMatchFileKind,
     moduleWithDeclarationsMustStatePackage,
-    pipelineFileMustNotBeInBuiltinPackage,
 } from './other/modules.js';
 import {
     assignmentAssigneeMustGetValue,
@@ -79,7 +74,6 @@ import {
     pureParameterDefaultValueMustBePure,
 } from './purity.js';
 import {
-    assignmentShouldHaveMoreThanWildcardsAsAssignees,
     callArgumentListShouldBeNeeded,
     chainedExpressionNullSafetyShouldBeNeeded,
     elvisOperatorShouldBeNeeded,
@@ -107,7 +101,7 @@ import {
     callArgumentMustRespectParameterBounds,
     parameterDefaultValueMustRespectParameterBounds,
 } from './other/declarations/parameterBounds.js';
-import { groupedFunctionHasAggregation, groupedFunctionHasValidID } from './aggregation.js';
+import { groupByVariableMustBeAnID, groupedFunctionHasAggregation, groupedFunctionHasValidID } from './aggregation.js';
 
 /**
  * Register custom validation checks.
@@ -122,7 +116,6 @@ export const registerValidationChecks = function (services: SafeDsServices) {
         TslAssignment: [
             assignmentAssigneeMustGetValue(services),
             assignmentShouldNotImplicitlyIgnoreResult(services),
-            assignmentShouldHaveMoreThanWildcardsAsAssignees(services),
         ],
         TslAbstractCall: [
             argumentListMustNotHaveTooManyArguments(services),
@@ -135,6 +128,9 @@ export const registerValidationChecks = function (services: SafeDsServices) {
         TslArgumentList: [
             argumentListMustNotHavePositionalArgumentsAfterNamedArguments,
             argumentListMustNotSetParameterMultipleTimes(services),
+        ],
+        TslAggregation: [
+            groupByVariableMustBeAnID(),
         ],
         TslCall: [
             callArgumentListShouldBeNeeded(services),
@@ -188,13 +184,10 @@ export const registerValidationChecks = function (services: SafeDsServices) {
         ],
         TslList: [listMustNotContainNamedTuples(services)],
         TslDictionary: [mapMustNotContainNamedTuples(services), mapsShouldBeUsedWithCaution(services)],
-        TslMemberAccess: [memberAccessOfEnumVariantMustNotLackInstantiation],
         TslModule: [
-            moduleDeclarationsMustMatchFileKind,
             moduleMemberMustHaveNameThatIsUniqueInPackage(services),
             moduleMustContainUniqueNames,
             moduleWithDeclarationsMustStatePackage,
-            pipelineFileMustNotBeInBuiltinPackage,
             pythonModuleShouldDifferFromSafeDsPackage(services),
         ],
         TslParameter: [
@@ -212,8 +205,6 @@ export const registerValidationChecks = function (services: SafeDsServices) {
         TslPrefixOperation: [prefixOperationOperandMustHaveCorrectType(services)],
         TslReference: [
             referenceMustNotBeFunctionPointer,
-            referenceMustNotBeStaticClassOrEnumReference,
-            referenceTargetMustNotBeAnnotationPipelineOrSchema,
             referenceTargetShouldNotBeDeprecated(services),
             referenceTargetShouldNotExperimental(services),
         ],

@@ -3,10 +3,7 @@ import { isEmpty } from '../../../../helpers/collections.js';
 import {
     isTslCallable,
     isTslCallableType,
-    isTslLambda,
-    TslAnnotationCall,
     TslCallableType,
-    TslLambda,
     TslParameter,
 } from '../../../generated/ast.js';
 import {
@@ -16,47 +13,9 @@ import {
     getResults,
     Parameter,
 } from '../../../helpers/nodeProperties.js';
-import type { SafeDsServices } from '../../../safe-ds-module.js';
 
-export const CODE_ANNOTATION_CALL_CONSTANT_ARGUMENT = 'annotation-call/constant-argument';
-export const CODE_ANNOTATION_CALL_MISSING_ARGUMENT_LIST = 'annotation-call/missing-argument-list';
 export const CODE_ANNOTATION_CALL_TARGET_PARAMETER = 'annotation-call/target-parameter';
 export const CODE_ANNOTATION_CALL_TARGET_RESULT = 'annotation-call/target-result';
-
-export const annotationCallArgumentsMustBeConstant = (services: SafeDsServices) => {
-    const partialEvaluator = services.evaluation.PartialEvaluator;
-
-    return (node: TslAnnotationCall, accept: ValidationAcceptor) => {
-        for (const argument of getArguments(node)) {
-            if (!partialEvaluator.canBeValueOfConstantParameter(argument.value)) {
-                accept('error', 'Values assigned to annotation parameters must be constant.', {
-                    node: argument,
-                    property: 'value',
-                    code: CODE_ANNOTATION_CALL_CONSTANT_ARGUMENT,
-                });
-            }
-        }
-    };
-};
-
-export const annotationCallMustNotLackArgumentList = (node: TslAnnotationCall, accept: ValidationAcceptor) => {
-    if (node.argumentList) {
-        return;
-    }
-
-    const requiredParameters = getParameters(node.annotation?.ref).filter(Parameter.isRequired);
-    if (!isEmpty(requiredParameters)) {
-        accept(
-            'error',
-            `The annotation '${node.annotation?.$refText}' has required parameters, so an argument list must be added.`,
-            {
-                node,
-                property: 'annotation',
-                code: CODE_ANNOTATION_CALL_MISSING_ARGUMENT_LIST,
-            },
-        );
-    }
-};
 
 export const callableTypeParametersMustNotBeAnnotated = (node: TslCallableType, accept: ValidationAcceptor) => {
     for (const parameter of getParameters(node)) {
@@ -80,18 +39,7 @@ export const callableTypeResultsMustNotBeAnnotated = (node: TslCallableType, acc
     }
 };
 
-export const lambdaParametersMustNotBeAnnotated = (node: TslLambda, accept: ValidationAcceptor) => {
-    for (const parameter of getParameters(node)) {
-        for (const annotationCall of getAnnotationCalls(parameter)) {
-            accept('error', 'Lambda parameters must not be annotated.', {
-                node: annotationCall,
-                code: CODE_ANNOTATION_CALL_TARGET_PARAMETER,
-            });
-        }
-    }
-};
-
 export const parameterCanBeAnnotated = (node: TslParameter) => {
     const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
-    return !isTslCallableType(containingCallable) && !isTslLambda(containingCallable);
+    return !isTslCallableType(containingCallable);
 };

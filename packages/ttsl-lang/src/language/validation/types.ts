@@ -1,36 +1,24 @@
-import { AstNode, AstUtils, ValidationAcceptor } from 'langium';
-import { isEmpty } from '../../helpers/collections.js';
-import { pluralize } from '../../helpers/strings.js';
+import { AstNode, ValidationAcceptor } from 'langium';
 import {
-    isTslAnnotation,
-    isTslCallable,
-    isTslClass,
-    isTslLambda,
     isTslMemberAccess,
-    isTslPipeline,
     isTslReference,
-    isTslSchema,
-    TslAttribute,
     TslCall,
     TslIndexedAccess,
     TslInfixOperation,
     TslList,
     TslDictionary,
-    TslNamedType,
     TslParameter,
     TslPrefixOperation,
     TslResult,
     TslTypeCast,
-    TslTypeParameter,
-    TslYield,
+    isTslFunction,
 } from '../generated/ast.js';
-import { getArguments, getTypeArguments, getTypeParameters, TypeParameter } from '../helpers/nodeProperties.js';
+import { getArguments } from '../helpers/nodeProperties.js';
 import { SafeDsServices } from '../safe-ds-module.js';
 import { ClassType, NamedTupleType, TypeParameterType, UnknownType } from '../typing/model.js';
 
 export const CODE_TYPE_CALLABLE_RECEIVER = 'type/callable-receiver';
 export const CODE_TYPE_MISMATCH = 'type/mismatch';
-export const CODE_TYPE_MISSING_TYPE_ARGUMENTS = 'type/missing-type-arguments';
 export const CODE_TYPE_MISSING_TYPE_HINT = 'type/missing-type-hint';
 
 // -----------------------------------------------------------------------------
@@ -78,19 +66,14 @@ export const callReceiverMustBeCallable = (services: SafeDsServices) => {
             const target = receiver.target.ref;
 
             // We already report other errors at this position in those cases
-            if (!target || isTslAnnotation(target) || isTslPipeline(target) || isTslSchema(target)) {
+            if (!target || isTslFunction(target)) {
                 return;
             }
         }
 
         const callable = nodeMapper.callToCallable(node);
-        if (node.receiver && (!callable || isTslAnnotation(callable))) {
+        if (node.receiver && !callable) {
             accept('error', 'This expression is not callable.', {
-                node: node.receiver,
-                code: CODE_TYPE_CALLABLE_RECEIVER,
-            });
-        } else if (node.receiver && isTslClass(callable) && !callable.parameterList) {
-            accept('error', 'Cannot instantiate a class that has no constructor.', {
                 node: node.receiver,
                 code: CODE_TYPE_CALLABLE_RECEIVER,
             });
@@ -255,44 +238,6 @@ export const mapMustNotContainNamedTuples = (services: SafeDsServices) => {
     };
 };
 
-export const namedTypeTypeArgumentsMustMatchBounds = (services: SafeDsServices) => {
-    const nodeMapper = services.helpers.NodeMapper;
-    const typeChecker = services.types.TypeChecker;
-    const typeComputer = services.types.TypeComputer;
-
-    return (node: TslNamedType, accept: ValidationAcceptor): void => {
-        const type = typeComputer.computeType(node);
-        if (!(type instanceof ClassType) || isEmpty(type.substitutions)) {
-            return;
-        }
-
-        for (const typeArgument of getTypeArguments(node)) {
-            const typeParameter = nodeMapper.typeArgumentToTypeParameter(typeArgument);
-            if (!typeParameter) {
-                continue;
-            }
-
-            const typeArgumentType = type.substitutions.get(typeParameter);
-            if (!typeArgumentType) {
-                /* c8 ignore next 2 */
-                continue;
-            }
-
-            const upperBound = typeComputer
-                .computeUpperBound(typeParameter, { stopAtTypeParameterType: true })
-                .substituteTypeParameters(type.substitutions);
-
-            if (!typeChecker.isSubtypeOf(typeArgumentType, upperBound)) {
-                accept('error', `Expected type '${upperBound}' but got '${typeArgumentType}'.`, {
-                    node: typeArgument,
-                    property: 'value',
-                    code: CODE_TYPE_MISMATCH,
-                });
-            }
-        }
-    };
-};
-
 export const parameterDefaultValueTypeMustMatchParameterType = (services: SafeDsServices) => {
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
@@ -368,116 +313,18 @@ export const typeCastExpressionMustHaveUnknownType = (services: SafeDsServices) 
     };
 };
 
-export const typeParameterDefaultValueMustMatchUpperBound = (services: SafeDsServices) => {
-    const typeChecker = services.types.TypeChecker;
-    const typeComputer = services.types.TypeComputer;
-
-    return (node: TslTypeParameter, accept: ValidationAcceptor): void => {
-        if (!node.defaultValue || !node.upperBound) {
-            return;
-        }
-
-        const defaultValueType = typeComputer.computeType(node.defaultValue);
-        const upperBoundType = typeComputer.computeUpperBound(node, { stopAtTypeParameterType: true });
-
-        if (!typeChecker.isSubtypeOf(defaultValueType, upperBoundType)) {
-            accept('error', `Expected type '${upperBoundType}' but got '${defaultValueType}'.`, {
-                node,
-                property: 'defaultValue',
-                code: CODE_TYPE_MISMATCH,
-            });
-        }
-    };
-};
-
-export const yieldTypeMustMatchResultType = (services: SafeDsServices) => {
-    const typeChecker = services.types.TypeChecker;
-    const typeComputer = services.types.TypeComputer;
-
-    return (node: TslYield, accept: ValidationAcceptor) => {
-        const result = node.result?.ref;
-        if (!result) {
-            return;
-        }
-
-        const yieldType = typeComputer.computeType(node);
-        const resultType = typeComputer.computeType(result);
-
-        if (!typeChecker.isSubtypeOf(yieldType, resultType)) {
-            accept('error', `Expected type '${resultType}' but got '${yieldType}'.`, {
-                node,
-                property: 'result',
-                code: CODE_TYPE_MISMATCH,
-            });
-        }
-    };
-};
-
-// -----------------------------------------------------------------------------
-// Missing type arguments
-// -----------------------------------------------------------------------------
-
-export const namedTypeMustSetAllTypeParameters =
-    (services: SafeDsServices) =>
-    (node: TslNamedType, accept: ValidationAcceptor): void => {
-        const expectedTypeParameters = getTypeParameters(node.declaration?.ref).filter(TypeParameter.isRequired);
-        if (isEmpty(expectedTypeParameters)) {
-            return;
-        }
-
-        if (node.typeArgumentList) {
-            const actualTypeParameters = getTypeArguments(node.typeArgumentList).map((it) =>
-                services.helpers.NodeMapper.typeArgumentToTypeParameter(it),
-            );
-
-            const missingTypeParameters = expectedTypeParameters.filter((it) => !actualTypeParameters.includes(it));
-            if (!isEmpty(missingTypeParameters)) {
-                const kind = pluralize(missingTypeParameters.length, 'type parameter');
-                const missingTypeParametersString = missingTypeParameters.map((it) => `'${it.name}'`).join(', ');
-
-                accept('error', `The ${kind} ${missingTypeParametersString} must be set here.`, {
-                    node,
-                    property: 'typeArgumentList',
-                    code: CODE_TYPE_MISSING_TYPE_ARGUMENTS,
-                });
-            }
-        } else {
-            accept(
-                'error',
-                `The type '${node.declaration?.$refText}' has required type parameters, so a type argument list must be added.`,
-                {
-                    node,
-                    code: CODE_TYPE_MISSING_TYPE_ARGUMENTS,
-                },
-            );
-        }
-    };
-
 // -----------------------------------------------------------------------------
 // Missing type hints
 // -----------------------------------------------------------------------------
 
-export const attributeMustHaveTypeHint = (node: TslAttribute, accept: ValidationAcceptor): void => {
+export const parameterMustHaveTypeHint = (node: TslParameter, accept: ValidationAcceptor): void => {
     if (!node.type) {
-        accept('error', 'An attribute must have a type hint.', {
+        accept('error', 'A parameter must have a type hint.', {
             node,
             property: 'name',
             code: CODE_TYPE_MISSING_TYPE_HINT,
         });
-    }
-};
-
-export const parameterMustHaveTypeHint = (node: TslParameter, accept: ValidationAcceptor): void => {
-    if (!node.type) {
-        const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
-
-        if (!isTslLambda(containingCallable)) {
-            accept('error', 'A parameter must have a type hint.', {
-                node,
-                property: 'name',
-                code: CODE_TYPE_MISSING_TYPE_HINT,
-            });
-        }
+        
     }
 };
 
