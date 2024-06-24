@@ -1,7 +1,7 @@
 import { isTslCall, TslAssignment} from '../../../generated/ast.js';
 import { ValidationAcceptor } from 'langium';
 import { SafeDsServices } from '../../../safe-ds-module.js';
-import { getAbstractResults, getAssignees } from '../../../helpers/nodeProperties.js';
+import { getResults, getAssignees } from '../../../helpers/nodeProperties.js';
 import { pluralize } from '../../../../helpers/strings.js';
 
 export const CODE_ASSIGNMENT_IMPLICITLY_IGNORED_RESULT = 'assignment/implicitly-ignored-result';
@@ -31,7 +31,7 @@ export const assignmentShouldNotImplicitlyIgnoreResult = (services: SafeDsServic
 
         const assignees = getAssignees(node);
         const callable = nodeMapper.callToCallable(expression);
-        const results = getAbstractResults(callable);
+        const results = getResults(callable);
 
         if (results.length > assignees.length) {
             const kind = pluralize(results.length - assignees.length, 'result');

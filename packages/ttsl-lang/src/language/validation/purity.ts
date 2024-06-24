@@ -1,7 +1,7 @@
 import { stream, type ValidationAcceptor } from 'langium';
 import { isSubset } from '../../helpers/collections.js';
 import { isTslCall, isTslFunction, isTslList, TslCall, type TslFunction, TslParameter } from '../generated/ast.js';
-import { findFirstAnnotationCallOf, getArguments, getParameters } from '../helpers/nodeProperties.js';
+import { getArguments, getParameters } from '../helpers/nodeProperties.js';
 import { StringConstant } from '../partialEvaluation/model.js';
 import type { SafeDsServices } from '../safe-ds-module.js';
 import { CallableType } from '../typing/model.js';
@@ -63,7 +63,7 @@ export const impurityReasonParameterNameMustBelongToParameterOfCorrectType = (se
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslFunction, accept: ValidationAcceptor) => {
-        const annotationCall = findFirstAnnotationCallOf(node, builtinAnnotations.Impure);
+        const annotationCall = builtinAnnotations.Impure;
 
         // Don't further validate if the function is marked as impure and as pure
         if (!annotationCall || builtinAnnotations.callsPure(node)) {
@@ -150,7 +150,7 @@ export const impurityReasonShouldNotBeSetMultipleTimes = (services: SafeDsServic
     const partialEvaluator = services.evaluation.PartialEvaluator;
 
     return (node: TslFunction, accept: ValidationAcceptor) => {
-        const annotationCall = findFirstAnnotationCallOf(node, builtinAnnotations.Impure);
+        const annotationCall = builtinAnnotations.Impure;
 
         // Don't further validate if the function is marked as impure and as pure
         if (!annotationCall || builtinAnnotations.callsPure(node)) {

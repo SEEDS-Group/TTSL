@@ -10,7 +10,6 @@ import {
 } from '../../generated/ast.js';
 import { Parameter } from '../../helpers/nodeProperties.js';
 import { SafeDsServices } from '../../safe-ds-module.js';
-import { parameterCanBeAnnotated } from '../other/declarations/annotationCalls.js';
 
 export const CODE_DEPRECATED_LIBRARY_ELEMENT = 'deprecated/library-element';
 export const CODE_DEPRECATED_REQUIRED_PARAMETER = 'deprecated/required-parameter';
@@ -65,7 +64,7 @@ export const referenceTargetShouldNotBeDeprecated =
 
 export const requiredParameterMustNotBeDeprecated =
     (services: SafeDsServices) => (node: TslParameter, accept: ValidationAcceptor) => {
-        if (Parameter.isRequired(node) && parameterCanBeAnnotated(node)) {
+        if (Parameter.isRequired(node)) {
             if (services.builtins.Annotations.callsDeprecated(node)) {
                 accept('error', 'A deprecated parameter must be optional.', {
                     node,

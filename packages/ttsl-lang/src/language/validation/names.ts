@@ -146,7 +146,7 @@ const acceptCasingWarning = (
 
 export const callableTypeMustContainUniqueNames = (node: TslCallableType, accept: ValidationAcceptor): void => {
     namesMustBeUnique(getParameters(node), (name) => `A parameter with name '${name}' exists already.`, accept);
-    namesMustBeUnique(getResults(node.resultList), (name) => `A result with name '${name}' exists already.`, accept);
+    namesMustBeUnique(getResults(node), (name) => `A result with name '${name}' exists already.`, accept);
 };
 
 export const moduleMemberMustHaveNameThatIsUniqueInPackage = (services: SafeDsServices) => {

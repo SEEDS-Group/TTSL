@@ -19,7 +19,6 @@ import {
     pythonNameMustNotBeSetIfPythonCallIsSet,
     pythonNameShouldDifferFromSafeDsName,
 } from './builtins/pythonName.js';
-import { singleUseAnnotationsMustNotBeRepeated } from './builtins/repeatable.js';
 import {    
     mapsShouldBeUsedWithCaution,
 } from './experimentalLanguageFeatures.js';
@@ -37,10 +36,6 @@ import {
     argumentListMustNotSetParameterMultipleTimes,
     argumentListMustSetAllRequiredParameters,
 } from './other/argumentLists.js';
-import {
-    callableTypeParametersMustNotBeAnnotated,
-    callableTypeResultsMustNotBeAnnotated,
-} from './other/declarations/annotationCalls.js';
 import { parameterListMustNotHaveRequiredParametersAfterOptionalParameters } from './other/declarations/parameterLists.js';
 import {
     constantParameterMustHaveConstantDefaultValue,
@@ -97,10 +92,6 @@ import {
 import { statementMustDoSomething } from './other/statements/statements.js';
 import { indexedAccessIndexMustBeValid } from './other/expressions/indexedAccess.js';
 import { chainedExpressionsMustBeNullSafeIfReceiverIsNullable } from './other/expressions/chainedExpressions.js';
-import {
-    callArgumentMustRespectParameterBounds,
-    parameterDefaultValueMustRespectParameterBounds,
-} from './other/declarations/parameterBounds.js';
 import { groupByVariableMustBeAnID, groupedFunctionHasAggregation, groupedFunctionHasValidID } from './aggregation.js';
 
 /**
@@ -136,7 +127,6 @@ export const registerValidationChecks = function (services: SafeDsServices) {
             callArgumentListShouldBeNeeded(services),
             callArgumentAssignedToPureParameterMustBePure(services),
             callArgumentMustBeConstantIfParameterIsConstant(services),
-            callArgumentMustRespectParameterBounds(services),
             callArgumentTypesMustMatchParameterTypes(services),
             callMustNotBeRecursive(services),
             callReceiverMustBeCallable(services),
@@ -145,9 +135,7 @@ export const registerValidationChecks = function (services: SafeDsServices) {
             callableTypeMustBeUsedInCorrectContext,
             callableTypeMustContainUniqueNames,
             callableTypeMustNotHaveOptionalParameters,
-            callableTypeParametersMustNotBeAnnotated,
             callableTypeParameterMustNotHaveConstModifier,
-            callableTypeResultsMustNotBeAnnotated,
         ],
         TslChainedExpression: [
             chainedExpressionsMustBeNullSafeIfReceiverIsNullable(services),
@@ -158,7 +146,6 @@ export const registerValidationChecks = function (services: SafeDsServices) {
             nameMustNotStartWithCodegenPrefix,
             nameShouldHaveCorrectCasing(services),
             pythonNameShouldDifferFromSafeDsName(services),
-            singleUseAnnotationsMustNotBeRepeated(services),
         ],
         TslFunction: [
             functionResultListShouldNotBeEmpty(services),
@@ -194,7 +181,6 @@ export const registerValidationChecks = function (services: SafeDsServices) {
             constantParameterMustHaveConstantDefaultValue(services),
             constantParameterMustHaveTypeThatCanBeEvaluatedToConstant(services),
             parameterMustHaveTypeHint,
-            parameterDefaultValueMustRespectParameterBounds(services),
             parameterDefaultValueTypeMustMatchParameterType(services),
             pureParameterDefaultValueMustBePure(services),
             requiredParameterMustNotBeDeprecated(services),
