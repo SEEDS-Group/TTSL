@@ -25,7 +25,6 @@ import { SafeDsNodeInfoProvider } from './lsp/safe-ds-node-info-provider.js';
 import { SafeDsNodeKindProvider } from './lsp/safe-ds-node-kind-provider.js';
 import { SafeDsSemanticTokenProvider } from './lsp/safe-ds-semantic-token-provider.js';
 import { SafeDsSignatureHelpProvider } from './lsp/safe-ds-signature-help-provider.js';
-import { SafeDsTypeHierarchyProvider } from './lsp/safe-ds-type-hierarchy-provider.js';
 import { SafeDsPartialEvaluator } from './partialEvaluation/safe-ds-partial-evaluator.js';
 import { SafeDsScopeComputation } from './scoping/safe-ds-scope-computation.js';
 import { SafeDsScopeProvider } from './scoping/safe-ds-scope-provider.js';
@@ -126,7 +125,6 @@ export const SafeDsModule: Module<SafeDsServices, PartialLangiumServices & SafeD
         RenameProvider: (services) => new SafeDsRenameProvider(services),
         SemanticTokenProvider: (services) => new SafeDsSemanticTokenProvider(services),
         SignatureHelp: (services) => new SafeDsSignatureHelpProvider(services),
-        TypeHierarchyProvider: (services) => new SafeDsTypeHierarchyProvider(services),
     },
     parser: {
         ValueConverter: () => new SafeDsValueConverter(),
