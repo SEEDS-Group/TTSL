@@ -46,7 +46,7 @@ export class SafeDsDocumentSymbolProvider extends DefaultDocumentSymbolProvider 
 
     private isLeaf(node: AstNode): boolean {
         return (
-            isTslFunction(node) ||
+            isTslFunction(node)
         );
     }
 }
