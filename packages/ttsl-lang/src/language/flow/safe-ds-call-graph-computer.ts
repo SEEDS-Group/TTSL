@@ -1,25 +1,15 @@
 import { AstNode, type AstNodeLocator, AstUtils, stream, WorkspaceCache } from 'langium';
 import {
-    isTslBlockLambda,
     isTslCall,
     isTslCallable,
-    isTslClass,
-    isTslEnumVariant,
-    isTslExpressionLambda,
     isTslFunction,
     isTslParameter,
-    isTslSegment,
     TslArgument,
-    TslBlockLambda,
     TslCall,
     TslCallable,
-    TslClass,
-    TslEnumVariant,
     TslExpression,
-    TslExpressionLambda,
     TslFunction,
     TslParameter,
-    TslSegment,
 } from '../generated/ast.js';
 import type { SafeDsNodeMapper } from '../helpers/safe-ds-node-mapper.js';
 import type { SafeDsServices } from '../safe-ds-module.js';
@@ -156,9 +146,7 @@ export class SafeDsCallGraphComputer {
         callable: TslCallable | TslParameter,
         substitutions: ParameterSubstitutions,
     ): SyntheticCall[] {
-        if (isTslBlockLambda(callable) || isTslExpressionLambda(callable) || isTslSegment(callable)) {
-            return this.getExecutedCallsInPipelineCallable(callable, substitutions);
-        } else if (isTslClass(callable) || isTslEnumVariant(callable) || isTslFunction(callable)) {
+        if (isTslFunction(callable)) {
             return this.getExecutedCallsInStubCallable(callable, substitutions);
         } else {
             /* c8 ignore next 2 */
@@ -166,35 +154,8 @@ export class SafeDsCallGraphComputer {
         }
     }
 
-    private getExecutedCallsInPipelineCallable(
-        callable: TslBlockLambda | TslExpressionLambda | TslSegment,
-        substitutions: ParameterSubstitutions,
-    ): SyntheticCall[] {
-        const callsInDefaultValues = getParameters(callable).flatMap((it) => {
-            // The default value is only executed if no argument is passed for the parameter
-            if (it.defaultValue && !substitutions.has(it)) {
-                return this.getAllContainedCalls(it.defaultValue);
-            } else {
-                return [];
-            }
-        });
-
-        let callsInBody: TslCall[];
-        if (isTslBlockLambda(callable)) {
-            callsInBody = this.getAllContainedCalls(callable.body);
-        } else if (isTslExpressionLambda(callable)) {
-            callsInBody = this.getAllContainedCalls(callable.result);
-        } else {
-            callsInBody = this.getAllContainedCalls(callable.body);
-        }
-
-        return [...callsInDefaultValues, ...callsInBody]
-            .filter((it) => AstUtils.getContainerOfType(it, isTslCallable) === callable)
-            .map((it) => this.createSyntheticCallForCall(it, substitutions));
-    }
-
     private getExecutedCallsInStubCallable(
-        callable: TslClass | TslEnumVariant | TslFunction,
+        callable: TslFunction,
         substitutions: ParameterSubstitutions,
     ): SyntheticCall[] {
         const callsInDefaultValues = getParameters(callable).flatMap((parameter) => {
