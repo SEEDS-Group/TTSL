@@ -1,4 +1,4 @@
-import { AstNode, AstUtils, LangiumDocument, TreeStreamImpl, URI } from 'langium';
+import {AstUtils, LangiumDocument, TreeStreamImpl, URI } from 'langium';
 import {
     CompositeGeneratorNode,
     expandToNode,
@@ -17,10 +17,8 @@ import { TextDocument } from 'vscode-languageserver-textdocument';
 import { groupBy, isEmpty } from '../../helpers/collections.js';
 import { SafeDsAnnotations } from '../builtins/safe-ds-annotations.js';
 import {
-    isTslAbstractCall,
     isTslAssignment,
     isTslCall,
-    isTslCallable,
     isTslDeclaration,
     isTslExpressionStatement,
     isTslFunction,
@@ -72,9 +70,7 @@ import {
     isTslExpression,
 } from '../generated/ast.js';
 import { isInStubFile, isStubFile } from '../helpers/fileExtensions.js';
-import { IdManager } from '../helpers/idManager.js';
 import {
-    getAbstractResults,
     getArguments,
     getAssignees,
     getImportedDeclarations,
@@ -82,9 +78,9 @@ import {
     getModuleMembers,
     getParameters,
     getPlaceholderByName,
+    getResults,
     getStatements,
     Parameter,
-    streamBlockLambdaResults,
 } from '../helpers/nodeProperties.js';
 import { SafeDsNodeMapper } from '../helpers/safe-ds-node-mapper.js';
 import {
@@ -100,9 +96,6 @@ import { SafeDsPurityComputer } from '../purity/safe-ds-purity-computer.js';
 import { FileRead, ImpurityReason } from '../purity/model.js';
 
 export const CODEGEN_PREFIX = '__gen_';
-const BLOCK_LAMBDA_PREFIX = `${CODEGEN_PREFIX}block_lambda_`;
-const BLOCK_LAMBDA_RESULT_PREFIX = `${CODEGEN_PREFIX}block_lambda_result_`;
-const YIELD_PREFIX = `${CODEGEN_PREFIX}yield_`;
 
 const RUNNER_PACKAGE = 'safeds_runner';
 const PYTHON_INDENT = '    ';
@@ -879,7 +872,7 @@ export class SafeDsPythonGenerator {
         frame: GenerationInfoFrame,
     ): CompositeGeneratorNode {
         const requiredAssignees = isTslCall(assignment.expression)
-            ? getAbstractResults(this.nodeMapper.callToCallable(assignment.expression)).length
+            ? getResults(this.nodeMapper.callToCallable(assignment.expression)).length
             : /* c8 ignore next */
               1;
         const assignees = getAssignees(assignment);
