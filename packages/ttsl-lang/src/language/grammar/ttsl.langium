@@ -12,6 +12,7 @@ interface TslAbstractCall extends TslObject {
 
 interface TslDeclaration extends TslObject {
     name: string
+    visibility?: TslVisibility
 }
 
 interface TslLocalVariable extends TslDeclaration {
@@ -106,9 +107,7 @@ QualifiedName returns string:
 // Declarations
 // -----------------------------------------------------------------------------
 
-interface TslModuleMember extends TslDeclaration {
-    visibility?: TslVisibility
-}
+interface TslModuleMember extends TslDeclaration {}
 
 TslModuleMember returns TslModuleMember:
     {TslFunction}
@@ -674,11 +673,13 @@ TslTemplateStringEnd returns TslExpression:
 interface TslModifier extends TslObject{}
 
 interface TslVisibility extends TslModifier{
-    visibility: string
+    isPublic?: boolean
+    isPackageprivate?: boolean
+    isPrivate?: boolean
 }
 
 TslVisibility returns TslVisibility:
-    visibility=('public' | 'packageprivate' | 'private')
+    isPublic?='public' | isPackageprivate?='packageprivate' | isPrivate?='private'
 ;
 
 interface TslTimeunit extends TslModifier{
