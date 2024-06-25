@@ -18,7 +18,6 @@ import {
     isTslCallable,
     isTslImportedDeclaration,
     isTslMemberAccess,
-    isTslMemberType,
     isTslModule,
     isTslNamedTypeDeclaration,
     isTslParameter,
@@ -30,36 +29,25 @@ import {
     TslArgument,
     type TslCallable,
     TslDeclaration,
-    TslExpression,
     TslImportedDeclaration,
     TslMemberAccess,
-    TslMemberType,
-    TslNamedTypeDeclaration,
     type TslParameter,
     TslPlaceholder,
     TslReference,
     TslStatement,
-    TslType,
 } from '../generated/ast.js';
 import { isContainedInOrEqual } from '../helpers/astUtils.js';
 import {
-    getAbstractResults,
-    getAnnotationCallTarget,
     getAssignees,
-    getClassMembers,
-    getEnumVariants,
     getImportedDeclarations,
     getImports,
     getPackageName,
     getParameters,
     getResults,
     getStatements,
-    getTypeParameters,
-    isStatic,
 } from '../helpers/nodeProperties.js';
 import { SafeDsNodeMapper } from '../helpers/safe-ds-node-mapper.js';
 import { SafeDsServices } from '../safe-ds-module.js';
-import { ClassType, EnumVariantType, LiteralType, TypeParameterType } from '../typing/model.js';
 import type { SafeDsClassHierarchy } from '../typing/safe-ds-class-hierarchy.js';
 import { SafeDsTypeComputer } from '../typing/safe-ds-type-computer.js';
 import { SafeDsPackageManager } from '../workspace/safe-ds-package-manager.js';
@@ -135,7 +123,7 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
         let resultScope = EMPTY_SCOPE;
         if (isTslCall(node.receiver)) {
             const callable = this.nodeMapper.callToCallable(node.receiver);
-            const results = getAbstractResults(callable);
+            const results = getResults(callable);
 
             if (results.length > 1) {
                 return this.createScopeForNodes(results);
@@ -144,29 +132,6 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
                 // take precedence.
                 resultScope = this.createScopeForNodes(results);
             }
-        }
-
-        // Members
-        let receiverType = this.typeComputer.computeType(node.receiver);
-        if (receiverType instanceof LiteralType) {
-            receiverType = this.typeComputer.computeClassTypeForLiteralType(receiverType);
-        } else if (receiverType instanceof TypeParameterType) {
-            receiverType = this.typeComputer.computeUpperBound(receiverType);
-        }
-
-        if (receiverType instanceof ClassType) {
-            const ownInstanceMembers = getClassMembers(receiverType.declaration).filter((it) => !isStatic(it));
-            const superclassInstanceMembers = this.classHierarchy
-                .streamSuperclassMembers(receiverType.declaration)
-                .filter((it) => !isStatic(it));
-
-            return this.createScopeForNodes(
-                ownInstanceMembers,
-                this.createScopeForNodes(superclassInstanceMembers, resultScope),
-            );
-        } else if (receiverType instanceof EnumVariantType) {
-            const parameters = getParameters(receiverType.declaration);
-            return this.createScopeForNodes(parameters, resultScope);
         }
 
         return resultScope;

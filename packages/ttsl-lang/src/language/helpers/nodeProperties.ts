@@ -35,12 +35,12 @@ import {
 // Checks
 // -------------------------------------------------------------------------------------------------
 
-export const isPackagePrivate = (node: TslModuleMember | undefined): boolean => {
-    return (node?.visibility?.visibility == 'packageprivate');
+export const isPackagePrivate = (node: TslDeclaration | undefined): boolean => {
+    return (node?.visibility?.isPackageprivate ?? false);
 };
 
-export const isPrivate = (node: TslModuleMember | undefined): boolean => {
-    return (node?.visibility?.visibility == 'private');
+export const isPrivate = (node: TslDeclaration | undefined): boolean => {
+    return (node?.visibility?.isPrivate ?? false);
 };
 
 export namespace Argument {

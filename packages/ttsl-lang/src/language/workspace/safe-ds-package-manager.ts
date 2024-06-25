@@ -8,7 +8,8 @@ import {
     IndexManager,
     LangiumDocuments,
 } from 'langium';
-import { getPackageName, isPackagePrivate } from '../helpers/nodeProperties.js';
+import { getPackageName, isPackagePrivate, isPrivate } from '../helpers/nodeProperties.js';
+import { isTslDeclaration, isTslFunction } from '../generated/ast.js';
 
 export class SafeDsPackageManager {
     private readonly astNodeLocator: AstNodeLocator;
@@ -111,7 +112,7 @@ export class SafeDsPackageManager {
         }
 
         if (hideInternal) {
-            result = result.filter((it) => !isPackagePrivate(it.node) && !isPrivate(it.node));
+            result = result.filter((it) => !isTslDeclaration(it.node) || (!isPackagePrivate(it.node) && !isPrivate(it.node)));
         }
 
         return result;
