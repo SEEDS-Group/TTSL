@@ -20,7 +20,7 @@ import { getParameters, Parameter } from '../helpers/nodeProperties.js';
 import { type SafeDsNodeMapper } from '../helpers/safe-ds-node-mapper.js';
 import type { SafeDsServices } from '../safe-ds-module.js';
 import { type SafeDsTypeComputer } from '../typing/safe-ds-type-computer.js';
-import { CallableType, NamedType } from '../typing/model.js';
+import { CallableType } from '../typing/model.js';
 import { SignatureHelpProvider } from 'langium/lsp';
 
 export class SafeDsSignatureHelpProvider implements SignatureHelpProvider {
@@ -90,11 +90,7 @@ export class SafeDsSignatureHelpProvider implements SignatureHelpProvider {
     private getLabel(callable: TslCallable): string {
         const type = this.typeComputer.computeType(callable);
 
-        if (type instanceof NamedType) {
-            return `${type.declaration.name}(${getParameters(callable)
-                .map((it) => this.getParameterLabel(it))
-                .join(', ')})`;
-        } else if (type instanceof CallableType && isNamed(callable)) {
+        if (type instanceof CallableType && isNamed(callable)) {
             return `${callable.name}${type}`;
         } else {
             return type.toString();

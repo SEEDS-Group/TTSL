@@ -1,13 +1,7 @@
 import { type AstNode, type LangiumDocument } from 'langium';
 import type { DocumentSymbol } from 'vscode-languageserver';
 import {
-    isTslAnnotation,
-    isTslAttribute,
-    isTslClass,
-    isTslEnumVariant,
     isTslFunction,
-    isTslPipeline,
-    isTslSegment,
 } from '../generated/ast.js';
 import type { SafeDsServices } from '../safe-ds-module.js';
 import type { SafeDsNodeInfoProvider } from './safe-ds-node-info-provider.js';
@@ -31,7 +25,6 @@ export class SafeDsDocumentSymbolProvider extends DefaultDocumentSymbolProvider 
                 {
                     name: name ?? nameNode.text,
                     kind: this.nodeKindProvider.getSymbolKind(node),
-                    tags: this.nodeInfoProvider.getTags(node),
                     detail: this.nodeInfoProvider.getDetails(node),
                     range: cstNode.range,
                     selectionRange: nameNode.range,
@@ -46,12 +39,6 @@ export class SafeDsDocumentSymbolProvider extends DefaultDocumentSymbolProvider 
     protected override getChildSymbols(document: LangiumDocument, node: AstNode): DocumentSymbol[] | undefined {
         if (this.isLeaf(node)) {
             return undefined;
-        } else if (isTslClass(node)) {
-            if (node.body) {
-                return super.getChildSymbols(document, node.body);
-            } else {
-                return undefined;
-            }
         } else {
             return super.getChildSymbols(document, node);
         }
@@ -59,12 +46,7 @@ export class SafeDsDocumentSymbolProvider extends DefaultDocumentSymbolProvider 
 
     private isLeaf(node: AstNode): boolean {
         return (
-            isTslAnnotation(node) ||
-            isTslAttribute(node) ||
-            isTslEnumVariant(node) ||
             isTslFunction(node) ||
-            isTslPipeline(node) ||
-            isTslSegment(node)
         );
     }
 }

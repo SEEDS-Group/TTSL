@@ -41,7 +41,6 @@ export class SafeDsCallHierarchyProvider extends AbstractCallHierarchyProvider {
     } {
         return {
             kind: this.nodeKindProvider.getSymbolKind(targetNode),
-            tags: this.nodeInfoProvider.getTags(targetNode),
             detail: this.nodeInfoProvider.getDetails(targetNode),
         };
     }
