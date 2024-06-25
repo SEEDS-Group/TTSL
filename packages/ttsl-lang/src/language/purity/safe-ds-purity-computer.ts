@@ -12,16 +12,11 @@ import {
     UnknownCallableCall,
 } from './model.js';
 import {
-    isTslAnnotation,
     isTslAssignment,
     isTslCallable,
-    isTslClass,
-    isTslEnumVariant,
     isTslExpressionStatement,
     isTslFunction,
-    isTslLambda,
     isTslParameter,
-    isTslWildcard,
     TslCall,
     TslCallable,
     TslExpression,
@@ -93,10 +88,7 @@ export class SafeDsPurityComputer {
     isPureParameter(node: TslParameter | undefined): boolean {
         const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
         if (
-            !containingCallable ||
-            isTslAnnotation(containingCallable) ||
-            isTslClass(containingCallable) ||
-            isTslEnumVariant(containingCallable)
+            !containingCallable
         ) {
             return true;
         } else if (isTslFunction(containingCallable)) {
@@ -151,7 +143,6 @@ export class SafeDsPurityComputer {
     statementDoesSomething(node: TslStatement, substitutions = NO_SUBSTITUTIONS): boolean {
         if (isTslAssignment(node)) {
             return (
-                !getAssignees(node).every(isTslWildcard) ||
                 this.expressionHasSideEffects(node.expression, substitutions)
             );
         } else if (isTslExpressionStatement(node)) {
@@ -263,11 +254,7 @@ export class SafeDsPurityComputer {
     }
 
     private getExecutedCallsInExpression(expression: TslExpression | undefined): TslCall[] {
-        return this.callGraphComputer.getAllContainedCalls(expression).filter((it) => {
-            // Keep only calls that are not contained in a lambda inside the expression
-            const containingLambda = AstUtils.getContainerOfType(it, isTslLambda);
-            return !containingLambda || !isContainedInOrEqual(containingLambda, expression);
-        });
+        return this.callGraphComputer.getAllContainedCalls(expression);
     }
 
     private getImpurityReasonsForFunction(node: TslFunction): Stream<ImpurityReason> {
