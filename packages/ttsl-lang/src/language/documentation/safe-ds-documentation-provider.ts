@@ -12,10 +12,8 @@ import {
     isTslCallable,
     isTslParameter,
     isTslResult,
-    isTslTypeParameter,
     TslParameter,
     TslResult,
-    TslTypeParameter,
 } from '../generated/ast.js';
 
 const PARAM_TAG = 'param';
@@ -24,7 +22,7 @@ const TYPE_PARAM_TAG = 'typeParam';
 
 export class SafeDsDocumentationProvider extends JSDocDocumentationProvider {
     override getDocumentation(node: AstNode): string | undefined {
-        if (isTslParameter(node) || isTslResult(node) || isTslTypeParameter(node)) {
+        if (isTslParameter(node) || isTslResult(node)) {
             const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
             /* c8 ignore start */
             if (!containingCallable) {
@@ -64,7 +62,7 @@ export class SafeDsDocumentationProvider extends JSDocDocumentationProvider {
 
     private getMatchingTagContent(
         comment: JSDocComment,
-        node: TslParameter | TslResult | TslTypeParameter,
+        node: TslParameter | TslResult,
     ): string | undefined {
         const name = node.name;
         /* c8 ignore start */
@@ -83,7 +81,7 @@ export class SafeDsDocumentationProvider extends JSDocDocumentationProvider {
             ?.match(matchRegex)?.groups?.content;
     }
 
-    private getTagName(node: TslParameter | TslResult | TslTypeParameter): string {
+    private getTagName(node: TslParameter | TslResult): string {
         if (isTslParameter(node)) {
             return PARAM_TAG;
         } else if (isTslResult(node)) {

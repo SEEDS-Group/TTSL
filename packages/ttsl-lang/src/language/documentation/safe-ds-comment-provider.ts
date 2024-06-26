@@ -1,12 +1,10 @@
 import { AstNode, DefaultCommentProvider, isAstNodeWithComment } from 'langium';
 import { MarkupContent } from 'vscode-languageserver';
 import {
-    isTslBlockLambdaResult,
     isTslDeclaration,
     isTslParameter,
     isTslPlaceholder,
     isTslResult,
-    isTslTypeParameter,
 } from '../generated/ast.js';
 
 export class SafeDsCommentProvider extends DefaultCommentProvider {
@@ -15,21 +13,14 @@ export class SafeDsCommentProvider extends DefaultCommentProvider {
             return node.$comment;
         } /* c8 ignore stop */ else if (
             !isTslDeclaration(node) ||
-            isTslBlockLambdaResult(node) ||
             isTslParameter(node) ||
             isTslPlaceholder(node) ||
-            isTslResult(node) ||
-            isTslTypeParameter(node)
+            isTslResult(node)
         ) {
             return undefined;
         }
 
-        // The annotation call list is the previous sibling of the declaration in the CST, so we must step past it
-        if (node.annotationCallList) {
-            return super.getComment(node.annotationCallList);
-        } else {
-            return super.getComment(node);
-        }
+        return super.getComment(node);
     }
 }
 
