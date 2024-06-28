@@ -1,16 +1,12 @@
 import { AstNode } from 'langium';
-import { SymbolTag } from 'vscode-languageserver';
-import type { SafeDsAnnotations } from '../builtins/safe-ds-annotations.js';
 import { isTslFunction } from '../generated/ast.js';
 import type { SafeDsServices } from '../safe-ds-module.js';
 import { SafeDsTypeComputer } from '../typing/safe-ds-type-computer.js';
 
 export class SafeDsNodeInfoProvider {
-    private readonly builtinAnnotations: SafeDsAnnotations;
     private readonly typeComputer: SafeDsTypeComputer;
 
     constructor(services: SafeDsServices) {
-        this.builtinAnnotations = services.builtins.Annotations;
         this.typeComputer = services.types.TypeComputer;
     }
 

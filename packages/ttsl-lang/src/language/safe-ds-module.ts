@@ -7,9 +7,6 @@ import {
     LangiumSharedServices,
     PartialLangiumServices,
 } from 'langium/lsp';
-import { SafeDsAnnotations } from './builtins/safe-ds-annotations.js';
-import { SafeDsClasses } from './builtins/safe-ds-classes.js';
-import { SafeDsEnums, SafeDsImpurityReasons } from './builtins/safe-ds-enums.js';
 import { SafeDsCommentProvider } from './documentation/safe-ds-comment-provider.js';
 import { SafeDsDocumentationProvider } from './documentation/safe-ds-documentation-provider.js';
 import { SafeDsCallGraphComputer } from './flow/safe-ds-call-graph-computer.js';
@@ -40,16 +37,14 @@ import { SafeDsPurityComputer } from './purity/safe-ds-purity-computer.js';
 import { SafeDsSettingsProvider } from './workspace/safe-ds-settings-provider.js';
 import { SafeDsRenameProvider } from './lsp/safe-ds-rename-provider.js';
 import { SafeDsTypeFactory } from './typing/safe-ds-type-factory.js';
+import { TTSLFunction } from './builtins/ttsl-ds-functions.js';
 
 /**
  * Declaration of custom services - add your own service classes here.
  */
 export type SafeDsAddedServices = {
     builtins: {
-        Annotations: SafeDsAnnotations;
-        Classes: SafeDsClasses;
-        Enums: SafeDsEnums;
-        ImpurityReasons: SafeDsImpurityReasons;
+        Functions: TTSLFunction;
     };
     evaluation: {
         PartialEvaluator: SafeDsPartialEvaluator;
@@ -95,10 +90,7 @@ export type SafeDsServices = LangiumServices & SafeDsAddedServices;
  */
 export const SafeDsModule: Module<SafeDsServices, PartialLangiumServices & SafeDsAddedServices> = {
     builtins: {
-        Annotations: (services) => new SafeDsAnnotations(services),
-        Classes: (services) => new SafeDsClasses(services),
-        Enums: (services) => new SafeDsEnums(services),
-        ImpurityReasons: (services) => new SafeDsImpurityReasons(services),
+        Functions: (services) => new TTSLFunction(services),
     },
     documentation: {
         CommentProvider: (services) => new SafeDsCommentProvider(services),

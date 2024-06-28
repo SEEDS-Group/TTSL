@@ -1,7 +1,6 @@
 import { AbstractSemanticTokenProvider, SemanticTokenAcceptor } from 'langium/lsp';
 import { AstNode, AstUtils } from 'langium';
 import { SemanticTokenModifiers, SemanticTokenTypes } from 'vscode-languageserver';
-import { SafeDsClasses } from '../builtins/safe-ds-classes.js';
 import {
     isTslArgument,
     isTslDeclaration,
@@ -17,12 +16,8 @@ import {
 import { SafeDsServices } from '../safe-ds-module.js';
 
 export class SafeDsSemanticTokenProvider extends AbstractSemanticTokenProvider {
-    private readonly builtinClasses: SafeDsClasses;
-
     constructor(services: SafeDsServices) {
         super(services);
-
-        this.builtinClasses = services.builtins.Classes;
     }
 
     protected highlightElement(node: AstNode, acceptor: SemanticTokenAcceptor): void {

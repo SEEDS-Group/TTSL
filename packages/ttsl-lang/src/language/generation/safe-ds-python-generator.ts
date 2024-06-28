@@ -15,7 +15,6 @@ import path from 'path';
 import { SourceMapGenerator, StartOfSourceMap } from 'source-map';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import { groupBy, isEmpty } from '../../helpers/collections.js';
-import { SafeDsAnnotations } from '../builtins/safe-ds-annotations.js';
 import {
     isTslAssignment,
     isTslCall,
@@ -68,6 +67,7 @@ import {
     isTslBlock,
     TslTimeunit,
     isTslExpression,
+    TslModuleMember,
 } from '../generated/ast.js';
 import { isInStubFile, isStubFile } from '../helpers/fileExtensions.js';
 import {
@@ -94,6 +94,8 @@ import { SafeDsPartialEvaluator } from '../partialEvaluation/safe-ds-partial-eva
 import { SafeDsServices } from '../safe-ds-module.js';
 import { SafeDsPurityComputer } from '../purity/safe-ds-purity-computer.js';
 import { FileRead, ImpurityReason } from '../purity/model.js';
+import { SafeDsModuleMembers } from '../builtins/safe-ds-module-members.js';
+import { TTSLFunction } from '../builtins/ttsl-ds-functions.js';
 
 export const CODEGEN_PREFIX = '__gen_';
 
@@ -292,13 +294,13 @@ const UTILITY_TIMEUNIT_YEAR: UtilityFunction = {
 };
 
 export class SafeDsPythonGenerator {
-    private readonly builtinAnnotations: SafeDsAnnotations;
+    private readonly builtinFunction: TTSLFunction;
     private readonly nodeMapper: SafeDsNodeMapper;
     private readonly partialEvaluator: SafeDsPartialEvaluator;
     private readonly purityComputer: SafeDsPurityComputer;
 
     constructor(services: SafeDsServices) {
-        this.builtinAnnotations = services.builtins.Annotations;
+        this.builtinFunction = services.builtins.Functions;
         this.nodeMapper = services.helpers.NodeMapper;
         this.partialEvaluator = services.evaluation.PartialEvaluator;
         this.purityComputer = services.purity.PurityComputer;
@@ -313,7 +315,7 @@ export class SafeDsPythonGenerator {
         }
 
         const name = path.parse(document.uri.fsPath).name;
-        const pythonModuleName = this.builtinAnnotations.getPythonModule(node);
+        const pythonModuleName = this.builtinFunction.getPythonModule(node);
         const packagePath = pythonModuleName === undefined ? node.name.split('.') : [pythonModuleName];
         const parentDirectoryPath = path.join(generateOptions.destination!.fsPath, ...packagePath);
 
@@ -394,11 +396,11 @@ export class SafeDsPythonGenerator {
     }
 
     private getPythonModuleOrDefault(object: TslModule) {
-        return this.builtinAnnotations.getPythonModule(object) || object.name;
+        return this.builtinFunction.getPythonModule(object) || object.name;
     }
 
     private getPythonNameOrDefault(object: TslDeclaration) {
-        return this.builtinAnnotations.getPythonName(object) || object.name;
+        return this.builtinFunction.getPythonName(object) || object.name;
     }
 
     private getQualifiedNamePythonCompatible(node: TslDeclaration | undefined): string | undefined {
@@ -971,7 +973,7 @@ export class SafeDsPythonGenerator {
             // Memoize constructor or function call
             if (isTslFunction(callable)) {
                 if (isTslFunction(callable)) {
-                    const pythonCall = this.builtinAnnotations.getPythonCall(callable);
+                    const pythonCall = this.builtinFunction.getPythonCall(callable);
                     if (pythonCall) {
                         let thisParam: CompositeGeneratorNode | undefined = undefined;
                         if (isTslMemberAccess(expression.receiver)) {

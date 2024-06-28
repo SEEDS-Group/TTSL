@@ -102,7 +102,6 @@ export const indexedAccessReceiverMustBeListOrMap = (services: SafeDsServices) =
 };
 
 export const indexedAccessIndexMustHaveCorrectType = (services: SafeDsServices) => {
-    const coreClasses = services.builtins.Classes;
     const coreTypes = services.types.CoreTypes;
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;

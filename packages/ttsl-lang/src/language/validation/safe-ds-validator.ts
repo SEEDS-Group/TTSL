@@ -1,24 +1,6 @@
 import { ValidationChecks } from 'langium';
 import { TTSLAstType } from '../generated/ast.js';
 import type { SafeDsServices } from '../safe-ds-module.js';
-import {
-    argumentCorrespondingParameterShouldNotBeDeprecated,
-    assigneeAssignedResultShouldNotBeDeprecated,
-    referenceTargetShouldNotBeDeprecated,
-    requiredParameterMustNotBeDeprecated,
-} from './builtins/deprecated.js';
-import {
-    argumentCorrespondingParameterShouldNotBeExperimental,
-    assigneeAssignedResultShouldNotBeExperimental,
-    referenceTargetShouldNotExperimental,
-} from './builtins/experimental.js';
-import { requiredParameterMustNotBeExpert } from './builtins/expert.js';
-import { pythonCallMustOnlyContainValidTemplateExpressions } from './builtins/pythonCall.js';
-import { pythonModuleShouldDifferFromSafeDsPackage } from './builtins/pythonModule.js';
-import {
-    pythonNameMustNotBeSetIfPythonCallIsSet,
-    pythonNameShouldDifferFromSafeDsName,
-} from './builtins/pythonName.js';
 import {    
     mapsShouldBeUsedWithCaution,
 } from './experimentalLanguageFeatures.js';
@@ -62,13 +44,6 @@ import {
     callableTypeParameterMustNotHaveConstModifier,
 } from './other/types/callableTypes.js';
 import {
-    callArgumentAssignedToPureParameterMustBePure,
-    impurityReasonParameterNameMustBelongToParameterOfCorrectType,
-    impurityReasonShouldNotBeSetMultipleTimes,
-    impurityReasonsOfOverridingMethodMustBeSubsetOfOverriddenMethod,
-    pureParameterDefaultValueMustBePure,
-} from './purity.js';
-import {
     callArgumentListShouldBeNeeded,
     chainedExpressionNullSafetyShouldBeNeeded,
     elvisOperatorShouldBeNeeded,
@@ -101,8 +76,6 @@ export const registerValidationChecks = function (services: SafeDsServices) {
     const registry = services.validation.ValidationRegistry;
     const checks: ValidationChecks<TTSLAstType> = {
         TslAssignee: [
-            assigneeAssignedResultShouldNotBeDeprecated(services),
-            assigneeAssignedResultShouldNotBeExperimental(services),
         ],
         TslAssignment: [
             assignmentAssigneeMustGetValue(services),
@@ -113,8 +86,6 @@ export const registerValidationChecks = function (services: SafeDsServices) {
             argumentListMustSetAllRequiredParameters(services),
         ],
         TslArgument: [
-            argumentCorrespondingParameterShouldNotBeDeprecated(services),
-            argumentCorrespondingParameterShouldNotBeExperimental(services),
         ],
         TslArgumentList: [
             argumentListMustNotHavePositionalArgumentsAfterNamedArguments,
@@ -125,7 +96,6 @@ export const registerValidationChecks = function (services: SafeDsServices) {
         ],
         TslCall: [
             callArgumentListShouldBeNeeded(services),
-            callArgumentAssignedToPureParameterMustBePure(services),
             callArgumentMustBeConstantIfParameterIsConstant(services),
             callArgumentTypesMustMatchParameterTypes(services),
             callMustNotBeRecursive(services),
@@ -145,15 +115,9 @@ export const registerValidationChecks = function (services: SafeDsServices) {
             nameMustNotOccurOnCoreDeclaration(services),
             nameMustNotStartWithCodegenPrefix,
             nameShouldHaveCorrectCasing(services),
-            pythonNameShouldDifferFromSafeDsName(services),
         ],
         TslFunction: [
             functionResultListShouldNotBeEmpty(services),
-            impurityReasonsOfOverridingMethodMustBeSubsetOfOverriddenMethod(services),
-            impurityReasonParameterNameMustBelongToParameterOfCorrectType(services),
-            impurityReasonShouldNotBeSetMultipleTimes(services),
-            pythonCallMustOnlyContainValidTemplateExpressions(services),
-            pythonNameMustNotBeSetIfPythonCallIsSet(services),
             groupedFunctionHasAggregation(),
             groupedFunctionHasValidID(),
         ],
@@ -175,24 +139,18 @@ export const registerValidationChecks = function (services: SafeDsServices) {
             moduleMemberMustHaveNameThatIsUniqueInPackage(services),
             moduleMustContainUniqueNames,
             moduleWithDeclarationsMustStatePackage,
-            pythonModuleShouldDifferFromSafeDsPackage(services),
         ],
         TslParameter: [
             constantParameterMustHaveConstantDefaultValue(services),
             constantParameterMustHaveTypeThatCanBeEvaluatedToConstant(services),
             parameterMustHaveTypeHint,
             parameterDefaultValueTypeMustMatchParameterType(services),
-            pureParameterDefaultValueMustBePure(services),
-            requiredParameterMustNotBeDeprecated(services),
-            requiredParameterMustNotBeExpert(services),
         ],
         TslParameterList: [parameterListMustNotHaveRequiredParametersAfterOptionalParameters],
         TslPlaceholder: [placeholdersMustNotBeAnAlias, placeholderShouldBeUsed(services)],
         TslPrefixOperation: [prefixOperationOperandMustHaveCorrectType(services)],
         TslReference: [
             referenceMustNotBeFunctionPointer,
-            referenceTargetShouldNotBeDeprecated(services),
-            referenceTargetShouldNotExperimental(services),
         ],
         TslResult: [resultMustHaveTypeHint],
         TslStatement: [statementMustDoSomething(services)],
