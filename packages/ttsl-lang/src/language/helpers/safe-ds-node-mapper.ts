@@ -1,22 +1,14 @@
 import { AstUtils, EMPTY_STREAM, Stream } from 'langium';
 import {
     isTslAbstractCall,
-    isTslAnnotationCall,
     isTslAssignment,
     isTslBlock,
     isTslCall,
     isTslCallable,
-    isTslClass,
-    isTslEnumVariant,
-    isTslExpressionLambda,
-    isTslNamedType,
     isTslParameter,
     isTslReference,
-    isTslSegment,
     isTslType,
-    isTslYield,
     TslAbstractCall,
-    TslAbstractResult,
     TslArgument,
     TslAssignee,
     TslCallable,
@@ -25,21 +17,15 @@ import {
     TslPlaceholder,
     TslReference,
     TslResult,
-    TslTypeArgument,
-    TslTypeParameter,
-    TslYield,
 } from '../generated/ast.js';
 import { SafeDsServices } from '../safe-ds-module.js';
-import { CallableType, StaticType } from '../typing/model.js';
+import { CallableType } from '../typing/model.js';
 import { SafeDsTypeComputer } from '../typing/safe-ds-type-computer.js';
 import {
     Argument,
-    getAbstractResults,
     getArguments,
     getParameters,
-    getTypeArguments,
-    getTypeParameters,
-    TypeArgument,
+    getResults,
 } from './nodeProperties.js';
 
 export class SafeDsNodeMapper {
@@ -88,7 +74,7 @@ export class SafeDsNodeMapper {
      * Returns the result, block lambda result, or expression that is assigned to the given assignee. If nothing is
      * assigned, `undefined` is returned.
      */
-    assigneeToAssignedObject(node: TslAssignee | undefined): TslAbstractResult | TslExpression | undefined {
+    assigneeToAssignedObject(node: TslAssignee | undefined): TslResult | TslExpression | undefined {
         if (!node) {
             return undefined;
         }
@@ -112,27 +98,10 @@ export class SafeDsNodeMapper {
             }
         }
 
-        // If the RHS instantiates a class or enum variant, the first assignee gets the entire RHS
         const callable = this.callToCallable(expression);
-        if (isTslClass(callable) || isTslEnumVariant(callable)) {
-            if (assigneePosition === 0) {
-                return expression;
-            } else {
-                return undefined;
-            }
-        }
-
-        // If the RHS calls an expression lambda, the first assignee gets its result
-        if (isTslExpressionLambda(callable)) {
-            if (assigneePosition === 0) {
-                return callable.result;
-            } else {
-                return undefined;
-            }
-        }
 
         // Otherwise, the assignee gets the result at the same position
-        const abstractResults = getAbstractResults(callable);
+        const abstractResults = getResults(callable);
         return abstractResults[assigneePosition];
     }
 
@@ -143,10 +112,8 @@ export class SafeDsNodeMapper {
         if (!node) {
             return undefined;
         }
-
-        if (isTslAnnotationCall(node)) {
-            return node.annotation?.ref;
-        } else if (isTslCall(node)) {
+        
+        if (isTslCall(node)) {
             // We ignore nullability, since calls can be made null-safe. For scoping, for instance, we still want to
             // link the arguments of the call properly, even if the user forgot to make the call null-safe. In this
             // case, an error is being shown anyway.
@@ -155,11 +122,6 @@ export class SafeDsNodeMapper {
 
             if (nonNullableReceiverType instanceof CallableType) {
                 return nonNullableReceiverType.callable;
-            } else if (nonNullableReceiverType instanceof StaticType) {
-                const declaration = nonNullableReceiverType.instanceType.declaration;
-                if (isTslCallable(declaration)) {
-                    return declaration;
-                }
             }
         }
 
@@ -279,59 +241,5 @@ export class SafeDsNodeMapper {
         return AstUtils.findLocalReferences(node, containingBlock)
             .map((it) => it.$refNode?.astNode)
             .filter(isTslReference);
-    }
-
-    /**
-     * Returns all yields that assign to the given result.
-     */
-    resultToYields(node: TslResult | undefined): Stream<TslYield> {
-        if (!node) {
-            return EMPTY_STREAM;
-        }
-
-        const containingSegment = AstUtils.getContainerOfType(node, isTslSegment);
-        if (!containingSegment) {
-            return EMPTY_STREAM;
-        }
-
-        return AstUtils.findLocalReferences(node, containingSegment)
-            .map((it) => it.$refNode?.astNode)
-            .filter(isTslYield);
-    }
-
-    /**
-     * Returns the type parameter that the type argument is assigned to. If there is no matching type parameter, returns
-     * `undefined`.
-     */
-    typeArgumentToTypeParameter(node: TslTypeArgument | undefined): TslTypeParameter | undefined {
-        if (!node) {
-            return undefined;
-        }
-
-        // Named type argument
-        if (node.typeParameter) {
-            return node.typeParameter.ref;
-        }
-
-        // Positional type argument
-        const containingType = AstUtils.getContainerOfType(node, isTslType);
-        if (!isTslNamedType(containingType)) {
-            return undefined;
-        }
-
-        const typeArguments = getTypeArguments(containingType.typeArgumentList);
-        const typeArgumentPosition = node.$containerIndex ?? -1;
-
-        // A prior type argument is named
-        for (let i = 0; i < typeArgumentPosition; i++) {
-            if (TypeArgument.isNamed(typeArguments[i]!)) {
-                return undefined;
-            }
-        }
-
-        // Find type parameter at the same position
-        const namedTypeDeclaration = containingType.declaration?.ref;
-        const typeParameters = getTypeParameters(namedTypeDeclaration);
-        return typeParameters[typeArgumentPosition];
     }
 }
