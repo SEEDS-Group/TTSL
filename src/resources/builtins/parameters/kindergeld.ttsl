@@ -7,7 +7,7 @@ package kindergeld
  * Bedingungen ein Anspruch auf Kindergeld bestehen.
  * Reference: § 32 Art. 2-4 EStG.
  */
-const altersgrenze: Dict<String, Int> {
+public const altersgrenze: Dict<String, Int> {
     from 1984-01-01 = {
         mit_bedingungen: 27
         ohne_bedingungen: 18
@@ -27,7 +27,7 @@ const altersgrenze: Dict<String, Int> {
  * Für Werte vor 2002, siehe 'BMF - Datensammlung zur Steuerpolitik'
  * reference period: Month
  */
-const kindergeld: Dict<Int, Int> {
+public const kindergeld: Dict<Int, Int> {
     from 1975-01-01 = {
         1: 26
         2: 36
@@ -205,7 +205,7 @@ const kindergeld: Dict<Int, Int> {
  * § 32 (4) EStG. Wurde 2012 durch eine Höchstgrenze der gearbeiteten Stunden ersetzt.
  * reference period: Year
  */
-const einkommensgrenze: Int {
+public const einkommensgrenze: Int {
     from 1984-01-01 = 0
 
     # Reference: Art. 1 G. v. 11.10.1995 BGBl. I S. 1250
@@ -232,7 +232,7 @@ const einkommensgrenze: Int {
  * Bezug von Kindergeld
  * reference period: Week
  */
-const stundengrenze: Int {
+public const stundengrenze: Int {
     # Reference: Art. 1 G. v. 01.11.2011 BGBl. I S. 2131
     from 2012-01-01 = 20
 }
@@ -243,7 +243,7 @@ const stundengrenze: Int {
  * 2020 bzw. Mai 2021 ausgezahlt, aber ist hier auf das volle Kalenderjahr angerechnet.
  * reference period: Year
  */
-const kinderbonus: Dict<Int, Int> {
+public const kinderbonus: Dict<Int, Int> {
     from 1984-01-01 = 0
 
     # Reference: Art. 1 Zweites Corona-Steuerhilfegesetz v. 29.06.2020 BGBl. I S. 1512

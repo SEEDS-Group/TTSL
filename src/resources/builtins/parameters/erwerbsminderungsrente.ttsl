@@ -10,7 +10,7 @@ package Erwerbsminderungsrente
  * Reference: § 77 SGB VI Zugangsfaktor
  * pro Jahr
  */
-const abschlagsfreieAltersgrenze: Dict<Date, Float> {
+public const abschlagsfreieAltersgrenze: Dict<Date, Float> {
 	from 2001-01-01 = 63
 	from 2012-01-01 = 63.083333
 	from 2012-02-01 = 63.166666
@@ -39,7 +39,7 @@ const abschlagsfreieAltersgrenze: Dict<Date, Float> {
  * Reference: § 77 Abs. 4 SGB VI Zugangsfaktor
  * pro Jahr
  */
-const regelaltersgrezeLangjaehrigeVersicherte: Dict<Date, Float> {
+public const regelaltersgrezeLangjaehrigeVersicherte: Dict<Date, Float> {
 	from 2001-01-01 = 63
 }
 
@@ -50,7 +50,7 @@ const regelaltersgrezeLangjaehrigeVersicherte: Dict<Date, Float> {
  * Reference: § 264d SGB VI Zugangsfaktor
  * pro Jahr
  */
-const wartezeitgrenzeLangjaehrigeVersicherteAbschlagsfrei: Dict<Date, Int> {
+public const wartezeitgrenzeLangjaehrigeVersicherteAbschlagsfrei: Dict<Date, Int> {
 	from 2001-01-01 = 35
 	from 2024-01-01 = 40
 }
@@ -63,7 +63,7 @@ const wartezeitgrenzeLangjaehrigeVersicherteAbschlagsfrei: Dict<Date, Int> {
  * Reference: § 59 SGB VI Zurechnungszeit
  * pro Jahr
  */
-const zurechnungszeitgrenze: Dict<Date, Float> {
+public const zurechnungszeitgrenze: Dict<Date, Float> {
 	from 2001-01-01 = 62.916666
 	from 2001-02-01 = 62.833333
 	from 2001-03-01 = 62.75
@@ -122,7 +122,7 @@ const zurechnungszeitgrenze: Dict<Date, Float> {
  * sind bei 10.8% gedeckelt.
  * Reference: § 77 SGB VI Zugangsfaktor
  */
-const minZugangsfaktor: Dict<Date, Float> {
+public const minZugangsfaktor: Dict<Date, Float> {
 	from 2000-01-01 = 0.892
 }
 
@@ -133,7 +133,7 @@ const minZugangsfaktor: Dict<Date, Float> {
  * das Sicherungsziel der Rentenart im Verhältnis zu einer Altersrente.
  * Reference: § 67 SGB VI Rentenartfaktor
  */
-const rentenartfaktor: Dict<String, Float> {
+public const rentenartfaktor: Dict<String, Float> {
 	from 2001-01-01 = {
 		teilw: 0.5,
 		voll: 1.0
@@ -147,6 +147,6 @@ const rentenartfaktor: Dict<String, Float> {
  * Lebensjahr bis zum   Beginn der Rente
  * Reference: SGB VI § 72: Grundbewertung
  */
-const altersgrenzeGrundbewertung: Dict<Date, Int> {
+public const altersgrenzeGrundbewertung: Dict<Date, Int> {
 	from 2001-01-01 = 16
 }

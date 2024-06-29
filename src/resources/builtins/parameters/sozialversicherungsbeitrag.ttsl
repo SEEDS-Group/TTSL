@@ -24,7 +24,7 @@ package sozialversicherungsbeitrag
  *
  * access_different_date: jahresanfang
  */
-const beitragssatz: Dict<String, String | Dict<String, Float>> {
+public const beitragssatz: Dict<String, String | Dict<String, Float>> {
     from 1984-01-01 {
         gesetzlicheKrankenversicherung: {
             mean_allgemein: 0.134
@@ -368,7 +368,7 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
  * Beitragssätze zu den gesetzlichen Sozialversicherungen
  * Die Beitragsbemessungsgrenze für Kranken- und Pflegeversicherung ist identisch.
  */
-const beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
+public const beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
     from 1984-01-01 {
         ges_krankenv: {
             west: 1994
@@ -814,7 +814,7 @@ const beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
  * Monatliche Bezugsgröße
  * §18 SGB IV and https:#de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
  */
-const monatlicheBezugsgroeße: Dict<String, Float> {
+public const monatlicheBezugsgroeße: Dict<String, Float> {
     from 1984-01-01 {
         west: 1396
     }
@@ -1025,7 +1025,7 @@ const monatlicheBezugsgroeße: Dict<String, Float> {
  * neunzigste Teil der monatlichen Bezugsgröße (1/90*30)
  * Reference: §240 SGB V Abs. 4
  */
-const mindestanteilBezugsgroeßeBeitragspflichtigeEinnahmeSelbst: Float {
+public const mindestanteilBezugsgroeßeBeitragspflichtigeEinnahmeSelbst: Float {
     from 1990-01-01 {
         scalar: 0.33333333
     }
@@ -1035,7 +1035,7 @@ const mindestanteilBezugsgroeßeBeitragspflichtigeEinnahmeSelbst: Float {
  * Gleitzone (Midijob Grenze) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
  * Reference: Midijob § 20 (2) SGB IV, Minijob § 8 (1) Nr. 1 SGB IV
  */
-const geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int | Dict<String, Int>> {
+public const geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int | Dict<String, Int>> {
     from 1984-01-01 {
         minijob: {
             west: 199
@@ -1203,7 +1203,7 @@ const geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int | Dict<String, I
  * multipliziert wird.
  * Reference: §8 (1a) SGB IV
  */
-const geringfuegigeEinkommensfaktor: Int {
+public const geringfuegigeEinkommensfaktor: Int {
     from 2022-10-01 = 130
 }
 
@@ -1212,7 +1212,7 @@ const geringfuegigeEinkommensfaktor: Int {
  * wird, um die Geringfügigkeitsgrenze zu erhalten.
  * Reference: §8 (1a) SGB IV
  */
-const geringfuegigeEinkommensdivisor: Int {
+public const geringfuegigeEinkommensdivisor: Int {
     # Reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
     from 2022-10-01 = 3
 }
@@ -1223,7 +1223,7 @@ const geringfuegigeEinkommensdivisor: Int {
  * Rentenversicherung (§ 168 I Nr. 1b SGB VI), Pauschalierte Lohnsteuer (§40a II
  * EStG)
  */
-const pauschalabgabenGeringfuegigeBeschaeftigung: Dict<String, Float> {
+public const pauschalabgabenGeringfuegigeBeschaeftigung: Dict<String, Float> {
     from 1984-01-01 {
         ges_krankenv: 0
         ges_rentenv: 0
@@ -1259,7 +1259,7 @@ const pauschalabgabenGeringfuegigeBeschaeftigung: Dict<String, Float> {
  * entrichten.
  * Reference: § 55 Abs. 3 SGB XI, KiBG Art. 1
  */
-const mindestalterBeitragszuschlagKinderlose: Int {
+public const mindestalterBeitragszuschlagKinderlose: Int {
     from 2005-01-01 = 23
 }
 
@@ -1267,7 +1267,7 @@ const mindestalterBeitragszuschlagKinderlose: Int {
  * Allgemeiner gesetzlicher Mindestlohn pro Stunde
  * Reference: §1 (2) Mindestlohngesetz
  */
-const mindestlohn: Float {
+public const mindestlohn: Float {
     from 2015-01-01 = 8.5
     from 2017-01-01 = 8.84
     from 2019-01-01 = 9.19

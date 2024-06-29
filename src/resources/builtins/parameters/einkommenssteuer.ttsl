@@ -325,7 +325,7 @@ public const einkommenssteuerTarif: Dict<Int, Dict<String, Float>> {
  * Diese Funktion ist hier ab 2002 angegeben. Vor 2002 das Steuersystem ist nicht
  * implementiert.
  */
-const renteErtragsanteil: Dict<Int, Dict<String, Float>> {
+public const renteErtragsanteil: Dict<Int, Dict<String, Float>> {
 	from 2002-01-01 = {
 		0: {
 			lower_threshold: -inf,

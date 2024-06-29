@@ -9,7 +9,7 @@ package grundsicherungImAlter
  * Reference: § 1 Verordnung zur Durchführung des § 90 Abs. 2 Nr. 9 des Zwölften Buches
  * Sozialgesetzbuch
  */
-const vermoegensfreibetrag: Dict<String, Int> {
+public const vermoegensfreibetrag: Dict<String, Int> {
     from 1984-01-01: {
         adult: 0,
         child: 0,
@@ -29,7 +29,7 @@ const vermoegensfreibetrag: Dict<String, Int> {
  * Anrechnungsfreie Anteile staatliche Rente wenn mindestens 33 Jahre
  * Grundrentenzeiten erreicht wurden.
  */
-const gesetzlicheRenteAnrechnungsfrei: Dict<Int, Dict<String, Float>> {
+public const gesetzlicheRenteAnrechnungsfrei: Dict<Int, Dict<String, Float>> {
     from 1984-01-01: {
         0: {
             lower_threshold: -inf,
@@ -62,7 +62,7 @@ const gesetzlicheRenteAnrechnungsfrei: Dict<Int, Dict<String, Float>> {
  * Nur das Kapitaleinkommens, das über diesem Freibetrag liegt, wird auf die
  * Grundsicherung im Alter angerechnet. The reference is § 82 SGB XII Abs. 2.
  */
-const kapitaleinkommensfreibetrag: Int {
+public const kapitaleinkommensfreibetrag: Int {
     from 1984-01-01 = 0
 
     # Reference: § 43 SGB XII Abs. 2
@@ -75,7 +75,7 @@ const kapitaleinkommensfreibetrag: Int {
  * zum Einkommen addiert wird.
  * Reference: § 82 SGB XII Abs. 3
  */
-const erwerbseinkommensfreibetrag: Float {
+public const erwerbseinkommensfreibetrag: Float {
     # Unclear how it was handled before 2005
     from 1984-01-01 = 0
 
@@ -88,7 +88,7 @@ const erwerbseinkommensfreibetrag: Float {
  * Einkommen addiert wird.
  * Reference: § 82 SGB XII Abs. 4
  */
-const privateRenteAnrechnungsfrei: Dict<Int, Dict<String, Float>> {
+public const privateRenteAnrechnungsfrei: Dict<Int, Dict<String, Float>> {
     from 1984-01-01: {
         # Unclear how it was handled before 2005,
         0: {
@@ -124,6 +124,6 @@ const privateRenteAnrechnungsfrei: Dict<Int, Dict<String, Float>> {
  * als Mehrbedarf anerkannt.
  * Reference: § 30 Abs. 1 SGB XII, https:#www.buzer.de/gesetz/3415/al0-3758.htm
  */
-const mehrbedarfSchwerbehinderung: Float {
+public const mehrbedarfSchwerbehinderung: Float {
     from 2006-12-07 = 0.17
 }
