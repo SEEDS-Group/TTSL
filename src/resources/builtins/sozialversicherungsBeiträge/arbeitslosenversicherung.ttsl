@@ -1,0 +1,127 @@
+package arbeitslosenversicherung
+
+from sozialversichernugsbeitrag import beitragssatz
+
+/**
+ * Sum of employee's social insurance contributions.
+ */
+public function sozialversicherungsBeitrag(): Float per month {
+    var pv = gesetzlichePflegeVersicherungsBeitrag() per month;
+    var kv = gesetzlicheKrankenVersicherungsBeitrag() per month;
+    var rv = gesetzlicheRentenVersicherungsBeitrag() per month;
+    var av = arbeitslosenversicherungsBeitrag() per month;
+
+    return pv + kv + rv + av;
+}
+
+/**
+ * Sum of employer's social insurance contributions.
+ */
+public function sozialversicherungsBeitragArbeitgeber(): Float per month {
+    var pv = gesetzlicherPflegeVersicherungsBeitragArbeitgeber() per month;
+    var kv = gesetzlicherKrankenVersicherungsBeitragArbeitgeber() per month;
+    var rv = gesetzlicherRentenVersicherungsBeitragArbeitgeber() per month;
+    var av = arbeitslosenversicherungsBeitragArbeitgeber() per month;
+
+    return pv + kv + rv + av;
+}
+
+/**
+ * Sum of employer's and employee's social insurance contributions.
+ */
+private function sozialversicherungsBeitragArbeitnehmerArbeitgeber(): Float per month {
+    return sozialversicherungsBeitrag() per month + sozialversicherungsBeitragArbeitgeber() per month;
+}
+
+/**
+ * Employee's unemployment insurance contribution.
+ */
+public function beitrag(): Float per month {
+    to 2003-03-31 {
+        if (geringfügigBeschäftigt()) {
+            return 0;
+        } else {
+            return gesetzlicheRentenversicherungBetragBruttolohn() per month * beitragssatz[arbeitslosenversicherung];
+        }
+    }
+    from 2003-04-01 {
+        if (geringfügigBeschäftigt()) {
+            return 0;
+        }
+
+        if (inGleitzone()) {
+            return arbeitslosenversicherungBeitragArbeitnehmer() per month;
+        }
+
+        return gesetzlicheRentenversicherungBetragBruttolohn() per month * beitragssatz[arbeitslosenversicherung];
+    }
+}
+
+/**
+ * Employer's unemployment insurance contribution until March 2003.
+ */
+public function beitragArbeitgeber(): Float per month {
+    to 2003-03-31 {
+        if (geringfügigBeschäftigt()) {
+            return 0;
+        } else {
+            return gesetzlicheRentenversicherungBetragBruttolohn() per month * beitragssatz[arbeitslosenversicherung];
+        }
+    }
+
+    from 2003-04-01 {
+        if (geringfügigBeschäftigt()) {
+            return 0;
+        }
+
+        if (inGleitzone()) {
+            return arbeitslosenversicherungBeitragMidijobArbeitgeber() per month;
+        }
+
+        return arbeitslosenversicherungRegulärBeschäftigt() per month;
+    }
+}
+
+/** 
+ * Sum of employee's and employer's unemployment insurance contribution
+ * for midijobs.
+ */
+private function midijobSummeArbeitgeberArbeitnehmer(): Float per month {
+    from 2003-04-01 {
+        return midijobBemessungsentgeld() per month * 2 * beitragssatz[arbeitslosenversicherung];
+    }
+}
+
+/**
+ * Employers' unemployment insurance contribution for Midijobs until September
+ * 2022.
+ */
+private function midijobArbeitgeberAnteilBruttolohn(bruttolohn per month): Float per month {
+    from 2003-04-01 to 2022-09-30 {
+        bruttolohn per month * beitragssatz[arbeitslosenversicherung];
+    }
+}
+
+/**
+ * Employer's unemployment insurance contribution since October 2022.
+ */
+private function midijobArbeitgeber(): Float per month {
+    from 2022-10-01 {
+        return midijobSummeArbeitgeberArbeitnehmer() per month - midijobArbeitnehmer() per month;
+    }
+}
+
+/**
+ * Employees' unemployment insurance contribution for Midijobs until September
+ * 2022.
+ */
+private function midijobArbeitnehmer(): Float per month {
+    from 2003-04-01 to 2022-09-30 {
+        return midijobSummeArbeitgeberArbeitnehmer() per month - midijobArbeitgeber() per month;
+    }
+
+    from 2022-10-01 {
+        # TODO
+        return _midijob_beitragspfl_einnahme_arbeitn_m * beitragssatz[arbeitslosenversicherung];
+    }
+}
