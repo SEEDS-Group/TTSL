@@ -24,7 +24,7 @@ package sozialversicherungsbeitrag
  *
  * access_different_date: jahresanfang
  */
-public const beitragssatz: Dict<String, String | Dict<String, Float>> {
+public const beitragssatz: Dict<String, String or Dict<String, Float>> {
     from 1984-01-01 {
         gesetzlicheKrankenversicherung: {
             mean_allgemein: 0.134
@@ -1035,7 +1035,7 @@ public const mindestanteilBezugsgroeßeBeitragspflichtigeEinnahmeSelbst: Float {
  * Gleitzone (Midijob Grenze) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
  * Reference: Midijob § 20 (2) SGB IV, Minijob § 8 (1) Nr. 1 SGB IV
  */
-public const geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int | Dict<String, Int>> {
+public const geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int or Dict<String, Int>> {
     from 1984-01-01 {
         minijob: {
             west: 199

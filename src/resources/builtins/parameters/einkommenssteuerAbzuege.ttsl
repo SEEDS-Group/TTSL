@@ -238,7 +238,7 @@ public const vorsorge2004Grundhoechstbetrag: Int {
  * haben, maximal den gleichen Altersentlastungsbetrag. Ab 2005 hängt dieser Betrag,
  * den diese Steuerpflichtigen erhalten, vom Geburtsjahr ab.
  */
-public const altersentlastungsbetragMax: Int | Dict<Int, Int> {
+public const altersentlastungsbetragMax: Int or Dict<Int, Int> {
     from 1984-01-01 = 1534
     from 1989-01-01 = 1902
     from 2002-01-01 = 1908
@@ -291,7 +291,7 @@ public const altersentlastungsbetragMax: Int | Dict<Int, Int> {
  * haben, die gleiche Altersentlastungsquote abgezogen. Ab 2005 hängt diese Quote,
  * den diese Steuerpflichtigen erhalten, vom Geburtsjahr ab.
  */
-public const altersentlastungQuote: Float | Dict<Int, Float> {
+public const altersentlastungQuote: Float or Dict<Int, Float> {
     from 1984-01-01 = 0.4
 
     # Reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.

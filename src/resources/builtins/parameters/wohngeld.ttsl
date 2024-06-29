@@ -888,7 +888,7 @@ public const freibetragKinder: Dict<String, Int> {
  * vorliegen. Dies ist aktuell nicht implementiert. § 17 Nr. 1 WoGG. (früher § 17 (2)
  * WoGG)
  */
-public const freibetragBehinderung: Dict<Int, Int> | Int {
+public const freibetragBehinderung: Dict<Int, Int> or Int {
   from 1984-01-01 = {
     0: 0,
     1: 0,
@@ -942,7 +942,7 @@ public const behinderungsgrad: Dict<Int, Int> {
  * Die Werte sind nach Anzahl Personen - maximales Baujahr des Hauses (vor 2009) -
  * Mietstufe geordnet. Alle Werte in vollen Euro.
  */
-public const maxMiete: Dict<Int | String, Dict<Int, Dict<Int, Int>>> {
+public const maxMiete: Dict<Int or String, Dict<Int, Dict<Int, Int>>> {
   # Reference: Art. 1 G. v. 04.08.1980 BGBl I S. 1159.
   # Bis 1985 nur drei Mietstufen, streng abhängig von der Größe der Gemeinde. Es wird "Wohnung mit Sammelheizung und mit Bad oder Duschraum" angenommen.
   from 1981-01-01 = {
@@ -2262,7 +2262,7 @@ public const vermoegensfreibetragPerson: Float {
  * Reference: §12 (6) WoGG, Art. 1 G. v. 15.05.2020, BGBl I S. 1015.
  * per month
  */
-public const heizkostenentlastung: Dict<Int | String, Float> {
+public const heizkostenentlastung: Dict<Int or String, Float> {
   from 2021-01-01 {
     1: 14.4,
     2: 18.6,
@@ -2280,7 +2280,7 @@ public const heizkostenentlastung: Dict<Int | String, Float> {
  * Reference: Art. 1 G. v. 08.12.2022 BGBl. I Nr. 48 S. 2160
  * per month
  */
-public const dauerhafteHeizkostenkomponente: Dict<Int | String, Int> {
+public const dauerhafteHeizkostenkomponente: Dict<Int or String, Int> {
   from 2023-01-01 {
     1: 96,
     2: 124,
@@ -2298,7 +2298,7 @@ public const dauerhafteHeizkostenkomponente: Dict<Int | String, Int> {
  * Reference: Art. 1 G. v. 08.12.2022 BGBl. I Nr. 48 S. 2160
  * per month
  */
-public const klimakomponente: Dict<Int | String, Float> {
+public const klimakomponente: Dict<Int or String, Float> {
   from 2023-01-01 = {
     1: 19.20,
     2: 24.80,

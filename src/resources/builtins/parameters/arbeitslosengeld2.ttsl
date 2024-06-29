@@ -136,7 +136,7 @@ public const anrechnungsfreieEinkommensanteileFallsKinder: Dict<Date, Dict<Int, 
  * S.
  * 3159.
  */
-public const regelsatz: Int | Dict<Int, Int> {
+public const regelsatz: Int or Dict<Int, Int> {
     from 2005-01-01 = {
         scalar: 338,
         reference: "Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.",

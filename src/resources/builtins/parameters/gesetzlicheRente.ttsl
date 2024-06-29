@@ -696,7 +696,7 @@ public const renteFrauenPflichtbeitrag: Int {
  * bezogen werden kann.
  * Reference: § 237 SGB VI
  */
-public const altersgrenzeArbeitslosigkeitAbschlagsfrei: Float | Dict<Int, Dict<String, Float | Dict<Int, Float>> {
+public const altersgrenzeArbeitslosigkeitAbschlagsfrei: Float or Dict<Int, Dict<String, Float or Dict<Int, Float>> {
     from 1980-01-01 = {
         0: {
             scalar: 60.0,
@@ -1305,7 +1305,7 @@ public const altersgrenzeArbeitslosigkeitAbschlagsfrei: Float | Dict<Int, Dict<S
  * bezogen werden kann (mit Abschlägen), einschließlich Vertrauensschutz.
  * Reference: § 237 SGB VI
  */
-public const altersgrenzeArbeitslosigkeitVorzeitig: Float | Dict<Int, Dict<Int, Float>>{
+public const altersgrenzeArbeitslosigkeitVorzeitig: Float or Dict<Int, Dict<Int, Float>>{
     from 1980-01-01 = 60.0
 
     # Increase of early retirement age from 60 to 62 for birth cohort 1949-1952.
