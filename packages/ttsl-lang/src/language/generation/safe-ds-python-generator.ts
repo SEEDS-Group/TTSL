@@ -3,7 +3,6 @@ import {
     CompositeGeneratorNode,
     expandToNode,
     expandTracedToNode,
-    IndentNode,
     joinToNode,
     joinTracedToNode,
     NL,
@@ -27,7 +26,6 @@ import {
     isTslDictionary,
     isTslMemberAccess,
     isTslModule,
-    isTslParameter,
     isTslPlaceholder,
     isTslPrefixOperation,
     isTslQualifiedImport,
@@ -67,7 +65,6 @@ import {
     isTslBlock,
     TslTimeunit,
     isTslExpression,
-    TslModuleMember,
 } from '../generated/ast.js';
 import { isInStubFile, isStubFile } from '../helpers/fileExtensions.js';
 import {
@@ -83,18 +80,8 @@ import {
     Parameter,
 } from '../helpers/nodeProperties.js';
 import { SafeDsNodeMapper } from '../helpers/safe-ds-node-mapper.js';
-import {
-    BooleanConstant,
-    FloatConstant,
-    IntConstant,
-    NullConstant,
-    StringConstant,
-} from '../partialEvaluation/model.js';
 import { SafeDsPartialEvaluator } from '../partialEvaluation/safe-ds-partial-evaluator.js';
 import { SafeDsServices } from '../safe-ds-module.js';
-import { SafeDsPurityComputer } from '../purity/safe-ds-purity-computer.js';
-import { FileRead, ImpurityReason } from '../purity/model.js';
-import { SafeDsModuleMembers } from '../builtins/safe-ds-module-members.js';
 import { TTSLFunction } from '../builtins/ttsl-ds-functions.js';
 
 export const CODEGEN_PREFIX = '__gen_';
@@ -297,13 +284,11 @@ export class SafeDsPythonGenerator {
     private readonly builtinFunction: TTSLFunction;
     private readonly nodeMapper: SafeDsNodeMapper;
     private readonly partialEvaluator: SafeDsPartialEvaluator;
-    private readonly purityComputer: SafeDsPurityComputer;
 
     constructor(services: SafeDsServices) {
         this.builtinFunction = services.builtins.Functions;
         this.nodeMapper = services.helpers.NodeMapper;
         this.partialEvaluator = services.evaluation.PartialEvaluator;
-        this.purityComputer = services.purity.PurityComputer;
     }
 
     generate(document: LangiumDocument, generateOptions: GenerateOptions): TextDocument[] {
@@ -537,7 +522,7 @@ export class SafeDsPythonGenerator {
         timeunit: TslTimeunit | undefined,
     ): CompositeGeneratorNode {
         const targetPlaceholder = getPlaceholderByName(block, frame.targetPlaceholder);
-        let statements = getStatements(block)/*.filter((stmt) => this.purityComputer.statementDoesSomething(stmt))*/;
+        let statements = getStatements(block);
         if (targetPlaceholder) {
             statements = this.getStatementsNeededForPartialExecution(targetPlaceholder, statements);
         }
@@ -724,7 +709,7 @@ export class SafeDsPythonGenerator {
         generateLambda: boolean = false,
     ): CompositeGeneratorNode {
         const targetPlaceholder = getPlaceholderByName(block, frame.targetPlaceholder);
-        let statements = getStatements(block)/*.filter((stmt) => this.purityComputer.statementDoesSomething(stmt))*/;
+        let statements = getStatements(block);
         if (targetPlaceholder) {
             statements = this.getStatementsNeededForPartialExecution(targetPlaceholder, statements);
         }
@@ -758,28 +743,20 @@ export class SafeDsPythonGenerator {
                 .map((reference) => <TslPlaceholder>reference.target.ref!)
                 .toArray(),
         );
-        const impurityReasons = new Set<ImpurityReason>(this.purityComputer.getImpurityReasonsForStatement(assignment));
         const collectedStatements: TslStatement[] = [assignment];
         for (const prevStatement of statementsWithEffect.reverse()) {
             // Statements after the target assignment can always be skipped
             if (prevStatement.$containerIndex! >= assignment.$containerIndex!) {
                 continue;
             }
-            const prevStmtImpurityReasons: ImpurityReason[] =
-                this.purityComputer.getImpurityReasonsForStatement(prevStatement);
             if (
                 // Placeholder is relevant
                 (isTslAssignment(prevStatement) &&
                     getAssignees(prevStatement)
                         .filter(isTslPlaceholder)
-                        .some((prevPlaceholder) => referencedPlaceholders.has(prevPlaceholder))) ||
-                // Impurity is relevant
-                prevStmtImpurityReasons.some((pastReason) =>
-                    Array.from(impurityReasons).some((futureReason) =>
-                        pastReason.canAffectFutureImpurityReason(futureReason),
-                    ),
+                        .some((prevPlaceholder) => referencedPlaceholders.has(prevPlaceholder)))
                 )
-            ) {
+            {
                 collectedStatements.push(prevStatement);
                 // Collect all referenced placeholders
                 if (isTslExpressionStatement(prevStatement) || isTslAssignment(prevStatement)) {
@@ -791,10 +768,6 @@ export class SafeDsPythonGenerator {
                             referencedPlaceholders.add(prevPlaceholder);
                         });
                 }
-                // Collect impurity reasons
-                prevStmtImpurityReasons.forEach((prevReason) => {
-                    impurityReasons.add(prevReason);
-                });
             }
         }
         // Get all statements in sorted order
@@ -922,21 +895,6 @@ export class SafeDsPythonGenerator {
             }
         }
 
-        if (!this.purityComputer.expressionHasSideEffects(expression)) {
-            const partiallyEvaluatedNode = this.partialEvaluator.evaluate(expression);
-            if (partiallyEvaluatedNode instanceof BooleanConstant) {
-                return traceToNode(expression)(partiallyEvaluatedNode.value ? 'True' : 'False');
-            } else if (partiallyEvaluatedNode instanceof IntConstant) {
-                return traceToNode(expression)(String(partiallyEvaluatedNode.value));
-            } else if (partiallyEvaluatedNode instanceof FloatConstant) {
-                const floatValue = partiallyEvaluatedNode.value;
-                return traceToNode(expression)(Number.isInteger(floatValue) ? `${floatValue}.0` : String(floatValue));
-            } else if (partiallyEvaluatedNode === NullConstant) {
-                return traceToNode(expression)('None');
-            } else if (partiallyEvaluatedNode instanceof StringConstant) {
-                return expandTracedToNode(expression)`'${this.formatStringSingleLine(partiallyEvaluatedNode.value)}'`;
-            }
-        }
 
         // Handled after constant expressions: EnumVariant, List, Dictionary
         if (isTslTemplateString(expression)) {
@@ -982,13 +940,6 @@ export class SafeDsPythonGenerator {
                         const argumentsMap = this.getArgumentsMap(getArguments(expression), frame);
                         call = this.generatePythonCall(expression, pythonCall, argumentsMap, frame, thisParam);
                     }
-                }
-                if (!call && this.isMemoizableCall(expression) && !frame.disableRunnerIntegration) {
-                    let thisParam: CompositeGeneratorNode | undefined = undefined;
-                    if (isTslMemberAccess(expression.receiver)) {
-                        thisParam = this.generateExpression(expression.receiver.receiver, frame);
-                    }
-                    call = this.generateMemoizedCall(expression, sortedArgs, frame, thisParam);
                 }
             }
 
@@ -1142,11 +1093,10 @@ export class SafeDsPythonGenerator {
             { separator: '' },
         )!;
         // Non-memoizable calls can be directly generated
-        if (!this.isMemoizableCall(expression) || frame.disableRunnerIntegration) {
+        if (frame.disableRunnerIntegration) {
             return generatedPythonCall;
         }
         frame.addImport({ importPath: RUNNER_PACKAGE });
-        const hiddenParameters = this.getMemoizedCallHiddenParameters(expression, frame);
         const callable = this.nodeMapper.callToCallable(expression);
         const memoizedArgs = getParameters(callable).map(
             (parameter) => this.nodeMapper.callToParameterValue(expression, parameter)!,
@@ -1159,86 +1109,7 @@ export class SafeDsPythonGenerator {
             memoizedArgs,
             (arg) => this.generateExpression(arg, frame),
             { separator: ', ' },
-        )}], [${joinToNode(hiddenParameters, (param) => param, { separator: ', ' })}])`;
-    }
-
-    private isMemoizableCall(expression: TslCall): boolean {
-        const impurityReasons = this.purityComputer.getImpurityReasonsForExpression(expression);
-        // If the file is not known, the call is not memoizable
-        return (
-            !impurityReasons.some((reason) => !(reason instanceof FileRead) || reason.path === undefined)
-        );
-    }
-
-    private generateMemoizedCall(
-        expression: TslCall,
-        sortedArgs: TslArgument[],
-        frame: GenerationInfoFrame,
-        thisParam: CompositeGeneratorNode | undefined = undefined,
-    ): CompositeGeneratorNode {
-        frame.addImport({ importPath: RUNNER_PACKAGE });
-        const hiddenParameters = this.getMemoizedCallHiddenParameters(expression, frame);
-        const callable = this.nodeMapper.callToCallable(expression);
-        const memoizedArgs = getParameters(callable).map(
-            (parameter) => this.nodeMapper.callToParameterValue(expression, parameter)!,
-        );
-        // For a static function, the thisParam would be the class containing the function. We do not need to generate it in this case
-        const generateThisParam = !isTslFunction(callable) || thisParam;
-        const containsOptionalArgs = sortedArgs.some((arg) =>
-            Parameter.isOptional(this.nodeMapper.argumentToParameter(arg)),
-        );
-        const fullyQualifiedTargetName = this.generateFullyQualifiedFunctionName(expression);
-        return expandTracedToNode(expression)`${RUNNER_PACKAGE}.memoized_call("${fullyQualifiedTargetName}", ${
-            containsOptionalArgs ? 'lambda *_ : ' : ''
-        }${
-            containsOptionalArgs
-                ? this.generatePlainCall(expression, sortedArgs, frame)
-                : isTslMemberAccess(expression.receiver) && isTslCall(expression.receiver.receiver)
-                  ? expandTracedToNode(expression.receiver)`${this.generateExpression(
-                        expression.receiver.receiver.receiver,
-                        frame,
-                    )}.${this.generateExpression(expression.receiver.member!, frame)}`
-                  : this.generateExpression(expression.receiver, frame)
-        }, [${generateThisParam ? thisParam : ''}${
-            generateThisParam && memoizedArgs.length > 0 ? ', ' : ''
-        }${joinTracedToNode(expression.argumentList, 'arguments')(
-            memoizedArgs,
-            (arg) => this.generateExpression(arg, frame),
-            {
-                separator: ', ',
-            },
-        )}], [${joinToNode(hiddenParameters, (param) => param, { separator: ', ' })}])`;
-    }
-
-    private getMemoizedCallHiddenParameters(expression: TslCall, frame: GenerationInfoFrame): CompositeGeneratorNode[] {
-        const impurityReasons = this.purityComputer.getImpurityReasonsForExpression(expression);
-        const hiddenParameters: CompositeGeneratorNode[] = [];
-        for (const reason of impurityReasons) {
-            if (reason instanceof FileRead) {
-                if (typeof reason.path === 'string') {
-                    hiddenParameters.push(
-                        expandTracedToNode(expression)`${RUNNER_PACKAGE}.file_mtime('${reason.path}')`,
-                    );
-                } else if (isTslParameter(reason.path)) {
-                    const argument = this.nodeMapper
-                        .parametersToArguments([reason.path], getArguments(expression))
-                        .get(reason.path);
-                    if (!argument) {
-                        /* c8 ignore next 4 */
-                        throw new Error(
-                            'File Read impurity with dependency on parameter is present on call, but no argument has been provided.',
-                        );
-                    }
-                    hiddenParameters.push(
-                        expandTracedToNode(argument)`${RUNNER_PACKAGE}.file_mtime(${this.generateArgument(
-                            argument,
-                            frame,
-                        )})`,
-                    );
-                }
-            }
-        }
-        return hiddenParameters;
+        )}])`;
     }
 
     private generateFullyQualifiedFunctionName(expression: TslCall): string {

@@ -33,7 +33,6 @@ import { registerValidationChecks } from './validation/safe-ds-validator.js';
 import { SafeDsDocumentBuilder } from './workspace/safe-ds-document-builder.js';
 import { SafeDsPackageManager } from './workspace/safe-ds-package-manager.js';
 import { SafeDsWorkspaceManager } from './workspace/safe-ds-workspace-manager.js';
-import { SafeDsPurityComputer } from './purity/safe-ds-purity-computer.js';
 import { SafeDsSettingsProvider } from './workspace/safe-ds-settings-provider.js';
 import { SafeDsRenameProvider } from './lsp/safe-ds-rename-provider.js';
 import { SafeDsTypeFactory } from './typing/safe-ds-type-factory.js';
@@ -60,9 +59,6 @@ export type SafeDsAddedServices = {
     };
     lsp: {
         NodeInfoProvider: SafeDsNodeInfoProvider;
-    };
-    purity: {
-        PurityComputer: SafeDsPurityComputer;
     };
     types: {
         ClassHierarchy: SafeDsClassHierarchy;
@@ -120,9 +116,6 @@ export const SafeDsModule: Module<SafeDsServices, PartialLangiumServices & SafeD
     },
     parser: {
         ValueConverter: () => new SafeDsValueConverter(),
-    },
-    purity: {
-        PurityComputer: (services) => new SafeDsPurityComputer(services),
     },
     references: {
         ScopeComputation: (services) => new SafeDsScopeComputation(services),
