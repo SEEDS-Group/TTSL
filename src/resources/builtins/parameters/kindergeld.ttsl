@@ -13,7 +13,7 @@ const altersgrenze: Dict<String, Int> {
         ohne_bedingungen: 18
     }
 
-    // Reference: Art. 1 G. v. 19.07.2006 BGBl I S. 1652
+    # Reference: Art. 1 G. v. 19.07.2006 BGBl I S. 1652
     from 2007-01-01 = {
         mit_bedingungen: 25
         ohne_bedingungen: 18
@@ -119,7 +119,7 @@ const kindergeld: Dict<Int, Int> {
         4: 179
     }
 
-    // Reference: Art. 1 G. v. 22.12.2008 BGBl. I S. 2955
+    # Reference: Art. 1 G. v. 22.12.2008 BGBl. I S. 2955
     from 2009-01-01 = {
         1: 164
         2: 164
@@ -127,7 +127,7 @@ const kindergeld: Dict<Int, Int> {
         4: 195
     }
 
-    // Reference: Art. 1 G. v. 02.03.2009 BGBl. I S. 416
+    # Reference: Art. 1 G. v. 02.03.2009 BGBl. I S. 416
     from 2009-03-01 = {
         1: 164
         2: 164
@@ -135,7 +135,7 @@ const kindergeld: Dict<Int, Int> {
         4: 195
     }
 
-    // Reference: Art. 1 G. v. 22.12.2009 BGBl. I S. 3950
+    # Reference: Art. 1 G. v. 22.12.2009 BGBl. I S. 3950
     from 2009-12-01 = {
         1: 184
         2: 184
@@ -143,7 +143,7 @@ const kindergeld: Dict<Int, Int> {
         4: 215
     }
 
-    // Reference: Art. 1 G. v. 16.07.2015 BGBl. I S. 1202
+    # Reference: Art. 1 G. v. 16.07.2015 BGBl. I S. 1202
     from 2015-07-01 = {
         1: 188
         2: 188
@@ -151,7 +151,7 @@ const kindergeld: Dict<Int, Int> {
         4: 219
     }
 
-    // Reference: Art. 2 G. v. 16.07.2015 BGBl. I S. 1202
+    # Reference: Art. 2 G. v. 16.07.2015 BGBl. I S. 1202
     from 2016-01-01 = {
         1: 190
         2: 190
@@ -159,7 +159,7 @@ const kindergeld: Dict<Int, Int> {
         4: 221
     }
 
-    // Reference: Art. 8 G. v. 20.12.2016 BGBl. I S. 3000
+    # Reference: Art. 8 G. v. 20.12.2016 BGBl. I S. 3000
     from 2017-01-01 = {
         1: 192
         2: 192
@@ -167,7 +167,7 @@ const kindergeld: Dict<Int, Int> {
         4: 223
     }
 
-    // Reference: Art. 9 G. v. 20.12.2016 BGBl. I S. 3000.
+    # Reference: Art. 9 G. v. 20.12.2016 BGBl. I S. 3000.
     from 2018-01-01 = {
         1: 194
         2: 194
@@ -175,7 +175,7 @@ const kindergeld: Dict<Int, Int> {
         4: 225
     }
 
-    // Reference: Art. 2 G. v. 29.11.2018 BGBl. I S. 2210.
+    # Reference: Art. 2 G. v. 29.11.2018 BGBl. I S. 2210.
     from 2019-07-01 = {
         1: 204
         2: 204
@@ -183,7 +183,7 @@ const kindergeld: Dict<Int, Int> {
         4: 235
     }
 
-    // Reference: Art. 1 Abs. 9 G. v. 01.12.2020 BGBl. I S. 2616.
+    # Reference: Art. 1 Abs. 9 G. v. 01.12.2020 BGBl. I S. 2616.
     from 2021-01-01 = {
         1: 219
         2: 219
@@ -191,7 +191,7 @@ const kindergeld: Dict<Int, Int> {
         4: 250
     }
 
-    // Reference: Art. 6 G. v. 08.12.2022 BGBl. I S. 2230.
+    # Reference: Art. 6 G. v. 08.12.2022 BGBl. I S. 2230.
     from 2023-01-01 = {
         1: 250
         2: 250
@@ -208,7 +208,7 @@ const kindergeld: Dict<Int, Int> {
 const einkommensgrenze: Int {
     from 1984-01-01 = 0
 
-    // Reference: Art. 1 G. v. 11.10.1995 BGBl. I S. 1250
+    # Reference: Art. 1 G. v. 11.10.1995 BGBl. I S. 1250
     from 1996-01-01 = 6136
 
     from 1999-01-01 = 6657
@@ -217,12 +217,12 @@ const einkommensgrenze: Int {
 
     from 2001-01-01 = 7179
 
-    // Reference: Art. 1 G. v. 16.08.2001 BGBl. I S. 2074
+    # Reference: Art. 1 G. v. 16.08.2001 BGBl. I S. 2074
     from 2002-01-01 = 7188
 
     from 2004-01-01 = 7680
 
-    // Reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
+    # Reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
     from 2009-01-01 = 8004
 }
 
@@ -233,7 +233,7 @@ const einkommensgrenze: Int {
  * reference period: Week
  */
 const stundengrenze: Int {
-    // Reference: Art. 1 G. v. 01.11.2011 BGBl. I S. 2131
+    # Reference: Art. 1 G. v. 01.11.2011 BGBl. I S. 2131
     from 2012-01-01 = 20
 }
 
@@ -246,12 +246,12 @@ const stundengrenze: Int {
 const kinderbonus: Dict<Int, Int> {
     from 1984-01-01 = 0
 
-    // Reference: Art. 1 Zweites Corona-Steuerhilfegesetz v. 29.06.2020 BGBl. I S. 1512
+    # Reference: Art. 1 Zweites Corona-Steuerhilfegesetz v. 29.06.2020 BGBl. I S. 1512
     from 2020-01-01 = 300
 
-    // Reference: Art. 1 Drittes Corona-Steuerhilfegesetz v. 10.03.2021 BGBl. I S. 330
+    # Reference: Art. 1 Drittes Corona-Steuerhilfegesetz v. 10.03.2021 BGBl. I S. 330
     from 2021-01-01 = 150
 
-    // only one-time payment
+    # only one-time payment
     from 2022-01-01 = 0
 }

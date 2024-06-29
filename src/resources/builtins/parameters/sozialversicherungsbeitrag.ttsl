@@ -2,7 +2,7 @@ package sozialversicherungsbeitrag
 
 /**
  * Beitragssätze zu den gesetzlichen Sozialversicherungen
- * 
+ *
  * gesetzliche Krankenversicherung:
  * Beitragssätze für gesetzliche Krankenversicherung. mean_allgemein -
  * durchschnittlicher Beitragssatz, bis 2008 allgemein - allgemeiner Satz (§241 SGB
@@ -15,13 +15,13 @@ package sozialversicherungsbeitrag
  * Beitragssatz für Arbeitnehmer zusatz_kinderlos - Beitragszuschlag für kinderlose
  * Versicherte, die das 23. Lebensjahr vollendet haben. Wird vom Arbeitnehmer
  * alleine getragen. Eingeführt 2005.
- * 
+ *
  * arbeitslosenversicherung:
  * Beitragssätze zur Arbeitslosenversicherung für Arbeitnehmer.
- * 
+ *
  * gesetzliche Rentenversicherung:
  * Beitragssätze zur allgemeinen Rentenversicherung für Arbeitnehmer.
- * 
+ *
  * access_different_date: jahresanfang
  */
 const beitragssatz: Dict<String, String | Dict<String, Float>> {
@@ -59,35 +59,35 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
     }
 
     from 1988-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             mean_allgemein: 0.1288
         }
     }
 
     from 1989-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             mean_allgemein: 0.129
         }
     }
 
     from 1990-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             mean_allgemein: 0.125
         }
     }
 
     from 1991-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             mean_allgemein: .128
         }
     }
 
     from 1992-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         arbeitslosenversicherung: 0.0315
         gesetzlicheRentenversicherung: 0.0885
     }
@@ -101,7 +101,7 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
     }
 
     from 1994-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheRentenversicherung: 0.096
     }
 
@@ -115,7 +115,7 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
     }
 
     from 1996-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheRentenversicherung: 0.096
     }
 
@@ -129,14 +129,14 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
     }
 
     from 1998-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             mean_allgemein: 0.136
         }
     }
 
     from 2000-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             mean_allgemein: 0.1357
         }
@@ -144,7 +144,7 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
     }
 
     from 2001-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             mean_allgemein: 0.1358
         }
@@ -152,14 +152,14 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
     }
 
     from 2002-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             mean_allgemein: 0.14
         }
     }
 
     from 2003-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             mean_allgemein: 0.144
         }
@@ -167,7 +167,7 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
     }
 
     from 2004-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             mean_allgemein: 0.142
         }
@@ -185,10 +185,10 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
         gesetzlicheRentenversicherung: 0.0975
     }
 
-    // Allgemeiner Beitragssatz wird nicht mehr gleichmäßig aufgeteilt, Einführung des Sonderbeitrags
-    // Reference: Art. 1 G. v. 15.12.2004, BGBl I S. 3445.
+    # Allgemeiner Beitragssatz wird nicht mehr gleichmäßig aufgeteilt, Einführung des Sonderbeitrags
+    # Reference: Art. 1 G. v. 15.12.2004, BGBl I S. 3445.
     from 2005-07-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             mean_allgemein: 0.133
             sonderbeitrag: 0.009
@@ -196,7 +196,7 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
     }
 
     from 2007-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             mean_allgemein: 0.139
         }
@@ -218,7 +218,7 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
     }
 
     from 2009-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             allgemein: 0.146
             sonderbeitrag: 0.009
@@ -228,7 +228,7 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
     }
 
     from 2009-07-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             allgemein: 0.14
             ermäßigt: 0.134
@@ -236,9 +236,9 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
         }
     }
 
-    // Reference: Art. 1 G. v. 22.12.2010 BGBl. I S. 2309
+    # Reference: Art. 1 G. v. 22.12.2010 BGBl. I S. 2309
     from 2011-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             allgemein: 0.146
             ermäßigt: 0.14
@@ -246,21 +246,21 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
         arbeitslosenversicherung: 0.015
     }
 
-    // Quelle: http://www.bmas.de/DE/Service/Presse/Pressemitteilungen/rentenbericht-16-11-2011.html
+    # Quelle: http:#www.bmas.de/DE/Service/Presse/Pressemitteilungen/rentenbericht-16-11-2011.html
     from 2012-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheRentenversicherung: 0.098
     }
 
     from 2013-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheRentenversicherung: 0.0945
         gesetzlichePflegeversicherung: {
             standard: 0.01025
         }
     }
 
-    // Abschaffung Sonderbeitrag, Einführung kassenabhängiger Zusatzbeitrag
+    # Abschaffung Sonderbeitrag, Einführung kassenabhängiger Zusatzbeitrag
     from 2015-01-01 {
         gesetzlicheKrankenversicherung: {
             allgemein: 0.146
@@ -275,33 +275,33 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
         gesetzlicheRentenversicherung: 0.0935
     }
 
-    // Bekanntmachung Bundesanzeiger 30.12.2015
+    # Bekanntmachung Bundesanzeiger 30.12.2015
     from 2016-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             meanZusatzbeitrag: 0.011
         }
     }
 
     from 2017-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlichePflegeversicherung: {
             standard: 0.01275
         }
     }
 
     from 2018-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             meanZusatzbeitrag: 0.01
         }
         gesetzlicheRentenversicherung: 0.093
     }
 
-    // Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387
-    // (arbeitsl_v:) Set to 0.026 in Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651.
-    // Temporarily reduced to 0.025 in BeiSaV 2019.
-    // Reference: (arbeitsl_v:) V. v. 21.12.2018 BGBl. I S. 2663
+    # Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387
+    # (arbeitsl_v:) Set to 0.026 in Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651.
+    # Temporarily reduced to 0.025 in BeiSaV 2019.
+    # Reference: (arbeitsl_v:) V. v. 21.12.2018 BGBl. I S. 2663
     from 2019-01-01 {
         gesetzlicheKrankenversicherung: {
             allgemein: 0.146
@@ -316,55 +316,55 @@ const beitragssatz: Dict<String, String | Dict<String, Float>> {
         gesetzlicheRentenversicherung: 0.093
     }
 
-    // Temporarily reduced to 0.024 in BeiSaV 2019.
-    // Reference: (ges_krankenv mean_zusatzbeitrag:) BAnz AT 28.10.2019 B3
-    // (arbeitsl_v:) V. v. 02.12.2019 BGBl. I S. 1998
+    # Temporarily reduced to 0.024 in BeiSaV 2019.
+    # Reference: (ges_krankenv mean_zusatzbeitrag:) BAnz AT 28.10.2019 B3
+    # (arbeitsl_v:) V. v. 02.12.2019 BGBl. I S. 1998
     from 2020-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             meanZusatzbeitrag: 0.011
         }
         arbeitslosenversicherung: 0.012
     }
 
-    // Reference: (ges_krankenv mean_zusatzbeitrag:) BAnz AT 30.10.2020 B5
+    # Reference: (ges_krankenv mean_zusatzbeitrag:) BAnz AT 30.10.2020 B5
     from 2021-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             meanZusatzbeitrag: 0.013
         }
     }
 
-    // Reference: Art. 2 Nr. 14 G. v. 11.07.2021, BGBl. I S. 2754.
+    # Reference: Art. 2 Nr. 14 G. v. 11.07.2021, BGBl. I S. 2754.
     from 2022-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlichePflegeversicherung: {
             zusatzKinderlos: 0.0035
         }
     }
 
-    // Contribution rate for arbeitsl_v was temporarily reduced from 2019 to 2022 in BeiSaV 2019.
-    // Now back to level specified in § 341 Abs. 2 SGB III.
-    // Reference: (arbeitsl_v:) Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651
-    // (ges_krankenv mean_zusatzbeitrag:) BAnz AT 31.10.2022 B5
+    # Contribution rate for arbeitsl_v was temporarily reduced from 2019 to 2022 in BeiSaV 2019.
+    # Now back to level specified in § 341 Abs. 2 SGB III.
+    # Reference: (arbeitsl_v:) Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651
+    # (ges_krankenv mean_zusatzbeitrag:) BAnz AT 31.10.2022 B5
     from 2023-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         arbeitslosenversicherung: 0.013
         gesetzlicheKrankenversicherung: {
             meanZusatzbeitrag: 0.016
         }
     }
 
-    // Reference: BAnz AT 31.10.2023 B3
+    # Reference: BAnz AT 31.10.2023 B3
     from 2024-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         gesetzlicheKrankenversicherung: {
             meanZusatzbeitrag: 0.017
         }
     }
 }
 
-/** 
+/**
  * Beitragssätze zu den gesetzlichen Sozialversicherungen
  * Die Beitragsbemessungsgrenze für Kranken- und Pflegeversicherung ist identisch.
  */
@@ -611,7 +611,7 @@ const beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
     }
 
     from 2007-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         ges_rentenv: {
             ost: 4550
         }
@@ -651,7 +651,7 @@ const beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
     }
 
     from 2011-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         ges_krankenv: {
             west: 3712.5
             ost: 3712.5
@@ -662,7 +662,7 @@ const beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
     }
 
     from 2012-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         ges_krankenv: {
             west: 3825
             ost: 3825
@@ -683,7 +683,7 @@ const beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         }
     }
 
-    // http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
+    # http:#www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
     from 2014-01-01 {
         ges_krankenv: {
             west: 4050
@@ -706,7 +706,7 @@ const beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         }
     }
 
-    // https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
+    # https:#www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
     from 2016-01-01 {
         ges_krankenv: {
             west: 4237.5
@@ -718,7 +718,7 @@ const beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         }
     }
 
-    // https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
+    # https:#www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
     from 2017-01-01 {
         ges_krankenv: {
             west: 4350
@@ -752,7 +752,7 @@ const beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         }
     }
 
-    // Reference: V. v. 17.12.2019 BGBl. I S. 2848
+    # Reference: V. v. 17.12.2019 BGBl. I S. 2848
     from 2020-01-01 {
         ges_krankenv: {
             west: 4687.5
@@ -764,7 +764,7 @@ const beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         }
     }
 
-    // Reference: §3, §4 V. v. 30.11.2020, BGBl. I S. 2612.
+    # Reference: §3, §4 V. v. 30.11.2020, BGBl. I S. 2612.
     from 2021-01-01 {
         ges_krankenv: {
             west: 4837.5
@@ -776,16 +776,16 @@ const beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         }
     }
 
-    // Reference: §3 V. v. 30.11.2021, BGBl. I S. 5044.
+    # Reference: §3 V. v. 30.11.2021, BGBl. I S. 5044.
     from 2022-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         ges_rentenv: {
             west: 7050
             ost: 6750
         }
     }
 
-    // Reference: V. v. 28.11.2022 BGBl. I. S. 2128.
+    # Reference: V. v. 28.11.2022 BGBl. I. S. 2128.
     from 2023-01-01 {
         ges_krankenv: {
             west: 4987.5
@@ -797,7 +797,7 @@ const beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         }
     }
 
-    // Reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 322
+    # Reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 322
     from 2024-01-01 {
         ges_krankenv: {
             west: 5175
@@ -810,9 +810,9 @@ const beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
     }
 }
 
-/** 
+/**
  * Monatliche Bezugsgröße
- * §18 SGB IV and https://de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
+ * §18 SGB IV and https:#de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
  */
 const monatlicheBezugsgroeße: Dict<String, Float> {
     from 1984-01-01 {
@@ -895,7 +895,7 @@ const monatlicheBezugsgroeße: Dict<String, Float> {
     }
 
     from 2001-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         ost: 1932.683310921706
     }
 
@@ -920,12 +920,12 @@ const monatlicheBezugsgroeße: Dict<String, Float> {
     }
 
     from 2007-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         ost: 2100
     }
 
     from 2008-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         west: 2485
     }
 
@@ -940,12 +940,12 @@ const monatlicheBezugsgroeße: Dict<String, Float> {
     }
 
     from 2011-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         ost: 2240
     }
 
     from 2012-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         west: 2625
     }
 
@@ -954,8 +954,8 @@ const monatlicheBezugsgroeße: Dict<String, Float> {
         ost: 2275
     }
 
-    // http://www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
-    from 2014-01-01 {        
+    # http:#www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
+    from 2014-01-01 {
         west: 2765
         ost: 2345
     }
@@ -965,13 +965,13 @@ const monatlicheBezugsgroeße: Dict<String, Float> {
         ost: 2415
     }
 
-    // https://www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
+    # https:#www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
     from 2016-01-01 {
         west: 2905
         ost: 2520
     }
 
-    // https://www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
+    # https:#www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
     from 2017-01-01 {
         west: 2975
         ost: 2660
@@ -982,37 +982,37 @@ const monatlicheBezugsgroeße: Dict<String, Float> {
         ost: 2695
     }
 
-    // Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
+    # Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
     from 2019-01-01 {
         west: 3115
         ost: 2870
     }
 
-    // Reference: §2 V. v. 17.12.2019 BGBl. I S. 2848
+    # Reference: §2 V. v. 17.12.2019 BGBl. I S. 2848
     from 2020-01-01 {
         west: 3185
         ost: 3010
     }
 
-    // Reference: §2 V. v. 30.11.2020, BGBl. I S. 2612.
+    # Reference: §2 V. v. 30.11.2020, BGBl. I S. 2612.
     from 2021-01-01 {
         west: 3290
         ost: 3115
     }
 
-    // Reference: §2 V. v. 30.11.2021, BGBl. I S. 5044.
+    # Reference: §2 V. v. 30.11.2021, BGBl. I S. 5044.
     from 2022-01-01 {
         west: 3290
         ost: 3150
     }
 
-    // Reference: V. v. 28.11.2022 BGBl. I. S. 2128.
+    # Reference: V. v. 28.11.2022 BGBl. I. S. 2128.
     from 2023-01-01 {
         west: 3395
         ost: 3290
     }
 
-    // Reference: V. v. 29.11.2023 BGBl. 2023 I Nr. 322.
+    # Reference: V. v. 29.11.2023 BGBl. 2023 I Nr. 322.
     from 2024-01-01 {
         west: 3535
         ost: 3465
@@ -1043,35 +1043,35 @@ const geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int | Dict<String, I
     }
 
     from 1985-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: {
             west: 205
         }
     }
 
     from 1986-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: {
             west: 210
         }
     }
 
     from 1987-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: {
             west: 220
         }
     }
 
     from 1988-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: {
             west: 225
         }
     }
 
     from 1989-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: {
             west: 230
         }
@@ -1085,7 +1085,7 @@ const geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int | Dict<String, I
     }
 
     from 1991-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: {
             west: 245
             ost: 120
@@ -1093,7 +1093,7 @@ const geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int | Dict<String, I
     }
 
     from 1992-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: {
             west: 256
             ost: 153
@@ -1101,7 +1101,7 @@ const geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int | Dict<String, I
     }
 
     from 1993-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: {
             west: 271
             ost: 199
@@ -1109,7 +1109,7 @@ const geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int | Dict<String, I
     }
 
     from 1994-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: {
             west: 286
             ost: 225
@@ -1117,7 +1117,7 @@ const geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int | Dict<String, I
     }
 
     from 1995-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: {
             west: 297
             ost: 240
@@ -1125,7 +1125,7 @@ const geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int | Dict<String, I
     }
 
     from 1996-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: {
             west: 302
             ost: 256
@@ -1133,7 +1133,7 @@ const geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int | Dict<String, I
     }
 
     from 1997-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: {
             west: 312
             ost: 266
@@ -1141,14 +1141,14 @@ const geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int | Dict<String, I
     }
 
     from 1998-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: {
             west: 317
         }
     }
 
     from 1999-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: {
             west: 322
             ost: 271
@@ -1156,44 +1156,44 @@ const geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int | Dict<String, I
     }
 
     from 2000-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: 322
     }
 
     from 2002-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: 325
     }
 
     from 2003-04-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: 400
         midijob: 800
     }
 
     from 2013-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: 450
         midijob: 850
     }
 
-    // Reference: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
+    # Reference: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
     from 2019-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         midijob: 1300
     }
 
-    // Reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
-    // minijob thresholds now calculated based on statutory minimum wage
+    # Reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
+    # minijob thresholds now calculated based on statutory minimum wage
     from 2022-10-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         minijob: null
         midijob: 1600
     }
 
-    // Reference: Art. 3 G. v. 11.11.2022 BGBl. I S. 1985
+    # Reference: Art. 3 G. v. 11.11.2022 BGBl. I S. 1985
     from 2023-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         midijob: 2000
     }
 }
@@ -1213,7 +1213,7 @@ const geringfuegigeEinkommensfaktor: Int {
  * Reference: §8 (1a) SGB IV
  */
 const geringfuegigeEinkommensdivisor: Int {
-    // Reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
+    # Reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
     from 2022-10-01 = 3
 }
 
@@ -1231,21 +1231,21 @@ const pauschalabgabenGeringfuegigeBeschaeftigung: Dict<String, Float> {
     }
 
     from 1999-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         ges_krankenv: 0.1
         ges_rentenv: 0.12
         st: 0
     }
 
     from 2003-04-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         ges_krankenv: 0.11
         ges_rentenv: 0.12
         st: 0.02
     }
 
     from 2007-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         ges_krankenv: 0.13
         ges_rentenv: 0.15
         st: 0.02
@@ -1278,11 +1278,11 @@ const mindestlohn: Float {
     from 2022-07-01 = 10.45
     from 2022-10-01 = 12
 
-    // Reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 321
+    # Reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 321
     from 2024-01-01 = 12.41
 
-    // Reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 321
+    # Reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 321
     from 2025-01-01 = 12.82
 }
 
-// TODO: rounding
+# TODO: rounding

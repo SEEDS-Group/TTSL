@@ -1,6 +1,6 @@
 package abgeltungssteuersatz
 
-// abgelt_st.yaml --------------------------------------------------------
+# abgelt_st.yaml --------------------------------------------------------
 
 /**
  * Constant for the Capital Income Tax Rate as defined in §32d (1) EStG.

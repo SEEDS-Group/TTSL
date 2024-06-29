@@ -6,7 +6,7 @@ package solidaritaetszuschlag
  * transition_threshold in soli_st.py berechnet.
  */
 const solidaritaetszuschlag: Dict<Int, Dict<String, Float>> {
-    // Reference: Artikel 1 G. v. 24.06.1991 BGBl. I S. 1318.
+    # Reference: Artikel 1 G. v. 24.06.1991 BGBl. I S. 1318.
     from 1991-01-01 {
         0: {
             lower_threshold: -inf
@@ -28,9 +28,9 @@ const solidaritaetszuschlag: Dict<Int, Dict<String, Float>> {
             intercept_at_lower_threshold: 0
             upper_threshold: inf
         }
-    } // TODO: BEISPIEL FÜR DEVIATION!!!!
+    } # TODO: BEISPIEL FÜR DEVIATION!!!!
 
-    // Reference: Artikel 31 G. v. 23.06.1993 BGBl. I S. 944.
+    # Reference: Artikel 31 G. v. 23.06.1993 BGBl. I S. 944.
     from 1995-01-01 {
         0: {
             lower_threshold: -inf
@@ -48,7 +48,7 @@ const solidaritaetszuschlag: Dict<Int, Dict<String, Float>> {
         }
     }
 
-    // Reference: Artikel 1 G. v. 21.11.1997 BGBl. I S. 2743.
+    # Reference: Artikel 1 G. v. 21.11.1997 BGBl. I S. 2743.
     from 1998-01-01 {
         0: {
             lower_threshold: -inf
@@ -66,7 +66,7 @@ const solidaritaetszuschlag: Dict<Int, Dict<String, Float>> {
         }
     }
 
-    // Reference: G. v. 15.10.2002 BGBl. I S. 4131.
+    # Reference: G. v. 15.10.2002 BGBl. I S. 4131.
     from 2002-01-01 {
         0: {
             lower_threshold: -inf
@@ -84,7 +84,7 @@ const solidaritaetszuschlag: Dict<Int, Dict<String, Float>> {
         }
     }
 
-    // Reference: Artikel 1 G. v. 10.12.2019 BGBl. I S. 2115.
+    # Reference: Artikel 1 G. v. 10.12.2019 BGBl. I S. 2115.
     from 2021-01-01 {
         0: {
             lower_threshold: -inf
@@ -102,9 +102,9 @@ const solidaritaetszuschlag: Dict<Int, Dict<String, Float>> {
         }
     }
 
-    // Reference: Art. 4 G. v. 08.12.2022 BGBl. I S. 2230.
+    # Reference: Art. 4 G. v. 08.12.2022 BGBl. I S. 2230.
     from 2023-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         0: {
             upper_threshold: 17543
         },
@@ -113,9 +113,9 @@ const solidaritaetszuschlag: Dict<Int, Dict<String, Float>> {
         }
     }
 
-    // Reference: Art. 5 G. v. 08.12.2022 BGBl. I S. 2230.
+    # Reference: Art. 5 G. v. 08.12.2022 BGBl. I S. 2230.
     from 2024-01-01 {
-        // deviation_from: previous
+        # deviation_from: previous
         0: {
             upper_threshold: 18130
         },

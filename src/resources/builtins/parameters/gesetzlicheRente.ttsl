@@ -1,6 +1,6 @@
 package gesetzlicheRente
 
-// ges_rente.yaml --------------------------------------------------------
+# ges_rente.yaml --------------------------------------------------------
 
 /**
  * Teil des Nachhaltigkeitsfaktors in der Rentenanpassungsformel, welche das
@@ -137,27 +137,27 @@ const beitragspflichtigesDurchschnittsentgelt: Int {
     from 2016-01-01 = 36187
     from 2017-01-01 = 37077
 
-    // Reference: V. v. 17.12.2019 BGBl. I S. 2848.
+    # Reference: V. v. 17.12.2019 BGBl. I S. 2848.
     from 2018-01-01 = 38212
 
-    // Reference: V. v. 30.11.2020 BGBl. I S. 2612.
+    # Reference: V. v. 30.11.2020 BGBl. I S. 2612.
     from 2019-01-01 = 39301
 
-    // Reference: §1 V. v. 30.11.2021, BGBl. I S. 5044.
+    # Reference: §1 V. v. 30.11.2021, BGBl. I S. 5044.
     from 2020-01-01 = 39167
 
-    // Reference: §3 V. v. 28.11.2022 BGBl. I S. 2128 (Nr. 47).
+    # Reference: §3 V. v. 28.11.2022 BGBl. I S. 2128 (Nr. 47).
     from 2021-01-01 = 40463
 
-    // Reference: §3 V. v. 24.11.2023 BGBl. 2023 I Nr. 322
+    # Reference: §3 V. v. 24.11.2023 BGBl. 2023 I Nr. 322
     from 2022-01-01 = 42053
 
-    // Reference: §3 V. v. 28.11.2022 BGBl. 2022 I Nr. 2128
-    // Vorläufiges Durchschnittsentgelt
+    # Reference: §3 V. v. 28.11.2022 BGBl. 2022 I Nr. 2128
+    # Vorläufiges Durchschnittsentgelt
     from 2023-01-01 = 43142
 
-    // Reference: §3 V. v. 24.11.2023 BGBl. 2023 I Nr. 322
-    // Vorläufiges Durchschnittsentgelt
+    # Reference: §3 V. v. 24.11.2023 BGBl. 2023 I Nr. 322
+    # Vorläufiges Durchschnittsentgelt
     from 2024-01-01 = 45358
 }
 
@@ -305,7 +305,7 @@ const rentenwert: Dict<String, Float> {
     }
 
     from 1993-01-01 = {
-        west: 21.80, // deviation_from: previous
+        west: 21.80, # deviation_from: previous
         ost: 14.41
     }
 
@@ -315,7 +315,7 @@ const rentenwert: Dict<String, Float> {
     }
 
     from 1994-01-01 = {
-        west: 22.75, // deviation_from: previous
+        west: 22.75, # deviation_from: previous
         ost: 17.05
     }
 
@@ -325,7 +325,7 @@ const rentenwert: Dict<String, Float> {
     }
 
     from 1995-01-01 = {
-        west: 23.52, // deviation_from: previous
+        west: 23.52, # deviation_from: previous
         ost: 18.13
     }
 
@@ -335,7 +335,7 @@ const rentenwert: Dict<String, Float> {
     }
 
     from 1996-01-01 = {
-        west: 23.64, // deviation_from: previous
+        west: 23.64, # deviation_from: previous
         ost: 19.39
     }
 
@@ -445,7 +445,7 @@ const rentenwert: Dict<String, Float> {
     }
 
     from 2021-07-01 = {
-        west: 34.19, // deviation_from: previous
+        west: 34.19, # deviation_from: previous
         ost: 33.47
     }
 
@@ -466,7 +466,7 @@ const rentenwert: Dict<String, Float> {
  * des Effekts eines weiteren Monats an Grundrentenzeiten auf Höchstwert.
  */
 const grundrenteHöchstwert: Dict<String, Float> {
-    // Reference: § 76g Abs. 4 S. 3, 4 SGB VI
+    # Reference: § 76g Abs. 4 S. 3, 4 SGB VI
     from 2021-01-01 = {
         base: 0.0334,
         increment: 0.001389,
@@ -489,7 +489,7 @@ const grundrenteZugangsfaktorMax: Int {
  * berücksichtigt werden
  */
 const grundrenteZeiten: Dict<String, Int> {
-    // Reference: § 76g Abs. 4 S. 5,6 / Abs. 1 S. 1 SGB VI
+    # Reference: § 76g Abs. 4 S. 5,6 / Abs. 1 S. 1 SGB VI
     from 2021-01-01 = {
         min: 396,
         max: 420,
@@ -503,7 +503,7 @@ const grundrenteZeiten: Dict<String, Int> {
  * Reference: § 97a Abs. 4 S. 2, 4 SGB VI
  */
 const grundrenteEinkommensanrechnungSingle: Dict<Int, Dict<String, Float>> {
-    // Reference: § 97a Abs. 4 S. 2, 4 SGB VI
+    # Reference: § 97a Abs. 4 S. 2, 4 SGB VI
     from 2021-01-01 = {
         0: {
             lower_threshold: -inf,
@@ -529,7 +529,7 @@ const grundrenteEinkommensanrechnungSingle: Dict<Int, Dict<String, Float>> {
  * Reference: § 97a Abs. 4 S. 2, 4 SGB VI
  */
 const grundrenteEinkommensanrechnungMarried: Dict<Int, Dict<String, Float>> {
-    // Reference: § 97a Abs. 4 S. 2, 4 SGB VI
+    # Reference: § 97a Abs. 4 S. 2, 4 SGB VI
     from 2021-01-01 = {
         0: {
             lower_threshold: -inf,
@@ -554,7 +554,7 @@ const grundrenteEinkommensanrechnungMarried: Dict<Int, Dict<String, Float>> {
  * multipliziert werden.
  */
 const grundrenteFaktorBonus: Float {
-    // Reference: §§ 76g Abs. 4 S. 3, 4 SGB VI
+    # Reference: §§ 76g Abs. 4 S. 3, 4 SGB VI
     from 2021-01-01 = 0.875
 }
 
@@ -565,7 +565,7 @@ const grundrenteFaktorBonus: Float {
  * Reference: §77 Abs. 2 Nr. 2 SGB VI
  */
 const zugangsfaktorVeraenderungProJahr: Dict<String, Float> {
-    // Reference: §77 Abs. 2 Nr. 2 SGB VI
+    # Reference: §77 Abs. 2 Nr. 2 SGB VI
     from 2001-01-01 = {
         vorzeitiger_renteneintritt: 0.036,
         späterer_renteneintritt: 0.06,
@@ -622,12 +622,12 @@ const altersgrenzeFrauen: Dict<Int, Dict<String, Float>> {
             rate_linear: 1,
         },
         2: {
-            upper_threshold: 1951.916666666,  // constant 65
+            upper_threshold: 1951.916666666,  # constant 65
             rate_linear: 0,
         },
         3: {
             upper_threshold: 1952,
-            // since 1952 abolished - regelaltersgrenze applies - jump in theshold by 6 month
+            # since 1952 abolished - regelaltersgrenze applies - jump in theshold by 6 month
             rate_linear: 6,
         },
         4: {
@@ -664,7 +664,7 @@ const altersgrenzeFrauenVorzeitig: Dict<Int, Dict<String, Float>> {
             rate_linear: 7,
         },
         2: {
-            upper_threshold: inf,  // constant 67
+            upper_threshold: inf,  # constant 67
             rate_linear: 0,
         },
     }
@@ -1103,13 +1103,13 @@ const altersgrenzeArbeitslosigkeitAbschlagsfrei: Float | Dict<Int, Dict<String, 
             11: 65.0,
             12: 65.0,
         },
-        /* 
+        /*
         Altersgrenze für Altersrente wegen Arbeitslosigkeit mit Vertrauensschutz
         (abschlagsfrei).
         Increase of full retirement age according to old law (RRG 1992) for individuals
         covered under Vertrauensschutz.
         Reference: § 237 SGB VI Abs. 4
-        */ 
+        */
         vertrauensschutz: {
             max_birthyear_old_regime: 1940,
             entry_age_old_regime: 60.0,
@@ -1161,9 +1161,9 @@ const altersgrenzeArbeitslosigkeitAbschlagsfrei: Float | Dict<Int, Dict<String, 
             },
         },
     }
-    
-    // Reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461 1996
-    // Increase of full retirement age from 60 to 65 for birth cohort 1937-1941.
+
+    # Reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461 1996
+    # Increase of full retirement age from 60 to 65 for birth cohort 1937-1941.
     from 1996-09-27 = {
         max_birthyear_old_regime: 1936,
         min_birthyear_new_regime: 1942,
@@ -1240,7 +1240,7 @@ const altersgrenzeArbeitslosigkeitAbschlagsfrei: Float | Dict<Int, Dict<String, 
             12: 65.0,
         },
         vertrauensschutz: {
-            /* 
+            /*
             Altersgrenze für Altersrente wegen Arbeitslosigkeit mit Vertrauensschutz
             (abschlagsfrei).
             Increase of full retirement age according to old law (RRG 1992) for individuals
@@ -1299,7 +1299,7 @@ const altersgrenzeArbeitslosigkeitAbschlagsfrei: Float | Dict<Int, Dict<String, 
     }
 }
 
-/** 
+/**
  * Altersgrenze für vorzeitige Inanspruchnahme Altersrente wegen Arbeitslosigkeit
  * Frühestmögliches Alter ab dem die Altersrente für Arbeitslose
  * bezogen werden kann (mit Abschlägen), einschließlich Vertrauensschutz.
@@ -1308,8 +1308,8 @@ const altersgrenzeArbeitslosigkeitAbschlagsfrei: Float | Dict<Int, Dict<String, 
 const altersgrenzeArbeitslosigkeitVorzeitig: Float | Dict<Int, Dict<Int, Float>>{
     from 1980-01-01 = 60.0
 
-    // Increase of early retirement age from 60 to 62 for birth cohort 1949-1952.
-    // Reference: Rentenreformgesetz 1992. BGBl. I S. 2261 1989 § 41
+    # Increase of early retirement age from 60 to 62 for birth cohort 1949-1952.
+    # Reference: Rentenreformgesetz 1992. BGBl. I S. 2261 1989 § 41
     from 1992-01-01 = {
         max_birthyear_old_regime: 1948,
         min_birthyear_new_regime: 1953,
@@ -1373,8 +1373,8 @@ const altersgrenzeArbeitslosigkeitVorzeitig: Float | Dict<Int, Dict<Int, Float>>
         },
     }
 
-    // Increase of early retirement age from 60 to 65 for birth cohort 1937-1941.
-    // Reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461 1996
+    # Increase of early retirement age from 60 to 65 for birth cohort 1937-1941.
+    # Reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461 1996
     from 1996-07-29 = {
         max_birthyear_old_regime: 1948,
         min_birthyear_new_regime: 1953,
@@ -1439,8 +1439,8 @@ const altersgrenzeArbeitslosigkeitVorzeitig: Float | Dict<Int, Dict<Int, Float>>
         vertrauensschutz: 60.0,
     }
 
-    // Increase of ERA was revoked.
-    // Reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461 1996
+    # Increase of ERA was revoked.
+    # Reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461 1996
     from 1996-09-27 = 60.0,
 
     from 2004-07-26 = {
@@ -1493,8 +1493,8 @@ const altersgrenzeArbeitslosigkeitVorzeitig: Float | Dict<Int, Dict<Int, Float>>
         vertrauensschutz: 60.0,
     }
 
-    // Same statutory retirement ages as before, but abolishment with birth cohort 1952.
-    // Reference: RV-Nachhaltigkeitsgesetz 2004 and RV-Altersgrenzenanpassungsgesetz 2007.
+    # Same statutory retirement ages as before, but abolishment with birth cohort 1952.
+    # Reference: RV-Nachhaltigkeitsgesetz 2004 and RV-Altersgrenzenanpassungsgesetz 2007.
     from 2007-04-30 = {
         first_birthyear_without_rente_für_arbeitsl: 1952,
         max_birthyear_old_regime: 1945,
@@ -1553,7 +1553,7 @@ const altersgrenzeArbeitslosigkeitVorzeitig: Float | Dict<Int, Dict<Int, Float>>
  * bezogen werden kann (mit Abschlägen).
  * Reference: § 236 SGB VI
  */
-const altersgrenzeLangjährigVersicherteVorzeitig: Float { 
+const altersgrenzeLangjährigVersicherteVorzeitig: Float {
     from 1980-01-01 = 63.0
 }
 
@@ -1586,7 +1586,7 @@ const altersgrenzeLangjährigVersicherteAbschlagsfrei: Dict<Int, Dict<Int, Float
             rate_linear: 1,
         },
         4: {
-            upper_threshold: 1950,  // 1950.91667
+            upper_threshold: 1950,  # 1950.91667
             rate_linear: 0,
         },
         5: {
@@ -1675,5 +1675,5 @@ const firstBirthyearBesondersLangjährigVersicherte: Int {
     from 2012-01-01 = 1952
 }
 
-// TODO: rounding
-// TODO: threshholdswartezeiten
+# TODO: rounding
+# TODO: threshholdswartezeiten

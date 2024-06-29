@@ -1,6 +1,6 @@
 package erziehungsgeld
 
-// erziehungsgeld.yaml ---------------------------------------------------
+# erziehungsgeld.yaml ---------------------------------------------------
 
 /**
  * Einkommensgrenze für abzugsfreies Erziehungsgeld
@@ -95,5 +95,5 @@ const endAlterKindBudgetsatz: Int {
 	from 2004-01-01 = 12
 }
 
-// TODO: rounding
+# TODO: rounding
 

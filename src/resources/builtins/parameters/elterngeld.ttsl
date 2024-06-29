@@ -1,6 +1,6 @@
 package elterngeld
 
-// elterngeld.yaml -------------------------------------------------------
+# elterngeld.yaml -------------------------------------------------------
 
 /**
  * Faktor bei der ElG-Berechung, 2. Stufe
@@ -24,13 +24,13 @@ const hoechstbetrag: Int {
  * vor der Geburt
  */
 const nettoeinkommenStufen: Dict<Int, Int> {
-	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = {
 		1: 1000,
 		2: 1001
 	}
 
-	// Reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
+	# Reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
 	from 2011-01-01 = {
 		1: 1000,
 		2: 1201
@@ -42,7 +42,7 @@ const nettoeinkommenStufen: Dict<Int, Int> {
  * § 2 (5) BEEG
  */
 const mindestbetrag: Int {
-	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = 300
 }
 
@@ -51,7 +51,7 @@ const mindestbetrag: Int {
  * § 2 (2) BEEG
  */
 const prozentKorrektur: Float {
-	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = 0.001
 }
 
@@ -62,7 +62,7 @@ const prozentKorrektur: Float {
 const prozentMinimum: Float {
 	from 2007-01-01 = 0.67
 
-	// Reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
+	# Reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
 	from 2011-01-01 = 0.65
 }
 
@@ -71,7 +71,7 @@ const prozentMinimum: Float {
  * § 2 (2) BEEG
  */
 const einkommensSchrittKorrektur: Int {
-	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = 2
 }
 
@@ -93,7 +93,7 @@ const geschwisterbonusAltersgrenzenKinder: Dict<Int, Int> {
  * § 2a (1) BEEG. Früher § 2 (4) BEEG
  */
 const geschwisterbonusAufschlag: Float {
-	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = 0.1
 }
 
@@ -102,7 +102,7 @@ const geschwisterbonusAufschlag: Float {
  * § 2a (1) BEEG. Früher §2 (4)  BEEG
  */
 const geschwisterbonusMinimum: Int {
-	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = 75
 }
 
@@ -112,7 +112,7 @@ const geschwisterbonusMinimum: Int {
  * pro Monat
  */
 const mehrlingbonus: Int {
-	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = 300
 }
 
@@ -121,7 +121,7 @@ const mehrlingbonus: Int {
  * §2f BEEG. Vor 2012 waren es die eigentlichen Pflichtbeiträge.
  */
 const sozialversicherungspauschale: Float {
-	// Reference: Art. 1 G. v. 10.09.2012 BGBl. I S. 1878
+	# Reference: Art. 1 G. v. 10.09.2012 BGBl. I S. 1878
 	from 2012-09-18 = 0.21
 }
 
@@ -130,7 +130,7 @@ const sozialversicherungspauschale: Float {
  * § 4 (3) BEEG
  */
 const maxMonatePaar: Int {
-	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = 14
 }
 
@@ -139,6 +139,6 @@ const maxMonatePaar: Int {
  * § 4 (3) BEEG
  */
 const maxMonateIndividuell: Int {
-	// Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 	from 2007-01-01 = 12
 }

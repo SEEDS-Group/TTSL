@@ -1,6 +1,6 @@
 package arbeitslosengeld2
 
-// arbeitsl_geld_2.yaml --------------------------------------------------
+# arbeitsl_geld_2.yaml --------------------------------------------------
 
 /**
  * Income shares not subject to transfer withdrawal.
@@ -10,7 +10,7 @@ package arbeitslosengeld2
  * G. v. 24.03.2011 BGBl. I S. 453).
  */
 public const anrechnungsfreieEinkommensanteile: Dict<Date, Dict<Int, Dict<String, Float>>> {
-    // Reference: Artikel 1. G. v. 24.12.2003 BGBl. I S. 2954.
+    # Reference: Artikel 1. G. v. 24.12.2003 BGBl. I S. 2954.
     from 2005-01-01 = {
         0: {
             lower_threshold: -inf,
@@ -37,7 +37,7 @@ public const anrechnungsfreieEinkommensanteile: Dict<Date, Dict<Int, Dict<String
         }
     }
 
-    // Reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
+    # Reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
     from 2005-10-01 = {
         0: {
             lower_threshold: -inf,
@@ -64,14 +64,14 @@ public const anrechnungsfreieEinkommensanteile: Dict<Date, Dict<Int, Dict<String
         }
     }
 
-    // Reference: Artikel 1 G. v. 20.12.2011 BGBl. I 2854.
+    # Reference: Artikel 1 G. v. 20.12.2011 BGBl. I 2854.
     from 2011-04-01 = {
         2: {
             upper_threshold: 1000
         }
     }
 
-    // Reference: G. v. 20.12.2022 BGBl. I S. 2328.
+    # Reference: G. v. 20.12.2022 BGBl. I S. 2328.
     from 2023-07-01 = {
         0: {
             lower_threshold: -inf,
@@ -113,14 +113,14 @@ public const anrechnungsfreieEinkommensanteile: Dict<Date, Dict<Int, Dict<String
  * BGBl. I S. 453).
  */
 public const anrechnungsfreieEinkommensanteileFallsKinder: Dict<Date, Dict<Int, Dict<String, Float>>> {
-    // Reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
+    # Reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
     from 2005-10-01 = {
         3: {
             upper_threshold: 1500
         }
     }
 
-    // Reference: G. v. 20.12.2022 BGBl. I S. 2328.
+    # Reference: G. v. 20.12.2022 BGBl. I S. 2328.
     from 2023-07-01 = {
         4: {
             upper_threshold: 1500
@@ -133,7 +133,7 @@ public const anrechnungsfreieEinkommensanteileFallsKinder: Dict<Date, Dict<Int, 
  * § 20 V SGB II. Für 2005 bis 2010 siehe Bekanntmachungen zu § 20. Seit 2011
  * wird der Regelbedarf durch das Regelbedarfs-Ermittlungsgesetz (RBEG) ermittelt.
  * Neufassung SGB II § 20 (1a) und (2) durch Artikel 6 G. v. 22.12.2016 BGBl. I
- * S. 
+ * S.
  * 3159.
  */
 public const regelsatz: Int | Dict<Int, Int> {
@@ -143,26 +143,26 @@ public const regelsatz: Int | Dict<Int, Int> {
         note: "Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Korrekte Werte sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro."
     },
 
-    // Reference: B. v. 01.09.2005 BGBl. I S. 2718.
-    // Betrag unverändert. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Hier wurde vereinfachend 338 Euro als ungewichteter Mittelwert genommen. Korrekte Werte für die Zeit ab 1. Juli 2005 sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
+    # Reference: B. v. 01.09.2005 BGBl. I S. 2718.
+    # Betrag unverändert. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Hier wurde vereinfachend 338 Euro als ungewichteter Mittelwert genommen. Korrekte Werte für die Zeit ab 1. Juli 2005 sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
     from 2005-07-01 = 338
 
-    // Reference: B. v. 20.07.2006 BGBl. I S. 1702.
+    # Reference: B. v. 20.07.2006 BGBl. I S. 1702.
     from 2006-07-01 = 345
 
-    // Reference: B. v. 18.06.2007 BGBl. I S. 1139.
+    # Reference: B. v. 18.06.2007 BGBl. I S. 1139.
     from 2007-07-01 = 347
 
-    // Reference: B. v. 26.06.2008 BGBl. I S. 1102.
+    # Reference: B. v. 26.06.2008 BGBl. I S. 1102.
     from 2008-07-01 = 351
 
-    // Reference: B. v. 17.06.2009 BGBl. I S. 1342.
+    # Reference: B. v. 17.06.2009 BGBl. I S. 1342.
     from 2009-07-01 = 359
 
-    // Reference: B. v. 07.06.2010 BGBl. I S. 820. Betrag unverändert.
+    # Reference: B. v. 07.06.2010 BGBl. I S. 820. Betrag unverändert.
     from 2010-07-01 = 359
 
-    // Reference: Artikel 1 G. v. 24.03.2011 BGBl. I S. 453.
+    # Reference: Artikel 1 G. v. 24.03.2011 BGBl. I S. 453.
     from 2011-01-01 = {
         1: 364,
         2: 328,
@@ -172,7 +172,7 @@ public const regelsatz: Int | Dict<Int, Int> {
         6: 215,
     }
 
-    // Reference: V. v. 20.10.2011 BGBl. I S. 2093.
+    # Reference: V. v. 20.10.2011 BGBl. I S. 2093.
     from 2012-01-01 = {
         1: 374,
         2: 337,
@@ -182,7 +182,7 @@ public const regelsatz: Int | Dict<Int, Int> {
         6: 219,
     }
 
-    // Reference: B. v. 18.10.2012 BGBl. I S. 2175.
+    # Reference: B. v. 18.10.2012 BGBl. I S. 2175.
     from 2013-01-01 = {
         1: 382,
         2: 345,
@@ -192,7 +192,7 @@ public const regelsatz: Int | Dict<Int, Int> {
         6: 224,
     }
 
-    // Reference: B. v. 16.10.2013 BGBl. I S. 3857.
+    # Reference: B. v. 16.10.2013 BGBl. I S. 3857.
     from 2014-01-01 = {
         1: 391,
         2: 353,
@@ -202,7 +202,7 @@ public const regelsatz: Int | Dict<Int, Int> {
         6: 229,
     }
 
-    // Reference: B. v. 15.10.2014 BGBl. I S. 1620.
+    # Reference: B. v. 15.10.2014 BGBl. I S. 1620.
     from 2015-01-01 = {
         1: 399,
         2: 360,
@@ -212,7 +212,7 @@ public const regelsatz: Int | Dict<Int, Int> {
         6: 234,
     }
 
-    // Reference: B. v. 22.10.2015 BGBl. I S. 1792.
+    # Reference: B. v. 22.10.2015 BGBl. I S. 1792.
     from 2016-01-01 = {
         1: 404,
         2: 364,
@@ -222,7 +222,7 @@ public const regelsatz: Int | Dict<Int, Int> {
         6: 237,
     }
 
-    // Reference: G. v. 22.12.2016 BGBl. I S. 3159.
+    # Reference: G. v. 22.12.2016 BGBl. I S. 3159.
     from 2017-01-01 = {
         1: 409,
         2: 368,
@@ -232,7 +232,7 @@ public const regelsatz: Int | Dict<Int, Int> {
         6: 236,
     }
 
-    // Reference: V. v. 08.11.2017 BGBl. I S. 3767.
+    # Reference: V. v. 08.11.2017 BGBl. I S. 3767.
     from 2018-01-01 = {
         1: 416,
         2: 374,
@@ -242,7 +242,7 @@ public const regelsatz: Int | Dict<Int, Int> {
         6: 240,
     }
 
-    // Reference: V. v. 19.10.2018 BGBl. I S. 1766.
+    # Reference: V. v. 19.10.2018 BGBl. I S. 1766.
     from 2019-01-01 = {
         1: 424,
         2: 382,
@@ -252,7 +252,7 @@ public const regelsatz: Int | Dict<Int, Int> {
         6: 245,
     }
 
-    // Reference: V. v. 18.10.2019 BGBl. I S. 1452.
+    # Reference: V. v. 18.10.2019 BGBl. I S. 1452.
     from 2020-01-01 = {
         1: 432,
         2: 389,
@@ -262,7 +262,7 @@ public const regelsatz: Int | Dict<Int, Int> {
         6: 250
     }
 
-    // Reference: G. v. 09.12.2020 BGBl. I S. 2855.
+    # Reference: G. v. 09.12.2020 BGBl. I S. 2855.
     from 2021-01-01 = {
         1: 446,
         2: 401,
@@ -272,7 +272,7 @@ public const regelsatz: Int | Dict<Int, Int> {
         6: 283
     }
 
-    // Reference: V. v. 13.10.2021 BGBl. I S. 4674.
+    # Reference: V. v. 13.10.2021 BGBl. I S. 4674.
     from 2022-01-01 = {
         1: 449,
         2: 404,
@@ -282,8 +282,8 @@ public const regelsatz: Int | Dict<Int, Int> {
         6: 285
     }
 
-    // Reference: G. v. 20.12.2022 BGBl. I S. 2328.
-    // Bürgergeld-Gesetz
+    # Reference: G. v. 20.12.2022 BGBl. I S. 2328.
+    # Bürgergeld-Gesetz
     from 2023-01-01 = {
         1: 502,
         2: 451,
@@ -293,7 +293,7 @@ public const regelsatz: Int | Dict<Int, Int> {
         6: 318
     }
 
-    // Reference: §2 V. v. 24.10.2024 BGBl. I Nr. 287
+    # Reference: §2 V. v. 24.10.2024 BGBl. I Nr. 287
     from 2024-01-01 = {
         1: 563,
         2: 506,
@@ -312,7 +312,7 @@ public const regelsatz: Int | Dict<Int, Int> {
  * des Standardsatzes bestimmt.
  */
  public const anteilRegelsatz: Dict<String, Float> {
-    // Reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
+    # Reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
     from 2005-01-01 = {
         zwei_erwachsene: 0.9,
         weitere_erwachsene: 0.8,
@@ -322,8 +322,8 @@ public const regelsatz: Int | Dict<Int, Int> {
     }
 
 
-    // TODO: WAS HEIßT DEVIATION_FROM
-    // Reference: Artikel 1 G. v. 02.03.2009 BGBl. I S. 416.
+    # TODO: WAS HEIßT DEVIATION_FROM
+    # Reference: Artikel 1 G. v. 02.03.2009 BGBl. I S. 416.
     from 2009-07-01 = {
         zwei_erwachsene: 0.9,
         weitere_erwachsene: 0.8,
@@ -344,7 +344,7 @@ public const regelsatz: Int | Dict<Int, Int> {
  * reference_period: Month
  */
 public const mehrbedarfAnteil: Dict<String, Float> {
-    // Reference: G. v. 24.12.2003 BGBl. I S. 2954.
+    # Reference: G. v. 24.12.2003 BGBl. I S. 2954.
     from 2005-01-01 = {
         min_1_kind: 0.12,
         kind_unter_7_oder_mehr: 0.36,
@@ -360,7 +360,7 @@ public const mehrbedarfAnteil: Dict<String, Float> {
  * da alle betroffenen Personen zu alt für ALG 2 sind.
  */
  def vermögensGrundfreibetragObergrenze: Dict<Int, Int> {
-    // Reference: Artikel 1 G. v. 23.12.2002 BGBl. I S. 4607.
+    # Reference: Artikel 1 G. v. 23.12.2002 BGBl. I S. 4607.
     from 2005-01-01 = {
         1947: 33800,
         1948: 13000,
@@ -368,7 +368,7 @@ public const mehrbedarfAnteil: Dict<String, Float> {
         1964: 13000
     }
 
-    // Reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
+    # Reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
     from 2006-08-01 = {
         1947: 33800,
         1948: 9750,
@@ -376,7 +376,7 @@ public const mehrbedarfAnteil: Dict<String, Float> {
         1964: 9750
     }
 
-    // Reference: Artikel 1 G. v. 20.04.2007 BGBl. I S. 554.
+    # Reference: Artikel 1 G. v. 20.04.2007 BGBl. I S. 554.
     from 2008-01-01 = {
         1947: 33800,
         1948: 9750,
@@ -384,7 +384,7 @@ public const mehrbedarfAnteil: Dict<String, Float> {
         1964: 10050
     }
 
-    // Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
+    # Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
     from 2023-01-01 = {
         1947: null,
         1948: null,
@@ -401,7 +401,7 @@ public const mehrbedarfAnteil: Dict<String, Float> {
  * erste Person einer Bedarfsgemeinschaft und 15.000 Euro für jede weitere erlaubt.
  */
  const schonvermoegenBuergergeld: Dict<String, Int> {
-    // Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
+    # Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
     from 2023-01-01 = {
         während_karenzzeit: 40000,
         normaler_satz: 15000
@@ -413,10 +413,10 @@ public const mehrbedarfAnteil: Dict<String, Float> {
  * § 12 (2) Satz 1 Nr. 4 SGB II.
  */
 const vermoegensfreibetragAusstattung: Int {
-    // Reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
+    # Reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
     from 2005-01-01 = 750;
 
-    // Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
+    # Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
     from 2023-01-01 = null;
 }
 
@@ -425,13 +425,13 @@ const vermoegensfreibetragAusstattung: Int {
  * § 12 (2) Satz 1 Nr. 1 SGB II.
  */
 const vermoegensfreibetragKind: Int {
-    // Reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
+    # Reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
     from 2005-01-01 = 4100;
 
-    // Reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
+    # Reference: Artikel 1 G. v. 20.07.2006 BGBl. I S. 1706.
     from 2006-08-01 = 3100;
 
-    // Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
+    # Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
     from 2023-01-01 = null;
 }
 
@@ -446,7 +446,7 @@ const vermoegensfreibetragAlter: Dict<Int, Int> {
         3: 1963
     }
 
-    // Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
+    # Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
     2023-01-01: {
         1: null,
         2: null,
@@ -461,13 +461,13 @@ const vermoegensfreibetragAlter: Dict<Int, Int> {
  * § 3 Alg II-V. Seit 01.01.2008 in § 6 Alg II-V.
  */
 const abzugfaehigePauschale: Dict<String, Float> {
-    // Reference: V. v. 20.10.2004 BGBl. I S. 2622
+    # Reference: V. v. 20.10.2004 BGBl. I S. 2622
     from 2005-01-01 = {
         werbung: 15.33,
         versicherung: 30.0
     }
 
-    // Reference: V. v. 21.06.2011 BGBl. I S. 1175.
+    # Reference: V. v. 21.06.2011 BGBl. I S. 1175.
     from 2011-01-01 = {
         werbung: 15.33,
         versicherung: 30.0
@@ -515,7 +515,7 @@ const berechtigteWohnflaecheEigentum: Dict<String, Int> {
         je_weitere_person: 20
     }
 
-    // Reference: Art. 1 Nr.12 Abschnitt 5, G. v. 20.12.2022 BGBl. I S. 2328
+    # Reference: Art. 1 Nr.12 Abschnitt 5, G. v. 20.12.2022 BGBl. I S. 2328
     from 2023-01-01 = {
         1: 140,
         2: 140,

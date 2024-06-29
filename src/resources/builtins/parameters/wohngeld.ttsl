@@ -7,10 +7,10 @@ package wohngeld
 const faktorBerechnungsformel: Float {
   from 1984-01-01 = 1
 
-  // Reference: Art. 1 G. v. 24.09 2008 BGBl. I S. 1856
+  # Reference: Art. 1 G. v. 24.09 2008 BGBl. I S. 1856
   from 2009-01-01 = 1.08
 
-  // Reference: Art. 1 G. v. 08.10.2015 BGBl 38 S.1610
+  # Reference: Art. 1 G. v. 08.10.2015 BGBl 38 S.1610
   from 2016-01-01 = 1.15
 }
 
@@ -21,7 +21,7 @@ const faktorBerechnungsformel: Float {
  * The keys from 1 to 12 below refer to the household size.
  */
 const koeffizientenBerechnungsformel: Dict<Inr, Dict<String, Float>> {
-  // Parameter aus Regressionsanalyse der Wohngeldtabellen
+  # Parameter aus Regressionsanalyse der Wohngeldtabellen
   from 1984-01-01 = {
       1: {
           a: 0.0532,
@@ -85,7 +85,7 @@ const koeffizientenBerechnungsformel: Dict<Inr, Dict<String, Float>> {
     }
   }
 
-  // Parameter aus Regressionsanalyse der Wohngeldtabellen
+  # Parameter aus Regressionsanalyse der Wohngeldtabellen
   from 1990-01-01 = {
     1: {
         a: 0.0648,
@@ -149,7 +149,7 @@ const koeffizientenBerechnungsformel: Dict<Inr, Dict<String, Float>> {
     }
   }
 
-  // Parameter aus Regressionsanalyse der Wohngeldtabellen
+  # Parameter aus Regressionsanalyse der Wohngeldtabellen
   from 1992-01-01 = {
     1: {
         a: 0.0666,
@@ -213,7 +213,7 @@ const koeffizientenBerechnungsformel: Dict<Inr, Dict<String, Float>> {
     }
   }
 
-  // Reference: Art. 5 G. v. 22.12.1999 BGBl. I S. 2671
+  # Reference: Art. 5 G. v. 22.12.1999 BGBl. I S. 2671
   from 2001-01-01 = {
     1: {
         a: 0.063,
@@ -277,7 +277,7 @@ const koeffizientenBerechnungsformel: Dict<Inr, Dict<String, Float>> {
     }
   }
 
-  // Reference: Art. 1 G. v. 24.09 2008 BGBl. I S. 1856
+  # Reference: Art. 1 G. v. 24.09 2008 BGBl. I S. 1856
   from 2009-01-01 = {
     1: {
         a: 0.063,
@@ -341,7 +341,7 @@ const koeffizientenBerechnungsformel: Dict<Inr, Dict<String, Float>> {
     }
   }
 
-  // Reference: Art. 1 G. v. 08.10.2015 BGBl 38 S.1610
+  # Reference: Art. 1 G. v. 08.10.2015 BGBl 38 S.1610
   from 2016-01-01 = {
     1: {
         a: 0.04,
@@ -405,7 +405,7 @@ const koeffizientenBerechnungsformel: Dict<Inr, Dict<String, Float>> {
     }
   }
 
-  // Reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+  # Reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
   from 2020-01-01 = {
     1: {
       a: 0.04,
@@ -469,7 +469,7 @@ const koeffizientenBerechnungsformel: Dict<Inr, Dict<String, Float>> {
     }
   }
 
-  // Reference: V. v. 03.06.2021 BGBl. I S. 1369.
+  # Reference: V. v. 03.06.2021 BGBl. I S. 1369.
   from 2022-01-01 = {
     1: {
       a: 0.04,
@@ -533,7 +533,7 @@ const koeffizientenBerechnungsformel: Dict<Inr, Dict<String, Float>> {
     }
   }
 
-  // Reference: Art. 1 G. v. 08.12.2022 BGBl. I Nr. 48 S. 2160
+  # Reference: Art. 1 G. v. 08.12.2022 BGBl. I Nr. 48 S. 2160
   from 2023-01-01 = {
     1: {
       a: 0.04,
@@ -598,40 +598,40 @@ const koeffizientenBerechnungsformel: Dict<Inr, Dict<String, Float>> {
   }
 }
 
-/** 
+/**
  * Zusätzlicher Betrag für große Haushalte
  * Haushalte mit mehr als 12 Personen erhalten einen zusätzlichen Betrag pro Person,
  * der auf das Wohngeld für einen Haushalt mit 12 Personen angerechnet wird.
  * Reference: §19 Abs. 3 WoGG
  */
 const bonusSehrGrosseHaushalte: Dict<String, Int> {
-  // Reference: Art. 5 G. v. 22.12.1999 BGBl. I S. 2671
+  # Reference: Art. 5 G. v. 22.12.1999 BGBl. I S. 2671
   from 2001-01-01 = {
     max_anz_personen_normale_berechnung: 12,
     bonus_jede_weitere_person: 40
   }
 
-  // Reference: Art. 1 G. v. 24.09 2008 BGBl. I S. 1856
+  # Reference: Art. 1 G. v. 24.09 2008 BGBl. I S. 1856
   from 2009-01-01 = {
-    // deviation_from: previous
+    # deviation_from: previous
     bonus_jede_weitere_person: 43
   }
 
-  // Reference: Art. 1 G. v. 08.10.2015 BGBl 38 S.1610
+  # Reference: Art. 1 G. v. 08.10.2015 BGBl 38 S.1610
   from 2016-01-01 = {
-    // deviation_from: previous
+    # deviation_from: previous
     bonus_jede_weitere_person: 47
   }
 
-  // Reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+  # Reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
   from 2020-01-01 = {
-    // deviation_from: previous
+    # deviation_from: previous
     bonus_jede_weitere_person: 51
   }
 
-  // Reference: Art. 1 G. v. 08.12.2022 BGBl. I Nr. 48 S. 2160
+  # Reference: Art. 1 G. v. 08.12.2022 BGBl. I Nr. 48 S. 2160
   from 2023-01-01 = {
-    // deviation_from: previous
+    # deviation_from: previous
     bonus_jede_weitere_person: 57
   }
 }
@@ -652,19 +652,19 @@ const abzugStufen: Dict<Int, Float> {
   }
 
   from 1991-01-01 = {
-    // deviation_from: previous
+    # deviation_from: previous
     3: 0.26
   }
 
   from 2002-01-01 = {
-    // deviation_from: previous
+    # deviation_from: previous
     1: 0.1,
     3: 0.3
-  } 
+  }
 
-  // Reference: Art. G. v. 02.10.2015 BGBl I S. 1610
+  # Reference: Art. G. v. 02.10.2015 BGBl I S. 1610
   from 2016-01-01 = {
-    // deviation_from: previous
+    # deviation_from: previous
     0: 0.0
   }
 }
@@ -719,7 +719,7 @@ const minMiete: Dict<Int, Int> {
     12: 245,
   }
 
-  // Reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
+  # Reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
   from 2016-01-01 = {
     1: 48,
     2: 59,
@@ -735,7 +735,7 @@ const minMiete: Dict<Int, Int> {
     12: 263
   }
 
-  // Reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+  # Reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
   from 2020-01-01 = {
     1: 52,
     2: 64,
@@ -802,7 +802,7 @@ const minEink: Dict<Int, Int> {
     12: 1255
   }
 
-  // Reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
+  # Reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
   from 2016-01-01 = {
     1: 239,
     2: 310,
@@ -818,7 +818,7 @@ const minEink: Dict<Int, Int> {
     12: 1255
   }
 
-  // reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+  # reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
   from 2020-01-01 = {
     1: 275,
     2: 357,
@@ -834,7 +834,7 @@ const minEink: Dict<Int, Int> {
     12: 1443
   }
 
-  // Reference: Art. 1 G. v. 08.12.2022 BGBl. I Nr. 48 S. 2160
+  # Reference: Art. 1 G. v. 08.12.2022 BGBl. I Nr. 48 S. 2160
   from 2023-01-01 = {
     1: 350,
     2: 600,
@@ -862,7 +862,7 @@ const freibetragKinder: Dict<String, Int> {
   }
 
   from 2001-01-01 = {
-    // deviation_from: previous
+    # deviation_from: previous
     arbeitendes_kind: 51
   }
 
@@ -871,8 +871,8 @@ const freibetragKinder: Dict<String, Int> {
     arbeitendes_kind: 50
   }
 
-  // Reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
-  // Neu §17 3. WoGG a) Alleinerziehend b) Kind unter 18 und neu §17 4. WoGG Kind noch nicht 25J.
+  # Reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
+  # Neu §17 3. WoGG a) Alleinerziehend b) Kind unter 18 und neu §17 4. WoGG Kind noch nicht 25J.
   from 2016-01-01 = {
     alleinerz: 110,
     arbeitendes_kind: 100
@@ -896,7 +896,7 @@ const freibetragBehinderung: Dict<Int, Int> | Int {
   }
 
   from 1986-01-01 = {
-    // deviation_from: previous
+    # deviation_from: previous
     80: 612
   }
 
@@ -912,14 +912,14 @@ const freibetragBehinderung: Dict<Int, Int> | Int {
     80: 1500
   }
 
-  // Reference: 2 Art. 1 G. v. 08.10.2015 BGBl Nr.38 S.1612
-  // neue Regelung - §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem. §14 SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege
+  # Reference: 2 Art. 1 G. v. 08.10.2015 BGBl Nr.38 S.1612
+  # neue Regelung - §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem. §14 SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege
   from 2016-01-01 = 1500
 
-  // Reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
+  # Reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
   from 2020-01-01 = 1800
 }
-// TODO: DEVIATION FROM BEISPIEL!!!
+# TODO: DEVIATION FROM BEISPIEL!!!
 
 /**
  * Behinderungsgrad für Freibetrag
@@ -943,8 +943,8 @@ const behinderungsgrad: Dict<Int, Int> {
  * Mietstufe geordnet. Alle Werte in vollen Euro.
  */
 const maxMiete: Dict<Int | String, Dict<Int, Dict<Int, Int>>> {
-  // Reference: Art. 1 G. v. 04.08.1980 BGBl I S. 1159.
-  // Bis 1985 nur drei Mietstufen, streng abhängig von der Größe der Gemeinde. Es wird "Wohnung mit Sammelheizung und mit Bad oder Duschraum" angenommen.
+  # Reference: Art. 1 G. v. 04.08.1980 BGBl I S. 1159.
+  # Bis 1985 nur drei Mietstufen, streng abhängig von der Größe der Gemeinde. Es wird "Wohnung mit Sammelheizung und mit Bad oder Duschraum" angenommen.
   from 1981-01-01 = {
     1: {
       1965: {
@@ -1080,9 +1080,9 @@ const maxMiete: Dict<Int | String, Dict<Int, Dict<Int, Int>>> {
     }
   }
 
-  
-  // Reference: Art. 1 G. v. 11.07.1985 BGBl I S. 1318.
-  // Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
+
+  # Reference: Art. 1 G. v. 11.07.1985 BGBl I S. 1318.
+  # Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
   from 1985-01-01 = {
     1: {
       1965: {
@@ -1266,8 +1266,8 @@ const maxMiete: Dict<Int | String, Dict<Int, Dict<Int, Int>>> {
     }
   }
 
-  // Reference: Art. 1 G. v. 13.12.1989 BGBl I S. 2148.
-  // Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
+  # Reference: Art. 1 G. v. 13.12.1989 BGBl I S. 2148.
+  # Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
   from 1990-01-01 = {
     1: {
       1965: {
@@ -1475,8 +1475,8 @@ const maxMiete: Dict<Int | String, Dict<Int, Dict<Int, Int>>> {
     }
   }
 
-  // Reference: Art. 1 G. v. 10.08.1990 BGBl I S. 1522.
-  // Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
+  # Reference: Art. 1 G. v. 10.08.1990 BGBl I S. 1522.
+  # Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
   from 1990-10-01 = {
     1: {
       1965: {
@@ -1636,8 +1636,8 @@ const maxMiete: Dict<Int | String, Dict<Int, Dict<Int, Int>>> {
     }
   }
 
-  // Reference: Neufassung WoGG v. 11.02.1993 BGBl I S. 183.
-  // Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
+  # Reference: Neufassung WoGG v. 11.02.1993 BGBl I S. 183.
+  # Es wird eine Wohnung mit "Sammelheizung und mit Bad oder Duschraum" angenommen.
   from 1993-01-01 = {
     1: {
       1965: {
@@ -1845,8 +1845,8 @@ const maxMiete: Dict<Int | String, Dict<Int, Dict<Int, Int>>> {
     }
   }
 
-  // Reference: Art. 5 G. v. 22.12.1999, BGBl I S. 2671.
-  // Nimmt die Umrechnung in Euro von 2002 vorweg.
+  # Reference: Art. 5 G. v. 22.12.1999, BGBl I S. 2671.
+  # Nimmt die Umrechnung in Euro von 2002 vorweg.
   from 2001-01-01:
     1: {
       1965: {
@@ -1933,7 +1933,7 @@ const maxMiete: Dict<Int | String, Dict<Int, Dict<Int, Int>>> {
         3: 420,
         4: 454,
         5: 520
-        // TODO: Eintrag vergessen?
+        # TODO: Eintrag vergessen?
       },
       1991: {
         1: 400,
@@ -2006,7 +2006,7 @@ const maxMiete: Dict<Int | String, Dict<Int, Dict<Int, Int>>> {
     }
   }
 
-  // Reference: Art. 1 G. v. 24.09.2008, BGBl I S. 1856.
+  # Reference: Art. 1 G. v. 24.09.2008, BGBl I S. 1856.
   from 2009-01-01 = {
     1: {
       1: 292,
@@ -2057,8 +2057,8 @@ const maxMiete: Dict<Int | String, Dict<Int, Dict<Int, Int>>> {
       6: 99
     }
   }
-  
-  // Reference: Art. 1 G. v. 02.10.2015, BGBl I S. 1610.
+
+  # Reference: Art. 1 G. v. 02.10.2015, BGBl I S. 1610.
   from 2016-01-01 = {
     1: {
       1: 312,
@@ -2108,8 +2108,8 @@ const maxMiete: Dict<Int | String, Dict<Int, Dict<Int, Int>>> {
       5: 111,
       6: 126
     }
-  
-  // Reference: Art. 1 G. v. 30.11.2019, BGBl I S. 1877.
+
+  # Reference: Art. 1 G. v. 30.11.2019, BGBl I S. 1877.
   from 2020-01-01 = {
     1: {
       1: 338,
@@ -2167,7 +2167,7 @@ const maxMiete: Dict<Int | String, Dict<Int, Dict<Int, Int>>> {
     }
   }
 
-  // Reference: V. v. 03.06.2021 BGBl. I S. 1369.
+  # Reference: V. v. 03.06.2021 BGBl. I S. 1369.
   from 2022-01-01 = {
     1: {
       1: 347,
@@ -2234,11 +2234,11 @@ const maxMiete: Dict<Int | String, Dict<Int, Dict<Int, Int>>> {
  * 2009. Vorher war hohes Vermögen laut WoGG kein Ausschlussgrund.
  */
 const vermoegensgrundfreibetrag: Float {
-  // No wealth threshold in place.
+  # No wealth threshold in place.
   from 1970-01-01 = inf
 
-  // Reference: Wohngeld-Verwaltungsvorschrift 2009.
-  // At least in place since then.
+  # Reference: Wohngeld-Verwaltungsvorschrift 2009.
+  # At least in place since then.
   from 2009-01-01 = 60000
 }
 
@@ -2247,11 +2247,11 @@ const vermoegensgrundfreibetrag: Float {
  * Wohngeld-Verwaltungsvorschift 21.37
  */
 const vermoegensfreibetragPerson: Float {
-  // No wealth threshold in place
+  # No wealth threshold in place
   from 1970-01-01 = inf
 
-  // Reference: Wohngeld-Verwaltungsvorschrift 2009.
-  // At least in place since then.
+  # Reference: Wohngeld-Verwaltungsvorschrift 2009.
+  # At least in place since then.
   from 2009-01-01 = 30000
 }
 
@@ -2309,4 +2309,4 @@ const klimakomponente: Dict<Int | String, Float> {
   }
 }
 
-// TODO: rounding
+# TODO: rounding
