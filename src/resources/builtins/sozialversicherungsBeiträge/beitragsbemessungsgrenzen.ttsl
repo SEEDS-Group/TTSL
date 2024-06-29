@@ -1,0 +1,29 @@
+package beitragsbemessungsgrenzen
+
+from sozialversicherungsbeitrag import beitragsbemessungsgrenze, monatlicheBezugsgroeße
+
+public function gesetzlicheRentenversicherung(): Float per month {
+    params = beitragsbemessungsgrenze[ges_rentenv];
+    if wohnort_ost() {
+        return params[ost];
+    } else {
+        return params[west];
+    }
+}
+
+public function gesetzlicheKrankenversicherung(): Float per month {
+    params = beitragsbemessungsgrenze[ges_krankenv];
+    if wohnort_ost() {
+        return params[ost];
+    } else {
+        return params[west];
+    }
+}
+
+public function gesetzlicheKrankenversicherungBezugsgröße(): Float per month {
+    if wohnort_ost() {
+        return monatlicheBezugsgroeße[ost];
+    } else {
+        return monatlicheBezugsgroeße[west];
+    }
+}
