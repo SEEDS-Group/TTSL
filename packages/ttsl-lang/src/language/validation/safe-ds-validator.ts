@@ -64,7 +64,6 @@ import {
     resultMustHaveTypeHint,
     typeCastExpressionMustHaveUnknownType,
 } from './types.js';
-import { statementMustDoSomething } from './other/statements/statements.js';
 import { indexedAccessIndexMustBeValid } from './other/expressions/indexedAccess.js';
 import { chainedExpressionsMustBeNullSafeIfReceiverIsNullable } from './other/expressions/chainedExpressions.js';
 import { groupByVariableMustBeAnID, groupedFunctionHasAggregation, groupedFunctionHasValidID } from './aggregation.js';
@@ -153,7 +152,6 @@ export const registerValidationChecks = function (services: SafeDsServices) {
             referenceMustNotBeFunctionPointer,
         ],
         TslResult: [resultMustHaveTypeHint],
-        TslStatement: [statementMustDoSomething(services)],
         TslTemplateString: [templateStringMustHaveExpressionBetweenTwoStringParts],
         TslTypeCast: [typeCastExpressionMustHaveUnknownType(services)],
     };
