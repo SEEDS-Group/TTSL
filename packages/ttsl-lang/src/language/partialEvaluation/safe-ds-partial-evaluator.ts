@@ -49,21 +49,18 @@ import {
     isTslTimeunit,
     isTslString,
 } from '../generated/ast.js';
-import { getArguments, getParameters } from '../helpers/nodeProperties.js';
+import { getArguments, getParameters, getResults } from '../helpers/nodeProperties.js';
 import { SafeDsNodeMapper } from '../helpers/safe-ds-node-mapper.js';
 import { SafeDsServices } from '../safe-ds-module.js';
 import {
-    BlockLambdaClosure,
     BooleanConstant,
     Constant,
     EvaluatedCallable,
-    EvaluatedEnumVariant,
     EvaluatedList,
     EvaluatedMap,
     EvaluatedMapEntry,
     EvaluatedNamedTuple,
     EvaluatedNode,
-    ExpressionLambdaClosure,
     FloatConstant,
     IntConstant,
     isConstant,
@@ -480,9 +477,7 @@ export class SafeDsPartialEvaluator {
         const receiver = this.evaluateWithRecursionCheck(node.receiver, substitutions, visited).unwrap();
         const args = getArguments(node);
 
-        if (receiver instanceof EvaluatedEnumVariant) {
-            return this.evaluateEnumVariantCall(receiver, args, substitutions, visited);
-        } else if (receiver instanceof EvaluatedCallable) {
+        if (receiver instanceof EvaluatedCallable) {
             return this.evaluateCallableCall(
                 receiver.callable,
                 args,
@@ -517,28 +512,6 @@ export class SafeDsPartialEvaluator {
         } /* c8 ignore stop */
     }
 
-    private evaluateEnumVariantCall(
-        receiver: EvaluatedEnumVariant,
-        args: TslArgument[],
-        substitutions: Map<TslParameter, EvaluatedNode>,
-        visited: VisitedState[],
-    ) {
-        // The enum variant has already been instantiated
-        if (receiver.hasBeenInstantiated) {
-            return UnknownEvaluatedNode;
-        }
-
-        const parameterSubstitutionsAfterCall = this.getParameterSubstitutionsAfterCall(
-            receiver.variant,
-            args,
-            NO_SUBSTITUTIONS,
-            substitutions,
-            visited,
-        );
-
-        return new EvaluatedEnumVariant(receiver.variant, parameterSubstitutionsAfterCall);
-    }
-
     private evaluateCallableCall(
         callable: TslCallable | TslParameter,
         args: TslArgument[],
@@ -558,8 +531,18 @@ export class SafeDsPartialEvaluator {
             substitutionsOnCall,
             visited,
         );
-
-        return UnknownEvaluatedNode;
+        if (isTslFunction(callable)) {
+            return new EvaluatedNamedTuple(
+                new Map(
+                    getResults(callable).map((it) => [
+                        it,
+                        this.evaluateWithRecursionCheck(it, parameterSubstitutionsAfterCall, visited),
+                    ]),
+                ),
+            );
+        } else {
+            return UnknownEvaluatedNode;
+        }
     }
 
     private getParameterSubstitutionsAfterCall(
@@ -636,9 +619,7 @@ export class SafeDsPartialEvaluator {
         }
 
         const receiver = this.evaluateWithRecursionCheck(node.receiver, substitutions, visited);
-        if (receiver instanceof EvaluatedEnumVariant) {
-            return receiver.getParameterValueByName(member.name);
-        } else if (receiver instanceof EvaluatedNamedTuple) {
+        if (receiver instanceof EvaluatedNamedTuple) {
             return receiver.getResultValueByName(member.name);
         } else if (receiver.equals(NullConstant) && node.isNullSafe) {
             return NullConstant;

@@ -15,7 +15,6 @@ import type { SafeDsNodeMapper } from '../helpers/safe-ds-node-mapper.js';
 import type { SafeDsServices } from '../safe-ds-module.js';
 import {
     EvaluatedCallable,
-    EvaluatedEnumVariant,
     NamedCallable,
     ParameterSubstitutions,
     substitutionsAreEqual,
@@ -215,12 +214,6 @@ export class SafeDsCallGraphComputer {
         const value = this.partialEvaluator.evaluate(expression, substitutions);
         if (value instanceof EvaluatedCallable) {
             return value;
-        } else if (value instanceof EvaluatedEnumVariant) {
-            if (!value.hasBeenInstantiated) {
-                return new NamedCallable(value.variant);
-            }
-
-            return undefined;
         }
 
         // Fall back to getting the called parameter via the type computer
