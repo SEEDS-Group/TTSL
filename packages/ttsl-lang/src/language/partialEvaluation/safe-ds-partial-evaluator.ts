@@ -4,15 +4,11 @@ import {
     isTslArgument,
     isTslAssignee,
     isTslAssignment,
-    isTslBlockLambda,
     isTslBoolean,
     isTslCall,
     isTslCallable,
-    isTslClass,
     isTslDeclaration,
-    isTslEnumVariant,
     isTslExpression,
-    isTslExpressionLambda,
     isTslFloat,
     isTslFunction,
     isTslIndexedAccess,
@@ -23,12 +19,9 @@ import {
     isTslMemberAccess,
     isTslNull,
     isTslParameter,
-    isTslParenthesizedExpression,
     isTslPrefixOperation,
     isTslReference,
     isTslResult,
-    isTslSegment,
-    isTslString,
     isTslTemplateString,
     isTslTemplateStringEnd,
     isTslTemplateStringInner,
@@ -54,8 +47,9 @@ import {
     isTslGroupedBy,
     isTslVisibility,
     isTslTimeunit,
+    isTslString,
 } from '../generated/ast.js';
-import { getAbstractResults, getArguments, getParameters } from '../helpers/nodeProperties.js';
+import { getArguments, getParameters } from '../helpers/nodeProperties.js';
 import { SafeDsNodeMapper } from '../helpers/safe-ds-node-mapper.js';
 import { SafeDsServices } from '../safe-ds-module.js';
 import {
@@ -180,18 +174,10 @@ export class SafeDsPartialEvaluator {
         substitutions: ParameterSubstitutions,
         visited: VisitedState[],
     ): EvaluatedNode {
-        if (isTslClass(node)) {
-            return new NamedCallable(node);
-        } else if (isTslEnumVariant(node)) {
-            return new EvaluatedEnumVariant(node, undefined);
-        } else if (isTslFunction(node)) {
+        if (isTslFunction(node)) {
             return new NamedCallable(node);
         } else if (isTslParameter(node)) {
             return substitutions.get(node) ?? UnknownEvaluatedNode;
-        } else if (isTslResult(node)) {
-            return this.evaluateWithRecursionCheck(this.nodeMapper.resultToYields(node).head(), substitutions, visited);
-        } else if (isTslSegment(node)) {
-            return new NamedCallable(node);
         } else {
             return UnknownEvaluatedNode;
         }
@@ -218,10 +204,6 @@ export class SafeDsPartialEvaluator {
             return new StringConstant(node.value);
         } else if (isTslTemplateStringEnd(node)) {
             return new StringConstant(node.value);
-        } else if (isTslBlockLambda(node)) {
-            return new BlockLambdaClosure(node, substitutions);
-        } else if (isTslExpressionLambda(node)) {
-            return new ExpressionLambdaClosure(node, substitutions);
         }
 
         // Recursive cases
@@ -239,8 +221,6 @@ export class SafeDsPartialEvaluator {
             return this.evaluateMap(node, substitutions, visited);
         } else if (isTslMemberAccess(node)) {
             return this.evaluateMemberAccess(node, substitutions, visited);
-        } else if (isTslParenthesizedExpression(node)) {
-            return this.evaluateWithRecursionCheck(node.expression, substitutions, visited);
         } else if (isTslPrefixOperation(node)) {
             return this.evaluatePrefixOperation(node, substitutions, visited);
         } else if (isTslReference(node)) {
@@ -579,20 +559,7 @@ export class SafeDsPartialEvaluator {
             visited,
         );
 
-        if (isTslExpressionLambda(callable)) {
-            return this.evaluateWithRecursionCheck(callable.result, parameterSubstitutionsAfterCall, visited);
-        } else if (isTslBlockLambda(callable) || isTslSegment(callable)) {
-            return new EvaluatedNamedTuple(
-                new Map(
-                    getAbstractResults(callable).map((it) => [
-                        it,
-                        this.evaluateWithRecursionCheck(it, parameterSubstitutionsAfterCall, visited),
-                    ]),
-                ),
-            );
-        } else {
-            return UnknownEvaluatedNode;
-        }
+        return UnknownEvaluatedNode;
     }
 
     private getParameterSubstitutionsAfterCall(
@@ -666,8 +633,6 @@ export class SafeDsPartialEvaluator {
         const member = node.member?.target?.ref;
         if (!member) {
             return UnknownEvaluatedNode;
-        } else if (isTslEnumVariant(member)) {
-            return this.evaluateWithRecursionCheck(member, substitutions, visited);
         }
 
         const receiver = this.evaluateWithRecursionCheck(node.receiver, substitutions, visited);
@@ -727,7 +692,7 @@ export class SafeDsPartialEvaluator {
             // 2. If the member cannot be resolved, we already show an error.
             // 3. If the enum variant has parameters that are not provided, we already show an error.
             const member = node.member?.target?.ref;
-            return !member || isTslEnumVariant(member);
+            return !member;
         } else if (isTslPrefixOperation(node)) {
             return node.operator === '-' && this.canBeValueOfConstantParameter(node.operand);
         } else if (isTslReference(node)) {

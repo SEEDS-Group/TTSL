@@ -357,13 +357,13 @@ TslExpression returns TslExpression:
 ;
 
 interface TslAggregation extends TslExpression{
-    function: string
+    function: TslString
     data: TslReference
     groupedBy: TslGroupedBy
 }
 
 TslAggregation returns TslAggregation:
-    'aggregate' function=STRING 'of' data=TslReference groupedBy=TslGroupedBy
+    'aggregate' function=TslString 'of' data=TslReference groupedBy=TslGroupedBy
 ;
 
 interface TslInfixOperation extends TslExpression {
@@ -549,6 +549,7 @@ TslLiteral returns TslLiteral:
     TslBoolean
   | TslFloat
   | TslInt
+  | TslString
   | TslList
   | TslDictionary
   | TslNull
@@ -581,6 +582,14 @@ interface TslInt extends TslNumber {
 
 TslInt returns TslInt:
     value=INT
+;
+
+interface TslString extends TslNumber {
+    value: string
+}
+
+TslString returns TslString:
+    value=STRING
 ;
 
 interface TslList extends TslLiteral {
