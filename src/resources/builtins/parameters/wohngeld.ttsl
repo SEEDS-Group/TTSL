@@ -4,7 +4,7 @@ package wohngeld
  * Faktor am Anfang der Wohngeldformel
  * Anlage 2 WoGG zu §19 Abs. 2 WoGG
  */
-public const faktorBerechnungsformel: Float {
+public constant faktorBerechnungsformel: Float {
   from 1984-01-01 = 1
 
   # Reference: Art. 1 G. v. 24.09 2008 BGBl. I S. 1856
@@ -20,7 +20,7 @@ public const faktorBerechnungsformel: Float {
  * Wohngeldverordnung (WoGV).
  * The keys from 1 to 12 below refer to the household size.
  */
-public const koeffizientenBerechnungsformel: Dict<Inr, Dict<String, Float>> {
+public constant koeffizientenBerechnungsformel: Dict<Inr, Dict<String, Float>> {
   # Parameter aus Regressionsanalyse der Wohngeldtabellen
   from 1984-01-01 = {
       1: {
@@ -604,7 +604,7 @@ public const koeffizientenBerechnungsformel: Dict<Inr, Dict<String, Float>> {
  * der auf das Wohngeld für einen Haushalt mit 12 Personen angerechnet wird.
  * Reference: §19 Abs. 3 WoGG
  */
-public const bonusSehrGrosseHaushalte: Dict<String, Int> {
+public constant bonusSehrGrosseHaushalte: Dict<String, Int> {
   # Reference: Art. 5 G. v. 22.12.1999 BGBl. I S. 2671
   from 2001-01-01 = {
     max_anz_personen_normale_berechnung: 12,
@@ -643,7 +643,7 @@ public const bonusSehrGrosseHaushalte: Dict<String, Int> {
  * Kriterien sind - entrichtete Steuern - entrichtete GKV- und GPV-Beiträge -
  * entrichtete GRV-Beiträge
  */
-public const abzugStufen: Dict<Int, Float> {
+public constant abzugStufen: Dict<Int, Float> {
   from 1984-01-01 = {
     0: 0.06,
     1: 0.125,
@@ -673,7 +673,7 @@ public const abzugStufen: Dict<Int, Float> {
  * Minimalwert für Parameter M
  * WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
  */
-public const minMiete: Dict<Int, Int> {
+public constant minMiete: Dict<Int, Int> {
   from 1984-01-01 = {
     1: 0,
     2: 0,
@@ -756,7 +756,7 @@ public const minMiete: Dict<Int, Int> {
  * Minimalwert für Parameter Y
  * WoGG - Anlage 3 (bis 2019 Anlage 2) (zu § 19 Abs. 2)
  */
-public const minEink: Dict<Int, Int> {
+public constant minEink: Dict<Int, Int> {
   from 1984-01-01 = {
     1: 0,
     2: 0,
@@ -855,7 +855,7 @@ public const minEink: Dict<Int, Int> {
  * Monatlicher Freibetrag für Alleinerziehende und arbeitende Kinder
  * § 17 (4/5) WoGG
  */
-public const freibetragKinder: Dict<String, Int> {
+public constant freibetragKinder: Dict<String, Int> {
   from 1984-01-01 = {
     alleinerz: 51,
     arbeitendes_kind: 0
@@ -888,7 +888,7 @@ public const freibetragKinder: Dict<String, Int> {
  * vorliegen. Dies ist aktuell nicht implementiert. § 17 Nr. 1 WoGG. (früher § 17 (2)
  * WoGG)
  */
-public const freibetragBehinderung: Dict<Int, Int> or Int {
+public constant freibetragBehinderung: Dict<Int, Int> or Int {
   from 1984-01-01 = {
     0: 0,
     1: 0,
@@ -928,7 +928,7 @@ public const freibetragBehinderung: Dict<Int, Int> or Int {
  * Reference: § 17 Abs. 1 WoGG
  * in percent
  */
-public const behinderungsgrad: Dict<Int, Int> {
+public constant behinderungsgrad: Dict<Int, Int> {
   from 1984-01-01 = {
     1: 0,
     2: 80
@@ -942,7 +942,7 @@ public const behinderungsgrad: Dict<Int, Int> {
  * Die Werte sind nach Anzahl Personen - maximales Baujahr des Hauses (vor 2009) -
  * Mietstufe geordnet. Alle Werte in vollen Euro.
  */
-public const maxMiete: Dict<Int or String, Dict<Int, Dict<Int, Int>>> {
+public constant maxMiete: Dict<Int or String, Dict<Int, Dict<Int, Int>>> {
   # Reference: Art. 1 G. v. 04.08.1980 BGBl I S. 1159.
   # Bis 1985 nur drei Mietstufen, streng abhängig von der Größe der Gemeinde. Es wird "Wohnung mit Sammelheizung und mit Bad oder Duschraum" angenommen.
   from 1981-01-01 = {
@@ -2233,7 +2233,7 @@ public const maxMiete: Dict<Int or String, Dict<Int, Dict<Int, Int>>> {
  * Wohngeld sein kann. Die genauen Werte regelt die Verwaltungsvorschrift vom April
  * 2009. Vorher war hohes Vermögen laut WoGG kein Ausschlussgrund.
  */
-public const vermoegensgrundfreibetrag: Float {
+public constant vermoegensgrundfreibetrag: Float {
   # No wealth threshold in place.
   from 1970-01-01 = inf
 
@@ -2246,7 +2246,7 @@ public const vermoegensgrundfreibetrag: Float {
  * Vermögensfreibetrag für jedes weitere Haushaltsmitglied
  * Wohngeld-Verwaltungsvorschift 21.37
  */
-public const vermoegensfreibetragPerson: Float {
+public constant vermoegensfreibetragPerson: Float {
   # No wealth threshold in place
   from 1970-01-01 = inf
 
@@ -2262,7 +2262,7 @@ public const vermoegensfreibetragPerson: Float {
  * Reference: §12 (6) WoGG, Art. 1 G. v. 15.05.2020, BGBl I S. 1015.
  * per month
  */
-public const heizkostenentlastung: Dict<Int or String, Float> {
+public constant heizkostenentlastung: Dict<Int or String, Float> {
   from 2021-01-01 {
     1: 14.4,
     2: 18.6,
@@ -2280,7 +2280,7 @@ public const heizkostenentlastung: Dict<Int or String, Float> {
  * Reference: Art. 1 G. v. 08.12.2022 BGBl. I Nr. 48 S. 2160
  * per month
  */
-public const dauerhafteHeizkostenkomponente: Dict<Int or String, Int> {
+public constant dauerhafteHeizkostenkomponente: Dict<Int or String, Int> {
   from 2023-01-01 {
     1: 96,
     2: 124,
@@ -2298,7 +2298,7 @@ public const dauerhafteHeizkostenkomponente: Dict<Int or String, Int> {
  * Reference: Art. 1 G. v. 08.12.2022 BGBl. I Nr. 48 S. 2160
  * per month
  */
-public const klimakomponente: Dict<Int or String, Float> {
+public constant klimakomponente: Dict<Int or String, Float> {
   from 2023-01-01 = {
     1: 19.20,
     2: 24.80,

@@ -6,7 +6,7 @@ package arbeitslosengeld
  * Income which is not deducted from unemployment benefit.
  * § 155 SGB III, vorher § 141 (1) S. 1
  */
-public const arbeitslosenGeldFreibetrag: Int {
+public constant arbeitslosenGeldFreibetrag: Int {
     # Art. 1 G. v. 21.07.1999 BGBl. I S. 1648
     from 1999-08-01 = 161;
 
@@ -19,7 +19,7 @@ public const arbeitslosenGeldFreibetrag: Int {
  * § 153 (1) Nr. 1 SGB III. Wird angewendet auf das Bemessungsentgelt. ACHTUNG! Beim
  * Elterngeld gibt es eine ähnliche Größe.
  */
-public const sozialVersicherungsPauschale: Float {
+public constant sozialVersicherungsPauschale: Float {
     from 1984-01-01 = 0.1727;
     from 1985-01-01 = 0.1745;
     from 1986-01-01 = 0.1775;
@@ -60,7 +60,7 @@ public const sozialVersicherungsPauschale: Float {
  * §149 Nr. 2 SGB III, vorher § 129 (2) SGB III. Höhe des Arbeitslosengeldes im
  * Verhältnis zum letzten Nettoentgelt bei Personen ohne Kinder im Sinne des EStG.
  */
-public const satzOhneKinder: Float {
+public constant satzOhneKinder: Float {
     # Reference: Art. 1 G. v. 24.03.1997 BGBl. I S. 594
     from 1998-08-01 = 0.6;
 }
@@ -70,7 +70,7 @@ public const satzOhneKinder: Float {
  * §149 Nr. 1 SGB III, vorher §129 Nr. 1 SGB III. Höhe des Arbeitslosengeldes im
  * Verhältnis zum letzten Nettoentgelt bei Personen mit Kindern im Sinne des EStG
  */
-public const satzMitKindern: Float {
+public constant satzMitKindern: Float {
     # Reference: Art. 1 G. v. 24.03.1997 BGBl. I S. 594
     from 1998-08-01 = 0.67;
 }
@@ -80,7 +80,7 @@ public const satzMitKindern: Float {
  * §138 (3) SGB III, früher auch §102 (2) AFG. Grenze, ab der nicht mehr
  * Arbeitslosigkeit unterstellt wird.
  */
-public const stundengrenze: Int {
+public constant stundengrenze: Int {
     from 1969-07-01 = 20;
     # Reference: Art. 1 G. v. 20.12.1985 BGBl I S. 2484
     from 1986-01-01 = 19;
@@ -97,7 +97,7 @@ public const stundengrenze: Int {
  * Dauer des Anspruchs auf ALG 1 richtet sich nach Alter und wie viele Monate
  * eine Person versicherungsplichtig in den letzten 5 Jahren war.
  */
-public const anspruchsdauer: Dict<Int, Int> {
+public constant anspruchsdauer: Dict<Int, Int> {
     from 1997-03-24 = {
         nach_alter: {
             0: 12

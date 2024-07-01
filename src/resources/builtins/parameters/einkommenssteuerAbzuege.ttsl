@@ -9,7 +9,7 @@ pacakge einkommenssteuerAbzuege
  * veranlagte Paare. §32 (6) EStG, seit 2000.
  * Pro Jahr
  */
-public const kinderFreibetrag: Dict<String, Int> {
+public constant kinderFreibetrag: Dict<String, Int> {
     # Reference: Art. 1 G. v. 23.12.1982 BGBl. I S. 1857.
     from 1983-01-01 = {
         saechlichesExistenzminimum: 110
@@ -140,7 +140,7 @@ public const kinderFreibetrag: Dict<String, Int> {
  * Steuerpflichtigen. Wird verdoppelt für gemeinsam veranlagte Ehegatten. Der gesamte
  * Zeitverlauf wurde bereits 2005 festgelegt.
  */
-public const vorsorge2004Vorwegabzug: Int {
+public constant vorsorge2004Vorwegabzug: Int {
     from 1985-01-01 = 1534
     from 1989-01-01 = 2045
     from 1993-01-01 = 3068
@@ -160,7 +160,7 @@ public const vorsorge2004Vorwegabzug: Int {
  * § 9a Nr. 1a) EStG
  * This is the minimum amount deducted from any employment income.
  */
-public const werbungskostenpauschbetrag: Int {
+public constant werbungskostenpauschbetrag: Int {
     from 1975-01-01 = 288
     from 1990-01-01 = 1044
     from 2004-01-01 = 920
@@ -179,7 +179,7 @@ public const werbungskostenpauschbetrag: Int {
  * Sonderausgaben-Pauschbetrag
  * § 10c EStG
  */
-public const sonderausgabenpauschbetrag: Int {
+public constant sonderausgabenpauschbetrag: Int {
     from 1984-01-01 = 138
 
     # Reference: Art. 1 G. v. 25.07.1988, BGBl. I S. 1093
@@ -194,7 +194,7 @@ public const sonderausgabenpauschbetrag: Int {
  * § 20 (9) EStG. Früher § 20 (4) EStG. Wert für Singles. Wird verdoppelt für
  * gemeinsam veranlagte. seit 2009. vor 2008 Sparerfreibetrag.
  */
-public const sparerpauschbetrag: Int {
+public constant sparerpauschbetrag: Int {
     from 1975-01-01 = 153
     from 1990-01-01 = 307
     from 1993-01-01 = 3068
@@ -217,7 +217,7 @@ public const sparerpauschbetrag: Int {
  * § 20 (9) EStG. Früher § 20 (4) EStG. Wert für Singles. Wird verdoppelt für
  * gemeinsam veranlagte. seit 2009. vor 2008 Sparerfreibetrag.
  */
-public const sparerWerbungskostenPauschbetrag: Int {
+public constant sparerWerbungskostenPauschbetrag: Int {
     from 1975-01-01 = 51
     from 2009-01-01 = 0
 }
@@ -226,7 +226,7 @@ public const sparerWerbungskostenPauschbetrag: Int {
  * Allgemeine Vorsorgepauschale Grundhöchstbetrag, Grundtabelle
  * §10 (3) EStG bis 2004.
  */
-public const vorsorge2004Grundhoechstbetrag: Int {
+public constant vorsorge2004Grundhoechstbetrag: Int {
     from 1985-01-01 = 1196
     from 1992-01-01 = 1334
 }
@@ -238,7 +238,7 @@ public const vorsorge2004Grundhoechstbetrag: Int {
  * haben, maximal den gleichen Altersentlastungsbetrag. Ab 2005 hängt dieser Betrag,
  * den diese Steuerpflichtigen erhalten, vom Geburtsjahr ab.
  */
-public const altersentlastungsbetragMax: Int or Dict<Int, Int> {
+public constant altersentlastungsbetragMax: Int or Dict<Int, Int> {
     from 1984-01-01 = 1534
     from 1989-01-01 = 1902
     from 2002-01-01 = 1908
@@ -291,7 +291,7 @@ public const altersentlastungsbetragMax: Int or Dict<Int, Int> {
  * haben, die gleiche Altersentlastungsquote abgezogen. Ab 2005 hängt diese Quote,
  * den diese Steuerpflichtigen erhalten, vom Geburtsjahr ab.
  */
-public const altersentlastungQuote: Float or Dict<Int, Float> {
+public constant altersentlastungQuote: Float or Dict<Int, Float> {
     from 1984-01-01 = 0.4
 
     # Reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
@@ -342,7 +342,7 @@ public const altersentlastungQuote: Float or Dict<Int, Float> {
  * Lebensjahr vollendet hatte.
  * Reference: § 24a Art. 3 EStG
  */
-public const altersentlastungsbetragAltersgrenze: Int {
+public constant altersentlastungsbetragAltersgrenze: Int {
     from 1984-01-01 = 64
 }
 
@@ -355,7 +355,7 @@ public const altersentlastungsbetragAltersgrenze: Int {
  * 2023 auf 100% gesetzt.
  * Reference: § 10 Abs. 1 Nr. 2 Buchst. a und b EStG
  */
-public const einfuehrungsfaktor: {
+public constant einfuehrungsfaktor: {
     from 2005-01-01 = {
 		0: {lower_threshold: -inf, rate_linear: 0, intercept_at_lower_threshold: 0.6},
 		1: {lower_threshold: 2005, upper_threshold: 2025, rate_linear: 0.02},
@@ -375,7 +375,7 @@ public const einfuehrungsfaktor: {
  * Entlastungsbetrag für Alleinerziehende
  * § 24b (1) EStG. vor 2004 "Haushaltsfreibetrag", § 32 (7) EStG
  */
-public const alleinerzFreibetrag: Int {
+public constant alleinerzFreibetrag: Int {
 	from 1984-01-01 = 2154
 	from 1986-01-01 = 2319
 	from 1989-01-01 = 2871
@@ -398,7 +398,7 @@ public const alleinerzFreibetrag: Int {
  * §24b (2) S. 2 EStG. Alleinerziehenden-Entlastungsbetrag, Zusatzbetrag pro Kind ab
  * dem 2. Kind.
  */
-public const alleinerzFreibetragZusatz: Int {
+public constant alleinerzFreibetragZusatz: Int {
 	# Reference: Art. 1 G. vs. 16.07.2015 BGBl. I S.1202
 	from 2015-01-01 = 240
 }
@@ -408,7 +408,7 @@ public const alleinerzFreibetragZusatz: Int {
  * §10 (3) S. 2 EStG (vor 2004). Der Vorwegabzug wird pauschal um einen Anteil
  * gekürzt bei abhängig Beschäftigten (vereinfacht).
  */
-public const vorsorge2004KuerzungVorwegabzug: Float {
+public constant vorsorge2004KuerzungVorwegabzug: Float {
 	from 1985-01-01 = 0.0935
 	from 1986-01-01 = 0.096
 	from 1987-01-01 = 0.0935
@@ -425,7 +425,7 @@ public const vorsorge2004KuerzungVorwegabzug: Float {
  * AL-V), der für sozialverspfl. Beschäftigte gilt.
  * §10 Abs. 4 S.1 EStG
  */
-public const vorsorgeSonstigeAufwendungenMax: Int {
+public constant vorsorgeSonstigeAufwendungenMax: Int {
 	# Reference: Art. 1 G. v. 05.07.2004 BGBl. I S.1427
 	from 2005-01-01 = 1500
 
@@ -437,7 +437,7 @@ public const vorsorgeSonstigeAufwendungenMax: Int {
  * Maximalbetrag der Altersvorsorgeaufwendungen, 2005er Rechtsstand
  * §10 (3) EStG, Anlage 2 SGB VI
  */
-public const vorsorgeAltersvorsorgeaufwendungenMax: Int {
+public constant vorsorgeAltersvorsorgeaufwendungenMax: Int {
 	# Art. 1 G. v. 05.07.2004 BGBl. I S.1427
 	from 2005-01-01 = 20000
 
@@ -475,7 +475,7 @@ public const vorsorgeAltersvorsorgeaufwendungenMax: Int {
  * Beschäftigten.
  * §10 (3) a) S.4 EStG
  */
-public const vorsorgeKrankenMinderung: Float {
+public constant vorsorgeKrankenMinderung: Float {
 	# Reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
 	from 2009-07-23 = 0.04
 }
@@ -484,7 +484,7 @@ public const vorsorgeKrankenMinderung: Float {
  * Behinderten-Pauschbetrag, in Abhängigkeit des Behinderungsgrads.
  * § 33b (3) EStG.
  */
-public const behindertenPauschbetrag: Dict<Int, Int> {
+public constant behindertenPauschbetrag: Dict<Int, Int> {
 	# Reference: G. v. 05.08.1974 BGBl. I S. 1769.
 	from 1975-01-01 = {
 		0: 0,
@@ -531,7 +531,7 @@ public const behindertenPauschbetrag: Dict<Int, Int> {
  * anrechenbar ist
  * §10 (1) Nr. 5 EStG
  */
-public const kinderbetreuungskostenAbzAnteil: Float {
+public constant kinderbetreuungskostenAbzAnteil: Float {
 	# Reference: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
 	from 2012-01-01 = 0.6666666
 }
@@ -540,7 +540,7 @@ public const kinderbetreuungskostenAbzAnteil: Float {
  * Maximal abziehbare Betreuungsaufwendungen pro Kind
  * §10 (1) Nr. 5 EStG
  */
-public const kinderbetreuungskostenAbzMaximum: Int {
+public constant kinderbetreuungskostenAbzMaximum: Int {
 	# Reference: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
 	from 2012-01-01 = 4000
 }
@@ -549,7 +549,7 @@ public const kinderbetreuungskostenAbzMaximum: Int {
  * Anteil abgezogene Rentenversicherungsbeiträge
  * §10 (3) a) S.4 EStG
  */
-public const vorsorgepauschaleRentenversicherungsAnteil: Dict<Int, Dict<String, Float>> {
+public constant vorsorgepauschaleRentenversicherungsAnteil: Dict<Int, Dict<String, Float>> {
 	2005-01-01 = {
 		0: {
 			lower_threshold: -inf,
@@ -600,7 +600,7 @@ public const vorsorgepauschaleRentenversicherungsAnteil: Dict<Int, Dict<String, 
  * Mindestvorsorgepauschale
  * Reference: 39b (2) Nr.3 EStG
  */
-public const vorsorgepauschaleMindestanteil: Float {
+public constant vorsorgepauschaleMindestanteil: Float {
 	# Reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
 	from 2009-07-23 = 0.12
 }
@@ -611,7 +611,7 @@ public const vorsorgepauschaleMindestanteil: Float {
  * Lohnsteuer abgesetzt werden können.
  * Reference: 39b (2) Nr.3 EStG. Depends on Steuerklasse.
  */
-public const vorsorgepauschaleKvMax: Dict<String, Int> {
+public constant vorsorgepauschaleKvMax: Dict<String, Int> {
 	# Reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
 	from 2009-07-23 = {
 		steuerklasse_3: 3000,

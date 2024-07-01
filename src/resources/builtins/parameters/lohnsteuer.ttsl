@@ -6,7 +6,7 @@ package lohnsteuer
  * Mindest- und Maximalsteuern festgelegt sind.
  * Referenz: § 39b Absatz 2 Satz 7 EStG
  */
-public const lohnsteuerEinkommensgrenzen: Dict<Int, Int> {
+public constant lohnsteuerEinkommensgrenzen: Dict<Int, Int> {
     from 2002-01-01 {
         0: 8946,
         1: 27306,

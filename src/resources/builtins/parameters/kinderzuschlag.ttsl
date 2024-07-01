@@ -4,7 +4,7 @@ package kidnerzuschlag
  * Maximale Höhe des Kinderzuschlags
  * Reference: § 6a (2) BKGG. Betrag pro Kind
  */
-const maximum: Int {
+constant maximum: Int {
     # Reference: Art. 46 G. v. 24.12.2003 BGBl. I S. 2954.
     from 2005-01-01 = 140
 
@@ -38,7 +38,7 @@ const maximum: Int {
  * the maximum amount in the child supplement increases by 20 euros.
  * § 6a Abs. 2 Satz 4 BKGG
  */
-const kindersofortzuschl: Int {
+constant kindersofortzuschl: Int {
     # Reference: § 6a Abs. 2 Satz 4 BKGG
     from 2022-07-01 = 20
 
@@ -52,7 +52,7 @@ const kindersofortzuschl: Int {
  * Mindesteinkommen für Paare
  * Reference: § 6a (1) Nr. 2 BKGG.
  */
-const min_eink_paare: Int {
+constant min_eink_paare: Int {
     # Reference: kein expliziter Wert im Gesetz.
     from 2005-01-01 = 0
 
@@ -64,7 +64,7 @@ const min_eink_paare: Int {
  * Mindesteinkommen für Alleinerziehende
  * Reference: § 6a (1) Nr. 2 BKGG.
  */
-const min_eink_alleinerz: Int {
+constant min_eink_alleinerz: Int {
     # Reference: kein expliziter Wert im Gesetz.
     from 2005-01-01 = 0
 
@@ -79,7 +79,7 @@ const min_eink_alleinerz: Int {
  * Eltern gemindert wird. Bis 07/2019 wurde das Einkommen nur in 10€-Schritten
  * berücksichtigt.
  */
-const entzugsrate_eltern: Float {
+constant entzugsrate_eltern: Float {
     # Reference: Art. 46 G. v. 24.12.2003 BGBl. I. S. 2954.
     from 2005-01-01 = 0.7
 
@@ -96,7 +96,7 @@ const entzugsrate_eltern: Float {
  * Unterhaltsvorschuss.
  * Reference: § 6a (3) BKGG
  */
-const entzugsrate_kind: Float {
+constant entzugsrate_kind: Float {
     # Reference: Art. 46 G. v. 24.12.2003 BGBl. I. S. 2954.
     from 2005-01-01 = 1
 
@@ -110,7 +110,7 @@ const entzugsrate_kind: Float {
  * Berechnet für jeweils zwei Jahre die Höhe der steuerfrei zu stellenden
  * Existenzminima (nicht identisch mit dem steuerlichen Grundfreibetrag).
  */
-const existenzminimum: Dict<String, Dict<String, Int>{
+constant existenzminimum: Dict<String, Dict<String, Int>{
     # Reference: 5. Existenzminimumsbericht, Bundestag Drucksache 15/2462, Übersicht 3
     from 2005-01-01 = {
         regelsatz: {

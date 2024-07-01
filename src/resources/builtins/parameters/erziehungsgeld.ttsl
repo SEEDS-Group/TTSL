@@ -6,7 +6,7 @@ package erziehungsgeld
  * Einkommensgrenze für abzugsfreies Erziehungsgeld
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (p.209)
  */
-public const erziehungsgeldEinkommensgrenze: Dict<String, Dict<String, Dict<String, Int>>> {
+public constant erziehungsgeldEinkommensgrenze: Dict<String, Dict<String, Dict<String, Int>>> {
 	from 2004-02-09 = {
 		limit: {
 			alleinerz: {
@@ -35,7 +35,7 @@ public const erziehungsgeldEinkommensgrenze: Dict<String, Dict<String, Dict<Stri
  * Erhöhung der Einkommensgrenze pro weiterem Kind
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (p.209)
  */
-public const erziehungsgeldAufschlagEinkommen: Dict<String, Int> {
+public constant erziehungsgeldAufschlagEinkommen: Dict<String, Int> {
 	from 2004-02-09 = 3140
 }
 
@@ -43,7 +43,7 @@ public const erziehungsgeldAufschlagEinkommen: Dict<String, Int> {
  * Höhe des Erziehungsgeldes abhängig vom beantragtem Satz
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 5 (p.208)
  */
-public const erziehungsgeldSatz: Dict<String, Int> {
+public constant erziehungsgeldSatz: Dict<String, Int> {
 	from 2004-02-09 = {
 		regelsatz: 300,
 		budgetsatz: 450
@@ -58,7 +58,7 @@ public const erziehungsgeldSatz: Dict<String, Int> {
  * das Produkt entsprechend vom Erziehungsgeld Anspruch abgezogen
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
  */
-public const abschlagFaktor: Float {
+public constant abschlagFaktor: Float {
 	from 2004-02-09 = 0.052
 }
 
@@ -67,7 +67,7 @@ public const abschlagFaktor: Float {
  * relevanten Einkommen zu berechnen
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 6 (p.209)
  */
-public const pauschalAbzugAufEinkommen: Float {
+public constant pauschalAbzugAufEinkommen: Float {
 	from 2004-02-09 = 0.76
 }
 
@@ -75,7 +75,7 @@ public const pauschalAbzugAufEinkommen: Float {
  * Grenze der wöchentlichen Arbeitsstunden bis zu der Erziehungsgeld ausgezahlt wird
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 15 (p.211)
  */
-public const arbeitsstundenWoechentlicheGrenze: Int {
+public constant arbeitsstundenWoechentlicheGrenze: Int {
 	from 2004-02-09 = 30
 }
 
@@ -83,7 +83,7 @@ public const arbeitsstundenWoechentlicheGrenze: Int {
  * Alter des Kindes in Monaten bis zu dem der Regelsatz bezogen werden kann.
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
  */
-public const endAlterKindRegelsatz: Int {
+public constant endAlterKindRegelsatz: Int {
 	from 2004-01-01 = 24
 }
 
@@ -91,7 +91,7 @@ public const endAlterKindRegelsatz: Int {
  * Alter des Kindes in Monaten bis zu dem der Budgetsatz bezogen werden kann.
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
  */
-public const endAlterKindBudgetsatz: Int {
+public constant endAlterKindBudgetsatz: Int {
 	from 2004-01-01 = 12
 }
 

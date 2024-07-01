@@ -5,7 +5,7 @@ package unterhalt
  * § 1612a BGB, § 1 Mindesunterhaltsverordnung. Mindestunterhalt für Kinder in
  * Abhängigkeit des Alters (unter 6, unter 12, bis 17 Jahre)
  */
-public const mindestunterhalt: Dict<Int, Int> {
+public constant mindestunterhalt: Dict<Int, Int> {
     # Reference: V. v. 03.12.2015 BGBl. I S. 2188.
     from 2016-01-01 = {
         6: 335,
@@ -78,7 +78,7 @@ public const mindestunterhalt: Dict<Int, Int> {
  * Elternteil das hälftige Kindergeld bei der Unterhaltsberechnung in Abzug bringen.
  * Reference: § 1612b BGB
  */
-public const abzugsrateKindergeld: Dict<String, Float> {
+public constant abzugsrateKindergeld: Dict<String, Float> {
     from 2008-01-01 = {
         kind: 0.5,
         erwachsener: 1

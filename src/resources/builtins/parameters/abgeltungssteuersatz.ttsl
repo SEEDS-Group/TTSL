@@ -6,7 +6,7 @@ package abgeltungssteuersatz
  * Constant for the Capital Income Tax Rate as defined in §32d (1) EStG.
  * Reference: Art. 1 G. v. 14.08.2007
  */
-public const abgeltungssteuersatz: Float {
+public constant abgeltungssteuersatz: Float {
     from 1984-01-01 = 0.0;
     from 2009-01-01 = 0.25;
 }

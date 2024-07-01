@@ -7,7 +7,7 @@ package gesetzlicheRente
  * Verhältnis von Rentnern zu Beitragszahlern modifiziert
  * Reference: §68 Abs. 4 S. 6 SGB VI
  */
-public const alpha: Float {
+public constant alpha: Float {
     from 1984-01-01 = 0.0
     from 2002-01-01 = 0.25
 }
@@ -16,7 +16,7 @@ public const alpha: Float {
  * Teil des Riesterfaktors in der Rentenanpassungsformel
  * Reference: §68 Abs. 5 SGB VI
  */
-public const altersVorsorgeAnteil: Float {
+public constant altersVorsorgeAnteil: Float {
     from 1993-01-01 = 0.0
     from 2002-01-01 = 0.5
     from 2003-01-01 = 1.0
@@ -33,7 +33,7 @@ public const altersVorsorgeAnteil: Float {
  * Beschäftigten, der geringfügig Beschäftigten und der Bezieher von ALG.
  * statistik-rente.de/drv
  */
-public const beitragsvolumen: Dict<Date, Int> {
+public constant beitragsvolumen: Dict<Date, Int> {
     from 1991-01-01 = 108688000
     from 1992-01-01 = 117359000
     from 1993-01-01 = 120559000
@@ -71,7 +71,7 @@ public const beitragsvolumen: Dict<Date, Int> {
  * Multiplikation des Rentenwerts mit 45. statistik-rente.de/drv
  * Reference: § 154 Abs. 3 Satz 1 Nr. 2 SGB VI
  */
-public const eckrente: Float {
+public constant eckrente: Float {
     from 1995-01-01 = 988.15
     from 1996-01-01 = 992.72
     from 1997-01-01 = 1009.1
@@ -102,7 +102,7 @@ public const eckrente: Float {
  * Durchschnittslohn
  * Durchschnittsbruttolohn aller Arbeitnehmer:innen in einem Jahr
  */
-public const durchschnittslohn: Float {
+public constant durchschnittslohn: Float {
     from 2005-01-01 = 28468.23
     from 2006-01-01 = 28673.22
     from 2007-01-01 = 28978.19
@@ -122,7 +122,7 @@ public const durchschnittslohn: Float {
  * Durchschnittsentgelt aller Versicherten im Sinne der deutschen Sozialversicherung.
  * Dieses wird benötigt zur Berechnung der Entgeltpunkte.
  */
-public const beitragspflichtigesDurchschnittsentgelt: Int {
+public constant beitragspflichtigesDurchschnittsentgelt: Int {
     from 2005-01-01 = 29202
     from 2006-01-01 = 29494
     from 2007-01-01 = 29951
@@ -167,7 +167,7 @@ public const beitragspflichtigesDurchschnittsentgelt: Int {
  * diesen Faktor erhöht.
  * Reference: §256a SGB VI and Anlage 10 SGB VI
  */
-public const umrechnungEntgeltpBeitrittsgebiet: Float {
+public constant umrechnungEntgeltpBeitrittsgebiet: Float {
     from 1945-01-01 = 1.0000
     from 1946-01-01 = 1.0000
     from 1947-01-01 = 1.0000
@@ -255,7 +255,7 @@ public const umrechnungEntgeltpBeitrittsgebiet: Float {
  * Rentenvolumen
  * Gesamtvolumen der ausgezahlten Renten
  */
-public const gesamtesRentenvolumen: Int {
+public constant gesamtesRentenvolumen: Int {
     from 1991-01-01 = 117912000
     from 1992-01-01 = 130901000
     from 1993-01-01 = 141180000
@@ -293,7 +293,7 @@ public const gesamtesRentenvolumen: Int {
  * einen Entgeltpunkt entspricht.
  * Reference: statistik-rente.de/drv,  § 68 SGB VI
  */
-public const rentenwert: Dict<String, Float> {
+public constant rentenwert: Dict<String, Float> {
     from 1992-01-01 = {
         west: 21.19,
         ost: 12.05
@@ -465,7 +465,7 @@ public const rentenwert: Dict<String, Float> {
  * Konstante zur Bestimmung des Höchstwerts der durchschnittlichen Entgeltpunkte und
  * des Effekts eines weiteren Monats an Grundrentenzeiten auf Höchstwert.
  */
-public const grundrenteHöchstwert: Dict<String, Float> {
+public constant grundrenteHöchstwert: Dict<String, Float> {
     # Reference: § 76g Abs. 4 S. 3, 4 SGB VI
     from 2021-01-01 = {
         base: 0.0334,
@@ -478,7 +478,7 @@ public const grundrenteHöchstwert: Dict<String, Float> {
  * Der Zugangsfaktor für die Grundrente ist auf 1 begrenzt.
  * Reference: § 77 Abs. 2 SGB VI
  */
-public const grundrenteZugangsfaktorMax: Int {
+public constant grundrenteZugangsfaktorMax: Int {
     from 2021-01-01 = 1
 }
 
@@ -488,7 +488,7 @@ public const grundrenteZugangsfaktorMax: Int {
  * an Grundrentenzeiten ab der zusätzliche Monate an Grundrentenzeiten nicht
  * berücksichtigt werden
  */
-public const grundrenteZeiten: Dict<String, Int> {
+public constant grundrenteZeiten: Dict<String, Int> {
     # Reference: § 76g Abs. 4 S. 5,6 / Abs. 1 S. 1 SGB VI
     from 2021-01-01 = {
         min: 396,
@@ -502,7 +502,7 @@ public const grundrenteZeiten: Dict<String, Int> {
  * Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
  * Reference: § 97a Abs. 4 S. 2, 4 SGB VI
  */
-public const grundrenteEinkommensanrechnungSingle: Dict<Int, Dict<String, Float>> {
+public constant grundrenteEinkommensanrechnungSingle: Dict<Int, Dict<String, Float>> {
     # Reference: § 97a Abs. 4 S. 2, 4 SGB VI
     from 2021-01-01 = {
         0: {
@@ -528,7 +528,7 @@ public const grundrenteEinkommensanrechnungSingle: Dict<Int, Dict<String, Float>
  * Einkommensanrechnung des Grundrentenzuschlags zu ermitteln
  * Reference: § 97a Abs. 4 S. 2, 4 SGB VI
  */
-public const grundrenteEinkommensanrechnungMarried: Dict<Int, Dict<String, Float>> {
+public constant grundrenteEinkommensanrechnungMarried: Dict<Int, Dict<String, Float>> {
     # Reference: § 97a Abs. 4 S. 2, 4 SGB VI
     from 2021-01-01 = {
         0: {
@@ -553,7 +553,7 @@ public const grundrenteEinkommensanrechnungMarried: Dict<Int, Dict<String, Float
  * Faktor mit dem die durch die Grundrente zusätzlich erhaltenen Entgeltpunkte
  * multipliziert werden.
  */
-public const grundrenteFaktorBonus: Float {
+public constant grundrenteFaktorBonus: Float {
     # Reference: §§ 76g Abs. 4 S. 3, 4 SGB VI
     from 2021-01-01 = 0.875
 }
@@ -564,7 +564,7 @@ public const grundrenteFaktorBonus: Float {
  * jedes Jahr, das länger/kürzer gearbeitet wird
  * Reference: §77 Abs. 2 Nr. 2 SGB VI
  */
-public const zugangsfaktorVeraenderungProJahr: Dict<String, Float> {
+public constant zugangsfaktorVeraenderungProJahr: Dict<String, Float> {
     # Reference: §77 Abs. 2 Nr. 2 SGB VI
     from 2001-01-01 = {
         vorzeitiger_renteneintritt: 0.036,
@@ -580,7 +580,7 @@ public const zugangsfaktorVeraenderungProJahr: Dict<String, Float> {
  * höher oder niedriger, wenn keine Ausnahmeregelungen erfüllt sind.
  * Reference: § 35 Satz 2 SGB VI
  */
-public const regelaltersgrenze: Dict<Int, Dict<String, Float>> {
+public constant regelaltersgrenze: Dict<Int, Dict<String, Float>> {
     from 1984-01-01 = {
         0: {
             lower_threshold: -inf,
@@ -609,7 +609,7 @@ public const regelaltersgrenze: Dict<Int, Dict<String, Float>> {
  * geboren vor 1952 in Rente gehen konnten.
  * Reference: § 237a SGB VI
  */
-public const altersgrenzeFrauen: Dict<Int, Dict<String, Float>> {
+public constant altersgrenzeFrauen: Dict<Int, Dict<String, Float>> {
     from 1980-01-01 = {
         0: {
             lower_threshold: -inf,
@@ -622,7 +622,7 @@ public const altersgrenzeFrauen: Dict<Int, Dict<String, Float>> {
             rate_linear: 1,
         },
         2: {
-            upper_threshold: 1951.916666666,  # constant 65
+            upper_threshold: 1951.916666666,  #  65
             rate_linear: 0,
         },
         3: {
@@ -651,7 +651,7 @@ public const altersgrenzeFrauen: Dict<Int, Dict<String, Float>> {
  * (mit Abschlägen).
  * Reference: § 237a SGB VI
  */
-public const altersgrenzeFrauenVorzeitig: Dict<Int, Dict<String, Float>> {
+public constant altersgrenzeFrauenVorzeitig: Dict<Int, Dict<String, Float>> {
     from 1980-01-01 = {
         0: {
             lower_threshold: -inf,
@@ -664,7 +664,7 @@ public const altersgrenzeFrauenVorzeitig: Dict<Int, Dict<String, Float>> {
             rate_linear: 7,
         },
         2: {
-            upper_threshold: inf,  # constant 67
+            upper_threshold: inf,  #  67
             rate_linear: 0,
         },
     }
@@ -675,7 +675,7 @@ public const altersgrenzeFrauenVorzeitig: Dict<Int, Dict<String, Float>> {
  * Kohorte, ab der Rente für Frauen abgeschafft.
  * Reference: § 237a SGB VI
  */
-public const firstBirthyearWithoutRenteFrauen: Int {
+public constant firstBirthyearWithoutRenteFrauen: Int {
     from 1980-01-01 = 1952
 }
 
@@ -686,7 +686,7 @@ public const firstBirthyearWithoutRenteFrauen: Int {
  * Wert ist als Jahr zu interpretieren.
  * Reference: § 237a SGB VI
  */
-public const renteFrauenPflichtbeitrag: Int {
+public constant renteFrauenPflichtbeitrag: Int {
     from 1950-01-01 = 10
 }
 
@@ -696,7 +696,7 @@ public const renteFrauenPflichtbeitrag: Int {
  * bezogen werden kann.
  * Reference: § 237 SGB VI
  */
-public const altersgrenzeArbeitslosigkeitAbschlagsfrei: Float or Dict<Int, Dict<String, Float or Dict<Int, Float>> {
+public constant altersgrenzeArbeitslosigkeitAbschlagsfrei: Float or Dict<Int, Dict<String, Float or Dict<Int, Float>> {
     from 1980-01-01 = {
         0: {
             scalar: 60.0,
@@ -1305,7 +1305,7 @@ public const altersgrenzeArbeitslosigkeitAbschlagsfrei: Float or Dict<Int, Dict<
  * bezogen werden kann (mit Abschlägen), einschließlich Vertrauensschutz.
  * Reference: § 237 SGB VI
  */
-public const altersgrenzeArbeitslosigkeitVorzeitig: Float or Dict<Int, Dict<Int, Float>>{
+public constant altersgrenzeArbeitslosigkeitVorzeitig: Float or Dict<Int, Dict<Int, Float>>{
     from 1980-01-01 = 60.0
 
     # Increase of early retirement age from 60 to 62 for birth cohort 1949-1952.
@@ -1553,7 +1553,7 @@ public const altersgrenzeArbeitslosigkeitVorzeitig: Float or Dict<Int, Dict<Int,
  * bezogen werden kann (mit Abschlägen).
  * Reference: § 236 SGB VI
  */
-public const altersgrenzeLangjährigVersicherteVorzeitig: Float {
+public constant altersgrenzeLangjährigVersicherteVorzeitig: Float {
     from 1980-01-01 = 63.0
 }
 
@@ -1565,7 +1565,7 @@ public const altersgrenzeLangjährigVersicherteVorzeitig: Float {
  * höher oder niedriger, wenn keine Ausnahmeregelungen erfüllt sind.
  * Reference: § 236 SGB VI
  */
-public const altersgrenzeLangjährigVersicherteAbschlagsfrei: Dict<Int, Dict<Int, Float>> {
+public constant altersgrenzeLangjährigVersicherteAbschlagsfrei: Dict<Int, Dict<Int, Float>> {
     from 1984-01-01 = {
         0: {
             lower_threshold: -inf,
@@ -1610,7 +1610,7 @@ public const altersgrenzeLangjährigVersicherteAbschlagsfrei: Dict<Int, Dict<Int
  * Altersgrenze Regelaltersrente angeglichen wurde.
  * Reference: § 237 SGB VI
  */
-public const alignmentCohortLangjährigVersicherte: Int {
+public constant alignmentCohortLangjährigVersicherte: Int {
     from 1980-01-01 = 1950
 }
 
@@ -1631,7 +1631,7 @@ public const alignmentCohortLangjährigVersicherte: Int {
  * monatliche Präzision bis Kohorte 1952.
  * Reference: § 38 SGB VI
  */
-public const altersgrenzeBesondersLangjährigVersicherte: Dict<Int, Dict<Int, Float>> {
+public constant altersgrenzeBesondersLangjährigVersicherte: Dict<Int, Dict<Int, Float>> {
     from 2012-01-01 = {
         0: {
             lower_threshold: -inf,
@@ -1671,7 +1671,7 @@ public const altersgrenzeBesondersLangjährigVersicherte: Dict<Int, Dict<Int, Fl
  * Kohorte, ab der Rente für besonders langjährig Versicherte vollständig eingeführt.
  * Reference: § 237 SGB VI
  */
-public const firstBirthyearBesondersLangjährigVersicherte: Int {
+public constant firstBirthyearBesondersLangjährigVersicherte: Int {
     from 2012-01-01 = 1952
 }
 

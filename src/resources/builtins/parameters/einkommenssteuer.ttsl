@@ -9,7 +9,7 @@ package einkommenssteuer
  * des Progressionsfaktors berechnet. Einzelheiten sind im docstring der Funktion
  * add_progressionsfaktor beschrieben.
  */
-public const einkommenssteuerTarif: Dict<Int, Dict<String, Float>> {
+public constant einkommenssteuerTarif: Dict<Int, Dict<String, Float>> {
 
 	# TODO: klren wie das mit deviation_from aussieht
 
@@ -325,7 +325,7 @@ public const einkommenssteuerTarif: Dict<Int, Dict<String, Float>> {
  * Diese Funktion ist hier ab 2002 angegeben. Vor 2002 das Steuersystem ist nicht
  * implementiert.
  */
-public const renteErtragsanteil: Dict<Int, Dict<String, Float>> {
+public constant renteErtragsanteil: Dict<Int, Dict<String, Float>> {
 	from 2002-01-01 = {
 		0: {
 			lower_threshold: -inf,

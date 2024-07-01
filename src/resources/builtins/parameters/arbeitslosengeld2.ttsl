@@ -9,7 +9,7 @@ package arbeitslosengeld2
  * § 11b (2) SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
  * G. v. 24.03.2011 BGBl. I S. 453).
  */
-public const anrechnungsfreieEinkommensanteile: Dict<Date, Dict<Int, Dict<String, Float>>> {
+public constant anrechnungsfreieEinkommensanteile: Dict<Date, Dict<Int, Dict<String, Float>>> {
     # Reference: Artikel 1. G. v. 24.12.2003 BGBl. I S. 2954.
     from 2005-01-01 = {
         0: {
@@ -112,7 +112,7 @@ public const anrechnungsfreieEinkommensanteile: Dict<Date, Dict<Int, Dict<String
  * II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011
  * BGBl. I S. 453).
  */
-public const anrechnungsfreieEinkommensanteileFallsKinder: Dict<Date, Dict<Int, Dict<String, Float>>> {
+public constant anrechnungsfreieEinkommensanteileFallsKinder: Dict<Date, Dict<Int, Dict<String, Float>>> {
     # Reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
     from 2005-10-01 = {
         3: {
@@ -136,7 +136,7 @@ public const anrechnungsfreieEinkommensanteileFallsKinder: Dict<Date, Dict<Int, 
  * S.
  * 3159.
  */
-public const regelsatz: Int or Dict<Int, Int> {
+public constant regelsatz: Int or Dict<Int, Int> {
     from 2005-01-01 = {
         scalar: 338,
         reference: "Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.",
@@ -311,7 +311,7 @@ public const regelsatz: Int or Dict<Int, Int> {
  * 2005-2010 der Regelsatz für weitere Haushaltsmitglieder wurden als Anteil
  * des Standardsatzes bestimmt.
  */
-public const anteilRegelsatz: Dict<String, Float> {
+public constant anteilRegelsatz: Dict<String, Float> {
     # Reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
     from 2005-01-01 = {
         zwei_erwachsene: 0.9,
@@ -343,7 +343,7 @@ public const anteilRegelsatz: Dict<String, Float> {
  * § 21 (3) Nr. 1 SGB II.
  * reference_period: Month
  */
-public const mehrbedarfAnteil: Dict<String, Float> {
+public constant mehrbedarfAnteil: Dict<String, Float> {
     # Reference: G. v. 24.12.2003 BGBl. I S. 2954.
     from 2005-01-01 = {
         min_1_kind: 0.12,
@@ -359,7 +359,7 @@ public const mehrbedarfAnteil: Dict<String, Float> {
  * mehr auf und ist nicht mehr relevant,
  * da alle betroffenen Personen zu alt für ALG 2 sind.
  */
-public const vermögensGrundfreibetragObergrenze: Dict<Int, Int> {
+public constant vermögensGrundfreibetragObergrenze: Dict<Int, Int> {
     # Reference: Artikel 1 G. v. 23.12.2002 BGBl. I S. 4607.
     from 2005-01-01 = {
         1947: 33800,
@@ -400,7 +400,7 @@ public const vermögensGrundfreibetragObergrenze: Dict<Int, Int> {
  * von einem Jahr. Während der Karenzzeit ist ein Vermögen von 40.000 Euro für die
  * erste Person einer Bedarfsgemeinschaft und 15.000 Euro für jede weitere erlaubt.
  */
-public const schonvermoegenBuergergeld: Dict<String, Int> {
+public constant schonvermoegenBuergergeld: Dict<String, Int> {
     # Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
     from 2023-01-01 = {
         während_karenzzeit: 40000,
@@ -412,7 +412,7 @@ public const schonvermoegenBuergergeld: Dict<String, Int> {
  * Vermögensfreibetrag für Erstausstattung
  * § 12 (2) Satz 1 Nr. 4 SGB II.
  */
-public const vermoegensfreibetragAusstattung: Int {
+public constant vermoegensfreibetragAusstattung: Int {
     # Reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
     from 2005-01-01 = 750;
 
@@ -424,7 +424,7 @@ public const vermoegensfreibetragAusstattung: Int {
  * Vermögensgrundfreibetrag je Kind
  * § 12 (2) Satz 1 Nr. 1 SGB II.
  */
-public const vermoegensfreibetragKind: Int {
+public constant vermoegensfreibetragKind: Int {
     # Reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
     from 2005-01-01 = 4100;
 
@@ -439,7 +439,7 @@ public const vermoegensfreibetragKind: Int {
  * Altersgrenzen für Vermögensfreibetrag
  * Vermögensfreibetrag ändert sich nach Geburtsjahr
  */
-public const vermoegensfreibetragAlter: Dict<Int, Int> {
+public constant vermoegensfreibetragAlter: Dict<Int, Int> {
     2005-01-01: {
         1: 1948,
         2: 1958,
@@ -460,7 +460,7 @@ public const vermoegensfreibetragAlter: Dict<Int, Int> {
  * .2016 BGBl. I S. 1858 entfallen. Wie entfallen?
  * § 3 Alg II-V. Seit 01.01.2008 in § 6 Alg II-V.
  */
-public const abzugfaehigePauschale: Dict<String, Float> {
+public constant abzugfaehigePauschale: Dict<String, Float> {
     # Reference: V. v. 20.10.2004 BGBl. I S. 2622
     from 2005-01-01 = {
         werbung: 15.33,
@@ -482,7 +482,7 @@ public const abzugfaehigePauschale: Dict<String, Float> {
  * § 22 SGB II
  * unit: Euro / Quadratmeter
  */
-public const maxMieteProQuadratMeter: Int {
+public constant maxMieteProQuadratMeter: Int {
     from 1984-01-01 = 10
 }
 
@@ -491,7 +491,7 @@ public const maxMieteProQuadratMeter: Int {
  * Eine Mietwohnung darf für einen Single 45 Quadratmeter (+15 für jede weitere
  * Person) groß sein.
  */
-public const berechtigteWohnflaecheMiete: Dict<String, Int> {
+public constant berechtigteWohnflaecheMiete: Dict<String, Int> {
     from 1984-01-01 = {
         single: 45,
         je_weitere_person: 15
@@ -506,7 +506,7 @@ public const berechtigteWohnflaecheMiete: Dict<String, Int> {
  * gestiegen und wird ab 5 Personen im Haushalt um 20 Quadratmeter pro Person
  * angehoben.
  */
-public const berechtigteWohnflaecheEigentum: Dict<String, Int> {
+public constant berechtigteWohnflaecheEigentum: Dict<String, Int> {
     from 1984-01-01 = {
         1: 80,
         2: 80,
