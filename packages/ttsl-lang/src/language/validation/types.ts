@@ -31,7 +31,6 @@ export const callArgumentTypesMustMatchParameterTypes = (services: SafeDsService
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslCall, accept: ValidationAcceptor) => {
-        const substitutions = typeComputer.computeSubstitutionsForCall(node);
 
         for (const argument of getArguments(node)) {
             const parameter = nodeMapper.argumentToParameter(argument);
@@ -39,8 +38,8 @@ export const callArgumentTypesMustMatchParameterTypes = (services: SafeDsService
                 return;
             }
 
-            const argumentType = typeComputer.computeType(argument).substituteTypeParameters(substitutions);
-            const parameterType = typeComputer.computeType(parameter).substituteTypeParameters(substitutions);
+            const argumentType = typeComputer.computeType(argument);
+            const parameterType = typeComputer.computeType(parameter);
 
             if (!typeChecker.isSubtypeOf(argumentType, parameterType)) {
                 accept('error', `Expected type '${parameterType}' but got '${argumentType}'.`, {
