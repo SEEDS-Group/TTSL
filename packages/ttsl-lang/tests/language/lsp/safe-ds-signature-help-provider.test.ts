@@ -3,13 +3,13 @@ import { parseHelper } from 'langium/test';
 import { SignatureHelp } from 'vscode-languageserver';
 import { NodeFileSystem } from 'langium/node';
 import { findTestRanges } from '../../helpers/testRanges.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const signatureHelpProvider = services.lsp.SignatureHelp!;
 const parse = parseHelper(services);
 
-describe('SafeDsSignatureHelpProvider', async () => {
+describe('TTSLSignatureHelpProvider', async () => {
     it('should always select the first signature', async () => {
         const code = `
             fun f(p: Int)
@@ -176,7 +176,7 @@ describe('SafeDsSignatureHelpProvider', async () => {
                 },
             ],
         },
-        // https://github.com/Safe-DS/DSL/issues/791
+        // https://github.com/TTSL/DSL/issues/791
         {
             testName: 'optional parameter',
             code: `

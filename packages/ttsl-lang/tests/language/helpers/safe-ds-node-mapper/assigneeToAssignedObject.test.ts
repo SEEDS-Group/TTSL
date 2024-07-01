@@ -8,12 +8,12 @@ import {
 } from '../../../../src/language/generated/ast.js';
 import { getAssignees } from '../../../../src/language/helpers/nodeProperties.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
-import { createSafeDsServices } from '../../../../src/language/index.js';
+import { createTTSLServices } from '../../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const nodeMapper = services.helpers.NodeMapper;
 
-describe('SafeDsNodeMapper', () => {
+describe('TTSLNodeMapper', () => {
     describe('assigneeToAssignedObject', () => {
         it('should return undefined if passed undefined', async () => {
             expect(nodeMapper.assigneeToAssignedObject(undefined)?.$type).toBeUndefined();

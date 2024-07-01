@@ -8,7 +8,7 @@ segment mySegment() {
     »pipelineInSamePackage«;
 
     // $TEST$ unresolved
-    »pipelineInSafeDsPackage«;
+    »pipelineInTTSLPackage«;
 
     // $TEST$ unresolved
     »pipelineInAnotherPackage«;

@@ -1,4 +1,4 @@
-package safeds.lang.other
+package TTSL.lang.other
 
 // $TEST$ error "Multiple builtin declarations have the name 'DuplicateAnnotation'."
 annotation »DuplicateAnnotation«

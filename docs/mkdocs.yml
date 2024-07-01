@@ -40,8 +40,8 @@ nav:
 
 theme:
   name: material
-  logo: https://raw.githubusercontent.com/Safe-DS/.github/main/branding/safe-ds_logo_rounded.svg
-  favicon: https://raw.githubusercontent.com/Safe-DS/.github/main/branding/safe-ds_logo_rounded.svg
+  logo: https://raw.githubusercontent.com/TTSL/.github/main/branding/ttsl_logo_rounded.svg
+  favicon: https://raw.githubusercontent.com/TTSL/.github/main/branding/ttsl_logo_rounded.svg
   palette:
     # Palette toggle for light mode
     - scheme: default

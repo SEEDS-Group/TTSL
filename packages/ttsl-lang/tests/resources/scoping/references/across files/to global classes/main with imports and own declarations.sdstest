@@ -1,6 +1,6 @@
 package tests.scoping.references.acrossFiles.toGlobalClasses
 
-from safeds.scoping.references.acrossFiles.toGlobalClasses import MyClass as MyOwnClass
+from TTSL.scoping.references.acrossFiles.toGlobalClasses import MyClass as MyOwnClass
 from tests.scoping.references.acrossFiles.toGlobalClasses.other import ClassInAnotherPackage, Class2InAnotherPackage
 
 // $TEST$ target own_MyOwnClass
@@ -13,8 +13,8 @@ pipeline myPipeline {
     // $TEST$ references same_ClassInSamePackage
     »ClassInSamePackage«;
 
-    // $TEST$ references safeds_ClassInSafeDsPackage
-    »ClassInSafeDsPackage«;
+    // $TEST$ references TTSL_ClassInTTSLPackage
+    »ClassInTTSLPackage«;
 
     // $TEST$ references other_ClassInAnotherPackage
     »ClassInAnotherPackage«;

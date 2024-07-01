@@ -8,12 +8,12 @@ import { AstNode, AstUtils, LangiumDocument } from 'langium';
 export const FILE_EXTENSION = 'ttsl';
 
 /**
- * All file extensions that are supported by the Safe-DS language.
+ * All file extensions that are supported by the TTSL language.
  */
 export const TSL_FILE_EXTENSIONS = [FILE_EXTENSION];
 
 /**
- * All file extensions that are supported by the Safe-DS language.
+ * All file extensions that are supported by the TTSL language.
  */
 export type TslFileExtension = typeof FILE_EXTENSION;
 

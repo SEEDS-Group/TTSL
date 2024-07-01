@@ -9,9 +9,9 @@ import {
 } from '../../../../src/language/partialEvaluation/model.js';
 import { LiteralType, Type } from '../../../../src/language/typing/model.js';
 import { expectEqualTypes } from '../../../helpers/testAssertions.js';
-import { createSafeDsServices } from '../../../../src/language/index.js';
+import { createTTSLServices } from '../../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const coreTypes = services.types.CoreTypes;
 const factory = services.types.TypeFactory;
 const typeComputer = services.types.TypeComputer;

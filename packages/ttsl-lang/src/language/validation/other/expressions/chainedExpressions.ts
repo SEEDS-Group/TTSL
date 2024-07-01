@@ -1,11 +1,11 @@
-import { SafeDsServices } from '../../../safe-ds-module.js';
+import { TTSLServices } from '../../../ttsl-module.js';
 import { isTslCall, isTslIndexedAccess, isTslMemberAccess, TslChainedExpression } from '../../../generated/ast.js';
 import { ValidationAcceptor } from 'langium';
 import { UnknownType } from '../../../typing/model.js';
 
 export const CODE_CHAINED_EXPRESSION_MISSING_NULL_SAFETY = 'chained-expression/missing-null-safety';
 
-export const chainedExpressionsMustBeNullSafeIfReceiverIsNullable = (services: SafeDsServices) => {
+export const chainedExpressionsMustBeNullSafeIfReceiverIsNullable = (services: TTSLServices) => {
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 

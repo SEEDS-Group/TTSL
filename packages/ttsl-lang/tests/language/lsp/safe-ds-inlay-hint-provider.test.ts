@@ -4,13 +4,13 @@ import { InlayHint, Position } from 'vscode-languageserver';
 import { NodeFileSystem } from 'langium/node';
 import { findTestChecks } from '../../helpers/testChecks.js';
 import { URI } from 'langium';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const inlayHintProvider = services.lsp.InlayHintProvider!;
 const parse = parseHelper(services);
 
-describe('SafeDsInlayHintProvider', async () => {
+describe('TTSLInlayHintProvider', async () => {
     const testCases: InlayHintProviderTest[] = [
         {
             testName: 'resolved positional argument',

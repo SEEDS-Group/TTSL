@@ -12,7 +12,7 @@ graph test.
 
         If you want to skip a test, add the prefix `skip-` to the file name.
 
-2. Add the Safe-DS code that you want to test to the file.
+2. Add the TTSL code that you want to test to the file.
 3. Surround calls or callables for which you want to compute a call graph with test markers, e.g. `»f()«`. Add a
    comment in the preceding line with the following format:
     ```ts

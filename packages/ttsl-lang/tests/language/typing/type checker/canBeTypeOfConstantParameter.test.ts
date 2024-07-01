@@ -1,11 +1,11 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
 import { isTslClass, isTslEnum, isTslModule } from '../../../../src/language/generated/ast.js';
-import { createSafeDsServices, getEnumVariants, getModuleMembers } from '../../../../src/language/index.js';
+import { createTTSLServices, getEnumVariants, getModuleMembers } from '../../../../src/language/index.js';
 import { ClassType, EnumType, EnumVariantType, Type, UnknownType } from '../../../../src/language/typing/model.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const coreTypes = services.types.CoreTypes;
 const factory = services.types.TypeFactory;
 const typeChecker = services.types.TypeChecker;
@@ -37,7 +37,7 @@ const normalEnumType = typeComputer.computeType(normalEnum) as EnumType;
 const constantEnumVariantType = typeComputer.computeType(getEnumVariants(constantEnum)[1]) as EnumVariantType;
 const normalEnumVariantType = typeComputer.computeType(getEnumVariants(normalEnum)[1]) as EnumVariantType;
 
-describe('SafeDsTypeChecker', async () => {
+describe('TTSLTypeChecker', async () => {
     const testCases: CanBeTypeOfConstantParameterTest[] = [
         {
             type: coreTypes.Any,
@@ -113,7 +113,7 @@ describe('SafeDsTypeChecker', async () => {
 });
 
 /**
- * A test case for {@link SafeDsTypeChecker.canBeTypeOfConstantParameter}.
+ * A test case for {@link TTSLTypeChecker.canBeTypeOfConstantParameter}.
  */
 interface CanBeTypeOfConstantParameterTest {
     /**

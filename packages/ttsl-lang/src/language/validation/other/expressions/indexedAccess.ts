@@ -1,11 +1,11 @@
 import { TslIndexedAccess } from '../../../generated/ast.js';
 import { ValidationAcceptor } from 'langium';
-import { SafeDsServices } from '../../../safe-ds-module.js';
+import { TTSLServices } from '../../../ttsl-module.js';
 import { EvaluatedList, EvaluatedMap, IntConstant } from '../../../partialEvaluation/model.js';
 
 export const CODE_INDEXED_ACCESS_INVALID_INDEX = 'indexed-access/invalid-index';
 
-export const indexedAccessIndexMustBeValid = (services: SafeDsServices) => {
+export const indexedAccessIndexMustBeValid = (services: TTSLServices) => {
     const partialEvaluator = services.evaluation.PartialEvaluator;
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;

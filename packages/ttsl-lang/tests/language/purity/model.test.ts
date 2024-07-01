@@ -12,9 +12,9 @@ import {
 } from '../../../src/language/purity/model.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
 import { type EqualsTest, ToStringTest } from '../../helpers/testDescription.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const parameter = await getNodeOfType(services, 'fun f(p: Int)', isTslParameter);
 
 describe('purity model', async () => {

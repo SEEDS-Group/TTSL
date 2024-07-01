@@ -1,6 +1,6 @@
 package tests.scoping.namedTypes.acrossFiles.toGlobalClasses
 
-from safeds.scoping.namedTypes.acrossFiles.toGlobalClasses import MyClass as MyOwnClass
+from TTSL.scoping.namedTypes.acrossFiles.toGlobalClasses import MyClass as MyOwnClass
 from tests.scoping.namedTypes.acrossFiles.toGlobalClasses.other import ClassInAnotherPackage, Class2InAnotherPackage
 
 // $TEST$ target own_MyOwnClass
@@ -13,8 +13,8 @@ segment mySegment(
     // $TEST$ references same_ClassInSamePackage
     p2: »ClassInSamePackage«,
 
-    // $TEST$ references safeds_ClassInSafeDsPackage
-    p3: »ClassInSafeDsPackage«,
+    // $TEST$ references TTSL_ClassInTTSLPackage
+    p3: »ClassInTTSLPackage«,
 
     // $TEST$ references other_ClassInAnotherPackage
     p4: »ClassInAnotherPackage«,

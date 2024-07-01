@@ -15,14 +15,14 @@ pipeline myPipeline {
     »privateSegmentInSamePackage«;
 
 
-    // $TEST$ references safeds_publicSegmentInSafeDsPackage
-    »publicSegmentInSafeDsPackage«;
+    // $TEST$ references TTSL_publicSegmentInTTSLPackage
+    »publicSegmentInTTSLPackage«;
 
     // $TEST$ unresolved
-    »internalSegmentInSafeDsPackage«;
+    »internalSegmentInTTSLPackage«;
 
     // $TEST$ unresolved
-    »privateSegmentInSafeDsPackage«;
+    »privateSegmentInTTSLPackage«;
 
 
     // $TEST$ unresolved

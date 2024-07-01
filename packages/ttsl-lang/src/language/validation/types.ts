@@ -14,7 +14,7 @@ import {
     isTslFunction,
 } from '../generated/ast.js';
 import { getArguments } from '../helpers/nodeProperties.js';
-import { SafeDsServices } from '../safe-ds-module.js';
+import { TTSLServices } from '../ttsl-module.js';
 import {NamedTupleType, UnknownType } from '../typing/model.js';
 
 export const CODE_TYPE_CALLABLE_RECEIVER = 'type/callable-receiver';
@@ -25,7 +25,7 @@ export const CODE_TYPE_MISSING_TYPE_HINT = 'type/missing-type-hint';
 // Type checking
 // -----------------------------------------------------------------------------
 
-export const callArgumentTypesMustMatchParameterTypes = (services: SafeDsServices) => {
+export const callArgumentTypesMustMatchParameterTypes = (services: TTSLServices) => {
     const nodeMapper = services.helpers.NodeMapper;
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
@@ -52,7 +52,7 @@ export const callArgumentTypesMustMatchParameterTypes = (services: SafeDsService
     };
 };
 
-export const callReceiverMustBeCallable = (services: SafeDsServices) => {
+export const callReceiverMustBeCallable = (services: TTSLServices) => {
     const nodeMapper = services.helpers.NodeMapper;
 
     return (node: TslCall, accept: ValidationAcceptor): void => {
@@ -80,7 +80,7 @@ export const callReceiverMustBeCallable = (services: SafeDsServices) => {
     };
 };
 
-export const indexedAccessReceiverMustBeListOrMap = (services: SafeDsServices) => {
+export const indexedAccessReceiverMustBeListOrMap = (services: TTSLServices) => {
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
@@ -100,7 +100,7 @@ export const indexedAccessReceiverMustBeListOrMap = (services: SafeDsServices) =
     };
 };
 
-export const indexedAccessIndexMustHaveCorrectType = (services: SafeDsServices) => {
+export const indexedAccessIndexMustHaveCorrectType = (services: TTSLServices) => {
     const coreTypes = services.types.CoreTypes;
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
@@ -120,7 +120,7 @@ export const indexedAccessIndexMustHaveCorrectType = (services: SafeDsServices) 
     };
 };
 
-export const infixOperationOperandsMustHaveCorrectType = (services: SafeDsServices) => {
+export const infixOperationOperandsMustHaveCorrectType = (services: TTSLServices) => {
     const coreTypes = services.types.CoreTypes;
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
@@ -181,7 +181,7 @@ export const infixOperationOperandsMustHaveCorrectType = (services: SafeDsServic
     };
 };
 
-export const listMustNotContainNamedTuples = (services: SafeDsServices) => {
+export const listMustNotContainNamedTuples = (services: TTSLServices) => {
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslList, accept: ValidationAcceptor): void => {
@@ -197,7 +197,7 @@ export const listMustNotContainNamedTuples = (services: SafeDsServices) => {
     };
 };
 
-export const mapMustNotContainNamedTuples = (services: SafeDsServices) => {
+export const mapMustNotContainNamedTuples = (services: TTSLServices) => {
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslDictionary, accept: ValidationAcceptor): void => {
@@ -223,7 +223,7 @@ export const mapMustNotContainNamedTuples = (services: SafeDsServices) => {
     };
 };
 
-export const parameterDefaultValueTypeMustMatchParameterType = (services: SafeDsServices) => {
+export const parameterDefaultValueTypeMustMatchParameterType = (services: TTSLServices) => {
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
@@ -246,7 +246,7 @@ export const parameterDefaultValueTypeMustMatchParameterType = (services: SafeDs
     };
 };
 
-export const prefixOperationOperandMustHaveCorrectType = (services: SafeDsServices) => {
+export const prefixOperationOperandMustHaveCorrectType = (services: TTSLServices) => {
     const coreTypes = services.types.CoreTypes;
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
@@ -283,7 +283,7 @@ export const prefixOperationOperandMustHaveCorrectType = (services: SafeDsServic
     };
 };
 
-export const typeCastExpressionMustHaveUnknownType = (services: SafeDsServices) => {
+export const typeCastExpressionMustHaveUnknownType = (services: TTSLServices) => {
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslTypeCast, accept: ValidationAcceptor): void => {

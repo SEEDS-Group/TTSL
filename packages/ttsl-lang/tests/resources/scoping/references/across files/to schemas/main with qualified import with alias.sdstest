@@ -1,7 +1,7 @@
 package tests.scoping.references.acrossFiles.toSchemas
 
 from tests.scoping.references.acrossFiles.toSchemas import MySchema as MySchemaInSamePackage
-from safeds.scoping.references.acrossFiles.toSchemas import MySchema as MySchemaInSafeDsPackage
+from TTSL.scoping.references.acrossFiles.toSchemas import MySchema as MySchemaInTTSLPackage
 from tests.scoping.references.acrossFiles.toSchemas.other import MySchema as MySchemaInAnotherPackage
 
 pipeline myPipeline {
@@ -12,8 +12,8 @@ pipeline myPipeline {
     // $TEST$ references same_SchemaInSamePackage
     »SchemaInSamePackage«;
 
-    // $TEST$ references safeds_SchemaInSafeDsPackage
-    »SchemaInSafeDsPackage«;
+    // $TEST$ references TTSL_SchemaInTTSLPackage
+    »SchemaInTTSLPackage«;
 
     // $TEST$ unresolved
     »SchemaInAnotherPackage«;
@@ -25,8 +25,8 @@ pipeline myPipeline {
     // $TEST$ references same_MySchema
     »MySchemaInSamePackage«;
 
-    // $TEST$ references safeds_MySchema
-    »MySchemaInSafeDsPackage«;
+    // $TEST$ references TTSL_MySchema
+    »MySchemaInTTSLPackage«;
 
     // $TEST$ references other_MySchema
     »MySchemaInAnotherPackage«;

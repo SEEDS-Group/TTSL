@@ -5,9 +5,9 @@ import { locationToString } from '../../../../src/helpers/locations.js';
 import { createTypingTests } from './creator.js';
 import { getNodeByLocation } from '../../../helpers/nodeFinder.js';
 import { loadDocuments } from '../../../helpers/testResources.js';
-import { createSafeDsServices } from '../../../../src/language/index.js';
+import { createTTSLServices } from '../../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const typeComputer = services.types.TypeComputer;
 
 describe('typing', async () => {

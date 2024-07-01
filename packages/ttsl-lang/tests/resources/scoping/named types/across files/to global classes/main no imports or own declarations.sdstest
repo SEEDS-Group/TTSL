@@ -7,8 +7,8 @@ segment mySegment(
     // $TEST$ references same_ClassInSamePackage
     p2: »ClassInSamePackage«,
 
-    // $TEST$ references safeds_ClassInSafeDsPackage
-    p3: »ClassInSafeDsPackage«,
+    // $TEST$ references TTSL_ClassInTTSLPackage
+    p3: »ClassInTTSLPackage«,
 
     // $TEST$ unresolved
     p4: »ClassInAnotherPackage«,

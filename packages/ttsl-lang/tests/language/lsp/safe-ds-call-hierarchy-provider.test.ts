@@ -3,13 +3,13 @@ import { parseHelper } from 'langium/test';
 import { describe, expect, it } from 'vitest';
 import { type CallHierarchyItem } from 'vscode-languageserver';
 import { findTestRanges } from '../../helpers/testRanges.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const callHierarchyProvider = services.lsp.CallHierarchyProvider!;
 const parse = parseHelper(services);
 
-describe('SafeDsCallHierarchyProvider', async () => {
+describe('TTSLCallHierarchyProvider', async () => {
     describe('incomingCalls', () => {
         const testCases: IncomingCallTest[] = [
             {
@@ -277,7 +277,7 @@ const getUniqueCallHierarchyItem = async (code: string): Promise<CallHierarchyIt
 };
 
 /**
- * A test case for {@link SafeDsCallHierarchyProvider.incomingCalls}.
+ * A test case for {@link TTSLCallHierarchyProvider.incomingCalls}.
  */
 interface IncomingCallTest {
     /**
@@ -312,7 +312,7 @@ interface SimpleIncomingCall {
 }
 
 /**
- * A test case for {@link SafeDsCallHierarchyProvider.outgoingCalls}.
+ * A test case for {@link TTSLCallHierarchyProvider.outgoingCalls}.
  */
 interface OutgoingCallTest {
     /**

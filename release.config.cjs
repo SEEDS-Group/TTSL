@@ -6,7 +6,7 @@ module.exports = {
         // We don't create a changelog for the CLI, because only few changes in the repo are related to it
         ['@semantic-release/changelog', { changelogFile: 'packages/ttsl-lang/CHANGELOG.md' }],
         ['@semantic-release/changelog', { changelogFile: 'packages/ttsl-vscode/CHANGELOG.md' }],
-        ['@semantic-release/npm', { pkgRoot: 'packages/safe-ds-cli' }],
+        ['@semantic-release/npm', { pkgRoot: 'packages/ttsl-cli' }],
         ['@semantic-release/npm', { pkgRoot: 'packages/ttsl-lang' }],
         [
             '@semantic-release/exec',
@@ -38,7 +38,7 @@ module.exports = {
             {
                 assets: [
                     'package-lock.json',
-                    'packages/safe-ds-cli/package.json',
+                    'packages/ttsl-cli/package.json',
                     'packages/ttsl-lang/CHANGELOG.md',
                     'packages/ttsl-lang/package.json',
                     'packages/ttsl-vscode/CHANGELOG.md',

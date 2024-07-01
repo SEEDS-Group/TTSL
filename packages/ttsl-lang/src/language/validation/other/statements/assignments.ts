@@ -1,6 +1,6 @@
 import { isTslCall, TslAssignment} from '../../../generated/ast.js';
 import { ValidationAcceptor } from 'langium';
-import { SafeDsServices } from '../../../safe-ds-module.js';
+import { TTSLServices } from '../../../ttsl-module.js';
 import { getResults, getAssignees } from '../../../helpers/nodeProperties.js';
 import { pluralize } from '../../../../helpers/strings.js';
 
@@ -8,7 +8,7 @@ export const CODE_ASSIGNMENT_IMPLICITLY_IGNORED_RESULT = 'assignment/implicitly-
 export const CODE_ASSIGMENT_NOTHING_ASSIGNED = 'assignment/nothing-assigned';
 
 export const assignmentAssigneeMustGetValue =
-    (services: SafeDsServices) =>
+    (services: TTSLServices) =>
     (node: TslAssignment, accept: ValidationAcceptor): void => {
         for (const assignee of getAssignees(node)) {
             if (!services.helpers.NodeMapper.assigneeToAssignedObject(assignee)) {
@@ -20,7 +20,7 @@ export const assignmentAssigneeMustGetValue =
         }
     };
 
-export const assignmentShouldNotImplicitlyIgnoreResult = (services: SafeDsServices) => {
+export const assignmentShouldNotImplicitlyIgnoreResult = (services: TTSLServices) => {
     const nodeMapper = services.helpers.NodeMapper;
 
     return (node: TslAssignment, accept: ValidationAcceptor): void => {

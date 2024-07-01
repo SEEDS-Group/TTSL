@@ -7,14 +7,14 @@ import {
     TslClass,
     type TslClassMember,
 } from '../../../src/language/generated/ast.js';
-import { createSafeDsServices, getClassMembers } from '../../../src/language/index.js';
+import { createTTSLServices, getClassMembers } from '../../../src/language/index.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const builtinClasses = services.builtins.Classes;
 const classHierarchy = services.types.ClassHierarchy;
 
-describe('SafeDsClassHierarchy', async () => {
+describe('TTSLClassHierarchy', async () => {
     describe('isEqualToOrSubclassOf', () => {
         const testCases = [
             {

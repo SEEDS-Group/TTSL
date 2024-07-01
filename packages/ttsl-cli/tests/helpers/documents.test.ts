@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { Result } from 'true-myth';
 import { processPaths } from '../../src/helpers/documents.js';
-import { createSafeDsServices } from '@ttsl/lang';
+import { createTTSLServices } from '@ttsl/lang';
 import { NodeFileSystem } from 'langium/node';
 import { fileURLToPath } from 'url';
 import path from 'node:path';
 import { ExitCode } from '../../src/cli/exitCode.js';
 
 describe('processPaths', async () => {
-    const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+    const services = (await createTTSLServices(NodeFileSystem)).TTSL;
     const testResourcesRoot = new URL('../resources/processPaths/', import.meta.url);
 
     const tests: ProcessPathsTest[] = [
@@ -55,9 +55,9 @@ describe('processPaths', async () => {
             expected: Result.err(ExitCode.MissingPath),
         },
         {
-            testName: 'not a Safe-DS file',
+            testName: 'not a TTSL file',
             paths: ['d.txt'],
-            expected: Result.err(ExitCode.FileWithoutSafeDsExtension),
+            expected: Result.err(ExitCode.FileWithoutTTSLExtension),
         },
     ];
 

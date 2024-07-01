@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 import { EmptyFileSystem } from 'langium';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
 import {
@@ -11,9 +11,9 @@ import {
     isTslTemplateStringInner,
     isTslTemplateStringStart,
 } from '../../../src/language/generated/ast.js';
-import { escapeString } from '../../../src/language/grammar/safe-ds-value-converter.js';
+import { escapeString } from '../../../src/language/grammar/ttsl-value-converter.js';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 
 describe('runConverter', () => {
     describe('ID', () => {

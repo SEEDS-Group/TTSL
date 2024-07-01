@@ -1,19 +1,19 @@
 import { URI } from "langium";
 import { resourceNameToUri } from "../../helpers/resources.js";
 import { TslFunction, TslModule, TslObject, isTslFunction } from "../generated/ast.js";
-import { SafeDsNodeMapper } from "../helpers/safe-ds-node-mapper.js";
+import { TTSLNodeMapper } from "../helpers/ttsl-node-mapper.js";
 import { EvaluatedNode, StringConstant, UnknownEvaluatedNode } from "../partialEvaluation/model.js";
-import { SafeDsPartialEvaluator } from "../partialEvaluation/safe-ds-partial-evaluator.js";
-import { SafeDsServices } from "../safe-ds-module.js";
-import { SafeDsModuleMembers } from "./safe-ds-module-members.js";
+import { TTSLPartialEvaluator } from "../partialEvaluation/ttsl-partial-evaluator.js";
+import { TTSLServices } from "../ttsl-module.js";
+import { TTSLModuleMembers } from "./ttsl-module-members.js";
 
-const CODE_GENERATION_URI = resourceNameToUri('builtins/safeds/lang/codeGeneration.ttsl');
+const CODE_GENERATION_URI = resourceNameToUri('builtins/TTSL/lang/codeGeneration.ttsl');
 
-export class TTSLFunction extends SafeDsModuleMembers<TslFunction> {
-    private readonly nodeMapper: SafeDsNodeMapper;
-    private readonly partialEvaluator: SafeDsPartialEvaluator;
+export class TTSLFunction extends TTSLModuleMembers<TslFunction> {
+    private readonly nodeMapper: TTSLNodeMapper;
+    private readonly partialEvaluator: TTSLPartialEvaluator;
 
-    constructor(services: SafeDsServices) {
+    constructor(services: TTSLServices) {
         super(services);
 
         this.nodeMapper = services.helpers.NodeMapper;

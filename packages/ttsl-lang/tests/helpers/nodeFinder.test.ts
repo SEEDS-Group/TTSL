@@ -1,13 +1,13 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { getNodeByLocation, getNodeOfType } from './nodeFinder.js';
-import { createSafeDsServices } from '../../src/language/index.js';
+import { createTTSLServices } from '../../src/language/index.js';
 import { EmptyFileSystem } from 'langium';
 import { AssertionError } from 'assert';
 import { clearDocuments, parseHelper } from 'langium/test';
 import { isTslClass, isTslDeclaration, isTslEnum } from '../../src/language/generated/ast.js';
 
 describe('getNodeByLocation', async () => {
-    const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+    const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 
     afterEach(async () => {
         await clearDocuments(services);
@@ -57,7 +57,7 @@ describe('getNodeByLocation', async () => {
 });
 
 describe('getNodeOfType', async () => {
-    const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+    const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 
     afterEach(async () => {
         await clearDocuments(services);

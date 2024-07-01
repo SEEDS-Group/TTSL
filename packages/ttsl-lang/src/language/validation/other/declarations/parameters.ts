@@ -1,12 +1,12 @@
 import { AstUtils, ValidationAcceptor } from 'langium';
 import { isTslCallable, TslParameter } from '../../../generated/ast.js';
 import { Parameter } from '../../../helpers/nodeProperties.js';
-import { SafeDsServices } from '../../../safe-ds-module.js';
+import { TTSLServices } from '../../../ttsl-module.js';
 
 export const CODE_PARAMETER_CONSTANT_DEFAULT_VALUE = 'parameter/constant-default-value';
 export const CODE_PARAMETER_CONSTANT_TYPE = 'parameter/constant-type';
 
-export const constantParameterMustHaveConstantDefaultValue = (services: SafeDsServices) => {
+export const constantParameterMustHaveConstantDefaultValue = (services: TTSLServices) => {
     const partialEvaluator = services.evaluation.PartialEvaluator;
 
     return (node: TslParameter, accept: ValidationAcceptor) => {
@@ -24,7 +24,7 @@ export const constantParameterMustHaveConstantDefaultValue = (services: SafeDsSe
     };
 };
 
-export const constantParameterMustHaveTypeThatCanBeEvaluatedToConstant = (services: SafeDsServices) => {
+export const constantParameterMustHaveTypeThatCanBeEvaluatedToConstant = (services: TTSLServices) => {
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 

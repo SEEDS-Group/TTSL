@@ -1,4 +1,4 @@
-import { createSafeDsServices } from '@ttsl/lang';
+import { createTTSLServices } from '@ttsl/lang';
 import { NodeFileSystem } from 'langium/node';
 import { extractDocuments } from '../helpers/documents.js';
 import { diagnosticToString, getDiagnostics } from '../helpers/diagnostics.js';
@@ -7,7 +7,7 @@ import chalk from 'chalk';
 import { ExitCode } from './exitCode.js';
 
 export const check = async (fsPaths: string[], options: CheckOptions): Promise<void> => {
-    const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+    const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 
     let errorCount = 0;
 

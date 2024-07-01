@@ -7,11 +7,11 @@ import {
     TslParameter,
     TslPipeline,
 } from '../../../../src/language/generated/ast.js';
-import { createSafeDsServices, getModuleMembers, getParameters } from '../../../../src/language/index.js';
+import { createTTSLServices, getModuleMembers, getParameters } from '../../../../src/language/index.js';
 import { Constant, IntConstant } from '../../../../src/language/partialEvaluation/model.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 const callGraphComputer = services.flow.CallGraphComputer;
 const nodeMapper = services.helpers.NodeMapper;
 const partialEvaluator = services.evaluation.PartialEvaluator;
@@ -34,7 +34,7 @@ const call1 = callGraphComputer.getAllContainedCalls(myPipeline)[0]!;
 const call2 = callGraphComputer.getAllContainedCalls(myPipeline)[1]!;
 const call3 = callGraphComputer.getAllContainedCalls(myPipeline)[2]!;
 
-describe('SafeDsNodeMapper', () => {
+describe('TTSLNodeMapper', () => {
     const testCases: CallToParameterValueTest[] = [
         {
             testName: 'undefined call, undefined parameter',
@@ -143,7 +143,7 @@ describe('SafeDsNodeMapper', () => {
 });
 
 /**
- * A test case for {@link SafeDsNodeMapper.callToParameterValue}.
+ * A test case for {@link TTSLNodeMapper.callToParameterValue}.
  */
 interface CallToParameterValueTest {
     /**

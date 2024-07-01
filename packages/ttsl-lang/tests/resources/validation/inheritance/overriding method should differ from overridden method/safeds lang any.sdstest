@@ -1,4 +1,4 @@
-package safeds.lang
+package TTSL.lang
 
 class Any {
     // $TEST$ no info "Overriding member is identical to overridden member and can be removed."

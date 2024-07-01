@@ -1,12 +1,12 @@
 import { TslInfixOperation } from '../../../generated/ast.js';
 import { ValidationAcceptor } from 'langium';
-import { SafeDsServices } from '../../../safe-ds-module.js';
+import { TTSLServices } from '../../../ttsl-module.js';
 import { FloatConstant, IntConstant, NumberConstant } from '../../../partialEvaluation/model.js';
 import { UnknownType } from '../../../typing/model.js';
 
 export const CODE_INFIX_OPERATION_DIVISION_BY_ZERO = 'infix-operation/division-by-zero';
 
-export const divisionDivisorMustNotBeZero = (services: SafeDsServices) => {
+export const divisionDivisorMustNotBeZero = (services: TTSLServices) => {
     const coreTypes = services.types.CoreTypes;
     const partialEvaluator = services.evaluation.PartialEvaluator;
     const typeChecker = services.types.TypeChecker;

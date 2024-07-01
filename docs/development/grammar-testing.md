@@ -33,7 +33,7 @@ test.
 
         By convention, the comment should be placed at the start of the file.
 
-3. Add the Safe-DS code that you want to test to the file.
+3. Add the TTSL code that you want to test to the file.
 4. Run the tests. The test runner will automatically pick up the new test.
 
 [^1]: We do not differentiate whether the error originated in the lexer (error code `lexing-error`) or the actual parser (error code `parsing-error`). Both are treated as syntax errors.

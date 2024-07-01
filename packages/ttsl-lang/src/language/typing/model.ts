@@ -8,11 +8,11 @@ import {
     TslResult,
 } from '../generated/ast.js';
 import { Parameter } from '../helpers/nodeProperties.js';
-import { SafeDsServices } from '../safe-ds-module.js';
-import { SafeDsCoreTypes } from './safe-ds-core-types.js';
-import { SafeDsTypeChecker } from './safe-ds-type-checker.js';
-import { SafeDsTypeComputer } from './safe-ds-type-computer.js';
-import { SafeDsTypeFactory } from './safe-ds-type-factory.js';
+import { TTSLServices } from '../ttsl-module.js';
+import { TTSLCoreTypes } from './ttsl-core-types.js';
+import { TTSLTypeChecker } from './ttsl-type-checker.js';
+import { TTSLTypeComputer } from './ttsl-type-computer.js';
+import { TTSLTypeFactory } from './ttsl-type-factory.js';
 
 export type ParameterSubstitutions = Map<TslParameter, Type>;
 
@@ -61,12 +61,12 @@ export abstract class Type {
 }
 
 export class CallableType extends Type {
-    private readonly factory: SafeDsTypeFactory;
+    private readonly factory: TTSLTypeFactory;
 
     override isExplicitlyNullable: boolean = false;
 
     constructor(
-        services: SafeDsServices,
+        services: TTSLServices,
         readonly callable: TslCallable,
         readonly parameter: TslParameter | undefined,
         readonly inputType: NamedTupleType<TslParameter>,
@@ -139,13 +139,13 @@ export class CallableType extends Type {
 }
 
 export class NamedTupleType<T extends TslDeclaration> extends Type {
-    private readonly factory: SafeDsTypeFactory;
+    private readonly factory: TTSLTypeFactory;
 
     readonly entries: NamedTupleEntry<T>[];
     override readonly isExplicitlyNullable = false;
     private _isFullySubstituted: boolean | undefined;
 
-    constructor(services: SafeDsServices, entries: NamedTupleEntry<T>[]) {
+    constructor(services: TTSLServices, entries: NamedTupleEntry<T>[]) {
         super();
 
         this.factory = services.types.TypeFactory;
@@ -255,15 +255,15 @@ export class NamedTupleEntry<T extends TslDeclaration> {
 }
 
 export class UnionType extends Type {
-    private readonly coreTypes: SafeDsCoreTypes;
-    private readonly factory: SafeDsTypeFactory;
-    private readonly typeChecker: SafeDsTypeChecker;
+    private readonly coreTypes: TTSLCoreTypes;
+    private readonly factory: TTSLTypeFactory;
+    private readonly typeChecker: TTSLTypeChecker;
 
     readonly types: Type[];
     private _isExplicitlyNullable: boolean | undefined;
     private _isFullySubstituted: boolean | undefined;
 
-    constructor(services: SafeDsServices, types: Type[]) {
+    constructor(services: TTSLServices, types: Type[]) {
         super();
 
         this.coreTypes = services.types.CoreTypes;
@@ -406,14 +406,14 @@ class UnknownTypeClass extends Type {
 }
 
 export class DictionaryType extends Type {
-    private readonly factory: SafeDsTypeFactory;
+    private readonly factory: TTSLTypeFactory;
     override readonly isFullySubstituted = true;
-    private readonly typeComputer: SafeDsTypeComputer;
+    private readonly typeComputer: TTSLTypeComputer;
    
     override isExplicitlyNullable: boolean = false;
 
     constructor(
-        services: SafeDsServices,
+        services: TTSLServices,
         readonly dictionary: TslDictionary
     ) {
         super();
@@ -479,14 +479,14 @@ export class DictionaryType extends Type {
 }
 
 export class ListType extends Type {
-    private readonly factory: SafeDsTypeFactory;
+    private readonly factory: TTSLTypeFactory;
     override readonly isFullySubstituted = true;
-    private readonly typeComputer: SafeDsTypeComputer;
+    private readonly typeComputer: TTSLTypeComputer;
    
     override isExplicitlyNullable: boolean = false;
 
     constructor(
-        services: SafeDsServices,
+        services: TTSLServices,
         readonly list: TslList
     ) {
         super();

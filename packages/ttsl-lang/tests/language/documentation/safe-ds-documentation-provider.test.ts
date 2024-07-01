@@ -8,15 +8,15 @@ import {
     isTslResult,
     isTslTypeParameter,
 } from '../../../src/language/generated/ast.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
 import { expandToString } from 'langium/generate';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 const documentationProvider = services.documentation.DocumentationProvider;
 const testDocumentation = 'Lorem ipsum.';
 
-describe('SafeDsDocumentationProvider', () => {
+describe('TTSLDocumentationProvider', () => {
     const testCases: DocumentationProviderTest[] = [
         {
             testName: 'module member',

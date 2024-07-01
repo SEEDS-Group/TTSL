@@ -15,7 +15,7 @@
         "programming language",
         "static checking"
     ],
-    "homepage": "https://dsl.safeds.com",
+    "homepage": "https://dsl.TTSL.com",
     "bugs": {
         "url": "https://github.com/SEEDS-Group/TTSL/issues"
     },
@@ -33,17 +33,17 @@
     "galleryBanner": {
         "color": "#e9eded"
     },
-    "icon": "img/safe-ds_logo_rounded_128x128.png",
+    "icon": "img/ttsl_logo_rounded_128x128.png",
     "qna": "https://github.com/SEEDS-Group/TTSL/discussions",
     "badges": [
         {
-            "url": "https://github.com/Safe-DS/DSL/actions/workflows/main.yml/badge.svg",
-            "href": "https://github.com/Safe-DS/DSL/actions/workflows/main.yml",
+            "url": "https://github.com/TTSL/DSL/actions/workflows/main.yml/badge.svg",
+            "href": "https://github.com/TTSL/DSL/actions/workflows/main.yml",
             "description": "Main"
         },
         {
-            "url": "https://codecov.io/gh/Safe-DS/DSL/branch/main/graph/badge.svg?token=ma0ytglhO1",
-            "href": "https://codecov.io/gh/Safe-DS/DSL",
+            "url": "https://codecov.io/gh/TTSL/DSL/branch/main/graph/badge.svg?token=ma0ytglhO1",
+            "href": "https://codecov.io/gh/TTSL/DSL",
             "description": "codecov"
         }
     ],
@@ -59,8 +59,8 @@
                 ],
                 "configuration": "./language-configuration.json",
                 "icon": {
-                    "light": "img/safe-ds_file_icon_light.svg",
-                    "dark": "img/safe-ds_file_icon_dark.svg"
+                    "light": "img/ttsl_file_icon_light.svg",
+                    "dark": "img/ttsl_file_icon_dark.svg"
                 }
             }
         ],

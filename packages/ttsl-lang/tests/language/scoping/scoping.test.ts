@@ -4,14 +4,14 @@ import { NodeFileSystem } from 'langium/node';
 import { clearDocuments, isRangeEqual, validationHelper } from 'langium/test';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { Location } from 'vscode-languageserver';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 import { isLocationEqual, locationToString } from '../../../src/helpers/locations.js';
 import { loadDocuments } from '../../helpers/testResources.js';
 import { createScopingTests, ExpectedReference } from './creator.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
 import { isTslAnnotationCall, isTslNamedType, isTslReference } from '../../../src/language/generated/ast.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const builtinAnnotations = services.builtins.Annotations;
 const builtinEnums = services.builtins.Enums;
 const builtinClasses = services.builtins.Classes;

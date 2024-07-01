@@ -7,7 +7,7 @@ import {
     type TslParameter,
 } from '../generated/ast.js';
 import { getParameters } from '../helpers/nodeProperties.js';
-import { escapeString } from '../grammar/safe-ds-value-converter.js';
+import { escapeString } from '../grammar/ttsl-value-converter.js';
 
 export type ParameterSubstitutions = Map<TslParameter, EvaluatedNode>;
 export type ResultSubstitutions = Map<TslResult, EvaluatedNode>;

@@ -7,10 +7,10 @@ import {
     TslParameter,
     TslPipeline,
 } from '../../../../src/language/generated/ast.js';
-import { createSafeDsServices, getArguments, getModuleMembers, getParameters } from '../../../../src/language/index.js';
+import { createTTSLServices, getArguments, getModuleMembers, getParameters } from '../../../../src/language/index.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 const callGraphComputer = services.flow.CallGraphComputer;
 const nodeMapper = services.helpers.NodeMapper;
 
@@ -31,7 +31,7 @@ const arg2 = getArguments(call1)[1]!;
 const arg3 = getArguments(call1)[2]!;
 const arg4 = getArguments(call1)[3]!;
 
-describe('SafeDsNodeMapper', () => {
+describe('TTSLNodeMapper', () => {
     const testCases: ParametersToArgumentsTest[] = [
         {
             testName: 'both lists empty',
@@ -86,7 +86,7 @@ describe('SafeDsNodeMapper', () => {
 });
 
 /**
- * A test case for {@link SafeDsNodeMapper.parametersToArguments}.
+ * A test case for {@link TTSLNodeMapper.parametersToArguments}.
  */
 interface ParametersToArgumentsTest {
     /**

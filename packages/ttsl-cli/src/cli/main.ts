@@ -17,14 +17,14 @@ program
     .command('check')
     .argument('<paths...>', `list of files or directories to check`)
     .option('-s, --strict', 'whether the program should fail on warnings', false)
-    .description('check Safe-DS code')
+    .description('check TTSL code')
     .action(check);
 
 // Format command
 program
     .command('format')
     .argument('<paths...>', `list of files or directories to format`)
-    .description('format Safe-DS code')
+    .description('format TTSL code')
     .action(format);
 
 // Generate command

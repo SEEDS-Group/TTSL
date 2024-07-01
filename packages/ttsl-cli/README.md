@@ -1,4 +1,4 @@
-# Safe-DS CLI
+# TTSL CLI
 
 ```txt
 Usage: cli [options] [command]
@@ -8,7 +8,7 @@ Options:
   -h, --help                     display help for command
 
 Commands:
-  check [options] <paths...>     check Safe-DS code
+  check [options] <paths...>     check TTSL code
   generate [options] <paths...>  generate Python code
   help [command]                 display help for command
 ```

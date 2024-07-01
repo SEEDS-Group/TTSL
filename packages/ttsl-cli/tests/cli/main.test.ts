@@ -6,7 +6,7 @@ import { ExitCode } from '../../src/cli/exitCode.js';
 
 const projectRoot = new URL('../..', import.meta.url);
 
-describe('safe-ds', () => {
+describe('ttsl', () => {
     beforeAll(() => {
         execSync('npm run build:clean', { cwd: projectRoot });
     });
@@ -87,9 +87,9 @@ describe('safe-ds', () => {
         });
 
         it('should show an error if a file has the wrong extension', () => {
-            const process = spawnCheckProcess([], ['not safe-ds.txt']);
-            expect(process.stderr.toString()).toContain('does not have a Safe-DS extension');
-            expect(process.status).toBe(ExitCode.FileWithoutSafeDsExtension);
+            const process = spawnCheckProcess([], ['not ttsl.txt']);
+            expect(process.stderr.toString()).toContain('does not have a TTSL extension');
+            expect(process.status).toBe(ExitCode.FileWithoutTTSLExtension);
         });
     });
 
@@ -122,7 +122,7 @@ describe('safe-ds', () => {
 
         it('should show not show errors in correct files', () => {
             const process = spawnFormatProcess([], ['correct.ttsl']);
-            expect(process.stdout.toString()).toContain('Safe-DS code formatted successfully.');
+            expect(process.stdout.toString()).toContain('TTSL code formatted successfully.');
             expect(process.status).toBe(ExitCode.Success);
         });
 
@@ -133,9 +133,9 @@ describe('safe-ds', () => {
         });
 
         it('should show an error if a file has the wrong extension', () => {
-            const process = spawnFormatProcess([], ['not safe-ds.txt']);
-            expect(process.stderr.toString()).toContain('does not have a Safe-DS extension');
-            expect(process.status).toBe(ExitCode.FileWithoutSafeDsExtension);
+            const process = spawnFormatProcess([], ['not ttsl.txt']);
+            expect(process.stderr.toString()).toContain('does not have a TTSL extension');
+            expect(process.status).toBe(ExitCode.FileWithoutTTSLExtension);
         });
     });
 
@@ -170,7 +170,7 @@ describe('safe-ds', () => {
             expect(process.status).toBe(ExitCode.Success);
         });
 
-        it('should generate Python code (Safe-DS code references builtins)', () => {
+        it('should generate Python code (TTSL code references builtins)', () => {
             const process = spawnGenerateProcess([], ['references builtins.ttsl']);
             expect(process.stdout.toString()).toContain('Python code generated successfully.');
             expect(process.status).toBe(ExitCode.Success);
@@ -183,12 +183,12 @@ describe('safe-ds', () => {
         });
 
         it('should show an error if the file has the wrong extension', () => {
-            const process = spawnGenerateProcess([], ['not safe-ds.txt']);
-            expect(process.stderr.toString()).toContain('does not have a Safe-DS extension');
-            expect(process.status).toBe(ExitCode.FileWithoutSafeDsExtension);
+            const process = spawnGenerateProcess([], ['not ttsl.txt']);
+            expect(process.stderr.toString()).toContain('does not have a TTSL extension');
+            expect(process.status).toBe(ExitCode.FileWithoutTTSLExtension);
         });
 
-        it('should show an error if a Safe-DS file has errors', () => {
+        it('should show an error if a TTSL file has errors', () => {
             const process = spawnGenerateProcess([], ['.']);
             expect(process.stderr.toString()).toContain(
                 "Could not resolve reference to TslNamedTypeDeclaration named 'Unresolved'",

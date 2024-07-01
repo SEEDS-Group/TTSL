@@ -1,16 +1,16 @@
 package tests.scoping.annotationCalls.acrossFiles
 
-from safeds.scoping.annotationCalls.acrossFiles import MyAnnotation
+from TTSL.scoping.annotationCalls.acrossFiles import MyAnnotation
 from tests.scoping.annotationCalls.acrossFiles.other import AnnotationInAnotherPackage, Annotation2InAnotherPackage, NotAnAnnotation
 
-// $TEST$ references safeds_MyAnnotation
+// $TEST$ references TTSL_MyAnnotation
 @»MyAnnotation«
 
 // $TEST$ references same_AnnotationInSamePackage
 @»AnnotationInSamePackage«
 
-// $TEST$ references safeds_AnnotationInSafeDsPackage
-@»AnnotationInSafeDsPackage«
+// $TEST$ references TTSL_AnnotationInTTSLPackage
+@»AnnotationInTTSLPackage«
 
 // $TEST$ references other_AnnotationInAnotherPackage
 @»AnnotationInAnotherPackage«

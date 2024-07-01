@@ -2,12 +2,12 @@ import { NodeFileSystem } from 'langium/node';
 import { parseDocument, textDocumentParams } from 'langium/test';
 import { describe, expect, it } from 'vitest';
 import { DocumentSymbol, SymbolKind, SymbolTag } from 'vscode-languageserver';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const symbolProvider = services.lsp.DocumentSymbolProvider!;
 
-describe('SafeDsSemanticTokenProvider', async () => {
+describe('TTSLSemanticTokenProvider', async () => {
     const testCases: DocumentSymbolProviderTest[] = [
         {
             testName: 'annotation declaration',

@@ -4,9 +4,9 @@ import { ClassType } from '../../../../src/language/typing/model.js';
 import { isTslAttribute } from '../../../../src/language/generated/ast.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
 import { AssertionError } from 'assert';
-import { createSafeDsServices } from '../../../../src/language/index.js';
+import { createTTSLServices } from '../../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const typeComputer = services.types.TypeComputer;
 
 describe('streamProperSupertypes', async () => {

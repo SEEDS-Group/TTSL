@@ -1,20 +1,20 @@
 import fs from 'fs';
 import { EmptyFileSystem, URI } from 'langium';
 import { Location } from 'vscode-languageserver';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 import { getSyntaxErrors, SyntaxErrorsInCodeError } from '../../helpers/diagnostics.js';
 import { findTestChecks } from '../../helpers/testChecks.js';
 import { TestDescription, TestDescriptionError } from '../../helpers/testDescription.js';
 import {
-    listTestSafeDsFilesGroupedByParentDirectory,
+    listTestTTSLFilesGroupedByParentDirectory,
     uriToShortenedTestResourceName,
 } from '../../helpers/testResources.js';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 const rootResourceName = 'partial evaluation';
 
 export const createPartialEvaluationTests = (): Promise<PartialEvaluationTest[]> => {
-    const filesGroupedByParentDirectory = listTestSafeDsFilesGroupedByParentDirectory(rootResourceName);
+    const filesGroupedByParentDirectory = listTestTTSLFilesGroupedByParentDirectory(rootResourceName);
     const testCases = filesGroupedByParentDirectory.map((entry) => createPartialEvaluationTest(...entry));
 
     return Promise.all(testCases);

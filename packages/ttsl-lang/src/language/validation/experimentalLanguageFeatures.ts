@@ -3,11 +3,11 @@ import {
     isTslDictionary,
     type TslDictionary,
 } from '../generated/ast.js';
-import { SafeDsServices } from '../safe-ds-module.js';
+import { TTSLServices } from '../ttsl-module.js';
 
 export const CODE_EXPERIMENTAL_LANGUAGE_FEATURE = 'experimental/language-feature';
 
-export const mapsShouldBeUsedWithCaution = (services: SafeDsServices) => {
+export const mapsShouldBeUsedWithCaution = (services: TTSLServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
     return async (node: TslDictionary, accept: ValidationAcceptor) => {

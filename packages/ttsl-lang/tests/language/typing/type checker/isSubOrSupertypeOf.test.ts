@@ -10,7 +10,7 @@ import {
     TslDeclaration,
 } from '../../../../src/language/generated/ast.js';
 import {
-    createSafeDsServices,
+    createTTSLServices,
     getClassMembers,
     getModuleMembers,
     getTypeParameters,
@@ -34,7 +34,7 @@ import {
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
 import { AstUtils } from 'langium';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const coreTypes = services.types.CoreTypes;
 const factory = services.types.TypeFactory;
 const typeChecker = services.types.TypeChecker;
@@ -1212,7 +1212,7 @@ const typeParameterTypes = async (): Promise<IsSubOrSupertypeOfTest[]> => {
     ];
 };
 
-describe('SafeDsTypeChecker', async () => {
+describe('TTSLTypeChecker', async () => {
     const testCases = (await Promise.all([basic(), classTypesWithTypeParameters(), typeParameterTypes()])).flat();
 
     describe.each(testCases)('isSubtypeOf', ({ type1, type2, expected }) => {
@@ -1236,7 +1236,7 @@ const computeTypeOfDeclarationWithName = <T extends TslDeclaration>(declarations
 };
 
 /**
- * A test case for {@link SafeDsTypeChecker.isSubtypeOf}.
+ * A test case for {@link TTSLTypeChecker.isSubtypeOf}.
  */
 interface IsSubOrSupertypeOfTest {
     /**

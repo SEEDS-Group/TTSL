@@ -12,14 +12,14 @@ import {
     isTslResult,
     isTslTypeParameter,
 } from '../../../src/language/generated/ast.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 const commentProvider = services.documentation.CommentProvider;
 const testComment = '/* test */';
 
-describe('SafeDsCommentProvider', () => {
+describe('TTSLCommentProvider', () => {
     const testCases: CommentProviderTest[] = [
         {
             testName: 'commented module member (without annotations)',

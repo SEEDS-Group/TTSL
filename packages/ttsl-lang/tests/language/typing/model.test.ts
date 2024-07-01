@@ -1,7 +1,7 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
 import { isTslClass, isTslEnum, isTslEnumVariant, isTslFunction } from '../../../src/language/generated/ast.js';
-import { createSafeDsServices, getParameters, getResults, getTypeParameters } from '../../../src/language/index.js';
+import { createTTSLServices, getParameters, getResults, getTypeParameters } from '../../../src/language/index.js';
 import { BooleanConstant, IntConstant, NullConstant } from '../../../src/language/partialEvaluation/model.js';
 import {
     ClassType,
@@ -17,7 +17,7 @@ import { getNodeOfType } from '../../helpers/nodeFinder.js';
 import type { EqualsTest, ToStringTest } from '../../helpers/testDescription.js';
 import { expectEqualTypes } from '../../helpers/testAssertions.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const coreTypes = services.types.CoreTypes;
 const factory = services.types.TypeFactory;
 

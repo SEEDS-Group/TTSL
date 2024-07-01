@@ -1,7 +1,7 @@
 package tests.scoping.namedTypes.acrossFiles.toGlobalEnums
 
 from tests.scoping.namedTypes.acrossFiles.toGlobalEnums import MyEnum as MyEnumInSamePackage
-from safeds.scoping.namedTypes.acrossFiles.toGlobalEnums import MyEnum as MyEnumInSafeDsPackage
+from TTSL.scoping.namedTypes.acrossFiles.toGlobalEnums import MyEnum as MyEnumInTTSLPackage
 from tests.scoping.namedTypes.acrossFiles.toGlobalEnums.other import MyEnum as MyEnumInAnotherPackage
 
 segment mySegment(
@@ -12,8 +12,8 @@ segment mySegment(
     // $TEST$ references same_EnumInSamePackage
     p2: »EnumInSamePackage«,
 
-    // $TEST$ references safeds_EnumInSafeDsPackage
-    p3: »EnumInSafeDsPackage«,
+    // $TEST$ references TTSL_EnumInTTSLPackage
+    p3: »EnumInTTSLPackage«,
 
     // $TEST$ unresolved
     p4: »EnumInAnotherPackage«,
@@ -25,8 +25,8 @@ segment mySegment(
     // $TEST$ references same_MyEnum
     p6: »MyEnumInSamePackage«,
 
-    // $TEST$ references safeds_MyEnum
-    p7: »MyEnumInSafeDsPackage«,
+    // $TEST$ references TTSL_MyEnum
+    p7: »MyEnumInTTSLPackage«,
 
     // $TEST$ references other_MyEnum
     p8: »MyEnumInAnotherPackage«,

@@ -3,7 +3,7 @@ import { duplicatesBy, isEmpty } from '../../../helpers/collections.js';
 import { pluralize } from '../../../helpers/strings.js';
 import { isTslCall, TslAbstractCall, TslArgumentList } from '../../generated/ast.js';
 import { getArguments, getParameters, Parameter } from '../../helpers/nodeProperties.js';
-import { SafeDsServices } from '../../safe-ds-module.js';
+import { TTSLServices } from '../../ttsl-module.js';
 
 export const CODE_ARGUMENT_LIST_DUPLICATE_PARAMETER = 'argument-list/duplicate-parameter';
 export const CODE_ARGUMENT_LIST_MISSING_REQUIRED_PARAMETER = 'argument-list/missing-required-parameter';
@@ -27,7 +27,7 @@ export const argumentListMustNotHavePositionalArgumentsAfterNamedArguments = (
     }
 };
 
-export const argumentListMustNotHaveTooManyArguments = (services: SafeDsServices) => {
+export const argumentListMustNotHaveTooManyArguments = (services: TTSLServices) => {
     const nodeMapper = services.helpers.NodeMapper;
 
     return (node: TslAbstractCall, accept: ValidationAcceptor): void => {
@@ -70,7 +70,7 @@ export const argumentListMustNotHaveTooManyArguments = (services: SafeDsServices
     };
 };
 
-export const argumentListMustNotSetParameterMultipleTimes = (services: SafeDsServices) => {
+export const argumentListMustNotSetParameterMultipleTimes = (services: TTSLServices) => {
     const nodeMapper = services.helpers.NodeMapper;
     const argumentToParameterOrUndefined = nodeMapper.argumentToParameter.bind(nodeMapper);
 
@@ -92,7 +92,7 @@ export const argumentListMustNotSetParameterMultipleTimes = (services: SafeDsSer
     };
 };
 
-export const argumentListMustSetAllRequiredParameters = (services: SafeDsServices) => {
+export const argumentListMustSetAllRequiredParameters = (services: TTSLServices) => {
     const nodeMapper = services.helpers.NodeMapper;
 
     return (node: TslAbstractCall, accept: ValidationAcceptor): void => {

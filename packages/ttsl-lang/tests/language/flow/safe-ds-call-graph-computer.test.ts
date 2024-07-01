@@ -9,7 +9,7 @@ import {
     TslCall,
     TslCallable,
 } from '../../../src/language/generated/ast.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 import { createCallGraphTests } from './creator.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
 import { isRangeEqual } from 'langium/test';
@@ -17,10 +17,10 @@ import { locationToString } from '../../../src/helpers/locations.js';
 import { AssertionError } from 'assert';
 import { NodeFileSystem } from 'langium/node';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const callGraphComputer = services.flow.CallGraphComputer;
 
-describe('SafeDsCallGraphComputer', () => {
+describe('TTSLCallGraphComputer', () => {
     describe('getCallGraph', async () => {
         it.each(await createCallGraphTests())('$testName', async (test) => {
             // Test is invalid

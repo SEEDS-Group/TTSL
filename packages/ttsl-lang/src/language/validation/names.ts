@@ -13,7 +13,7 @@ import {
     TslPlaceholder,
     TslResult,
 } from '../generated/ast.js';
-import { CODEGEN_PREFIX } from '../generation/safe-ds-python-generator.js';
+import { CODEGEN_PREFIX } from '../generation/ttsl-python-generator.js';
 import {
     getImportedDeclarations,
     getImports,
@@ -22,7 +22,7 @@ import {
     getParameters,
     getResults,
 } from '../helpers/nodeProperties.js';
-import { SafeDsServices } from '../safe-ds-module.js';
+import { TTSLServices } from '../ttsl-module.js';
 
 export const CODE_NAME_CODEGEN_PREFIX = 'name/codegen-prefix';
 export const CODE_NAME_CORE_DECLARATION = 'name/core-declaration';
@@ -52,7 +52,7 @@ export const nameMustNotStartWithCodegenPrefix = (node: TslDeclaration, accept: 
 // Core declaration
 // -----------------------------------------------------------------------------
 
-export const nameMustNotOccurOnCoreDeclaration = (services: SafeDsServices) => {
+export const nameMustNotOccurOnCoreDeclaration = (services: TTSLServices) => {
     const packageManager = services.workspace.PackageManager;
 
     return (node: TslDeclaration, accept: ValidationAcceptor) => {
@@ -82,7 +82,7 @@ export const nameMustNotOccurOnCoreDeclaration = (services: SafeDsServices) => {
 // Casing
 // -----------------------------------------------------------------------------
 
-export const nameShouldHaveCorrectCasing = (services: SafeDsServices) => {
+export const nameShouldHaveCorrectCasing = (services: TTSLServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
     return async (node: TslDeclaration, accept: ValidationAcceptor) => {
@@ -149,7 +149,7 @@ export const callableTypeMustContainUniqueNames = (node: TslCallableType, accept
     namesMustBeUnique(getResults(node), (name) => `A result with name '${name}' exists already.`, accept);
 };
 
-export const moduleMemberMustHaveNameThatIsUniqueInPackage = (services: SafeDsServices) => {
+export const moduleMemberMustHaveNameThatIsUniqueInPackage = (services: TTSLServices) => {
     const packageManager = services.workspace.PackageManager;
     const builtinUris = new Set(listBuiltinFiles().map((it) => it.toString()));
 

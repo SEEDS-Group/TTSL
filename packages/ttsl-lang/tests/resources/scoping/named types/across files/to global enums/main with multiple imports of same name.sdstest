@@ -1,10 +1,10 @@
 package tests.scoping.namedTypes.acrossFiles.toGlobalEnums
 
-from safeds.scoping.namedTypes.acrossFiles.toGlobalEnums import MyEnum
+from TTSL.scoping.namedTypes.acrossFiles.toGlobalEnums import MyEnum
 from tests.scoping.namedTypes.acrossFiles.toGlobalEnums.other import MyEnum
 from tests.scoping.namedTypes.acrossFiles.toGlobalEnums import MyEnum
 
 segment mySegment(
-    // $TEST$ references safeds_MyEnum
+    // $TEST$ references TTSL_MyEnum
     p: »MyEnum«,
 ) {}

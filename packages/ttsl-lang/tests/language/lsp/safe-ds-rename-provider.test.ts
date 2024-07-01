@@ -1,12 +1,12 @@
 import { NodeFileSystem } from 'langium/node';
 import { afterEach, describe, expect, it } from 'vitest';
-import { createSafeDsServices, getModuleMembers } from '../../../src/language/index.js';
+import { createTTSLServices, getModuleMembers } from '../../../src/language/index.js';
 import { clearDocuments } from 'langium/test';
 import { TslModule } from '../../../src/language/generated/ast.js';
 import { URI } from 'langium';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const documentBuilder = services.shared.workspace.DocumentBuilder;
 const langiumDocuments = services.shared.workspace.LangiumDocuments;
 const langiumDocumentFactory = services.shared.workspace.LangiumDocumentFactory;
@@ -16,7 +16,7 @@ const renameProvider = services.lsp.RenameProvider!;
 const resourceUri = 'file:///resource.Tslstub';
 const mainUri = 'file:///main.Tslpipe';
 
-describe('SafeDsRenameProvider', async () => {
+describe('TTSLRenameProvider', async () => {
     const testCases: RenameProviderTest[] = [
         {
             testName: 'local reference',

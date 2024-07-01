@@ -8,7 +8,7 @@ import {
     isTslSegment,
     type TslBlockLambdaResult,
 } from '../../../src/language/generated/ast.js';
-import { createSafeDsServices, getAbstractResults, getParameters } from '../../../src/language/index.js';
+import { createTTSLServices, getAbstractResults, getParameters } from '../../../src/language/index.js';
 import {
     BlockLambdaClosure,
     BooleanConstant,
@@ -30,7 +30,7 @@ import {
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
 import type { EqualsTest, ToStringTest } from '../../helpers/testDescription.js';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 const code = `
 enum MyEnum {
     MyEnumVariant1

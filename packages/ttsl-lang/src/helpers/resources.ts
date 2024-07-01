@@ -9,7 +9,7 @@ try {
     // For CJS (ttsl-vscode)
     RESOURCES_PATH = path.join(__dirname, '..', 'resources');
 } /* c8 ignore start */ catch (e) {
-    // For ESM (safe-ds-cli)
+    // For ESM (ttsl-cli)
     RESOURCES_PATH = fileURLToPath(new URL('../resources', import.meta.url));
 } /* c8 ignore stop */
 
@@ -46,12 +46,12 @@ export const uriToShortenedResourceName = (uri: URI, rootResourceName?: Resource
 };
 
 /**
- * Lists all Safe-DS files in the given root directory.
+ * Lists all TTSL files in the given root directory.
  *
  * @param rootResourceName The resource name of the root directory.
- * @return URIs of the discovered Safe-DS files.
+ * @return URIs of the discovered TTSL files.
  */
-export const listSafeDsFiles = (rootResourceName: ResourceName): URI[] => {
+export const listTTSLFiles = (rootResourceName: ResourceName): URI[] => {
     const pattern = `**/*.{${TSL_FILE_EXTENSIONS.join(',')}}`;
     const cwd = resourceNameToUri(rootResourceName).fsPath;
 

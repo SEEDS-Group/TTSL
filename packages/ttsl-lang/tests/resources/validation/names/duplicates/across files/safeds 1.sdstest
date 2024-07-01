@@ -1,4 +1,4 @@
-package safeds.lang
+package TTSL.lang
 
 /*
  * Declarations that only occur a second time in builtin files should be excluded, so we don't get errors while editing them.

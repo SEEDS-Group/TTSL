@@ -2,12 +2,12 @@ import { describe, expect, it } from 'vitest';
 import { NodeFileSystem } from 'langium/node';
 import { isTslCall, isTslCallable, isTslExpression, isTslParameter } from '../../../src/language/generated/ast.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const purityComputer = services.purity.PurityComputer;
 
-describe('SafeDsPurityComputer', async () => {
+describe('TTSLPurityComputer', async () => {
     describe('isPureCallable', () => {
         it.each([
             {

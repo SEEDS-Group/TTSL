@@ -12,7 +12,7 @@ import {
 } from '../generated/ast.js';
 import { getParameters} from '../helpers/nodeProperties.js';
 import { NullConstant } from '../partialEvaluation/model.js';
-import { SafeDsServices } from '../safe-ds-module.js';
+import { TTSLServices } from '../ttsl-module.js';
 import { UnknownType } from '../typing/model.js';
 
 export const CODE_STYLE_UNNECESSARY_ARGUMENT_LIST = 'style/unnecessary-argument-list';
@@ -25,7 +25,7 @@ export const CODE_STYLE_UNNECESSARY_RESULT_LIST = 'style/unnecessary-result-list
 // Unnecessary argument lists
 // -----------------------------------------------------------------------------
 
-export const callArgumentListShouldBeNeeded = (services: SafeDsServices) => {
+export const callArgumentListShouldBeNeeded = (services: TTSLServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
     return async (node: TslCall, accept: ValidationAcceptor) => {
@@ -59,7 +59,7 @@ export const callArgumentListShouldBeNeeded = (services: SafeDsServices) => {
 // Unnecessary elvis operator
 // -----------------------------------------------------------------------------
 
-export const elvisOperatorShouldBeNeeded = (services: SafeDsServices) => {
+export const elvisOperatorShouldBeNeeded = (services: TTSLServices) => {
     const partialEvaluator = services.evaluation.PartialEvaluator;
     const settingsProvider = services.workspace.SettingsProvider;
     const typeChecker = services.types.TypeChecker;
@@ -124,7 +124,7 @@ export const elvisOperatorShouldBeNeeded = (services: SafeDsServices) => {
 // Unnecessary import alias
 // -----------------------------------------------------------------------------
 
-export const importedDeclarationAliasShouldDifferFromDeclarationName = (services: SafeDsServices) => {
+export const importedDeclarationAliasShouldDifferFromDeclarationName = (services: TTSLServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
     return async (node: TslImportedDeclaration, accept: ValidationAcceptor) => {
@@ -147,7 +147,7 @@ export const importedDeclarationAliasShouldDifferFromDeclarationName = (services
 // Unnecessary null safety
 // -----------------------------------------------------------------------------
 
-export const chainedExpressionNullSafetyShouldBeNeeded = (services: SafeDsServices) => {
+export const chainedExpressionNullSafetyShouldBeNeeded = (services: TTSLServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
@@ -184,7 +184,7 @@ export const chainedExpressionNullSafetyShouldBeNeeded = (services: SafeDsServic
 // Unnecessary result lists
 // -----------------------------------------------------------------------------
 
-export const functionResultListShouldNotBeEmpty = (services: SafeDsServices) => {
+export const functionResultListShouldNotBeEmpty = (services: TTSLServices) => {
     const settingsProvider = services.workspace.SettingsProvider;
 
     return async (node: TslFunction, accept: ValidationAcceptor) => {

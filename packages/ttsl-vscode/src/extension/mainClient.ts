@@ -2,7 +2,7 @@ import * as path from 'node:path';
 import * as vscode from 'vscode';
 import type { LanguageClientOptions, ServerOptions } from 'vscode-languageclient/node.js';
 import { LanguageClient, TransportKind } from 'vscode-languageclient/node.js';
-import { getSafeDSOutputChannel, initializeLog } from './output.js';
+import { getTTSLOutputChannel, initializeLog } from './output.js';
 import { dumpDiagnostics } from './commands/dumpDiagnostics.js';
 import { openDiagnosticsDumps } from './commands/openDiagnosticsDumps.js';
 
@@ -47,16 +47,16 @@ const startLanguageClient = function (context: vscode.ExtensionContext): Languag
 
     // Options to control the language client
     const clientOptions: LanguageClientOptions = {
-        documentSelector: [{ scheme: 'file', language: 'safe-ds' }],
+        documentSelector: [{ scheme: 'file', language: 'ttsl' }],
         synchronize: {
             // Notify the server about file changes to files contained in the workspace
             fileEvents: fileSystemWatcher,
         },
-        outputChannel: getSafeDSOutputChannel('[LanguageClient] '),
+        outputChannel: getTTSLOutputChannel('[LanguageClient] '),
     };
 
     // Create the language client and start the client.
-    const result = new LanguageClient('safe-ds', 'Safe-DS', serverOptions, clientOptions);
+    const result = new LanguageClient('ttsl', 'TTSL', serverOptions, clientOptions);
 
     // Start the client. This will also launch the server
     result.start();

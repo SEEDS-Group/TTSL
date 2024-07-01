@@ -2,12 +2,12 @@ import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
 import { isTslExpression } from '../../../src/language/generated/ast.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const partialEvaluator = services.evaluation.PartialEvaluator;
 
-describe('SafeDsTypeChecker', async () => {
+describe('TTSLTypeChecker', async () => {
     const testCases: CanBeValueOfConstantParameterTest[] = [
         {
             code: 'true',
@@ -168,7 +168,7 @@ describe('SafeDsTypeChecker', async () => {
 });
 
 /**
- * A test case for {@link SafeDsPartialEvaluator.canBeValueOfConstantParameter}.
+ * A test case for {@link TTSLPartialEvaluator.canBeValueOfConstantParameter}.
  */
 interface CanBeValueOfConstantParameterTest {
     /**

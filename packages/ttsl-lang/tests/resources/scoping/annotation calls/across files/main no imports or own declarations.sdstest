@@ -6,8 +6,8 @@ package tests.scoping.annotationCalls.acrossFiles
 // $TEST$ references same_AnnotationInSamePackage
 @»AnnotationInSamePackage«
 
-// $TEST$ references safeds_AnnotationInSafeDsPackage
-@»AnnotationInSafeDsPackage«
+// $TEST$ references TTSL_AnnotationInTTSLPackage
+@»AnnotationInTTSLPackage«
 
 // $TEST$ unresolved
 @»AnnotationInAnotherPackage«
