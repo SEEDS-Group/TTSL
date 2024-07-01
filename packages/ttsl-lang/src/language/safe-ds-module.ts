@@ -25,7 +25,6 @@ import { SafeDsSignatureHelpProvider } from './lsp/safe-ds-signature-help-provid
 import { SafeDsPartialEvaluator } from './partialEvaluation/safe-ds-partial-evaluator.js';
 import { SafeDsScopeComputation } from './scoping/safe-ds-scope-computation.js';
 import { SafeDsScopeProvider } from './scoping/safe-ds-scope-provider.js';
-import { SafeDsClassHierarchy } from './typing/safe-ds-class-hierarchy.js';
 import { SafeDsCoreTypes } from './typing/safe-ds-core-types.js';
 import { SafeDsTypeChecker } from './typing/safe-ds-type-checker.js';
 import { SafeDsTypeComputer } from './typing/safe-ds-type-computer.js';
@@ -61,7 +60,6 @@ export type SafeDsAddedServices = {
         NodeInfoProvider: SafeDsNodeInfoProvider;
     };
     types: {
-        ClassHierarchy: SafeDsClassHierarchy;
         CoreTypes: SafeDsCoreTypes;
         TypeChecker: SafeDsTypeChecker;
         TypeComputer: SafeDsTypeComputer;
@@ -122,7 +120,6 @@ export const SafeDsModule: Module<SafeDsServices, PartialLangiumServices & SafeD
         ScopeProvider: (services) => new SafeDsScopeProvider(services),
     },
     types: {
-        ClassHierarchy: (services) => new SafeDsClassHierarchy(services),
         CoreTypes: (services) => new SafeDsCoreTypes(services),
         TypeChecker: (services) => new SafeDsTypeChecker(services),
         TypeComputer: (services) => new SafeDsTypeComputer(services),

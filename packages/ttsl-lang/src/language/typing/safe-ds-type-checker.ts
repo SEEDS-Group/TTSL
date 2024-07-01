@@ -1,6 +1,5 @@
-import { isTslCallable, TslDeclaration } from '../generated/ast.js';
+import {  TslDeclaration } from '../generated/ast.js';
 import { Parameter } from '../helpers/nodeProperties.js';
-import { Constant, NullConstant } from '../partialEvaluation/model.js';
 import { SafeDsServices } from '../safe-ds-module.js';
 import {
     CallableType,
@@ -11,19 +10,14 @@ import {
     UnionType,
     UnknownType,
 } from './model.js';
-import { SafeDsClassHierarchy } from './safe-ds-class-hierarchy.js';
 import { SafeDsCoreTypes } from './safe-ds-core-types.js';
 import type { SafeDsTypeComputer } from './safe-ds-type-computer.js';
-import { isEmpty } from '../../helpers/collections.js';
-import { AstUtils } from 'langium';
 
 export class SafeDsTypeChecker {
-    private readonly classHierarchy: SafeDsClassHierarchy;
     private readonly coreTypes: SafeDsCoreTypes;
     private readonly typeComputer: () => SafeDsTypeComputer;
 
     constructor(services: SafeDsServices) {
-        this.classHierarchy = services.types.ClassHierarchy;
         this.coreTypes = services.types.CoreTypes;
         this.typeComputer = () => services.types.TypeComputer;
     }

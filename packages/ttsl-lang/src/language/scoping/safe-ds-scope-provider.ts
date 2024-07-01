@@ -48,13 +48,11 @@ import {
 } from '../helpers/nodeProperties.js';
 import { SafeDsNodeMapper } from '../helpers/safe-ds-node-mapper.js';
 import { SafeDsServices } from '../safe-ds-module.js';
-import type { SafeDsClassHierarchy } from '../typing/safe-ds-class-hierarchy.js';
 import { SafeDsTypeComputer } from '../typing/safe-ds-type-computer.js';
 import { SafeDsPackageManager } from '../workspace/safe-ds-package-manager.js';
 
 export class SafeDsScopeProvider extends DefaultScopeProvider {
     private readonly astReflection: AstReflection;
-    private readonly classHierarchy: SafeDsClassHierarchy;
     private readonly nodeMapper: SafeDsNodeMapper;
     private readonly packageManager: SafeDsPackageManager;
     private readonly typeComputer: SafeDsTypeComputer;
@@ -65,7 +63,6 @@ export class SafeDsScopeProvider extends DefaultScopeProvider {
         super(services);
 
         this.astReflection = services.shared.AstReflection;
-        this.classHierarchy = services.types.ClassHierarchy;
         this.nodeMapper = services.helpers.NodeMapper;
         this.packageManager = services.workspace.PackageManager;
         this.typeComputer = services.types.TypeComputer;
