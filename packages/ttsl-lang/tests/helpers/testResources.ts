@@ -1,6 +1,6 @@
 import path from 'path';
 import { globSync } from 'glob';
-import { SAFE_DS_FILE_EXTENSIONS } from '../../src/language/helpers/fileExtensions.js';
+import { TSL_FILE_EXTENSIONS } from '../../src/language/helpers/fileExtensions.js';
 import { BuildOptions, LangiumDocument, URI } from 'langium';
 import { SafeDsServices } from '../../src/language/index.js';
 import { groupBy } from '../../src/helpers/collections.js';
@@ -51,7 +51,7 @@ export const uriToShortenedTestResourceName = (
  */
 export const listTestSafeDsFiles = (rootTestResourceName: TestResourceName): URI[] => {
     const rootPath = testResourceNameToUri(rootTestResourceName).fsPath;
-    return listTestFilesWithExtensions(rootTestResourceName, SAFE_DS_FILE_EXTENSIONS).filter((uri) =>
+    return listTestFilesWithExtensions(rootTestResourceName, TSL_FILE_EXTENSIONS).filter((uri) =>
         isNotSkipped(path.relative(rootPath, uri.fsPath)),
     );
 };

@@ -7,7 +7,7 @@ import { SafeDsPartialEvaluator } from "../partialEvaluation/safe-ds-partial-eva
 import { SafeDsServices } from "../safe-ds-module.js";
 import { SafeDsModuleMembers } from "./safe-ds-module-members.js";
 
-const CODE_GENERATION_URI = resourceNameToUri('builtins/safeds/lang/codeGeneration.sdsstub');
+const CODE_GENERATION_URI = resourceNameToUri('builtins/safeds/lang/codeGeneration.ttsl');
 
 export class TTSLFunction extends SafeDsModuleMembers<TslFunction> {
     private readonly nodeMapper: SafeDsNodeMapper;

@@ -66,7 +66,7 @@ import {
     TslTimeunit,
     isTslExpression,
 } from '../generated/ast.js';
-import { isInStubFile, isStubFile } from '../helpers/fileExtensions.js';
+import { isInFile, isFile } from '../helpers/fileExtensions.js';
 import {
     getArguments,
     getAssignees,
@@ -295,7 +295,7 @@ export class SafeDsPythonGenerator {
         const node = document.parseResult.value;
 
         // Do not generate stub files
-        if (isStubFile(document) || !isTslModule(node)) {
+        if (isFile(document) || !isTslModule(node)) {
             return [];
         }
 
@@ -1216,7 +1216,7 @@ export class SafeDsPythonGenerator {
         // Root Node is always a module.
         const currentModule = <TslModule>AstUtils.findRootNode(expression);
         const targetModule = <TslModule>AstUtils.findRootNode(declaration);
-        if (currentModule !== targetModule && !isInStubFile(targetModule)) {
+        if (currentModule !== targetModule && !isInFile(targetModule)) {
             return {
                 importPath: `${this.getPythonModuleOrDefault(targetModule)}.${this.formatGeneratedFileName(
                     this.getModuleFileBaseName(targetModule),

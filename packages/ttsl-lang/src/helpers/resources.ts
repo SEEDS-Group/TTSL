@@ -2,7 +2,7 @@ import { globSync } from 'glob';
 import { URI } from 'langium';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { SAFE_DS_FILE_EXTENSIONS } from '../language/helpers/fileExtensions.js';
+import { TSL_FILE_EXTENSIONS } from '../language/helpers/fileExtensions.js';
 
 let RESOURCES_PATH: string;
 try {
@@ -52,7 +52,7 @@ export const uriToShortenedResourceName = (uri: URI, rootResourceName?: Resource
  * @return URIs of the discovered Safe-DS files.
  */
 export const listSafeDsFiles = (rootResourceName: ResourceName): URI[] => {
-    const pattern = `**/*.{${SAFE_DS_FILE_EXTENSIONS.join(',')}}`;
+    const pattern = `**/*.{${TSL_FILE_EXTENSIONS.join(',')}}`;
     const cwd = resourceNameToUri(rootResourceName).fsPath;
 
     return globSync(pattern, { cwd, nodir: true }).map((it) => URI.file(path.join(cwd, it)));
