@@ -2,12 +2,16 @@ import { isEmpty } from '../../helpers/collections.js';
 import {
     TslCallable,
     TslDeclaration,
+    TslDictionary,
+    TslList,
     TslParameter,
     TslResult,
 } from '../generated/ast.js';
 import { Parameter } from '../helpers/nodeProperties.js';
-import { NullConstant } from '../partialEvaluation/model.js';
 import { SafeDsServices } from '../safe-ds-module.js';
+import { SafeDsCoreTypes } from './safe-ds-core-types.js';
+import { SafeDsTypeChecker } from './safe-ds-type-checker.js';
+import { SafeDsTypeComputer } from './safe-ds-type-computer.js';
 import { SafeDsTypeFactory } from './safe-ds-type-factory.js';
 
 export type ParameterSubstitutions = Map<TslParameter, Type>;
@@ -130,11 +134,7 @@ export class CallableType extends Type {
     }
 
     override withExplicitNullability(isExplicitlyNullable: boolean): Type {
-        if (!isExplicitlyNullable) {
-            return this;
-        }
-
-        return this.factory.createUnionType(this, this.factory.createLiteralType(NullConstant));
+        return this;
     }
 }
 
@@ -213,11 +213,7 @@ export class NamedTupleType<T extends TslDeclaration> extends Type {
     }
 
     override withExplicitNullability(isExplicitlyNullable: boolean): Type {
-        if (!isExplicitlyNullable) {
-            return this;
-        }
-
-        return this.factory.createUnionType(this, this.factory.createLiteralType(NullConstant));
+        return this;
     }
 }
 
@@ -258,6 +254,132 @@ export class NamedTupleEntry<T extends TslDeclaration> {
     }
 }
 
+export class UnionType extends Type {
+    private readonly coreTypes: SafeDsCoreTypes;
+    private readonly factory: SafeDsTypeFactory;
+    private readonly typeChecker: SafeDsTypeChecker;
+
+    readonly types: Type[];
+    private _isExplicitlyNullable: boolean | undefined;
+    private _isFullySubstituted: boolean | undefined;
+
+    constructor(services: SafeDsServices, types: Type[]) {
+        super();
+
+        this.coreTypes = services.types.CoreTypes;
+        this.factory = services.types.TypeFactory;
+        this.typeChecker = services.types.TypeChecker;
+
+        this.types = types;
+    }
+
+    override get isExplicitlyNullable(): boolean {
+        if (this._isExplicitlyNullable === undefined) {
+            this._isExplicitlyNullable = this.types.some((it) => it.isExplicitlyNullable);
+        }
+
+        return this._isExplicitlyNullable;
+    }
+
+    override get isFullySubstituted(): boolean {
+        if (this._isFullySubstituted === undefined) {
+            this._isFullySubstituted = this.types.every((it) => it.isFullySubstituted);
+        }
+
+        return this._isFullySubstituted;
+    }
+
+    override equals(other: unknown): boolean {
+        if (other === this) {
+            return true;
+        } else if (!(other instanceof UnionType)) {
+            return false;
+        }
+
+        return this.types.length === other.types.length && this.types.every((type, i) => type.equals(other.types[i]));
+    }
+
+    override toString(): string {
+        return `union<${this.types.join(', ')}>`;
+    }
+
+    override simplify(): Type {
+        // Handle empty union types
+        if (isEmpty(this.types)) {
+            return this.coreTypes.Nothing;
+        }
+
+        // Flatten nested unions
+        const newTypes = this.types.flatMap((type) => {
+            const unwrappedType = type.simplify();
+            if (unwrappedType instanceof UnionType) {
+                return unwrappedType.types;
+            } else {
+                return unwrappedType;
+            }
+        });
+
+        // Merge literal types and remove types that are subtypes of others. We do this back-to-front to keep the first
+        // occurrence of duplicate types. It's also makes splicing easier.
+        for (let i = newTypes.length - 1; i >= 0; i--) {
+            const currentType = newTypes[i]!;
+            const currentTypeIsNothingOrNull = currentType.equals(this.coreTypes.NothingOrNull);
+
+            for (let j = newTypes.length - 1; j >= 0; j--) {
+                if (i === j) {
+                    continue;
+                }
+
+                const otherType = newTypes[j]!;
+
+                // Remove identical types
+                if (currentType.equals(otherType)) {
+                    // Remove the current type
+                    newTypes.splice(i, 1);
+                    break;
+                }
+
+                // Don't merge `Nothing?` into callable types, named tuple types or static types, since that would
+                // create another union type.
+                if (
+                    currentTypeIsNothingOrNull &&
+                    (otherType instanceof CallableType ||
+                        otherType instanceof NamedTupleType)
+                ) {
+                    continue;
+                }
+
+
+                // Remove subtypes of other types
+                const candidateType = otherType.withExplicitNullability(
+                    currentType.isExplicitlyNullable || otherType.isExplicitlyNullable,
+                );
+                if (this.typeChecker.isSupertypeOf(candidateType, currentType)) {
+                    // Replace the other type with the candidate type (updated nullability)
+                    newTypes.splice(j, 1, candidateType);
+                    // Remove the current type
+                    newTypes.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+        if (newTypes.length === 1) {
+            return newTypes[0]!;
+        } else {
+            return this.factory.createUnionType(newTypes);
+        }
+    }
+
+    override substituteTypeParameters(_substitutions: ParameterSubstitutions): Type {
+        return this;
+    }
+
+    override withExplicitNullability(_isExplicitlyNullable: boolean): Type {
+        return this;
+    }
+}
+
 class UnknownTypeClass extends Type {
     override readonly isExplicitlyNullable = false;
     override readonly isFullySubstituted = true;
@@ -279,6 +401,146 @@ class UnknownTypeClass extends Type {
     }
 
     override withExplicitNullability(_isExplicitlyNullable: boolean): Type {
+        return this;
+    }
+}
+
+export class DictionaryType extends Type {
+    private readonly factory: SafeDsTypeFactory;
+    override readonly isFullySubstituted = true;
+    private readonly typeComputer: SafeDsTypeComputer;
+   
+    override isExplicitlyNullable: boolean = false;
+
+    constructor(
+        services: SafeDsServices,
+        readonly dictionary: TslDictionary
+    ) {
+        super();
+
+        this.factory = services.types.TypeFactory;
+        this.typeComputer = services.types.TypeComputer;
+    }
+
+    /**
+     * Returns the type of the parameter at the given index. If the index is out of bounds, returns `undefined`.
+     */
+    getKeyTypeByIndex(index: number): Type {
+        let entryAtIndex = this.dictionary.entries.at(index)
+        
+        return this.typeComputer.computeType(entryAtIndex?.key);
+    }
+
+    getValueTypeByIndex(index: number): Type {
+        let entryAtIndex = this.dictionary.entries.at(index)
+        
+        return this.typeComputer.computeType(entryAtIndex?.value);
+    }
+
+    override equals(other: unknown): boolean {
+        if (other === this) {
+            return true;
+        } else if (!(other instanceof DictionaryType)) {
+            return false;
+        }
+
+        return (
+            other.dictionary === this.dictionary
+        );
+    }
+
+    override toString(): string {
+        const entries = this.dictionary.entries
+            .map((it) => `{${it.key}:${it.value}}`)
+            .join(', ');
+
+        return `[${entries}]`;
+    }
+
+    override simplify(): DictionaryType {
+        return this.factory.createDictionaryType(
+            this.dictionary
+        );
+    }
+
+    override substituteTypeParameters(substitutions: ParameterSubstitutions): DictionaryType {
+        if (isEmpty(substitutions) || this.isFullySubstituted) {
+            return this;
+        }
+
+        return this.factory.createDictionaryType(
+            this.dictionary
+        );
+    }
+
+    override withExplicitNullability(isExplicitlyNullable: boolean): Type {
+        return this;
+    }
+}
+
+export class ListType extends Type {
+    private readonly factory: SafeDsTypeFactory;
+    override readonly isFullySubstituted = true;
+    private readonly typeComputer: SafeDsTypeComputer;
+   
+    override isExplicitlyNullable: boolean = false;
+
+    constructor(
+        services: SafeDsServices,
+        readonly list: TslList
+    ) {
+        super();
+
+        this.factory = services.types.TypeFactory;
+        this.typeComputer = services.types.TypeComputer;
+    }
+
+    /**
+     * Returns the type of the parameter at the given index. If the index is out of bounds, returns `undefined`.
+     */
+    getValueTypeByIndex(index: number): Type {
+        let entryAtIndex = this.list.elements.at(index)
+        
+        return this.typeComputer.computeType(entryAtIndex);
+    }
+
+    override equals(other: unknown): boolean {
+        if (other === this) {
+            return true;
+        } else if (!(other instanceof ListType)) {
+            return false;
+        }
+
+        return (
+            other.list === this.list
+        );
+    }
+
+    override toString(): string {
+        const entries = this.list.elements
+            .map((it) => `${it}`)
+            .join(', ');
+
+        return `[${entries}]`;
+    }
+
+    override simplify(): ListType {
+        return this.factory.createListType(
+            this.list
+        );
+    }
+
+    override substituteTypeParameters(substitutions: ParameterSubstitutions): ListType {
+        if (isEmpty(substitutions) || this.isFullySubstituted) {
+            return this;
+        }
+
+        return this.factory.createListType(
+            this.list
+        );
+    }
+
+    override withExplicitNullability(isExplicitlyNullable: boolean): Type {
         return this;
     }
 }
