@@ -295,7 +295,7 @@ export class TTSLPythonGenerator {
         const node = document.parseResult.value;
 
         // Do not generate stub files
-        if (isFile(document) || !isTslModule(node)) {
+        if (!isFile(document) || !isTslModule(node)) {
             return [];
         }
 
