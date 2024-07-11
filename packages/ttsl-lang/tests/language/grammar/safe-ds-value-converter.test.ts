@@ -3,7 +3,7 @@ import { createTTSLServices } from '../../../src/language/index.js';
 import { EmptyFileSystem } from 'langium';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
 import {
-    isTslClass,
+    isTslFunction,
     isTslInt,
     isTslModule,
     isTslString,
@@ -28,18 +28,18 @@ describe('runConverter', () => {
 
         it('should remove backticks (declaration)', async () => {
             const code = `
-                class \`MyClass\`
+                function \`MyFunction\`
             `;
 
-            const firstClass = await getNodeOfType(services, code, isTslClass);
-            expect(firstClass.name).toBe('MyClass');
+            const firstFunction = await getNodeOfType(services, code, isTslFunction);
+            expect(firstFunction.name).toBe('MyFunction');
         });
     });
 
     describe('INT', () => {
         it('should return a bigint', async () => {
             const code = `
-                pipeline myPipeline {
+                function myFunction() {
                     123;
                 }
             `;
@@ -123,7 +123,7 @@ describe('runConverter', () => {
     describe('STRING', () => {
         it('should remove delimiters', async () => {
             const code = `
-                pipeline myPipeline {
+                function myFunction() {
                     "text";
                 }
             `;
@@ -134,7 +134,7 @@ describe('runConverter', () => {
 
         it.each(escapeSequences)('should unescape $escaped', async ({ escaped, unescaped }) => {
             const code = `
-                pipeline myPipeline {
+                function myFunction() {
                     "${escaped}";
                 }
             `;
@@ -147,7 +147,7 @@ describe('runConverter', () => {
     describe('TEMPLATE_STRING_START', () => {
         it('should remove delimiters', async () => {
             const code = `
-                pipeline myPipeline {
+                function myFunction() {
                     "start{{ 1 }}inner{{ 2 }}end";
                 }
             `;
@@ -158,7 +158,7 @@ describe('runConverter', () => {
 
         it.each(escapeSequences)('should unescape $escaped', async ({ escaped, unescaped }) => {
             const code = `
-                pipeline myPipeline {
+                function myFunction() {
                     "${escaped}{{ 1 }}inner{{ 2 }}end";
                 }
             `;
@@ -171,7 +171,7 @@ describe('runConverter', () => {
     describe('TEMPLATE_STRING_INNER', () => {
         it('should remove delimiters', async () => {
             const code = `
-                pipeline myPipeline {
+                function myFunction() {
                     "start{{ 1 }}inner{{ 2 }}end";
                 }
             `;
@@ -182,7 +182,7 @@ describe('runConverter', () => {
 
         it.each(escapeSequences)('should unescape $escaped', async ({ escaped, unescaped }) => {
             const code = `
-                pipeline myPipeline {
+                function myFunction() {
                     "start{{ 1 }}${escaped}{{ 2 }}end";
                 }
             `;
@@ -195,7 +195,7 @@ describe('runConverter', () => {
     describe('TEMPLATE_STRING_END', () => {
         it('should remove delimiters', async () => {
             const code = `
-                pipeline myPipeline {
+                function myFunction() {
                     "start{{ 1 }}inner{{ 2 }}end";
                 }
             `;
@@ -206,7 +206,7 @@ describe('runConverter', () => {
 
         it.each(escapeSequences)('should unescape $escaped', async ({ escaped, unescaped }) => {
             const code = `
-                pipeline myPipeline {
+                function myFunction() {
                     "start{{ 1 }}inner{{ 2 }}${escaped}";
                 }
             `;
