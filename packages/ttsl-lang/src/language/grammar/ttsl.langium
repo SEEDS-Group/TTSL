@@ -755,39 +755,77 @@ TslType returns TslType:
 ;
 
 TslPrimaryType returns TslType:
-    TslCallableType
-  | 'Int'
-  | 'Float'
-  | 'String'
-  | 'Boolean'
+    TslIntType
+  | TslFloatType
+  | TslStringType
+  | TslBooleanType
   | TslDictionaryType
   | TslListType
 ;
 
-interface TslCallableType extends TslCallable, TslType {
-    resultList: TslResultList
-}
+interface TslIntType extends TslType {}
 
-TslCallableType returns TslCallableType:
-    parameterList=TslParameterList
-    resultList=TslResultList
+TslIntType returns TslIntType:
+    {TslIntType} "Int"
+;
+
+interface TslFloatType extends TslType {}
+
+TslFloatType returns TslFloatType:
+    {TslFloatType} "Float"
+;
+
+interface TslStringType extends TslType {}
+
+TslStringType returns TslStringType:
+    {TslStringType} "String"
+;
+
+interface TslBooleanType extends TslType {}
+
+TslBooleanType returns TslBooleanType:
+    {TslBooleanType} "Boolean"
 ;
 
 interface TslDictionaryType extends TslType {
-    key: TslType
-    value: TslType
+    typeParameterList:TslTypeParameterList
 }
 
 TslDictionaryType returns TslDictionaryType:
-    'Dict' '<' key=TslType ',' value=TslType '>'
+    'Dict' typeParameterList=TslTypeParameterList
 ;
 
 interface TslListType extends TslType {
-    type: TslType
+    typeParameterList:TslTypeParameterList
 }
 
 TslListType returns TslListType:
-    'List' '<' type=TslType '>'
+    'List' typeParameterList=TslTypeParameterList
+;
+
+
+interface TslTypeParameterList extends TslObject {
+    typeParameters: TslTypeParameter[]
+}
+
+TslTypeParameterList returns TslTypeParameterList:
+    {TslTypeParameterList}
+    '<'
+        (
+            typeParameters+=TslTypeParameter
+            (',' typeParameters+=TslTypeParameter)*
+            ','?
+        )?
+    '>'
+;
+
+interface TslTypeParameter extends TslNamedTypeDeclaration {
+    defaultValue?: TslType
+}
+
+TslTypeParameter returns TslTypeParameter:
+    name=ID
+    ('=' defaultValue=TslType)?
 ;
 
 // -----------------------------------------------------------------------------
