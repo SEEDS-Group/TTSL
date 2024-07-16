@@ -3,15 +3,16 @@ import {
     isTslArgument,
     isTslArgumentList,
     isTslAssignment,
-    isTslCallable,
-    isTslCallableType,
     isTslDeclaration,
+    isTslDictionaryType,
     isTslFunction,
+    isTslListType,
     isTslModule,
     isTslModuleMember,
     isTslParameter,
     isTslPlaceholder,
     isTslQualifiedImport,
+    isTslTypeParameterList,
     TslAbstractCall,
     TslArgument,
     TslArgumentList,
@@ -20,8 +21,11 @@ import {
     TslBlock,
     TslCallable,
     TslDeclaration,
+    TslDictionaryType,
+    TslFunction,
     TslImport,
     TslImportedDeclaration,
+    TslListType,
     TslModule,
     TslModuleMember,
     TslParameter,
@@ -29,6 +33,8 @@ import {
     TslQualifiedImport,
     TslResult,
     TslStatement,
+    TslTypeParameter,
+    TslTypeParameterList,
 } from '../generated/ast.js';
 
 // -------------------------------------------------------------------------------------------------
@@ -58,14 +64,6 @@ export namespace Parameter {
         if (!node) {
             return false;
         }
-
-        const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
-
-        // In those cases, the const modifier is not applicable
-        if (isTslCallableType(containingCallable)) {
-            return false;
-        }
-
         return node.isConstant;
     };
 
@@ -82,14 +80,12 @@ export namespace Parameter {
 // Accessors for list elements
 // -------------------------------------------------------------------------------------------------
 
-export const getResults = (node: TslCallable | undefined): TslResult[] => {
+export const getResults = (node: TslFunction | undefined): TslResult[] => {
     if (!node) {
         return [];
     }
 
-    if (isTslCallableType(node)) {
-        return node.resultList.results ?? [];
-    } else if (isTslFunction(node) && node.result) {
+    if (isTslFunction(node) && node.result) {
         return [node.result];
     }/* c8 ignore start */ else {
         return [];
@@ -162,4 +158,20 @@ export const getPlaceholderByName = (block: TslBlock, name: string | undefined):
 
 export const getStatements = (node: TslBlock | undefined): TslStatement[] => {
     return node?.statements ?? [];
+};
+
+export const getTypeParameters = (
+    node: TslTypeParameterList | TslDictionaryType | TslListType | undefined,
+): TslTypeParameter[] => {
+    if (!node) {
+        return [];
+    }
+
+    if (isTslTypeParameterList(node)) {
+        return node.typeParameters;
+    } else if (isTslDictionaryType(node) || isTslListType(node)) {
+        return getTypeParameters(node.typeParameterList);
+    }  /* c8 ignore start */ else {
+        return [];
+    } /* c8 ignore stop */
 };
