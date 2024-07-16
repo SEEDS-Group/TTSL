@@ -19,7 +19,7 @@ export const chainedExpressionsMustBeNullSafeIfReceiverIsNullable = (services: T
             return;
         }
 
-        if (isTslCall(node) && typeChecker.canBeCalled(receiverType)) {
+        if (isTslCall(node)) {
             accept('error', 'The receiver can be null so a null-safe call must be used.', {
                 node,
                 code: CODE_CHAINED_EXPRESSION_MISSING_NULL_SAFETY,
