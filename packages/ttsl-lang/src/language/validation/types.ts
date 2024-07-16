@@ -15,7 +15,7 @@ import {
 } from '../generated/ast.js';
 import { getArguments } from '../helpers/nodeProperties.js';
 import { TTSLServices } from '../ttsl-module.js';
-import {NamedTupleType, UnknownType } from '../typing/model.js';
+import {DictionaryType, ListType, UnknownType } from '../typing/model.js';
 
 export const CODE_TYPE_CALLABLE_RECEIVER = 'type/callable-receiver';
 export const CODE_TYPE_MISMATCH = 'type/mismatch';
@@ -107,7 +107,7 @@ export const indexedAccessIndexMustHaveCorrectType = (services: TTSLServices) =>
 
     return (node: TslIndexedAccess, accept: ValidationAcceptor): void => {
         const receiverType = typeComputer.computeType(node.receiver);
-        if (typeChecker.isList(receiverType)) {
+        if (receiverType instanceof ListType) {
             const indexType = typeComputer.computeType(node.index);
             if (!typeChecker.isSubtypeOf(indexType, coreTypes.Int)) {
                 accept('error', `Expected type '${coreTypes.Int}' but got '${indexType}'.`, {
@@ -187,7 +187,7 @@ export const listMustNotContainNamedTuples = (services: TTSLServices) => {
     return (node: TslList, accept: ValidationAcceptor): void => {
         for (const element of node.elements) {
             const elementType = typeComputer.computeType(element);
-            if (elementType instanceof NamedTupleType) {
+            if (elementType instanceof ListType) {
                 accept('error', `Cannot add a value of type '${elementType}' to a list.`, {
                     node: element,
                     code: CODE_TYPE_MISMATCH,
@@ -203,8 +203,8 @@ export const mapMustNotContainNamedTuples = (services: TTSLServices) => {
     return (node: TslDictionary, accept: ValidationAcceptor): void => {
         for (const entry of node.entries) {
             const keyType = typeComputer.computeType(entry.key);
-            if (keyType instanceof NamedTupleType) {
-                accept('error', `Cannot use a value of type '${keyType}' as a map key.`, {
+            if (keyType instanceof DictionaryType) {
+                accept('error', `Cannot use a value of type '${keyType}' as a Dictionary key.`, {
                     node: entry,
                     property: 'key',
                     code: CODE_TYPE_MISMATCH,
@@ -212,8 +212,8 @@ export const mapMustNotContainNamedTuples = (services: TTSLServices) => {
             }
 
             const valueKey = typeComputer.computeType(entry.value);
-            if (valueKey instanceof NamedTupleType) {
-                accept('error', `Cannot use a value of type '${valueKey}' as a map value.`, {
+            if (keyType instanceof DictionaryType) {
+                accept('error', `Cannot use a value of type '${valueKey}' as a Dictionary value.`, {
                     node: entry,
                     property: 'value',
                     code: CODE_TYPE_MISMATCH,
