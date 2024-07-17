@@ -1,0 +1,17 @@
+package math
+
+public function min(a: Float, b: Float): Float {
+    if(a < b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
+public function max(a: Float, b: Float): Float {
+    if(a > b) {
+        return a;
+    } else {
+        return b;
+    }
+}
