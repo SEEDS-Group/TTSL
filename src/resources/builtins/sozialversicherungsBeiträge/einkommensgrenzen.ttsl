@@ -34,7 +34,7 @@ public function minijobGrenze(): Float per month {
  * Marginal employed pay no social insurance contributions.
  * Legal reference: § 8 Abs. 1 Satz 1 and 2 SGB IV
  */
-public function geringügigBeschäftigt(bruttolohn per month): Boolean {
+public function geringuegigBeschaeftigt(bruttolohn per month): Boolean {
     return bruttolohn per month <= minijobGrenze()
 }
 
@@ -46,7 +46,7 @@ public function geringügigBeschäftigt(bruttolohn per month): Boolean {
  */
 public function inGleitzone(bruttolohn per month): Boolean {
     from 2003-04-01 {
-        return (bruttolohn per month <= geringfuegigeEinkommensgrenzenMonatlich[midijob]) and (not geringügigBeschäftigt(bruttolohn per month));
+        return (bruttolohn per month <= geringfuegigeEinkommensgrenzenMonatlich[midijob]) and (not geringuegigBeschaeftigt(bruttolohn per month));
     }
 }
 
@@ -149,7 +149,7 @@ public function midijobBemessungsgeld(bruttolohn per month): Float per month {
     from 2003-04-01 {
         # Now use the factor to calculate the overall bemessungsentgelt
         var minijob_anteil = midijobFaktorF() * minijobGrenze()
-        var lohn_über_mini = bruttolohn per month - minijobGrenze()
+        var lohn_ueber_mini = bruttolohn per month - minijobGrenze()
         var gewichtete_midijob_rate = (
             geringfuegigeEinkommensgrenzenMonatlich[midijob]
             / (
@@ -165,7 +165,7 @@ public function midijobBemessungsgeld(bruttolohn per month): Float per month {
             * midijobFaktorF()
         )
 
-        return minijob_anteil + lohn_über_mini * gewichtete_midijob_rate
+        return minijob_anteil + lohn_ueber_mini * gewichtete_midijob_rate
     }
 
     /**
@@ -206,7 +206,7 @@ private function midijobBeitragspflichtigeEinnahmeArbeitnehmer(bruttolohn per mo
 }
 
 
-public function regulärBeschäftigt(bruttolohn per month): Boolean {
+public function regulaerBeschaeftigt(bruttolohn per month): Boolean {
     /**
     * Regular employment check until March 2003.
     * Employees earning more than the minijob threshold, are subject to all ordinary

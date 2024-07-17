@@ -195,7 +195,7 @@ public function bemessungsgrundlageSelbststaendig(
         return min(
             beitragsbemessungsgrenze(),
             max(
-                bezugsgroesseSelbststaendig() * sozialversicherungsBeitragsParameter["mindestanteil_bezugsgroeße_beitragspflichtiges_einkommen_selbststaendig"],
+                bezugsgroesseSelbststaendig() * sozialversicherungsBeitragsParameter["mindestanteil_bezugsgroesse_beitragspflichtiges_einkommen_selbststaendig"],
                 einkommenSelbststaendig
             )
         );
@@ -216,7 +216,7 @@ public function beitragSelbststaendig(): Float per month {
 }
 
 /**
- * Bemessungsgrundlage für Renteneinkommen.
+ * Bemessungsgrundlage fuer Renteneinkommen.
  */
 public function bemessungsgrundlageRente(): Float per month {
     return min(summeGesetzlicheRentePrivateRente(), beitragsbemessungsgrenze());
@@ -230,7 +230,7 @@ public function beitragRente(): Float per month {
 }
 
 /**
- * Beitrag für Midijobs.
+ * Beitrag fuer Midijobs.
  */
 public function beitragMidijobSummeArbeitnehmerArbeitgeber(): Float per month {
     from 2003-04-01 {
@@ -239,7 +239,7 @@ public function beitragMidijobSummeArbeitnehmerArbeitgeber(): Float per month {
 }
 
 /**
- * Arbeitgeberanteil für Midijobs.
+ * Arbeitgeberanteil fuer Midijobs.
  */
 public function beitragMidijobArbeitgeber(
     bruttolohn: Float
@@ -261,7 +261,7 @@ public function beitragMidijobArbeitgeber(
 }
 
 /**
- * Arbeitnehmeranteil für Midijobs.
+ * Arbeitnehmeranteil fuer Midijobs.
  */
 public function beitragMidijobArbeitnehmer(): Float per month {
     from 2003-04-01 to 2022-09-30 {
