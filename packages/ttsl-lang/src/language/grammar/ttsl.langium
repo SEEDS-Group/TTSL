@@ -819,13 +819,12 @@ TslTypeParameterList returns TslTypeParameterList:
     '>'
 ;
 
-interface TslTypeParameter extends TslNamedTypeDeclaration {
-    defaultValue?: TslType
+interface TslTypeParameter extends TslType {
+    type: TslType
 }
 
 TslTypeParameter returns TslTypeParameter:
-    name=ID
-    ('=' defaultValue=TslType)?
+    type=TslType
 ;
 
 // -----------------------------------------------------------------------------
