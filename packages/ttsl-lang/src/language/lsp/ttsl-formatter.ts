@@ -1,5 +1,4 @@
 import { AstNode, CstNode, CstUtils, isAstNode } from 'langium';
-import { last } from '../../helpers/collections.js';
 import * as ast from '../generated/ast.js';
 import { AbstractFormatter, Formatting, FormattingAction, FormattingActionOptions } from 'langium/lsp';
 import indent = Formatting.indent;
@@ -110,8 +109,18 @@ export class TTSLFormatter extends AbstractFormatter {
         // -----------------------------------------------------------------------------
         else if (ast.isTslMemberType(node)) {
             this.formatTslMemberType(node);
-        } else if (ast.isTslCallableType(node)) {
-            this.formatTslCallableType(node);
+        } else if (ast.isTslIntType(node)) {
+            this.formatTslIntType(node);
+        } else if (ast.isTslFloatType(node)) {
+            this.formatTslFloatType(node);
+        } else if (ast.isTslStringType(node)) {
+            this.formatTslStringType(node);
+        } else if (ast.isTslBooleanType(node)) {
+            this.formatTslBooleanType(node);
+        } else if (ast.isTslListType(node)) {
+            this.formatTslListType(node);
+        } else if (ast.isTslDictionaryType(node)) {
+            this.formatTslDictionaryType(node);
         } 
     }
 
@@ -224,8 +233,7 @@ export class TTSLFormatter extends AbstractFormatter {
         const parameters = node.parameters ?? [];
 
         if (
-            parameters.length >= 3 ||
-            parameters.some((it) => this.isComplexType(it.type))
+            parameters.length >= 3
         ) {
             formatter.nodes(...parameters).prepend(indent());
             formatter.keywords(',').prepend(noSpace());
@@ -258,8 +266,7 @@ export class TTSLFormatter extends AbstractFormatter {
         const results = node.results ?? [];
 
         if (
-            results.length >= 3 ||
-            results.some((it) => this.isComplexType(it.type))
+            results.length >= 3
         ) {
             formatter.nodes(...results).prepend(indent());
             formatter.keywords(',').prepend(noSpace());
@@ -479,29 +486,40 @@ export class TTSLFormatter extends AbstractFormatter {
         formatter.keyword('.').surround(noSpace());
     }
 
-    private formatTslCallableType(node: ast.TslCallableType) {
+    private formatTslIntType(node: ast.TslIntType) {
         const formatter = this.getNodeFormatter(node);
 
-        formatter.keyword('->').surround(oneSpace());
+        formatter.keyword('Int').surround(oneSpace());
     }
 
-    /**
-     * Returns whether the type is considered complex and requires special formatting like placing the associated
-     * parameter on its own line.
-     *
-     * @param node The type to check.
-     */
-    private isComplexType(node: ast.TslType | undefined): boolean {
-        if (!node) {
-            return false;
-        }
+    private formatTslFloatType(node: ast.TslFloatType) {
+        const formatter = this.getNodeFormatter(node);
 
-        if (ast.isTslCallableType(node)) {
-            return true;
-        } else {
-            /* c8 ignore next 2 */
-            return false;
-        }
+        formatter.keyword('Float').surround(oneSpace());
+    }
+
+    private formatTslStringType(node: ast.TslStringType) {
+        const formatter = this.getNodeFormatter(node);
+
+        formatter.keyword('String').surround(oneSpace());
+    }
+
+    private formatTslBooleanType(node: ast.TslBooleanType) {
+        const formatter = this.getNodeFormatter(node);
+
+        formatter.keyword('Boolean').surround(oneSpace());
+    }
+
+    private formatTslListType(node: ast.TslListType) {
+        const formatter = this.getNodeFormatter(node);
+
+        formatter.keyword('List<').prepend(oneSpace());
+    }
+
+    private formatTslDictionaryType(node: ast.TslDictionaryType) {
+        const formatter = this.getNodeFormatter(node);
+
+        formatter.keyword('Dictionary<').prepend(oneSpace());
     }
 
     // -----------------------------------------------------------------------------
