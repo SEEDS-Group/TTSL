@@ -20,7 +20,6 @@ import { getParameters, Parameter } from '../helpers/nodeProperties.js';
 import { type TTSLNodeMapper } from '../helpers/ttsl-node-mapper.js';
 import type { TTSLServices } from '../ttsl-module.js';
 import { type TTSLTypeComputer } from '../typing/ttsl-type-computer.js';
-import { CallableType } from '../typing/model.js';
 import { SignatureHelpProvider } from 'langium/lsp';
 
 export class TTSLSignatureHelpProvider implements SignatureHelpProvider {
@@ -90,11 +89,7 @@ export class TTSLSignatureHelpProvider implements SignatureHelpProvider {
     private getLabel(callable: TslCallable): string {
         const type = this.typeComputer.computeType(callable);
 
-        if (type instanceof CallableType && isNamed(callable)) {
-            return `${callable.name}${type}`;
-        } else {
-            return type.toString();
-        }
+        return type.toString();
     }
 
     private getParameterInformation = (parameter: TslParameter) => {

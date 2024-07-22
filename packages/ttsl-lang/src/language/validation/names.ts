@@ -4,7 +4,6 @@ import { listBuiltinFiles } from '../builtins/fileFinder.js';
 import { BUILTINS_LANG_PACKAGE, BUILTINS_ROOT_PACKAGE } from '../builtins/packageNames.js';
 import {
     isTslQualifiedImport,
-    TslCallableType,
     TslDeclaration,
     TslFunction,
     TslImportedDeclaration,
@@ -143,11 +142,6 @@ const acceptCasingWarning = (
 // -----------------------------------------------------------------------------
 // Uniqueness
 // -----------------------------------------------------------------------------
-
-export const callableTypeMustContainUniqueNames = (node: TslCallableType, accept: ValidationAcceptor): void => {
-    namesMustBeUnique(getParameters(node), (name) => `A parameter with name '${name}' exists already.`, accept);
-    namesMustBeUnique(getResults(node), (name) => `A result with name '${name}' exists already.`, accept);
-};
 
 export const moduleMemberMustHaveNameThatIsUniqueInPackage = (services: TTSLServices) => {
     const packageManager = services.workspace.PackageManager;

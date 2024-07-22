@@ -15,7 +15,7 @@ import {
 } from '../generated/ast.js';
 import { getArguments } from '../helpers/nodeProperties.js';
 import { TTSLServices } from '../ttsl-module.js';
-import {DictionaryType, ListType, UnknownType } from '../typing/model.js';
+import {BooleanType, DictionaryType, FloatType, IntType, ListType, UnknownType } from '../typing/model.js';
 
 export const CODE_TYPE_CALLABLE_RECEIVER = 'type/callable-receiver';
 export const CODE_TYPE_MISMATCH = 'type/mismatch';
@@ -101,7 +101,6 @@ export const indexedAccessReceiverMustBeListOrMap = (services: TTSLServices) => 
 };
 
 export const indexedAccessIndexMustHaveCorrectType = (services: TTSLServices) => {
-    const coreTypes = services.types.CoreTypes;
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
@@ -109,8 +108,8 @@ export const indexedAccessIndexMustHaveCorrectType = (services: TTSLServices) =>
         const receiverType = typeComputer.computeType(node.receiver);
         if (receiverType instanceof ListType) {
             const indexType = typeComputer.computeType(node.index);
-            if (!typeChecker.isSubtypeOf(indexType, coreTypes.Int)) {
-                accept('error', `Expected type '${coreTypes.Int}' but got '${indexType}'.`, {
+            if (!typeChecker.isSubtypeOf(indexType, new IntType(false))) {
+                accept('error', `Expected type 'Int' but got '${indexType}'.`, {
                     node,
                     property: 'index',
                     code: CODE_TYPE_MISMATCH,
@@ -121,7 +120,6 @@ export const indexedAccessIndexMustHaveCorrectType = (services: TTSLServices) =>
 };
 
 export const infixOperationOperandsMustHaveCorrectType = (services: TTSLServices) => {
-    const coreTypes = services.types.CoreTypes;
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
@@ -131,14 +129,14 @@ export const infixOperationOperandsMustHaveCorrectType = (services: TTSLServices
         switch (node.operator) {
             case 'or':
             case 'and':
-                if (node.leftOperand && !typeChecker.isSubtypeOf(leftType, coreTypes.Boolean)) {
-                    accept('error', `Expected type '${coreTypes.Boolean}' but got '${leftType}'.`, {
+                if (node.leftOperand && !typeChecker.isSubtypeOf(leftType, new BooleanType(false))) {
+                    accept('error', `Expected type 'Boolean' but got '${leftType}'.`, {
                         node: node.leftOperand,
                         code: CODE_TYPE_MISMATCH,
                     });
                 }
-                if (node.rightOperand && !typeChecker.isSubtypeOf(rightType, coreTypes.Boolean)) {
-                    accept('error', `Expected type '${coreTypes.Boolean}' but got '${rightType}'.`, {
+                if (node.rightOperand && !typeChecker.isSubtypeOf(rightType, new BooleanType(false))) {
+                    accept('error', `Expected type 'Boolean' but got '${rightType}'.`, {
                         node: node.rightOperand,
                         code: CODE_TYPE_MISMATCH,
                     });
@@ -154,22 +152,22 @@ export const infixOperationOperandsMustHaveCorrectType = (services: TTSLServices
             case '/':
                 if (
                     node.leftOperand &&
-                    !typeChecker.isSubtypeOf(leftType, coreTypes.Float) &&
-                    !typeChecker.isSubtypeOf(leftType, coreTypes.Int)
+                    !typeChecker.isSubtypeOf(leftType, new FloatType(false)) &&
+                    !typeChecker.isSubtypeOf(leftType, new IntType(false))
                 ) {
-                    accept('error', `Expected type '${coreTypes.Float}' or '${coreTypes.Int}' but got '${leftType}'.`, {
+                    accept('error', `Expected type 'Float' or 'Int' but got '${leftType}'.`, {
                         node: node.leftOperand,
                         code: CODE_TYPE_MISMATCH,
                     });
                 }
                 if (
                     node.rightOperand &&
-                    !typeChecker.isSubtypeOf(rightType, coreTypes.Float) &&
-                    !typeChecker.isSubtypeOf(rightType, coreTypes.Int)
+                    !typeChecker.isSubtypeOf(rightType, new FloatType(false)) &&
+                    !typeChecker.isSubtypeOf(rightType, new IntType(false))
                 ) {
                     accept(
                         'error',
-                        `Expected type '${coreTypes.Float}' or '${coreTypes.Int}' but got '${rightType}'.`,
+                        `Expected type 'Float' or 'Int' but got '${rightType}'.`,
                         {
                             node: node.rightOperand,
                             code: CODE_TYPE_MISMATCH,
@@ -247,7 +245,6 @@ export const parameterDefaultValueTypeMustMatchParameterType = (services: TTSLSe
 };
 
 export const prefixOperationOperandMustHaveCorrectType = (services: TTSLServices) => {
-    const coreTypes = services.types.CoreTypes;
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
@@ -255,8 +252,8 @@ export const prefixOperationOperandMustHaveCorrectType = (services: TTSLServices
         const operandType = typeComputer.computeType(node.operand);
         switch (node.operator) {
             case 'not':
-                if (!typeChecker.isSubtypeOf(operandType, coreTypes.Boolean)) {
-                    accept('error', `Expected type '${coreTypes.Boolean}' but got '${operandType}'.`, {
+                if (!typeChecker.isSubtypeOf(operandType, new BooleanType(false))) {
+                    accept('error', `Expected type 'Boolean' but got '${operandType}'.`, {
                         node,
                         property: 'operand',
                         code: CODE_TYPE_MISMATCH,
@@ -265,12 +262,12 @@ export const prefixOperationOperandMustHaveCorrectType = (services: TTSLServices
                 return;
             case '-':
                 if (
-                    !typeChecker.isSubtypeOf(operandType, coreTypes.Float) &&
-                    !typeChecker.isSubtypeOf(operandType, coreTypes.Int)
+                    !typeChecker.isSubtypeOf(operandType, new FloatType(false)) &&
+                    !typeChecker.isSubtypeOf(operandType, new IntType(false))
                 ) {
                     accept(
                         'error',
-                        `Expected type '${coreTypes.Float}' or '${coreTypes.Int}' but got '${operandType}'.`,
+                        `Expected type 'Float' or 'Int' but got '${operandType}'.`,
                         {
                             node,
                             property: 'operand',

@@ -1,5 +1,6 @@
 import { TTSLServices } from '../ttsl-module.js';
 import {
+    AnyType,
     DictionaryType,
     ListType,
     Type,
@@ -52,5 +53,12 @@ export class TTSLTypeChecker {
         } else {
             return false;
         }
+    };
+
+    /**
+     * Checks whether {@link type} is allowed as the type of a constant parameter.
+     */
+    canBeTypeOfConstantParameter = (type: Type): boolean => {
+        return type instanceof AnyType
     };
 }

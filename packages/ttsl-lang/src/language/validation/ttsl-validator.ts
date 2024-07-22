@@ -5,7 +5,6 @@ import {
     mapsShouldBeUsedWithCaution,
 } from './experimentalLanguageFeatures.js';
 import {
-    callableTypeMustContainUniqueNames,
     moduleMemberMustHaveNameThatIsUniqueInPackage,
     moduleMustContainUniqueNames,
     nameMustNotOccurOnCoreDeclaration,
@@ -38,11 +37,6 @@ import {
     assignmentAssigneeMustGetValue,
     assignmentShouldNotImplicitlyIgnoreResult,
 } from './other/statements/assignments.js';
-import {
-    callableTypeMustBeUsedInCorrectContext,
-    callableTypeMustNotHaveOptionalParameters,
-    callableTypeParameterMustNotHaveConstModifier,
-} from './other/types/callableTypes.js';
 import {
     callArgumentListShouldBeNeeded,
     chainedExpressionNullSafetyShouldBeNeeded,
@@ -99,12 +93,6 @@ export const registerValidationChecks = function (services: TTSLServices) {
             callArgumentTypesMustMatchParameterTypes(services),
             callMustNotBeRecursive(services),
             callReceiverMustBeCallable(services),
-        ],
-        TslCallableType: [
-            callableTypeMustBeUsedInCorrectContext,
-            callableTypeMustContainUniqueNames,
-            callableTypeMustNotHaveOptionalParameters,
-            callableTypeParameterMustNotHaveConstModifier,
         ],
         TslChainedExpression: [
             chainedExpressionsMustBeNullSafeIfReceiverIsNullable(services),

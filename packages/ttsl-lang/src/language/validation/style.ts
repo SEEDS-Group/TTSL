@@ -168,7 +168,7 @@ export const chainedExpressionNullSafetyShouldBeNeeded = (services: TTSLServices
         }
 
         if (
-            (isTslCall(node) && typeChecker.canBeCalled(receiverType)) ||
+            (isTslCall(node)) ||
             (isTslIndexedAccess(node) && typeChecker.canBeAccessedByIndex(receiverType)) ||
             isTslMemberAccess(node)
         ) {

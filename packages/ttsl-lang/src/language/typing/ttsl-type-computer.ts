@@ -4,7 +4,6 @@ import {
     isTslAssignee,
     isTslAssignment,
     isTslCall,
-    isTslCallableType,
     isTslDeclaration,
     isTslExpression,
     isTslFunction,
@@ -21,7 +20,6 @@ import {
     isTslTypeCast,
     TslAssignee,
     TslCall,
-    TslCallableType,
     TslDeclaration,
     TslExpression,
     TslFunction,
@@ -31,46 +29,34 @@ import {
     TslPrefixOperation,
     TslReference,
     TslType,
-    TslResult,
+    isTslIntType,
+    isTslFloatType,
+    isTslStringType,
+    isTslBooleanType,
 } from '../generated/ast.js';
-import {
-    getParameters,
-    getResults,
-} from '../helpers/nodeProperties.js';
-import {
-    BooleanConstant,
-    Constant,
-    FloatConstant,
-    IntConstant,
-    NullConstant,
-    StringConstant,
-} from '../partialEvaluation/model.js';
 import { TTSLServices } from '../ttsl-module.js';
 import {
-    CallableType,
-    NamedTupleEntry,
-    NamedTupleType,
     Type,
     DictionaryType,
     ListType,
     UnknownType,
+    BooleanType,
+    IntType,
+    FloatType,
+    StringType,
+    NothingType,
+    AnyType,
 } from './model.js';
-import { TTSLCoreTypes } from './ttsl-core-types.js';
 import type { TTSLTypeChecker } from './ttsl-type-checker.js';
-import { TTSLTypeFactory } from './ttsl-type-factory.js';
 
 export class TTSLTypeComputer {
     private readonly astNodeLocator: AstNodeLocator;
-    private readonly coreTypes: TTSLCoreTypes;
-    private readonly factory: TTSLTypeFactory;
     private readonly typeChecker: TTSLTypeChecker;
 
     private readonly nodeTypeCache: WorkspaceCache<string, Type>;
 
     constructor(services: TTSLServices) {
         this.astNodeLocator = services.workspace.AstNodeLocator;
-        this.coreTypes = services.types.CoreTypes;
-        this.factory = services.types.TypeFactory;
         this.typeChecker = services.types.TypeChecker;
 
         this.nodeTypeCache = new WorkspaceCache(services.shared);
@@ -91,7 +77,7 @@ export class TTSLTypeComputer {
 
         // Ignore type parameter substitutions for caching
         const unsubstitutedType = this.nodeTypeCache.get(this.getNodeId(node), () =>
-            this.doComputeType(node).simplify(),
+            this.doComputeType(node),
         );
         return unsubstitutedType;
     }
@@ -125,9 +111,7 @@ export class TTSLTypeComputer {
 
         const assigneePosition = node.$containerIndex ?? -1;
         const expressionType = this.computeType(containingAssignment?.expression);
-        if (expressionType instanceof NamedTupleType) {
-            return expressionType.getTypeOfEntryByIndex(assigneePosition);
-        } else if (assigneePosition === 0) {
+        if (assigneePosition === 0) {
             return expressionType;
         }
 
@@ -146,40 +130,18 @@ export class TTSLTypeComputer {
         } /* c8 ignore stop */
     }
 
-    private computeTypeOfCallableWithManifestTypes(node: TslFunction | TslCallableType): Type {
-        const parameterEntries = getParameters(node).map(
-            (it) => new NamedTupleEntry(it, it.name, this.computeType(it.type)),
-        );
-        let resultEntries: NamedTupleEntry<TslResult>[] = []
+    private computeTypeOfCallableWithManifestTypes(node: TslFunction ): Type {
         if(isTslFunction(node)){
-            resultEntries.with(0, new NamedTupleEntry(node.result, node.name, this.computeType(node.result?.type)))
+            return this.computeType(node.result?.type);
         }else{
-            resultEntries = getResults(node).map(
-                (it) => new NamedTupleEntry(it, it.name, this.computeType(it.type)),
-            );
+            return UnknownType;
         }
-        
-
-        return this.factory.createCallableType(
-            node,
-            undefined,
-            this.factory.createNamedTupleType(...parameterEntries),
-            this.factory.createNamedTupleType(...resultEntries),
-        );
     }
 
     private computeTypeOfParameter(node: TslParameter): Type {
         // Manifest type
         const type = this.computeType(node.type);
-        return this.rememberParameterInCallableType(node, type);
-    }
-
-    private rememberParameterInCallableType(node: TslParameter, type: Type) {
-        if (type instanceof CallableType) {
-            return this.factory.createCallableType(type.callable, node, type.inputType, type.outputType);
-        } else {
-            return type;
-        }
+        return type;
     }
 
     private computeTypeOfExpression(node: TslExpression): Type {
@@ -191,14 +153,14 @@ export class TTSLTypeComputer {
         // Terminal cases
         if (isTslList(node)) {
             const elementType = this.lowestCommonSupertype(node.elements.map((it) => this.computeType(it)));
-            return this.coreTypes.List(elementType);
+            return new ListType([elementType], false);
         } else if (isTslDictionary(node)) {
             let keyType = this.lowestCommonSupertype(node.entries.map((it) => this.computeType(it.key)));
 
             const valueType = this.lowestCommonSupertype(node.entries.map((it) => this.computeType(it.value)));
-            return this.coreTypes.Map(keyType, valueType);
+            return new DictionaryType([keyType, valueType], false);
         } else if (isTslTemplateString(node)) {
-            return this.coreTypes.String;
+            return new StringType(false);
         }
 
         // Recursive cases
@@ -213,21 +175,21 @@ export class TTSLTypeComputer {
                 // Boolean operators
                 case 'or':
                 case 'and':
-                    return this.coreTypes.Boolean;
+                    return new BooleanType(false);
 
                 // Equality operators
                 case '==':
                 case '!=':
                 case '===':
                 case '!==':
-                    return this.coreTypes.Boolean;
+                    return new BooleanType(false);
 
                 // Comparison operators
                 case '<':
                 case '<=':
                 case '>=':
                 case '>':
-                    return this.coreTypes.Boolean;
+                    return new BooleanType(false);
 
                 // Arithmetic operators
                 case '+':
@@ -248,14 +210,14 @@ export class TTSLTypeComputer {
         } else if (isTslPrefixOperation(node)) {
             switch (node.operator) {
                 case 'not':
-                    return this.coreTypes.Boolean;
+                    return new BooleanType(false);
                 case '-':
                     return this.computeTypeOfArithmeticPrefixOperation(node);
 
                 // Unknown operator
                 /* c8 ignore next 2 */
                 default:
-                    return UnknownType;
+                    return UnknownType; 
             }
         } else if (isTslReference(node)) {
             return this.computeTypeOfReference(node);
@@ -269,13 +231,8 @@ export class TTSLTypeComputer {
         const nonNullableReceiverType = this.computeNonNullableType(receiverType);
         let result: Type = UnknownType;
 
-        if (nonNullableReceiverType instanceof CallableType) {
-            result = nonNullableReceiverType.outputType;
-            
-            // Substitute type parameters
-            if (isTslFunction(nonNullableReceiverType.callable)) {
-                result = receiverType
-            }
+        if (isTslFunction(nonNullableReceiverType)) {
+            result = receiverType
         }
 
         // Update nullability
@@ -291,14 +248,14 @@ export class TTSLTypeComputer {
         // Receiver is a list
         if (receiverType instanceof ListType) {
             return receiverType
-                .getValueTypeByIndex(0)
+                .getTypeParameterTypeByIndex(0)
                 .withExplicitNullability(receiverType.isExplicitlyNullable && node.isNullSafe);
         }
 
         // Receiver is a Dictionary
         if (receiverType instanceof DictionaryType) {
             return receiverType
-                .getValueTypeByIndex(1)
+                .getTypeParameterTypeByIndex(1)
                 .withExplicitNullability(receiverType.isExplicitlyNullable && node.isNullSafe);
         }
 
@@ -310,12 +267,12 @@ export class TTSLTypeComputer {
         const rightOperandType = this.computeType(node.rightOperand);
 
         if (
-            this.typeChecker.isSubtypeOf(leftOperandType, this.coreTypes.Int) &&
-            this.typeChecker.isSubtypeOf(rightOperandType, this.coreTypes.Int)
+            this.typeChecker.isSubtypeOf(leftOperandType, new IntType(false)) &&
+            this.typeChecker.isSubtypeOf(rightOperandType, new IntType(false))
         ) {
-            return this.coreTypes.Int;
+            return new IntType(false);
         } else {
-            return this.coreTypes.Float;
+            return new FloatType(false);
         }
     }
 
@@ -332,10 +289,10 @@ export class TTSLTypeComputer {
     private computeTypeOfArithmeticPrefixOperation(node: TslPrefixOperation): Type {
         const operandType = this.computeType(node.operand);
 
-        if (this.typeChecker.isSubtypeOf(operandType, this.coreTypes.Int)) {
-            return this.coreTypes.Int;
+        if (this.typeChecker.isSubtypeOf(operandType, new IntType(false))) {
+            return new IntType(false);
         } else {
-            return this.coreTypes.Float;
+            return new FloatType(false);
         }
     }
 
@@ -347,8 +304,14 @@ export class TTSLTypeComputer {
     }
 
     private computeTypeOfType(node: TslType): Type {
-        if (isTslCallableType(node)) {
-            return this.computeTypeOfCallableWithManifestTypes(node);
+        if (isTslIntType(node)) {
+            return new IntType(false);
+        } else if (isTslFloatType(node)) {
+            return new FloatType(false);
+        } else if (isTslStringType(node)) {
+            return new StringType(false);
+        } else if (isTslBooleanType(node)) {
+            return new BooleanType(false);
         } /* c8 ignore start */ else {
             return UnknownType;
         } /* c8 ignore stop */
@@ -362,27 +325,9 @@ export class TTSLTypeComputer {
      * Returns the non-nullable type for the given type. The result is simplified as much as possible.
      */
     computeNonNullableType(type: Type): Type {
-        return type.withExplicitNullability(false).simplify();
+        return type.withExplicitNullability(false);
     }
 
-    /**
-     * Returns the lowest class type for the given constant.
-     */
-    computeClassTypeForConstant(constant: Constant): Type {
-        if (constant instanceof BooleanConstant) {
-            return this.coreTypes.Boolean;
-        } else if (constant instanceof FloatConstant) {
-            return this.coreTypes.Float;
-        } else if (constant instanceof IntConstant) {
-            return this.coreTypes.Int;
-        } else if (constant === NullConstant) {
-            return this.coreTypes.NothingOrNull;
-        } else if (constant instanceof StringConstant) {
-            return this.coreTypes.String;
-        } /* c8 ignore start */ else {
-            throw new Error(`Unexpected constant type: ${constant.constructor.name}`);
-        } /* c8 ignore stop */
-    }
 
 // -----------------------------------------------------------------------------------------------------------------
     // Lowest common supertype
@@ -392,24 +337,21 @@ export class TTSLTypeComputer {
      * Computes the lowest common supertype for the given types. The result is simplified as much as possible.
      */
     private lowestCommonSupertype(types: Type[], options: LowestCommonSupertypeOptions = {}): Type {
-        // Simplify types
-        const simplifiedTypes = this.simplifyTypesLCS(types, options);
-
         // A single type is its own lowest common supertype
-        if (simplifiedTypes.length === 1) {
-            return simplifiedTypes[0]!;
+        if (types.length === 1) {
+            return types[0]!;
         }
 
         // Partition types by their kind
-        const partitionedTypes = this.partitionTypesLCS(simplifiedTypes);
+        const partitionedTypes = this.partitionTypesLCS(types);
 
         // Includes unknown type
         if (partitionedTypes.containsUnknownType) {
-            return this.coreTypes.AnyOrNull;
+            return new AnyType(true);
         }
 
         // The result must be nullable if any of the types is nullable
-        const isNullable = simplifiedTypes.some((it) => it.isExplicitlyNullable);
+        const isNullable = types.some((it) => it.isExplicitlyNullable);
 
         // Includes unhandled type
         if (partitionedTypes.containsOtherType) {
@@ -419,19 +361,6 @@ export class TTSLTypeComputer {
         return UnknownType
     }
 
-    
-    /**
-     * Simplifies a list of types for the purpose of computing the lowest common supertype (LCS).
-     */
-    private simplifyTypesLCS(types: Type[], options: LowestCommonSupertypeOptions): Type[] {
-        if (options.skipTypeSimplification) {
-            return types;
-        }
-
-        const simplifiedType = this.factory.createUnionType(types).simplify();
-
-        return [simplifiedType];
-    }
 
     /**
      * Partitions the given types by their kind. This function assumes that union types have been removed. It is only
@@ -444,7 +373,7 @@ export class TTSLTypeComputer {
         };
 
         for (const type of types) {
-            if (type.equals(this.coreTypes.Nothing) || type.equals(this.coreTypes.NothingOrNull)) {
+            if (type.equals(new NothingType(false)) || type.equals(new NothingType(true))) {
                 // Drop Nothing/Nothing? types. They are compatible to everything with appropriate nullability.
             } else if (type === UnknownType) {
                 result.containsUnknownType = true;
@@ -463,7 +392,7 @@ export class TTSLTypeComputer {
     // -----------------------------------------------------------------------------------------------------------------
 
     private Any(isNullable: boolean): Type {
-        return isNullable ? this.coreTypes.AnyOrNull : this.coreTypes.Any;
+        return isNullable ? new AnyType(true) : new AnyType(false);
     }
 
 }

@@ -25,7 +25,6 @@ import { TTSLSignatureHelpProvider } from './lsp/ttsl-signature-help-provider.js
 import { TTSLPartialEvaluator } from './partialEvaluation/ttsl-partial-evaluator.js';
 import { TTSLScopeComputation } from './scoping/ttsl-scope-computation.js';
 import { TTSLScopeProvider } from './scoping/ttsl-scope-provider.js';
-import { TTSLCoreTypes } from './typing/ttsl-core-types.js';
 import { TTSLTypeChecker } from './typing/ttsl-type-checker.js';
 import { TTSLTypeComputer } from './typing/ttsl-type-computer.js';
 import { registerValidationChecks } from './validation/ttsl-validator.js';
@@ -34,7 +33,6 @@ import { TTSLPackageManager } from './workspace/ttsl-package-manager.js';
 import { TTSLWorkspaceManager } from './workspace/ttsl-workspace-manager.js';
 import { TTSLSettingsProvider } from './workspace/ttsl-settings-provider.js';
 import { TTSLRenameProvider } from './lsp/ttsl-rename-provider.js';
-import { TTSLTypeFactory } from './typing/ttsl-type-factory.js';
 import { TTSLFunction } from './builtins/ttsl-ds-functions.js';
 
 /**
@@ -60,10 +58,8 @@ export type TTSLAddedServices = {
         NodeInfoProvider: TTSLNodeInfoProvider;
     };
     types: {
-        CoreTypes: TTSLCoreTypes;
         TypeChecker: TTSLTypeChecker;
         TypeComputer: TTSLTypeComputer;
-        TypeFactory: TTSLTypeFactory;
     };
     workspace: {
         PackageManager: TTSLPackageManager;
@@ -120,10 +116,8 @@ export const TTSLModule: Module<TTSLServices, PartialLangiumServices & TTSLAdded
         ScopeProvider: (services) => new TTSLScopeProvider(services),
     },
     types: {
-        CoreTypes: (services) => new TTSLCoreTypes(services),
         TypeChecker: (services) => new TTSLTypeChecker(services),
         TypeComputer: (services) => new TTSLTypeComputer(services),
-        TypeFactory: (services) => new TTSLTypeFactory(services),
     },
     workspace: {
         PackageManager: (services) => new TTSLPackageManager(services),
