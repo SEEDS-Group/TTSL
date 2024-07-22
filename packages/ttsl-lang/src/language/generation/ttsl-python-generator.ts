@@ -65,6 +65,7 @@ import {
     isTslBlock,
     TslTimeunit,
     isTslExpression,
+    isTslString,
 } from '../generated/ast.js';
 import { isInFile, isFile } from '../helpers/fileExtensions.js';
 import {
@@ -276,6 +277,36 @@ const UTILITY_TIMEUNIT_YEAR: UtilityFunction = {
                 .appendNewLine().append(`if(timeunit == 'per week'):`).appendNewLine().indent([`return value / 52`])
                 .appendNewLine().append(`if(timeunit == 'per month'):`).appendNewLine().indent([`return value / 12`])
                 .appendNewLine().append(`return value`)),
+    imports: [{ importPath: 'typing', declarationName: 'Any' }],
+    typeVariables: [`${CODEGEN_PREFIX}T`],
+};
+
+const UTILITY_LEN_FUNCTION: UtilityFunction = {
+    name: `${CODEGEN_PREFIX}len`,
+    code: expandToNode`def ${CODEGEN_PREFIX}len(list):`
+        .appendNewLine()
+        .indent(indentingNode =>
+            indentingNode.append(`return len(list)`)),
+    imports: [{ importPath: 'typing', declarationName: 'Any' }],
+    typeVariables: [`${CODEGEN_PREFIX}T`],
+};
+
+const UTILITY_KEYS_FUNCTION: UtilityFunction = {
+    name: `${CODEGEN_PREFIX}keys`,
+    code: expandToNode`def ${CODEGEN_PREFIX}keys(dict):`
+        .appendNewLine()
+        .indent(indentingNode =>
+            indentingNode.append(`return list(dict.keys())`)),
+    imports: [{ importPath: 'typing', declarationName: 'Any' }],
+    typeVariables: [`${CODEGEN_PREFIX}T`],
+};
+
+const UTILITY_VALUES_FUNCTION: UtilityFunction = {
+    name: `${CODEGEN_PREFIX}values`,
+    code: expandToNode`def ${CODEGEN_PREFIX}values(dict):`
+        .appendNewLine()
+        .indent(indentingNode =>
+            indentingNode.append(`return list(dict.values())`)),
     imports: [{ importPath: 'typing', declarationName: 'Any' }],
     typeVariables: [`${CODEGEN_PREFIX}T`],
 };
@@ -846,8 +877,8 @@ export class TTSLPythonGenerator {
         assignment: TslAssignment,
         frame: GenerationInfoFrame,
     ): CompositeGeneratorNode {
-        const requiredAssignees = isTslCall(assignment.expression)
-            ? getResults(this.nodeMapper.callToCallable(assignment.expression)).length
+        const requiredAssignees = isTslFunction(assignment.expression)
+            ? getResults(assignment.expression).length
             : /* c8 ignore next */
               1;
         const assignees = getAssignees(assignment);
@@ -927,19 +958,49 @@ export class TTSLPythonGenerator {
             const sortedArgs = this.sortArguments(getArguments(expression));
             const receiver = this.generateExpression(expression.receiver, frame);
             let call: CompositeGeneratorNode | undefined = undefined;
+            
+            if (isTslString(receiver)){
+                
+                if(sortedArgs[0]){
+                    let arg = sortedArgs[0];
+                    if(receiver.value == "len"){
+                        if(isTslReference(arg.value)){
+                            frame.addUtility(UTILITY_LEN_FUNCTION);
+                            return expandTracedToNode(expression)`${traceToNode(
+                                expression,
+                                'receiver',
+                            )(UTILITY_LEN_FUNCTION.name)}(${arg.value.target.ref?.name})`;
+                        }
+                    } else if(receiver.value == "keys"){
+                        if(isTslReference(arg.value)){
+                            frame.addUtility(UTILITY_KEYS_FUNCTION);
+                            return expandTracedToNode(expression)`${traceToNode(
+                                expression,
+                                'receiver',
+                            )(UTILITY_KEYS_FUNCTION.name)}(${arg.value.target.ref?.name})`;
+                        }
+                    } else if(receiver.value == "values"){
+                        if(isTslReference(arg.value)){
+                            frame.addUtility(UTILITY_VALUES_FUNCTION);
+                            return expandTracedToNode(expression)`${traceToNode(
+                                expression,
+                                'receiver',
+                            )(UTILITY_VALUES_FUNCTION.name)}(${arg.value.target.ref?.name})`;
+                        }
+                    }
+                }
+            }
 
             // Memoize constructor or function call
             if (isTslFunction(callable)) {
-                if (isTslFunction(callable)) {
-                    const pythonCall = this.builtinFunction.getPythonCall(callable);
-                    if (pythonCall) {
-                        let thisParam: CompositeGeneratorNode | undefined = undefined;
-                        if (isTslMemberAccess(expression.receiver)) {
-                            thisParam = this.generateExpression(expression.receiver.receiver, frame);
-                        }
-                        const argumentsMap = this.getArgumentsMap(getArguments(expression), frame);
-                        call = this.generatePythonCall(expression, pythonCall, argumentsMap, frame, thisParam);
+                const pythonCall = this.builtinFunction.getPythonCall(callable);
+                if (pythonCall) {
+                    let thisParam: CompositeGeneratorNode | undefined = undefined;
+                    if (isTslMemberAccess(expression.receiver)) {
+                        thisParam = this.generateExpression(expression.receiver.receiver, frame);
                     }
+                    const argumentsMap = this.getArgumentsMap(getArguments(expression), frame);
+                    call = this.generatePythonCall(expression, pythonCall, argumentsMap, frame, thisParam);
                 }
             }
 

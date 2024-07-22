@@ -1,0 +1,7 @@
+package tests.generator.utilityFunction
+
+constant testList: List<Int> = [1, 2, 3]
+
+function testFunction(){
+    var x = len(testList);
+}
