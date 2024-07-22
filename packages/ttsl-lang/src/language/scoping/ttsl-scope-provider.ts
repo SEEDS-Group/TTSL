@@ -16,6 +16,7 @@ import {
     isTslBlock,
     isTslCall,
     isTslCallable,
+    isTslFunction,
     isTslImportedDeclaration,
     isTslMemberAccess,
     isTslModule,
@@ -118,9 +119,8 @@ export class TTSLScopeProvider extends DefaultScopeProvider {
     private getScopeForMemberAccessMember(node: TslMemberAccess): Scope {
         // Call results
         let resultScope = EMPTY_SCOPE;
-        if (isTslCall(node.receiver)) {
-            const callable = this.nodeMapper.callToCallable(node.receiver);
-            const results = getResults(callable);
+        if (isTslFunction(node.receiver)) {
+            const results = getResults(node.receiver);
 
             if (results.length > 1) {
                 return this.createScopeForNodes(results);

@@ -1,4 +1,4 @@
-import { isTslCall, TslAssignment} from '../../../generated/ast.js';
+import { isTslCall, isTslFunction, TslAssignment} from '../../../generated/ast.js';
 import { ValidationAcceptor } from 'langium';
 import { TTSLServices } from '../../../ttsl-module.js';
 import { getResults, getAssignees } from '../../../helpers/nodeProperties.js';
@@ -25,13 +25,12 @@ export const assignmentShouldNotImplicitlyIgnoreResult = (services: TTSLServices
 
     return (node: TslAssignment, accept: ValidationAcceptor): void => {
         const expression = node.expression;
-        if (!isTslCall(expression)) {
+        if (!isTslFunction(expression)) {
             return;
         }
 
         const assignees = getAssignees(node);
-        const callable = nodeMapper.callToCallable(expression);
-        const results = getResults(callable);
+        const results = getResults(expression);
 
         if (results.length > assignees.length) {
             const kind = pluralize(results.length - assignees.length, 'result');

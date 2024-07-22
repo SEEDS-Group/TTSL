@@ -5,9 +5,9 @@ import {
     isTslBlock,
     isTslCall,
     isTslCallable,
+    isTslFunction,
     isTslParameter,
     isTslReference,
-    isTslType,
     TslAbstractCall,
     TslArgument,
     TslAssignee,
@@ -19,7 +19,6 @@ import {
     TslResult,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
-import { CallableType } from '../typing/model.js';
 import { TTSLTypeComputer } from '../typing/ttsl-type-computer.js';
 import {
     Argument,
@@ -90,7 +89,7 @@ export class TTSLNodeMapper {
         const expression = containingAssignment.expression;
 
         // If the RHS is not a call, the first assignee gets the entire RHS
-        if (!isTslCall(expression)) {
+        if (!isTslFunction(expression)) {
             if (assigneePosition === 0) {
                 return expression;
             } else {
@@ -98,10 +97,8 @@ export class TTSLNodeMapper {
             }
         }
 
-        const callable = this.callToCallable(expression);
-
         // Otherwise, the assignee gets the result at the same position
-        const abstractResults = getResults(callable);
+        const abstractResults = getResults(expression);
         return abstractResults[assigneePosition];
     }
 
@@ -120,8 +117,10 @@ export class TTSLNodeMapper {
             const receiverType = this.typeComputer().computeType(node.receiver);
             const nonNullableReceiverType = this.typeComputer().computeNonNullableType(receiverType);
 
-            if (nonNullableReceiverType instanceof CallableType) {
-                return nonNullableReceiverType.callable;
+            if(isTslReference(node.receiver)){
+                if(isTslCallable(node.receiver.target.ref)){
+                    return node.receiver.target.ref
+                }
             }
         }
 

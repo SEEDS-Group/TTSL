@@ -1,7 +1,6 @@
 import { AstNode, type AstNodeLocator, AstUtils, stream, WorkspaceCache } from 'langium';
 import {
     isTslCall,
-    isTslCallable,
     isTslFunction,
     isTslParameter,
     TslArgument,
@@ -15,7 +14,6 @@ import type { TTSLNodeMapper } from '../helpers/ttsl-node-mapper.js';
 import type { TTSLServices } from '../ttsl-module.js';
 import {
     EvaluatedCallable,
-    NamedCallable,
     ParameterSubstitutions,
     substitutionsAreEqual,
     UnknownEvaluatedNode,
@@ -23,7 +21,6 @@ import {
 import { CallGraph } from './model.js';
 import { getArguments, getParameters } from '../helpers/nodeProperties.js';
 import { TTSLTypeComputer } from '../typing/ttsl-type-computer.js';
-import { CallableType } from '../typing/model.js';
 import { isEmpty } from '../../helpers/collections.js';
 import { TTSLPartialEvaluator } from '../partialEvaluation/ttsl-partial-evaluator.js';
 
@@ -212,23 +209,8 @@ export class TTSLCallGraphComputer {
 
         // First try to get the callable via the partial evaluator
         const value = this.partialEvaluator.evaluate(expression, substitutions);
-        if (value instanceof EvaluatedCallable) {
+        if (value instanceof EvaluatedCallable) { 
             return value;
-        }
-
-        // Fall back to getting the called parameter via the type computer
-        const type = this.typeComputer.computeType(expression);
-        const nonNullType = this.typeComputer.computeNonNullableType(type);
-        if (!(nonNullType instanceof CallableType)) {
-            return undefined;
-        }
-
-        const parameterOrCallable = nonNullType.parameter ?? nonNullType.callable;
-        if (isTslParameter(parameterOrCallable)) {
-            return new NamedCallable(parameterOrCallable);
-        } else if (isTslFunction(parameterOrCallable)) {
-            // Needed for instance methods
-            return new NamedCallable(parameterOrCallable);
         }
 
         return undefined;
