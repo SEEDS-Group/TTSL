@@ -1,0 +1,25 @@
+package abgeltungssteuer
+
+from abgeltungssteuersatz import abgeltungssteuersatz
+from einkommenssteuerAbzuege import sparerpauschbetrag, sparerWerbungskostenPauschbetrag
+from math import max
+
+/**
+ * Berechnung der Abgeltungssteuer auf Steuernummer-Ebene.
+ */
+public function abgeltungssteuer(): Float per year {
+    from 2009-01-01 {
+        return abgeltungssteuersatz * zuVersteuerndeKapitalertraege();
+    }
+}
+
+/**
+ * Berechnung des zu versteuernden Einkommens auf Steuernummer-Ebene.
+ */
+public function zuVersteuerndeKapitalertraege(): Float per year {
+    var abzug = anzahlPersonen() * (
+        sparerpauschbetrag
+        + sparerWerbungskostenPauschbetrag
+    );
+    return max(kapitalertraegeBrutto() - abzug, 0.0);
+}
