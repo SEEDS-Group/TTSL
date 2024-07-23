@@ -1,0 +1,99 @@
+package gesetzlicheRentenversicherung
+
+from sozialversicherungsBeitragsParameter import beitragssatz, pauschalabgabenGeringfuegigeBeschaeftigung
+
+from math import min
+
+/**
+ * Beitrag für die gesetzliche Rentenversicherung.
+ */
+public function beitrag(): Float per month {
+    to 2003-03-31 {
+        var beitrRegularJob = bruttolohn() * beitragssatz["ges_rentenv"];
+        if geringfuegigBeschaeftigt() {
+            return 0.0;
+        } else {
+            return beitrRegularJob();
+        }
+    }
+    from 2003-04-01 {
+        var beitrRegularJob = bruttolohn() * beitragssatz["ges_rentenv"];
+        if geringfuegigBeschaeftigt() {
+            return 0.0;
+        } else if inGleitzone() {
+            return beitrMidijobArbeitnehmer();
+        } else {
+            return beitrRegularJob();
+        }
+    }
+}
+
+/**
+ * Arbeitgeberanteil für die gesetzliche Rentenversicherung bis März 2003.
+ */
+public function beitragArbeitgeber(
+    bruttolohn: Float
+): Float per month {
+    to 2003-03-31 {
+        var beitrRegularJob = bruttolohn * beitragssatz["ges_rentenv"];
+        if geringfuegigBeschaeftigt() {
+            return bruttolohn * pauschalabgabenGeringfuegigeBeschaeftigung["ges_rentenv"];
+        } else {
+            return beitrRegularJob();
+        }
+    }
+    from 2003-04-01 {
+        var beitrRegularJob = bruttolohn * beitragssatz["ges_rentenv"];
+        if geringfuegigBeschaeftigt() {
+            return bruttolohn * pauschalabgabenGeringfuegigeBeschaeftigung["ges_rentenv"];
+        } else if inGleitzone {
+            return beitrMidijobArbeitgeber();
+        } else {
+            return beitrRegularJob();
+        }
+    }
+}
+
+/**
+ * Summe der Arbeitgeber- und Arbeitnehmerbeiträge zur Rentenversicherung für Midijobs.
+ */
+public function beitragMidijobSummeArbeitnehmerArbeitgeber(): Float per month {
+    from 2003-04-01 {
+        return midijobBemessungsentgelt() * 2 * beitragssatz["ges_rentenv"];
+    }
+}
+
+/**
+ * Arbeitgeberanteil für Midijobs.
+ */
+public function beitragMidijobArbeitgeber(
+    bruttolohn: Float
+): Float per month {
+    to 2022-09-30 {
+        return bruttolohn * beitragssatz["ges_rentenv"];
+    }
+    from 2022-10-01 {
+        return beitragMidijobSummeArbeitnehmerArbeitgeber() - beitragMidijobArbeitnehmer();
+    }
+}
+
+/**
+ * Arbeitnehmeranteil für Midijobs in der gesetzlichen Rentenversicherung.
+ */
+public function beitragMidijobArbeitnehmer(): Float per month {
+    to 2022-09-30 {
+        return beitragMidijobSummeArbeitnehmerArbeitgeber() - beitragMidijobArbeitgeber();
+    }
+    from 2022-10-01 {
+        return beitragspflichtigesEinkommenArbeitnehmer * beitragssatz["ges_rentenv"];
+    }
+}
+
+/**
+ * Berechnung des Bruttolohns, der der Rentenversicherung unterliegt.
+ */
+public function beitragBruttolohn(
+    bruttolohn: Float
+): Float per month {
+    return min(bruttolohn, beitragsbemessungsgrenze());
+}
