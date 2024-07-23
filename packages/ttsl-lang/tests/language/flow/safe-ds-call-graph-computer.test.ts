@@ -1,10 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { AstUtils, isNamed } from 'langium';
 import {
-    isTslBlockLambda,
     isTslCall,
     isTslCallable,
-    isTslExpressionLambda,
     isTslModule,
     TslCall,
     TslCallable,
@@ -62,10 +60,6 @@ const getActualCallables = (node: TslCall | TslCallable): string[] => {
         .map((callable) => {
             if (callable && isNamed(callable)) {
                 return callable.name;
-            } else if (isTslBlockLambda(callable)) {
-                return '$blockLambda';
-            } else if (isTslExpressionLambda(callable)) {
-                return '$expressionLambda';
             } else {
                 return 'undefined';
             }

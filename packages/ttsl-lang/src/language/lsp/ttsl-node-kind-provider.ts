@@ -1,6 +1,8 @@
 import { AstNode, AstNodeDescription, isAstNode } from 'langium';
 import { CompletionItemKind, SymbolKind } from 'vscode-languageserver';
 import {
+    TslConstant,
+    TslData,
     TslFunction,
     TslModule,
     TslParameter,
@@ -16,6 +18,10 @@ export class TTSLNodeKindProvider implements NodeKindProvider {
         switch (type) {
             case TslFunction:
                 return SymbolKind.Function;
+            case TslConstant:
+                return SymbolKind.Constant;
+            case TslData:
+                return SymbolKind.Data;
             case TslModule:
                 return SymbolKind.Package;
             /* c8 ignore next 2 */

@@ -7,7 +7,6 @@ import { isEmpty } from '../../../src/helpers/collections.js';
 import { uriToShortenedResourceName } from '../../../src/helpers/resources.js';
 import { listBuiltinFiles } from '../../../src/language/builtins/fileFinder.js';
 import { createTTSLServices } from '../../../src/language/index.js';
-import { CODE_EXPERIMENTAL_LIBRARY_ELEMENT } from '../../../src/language/validation/builtins/experimental.js';
 import { CODE_EXPERIMENTAL_LANGUAGE_FEATURE } from '../../../src/language/validation/experimentalLanguageFeatures.js';
 import { locationToString } from '../../../src/helpers/locations.js';
 import { loadDocuments } from '../../helpers/testResources.js';
@@ -18,7 +17,6 @@ const builtinFiles = listBuiltinFiles();
 
 const ignoredWarnings: (number | string | undefined)[] = [
     CODE_EXPERIMENTAL_LANGUAGE_FEATURE,
-    CODE_EXPERIMENTAL_LIBRARY_ELEMENT,
 ];
 
 describe('builtin files', () => {

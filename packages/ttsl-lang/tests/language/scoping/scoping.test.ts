@@ -8,13 +8,8 @@ import { createTTSLServices } from '../../../src/language/index.js';
 import { isLocationEqual, locationToString } from '../../../src/helpers/locations.js';
 import { loadDocuments } from '../../helpers/testResources.js';
 import { createScopingTests, ExpectedReference } from './creator.js';
-import { getNodeOfType } from '../../helpers/nodeFinder.js';
-import { isTslAnnotationCall, isTslNamedType, isTslReference } from '../../../src/language/generated/ast.js';
 
 const services = (await createTTSLServices(NodeFileSystem)).TTSL;
-const builtinAnnotations = services.builtins.Annotations;
-const builtinEnums = services.builtins.Enums;
-const builtinClasses = services.builtins.Classes;
 const langiumDocuments = services.shared.workspace.LangiumDocuments;
 
 describe('scoping', async () => {
@@ -75,41 +70,9 @@ describe('scoping', async () => {
         }
     });
 
-    it('should not replace core declarations (annotation call)', async () => {
-        const code = `
-            annotation PythonName(name: String)
-
-            @PythonName(name: String)
-            segment mySegment() {}
-        `;
-        const annotationCall = await getNodeOfType(services, code, isTslAnnotationCall);
-        expectSameDocument(annotationCall.annotation?.ref, builtinAnnotations.PythonName);
-    });
-
-    it('should not replace core declarations (named type)', async () => {
-        const code = `
-            class Any
-
-            segment mySegment(p: Any) {}
-        `;
-        const namedType = await getNodeOfType(services, code, isTslNamedType);
-        expectSameDocument(namedType.declaration?.ref, builtinClasses.Any);
-    });
-
-    it('should not replace core declarations (reference)', async () => {
-        const code = `
-            enum AnnotationTarget
-
-            @Target([AnnotationTarget.Annotation])
-            annotation MyAnnotation
-        `;
-        const reference = await getNodeOfType(services, code, isTslReference);
-        expectSameDocument(reference.target?.ref, builtinEnums.AnnotationTarget);
-    });
-
     it('should resolve members on literals', async () => {
         const code = `
-            pipeline myPipeline {
+            function MyFunction() {
                 1.toString();
             }
         `;
@@ -118,7 +81,7 @@ describe('scoping', async () => {
 
     it('should resolve members on literal types', async () => {
         const code = `
-            segment mySegment(p: literal<"">) {
+            function MyFunction(p: String) {
                 p.toString();
             }
         `;

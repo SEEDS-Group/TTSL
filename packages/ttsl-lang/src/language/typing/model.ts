@@ -1,16 +1,5 @@
-import { AstNode, stream } from 'langium';
+import { stream } from 'langium';
 import { isEmpty } from '../../helpers/collections.js';
-import {
-    TslBooleanType,
-    TslDictionaryType,
-    TslFloatType,
-    TslIntType,
-    TslListType,
-    TslStringType,
-    TslType,
-    TslTypeParameter,
-} from '../generated/ast.js';
-import { getTypeParameters } from '../helpers/nodeProperties.js';
 
 export type TypeParameterSubstitutions =Type[];
 

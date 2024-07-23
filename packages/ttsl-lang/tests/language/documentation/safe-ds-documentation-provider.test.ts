@@ -2,7 +2,7 @@ import { AstNode, EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
 import { normalizeLineBreaks } from '../../../src/helpers/strings.js';
 import {
-    isTslAnnotation,
+    isTslConstant,
     isTslFunction,
     isTslParameter,
     isTslResult,
@@ -24,9 +24,9 @@ describe('TTSLDocumentationProvider', () => {
                 /**
                  * ${testDocumentation}
                  */
-                annotation MyAnnotation
+                function F() {}
             `,
-            predicate: isTslAnnotation,
+            predicate: isTslFunction,
             expectedDocumentation: testDocumentation,
         },
         {
@@ -35,7 +35,7 @@ describe('TTSLDocumentationProvider', () => {
                 /**
                  * @param param ${testDocumentation}
                  */
-                fun myFunction(param: String)
+                function myFunction(param: String) {}
             `,
             predicate: isTslParameter,
             expectedDocumentation: testDocumentation,
@@ -47,7 +47,7 @@ describe('TTSLDocumentationProvider', () => {
                  * @param param ${testDocumentation}
                  * @param param bla
                  */
-                fun myFunction(param: String)
+                function myFunction(param: String) {}
             `,
             predicate: isTslParameter,
             expectedDocumentation: testDocumentation,
@@ -58,7 +58,7 @@ describe('TTSLDocumentationProvider', () => {
                 /**
                  * @param param ${testDocumentation}
                  */
-                fun myFunction(param2: String)
+                function myFunction(param2: String) {}
             `,
             predicate: isTslParameter,
             expectedDocumentation: undefined,
@@ -66,7 +66,7 @@ describe('TTSLDocumentationProvider', () => {
         {
             testName: 'parameter (no documentation on containing callable)',
             code: `
-                fun myFunction(p: Int)
+                function myFunction(p: Int) {}
             `,
             predicate: isTslParameter,
             expectedDocumentation: undefined,
@@ -77,7 +77,7 @@ describe('TTSLDocumentationProvider', () => {
                 /**
                  * @result res ${testDocumentation}
                  */
-                fun myFunction() -> (res: String)
+                function myFunction(): res: String {}
             `,
             predicate: isTslResult,
             expectedDocumentation: testDocumentation,
@@ -86,10 +86,10 @@ describe('TTSLDocumentationProvider', () => {
             testName: 'documented result (duplicate)',
             code: `
                 /**
-                 * @result res ${testDocumentation}
-                 * @result res bla
+                 * @result ${testDocumentation}
+                 * @result bla
                  */
-                fun myFunction() -> (res: String)
+                function myFunction(): String {}
             `,
             predicate: isTslResult,
             expectedDocumentation: testDocumentation,
@@ -98,9 +98,9 @@ describe('TTSLDocumentationProvider', () => {
             testName: 'undocumented result',
             code: `
                 /**
-                 * @result res ${testDocumentation}
+                 * @result ${testDocumentation}
                  */
-                fun myFunction() -> (res2: String)
+                function myFunction(): String {}
             `,
             predicate: isTslResult,
             expectedDocumentation: undefined,
@@ -108,7 +108,7 @@ describe('TTSLDocumentationProvider', () => {
         {
             testName: 'result (no documentation on containing callable)',
             code: `
-                fun myFunction() -> r: Int
+                function myFunction(): Int {}
             `,
             predicate: isTslResult,
             expectedDocumentation: undefined,
@@ -120,7 +120,7 @@ describe('TTSLDocumentationProvider', () => {
                  * @typeParam T
                  *     ${testDocumentation}
                  */
-                class MyClass<T>
+                constant c: List<T> = [0, 1, 2];
             `,
             predicate: isTslTypeParameter,
             expectedDocumentation: testDocumentation,
@@ -132,7 +132,7 @@ describe('TTSLDocumentationProvider', () => {
                  * @typeParam T ${testDocumentation}
                  * @typeParam T bla
                  */
-                class MyClass<T>
+                constant c: List<T> = [0, 1, 2];
             `,
             predicate: isTslTypeParameter,
             expectedDocumentation: testDocumentation,
@@ -144,15 +144,7 @@ describe('TTSLDocumentationProvider', () => {
                  * @typeParam T
                  *     ${testDocumentation}
                  */
-                class MyClass<T2>
-            `,
-            predicate: isTslTypeParameter,
-            expectedDocumentation: undefined,
-        },
-        {
-            testName: 'type parameter (no documentation on containing callable)',
-            code: `
-                fun myFunction<T>()
+                constant c: List<T> = [0, 1, 2];
             `,
             predicate: isTslTypeParameter,
             expectedDocumentation: undefined,
@@ -165,10 +157,9 @@ describe('TTSLDocumentationProvider', () => {
                  *
                  * @param param ${testDocumentation}
                  * @result result ${testDocumentation}
-                 * @typeParam T ${testDocumentation}
                  * @since 1.0.0
                  */
-                fun myFunction<T>(param: String) -> result: String
+                function myFunction(param: String): String {}
             `,
             predicate: isTslFunction,
             expectedDocumentation: expandToString`
@@ -177,8 +168,6 @@ describe('TTSLDocumentationProvider', () => {
                 **@param** *param* — Lorem ipsum.
 
                 **@result** *result* — Lorem ipsum.
-
-                **@typeParam** *T* — Lorem ipsum.
 
                 **@since** — 1.0.0
             `,
@@ -197,9 +186,9 @@ describe('TTSLDocumentationProvider', () => {
             /**
              * {@link myFunction2}
              */
-            fun myFunction1()
+            function myFunction1(){}
 
-            fun myFunction2()
+            function myFunction2(){}
         `;
         const node = await getNodeOfType(services, code, isTslFunction);
         expect(documentationProvider.getDocumentation(node)).toMatch(/\[myFunction2\]\(.*\)/u);
