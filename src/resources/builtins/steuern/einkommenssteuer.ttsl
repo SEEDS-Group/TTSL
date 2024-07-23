@@ -1,0 +1,84 @@
+package einkommenssteuer
+
+/**
+ * Berechnung der Einkommenssteuer ohne Kinderfreibetrag auf Steuernummer-Ebene.
+ */
+public function einkommenssteuerOhneKinderfreibetrag(): Float per year {
+    var zuVerstEinkProPerson = zuVersteuerndesEinkommenOhneKinderfreibetrag() / anzahlPersonen();
+    var einkommensteuer = anzahlPersonen() * einkommensteuerTarif(zuVerstEinkProPerson, einkommensteuerParameter);
+    return einkommensteuer;
+}
+
+/**
+ * Berechnung der Einkommenssteuer mit Kinderfreibetrag auf Steuernummer-Ebene ab 2002.
+ * TODO
+ */
+public function einkommenssteuerMitKinderfreibetrag(): Float per year {
+    from 2002-01-01 {
+        var zuVerstEinkProPerson = zuVersteuerndesEinkommenMitKinderfreibetrag() / anzahlPersonen();
+        var einkommensteuer = anzahlPersonen() * einkommensteuerTarif(zuVerstEinkProPerson, einkommensteuerParameter);
+        return einkommensteuer;
+    }
+}
+
+/**
+ * Berechnung des Einkommensteuertarifs.
+ * TODO
+ */
+private function einkommensteuerTarif(
+    einkommen: Float,
+    einkommensteuerParameter: Map
+): Float {
+    return piecewisePolynomial(
+        x=einkommen,
+        thresholds=einkommensteuerParameter["eink_st_tarif"]["thresholds"],
+        rates=einkommensteuerParameter["eink_st_tarif"]["rates"],
+        intercepts_at_lower_thresholds=einkommensteuerParameter["eink_st_tarif"]["intercepts_at_lower_thresholds"]
+    );
+}
+
+/**
+ * Einkommenssteuer auf Steuernummer-Ebene, die Kindergeld oder Kinderfreibetrag berücksichtigt.
+ */
+public function einkommenssteuer(): Float per year {
+    to 1996-12-31 {
+        einkommenssteuerMitKinderfreibetrag()
+    }
+    from 1997-01-01 {
+        if kinderfreibetragGuenstiger() {
+            return einkommenssteuerMitKinderfreibetrag() + relativesKindergeld();
+        } else {
+            return einkommenssteuerOhneKinderfreibetrag();
+        }
+    }
+}
+
+/**
+ * Bestimmung, ob der Kinderfreibetrag günstiger ist als das Kindergeld.
+ */
+public function kinderfreibetragGuenstiger(): Boolean {
+    var differenzbetrag = einkommenssteuerOhneKinderfreibetrag() - einkommenssteuerMitKinderfreibetrag();
+    return differenzbetrag > relativesKindergeld();
+}
+
+/**
+ * Kindergeld relevant für die Einkommenssteuer ohne Staffelung ab 2023.
+ */
+public function relativesKindergeldOhneStaffelung(): Float per month {
+    to 2022-12-31 {
+        var anzahlAnsprueche = anzahlAnsprueche1() + anzahlAnsprueche2();
+        if anzahlAnsprueche == 0 {
+            return 0.0;
+        }
+        var sumKindergeld = 0.0;
+        for(var i = 1; i < anzahlAnsprueche; i = i + 1) {
+            var kindergeldKey = min(i, max(kindergeldParameter["kindergeld"].keys()));
+            sumKindergeld += kindergeldParameter["kindergeld"][kindergeldKey];
+        }
+        return sumKindergeld / 2;
+    }
+    from 2023-01-01 {
+        var anzahlAnsprueche = anzahlAnsprueche1 + anzahlAnsprueche2;
+        return kindergeldParameter["kindergeld"] * anzahlAnsprueche / 2;
+    }
+}
