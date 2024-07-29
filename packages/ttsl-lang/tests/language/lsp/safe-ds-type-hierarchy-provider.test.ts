@@ -3,13 +3,13 @@ import { parseHelper } from 'langium/test';
 import { describe, expect, it } from 'vitest';
 import { type TypeHierarchyItem } from 'vscode-languageserver';
 import { findTestRanges } from '../../helpers/testRanges.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const typeHierarchyProvider = services.lsp.TypeHierarchyProvider!;
 const parse = parseHelper(services);
 
-describe('SafeDsTypeHierarchyProvider', async () => {
+describe('TTSLTypeHierarchyProvider', async () => {
     describe('supertypes', () => {
         const testCases: TypeHierarchyProviderTest[] = [
             {
@@ -179,7 +179,7 @@ const getUniqueTypeHierarchyItem = async (code: string): Promise<TypeHierarchyIt
 };
 
 /**
- * A test case for {@link SafeDsTypeHierarchyProvider.supertypes} and {@link SafeDsTypeHierarchyProvider.subtypes}.
+ * A test case for {@link TTSLTypeHierarchyProvider.supertypes} and {@link TTSLTypeHierarchyProvider.subtypes}.
  */
 interface TypeHierarchyProviderTest {
     /**

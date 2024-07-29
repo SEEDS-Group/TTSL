@@ -1,0 +1,3 @@
+package tests.generator.const // kann nicht constant heißen weil sonst als keyword gelesen wird
+
+constant test: Int = 1

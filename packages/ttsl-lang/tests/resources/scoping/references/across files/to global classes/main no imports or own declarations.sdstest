@@ -7,8 +7,8 @@ pipeline myPipeline {
     // $TEST$ references same_ClassInSamePackage
     »ClassInSamePackage«;
 
-    // $TEST$ references safeds_ClassInSafeDsPackage
-    »ClassInSafeDsPackage«;
+    // $TEST$ references TTSL_ClassInTTSLPackage
+    »ClassInTTSLPackage«;
 
     // $TEST$ unresolved
     »ClassInAnotherPackage«;

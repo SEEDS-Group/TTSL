@@ -1,17 +1,17 @@
 package tests.scoping.namedTypes.acrossFiles.toGlobalClasses
 
-from safeds.scoping.namedTypes.acrossFiles.toGlobalClasses import MyClass
+from TTSL.scoping.namedTypes.acrossFiles.toGlobalClasses import MyClass
 from tests.scoping.namedTypes.acrossFiles.toGlobalClasses.other import ClassInAnotherPackage, Class2InAnotherPackage, notANamedTypeDeclaration
 
 segment mySegment(
-    // $TEST$ references safeds_MyClass
+    // $TEST$ references TTSL_MyClass
     p1: »MyClass«,
 
     // $TEST$ references same_ClassInSamePackage
     p2: »ClassInSamePackage«,
 
-    // $TEST$ references safeds_ClassInSafeDsPackage
-    p3: »ClassInSafeDsPackage«,
+    // $TEST$ references TTSL_ClassInTTSLPackage
+    p3: »ClassInTTSLPackage«,
 
     // $TEST$ references other_ClassInAnotherPackage
     p4: »ClassInAnotherPackage«,

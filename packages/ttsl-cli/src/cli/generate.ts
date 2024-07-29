@@ -1,4 +1,4 @@
-import { createSafeDsServices } from '@ttsl/lang';
+import { createTTSLServices } from '@ttsl/lang';
 import chalk from 'chalk';
 import { URI } from 'langium';
 import { NodeFileSystem } from 'langium/node';
@@ -9,7 +9,7 @@ import { makeParentDirectoriesSync } from '../helpers/files.js';
 import { exitIfDocumentHasErrors } from '../helpers/diagnostics.js';
 
 export const generate = async (fsPaths: string[], options: GenerateOptions): Promise<void> => {
-    const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+    const services = (await createTTSLServices(NodeFileSystem)).TTSL;
     const documents = await extractDocuments(services, fsPaths);
 
     // Exit if any document has errors before generating code

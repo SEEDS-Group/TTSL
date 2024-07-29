@@ -1,12 +1,12 @@
 import { ValidationAcceptor } from 'langium';
 import { type TslCall } from '../../../generated/ast.js';
 import { getArguments, Parameter } from '../../../helpers/nodeProperties.js';
-import { SafeDsServices } from '../../../safe-ds-module.js';
+import { TTSLServices } from '../../../ttsl-module.js';
 
 export const CODE_CALL_CONSTANT_ARGUMENT = 'call/constant-argument';
 export const CODE_CALL_INFINITE_RECURSION = 'call/infinite-recursion';
 
-export const callArgumentMustBeConstantIfParameterIsConstant = (services: SafeDsServices) => {
+export const callArgumentMustBeConstantIfParameterIsConstant = (services: TTSLServices) => {
     const nodeMapper = services.helpers.NodeMapper;
     const partialEvaluator = services.evaluation.PartialEvaluator;
 
@@ -33,7 +33,7 @@ export const callArgumentMustBeConstantIfParameterIsConstant = (services: SafeDs
     };
 };
 
-export const callMustNotBeRecursive = (services: SafeDsServices) => {
+export const callMustNotBeRecursive = (services: TTSLServices) => {
     const callGraphComputer = services.flow.CallGraphComputer;
 
     return (node: TslCall, accept: ValidationAcceptor) => {

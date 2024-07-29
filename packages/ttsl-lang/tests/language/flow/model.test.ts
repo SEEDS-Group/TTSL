@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { CallGraph } from '../../../src/language/flow/model.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 import { EmptyFileSystem } from 'langium';
 import { isTslModule, TslCallable } from '../../../src/language/generated/ast.js';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 const code = `
     fun f1()
     fun f2()

@@ -1,6 +1,6 @@
 package tests.scoping.references.acrossFiles.toAnnotations
 
-from safeds.scoping.references.acrossFiles.toAnnotations import MyAnnotation as MyOwnAnnotation
+from TTSL.scoping.references.acrossFiles.toAnnotations import MyAnnotation as MyOwnAnnotation
 from tests.scoping.references.acrossFiles.toAnnotations.other import AnnotationInAnotherPackage, Annotation2InAnotherPackage
 
 // $TEST$ target own_MyOwnAnnotation
@@ -13,8 +13,8 @@ pipeline myPipeline {
     // $TEST$ references same_AnnotationInSamePackage
     »AnnotationInSamePackage«;
 
-    // $TEST$ references safeds_AnnotationInSafeDsPackage
-    »AnnotationInSafeDsPackage«;
+    // $TEST$ references TTSL_AnnotationInTTSLPackage
+    »AnnotationInTTSLPackage«;
 
     // $TEST$ references other_AnnotationInAnotherPackage
     »AnnotationInAnotherPackage«;

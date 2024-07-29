@@ -1,0 +1,3 @@
+package tests.generator.functionWithParameter
+
+function test(x: Int, y: Int) {}

@@ -10,7 +10,7 @@ import {
 import { Range } from 'vscode-languageserver';
 import { URI } from 'langium';
 
-const uri = 'file:///test.Tsltest';
+const uri = 'file:///test.ttsl';
 
 describe('findTestChecks', () => {
     it.each([

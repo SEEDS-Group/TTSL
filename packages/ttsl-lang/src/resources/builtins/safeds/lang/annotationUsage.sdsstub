@@ -1,4 +1,4 @@
-package safeds.lang
+package TTSL.lang
 
 /**
  * The annotation must target only the specified declaration types. By default, any declaration type can be targeted.

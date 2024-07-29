@@ -1,6 +1,6 @@
 package tests.scoping.references.acrossFiles.toPipelines
 
-from safeds.scoping.references.acrossFiles.toPipelines import myPipeline
+from TTSL.scoping.references.acrossFiles.toPipelines import myPipeline
 from tests.scoping.references.acrossFiles.toPipelines.other import pipelineInAnotherPackage, pipeline2InAnotherPackage
 
 segment mySegment() {
@@ -11,7 +11,7 @@ segment mySegment() {
     »pipelineInSamePackage«;
 
     // $TEST$ unresolved
-    »pipelineInSafeDsPackage«;
+    »pipelineInTTSLPackage«;
 
     // $TEST$ unresolved
     »pipelineInAnotherPackage«;

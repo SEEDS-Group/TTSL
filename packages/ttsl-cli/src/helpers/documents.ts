@@ -31,13 +31,13 @@ export const extractDocuments = async function (
 };
 
 /**
- * Processes the given paths and returns the corresponding URIs. Files must have a Safe-DS extension. Directories are
+ * Processes the given paths and returns the corresponding URIs. Files must have a TTSL extension. Directories are
  * traversed recursively.
  *
  * @returns The URIs of the matched files.
  */
 export const processPaths = (services: LangiumServices, fsPaths: string[]): Result<URI[], ProcessPathsError> => {
-    // Safe-DS file extensions
+    // TTSL file extensions
     const extensions = services.LanguageMetaData.fileExtensions;
     const pattern = `**/*{${extensions.join(',')}}`;
 
@@ -55,11 +55,11 @@ export const processPaths = (services: LangiumServices, fsPaths: string[]): Resu
         // Path must be a file or directory
         const stat = fs.lstatSync(fsPath);
         if (stat.isFile()) {
-            // File must have a Safe-DS extension
+            // File must have a TTSL extension
             if (!extensions.includes(path.extname(fsPath))) {
                 return Result.err({
-                    message: `File '${fsPath}' does not have a Safe-DS extension.`,
-                    code: ExitCode.FileWithoutSafeDsExtension,
+                    message: `File '${fsPath}' does not have a TTSL extension.`,
+                    code: ExitCode.FileWithoutTTSLExtension,
                 });
             }
 

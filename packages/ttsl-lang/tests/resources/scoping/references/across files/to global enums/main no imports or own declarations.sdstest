@@ -7,8 +7,8 @@ pipeline myPipeline {
     // $TEST$ references same_EnumInSamePackage
     »EnumInSamePackage«;
 
-    // $TEST$ references safeds_EnumInSafeDsPackage
-    »EnumInSafeDsPackage«;
+    // $TEST$ references TTSL_EnumInTTSLPackage
+    »EnumInTTSLPackage«;
 
     // $TEST$ unresolved
     »EnumInAnotherPackage«;

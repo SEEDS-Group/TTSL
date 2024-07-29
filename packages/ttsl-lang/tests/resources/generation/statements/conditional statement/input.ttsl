@@ -1,0 +1,9 @@
+package tests.generator.conditionalStatement
+
+pipeline test {
+    if(1 == 0){
+        1;
+    }else{
+        2;
+    }
+}

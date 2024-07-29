@@ -1,13 +1,13 @@
 import { EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
 import { isTslAbstractCall, TslArgument } from '../../../../src/language/generated/ast.js';
-import { createSafeDsServices, getArguments } from '../../../../src/language/index.js';
+import { createTTSLServices, getArguments } from '../../../../src/language/index.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 const nodeMapper = services.helpers.NodeMapper;
 
-describe('SafeDsNodeMapper', () => {
+describe('TTSLNodeMapper', () => {
     describe('argumentToParameter', () => {
         it('should return undefined if passed undefined', () => {
             expect(nodeMapper.argumentToParameter(undefined)?.$type).toBeUndefined();

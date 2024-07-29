@@ -1,6 +1,6 @@
 # Imports ----------------------------------------------------------------------
 
-import safeds_runner
+import TTSL_runner
 
 # Segments ---------------------------------------------------------------------
 
@@ -17,15 +17,15 @@ def testSegment():
 def testPipeline():
     g()
     a, _, _ = g()
-    safeds_runner.save_placeholder('a', a)
+    TTSL_runner.save_placeholder('a', a)
     x, _, _ = g()
-    safeds_runner.save_placeholder('x', x)
+    TTSL_runner.save_placeholder('x', x)
     f1(a)
     f1(x)
     l, m, n = g()
-    safeds_runner.save_placeholder('l', l)
-    safeds_runner.save_placeholder('m', m)
-    safeds_runner.save_placeholder('n', n)
+    TTSL_runner.save_placeholder('l', l)
+    TTSL_runner.save_placeholder('m', m)
+    TTSL_runner.save_placeholder('n', n)
     f1(l)
     f1(m)
     f1(n)

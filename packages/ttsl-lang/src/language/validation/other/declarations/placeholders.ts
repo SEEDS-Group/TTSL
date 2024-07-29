@@ -8,7 +8,7 @@ import {
     TslPlaceholder,
 } from '../../../generated/ast.js';
 import { AstUtils, ValidationAcceptor } from 'langium';
-import { SafeDsServices } from '../../../safe-ds-module.js';
+import { TTSLServices } from '../../../ttsl-module.js';
 import { getStatements } from '../../../helpers/nodeProperties.js';
 import { DiagnosticTag } from 'vscode-languageserver';
 import { last } from '../../../../helpers/collections.js';
@@ -38,7 +38,7 @@ export const placeholdersMustNotBeAnAlias = (node: TslPlaceholder, accept: Valid
 };
 
 export const placeholderShouldBeUsed =
-    (services: SafeDsServices) => (node: TslPlaceholder, accept: ValidationAcceptor) => {
+    (services: TTSLServices) => (node: TslPlaceholder, accept: ValidationAcceptor) => {
         const usages = services.helpers.NodeMapper.placeholderToReferences(node);
         if (!usages.isEmpty()) {
             return;

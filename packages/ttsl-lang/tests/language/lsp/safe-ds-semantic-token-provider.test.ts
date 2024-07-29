@@ -3,11 +3,11 @@ import { NodeFileSystem } from 'langium/node';
 import { highlightHelper } from 'langium/test';
 import { describe, it } from 'vitest';
 import { SemanticTokenTypes } from 'vscode-languageserver';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 
-describe('SafeDsSemanticTokenProvider', async () => {
+describe('TTSLSemanticTokenProvider', async () => {
     it.each([
         {
             testName: 'annotation call',
@@ -118,7 +118,7 @@ describe('SafeDsSemanticTokenProvider', async () => {
         },
         {
             testName: 'imported declaration',
-            code: 'from safeds.lang import <|Any|>',
+            code: 'from TTSL.lang import <|Any|>',
             expectedTokenTypes: [SemanticTokenTypes.class],
         },
         {

@@ -7,8 +7,8 @@ pipeline myPipeline {
     // $TEST$ references same_functionInSamePackage
     »functionInSamePackage«;
 
-    // $TEST$ references safeds_functionInSafeDsPackage
-    »functionInSafeDsPackage«;
+    // $TEST$ references TTSL_functionInTTSLPackage
+    »functionInTTSLPackage«;
 
     // $TEST$ unresolved
     »functionInAnotherPackage«;

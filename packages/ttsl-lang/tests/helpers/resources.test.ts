@@ -3,15 +3,15 @@ import { resourceNameToUri, uriToShortenedResourceName } from '../../src/helpers
 
 describe('uriToShortenedResourceName', () => {
     it('should return the corresponding resource name if no root resource name is given', () => {
-        const resourceName = 'helpers/listSafeDsFiles';
+        const resourceName = 'helpers/listTTSLFiles';
         const actual = uriToShortenedResourceName(resourceNameToUri(resourceName));
         expect(normalizeResourceName(actual)).toBe(normalizeResourceName(resourceName));
     });
 
     it('should return a shortened resource name if a root resource name is given', () => {
-        const resourceName = 'helpers/nested/listSafeDsFiles';
+        const resourceName = 'helpers/nested/listTTSLFiles';
         const actual = uriToShortenedResourceName(resourceNameToUri(resourceName), 'helpers/nested');
-        expect(actual).toBe('listSafeDsFiles');
+        expect(actual).toBe('listTTSLFiles');
     });
 });
 

@@ -83,7 +83,7 @@ class PrefixedOutputChannel implements vscode.LogOutputChannel {
  * Initialize the logging system once for the extension.
  */
 export const initializeLog = function () {
-    logOutputChannel = vscode.window.createOutputChannel('Safe-DS', { log: true });
+    logOutputChannel = vscode.window.createOutputChannel('TTSL', { log: true });
     logOutputChannel.show();
 };
 
@@ -92,7 +92,7 @@ export const initializeLog = function () {
  *
  * @param prefix Prefix to display, or undefined to not display any prefix
  */
-export const getSafeDSOutputChannel = function (prefix: string | undefined = undefined): vscode.LogOutputChannel {
+export const getTTSLOutputChannel = function (prefix: string | undefined = undefined): vscode.LogOutputChannel {
     return new PrefixedOutputChannel(logOutputChannel!, !prefix ? '' : prefix);
 };
 
