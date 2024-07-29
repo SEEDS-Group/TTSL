@@ -333,16 +333,17 @@ interface TslFunctionBlock extends TslBlock{
 }
 
 TslFunctionBlock returns TslFunctionBlock:
-    {TslFunctionBlock} 
-    '{' ( statements+=TslStatement* 
-    | timespans+=TslTimespan 
-    '{' ( timespans+=TslTimespan statements+=TslStatement 
-    | statements+=TslStatement)* 
+    {TslFunctionBlock}
+    '{' ( statements+=TslStatement*
+    | timespans+=TslTimespan
+    '{' ( timespans+=TslTimespan statements+=TslStatement
+    | statements+=TslStatement)*
     '}')* '}'
 ;
 
 interface TslConstant extends TslModuleMember {
     timespan: TslTimespan
+    timeunit?: TslTimeunit
     ^type: TslType
     value: TslExpression
 }
@@ -351,6 +352,7 @@ fragment TslConstantFragment:
     (visibility=TslVisibility)?
     'constant'
     name=ID
+    (timeunit=TslTimeunit)?
     ':' ^type=TslType
     ('{' (timespan=TslTimespan '=' value=TslExpression)*'}' |
     '=' value=TslExpression) ';'?
@@ -1019,7 +1021,7 @@ TslTemplateStringEnd returns TslExpression:
 interface TslModifier extends TslObject{}
 
 interface TslVisibility extends TslModifier{
-    isPublic?: boolean 
+    isPublic?: boolean
     isPackageprivate?: boolean
     isPrivate?: boolean
 }
@@ -1244,7 +1246,7 @@ TslColumn returns TslColumn:
 // -----------------------------------------------------------------------------
 
 terminal ID returns string: IDENTIFIER | '`' IDENTIFIER '`';
-terminal fragment IDENTIFIER: /[_a-zA-Z][_a-zA-Z0-9]*/;
+terminal fragment IDENTIFIER: /[_a-zA-Zäöüß][_a-zA-Z0-9äöüß]*/;
 
 terminal FLOAT returns number
     : DECIMAL_DIGIT+ '.' DECIMAL_DIGIT+ FLOAT_EXPONENT?
