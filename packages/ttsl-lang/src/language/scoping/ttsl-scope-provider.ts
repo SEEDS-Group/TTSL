@@ -14,9 +14,7 @@ import {
     isTslArgument,
     isTslAssignment,
     isTslBlock,
-    isTslCall,
     isTslCallable,
-    isTslFunction,
     isTslImportedDeclaration,
     isTslModule,
     isTslNamedTypeDeclaration,
@@ -42,7 +40,6 @@ import {
     getImports,
     getPackageName,
     getParameters,
-    getResults,
     getStatements,
 } from '../helpers/nodeProperties.js';
 import { TTSLNodeMapper } from '../helpers/ttsl-node-mapper.js';
@@ -54,7 +51,6 @@ export class TTSLScopeProvider extends DefaultScopeProvider {
     private readonly astReflection: AstReflection;
     private readonly nodeMapper: TTSLNodeMapper;
     private readonly packageManager: TTSLPackageManager;
-    private readonly typeComputer: TTSLTypeComputer;
 
     private readonly coreDeclarationCache: WorkspaceCache<string, AstNodeDescription[]>;
 
@@ -64,7 +60,6 @@ export class TTSLScopeProvider extends DefaultScopeProvider {
         this.astReflection = services.shared.AstReflection;
         this.nodeMapper = services.helpers.NodeMapper;
         this.packageManager = services.workspace.PackageManager;
-        this.typeComputer = services.types.TypeComputer;
 
         this.coreDeclarationCache = new WorkspaceCache(services.shared);
     }

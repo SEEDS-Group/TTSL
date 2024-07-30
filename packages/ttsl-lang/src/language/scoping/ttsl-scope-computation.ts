@@ -10,10 +10,7 @@ import {
     isTslDeclaration,
     isTslFunction,
     isTslModule,
-    isTslParameter,
-    isTslParameterList,
     TslFunction,
-    TslParameter,
 } from '../generated/ast.js';
 
 export class TTSLScopeComputation extends DefaultScopeComputation {
@@ -50,6 +47,7 @@ export class TTSLScopeComputation extends DefaultScopeComputation {
 
         this.addToScopesIfKeyIsDefined(scopes, node.parameterList, description);
         this.addToScopesIfKeyIsDefined(scopes, node.body, description);
+        this.addToScopesIfKeyIsDefined(scopes, node.result, description);
 
         const containingDeclaration = AstUtils.getContainerOfType(node.$container, isTslDeclaration);
         if (isTslModule(containingDeclaration)) {
