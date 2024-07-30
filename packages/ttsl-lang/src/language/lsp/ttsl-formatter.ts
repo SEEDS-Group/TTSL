@@ -86,8 +86,6 @@ export class TTSLFormatter extends AbstractFormatter {
             this.formatTslArgument(node);
         } else if (ast.isTslIndexedAccess(node)) {
             this.formatTslIndexedAccess(node);
-        } else if (ast.isTslMemberAccess(node)) {
-            this.formatTslMemberAccess(node);
         } else if (ast.isTslList(node)) {
             this.formatTslList(node);
         } else if (ast.isTslDictionary(node)) {
@@ -384,13 +382,6 @@ export class TTSLFormatter extends AbstractFormatter {
         formatter.keyword('?').surround(noSpace());
         formatter.keyword('[').surround(noSpace());
         formatter.keyword(']').prepend(noSpace());
-    }
-
-    private formatTslMemberAccess(node: ast.TslMemberAccess) {
-        const formatter = this.getNodeFormatter(node);
-
-        formatter.keyword('?').surround(noSpace());
-        formatter.keyword('.').surround(noSpace());
     }
 
     private formatTslList(node: ast.TslList) {

@@ -1,6 +1,5 @@
 import { AstNode, ValidationAcceptor } from 'langium';
 import {
-    isTslMemberAccess,
     isTslReference,
     TslCall,
     TslIndexedAccess,
@@ -57,9 +56,6 @@ export const callReceiverMustBeCallable = (services: TTSLServices) => {
 
     return (node: TslCall, accept: ValidationAcceptor): void => {
         let receiver: AstNode | undefined = node.receiver;
-        if (isTslMemberAccess(receiver)) {
-            receiver = receiver.member;
-        }
 
         if (isTslReference(receiver)) {
             const target = receiver.target.ref;

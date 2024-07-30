@@ -18,7 +18,6 @@ import {
     isTslCallable,
     isTslFunction,
     isTslImportedDeclaration,
-    isTslMemberAccess,
     isTslModule,
     isTslNamedTypeDeclaration,
     isTslParameter,
@@ -31,7 +30,6 @@ import {
     type TslCallable,
     TslDeclaration,
     TslImportedDeclaration,
-    TslMemberAccess,
     type TslParameter,
     TslPlaceholder,
     TslReference,
@@ -79,11 +77,7 @@ export class TTSLScopeProvider extends DefaultScopeProvider {
         } else if (isTslImportedDeclaration(node) && context.property === 'declaration') {
             return this.getScopeForImportedDeclarationDeclaration(node);
         } else if (isTslReference(node) && context.property === 'target') {
-            if (isTslMemberAccess(node.$container) && node.$containerProperty === 'member') {
-                return this.getScopeForMemberAccessMember(node.$container);
-            } else {
-                return this.getScopeForReferenceTarget(node, context);
-            }
+            return this.getScopeForReferenceTarget(node, context);
         } else {
             return super.getScope(context);
         }
@@ -114,24 +108,6 @@ export class TTSLScopeProvider extends DefaultScopeProvider {
             hideInternal: containingQualifiedImport.package !== ownPackageName,
         });
         return this.createScope(declarationsInPackage);
-    }
-
-    private getScopeForMemberAccessMember(node: TslMemberAccess): Scope {
-        // Call results
-        let resultScope = EMPTY_SCOPE;
-        if (isTslFunction(node.receiver)) {
-            const results = getResults(node.receiver);
-
-            if (results.length > 1) {
-                return this.createScopeForNodes(results);
-            } else {
-                // If there is only one result, it can be accessed by name but members of the result with the same name
-                // take precedence.
-                resultScope = this.createScopeForNodes(results);
-            }
-        }
-
-        return resultScope;
     }
 
     private getScopeForReferenceTarget(node: TslReference, context: ReferenceInfo): Scope {

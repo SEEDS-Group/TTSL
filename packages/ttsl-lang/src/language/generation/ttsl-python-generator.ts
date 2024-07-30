@@ -24,7 +24,6 @@ import {
     isTslInfixOperation,
     isTslList,
     isTslDictionary,
-    isTslMemberAccess,
     isTslModule,
     isTslPlaceholder,
     isTslPrefixOperation,
@@ -191,37 +190,37 @@ const UTILITY_CONSTANTS: UtilityFunction = {
                 indentation: PYTHON_INDENT
             }).appendNewLine()
             .append('def getValue(self, date = None):').appendNewLine()
-            .indent(indentingNode =>
-                indentingNode.append(
+            .indent(indentingNode1 =>
+                indentingNode1.append(
                     'keys = sorted(self.dict.keys())'
                 ).appendNewLine().append(
                     'if(keys[0] == "empty"):'
-                ).appendNewLine().indent(indentingNode =>
-                    indentingNode.append(
+                ).appendNewLine().indent(indentingNode2 =>
+                    indentingNode2.append(
                         'return self.dict["empty"]'
                     )).appendNewLine()
                 .append(
                     'for index, key in enumerate(keys):'
                 ).appendNewLine()
-                .indent(indentingNode =>
-                    indentingNode.append(
+                .indent(indentingNode2 =>
+                    indentingNode2.append(
                         'if key[0] == "s":'
                     ).appendNewLine()
-                    .indent(indentingNode =>
-                        indentingNode.append(
+                    .indent(indentingNode3 =>
+                        indentingNode3.append(
                             'if key.replace("s", "") <= date:'
                         ).appendNewLine()
-                        .indent(indentingNode =>
-                            indentingNode.append(
+                        .indent(indentingNode4 =>
+                            indentingNode4.append(
                                 'result = self.dict[key]'
                             ))).appendNewLine()
                     .append('if key[0] == "e":').appendNewLine()
-                    .indent(indentingNode =>
-                        indentingNode.append(
+                    .indent(indentingNode3 =>
+                        indentingNode3.append(
                             'if date <= keys[len(keys)-1-index].replace("e", ""):'
                         ).appendNewLine()
-                        .indent(indentingNode =>
-                            indentingNode.append(
+                        .indent(indentingNode4 =>
+                            indentingNode4.append(
                                 'result = self.dict[keys[len(keys)-1-index]]'
                             ).appendNewLine())))
                 .append('return result'))),
@@ -459,7 +458,7 @@ export class TTSLPythonGenerator {
             .map((constant) =>
                 this.generateConstant(constant, importSet, utilitySet, typeVariableSet, generateOptions),
             );
-        const data = getModuleMembers(module)
+        const datas = getModuleMembers(module)
             .filter(isTslData)
             .map((data) =>
                 this.generateData(data, importSet, utilitySet, typeVariableSet, generateOptions),
@@ -510,14 +509,14 @@ export class TTSLPythonGenerator {
             output.append(joinToNode(constants, (constant) => constant, { separator: SPACING }));
             output.appendNewLine();
         }
-        if (data.length > 0) {
+        if (datas.length > 0) {
             output.appendNewLineIf(
                 imports.length > 0 || typeVariableSet.size > 0 || utilitySet.size > 0 || functions.length > 0 || constants.length > 0,
             );
             output.append('# Data --------------------------------------------------------------------');
             output.appendNewLine();
             output.appendNewLine();
-            output.append(joinToNode(data, (data) => data, { separator: SPACING }));
+            output.append(joinToNode(datas, (data) => data, { separator: SPACING }));
             output.appendNewLine();
         }
         return output;
@@ -543,13 +542,12 @@ export class TTSLPythonGenerator {
             'name',
         )(this.getPythonNameOrDefault(funct))}(${this.generateFunctionParameter(funct, infoFrame)}${this.generateParameters(funct.parameterList, infoFrame)}):`
             .appendNewLine()
-            .indent({ indentedChildren: [this.generateFunctionBlock(funct.body, infoFrame, undefined, funct.timeunit)], indentation: PYTHON_INDENT });
+            .indent({ indentedChildren: [this.generateFunctionBlock(funct.body, infoFrame, funct.timeunit)], indentation: PYTHON_INDENT });
     }
 
     private generateFunctionBlock(
         block: TslFunctionBlock,
         frame: GenerationInfoFrame,
-        generateLambda: boolean = false,
         timeunit: TslTimeunit | undefined,
     ): CompositeGeneratorNode {
         const targetPlaceholder = getPlaceholderByName(block, frame.targetPlaceholder);
@@ -561,16 +559,16 @@ export class TTSLPythonGenerator {
         if (isTslExpression(block.returnValue)){
             if(timeunit){
                 resultBlock.append(`if timeunit != None:`)
-                if (timeunit?.timeunit == 'day'){
+                if (timeunit?.timeunit === 'day'){
                     frame.addUtility(UTILITY_TIMEUNIT_DAY);
                     resultBlock.appendNewLine().indent([`result = ${UTILITY_TIMEUNIT_DAY.name}(${this.generateExpression(block.returnValue, frame).contents}, timeunit)`]).appendNewLine()
-                } else if (timeunit?.timeunit == 'week'){
+                } else if (timeunit?.timeunit === 'week'){
                     frame.addUtility(UTILITY_TIMEUNIT_WEEK);
                     resultBlock.appendNewLine().indent([`result = ${UTILITY_TIMEUNIT_WEEK.name}(${this.generateExpression(block.returnValue, frame).contents}, timeunit)`]).appendNewLine()
-                } else if (timeunit?.timeunit == 'month'){
+                } else if (timeunit?.timeunit === 'month'){
                     frame.addUtility(UTILITY_TIMEUNIT_MONTH);
                     resultBlock.appendNewLine().indent([`result = ${UTILITY_TIMEUNIT_MONTH.name}(${this.generateExpression(block.returnValue, frame).contents}, timeunit)`]).appendNewLine()
-                } else if (timeunit?.timeunit == 'year'){
+                } else if (timeunit?.timeunit === 'year'){
                     frame.addUtility(UTILITY_TIMEUNIT_YEAR);
                     resultBlock.appendNewLine().indent([`result = ${UTILITY_TIMEUNIT_YEAR.name}(${this.generateExpression(block.returnValue, frame).contents}, timeunit)`]).appendNewLine()
                 }
@@ -609,18 +607,18 @@ export class TTSLPythonGenerator {
         );
         infoFrame.addUtility(UTILITY_CONSTANTS);
 
-        if(constant.value != null){
+        if(constant.value){
             return expandTracedToNode(constant)`${this.getPythonNameOrDefault(constant)} = ${traceToNode(
                 constant
             )(UTILITY_CONSTANTS.name)}({"empty": ${this.generateExpression(constant.value, infoFrame)}})`
-        } else if (constant.timespanValueEntries != null){
+        } else if (constant.timespanValueEntries){
             return expandTracedToNode(constant)`${constant.name}Dict = {${joinTracedToNode(constant, 'timespanValueEntries')(
             constant.timespanValueEntries,
             (entry) =>
                 expandTracedToNode(entry)`${traceToNode(
                     entry, 
                     'timespan',
-                )(this.generateDateString(entry.timespan, infoFrame))}: ${traceToNode(
+                )(this.generateDateString(entry.timespan))}: ${traceToNode(
                     entry,
                     'value',
                 )(this.generateExpression(entry.value, infoFrame))}`,
@@ -636,11 +634,10 @@ export class TTSLPythonGenerator {
 
     private generateDateString(
         timespan: TslTimespan,
-        frame: GenerationInfoFrame,
     ): CompositeGeneratorNode | undefined {
-        if(timespan.start != null){
+        if(timespan.start){
             return expandToNode`s${timespan.start.date.toUTCString()}`   // add 's' to mark that it's the start of the timespan
-        } else if (timespan.end != null){
+        } else if (timespan.end){
             return expandToNode`e${timespan.end.date.toUTCString()}`     // add 'e' to mark that it's the end of the timespan
         } else {
             /* c8 ignore next 2 */
@@ -655,15 +652,6 @@ export class TTSLPythonGenerator {
         typeVariableSet: Set<string>,
         generateOptions: GenerateOptions,
     ): CompositeGeneratorNode{
-        const infoFrame = new GenerationInfoFrame(
-            importSet,
-            utilitySet,
-            typeVariableSet,
-            true,
-            generateOptions.targetPlaceholder,
-            generateOptions.disableRunnerIntegration,
-        );
-
         return expandToNode`${data.name} = ${data.type}()`  
     }
 
@@ -716,7 +704,7 @@ export class TTSLPythonGenerator {
                             ? `${localValue.declarationName} as ${localValue.alias}`
                             : localValue.declarationName!,
                     ) || [];
-            if(key  == ''){
+            if(key  === ''){
                 declaredImports.push(`import ${[...new Set(importedDecls)].join(', ')}`);
             }else{
                 declaredImports.push(`from ${key} import ${[...new Set(importedDecls)].join(', ')}`);
@@ -737,7 +725,6 @@ export class TTSLPythonGenerator {
     private generateBlock(
         block: TslBlock,
         frame: GenerationInfoFrame,
-        generateLambda: boolean = false,
     ): CompositeGeneratorNode {
         const targetPlaceholder = getPlaceholderByName(block, frame.targetPlaceholder);
         let statements = getStatements(block);
@@ -826,21 +813,21 @@ export class TTSLPythonGenerator {
         } else if (isTslTimespanStatement(statement)) { 
             var start = ''
             var end = ''      
-            if (statement.timespan.start != null){
+            if (statement.timespan.start){
                 start = statement.timespan.start.date.toUTCString() + ' <='
             }
-            if (statement.timespan.end != null){
+            if (statement.timespan.end){
                 end = '< ' + statement.timespan.end.date.toUTCString()
             }
-            if (statement.timespan.start == null && statement.timespan.end == null){
+            if (!statement.timespan.start && !statement.timespan.end){
                 throw new Error(`Timespan has neither a start nor an end value`);
             }
             return expandTracedToNode(statement)`if ${start} date ${end}:
-                ${this.generateFunctionBlock(statement.block, frame, false, undefined)}`;
+                ${this.generateFunctionBlock(statement.block, frame, undefined)}`;
         } else if (isTslConditionalStatement(statement)) {
             let elseBlock = new CompositeGeneratorNode
             if (isTslBlock(statement.elseBlock)){
-                let generatedBlock = this.generateBlock((statement.elseBlock), frame, false)
+                let generatedBlock = this.generateBlock((statement.elseBlock), frame)
                 elseBlock = expandTracedToNode(statement.elseBlock)`else:`.appendNewLine().indent(indentingNode =>
                     indentingNode.append(`${generatedBlock}`))
             }
@@ -963,7 +950,7 @@ export class TTSLPythonGenerator {
                 
                 if(sortedArgs[0]){
                     let arg = sortedArgs[0];
-                    if(receiver.value == "len"){
+                    if(receiver.value === "len"){
                         if(isTslReference(arg.value)){
                             frame.addUtility(UTILITY_LEN_FUNCTION);
                             return expandTracedToNode(expression)`${traceToNode(
@@ -971,7 +958,7 @@ export class TTSLPythonGenerator {
                                 'receiver',
                             )(UTILITY_LEN_FUNCTION.name)}(${arg.value.target.ref?.name})`;
                         }
-                    } else if(receiver.value == "keys"){
+                    } else if(receiver.value === "keys"){
                         if(isTslReference(arg.value)){
                             frame.addUtility(UTILITY_KEYS_FUNCTION);
                             return expandTracedToNode(expression)`${traceToNode(
@@ -979,7 +966,7 @@ export class TTSLPythonGenerator {
                                 'receiver',
                             )(UTILITY_KEYS_FUNCTION.name)}(${arg.value.target.ref?.name})`;
                         }
-                    } else if(receiver.value == "values"){
+                    } else if(receiver.value === "values"){
                         if(isTslReference(arg.value)){
                             frame.addUtility(UTILITY_VALUES_FUNCTION);
                             return expandTracedToNode(expression)`${traceToNode(
@@ -996,9 +983,6 @@ export class TTSLPythonGenerator {
                 const pythonCall = this.builtinFunction.getPythonCall(callable);
                 if (pythonCall) {
                     let thisParam: CompositeGeneratorNode | undefined = undefined;
-                    if (isTslMemberAccess(expression.receiver)) {
-                        thisParam = this.generateExpression(expression.receiver.receiver, frame);
-                    }
                     const argumentsMap = this.getArgumentsMap(getArguments(expression), frame);
                     call = this.generatePythonCall(expression, pythonCall, argumentsMap, frame, thisParam);
                 }
@@ -1070,19 +1054,6 @@ export class TTSLPythonGenerator {
                     expression.receiver,
                     frame,
                 )}[${this.generateExpression(expression.index, frame)}]`;
-            }
-        } else if (isTslMemberAccess(expression)) {
-            const member = expression.member?.target.ref!;
-            const receiver = this.generateExpression(expression.receiver, frame);
-            const memberExpression = this.generateExpression(expression.member!, frame);
-            if (expression.isNullSafe) {
-                frame.addUtility(UTILITY_NULL_SAFE_MEMBER_ACCESS);
-                return expandTracedToNode(expression)`${traceToNode(
-                    expression,
-                    'isNullSafe',
-                )(UTILITY_NULL_SAFE_MEMBER_ACCESS.name)}(${receiver}, '${memberExpression}')`;
-            } else {
-                return expandTracedToNode(expression)`${receiver}.${memberExpression}`;
             }
         } else if (isTslPrefixOperation(expression)) {
             const operand = this.generateExpression(expression.operand, frame);

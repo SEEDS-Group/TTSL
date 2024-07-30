@@ -1,5 +1,5 @@
 import { TTSLServices } from '../../../ttsl-module.js';
-import { isTslCall, isTslIndexedAccess, isTslMemberAccess, TslChainedExpression } from '../../../generated/ast.js';
+import { isTslCall, isTslIndexedAccess, TslChainedExpression } from '../../../generated/ast.js';
 import { ValidationAcceptor } from 'langium';
 import { UnknownType } from '../../../typing/model.js';
 
@@ -26,11 +26,6 @@ export const chainedExpressionsMustBeNullSafeIfReceiverIsNullable = (services: T
             });
         } else if (isTslIndexedAccess(node) && typeChecker.canBeAccessedByIndex(receiverType)) {
             accept('error', 'The receiver can be null so a null-safe indexed access must be used.', {
-                node,
-                code: CODE_CHAINED_EXPRESSION_MISSING_NULL_SAFETY,
-            });
-        } else if (isTslMemberAccess(node)) {
-            accept('error', 'The receiver can be null so a null-safe member access must be used.', {
                 node,
                 code: CODE_CHAINED_EXPRESSION_MISSING_NULL_SAFETY,
             });

@@ -16,12 +16,10 @@ import {
     isTslInt,
     isTslList,
     isTslDictionary,
-    isTslMemberAccess,
     isTslNull,
     isTslParameter,
     isTslPrefixOperation,
     isTslReference,
-    isTslResult,
     isTslTemplateString,
     isTslTemplateStringEnd,
     isTslTemplateStringInner,
@@ -37,7 +35,6 @@ import {
     type TslInfixOperation,
     type TslList,
     type TslDictionary,
-    type TslMemberAccess,
     type TslParameter,
     type TslPrefixOperation,
     type TslTemplateString,
@@ -216,8 +213,6 @@ export class TTSLPartialEvaluator {
             return this.evaluateList(node, substitutions, visited);
         } else if (isTslDictionary(node)) {
             return this.evaluateMap(node, substitutions, visited);
-        } else if (isTslMemberAccess(node)) {
-            return this.evaluateMemberAccess(node, substitutions, visited);
         } else if (isTslPrefixOperation(node)) {
             return this.evaluatePrefixOperation(node, substitutions, visited);
         } else if (isTslReference(node)) {
@@ -608,26 +603,6 @@ export class TTSLPartialEvaluator {
         return UnknownEvaluatedNode;
     }
 
-    private evaluateMemberAccess(
-        node: TslMemberAccess,
-        substitutions: ParameterSubstitutions,
-        visited: VisitedState[],
-    ): EvaluatedNode {
-        const member = node.member?.target?.ref;
-        if (!member) {
-            return UnknownEvaluatedNode;
-        }
-
-        const receiver = this.evaluateWithRecursionCheck(node.receiver, substitutions, visited);
-        if (receiver instanceof EvaluatedNamedTuple) {
-            return receiver.getResultValueByName(member.name);
-        } else if (receiver.equals(NullConstant) && node.isNullSafe) {
-            return NullConstant;
-        }
-
-        return UnknownEvaluatedNode;
-    }
-
     // -----------------------------------------------------------------------------------------------------------------
     // Parameter substitutions
     // -----------------------------------------------------------------------------------------------------------------
@@ -666,14 +641,6 @@ export class TTSLPartialEvaluator {
             return node.entries.every(
                 (it) => this.canBeValueOfConstantParameter(it.key) && this.canBeValueOfConstantParameter(it.value),
             );
-        } else if (isTslMemberAccess(node)) {
-            // 1. We cannot allow all member accesses, since we might also access an attribute that has type 'Int', for
-            //    example. Thus, type checking does not always show an error, even though we already restrict the
-            //    possible types of constant parameters.
-            // 2. If the member cannot be resolved, we already show an error.
-            // 3. If the enum variant has parameters that are not provided, we already show an error.
-            const member = node.member?.target?.ref;
-            return !member;
         } else if (isTslPrefixOperation(node)) {
             return node.operator === '-' && this.canBeValueOfConstantParameter(node.operand);
         } else if (isTslReference(node)) {

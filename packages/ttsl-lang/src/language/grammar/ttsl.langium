@@ -492,10 +492,6 @@ interface TslIndexedAccess extends TslChainedExpression {
     index: TslExpression
 }
 
-interface TslMemberAccess extends TslChainedExpression {
-    member?: TslReference
-}
-
 TslChainedExpression returns TslExpression:
     TslPrimaryExpression
     (
@@ -506,11 +502,6 @@ TslChainedExpression returns TslExpression:
     |   {TslIndexedAccess.receiver=current}
         (isNullSafe?='?')?
         '[' index=TslExpression ']'
-
-    |   {TslMemberAccess.receiver=current}
-        (isNullSafe?='?')?
-        '.'
-        member=TslReference
     )*
 ;
 

@@ -1,7 +1,6 @@
 import {
     isTslCall,
     isTslFunction,
-    isTslMemberAccess,
     TslReference,
 } from '../../../generated/ast.js';
 import { AstNode, ValidationAcceptor } from 'langium';
@@ -16,9 +15,6 @@ export const referenceMustNotBeFunctionPointer = (node: TslReference, accept: Va
 
     // Get the containing member access if the node is on its right side
     let nodeOrContainer: AstNode | undefined = node;
-    if (isTslMemberAccess(node.$container) && node.$containerProperty === 'member') {
-        nodeOrContainer = nodeOrContainer.$container;
-    }
 
     if (!isTslCall(nodeOrContainer?.$container)) {
         accept(

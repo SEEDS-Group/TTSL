@@ -3,7 +3,6 @@ import { isEmpty } from '../../helpers/collections.js';
 import {
     isTslCall,
     isTslIndexedAccess,
-    isTslMemberAccess,
     TslCall,
     TslChainedExpression,
     TslFunction,
@@ -169,8 +168,7 @@ export const chainedExpressionNullSafetyShouldBeNeeded = (services: TTSLServices
 
         if (
             (isTslCall(node)) ||
-            (isTslIndexedAccess(node) && typeChecker.canBeAccessedByIndex(receiverType)) ||
-            isTslMemberAccess(node)
+            (isTslIndexedAccess(node) && typeChecker.canBeAccessedByIndex(receiverType))
         ) {
             accept('info', 'The receiver is never null, so null-safety is unnecessary.', {
                 node,
