@@ -109,7 +109,10 @@ export const nameShouldHaveCorrectCasing = (services: TTSLServices) => {
             case TslPlaceholder:
                 return nameShouldBeLowerCamelCase(node, 'placeholders', accept);
             case TslResult:
-                return nameShouldBeLowerCamelCase(node, 'results', accept);
+                if(node.name){
+                    return nameShouldBeLowerCamelCase(node, 'results', accept);
+                }
+                
         }
         /* c8 ignore next */
     };
