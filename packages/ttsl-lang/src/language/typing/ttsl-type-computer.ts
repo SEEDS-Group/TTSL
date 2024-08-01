@@ -33,6 +33,10 @@ import {
     isTslFloatType,
     isTslStringType,
     isTslBooleanType,
+    isTslInt,
+    isTslFloat,
+    isTslBoolean,
+    isTslString,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
 import {
@@ -160,6 +164,14 @@ export class TTSLTypeComputer {
             const valueType = this.lowestCommonSupertype(node.entries.map((it) => this.computeType(it.value)));
             return new DictionaryType([keyType, valueType], false);
         } else if (isTslTemplateString(node)) {
+            return new StringType(false);
+        } else if(isTslInt(node)){
+            return new IntType(false);
+        } else if(isTslFloat(node)){
+            return new FloatType(false);
+        } else if(isTslBoolean(node)){
+            return new BooleanType(false);
+        } else if(isTslString(node) || isTslTemplateString(node)){
             return new StringType(false);
         }
 
