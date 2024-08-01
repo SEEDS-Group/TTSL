@@ -42,13 +42,15 @@ export class TTSLInlayHintProvider extends AbstractInlayHintProvider {
         } else if (isTslPlaceholder(node)) {
             const type = this.typeComputer.computeType(node);
             let tooltip: MarkupContent | undefined = undefined;
+            if(!node.type){
+                acceptor({
+                    position: cstNode.range.end,
+                    label: `: ${type}`,
+                    kind: InlayHintKind.Type,
+                    tooltip,
+                });
+            }
             
-            acceptor({
-                position: cstNode.range.end,
-                label: `: ${type}`,
-                kind: InlayHintKind.Type,
-                tooltip,
-            });
         }
     }
 }
