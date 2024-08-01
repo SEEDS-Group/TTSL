@@ -26,7 +26,7 @@
     },
     "Data": {
         "prefix": ["data"],
-        "body": ["data ${1:myDatat}${2:: $3}"],
+        "body": ["data ${1:myData}${2:: $3}"],
         "description": "A Data."
     },
     "Aggregation": {
