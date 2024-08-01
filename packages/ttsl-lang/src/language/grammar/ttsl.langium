@@ -18,6 +18,7 @@ interface TslDeclaration extends TslObject {
 interface TslLocalVariable extends TslDeclaration {
     groupedBy?: TslGroupedBy
     value?: TslExpression
+    ^type?: TslType
 }
 
 // -----------------------------------------------------------------------------
@@ -197,7 +198,6 @@ TslParameterList returns TslParameterList:
 
 interface TslParameter extends TslLocalVariable {
     isConstant: boolean
-    ^type: TslType
     defaultValue?: TslExpression
 }
 
@@ -212,17 +212,13 @@ interface TslResultList extends TslObject {
     results: TslResult[]
 }
 
-TslResultList returns TslResultList:
-    {TslResultList} ':' results+=TslResult
-  | {TslResultList} ':' '(' (results+=TslResult (',' results+=TslResult)* ','? )? ')'
-;
 
 interface TslResult extends TslDeclaration {
     ^type?: TslType
 }
 
 TslResult returns TslResult:
-    (name=ID)?
+    (name=ID )?
     ':' ^type=TslType
 ;
 
@@ -250,7 +246,6 @@ TslFunctionBlock returns TslFunctionBlock:
     {TslFunctionBlock}
     '{' ( timespanStatement+=TslTimespanStatement
     | statements+=TslStatement)*
-    ('return' returnValue=TslExpression)?
     '}'
 ;
 
@@ -259,6 +254,7 @@ TslStatement returns TslStatement:
   | TslExpressionStatement
   | TslConditionalStatement
   | TslLoop
+  | TslReturnStatement
 ;
 
 interface TslAssignment extends TslStatement {
@@ -283,7 +279,7 @@ interface TslAssignee extends TslObject {}
 interface TslPlaceholder extends TslAssignee, TslLocalVariable {}
 
 TslAssignee returns TslAssignee:
-    {TslPlaceholder} 'var' name=ID  (groupedBy=TslGroupedBy)?
+    {TslPlaceholder} 'var' name=ID (':' ^type=TslType)?  (groupedBy=TslGroupedBy)?
 ;
 
 interface TslExpressionStatement extends TslStatement {
@@ -344,6 +340,14 @@ interface TslForeachLoop extends TslLoop{
 TslForeachLoop returns TslForeachLoop:
     'foreach''(' element=STRING 'in' list=TslExpression ')'
     block=TslBlock
+;
+
+interface TslReturnStatement extends TslStatement{
+    result: TslExpression
+}
+
+TslReturnStatement returns TslReturnStatement:
+    'return' result=TslExpression ';'
 ;
 
 // -----------------------------------------------------------------------------
