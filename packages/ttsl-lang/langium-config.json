@@ -1,10 +1,10 @@
 {
-    "projectName": "SafeDs",
+    "projectName": "TTSL",
     "languages": [
         {
-            "id": "safe-ds",
-            "grammar": "src/language/grammar/safe-ds.langium",
-            "fileExtensions": [".tsl", ".tsltest"]
+            "id": "ttsl",
+            "grammar": "src/language/grammar/ttsl.langium",
+            "fileExtensions": [".ttsl"]
         }
     ],
     "out": "src/language/generated"

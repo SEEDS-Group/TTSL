@@ -9,7 +9,7 @@ import {
     LangiumDocuments,
 } from 'langium';
 import { isTslSegment } from '../generated/ast.js';
-import { getPackageName, isInternal } from '../helpers/nodeProperties.js';
+import { getPackageName, isPackagePrivate } from '../helpers/nodeProperties.js';
 
 export class SafeDsPackageManager {
     private readonly astNodeLocator: AstNodeLocator;
@@ -112,7 +112,7 @@ export class SafeDsPackageManager {
         }
 
         if (hideInternal) {
-            result = result.filter((it) => !isTslSegment(it.node) || !isInternal(it.node));
+            result = result.filter((it) => !isTslSegment(it.node) || !isPackagePrivate(it.node));
         }
 
         return result;
