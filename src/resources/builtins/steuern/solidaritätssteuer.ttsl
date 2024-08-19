@@ -1,0 +1,27 @@
+package solidaritätssteuer
+
+public function solidaritätsSteuer(): Float per year {
+    to 2008-12-31 {
+        Float einkommensteuerProPerson = einkommensteuerMitKinderfreibetrag() / anzahlPersonen();
+        return anzahlPersonen * solisteuerTarif(einkommensteuerProPerson);
+    }
+
+    from 2009-01-01{
+        Float einkommensteuerProPerson = einkommensteuerMitKinderfreibetrag() / anzahlPersonen();
+
+        return anzahlPersonen() * solisteuerTarif(einkommensteuerProPerson) + solisteuer["rates"][0, -1] * abgeltungssteuer() per year;
+    }
+}
+
+/**
+ * Berechnet den Solidaritätszuschlag auf die Lohnsteuer.
+ */
+public function soliStLohnsteuerBerechnung(
+    lohnsteuerMitKinderfreibetrag: Float per month
+): Float per month {
+    return solisteuerTarif(lohnsteuerMitKinderfreibetrag * 12) / 12;
+}
+
+public function solisteuerTarif(): Float per year {
+    # TODO: Piecewise polynomial function
+}
