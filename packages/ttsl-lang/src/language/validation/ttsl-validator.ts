@@ -72,7 +72,7 @@ export const registerValidationChecks = function (services: TTSLServices) {
         ],
         TslAssignment: [
             assignmentAssigneeMustGetValue(services),
-            assignmentShouldNotImplicitlyIgnoreResult(services),
+            assignmentShouldNotImplicitlyIgnoreResult(),
         ],
         TslAbstractCall: [
             argumentListMustNotHaveTooManyArguments(services),

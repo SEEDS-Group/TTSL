@@ -534,7 +534,7 @@ export class TTSLPythonGenerator {
         return expandTracedToNode(funct)`def ${traceToNode(
             funct,
             'name',
-        )(this.getPythonNameOrDefault(funct))}(${this.generateFunctionParameter(funct, infoFrame)}${this.generateParameters(funct.parameterList, infoFrame)}):`
+        )(this.getPythonNameOrDefault(funct))}(${this.generateFunctionParameter(funct)}${this.generateParameters(funct.parameterList, infoFrame)}):`
             .appendNewLine()
             .indent({ indentedChildren: [this.generateFunctionBlock(funct.body, infoFrame, funct.timeunit)], indentation: PYTHON_INDENT });
     }
