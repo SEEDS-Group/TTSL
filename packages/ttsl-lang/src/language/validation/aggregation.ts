@@ -58,11 +58,11 @@ export const groupedFunctionHasValidID = () => {
 export const groupedFunctionHasAggregation = () => {
     return (node: TslFunction, accept: ValidationAcceptor) => {
         let id = node.groupedBy?.id.target.ref?.name
-        if (id != undefined){
+        if (id !== undefined){
             let parameters = getParameters(node)
             let isGrouped = false
             parameters.forEach(elm => {
-                if (elm.groupedBy?.id.target.ref?.name == id){
+                if (elm.groupedBy?.id.target.ref?.name === id){
                     isGrouped = true
                 }
             });
@@ -82,11 +82,11 @@ export const groupedFunctionHasAggregation = () => {
 
 function hasAggregation(statements: TslStatement[]| undefined, id: string): boolean{
     let result =  false
-    if(statements == undefined){
+    if(statements === undefined){
         return result
     }
     statements.forEach(elm => {
-        if(isTslExpressionStatement(elm) && isTslAggregation(elm.expression) && elm.expression.groupedBy.id.target.ref?.name == id){
+        if(isTslExpressionStatement(elm) && isTslAggregation(elm.expression) && elm.expression.groupedBy.id.target.ref?.name === id){
             result = true
         } else if(isTslConditionalStatement(elm)){
             result = (hasAggregation(elm.ifBlock.statements, id) && hasAggregation(elm.elseBlock?.statements, id))
@@ -96,8 +96,8 @@ function hasAggregation(statements: TslStatement[]| undefined, id: string): bool
             if(isTslAggregation(elm.expression)){
                 result = true
             }else if(elm.assigneeList?.assignees.filter(isTslPlaceholder)){
-                elm.assigneeList.assignees.filter(isTslPlaceholder).forEach(elm => {
-                    if(elm.groupedBy?.id.target.ref?.name == id){
+                elm.assigneeList.assignees.filter(isTslPlaceholder).forEach(placeholder => {
+                    if(placeholder.groupedBy?.id.target.ref?.name === id){
                         result = true
                     }
                 })

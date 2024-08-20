@@ -1,8 +1,6 @@
 import {
     isTslAssignment,
     isTslBlock,
-    isTslParameter,
-    isTslPlaceholder,
     isTslReference,
     isTslStatement,
     TslPlaceholder,
@@ -15,7 +13,7 @@ import { last } from '../../../../helpers/collections.js';
 
 export const CODE_PLACEHOLDER_UNUSED = 'placeholder/unused';
 
-export const placeholdersMustNotBeAnAlias = (node: TslPlaceholder, accept: ValidationAcceptor): void => {
+export const placeholdersMustNotBeAnAlias = (node: TslPlaceholder): void => {
     if (node.$containerIndex ?? 0 > 0) {
         return;
     }

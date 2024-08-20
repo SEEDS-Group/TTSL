@@ -18,8 +18,6 @@ import {
     getImports,
     getModuleMembers,
     getPackageName,
-    getParameters,
-    getResults,
 } from '../helpers/nodeProperties.js';
 import { TTSLServices } from '../ttsl-module.js';
 

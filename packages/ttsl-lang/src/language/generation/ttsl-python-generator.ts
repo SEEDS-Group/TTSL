@@ -59,18 +59,13 @@ import {
     isTslConstant,
     TslConstant,
     TslTimespan,
-    isTslData,
-    TslData,
     isTslBlock,
     TslTimeunit,
-    isTslExpression,
     isTslString,
     isTslParenthesizedExpression,
-    isTslResult,
     isTslReturnStatement,
     isTslLiteral,
     isTslInt,
-    isTslDate,
     isTslNull,
     isTslBoolean,
     isTslFloat,
@@ -94,7 +89,6 @@ import { TTSLNodeMapper } from '../helpers/ttsl-node-mapper.js';
 import { TTSLPartialEvaluator } from '../partialEvaluation/ttsl-partial-evaluator.js';
 import { TTSLServices } from '../ttsl-module.js';
 import { TTSLFunction } from '../builtins/ttsl-ds-functions.js';
-import { Console } from 'console';
 
 export const CODEGEN_PREFIX = '__gen_';
 
@@ -149,18 +143,6 @@ const UTILITY_NULL_SAFE_INDEXED_ACCESS: UtilityFunction = {
         .appendNewLine()
         .indent({
             indentedChildren: ['return receiver[index] if receiver is not None else None'],
-            indentation: PYTHON_INDENT,
-        }),
-    imports: [{ importPath: 'typing', declarationName: 'Any' }],
-    typeVariables: [`${CODEGEN_PREFIX}T`],
-};
-
-const UTILITY_NULL_SAFE_MEMBER_ACCESS: UtilityFunction = {
-    name: `${CODEGEN_PREFIX}null_safe_member_access`,
-    code: expandToNode`def ${CODEGEN_PREFIX}null_safe_member_access(receiver: Any, member_name: str) -> ${CODEGEN_PREFIX}T | None:`
-        .appendNewLine()
-        .indent({
-            indentedChildren: ['return getattr(receiver, member_name) if receiver is not None else None'],
             indentation: PYTHON_INDENT,
         }),
     imports: [{ importPath: 'typing', declarationName: 'Any' }],
@@ -1101,9 +1083,8 @@ export class TTSLPythonGenerator {
 
     private generateFunctionParameter(
         funct: TslFunction,
-        frame: GenerationInfoFrame,
     ): CompositeGeneratorNode | undefined {
-        if(funct.timeunit != undefined|| funct.groupedBy != undefined){
+        if(funct.timeunit !== undefined|| funct.groupedBy !== undefined){
             return expandToNode`timeunit = None, groupedBy = None, date = None`
         }
         return undefined

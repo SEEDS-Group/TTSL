@@ -192,7 +192,7 @@ export const functionResultListShouldNotBeEmpty = (services: TTSLServices) => {
             return;
         }
 
-        if (node.result && node.body.statements.filter(isTslReturnStatement).at(0) == undefined) {
+        if (node.result && node.body.statements.filter(isTslReturnStatement).at(0) === undefined) {
             accept('info', 'This result list can be removed.', {
                 node,
                 property: 'result',

@@ -144,7 +144,6 @@ describe('TTSLCommentProvider', () => {
             throw new AssertionError({ message: 'Node not found.' });
         }
 
-        console.log(node.$type + ': ' + commentProvider.getComment(node) + '\n');
         expect(commentProvider.getComment(node)).toStrictEqual(expectedComment);
     });
 });

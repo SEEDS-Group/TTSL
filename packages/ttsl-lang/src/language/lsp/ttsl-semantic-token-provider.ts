@@ -1,5 +1,5 @@
 import { AbstractSemanticTokenProvider, SemanticTokenAcceptor } from 'langium/lsp';
-import { AstNode, AstUtils } from 'langium';
+import { AstNode } from 'langium';
 import { SemanticTokenModifiers, SemanticTokenTypes } from 'vscode-languageserver';
 import {
     isTslArgument,
@@ -16,10 +16,6 @@ import {
 import { TTSLServices } from '../ttsl-module.js';
 
 export class TTSLSemanticTokenProvider extends AbstractSemanticTokenProvider {
-    constructor(services: TTSLServices) {
-        super(services);
-    }
-
     protected highlightElement(node: AstNode, acceptor: SemanticTokenAcceptor): void {
         if (isTslArgument(node)) {
             if (node.parameter) {

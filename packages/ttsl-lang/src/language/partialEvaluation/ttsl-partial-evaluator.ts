@@ -39,11 +39,6 @@ import {
     type TslPrefixOperation,
     type TslTemplateString,
     isTslAggregation,
-    TslAggregation,
-    TslModifier,
-    isTslGroupedBy,
-    isTslVisibility,
-    isTslTimeunit,
     isTslString,
     isTslParenthesizedExpression,
 } from '../generated/ast.js';
@@ -130,7 +125,7 @@ export class TTSLPartialEvaluator {
         if (isTslAssignee(node)) {
             return this.evaluateAssignee(node, substitutions, visited);
         } else if (isTslDeclaration(node)) {
-            return this.evaluateDeclaration(node, substitutions, visited);
+            return this.evaluateDeclaration(node, substitutions);
         } else if (isTslExpression(node)) {
             return this.evaluateExpression(node, substitutions, visited);
         } /* c8 ignore start */ else {
@@ -167,7 +162,6 @@ export class TTSLPartialEvaluator {
     private evaluateDeclaration(
         node: TslDeclaration,
         substitutions: ParameterSubstitutions,
-        visited: VisitedState[],
     ): EvaluatedNode {
         if (isTslFunction(node)) {
             return new NamedCallable(node);
@@ -223,7 +217,7 @@ export class TTSLPartialEvaluator {
         } else if (isTslTypeCast(node)) {
             return this.evaluateWithRecursionCheck(node.expression, substitutions, visited);
         } else if (isTslAggregation(node)) {
-            return this.evaluateAggregation(node, substitutions, visited);
+            return this.evaluateAggregation();
         } else if (isTslParenthesizedExpression(node)) {
             return this.evaluateWithRecursionCheck(node, substitutions, visited);
         } /* c8 ignore start */ else {
@@ -490,24 +484,8 @@ export class TTSLPartialEvaluator {
         return UnknownEvaluatedNode;
     }
 
-    private evaluateAggregation(node: TslAggregation, substitutions: ParameterSubstitutions, visited: VisitedState[]): EvaluatedNode {
-        const data = this.evaluateExpression(node.data, substitutions, visited).unwrap();
-        const funct = this.evaluateExpression(node.function, substitutions, visited).unwrap();
-        const groupedBy = this.evaluateModifier(node.groupedBy, substitutions, visited).unwrap();
-
+    private evaluateAggregation(): EvaluatedNode {
         return UnknownEvaluatedNode;
-    }
-
-    private evaluateModifier(node: TslModifier, substitutions: ParameterSubstitutions, visited: VisitedState[]): EvaluatedNode {
-        if (isTslGroupedBy(node)) {
-            return this.evaluateExpression(node.id, substitutions, visited);
-        } else if (isTslVisibility(node)) {
-            throw new Error(`noch nicht evaluierbar`);
-        } else if (isTslTimeunit(node)) {
-            throw new Error(`noch nicht evaluierbar`);
-        }/* c8 ignore start */ else {
-            throw new Error(`Unexpected Modifier type: ${node.$type}`);
-        } /* c8 ignore stop */
     }
 
     private evaluateCallableCall(

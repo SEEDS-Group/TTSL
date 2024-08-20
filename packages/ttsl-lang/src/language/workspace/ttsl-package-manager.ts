@@ -9,7 +9,7 @@ import {
     LangiumDocuments,
 } from 'langium';
 import { getPackageName, isPackagePrivate, isPrivate } from '../helpers/nodeProperties.js';
-import { isTslDeclaration, isTslFunction } from '../generated/ast.js';
+import { isTslDeclaration } from '../generated/ast.js';
 
 export class TTSLPackageManager {
     private readonly astNodeLocator: AstNodeLocator;

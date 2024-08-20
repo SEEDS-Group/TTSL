@@ -4,7 +4,6 @@ import {
     CstUtils,
     type DocumentationProvider,
     GrammarUtils,
-    isNamed,
     type LangiumDocument,
     type MaybePromise,
 } from 'langium';

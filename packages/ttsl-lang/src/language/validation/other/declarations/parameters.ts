@@ -1,5 +1,5 @@
-import { AstUtils, ValidationAcceptor } from 'langium';
-import { isTslCallable, TslParameter } from '../../../generated/ast.js';
+import { ValidationAcceptor } from 'langium';
+import { TslParameter } from '../../../generated/ast.js';
 import { Parameter } from '../../../helpers/nodeProperties.js';
 import { TTSLServices } from '../../../ttsl-module.js';
 

@@ -3,10 +3,8 @@ import {
     TslResult,
     type TslCallable,
     type TslDeclaration,
-    type TslExpression,
     type TslParameter,
 } from '../generated/ast.js';
-import { getParameters } from '../helpers/nodeProperties.js';
 import { escapeString } from '../grammar/ttsl-value-converter.js';
 
 export type ParameterSubstitutions = Map<TslParameter, EvaluatedNode>;

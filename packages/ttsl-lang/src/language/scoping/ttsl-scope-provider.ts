@@ -44,7 +44,6 @@ import {
 } from '../helpers/nodeProperties.js';
 import { TTSLNodeMapper } from '../helpers/ttsl-node-mapper.js';
 import { TTSLServices } from '../ttsl-module.js';
-import { TTSLTypeComputer } from '../typing/ttsl-type-computer.js';
 import { TTSLPackageManager } from '../workspace/ttsl-package-manager.js';
 
 export class TTSLScopeProvider extends DefaultScopeProvider {

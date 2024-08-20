@@ -40,7 +40,7 @@ export const callArgumentTypesMustMatchParameterTypes = (services: TTSLServices)
             const argumentType = typeComputer.computeType(argument);
             const parameterType = typeComputer.computeType(parameter);
 
-            if (!(argumentType.toString == parameterType.toString || parameterType instanceof AnyType)) {
+            if (!(argumentType.toString === parameterType.toString || parameterType instanceof AnyType)) {
                 accept('error', `Expected type '${parameterType}' but got '${argumentType}'.`, {
                     node: argument,
                     property: 'value',
@@ -97,7 +97,6 @@ export const indexedAccessReceiverMustBeListOrMap = (services: TTSLServices) => 
 };
 
 export const indexedAccessIndexMustHaveCorrectType = (services: TTSLServices) => {
-    const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslIndexedAccess, accept: ValidationAcceptor): void => {
@@ -116,7 +115,6 @@ export const indexedAccessIndexMustHaveCorrectType = (services: TTSLServices) =>
 };
 
 export const infixOperationOperandsMustHaveCorrectType = (services: TTSLServices) => {
-    const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslInfixOperation, accept: ValidationAcceptor): void => {
@@ -218,7 +216,6 @@ export const mapMustNotContainNamedTuples = (services: TTSLServices) => {
 };
 
 export const parameterDefaultValueTypeMustMatchParameterType = (services: TTSLServices) => {
-    const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslParameter, accept: ValidationAcceptor) => {
@@ -230,7 +227,7 @@ export const parameterDefaultValueTypeMustMatchParameterType = (services: TTSLSe
         const defaultValueType = typeComputer.computeType(defaultValue);
         const parameterType = typeComputer.computeType(node);
 
-        if (!(defaultValueType.toString == parameterType.toString)) {
+        if (!(defaultValueType.toString === parameterType.toString)) {
             accept('error', `Expected type '${parameterType}' but got '${defaultValueType}'.`, {
                 node,
                 property: 'defaultValue',
@@ -241,7 +238,6 @@ export const parameterDefaultValueTypeMustMatchParameterType = (services: TTSLSe
 };
 
 export const prefixOperationOperandMustHaveCorrectType = (services: TTSLServices) => {
-    const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslPrefixOperation, accept: ValidationAcceptor): void => {

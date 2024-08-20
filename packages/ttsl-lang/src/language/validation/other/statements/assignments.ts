@@ -1,4 +1,4 @@
-import { isTslCall, isTslFunction, TslAssignment} from '../../../generated/ast.js';
+import { isTslFunction, TslAssignment} from '../../../generated/ast.js';
 import { ValidationAcceptor } from 'langium';
 import { TTSLServices } from '../../../ttsl-module.js';
 import { getResults, getAssignees } from '../../../helpers/nodeProperties.js';
@@ -21,8 +21,6 @@ export const assignmentAssigneeMustGetValue =
     };
 
 export const assignmentShouldNotImplicitlyIgnoreResult = (services: TTSLServices) => {
-    const nodeMapper = services.helpers.NodeMapper;
-
     return (node: TslAssignment, accept: ValidationAcceptor): void => {
         const expression = node.expression;
         if (!isTslFunction(expression)) {

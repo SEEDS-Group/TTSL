@@ -2,7 +2,6 @@ import { AstNode, EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
 import { normalizeLineBreaks } from '../../../src/helpers/strings.js';
 import {
-    isTslConstant,
     isTslFunction,
     isTslParameter,
     isTslResult,

@@ -1,4 +1,3 @@
-import { TTSLServices } from '../ttsl-module.js';
 import {
     AnyType,
     DictionaryType,
@@ -8,7 +7,6 @@ import {
 
 export class TTSLTypeChecker {
 
-    constructor(services: TTSLServices) {}
 
     // -----------------------------------------------------------------------------------------------------------------
     // General cases

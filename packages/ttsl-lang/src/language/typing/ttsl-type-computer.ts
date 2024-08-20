@@ -346,7 +346,7 @@ export class TTSLTypeComputer {
     /**
      * Computes the lowest common supertype for the given types. The result is simplified as much as possible.
      */
-    private lowestCommonSupertype(types: Type[], options: LowestCommonSupertypeOptions = {}): Type {
+    private lowestCommonSupertype(types: Type[]): Type {
         // A single type is its own lowest common supertype
         if (types.length === 1) {
             return types[0]!;

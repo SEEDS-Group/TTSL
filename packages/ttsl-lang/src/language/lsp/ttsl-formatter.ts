@@ -7,17 +7,6 @@ import newLines = Formatting.newLines;
 import noSpace = Formatting.noSpace;
 import oneSpace = Formatting.oneSpace;
 
-const newLinesWithIndent = function (count: number, options?: FormattingActionOptions): FormattingAction {
-    return {
-        options: options ?? {},
-        moves: [
-            {
-                tabs: 1,
-                lines: count,
-            },
-        ],
-    };
-};
 
 export class TTSLFormatter extends AbstractFormatter {
     protected override format(node: AstNode): void {
