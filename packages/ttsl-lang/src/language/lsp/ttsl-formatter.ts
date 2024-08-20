@@ -1,6 +1,6 @@
 import { AstNode, CstNode, CstUtils, isAstNode } from 'langium';
 import * as ast from '../generated/ast.js';
-import { AbstractFormatter, Formatting, FormattingAction, FormattingActionOptions } from 'langium/lsp';
+import { AbstractFormatter, Formatting} from 'langium/lsp';
 import indent = Formatting.indent;
 import newLine = Formatting.newLine;
 import newLines = Formatting.newLines;

@@ -114,7 +114,6 @@ export class TTSLNodeMapper {
             // We ignore nullability, since calls can be made null-safe. For scoping, for instance, we still want to
             // link the arguments of the call properly, even if the user forgot to make the call null-safe. In this
             // case, an error is being shown anyway.
-            const receiverType = this.typeComputer().computeType(node.receiver);
 
             if(isTslReference(node.receiver)){
                 if(isTslCallable(node.receiver.target.ref)){

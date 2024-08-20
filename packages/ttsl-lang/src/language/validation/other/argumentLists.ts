@@ -76,8 +76,6 @@ export const argumentListMustNotSetParameterMultipleTimes = (services: TTSLServi
 
     return (node: TslArgumentList, accept: ValidationAcceptor): void => {
         // We already report other errors in this case
-        const containingCall = AstUtils.getContainerOfType(node, isTslCall);
-
         const args = getArguments(node);
         const duplicates = duplicatesBy(args, argumentToParameterOrUndefined);
 

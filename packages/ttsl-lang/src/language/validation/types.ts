@@ -26,7 +26,6 @@ export const CODE_TYPE_MISSING_TYPE_HINT = 'type/missing-type-hint';
 
 export const callArgumentTypesMustMatchParameterTypes = (services: TTSLServices) => {
     const nodeMapper = services.helpers.NodeMapper;
-    const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslCall, accept: ValidationAcceptor) => {
