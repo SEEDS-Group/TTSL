@@ -1,13 +1,13 @@
-package safeds.scoping.references.acrossFiles.toSegments
+package TTSL.scoping.references.acrossFiles.toSegments
 
-// $TEST$ target safeds_mySegment
+# $TEST$ target TTSL_mySegment
 segment »mySegment«() {}
 
-// $TEST$ target safeds_publicSegmentInSafeDsPackage
-segment »publicSegmentInSafeDsPackage«() {}
+# $TEST$ target TTSL_publicSegmentInTTSLPackage
+segment »publicSegmentInTTSLPackage«() {}
 
-// $TEST$ target safeds_internalSegmentInSafeDsPackage
-internal segment »internalSegmentInSafeDsPackage«() {}
+# $TEST$ target TTSL_internalSegmentInTTSLPackage
+internal segment »internalSegmentInTTSLPackage«() {}
 
-// $TEST$ target safeds_privateSegmentInSafeDsPackage
-private segment »privateSegmentInSafeDsPackage«() {}
+# $TEST$ target TTSL_privateSegmentInTTSLPackage
+private segment »privateSegmentInTTSLPackage«() {}

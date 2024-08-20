@@ -1,8 +1,8 @@
 package tests.callGraph.blockLambdaCall.basic
 
-pipeline myPipeline {
+function myFunction () {
     val lambda = () {};
 
-    // $TEST$ ["$blockLambda"]
+    # $TEST$ ["$blockLambda"]
     »lambda()«;
 }

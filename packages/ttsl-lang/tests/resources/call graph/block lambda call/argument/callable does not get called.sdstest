@@ -2,9 +2,9 @@ package tests.callGraph.blockLambdaCall.argument.callableDoesNotGetCalled
 
 @Pure fun f()
 
-pipeline myPipeline {
+function myFunction () {
     val lambda = (param: () -> ()) {};
 
-    // $TEST$ ["$blockLambda"]
+    # $TEST$ ["$blockLambda"]
     »lambda(f)«;
 }

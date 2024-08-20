@@ -17,7 +17,19 @@ def __gen_eager_and(left_operand: bool, right_operand: bool) -> bool:
 def __gen_eager_elvis(left_operand: __gen_T, right_operand: __gen_T) -> __gen_T:
     return left_operand if left_operand is not None else right_operand
 
-# Pipelines --------------------------------------------------------------------
+# Functions --------------------------------------------------------------------
+
+def f(param):
+    pass
+
+def g():
+    pass
+
+def h():
+    pass
+
+def i():
+    pass
 
 def test():
     f(__gen_eager_or(g(), g()))
@@ -35,3 +47,4 @@ def test():
     f((h()) * (h()))
     f((h()) / (h()))
     f(__gen_eager_elvis(i(), i()))
+

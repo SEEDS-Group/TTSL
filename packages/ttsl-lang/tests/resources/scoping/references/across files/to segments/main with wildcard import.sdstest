@@ -1,48 +1,48 @@
 package tests.scoping.references.acrossFiles.toSegments
 
-from safeds.scoping.references.acrossFiles.toSegments import *
+from TTSL.scoping.references.acrossFiles.toSegments import *
 
-pipeline myPipeline {
-    // $TEST$ references safeds_mySegment
+function myFunction () {
+    # $TEST$ references TTSL_mySegment
     »mySegment«;
 
 
-    // $TEST$ references same_publicSegmentInSamePackage
+    # $TEST$ references same_publicSegmentInSamePackage
     »publicSegmentInSamePackage«;
 
-    // $TEST$ references same_internalSegmentInSamePackage
+    # $TEST$ references same_internalSegmentInSamePackage
     »internalSegmentInSamePackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »privateSegmentInSamePackage«;
 
 
-    // $TEST$ references safeds_publicSegmentInSafeDsPackage
-    »publicSegmentInSafeDsPackage«;
+    # $TEST$ references TTSL_publicSegmentInTTSLPackage
+    »publicSegmentInTTSLPackage«;
 
-    // $TEST$ unresolved
-    »internalSegmentInSafeDsPackage«;
+    # $TEST$ unresolved
+    »internalSegmentInTTSLPackage«;
 
-    // $TEST$ unresolved
-    »privateSegmentInSafeDsPackage«;
+    # $TEST$ unresolved
+    »privateSegmentInTTSLPackage«;
 
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »publicSegmentInAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »internalSegmentInAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »privateSegmentInAnotherPackage«;
 
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »publicSegmentWithoutPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »internalSegmentWithoutPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »privateSegmentWithoutPackage«;
 }

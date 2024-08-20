@@ -1,0 +1,7 @@
+# $TEST$ no_syntax_error
+
+function myFunction () {
+    for(var i = 0; i <= 10; i = i+1){
+        
+    }
+}

@@ -1,15 +1,14 @@
-import { isTslCall, isTslPipeline, TslAssignment, TslYield } from '../../../generated/ast.js';
-import { AstUtils, ValidationAcceptor } from 'langium';
-import { SafeDsServices } from '../../../safe-ds-module.js';
-import { getAbstractResults, getAssignees } from '../../../helpers/nodeProperties.js';
+import { isTslFunction, TslAssignment} from '../../../generated/ast.js';
+import { ValidationAcceptor } from 'langium';
+import { TTSLServices } from '../../../ttsl-module.js';
+import { getResults, getAssignees } from '../../../helpers/nodeProperties.js';
 import { pluralize } from '../../../../helpers/strings.js';
 
 export const CODE_ASSIGNMENT_IMPLICITLY_IGNORED_RESULT = 'assignment/implicitly-ignored-result';
 export const CODE_ASSIGMENT_NOTHING_ASSIGNED = 'assignment/nothing-assigned';
-export const CODE_ASSIGMENT_YIELD_FORBIDDEN_IN_PIPELINE = 'assignment/yield-forbidden-in-pipeline';
 
 export const assignmentAssigneeMustGetValue =
-    (services: SafeDsServices) =>
+    (services: TTSLServices) =>
     (node: TslAssignment, accept: ValidationAcceptor): void => {
         for (const assignee of getAssignees(node)) {
             if (!services.helpers.NodeMapper.assigneeToAssignedObject(assignee)) {
@@ -21,18 +20,15 @@ export const assignmentAssigneeMustGetValue =
         }
     };
 
-export const assignmentShouldNotImplicitlyIgnoreResult = (services: SafeDsServices) => {
-    const nodeMapper = services.helpers.NodeMapper;
-
+export const assignmentShouldNotImplicitlyIgnoreResult = (services: TTSLServices) => {
     return (node: TslAssignment, accept: ValidationAcceptor): void => {
         const expression = node.expression;
-        if (!isTslCall(expression)) {
+        if (!isTslFunction(expression)) {
             return;
         }
 
         const assignees = getAssignees(node);
-        const callable = nodeMapper.callToCallable(expression);
-        const results = getAbstractResults(callable);
+        const results = getResults(expression);
 
         if (results.length > assignees.length) {
             const kind = pluralize(results.length - assignees.length, 'result');
@@ -47,15 +43,4 @@ export const assignmentShouldNotImplicitlyIgnoreResult = (services: SafeDsServic
             });
         }
     };
-};
-
-export const yieldMustNotBeUsedInPipeline = (node: TslYield, accept: ValidationAcceptor): void => {
-    const containingPipeline = AstUtils.getContainerOfType(node, isTslPipeline);
-
-    if (containingPipeline) {
-        accept('error', 'Yield must not be used in a pipeline.', {
-            node,
-            code: CODE_ASSIGMENT_YIELD_FORBIDDEN_IN_PIPELINE,
-        });
-    }
 };

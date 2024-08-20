@@ -1,0 +1,17 @@
+package tests.typing.operations.logical
+
+function myFunction() {
+    # $TEST$ serialization Boolean
+    var conjunction = »true and true«;
+    # $TEST$ serialization Boolean
+    var disjunction = »true or true«;
+    # $TEST$ serialization Boolean
+    var negation = »not true«;
+
+    # $TEST$ serialization Boolean
+    var conjunctionInvarid = »1 and 1«;
+    # $TEST$ serialization Boolean
+    var disjunctionInvarid = »1.0 or 1.0«;
+    # $TEST$ serialization Boolean
+    var negationInvarid = »not "true"«;
+}

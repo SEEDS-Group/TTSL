@@ -2,9 +2,9 @@ package tests.callGraph.blockLambdaCall.body.functionCallInNestedLambda
 
 @Pure fun f()
 
-pipeline myPipeline {
+function myFunction () {
     val lambda = () { () -> f(); };
 
-    // $TEST$ ["$blockLambda"]
+    # $TEST$ ["$blockLambda"]
     »lambda()«;
 }

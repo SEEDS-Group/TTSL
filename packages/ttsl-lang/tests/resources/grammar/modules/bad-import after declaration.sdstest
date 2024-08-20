@@ -1,5 +1,0 @@
-// $TEST$ syntax_error
-
-class C
-
-from myPackage import MyClass

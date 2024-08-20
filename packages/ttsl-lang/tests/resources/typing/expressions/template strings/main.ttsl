@@ -1,0 +1,9 @@
+package tests.typing.expressions.templateStrings
+
+function myFunction() {
+    # $TEST$ serialization String
+    var valid = »"1 + 2 = {{ 1 + 2 }}"«;
+
+    # $TEST$ serialization String
+    var invalid = »"1 + 2 = {{ unresolved }}"«;
+}

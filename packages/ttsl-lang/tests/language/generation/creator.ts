@@ -1,6 +1,6 @@
 import {
     listTestFilesWithExtensions,
-    listTestSafeDsFilesGroupedByParentDirectory,
+    listTestTTSLFilesGroupedByParentDirectory,
     loadDocuments,
     uriToShortenedTestResourceName,
 } from '../../helpers/testResources.js';
@@ -12,16 +12,16 @@ import { NodeFileSystem } from 'langium/node';
 import { TestDescription, TestDescriptionError } from '../../helpers/testDescription.js';
 import { locationToString } from '../../../src/helpers/locations.js';
 import { URI } from 'langium';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const langiumDocuments = services.shared.workspace.LangiumDocuments;
 
 const rootResourceName = 'generation';
 const runnerIntegration = 'runner integration';
 
 export const createGenerationTests = async (): Promise<GenerationTest[]> => {
-    const filesGroupedByParentDirectory = listTestSafeDsFilesGroupedByParentDirectory(rootResourceName);
+    const filesGroupedByParentDirectory = listTestTTSLFilesGroupedByParentDirectory(rootResourceName);
     const testCases = filesGroupedByParentDirectory.map((entry) => createGenerationTest(...entry));
 
     return Promise.all(testCases);

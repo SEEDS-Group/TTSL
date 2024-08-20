@@ -1,17 +1,17 @@
-import { listTestSafeDsFiles, uriToShortenedTestResourceName } from '../../helpers/testResources.js';
+import { listTestTTSLFiles, uriToShortenedTestResourceName } from '../../helpers/testResources.js';
 import { Location } from 'vscode-languageserver';
 import { EmptyFileSystem, URI } from 'langium';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 import { TestDescription, TestDescriptionError } from '../../helpers/testDescription.js';
 import fs from 'fs';
 import { getSyntaxErrors, SyntaxErrorsInCodeError } from '../../helpers/diagnostics.js';
 import { findTestChecks } from '../../helpers/testChecks.js';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 const rootResourceName = 'call graph';
 
 export const createCallGraphTests = (): Promise<CallGraphTest[]> => {
-    const uris = listTestSafeDsFiles(rootResourceName);
+    const uris = listTestTTSLFiles(rootResourceName);
     const testCases = uris.map((it) => createCallGraphTest(it));
 
     return Promise.all(testCases);

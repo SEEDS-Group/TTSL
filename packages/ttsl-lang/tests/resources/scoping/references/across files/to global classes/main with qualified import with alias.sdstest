@@ -1,32 +1,32 @@
 package tests.scoping.references.acrossFiles.toGlobalClasses
 
 from tests.scoping.references.acrossFiles.toGlobalClasses import MyClass as MyClassInSamePackage
-from safeds.scoping.references.acrossFiles.toGlobalClasses import MyClass as MyClassInSafeDsPackage
+from TTSL.scoping.references.acrossFiles.toGlobalClasses import MyClass as MyClassInTTSLPackage
 from tests.scoping.references.acrossFiles.toGlobalClasses.other import MyClass as MyClassInAnotherPackage
 
-pipeline myPipeline {
-    // $TEST$ references same_MyClass
+function myFunction () {
+    # $TEST$ references same_MyClass
     »MyClass«;
 
 
-    // $TEST$ references same_ClassInSamePackage
+    # $TEST$ references same_ClassInSamePackage
     »ClassInSamePackage«;
 
-    // $TEST$ references safeds_ClassInSafeDsPackage
-    »ClassInSafeDsPackage«;
+    # $TEST$ references TTSL_ClassInTTSLPackage
+    »ClassInTTSLPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »ClassInAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »ClassWithoutPackage«;
 
-    // $TEST$ references same_MyClass
+    # $TEST$ references same_MyClass
     »MyClassInSamePackage«;
 
-    // $TEST$ references safeds_MyClass
-    »MyClassInSafeDsPackage«;
+    # $TEST$ references TTSL_MyClass
+    »MyClassInTTSLPackage«;
 
-    // $TEST$ references other_MyClass
+    # $TEST$ references other_MyClass
     »MyClassInAnotherPackage«;
 }

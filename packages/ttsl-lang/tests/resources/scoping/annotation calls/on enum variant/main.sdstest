@@ -1,21 +1,21 @@
 package tests.scoping.annotationCalls.onEnumVariant
 
-// $TEST$ target before 
+# $TEST$ target before 
 annotation »Before«
 
 enum MyEnum {
-    // $TEST$ references before
+    # $TEST$ references before
     @»Before«
-    // $TEST$ references after
+    # $TEST$ references after
     @»After«
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     @»NotAnAnnotation«
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     @»Unresolved«
     MyEnumVariant
 }
 
-// $TEST$ target after
+# $TEST$ target after
 annotation »After«
 
 class NotAnAnnotation

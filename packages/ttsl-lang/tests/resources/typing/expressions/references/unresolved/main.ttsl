@@ -1,0 +1,6 @@
+package tests.typing.expressions.references.unresolved
+
+function myFunction() {
+    # $TEST$ serialization $unknown
+    »unresolved«;
+}

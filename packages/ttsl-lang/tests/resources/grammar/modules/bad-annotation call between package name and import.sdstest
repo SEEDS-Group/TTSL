@@ -1,7 +1,0 @@
-// $TEST$ syntax_error
-
-package test
-
-@Annotation1
-
-from myPackage import MyClass

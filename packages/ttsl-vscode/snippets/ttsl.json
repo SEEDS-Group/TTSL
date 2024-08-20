@@ -4,92 +4,84 @@
         "body": ["from $1 import $0"],
         "description": "Import of declarations from a package."
     },
-    "Minimal Annotation": {
-        "prefix": ["minimal-annotation"],
-        "body": ["annotation ${0:MyAnnotation}"],
-        "description": "A minimal annotation."
-    },
-    "Annotation": {
-        "prefix": ["annotation"],
-        "body": ["annotation ${1:MyAnnotation}${2:($3)} ${4:where {$0\\}}"],
-        "description": "An annotation."
-    },
-    "Attribute": {
-        "prefix": ["attribute"],
-        "body": ["${1|static |}attr ${2:myAttribute}: $0"],
-        "description": "An attribute."
-    },
-    "Minimal Class": {
-        "prefix": ["minimal-class"],
-        "body": ["class ${0:MyClass}"],
-        "description": "A minimal class."
-    },
-    "Class": {
-        "prefix": ["class"],
-        "body": ["class ${1:MyClass}${2:<$3>}${4:($5)} ${6:sub $7} ${8:where {$9\\}} ${10:{$0\\}}"],
-        "description": "A class."
-    },
-    "Enum": {
-        "prefix": ["enumeration"],
-        "body": ["enum ${1:MyEnum} {", "    $0", "}"],
-        "description": "An enumeration."
-    },
-    "Minimal Pure Function": {
-        "prefix": ["minimal-pure-function"],
-        "body": ["@Pure", "fun ${1:myFunction}($0)"],
-        "description": "A minimal pure function."
-    },
     "Function": {
         "prefix": ["function"],
-        "body": ["${1|@Pure,@Impure([])|}", "fun ${2:myFunction}${3:<$4>}($5) ${6:-> ($7)} ${8:where {$0\\}}"],
+        "body": ["function ${1:myFunction}($2)${3:: $4}{", "    $0", "}"],
         "description": "A function."
-    },
-    "Minimal Pure Method": {
-        "prefix": ["minimal-pure-method"],
-        "body": ["@Pure", "${1|static |}fun ${2:myMethod}($0)"],
-        "description": "A minimal pure method."
-    },
-    "Method": {
-        "prefix": ["method"],
-        "body": [
-            "${1|@Pure,@Impure([])|}",
-            "${2|static |}fun ${3:myMethod}${4:<$5>}($6) ${7:-> ($8)} ${9:where {$0\\}}"
-        ],
-        "description": "A method."
-    },
-    "Schema": {
-        "prefix": ["schema"],
-        "body": ["schema ${1:MySchema} {", "    $0", "}"],
-        "description": "A schema."
-    },
-    "Pipeline": {
-        "prefix": ["pipeline"],
-        "body": ["pipeline ${1:myPipeline} {", "    $0", "}"],
-        "description": "A pipeline."
-    },
-    "Segment": {
-        "prefix": ["segment"],
-        "body": ["${1|internal ,private |}segment ${2:mySegment}($3) ${4:-> ($5)} {", "    $0", "}"],
-        "description": "A segment."
-    },
-    "Block Lambda": {
-        "prefix": ["block-lambda"],
-        "body": ["($1) -> {", "    $0", "}"],
-        "description": "A lambda that executes a list of statements."
-    },
-    "Expression Lambda": {
-        "prefix": ["expression-lambda"],
-        "body": ["($1) -> $0"],
-        "description": "A lambda that returns a single expression."
     },
     "Block Comment": {
         "prefix": ["block-comment"],
         "body": ["/*", " * $0", " */"],
         "description": "A block comment."
     },
+    "Line Comment": {
+        "prefix": ["line-comment"],
+        "body": ["#", " * $0"],
+        "description": "A line comment."
+    },
     "Documentation Comment": {
         "prefix": ["documentation-comment"],
         "body": ["/**", " * $0", " */"],
         "description": "A documentation comment."
+    },
+    "Constant": {
+        "prefix": ["constant"],
+        "body": ["constant ${1:myConstant}${2:: $3}${4:= $5}"],
+        "description": "A Constant."
+    },
+    "Data": {
+        "prefix": ["data"],
+        "body": ["data ${1:myData}${2:: $3}"],
+        "description": "A Data."
+    },
+    "Aggregation": {
+        "prefix": ["aggregate"],
+        "body": ["aggregate $1 of $2 groupedBy $3"],
+        "description": "An aggregation."
+    },
+    "While": {
+        "prefix": ["while"],
+        "body": ["while($1){", "    $0","}"],
+        "description": "A while-loop."
+    },
+    "For": {
+        "prefix": ["for"],
+        "body": ["for($1; $2; $3){", "    $0","}"],
+        "description": "A for-loop."
+    },
+    "Foreach": {
+        "prefix": ["foreach"],
+        "body": ["foreach($1 in $2){", "    $0","}"],
+        "description": "A foreach loop."
+    },
+    "If": {
+        "prefix": ["if"],
+        "body": ["if($1){", "    $0", "}"],
+        "description": "A conditional statement."
+    },
+    "If-Else": {
+        "prefix": ["if-else"],
+        "body": ["if($1){", "    $0", "} else {", "    $0", "}"],
+        "description": "A conditional statement with an else-Block."
+    },
+    "GroupedBy": {
+        "prefix": ["GroupedBy"],
+        "body": ["GroupedBy $1"],
+        "description": "A GroupedBy modifier."
+    },
+    "TimeUnit": {
+        "prefix": ["per"],
+        "body": ["per ${1|day ,week ,month ,year |}"],
+        "description": "A Timeunit."
+    },
+    "TimeStamp": {
+        "prefix": ["from-to"],
+        "body": ["from $1-$2-$3 to $4-$5-$6"],
+        "description": "A Timestamp from one Date to another."
+    },
+    "LocalVariable": {
+        "prefix": ["var"],
+        "body": ["var ${1:myVariable}${2:: $3}"],
+        "description": "A Timestamp from one Date to another."
     }
 }

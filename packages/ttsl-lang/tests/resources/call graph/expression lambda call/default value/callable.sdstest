@@ -2,11 +2,11 @@ package tests.callGraph.expressionLambdaCall.defaultValue.callable
 
 @Pure fun default()
 
-pipeline myPipeline {
+function myFunction () {
     val lambda = (
         f: () -> () = default
     ) -> f();
 
-    // $TEST$ ["$expressionLambda", "default"]
+    # $TEST$ ["$expressionLambda", "default"]
     »lambda()«;
 }

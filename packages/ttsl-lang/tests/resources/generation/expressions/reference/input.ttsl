@@ -1,0 +1,9 @@
+package tests.generator.reference
+
+function f(param: Any?){}
+
+function explainModel(): Int{}
+
+function test () {
+    f(explainModel());
+}

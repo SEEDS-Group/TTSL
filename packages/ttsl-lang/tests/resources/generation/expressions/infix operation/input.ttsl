@@ -1,0 +1,31 @@
+package tests.generator.infixOperation
+
+function f(param: Any?){}
+
+function g(): Boolean{}
+
+function h(): Int{}
+
+function i(): Int?{}
+
+function test () {
+    f(g() or g());
+    f(g() and g());
+
+    f(h() == h());
+    f(h() != h());
+    f(h() === h());
+    f(h() !== h());
+
+    f(h() < h());
+    f(h() <= h());
+    f(h() >= h());
+    f(h() > h());
+
+    f(h() + h());
+    f(h() - h());
+    f(h() * h());
+    f(h() / h());
+
+    f(i() ?: i());
+}

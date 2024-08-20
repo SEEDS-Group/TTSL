@@ -1,8 +1,8 @@
 package tests.callGraph.blockLambdaCall.nullSafe
 
-pipeline myPipeline {
+function myFunction () {
     val lambda = () {};
 
-    // $TEST$ ["$blockLambda"]
+    # $TEST$ ["$blockLambda"]
     »lambda?()«;
 }

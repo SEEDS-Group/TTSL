@@ -1,0 +1,8 @@
+package tests.generator.assignment
+
+function f(): Int {}
+function g(x: Int){}
+
+function testFunction() {
+    var a = f();
+}

@@ -1,4 +1,4 @@
-package safeds.lang
+package TTSL.lang
 
 /**
  * This parameter should only be used by expert users.

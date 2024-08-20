@@ -2,7 +2,7 @@ package tests.callGraph.annotationCall
 
 annotation MyAnnotation
 
-pipeline myPipeline {
-    // $TEST$ ["undefined"]
+function myFunction () {
+    # $TEST$ ["undefined"]
     »MyAnnotation()«;
 }

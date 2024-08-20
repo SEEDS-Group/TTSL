@@ -1,6 +1,6 @@
 package tests.partialValidation.recursiveCases.calls.recursion
 
 segment mySegment() -> r: Int {
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     yield r = »mySegment()«;
 }

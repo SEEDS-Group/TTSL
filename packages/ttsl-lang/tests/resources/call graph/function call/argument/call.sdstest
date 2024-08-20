@@ -7,7 +7,7 @@ package tests.callGraph.functionCall.argument.call
     f: Any = default()
 )
 
-pipeline myPipeline {
-    // $TEST$ ["myFunction"]
+function myFunction () {
+    # $TEST$ ["myFunction"]
     »myFunction(passed())«;
 }

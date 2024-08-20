@@ -7,12 +7,12 @@ segment mySegment1() -> (mySegmentResult: String) {}
 segment mySegment2(
     p: () -> (myCallableTypeResult: String)
 ) {
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »myFunctionResult«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »mySegmentResult«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »myCallableTypeResult«;
 }

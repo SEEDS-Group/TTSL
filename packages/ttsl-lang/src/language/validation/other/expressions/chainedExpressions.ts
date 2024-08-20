@@ -1,11 +1,11 @@
-import { SafeDsServices } from '../../../safe-ds-module.js';
-import { isTslCall, isTslIndexedAccess, isTslMemberAccess, TslChainedExpression } from '../../../generated/ast.js';
+import { TTSLServices } from '../../../ttsl-module.js';
+import { isTslCall, isTslIndexedAccess, TslChainedExpression } from '../../../generated/ast.js';
 import { ValidationAcceptor } from 'langium';
 import { UnknownType } from '../../../typing/model.js';
 
 export const CODE_CHAINED_EXPRESSION_MISSING_NULL_SAFETY = 'chained-expression/missing-null-safety';
 
-export const chainedExpressionsMustBeNullSafeIfReceiverIsNullable = (services: SafeDsServices) => {
+export const chainedExpressionsMustBeNullSafeIfReceiverIsNullable = (services: TTSLServices) => {
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
@@ -19,18 +19,13 @@ export const chainedExpressionsMustBeNullSafeIfReceiverIsNullable = (services: S
             return;
         }
 
-        if (isTslCall(node) && typeChecker.canBeCalled(receiverType)) {
+        if (isTslCall(node)) {
             accept('error', 'The receiver can be null so a null-safe call must be used.', {
                 node,
                 code: CODE_CHAINED_EXPRESSION_MISSING_NULL_SAFETY,
             });
         } else if (isTslIndexedAccess(node) && typeChecker.canBeAccessedByIndex(receiverType)) {
             accept('error', 'The receiver can be null so a null-safe indexed access must be used.', {
-                node,
-                code: CODE_CHAINED_EXPRESSION_MISSING_NULL_SAFETY,
-            });
-        } else if (isTslMemberAccess(node)) {
-            accept('error', 'The receiver can be null so a null-safe member access must be used.', {
                 node,
                 code: CODE_CHAINED_EXPRESSION_MISSING_NULL_SAFETY,
             });

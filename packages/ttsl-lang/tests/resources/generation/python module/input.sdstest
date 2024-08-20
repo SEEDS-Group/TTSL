@@ -1,9 +1,0 @@
-@PythonModule("special_module")
-
-package tests.generator.pythonModule
-
-@Impure([ImpurityReason.Other]) fun f()
-
-segment test() {
-    f();
-}

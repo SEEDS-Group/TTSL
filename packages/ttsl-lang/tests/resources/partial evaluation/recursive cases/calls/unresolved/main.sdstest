@@ -4,10 +4,10 @@ enum MyEnum {
     MyEnumVariant
 }
 
-pipeline test {
-    // $TEST$ serialization ?
+function test () {
+    # $TEST$ serialization ?
     »unresolved.MyEnumVariant()«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »MyEnum.unresolved()«;
 }

@@ -1,4 +1,4 @@
-package safeds.lang
+package TTSL.lang
 
 /**
  * The specification of a corresponding function call in Python. By default, the function is called as specified in the

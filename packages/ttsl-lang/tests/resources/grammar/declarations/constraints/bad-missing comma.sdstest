@@ -1,6 +1,0 @@
-// $TEST$ syntax_error
-
-annotation MyAnnotation where {
-    p < 0
-    q > 0
-}

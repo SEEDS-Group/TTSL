@@ -1,0 +1,19 @@
+package tests.generator.maps
+
+function g1(param: Dict<Nothing, Float>){}
+
+function g2(param: Dict<String, Float>){}
+
+function g3(param: Dict<Float, String>){}
+
+function h1(): Float {}
+
+function h2(): String{}
+
+function test () {
+    g1({});
+    g2({"a": 1.2, "b": 1.0});
+    g2({h2(): -0.5, "b": h1()});
+    g3({1.2: "a", 1.0: "b"});
+    g3({5.6: "c", h1(): h2()});
+}

@@ -1,15 +1,15 @@
 package tests.scoping.references.inSameFile.toPipelines
 
-// $TEST$ target before
+# $TEST$ target before
 pipeline »before« {}
 
 segment mySegment() {
-    // $TEST$ references before
+    # $TEST$ references before
     »before«;
 
-    // $TEST$ references after
+    # $TEST$ references after
     »after«;
 }
 
-// $TEST$ target after
+# $TEST$ target after
 pipeline »after« {}

@@ -2,7 +2,7 @@ package tests.callGraph.classCall.basic
 
 class MyClass()
 
-pipeline myPipeline {
-    // $TEST$ ["MyClass"]
+function myFunction () {
+    # $TEST$ ["MyClass"]
     »MyClass()«;
 }

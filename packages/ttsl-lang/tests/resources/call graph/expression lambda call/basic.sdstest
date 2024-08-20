@@ -1,8 +1,8 @@
 package tests.callGraph.expressionLambdaCall.basic
 
-pipeline myPipeline {
+function myFunction () {
     val lambda = () -> 1;
 
-    // $TEST$ ["$expressionLambda"]
+    # $TEST$ ["$expressionLambda"]
     »lambda()«;
 }

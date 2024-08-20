@@ -1,9 +1,9 @@
 import { EmptyFileSystem } from 'langium';
 import { clearDocuments, parseHelper } from 'langium/test';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 const packageManager = services.workspace.PackageManager;
 
 const document1 = `
@@ -36,7 +36,7 @@ package myPackage2
 class Class4
 `;
 
-describe('SafeDsPackageManager', () => {
+describe('TTSLPackageManager', () => {
     beforeAll(async () => {
         await parseHelper(services)(document1);
         await parseHelper(services)(document2);
