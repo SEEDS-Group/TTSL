@@ -10,7 +10,7 @@ describe('TTSLTypeChecker', async () => {
     const testCases: CanBeTypeOfConstantParameterTest[] = [
         {
             type: new AnyType(false),
-            expected: false,
+            expected: true,
         },
         {
             type: new BooleanType(false),

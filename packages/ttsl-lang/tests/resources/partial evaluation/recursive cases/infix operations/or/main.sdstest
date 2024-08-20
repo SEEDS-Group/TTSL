@@ -1,27 +1,27 @@
 package tests.partialValidation.recursiveCases.infixOperations.`or`
 
-pipeline test {
-    // $TEST$ serialization false
+function test () {
+    # $TEST$ serialization false
     »false or false«;
 
-    // $TEST$ serialization true
+    # $TEST$ serialization true
     »false or true«;
 
-    // $TEST$ serialization true
+    # $TEST$ serialization true
     »true or false«;
 
-    // $TEST$ serialization true
+    # $TEST$ serialization true
     »true or true«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »1 or false«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »false or 0«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »unresolved or false«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »false or unresolved«;
 }

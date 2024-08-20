@@ -4,7 +4,7 @@ from TTSL.scoping.references.acrossFiles.toGlobalEnums import MyEnum
 from tests.scoping.references.acrossFiles.toGlobalEnums.other import MyEnum
 from tests.scoping.references.acrossFiles.toGlobalEnums import MyEnum
 
-pipeline myPipeline {
-    // $TEST$ references TTSL_MyEnum
+function myFunction () {
+    # $TEST$ references TTSL_MyEnum
     »MyEnum«;
 }

@@ -50,7 +50,7 @@ describe('getNodeByLocation', async () => {
         expect(
             getNodeByLocation(services, {
                 uri: document.uri.toString(),
-                range: { start: { line: 0, character: 6 }, end: { line: 0, character: 15 } },
+                range: { start: { line: 0, character: 0 }, end: { line: 0, character: 15 } },
             }),
         ).to.satisfy(isTslFunction);
     });

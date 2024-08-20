@@ -6,7 +6,7 @@ segment mySegment(param: () -> ()) {
     param();
 }
 
-pipeline myPipeline {
-    // $TEST$ ["mySegment", "f"]
+function myFunction () {
+    # $TEST$ ["mySegment", "f"]
     »mySegment(f)«;
 }

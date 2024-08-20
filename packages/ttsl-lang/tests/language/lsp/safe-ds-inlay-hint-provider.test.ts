@@ -17,8 +17,8 @@ describe('TTSLInlayHintProvider', async () => {
             code: `
                 fun f(p: Int)
 
-                pipeline myPipeline {
-                    // $TEST$ before "p = "
+                function myFunction () {
+                    # $TEST$ before "p = "
                     f(»«1);
                 }
             `,
@@ -28,7 +28,7 @@ describe('TTSLInlayHintProvider', async () => {
             code: `
                 fun f()
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(1);
                 }
             `,
@@ -38,7 +38,7 @@ describe('TTSLInlayHintProvider', async () => {
             code: `
                 fun f(p: Int)
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(p = 1);
                 }
             `,
@@ -46,9 +46,9 @@ describe('TTSLInlayHintProvider', async () => {
         {
             testName: 'block lambda result',
             code: `
-                pipeline myPipeline {
+                function myFunction () {
                     () {
-                        // $TEST$ after ": literal<1>"
+                        # $TEST$ after ": literal<1>"
                         yield r»« = 1;
                     };
                 }
@@ -57,8 +57,8 @@ describe('TTSLInlayHintProvider', async () => {
         {
             testName: 'placeholder',
             code: `
-                pipeline myPipeline {
-                    // $TEST$ after ": literal<1>"
+                function myFunction () {
+                    # $TEST$ after ": literal<1>"
                     val x»« = 1;
                 }
             `,
@@ -66,7 +66,7 @@ describe('TTSLInlayHintProvider', async () => {
         {
             testName: 'wildcard',
             code: `
-                pipeline myPipeline {
+                function myFunction () {
                     _ = 1;
                 }
             `,
@@ -75,7 +75,7 @@ describe('TTSLInlayHintProvider', async () => {
             testName: 'yield',
             code: `
                 segment s() -> r: Int {
-                    // $TEST$ after ": literal<1>"
+                    # $TEST$ after ": literal<1>"
                     yield r»« = 1;
                 }
             `,
@@ -95,7 +95,7 @@ describe('TTSLInlayHintProvider', async () => {
              */
             fun f(p: Int)
 
-            pipeline myPipeline {
+            function myFunction () {
                 f(1);
             }
         `;
@@ -114,7 +114,7 @@ describe('TTSLInlayHintProvider', async () => {
                  */
                 class C()
 
-                pipeline myPipeline {
+                function myFunction () {
                     val a = C();
                 }
             `,
@@ -129,7 +129,7 @@ describe('TTSLInlayHintProvider', async () => {
 
                 fun f() -> e: E
 
-                pipeline myPipeline {
+                function myFunction () {
                     val a = f();
                 }
             `,
@@ -144,7 +144,7 @@ describe('TTSLInlayHintProvider', async () => {
                     V
                 }
 
-                pipeline myPipeline {
+                function myFunction () {
                     val a = E.V;
                 }
             `,
@@ -188,7 +188,7 @@ const getActualSimpleInlayHints = async (code: string): Promise<SimpleInlayHint[
 };
 
 const getExpectedSimpleInlayHints = (code: string): SimpleInlayHint[] => {
-    const testChecks = findTestChecks(code, URI.file('file:///test.ttsl'), { failIfFewerRangesThanComments: true });
+    const testChecks = findTestChecks(code, URI.file('file:#/test.ttsl'), { failIfFewerRangesThanComments: true });
     if (testChecks.isErr) {
         throw new Error(testChecks.error.message);
     }

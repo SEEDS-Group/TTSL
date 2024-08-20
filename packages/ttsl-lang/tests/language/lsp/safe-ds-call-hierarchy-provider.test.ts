@@ -23,7 +23,7 @@ describe('TTSLCallHierarchyProvider', async () => {
                     class »«C()
                     class D()
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         C();
                         D();
                     }
@@ -41,7 +41,7 @@ describe('TTSLCallHierarchyProvider', async () => {
                     class »«C()
                     class D()
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         C();
                         () -> C();
                         () { C() };
@@ -61,7 +61,7 @@ describe('TTSLCallHierarchyProvider', async () => {
                     class »«C()
                     class D()
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         C();
                         C();
                         D();

@@ -19,10 +19,3 @@ def __gen_aggregation(dataFrame: pd, data, id, function: str) -> pd | None:
 
 def testFunction(timeunit = None, groupedBy = None, date = None):
     __gen_aggregation(dataframe, testData, testID, 'sum')
-
-
-# Data --------------------------------------------------------------------
-
-testData = int()
-
-testID = int()

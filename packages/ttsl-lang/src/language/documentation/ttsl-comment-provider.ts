@@ -9,7 +9,7 @@ import {
 
 export class TTSLCommentProvider extends DefaultCommentProvider {
     override getComment(node: AstNode): string | undefined {
-        /* c8 ignore start */ if (isAstNodeWithComment(node)) {
+        /* c8 ignore start */ if (isAstNodeWithComment(node)) { 
             return node.$comment;
         } /* c8 ignore stop */ else if (
             !isTslDeclaration(node) ||

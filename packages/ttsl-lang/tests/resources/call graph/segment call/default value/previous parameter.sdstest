@@ -7,7 +7,7 @@ segment mySegment(
     g: Any = f()
 ) {}
 
-pipeline myPipeline {
-    // $TEST$ ["mySegment", "default"]
+function myFunction () {
+    # $TEST$ ["mySegment", "default"]
     »mySegment()«;
 }

@@ -1,6 +1,6 @@
 package tests.validation.other.argumentLists.missingRequiredParameter
 
-// $TEST$ no error r"The parameters? .* must be set here\."
+# $TEST$ no error r"The parameters? .* must be set here\."
 
 @MyAnnotation
 segment mySegment3(

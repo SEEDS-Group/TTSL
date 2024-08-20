@@ -70,15 +70,6 @@ describe('scoping', async () => {
         }
     });
 
-    it('should resolve members on literals', async () => {
-        const code = `
-            function MyFunction() {
-                1.toString();
-            }
-        `;
-        await expectNoLinkingErrors(code);
-    });
-
     it('should resolve members on literal types', async () => {
         const code = `
             function MyFunction(p: String) {

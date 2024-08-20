@@ -4,7 +4,7 @@ from TTSL.scoping.references.acrossFiles.toGlobalFunctions import myFunction
 from tests.scoping.references.acrossFiles.toGlobalFunctions.other import myFunction
 from tests.scoping.references.acrossFiles.toGlobalFunctions import myFunction
 
-pipeline myPipeline {
-    // $TEST$ references TTSL_myFunction
+function myFunction () {
+    # $TEST$ references TTSL_myFunction
     »myFunction«;
 }

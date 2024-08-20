@@ -65,7 +65,7 @@
             "patterns": [
                 {
                     "name": "comment.line.double-slash.ttsl",
-                    "begin": "//",
+                    "begin": "#",
                     "end": "(?=$)"
                 },
                 {

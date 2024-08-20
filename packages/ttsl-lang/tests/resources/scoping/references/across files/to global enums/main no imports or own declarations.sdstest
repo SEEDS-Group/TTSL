@@ -1,18 +1,18 @@
 package tests.scoping.references.acrossFiles.toGlobalEnums
 
-pipeline myPipeline {
-    // $TEST$ references same_MyEnum
+function myFunction () {
+    # $TEST$ references same_MyEnum
     »MyEnum«;
 
-    // $TEST$ references same_EnumInSamePackage
+    # $TEST$ references same_EnumInSamePackage
     »EnumInSamePackage«;
 
-    // $TEST$ references TTSL_EnumInTTSLPackage
+    # $TEST$ references TTSL_EnumInTTSLPackage
     »EnumInTTSLPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »EnumInAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »EnumWithoutPackage«;
 }

@@ -5,6 +5,6 @@ from tests.scoping.namedTypes.acrossFiles.toGlobalClasses.other import MyClass
 from tests.scoping.namedTypes.acrossFiles.toGlobalClasses import MyClass
 
 segment mySegment(
-    // $TEST$ references TTSL_MyClass
+    # $TEST$ references TTSL_MyClass
     p: »MyClass«,
 ) {}

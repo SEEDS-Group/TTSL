@@ -3,18 +3,18 @@ package tests.scoping.references.acrossFiles.toPipelines
 from TTSL.scoping.references.acrossFiles.toPipelines import *
 
 segment mySegment() {
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »myPipeline«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »pipelineInSamePackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »pipelineInTTSLPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »pipelineInAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »pipelineWithoutPackage«;
 }

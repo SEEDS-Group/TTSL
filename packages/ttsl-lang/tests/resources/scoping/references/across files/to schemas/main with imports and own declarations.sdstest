@@ -3,25 +3,25 @@ package tests.scoping.references.acrossFiles.toSchemas
 from TTSL.scoping.references.acrossFiles.toSchemas import MySchema as MyOwnSchema
 from tests.scoping.references.acrossFiles.toSchemas.other import SchemaInAnotherPackage, Schema2InAnotherPackage
 
-// $TEST$ target own_MyOwnSchema
+# $TEST$ target own_MyOwnSchema
 schema »MyOwnSchema« {}
 
-pipeline myPipeline {
-    // $TEST$ references own_MyOwnSchema
+function myFunction () {
+    # $TEST$ references own_MyOwnSchema
     »MyOwnSchema«;
 
-    // $TEST$ references same_SchemaInSamePackage
+    # $TEST$ references same_SchemaInSamePackage
     »SchemaInSamePackage«;
 
-    // $TEST$ references TTSL_SchemaInTTSLPackage
+    # $TEST$ references TTSL_SchemaInTTSLPackage
     »SchemaInTTSLPackage«;
 
-    // $TEST$ references other_SchemaInAnotherPackage
+    # $TEST$ references other_SchemaInAnotherPackage
     »SchemaInAnotherPackage«;
 
-    // $TEST$ references other_Schema2InAnotherPackage
+    # $TEST$ references other_Schema2InAnotherPackage
     »Schema2InAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »SchemaWithoutPackage«;
 }

@@ -1,7 +1,7 @@
 package TTSL.scoping.references.acrossFiles.toGlobalFunctions
 
-// $TEST$ target TTSL_myFunction
+# $TEST$ target TTSL_myFunction
 fun »myFunction«()
 
-// $TEST$ target TTSL_functionInTTSLPackage
+# $TEST$ target TTSL_functionInTTSLPackage
 fun »functionInTTSLPackage«()

@@ -4,7 +4,7 @@ enum MyEnum {
     MyVariant
 }
 
-pipeline myPipeline {
-    // $TEST$ ["MyVariant"]
+function myFunction () {
+    # $TEST$ ["MyVariant"]
     »MyEnum.MyVariant()«;
 }

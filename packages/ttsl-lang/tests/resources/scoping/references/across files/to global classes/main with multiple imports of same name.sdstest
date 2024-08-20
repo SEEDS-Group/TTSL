@@ -4,7 +4,7 @@ from TTSL.scoping.references.acrossFiles.toGlobalClasses import MyClass
 from tests.scoping.references.acrossFiles.toGlobalClasses.other import MyClass
 from tests.scoping.references.acrossFiles.toGlobalClasses import MyClass
 
-pipeline myPipeline {
-    // $TEST$ references TTSL_MyClass
+function myFunction () {
+    # $TEST$ references TTSL_MyClass
     »MyClass«;
 }

@@ -14,6 +14,11 @@
         "body": ["/*", " * $0", " */"],
         "description": "A block comment."
     },
+    "Line Comment": {
+        "prefix": ["line-comment"],
+        "body": ["#", " * $0"],
+        "description": "A line comment."
+    },
     "Documentation Comment": {
         "prefix": ["documentation-comment"],
         "body": ["/**", " * $0", " */"],

@@ -2,7 +2,7 @@ package tests.callGraph.classCall.nullSafe
 
 class MyClass()
 
-pipeline myPipeline {
-    // $TEST$ ["MyClass"]
+function myFunction () {
+    # $TEST$ ["MyClass"]
     »MyClass?()«;
 }

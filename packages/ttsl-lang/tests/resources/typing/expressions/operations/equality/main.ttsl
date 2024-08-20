@@ -1,0 +1,22 @@
+package tests.typing.operations.equality
+
+function myFunction() {
+    # $TEST$ serialization Boolean
+    var equals = (»1 == 1«);
+    # $TEST$ serialization Boolean
+    var notEquals = (»1 != 1«);
+
+    # $TEST$ serialization Boolean
+    var identicalTo = (»1 === 1«);
+    # $TEST$ serialization Boolean
+    var notIdenticalTo = (»1 !== 1«);
+
+    # $TEST$ serialization Boolean
+    var nonConstantEquals = (»1 == unresolved«);
+    # $TEST$ serialization Boolean
+    var nonConstantNotEquals = (»1 != unresolved«);
+    # $TEST$ serialization Boolean
+    var nonConstantIdenticalTo = (»1 === unresolved«);
+    # $TEST$ serialization Boolean
+    var nonConstantNotIdenticalTo = (»1 !== unresolved«);
+}

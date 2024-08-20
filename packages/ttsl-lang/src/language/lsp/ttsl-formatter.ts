@@ -105,9 +105,7 @@ export class TTSLFormatter extends AbstractFormatter {
         // -----------------------------------------------------------------------------
         // Types
         // -----------------------------------------------------------------------------
-        else if (ast.isTslMemberType(node)) {
-            this.formatTslMemberType(node);
-        } else if (ast.isTslIntType(node)) {
+        else if (ast.isTslIntType(node)) {
             this.formatTslIntType(node);
         } else if (ast.isTslFloatType(node)) {
             this.formatTslFloatType(node);
@@ -470,12 +468,6 @@ export class TTSLFormatter extends AbstractFormatter {
     // -----------------------------------------------------------------------------
     // Types
     // -----------------------------------------------------------------------------
-
-    private formatTslMemberType(node: ast.TslMemberType) {
-        const formatter = this.getNodeFormatter(node);
-
-        formatter.keyword('.').surround(noSpace());
-    }
 
     private formatTslIntType(node: ast.TslIntType) {
         const formatter = this.getNodeFormatter(node);

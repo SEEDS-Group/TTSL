@@ -2,18 +2,18 @@ package tests.scoping.annotationCalls.acrossFiles
 
 from TTSL.scoping.annotationCalls.acrossFiles import *
 
-// $TEST$ references TTSL_MyAnnotation
+# $TEST$ references TTSL_MyAnnotation
 @»MyAnnotation«
 
-// $TEST$ references same_AnnotationInSamePackage
+# $TEST$ references same_AnnotationInSamePackage
 @»AnnotationInSamePackage«
 
-// $TEST$ references TTSL_AnnotationInTTSLPackage
+# $TEST$ references TTSL_AnnotationInTTSLPackage
 @»AnnotationInTTSLPackage«
 
-// $TEST$ unresolved
+# $TEST$ unresolved
 @»AnnotationInAnotherPackage«
 
-// $TEST$ unresolved
+# $TEST$ unresolved
 @»AnnotationWithoutPackage«
-pipeline myPipeline {}
+function myFunction () {}

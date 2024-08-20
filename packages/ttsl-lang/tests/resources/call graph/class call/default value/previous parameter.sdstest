@@ -7,7 +7,7 @@ class MyClass(
     g: Any = f()
 )
 
-pipeline myPipeline {
-    // $TEST$ ["MyClass", "default", "default"]
+function myFunction () {
+    # $TEST$ ["MyClass", "default", "default"]
     »MyClass()«;
 }

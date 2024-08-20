@@ -18,7 +18,7 @@ describe('TTSLNodeMapper', () => {
                 const code = `
                     fun f(p: Int) {}
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         f(unresolved = 1);
                     }
                 `;
@@ -32,7 +32,7 @@ describe('TTSLNodeMapper', () => {
                 const code = `
                     fun f(p1: Int, p2: Int, p3: Int) {}
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         f(p2 = 1, p3 = 1, p1 = 1);
                     }
                 `;
@@ -48,7 +48,7 @@ describe('TTSLNodeMapper', () => {
                 const code = `
                     fun f(p1: Int = 0, p2: Int, p3: Int) {}
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         f(1, 2, 3);
                     }
                 `;
@@ -62,7 +62,7 @@ describe('TTSLNodeMapper', () => {
                 const code = `
                     fun f(p1: Int = 0, p2: Int, p3: Int) {}
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         f(p2 = 1, 2, 3);
                     }
                 `;
@@ -76,7 +76,7 @@ describe('TTSLNodeMapper', () => {
                 const code = `
                     fun f(p1: Int, p2: Int) {}
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         f(1, 2, 3);
                     }
                 `;

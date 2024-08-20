@@ -21,7 +21,7 @@ describe('findTestChecks', () => {
         },
         {
             program: `
-// $TEST$ no_syntax_error
+# $TEST$ no_syntax_error
 `,
             expected: [
                 {
@@ -32,7 +32,7 @@ describe('findTestChecks', () => {
         },
         {
             program: `
-// $TEST$ no_syntax_error
+# $TEST$ no_syntax_error
 ${OPEN}${CLOSE}
 `,
             expected: [
@@ -48,9 +48,9 @@ ${OPEN}${CLOSE}
         },
         {
             program: `
-// $TEST$ no_syntax_error
+# $TEST$ no_syntax_error
 ${OPEN}${CLOSE}
-// $TEST$ syntax_error
+# $TEST$ syntax_error
 ${OPEN}${CLOSE}
 `,
             expected: [
@@ -83,7 +83,7 @@ ${OPEN}${CLOSE}
     it('should report closing test markers without matching opening test marker', () => {
         const result = findTestChecks(
             `
-            // $TEST$ no_syntax_error
+            # $TEST$ no_syntax_error
             ${OPEN}\n${CLOSE}${CLOSE}
         `,
             URI.parse(uri),
@@ -98,7 +98,7 @@ ${OPEN}${CLOSE}
     it('should report opening test markers without matching closing test marker', () => {
         const result = findTestChecks(
             `
-            // $TEST$ no_syntax_error
+            # $TEST$ no_syntax_error
             ${OPEN}\n${OPEN}${OPEN}${CLOSE}
         `,
             URI.parse(uri),
@@ -113,7 +113,7 @@ ${OPEN}${CLOSE}
     it('should report if more ranges than comments are found', () => {
         const result = findTestChecks(
             `
-            // $TEST$ no_syntax_error
+            # $TEST$ no_syntax_error
             ${OPEN}\n${CLOSE}${OPEN}\n${CLOSE}
         `,
             URI.parse(uri),
@@ -137,7 +137,7 @@ ${OPEN}${CLOSE}
     it('should report if fewer ranges than comments are found if corresponding check is enabled', () => {
         const result = findTestChecks(
             `
-            // $TEST$ no_syntax_error
+            # $TEST$ no_syntax_error
         `,
             URI.parse(uri),
             { failIfFewerRangesThanComments: true },

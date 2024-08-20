@@ -4,29 +4,29 @@ from tests.scoping.references.acrossFiles.toGlobalClasses import MyClass as MyCl
 from TTSL.scoping.references.acrossFiles.toGlobalClasses import MyClass as MyClassInTTSLPackage
 from tests.scoping.references.acrossFiles.toGlobalClasses.other import MyClass as MyClassInAnotherPackage
 
-pipeline myPipeline {
-    // $TEST$ references same_MyClass
+function myFunction () {
+    # $TEST$ references same_MyClass
     »MyClass«;
 
 
-    // $TEST$ references same_ClassInSamePackage
+    # $TEST$ references same_ClassInSamePackage
     »ClassInSamePackage«;
 
-    // $TEST$ references TTSL_ClassInTTSLPackage
+    # $TEST$ references TTSL_ClassInTTSLPackage
     »ClassInTTSLPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »ClassInAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »ClassWithoutPackage«;
 
-    // $TEST$ references same_MyClass
+    # $TEST$ references same_MyClass
     »MyClassInSamePackage«;
 
-    // $TEST$ references TTSL_MyClass
+    # $TEST$ references TTSL_MyClass
     »MyClassInTTSLPackage«;
 
-    // $TEST$ references other_MyClass
+    # $TEST$ references other_MyClass
     »MyClassInAnotherPackage«;
 }

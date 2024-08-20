@@ -1,18 +1,18 @@
 package tests.scoping.namedTypes.acrossFiles.toGlobalEnums
 
 segment mySegment(
-    // $TEST$ references same_MyEnum
+    # $TEST$ references same_MyEnum
     p1: »MyEnum«,
 
-    // $TEST$ references same_EnumInSamePackage
+    # $TEST$ references same_EnumInSamePackage
     p2: »EnumInSamePackage«,
 
-    // $TEST$ references TTSL_EnumInTTSLPackage
+    # $TEST$ references TTSL_EnumInTTSLPackage
     p3: »EnumInTTSLPackage«,
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     p4: »EnumInAnotherPackage«,
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     p5: »EnumWithoutPackage«,
 ) {}

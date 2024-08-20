@@ -2,7 +2,7 @@ package tests.callGraph.segmentCall.nullSafe
 
 segment mySegment() {}
 
-pipeline myPipeline {
-    // $TEST$ ["mySegment"]
+function myFunction () {
+    # $TEST$ ["mySegment"]
     »mySegment?()«;
 }

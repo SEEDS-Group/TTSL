@@ -14,7 +14,7 @@ describe('TTSLSignatureHelpProvider', async () => {
         const code = `
             fun f(p: Int)
 
-            pipeline myPipeline {
+            function myFunction () {
                 f(»«);
             }
         `;
@@ -29,7 +29,7 @@ describe('TTSLSignatureHelpProvider', async () => {
             code: `
                 fun f(p: Int)
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(»«);
                 }
             `,
@@ -40,7 +40,7 @@ describe('TTSLSignatureHelpProvider', async () => {
             code: `
                 fun f(p: Int)
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(»«, );
                 }
             `,
@@ -51,7 +51,7 @@ describe('TTSLSignatureHelpProvider', async () => {
             code: `
                 fun f(p: Int)
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(1, »«);
                 }
             `,
@@ -71,7 +71,7 @@ describe('TTSLSignatureHelpProvider', async () => {
         {
             testName: 'unresolved callable',
             code: `
-                pipeline myPipeline {
+                function myFunction () {
                     f(»«);
                 }
             `,
@@ -86,7 +86,7 @@ describe('TTSLSignatureHelpProvider', async () => {
                 annotation A(p: Int)
 
                 @A(»«)
-                pipeline myPipeline {}
+                function myFunction () {}
             `,
             expectedSignature: [
                 {
@@ -111,7 +111,7 @@ describe('TTSLSignatureHelpProvider', async () => {
                  */
                 class C(p: Int)
 
-                pipeline myPipeline {
+                function myFunction () {
                     C(»«);
                 }
             `,
@@ -138,7 +138,7 @@ describe('TTSLSignatureHelpProvider', async () => {
                  */
                 fun f(p: Int)
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(»«);
                 }
             `,
@@ -160,7 +160,7 @@ describe('TTSLSignatureHelpProvider', async () => {
         {
             testName: 'call (lambda)',
             code: `
-                pipeline myPipeline {
+                function myFunction () {
                     ((p: Int) {})(»«);
                 }
             `,
@@ -182,7 +182,7 @@ describe('TTSLSignatureHelpProvider', async () => {
             code: `
                 fun f(p: Int = 0)
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(»«);
                 }
             `,

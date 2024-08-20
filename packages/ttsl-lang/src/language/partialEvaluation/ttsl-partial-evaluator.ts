@@ -45,6 +45,7 @@ import {
     isTslVisibility,
     isTslTimeunit,
     isTslString,
+    isTslParenthesizedExpression,
 } from '../generated/ast.js';
 import { getArguments, getParameters, getResults } from '../helpers/nodeProperties.js';
 import { TTSLNodeMapper } from '../helpers/ttsl-node-mapper.js';
@@ -223,6 +224,8 @@ export class TTSLPartialEvaluator {
             return this.evaluateWithRecursionCheck(node.expression, substitutions, visited);
         } else if (isTslAggregation(node)) {
             return this.evaluateAggregation(node, substitutions, visited);
+        } else if (isTslParenthesizedExpression(node)) {
+            return this.evaluateWithRecursionCheck(node, substitutions, visited);
         } /* c8 ignore start */ else {
             throw new Error(`Unexpected expression type: ${node.$type}`);
         } /* c8 ignore stop */

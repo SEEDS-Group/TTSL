@@ -4,7 +4,7 @@ segment mySegment() -> (r: Int, s: Int) {
     yield r = 1;
 }
 
-pipeline test {
-    // $TEST$ serialization (r = 1, s = ?)
+function test () {
+    # $TEST$ serialization (r = 1, s = ?)
     »mySegment()«;
 }

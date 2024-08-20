@@ -6,7 +6,7 @@ segment mySegment(p: Int) -> (closure: () -> (r: Int)) {
     };
 }
 
-pipeline test {
-    // $TEST$ serialization 1
+function test () {
+    # $TEST$ serialization 1
     »mySegment(1)()«;
 }

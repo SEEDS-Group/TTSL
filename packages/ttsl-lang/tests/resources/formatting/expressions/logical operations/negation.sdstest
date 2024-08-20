@@ -1,9 +1,9 @@
-pipeline myPipeline {
+function myFunction () {
     not  true;
 }
 
-// -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
-pipeline myPipeline {
+function myFunction () {
     not true;
 }

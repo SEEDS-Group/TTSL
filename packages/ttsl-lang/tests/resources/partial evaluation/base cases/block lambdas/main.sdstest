@@ -1,6 +1,6 @@
 package tests.partialValidation.baseCases.expressionLambdas
 
-pipeline test {
-    // $TEST$ serialization $expressionLambdaClosure
+function test () {
+    # $TEST$ serialization $expressionLambdaClosure
     »() -> 1«;
 }

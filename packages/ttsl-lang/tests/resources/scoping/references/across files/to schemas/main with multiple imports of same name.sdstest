@@ -4,7 +4,7 @@ from TTSL.scoping.references.acrossFiles.toSchemas import MySchema
 from tests.scoping.references.acrossFiles.toSchemas.other import MySchema
 from tests.scoping.references.acrossFiles.toSchemas import MySchema
 
-pipeline myPipeline {
-    // $TEST$ references TTSL_MySchema
+function myFunction () {
+    # $TEST$ references TTSL_MySchema
     »MySchema«;
 }

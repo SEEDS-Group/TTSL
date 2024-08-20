@@ -5,28 +5,28 @@ from TTSL.scoping.namedTypes.acrossFiles.toGlobalClasses import MyClass as MyCla
 from tests.scoping.namedTypes.acrossFiles.toGlobalClasses.other import MyClass as MyClassInAnotherPackage
 
 segment mySegment(
-    // $TEST$ references same_MyClass
+    # $TEST$ references same_MyClass
     p1: »MyClass«,
 
 
-    // $TEST$ references same_ClassInSamePackage
+    # $TEST$ references same_ClassInSamePackage
     p2: »ClassInSamePackage«,
 
-    // $TEST$ references TTSL_ClassInTTSLPackage
+    # $TEST$ references TTSL_ClassInTTSLPackage
     p3: »ClassInTTSLPackage«,
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     p4: »ClassInAnotherPackage«,
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     p5: »ClassWithoutPackage«,
 
-    // $TEST$ references same_MyClass
+    # $TEST$ references same_MyClass
     p6: »MyClassInSamePackage«,
 
-    // $TEST$ references TTSL_MyClass
+    # $TEST$ references TTSL_MyClass
     p7: »MyClassInTTSLPackage«,
 
-    // $TEST$ references other_MyClass
+    # $TEST$ references other_MyClass
     p8: »MyClassInAnotherPackage«,
 ) {}

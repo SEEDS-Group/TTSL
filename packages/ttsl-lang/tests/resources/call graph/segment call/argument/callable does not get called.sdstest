@@ -4,7 +4,7 @@ package tests.callGraph.segmentCall.argument.callableDoesNotGetCalled
 
 segment mySegment(param: () -> ()) {}
 
-pipeline myPipeline {
-    // $TEST$ ["mySegment"]
+function myFunction () {
+    # $TEST$ ["mySegment"]
     »mySegment(f)«;
 }

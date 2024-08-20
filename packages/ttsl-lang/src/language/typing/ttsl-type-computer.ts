@@ -37,6 +37,7 @@ import {
     isTslFloat,
     isTslBoolean,
     isTslString,
+    isTslAnyType,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
 import {
@@ -136,7 +137,7 @@ export class TTSLTypeComputer {
 
     private computeTypeOfCallableWithManifestTypes(node: TslFunction ): Type {
         if(isTslFunction(node)){
-            return this.computeType(node.result?.type);
+            return this.computeType(node.result);
         }else{
             return UnknownType;
         }
@@ -240,12 +241,7 @@ export class TTSLTypeComputer {
 
     private computeTypeOfCall(node: TslCall): Type {
         const receiverType = this.computeType(node.receiver);
-        const nonNullableReceiverType = this.computeNonNullableType(receiverType);
-        let result: Type = UnknownType;
-
-        if (isTslFunction(nonNullableReceiverType)) {
-            result = receiverType
-        }
+        let result = receiverType
 
         // Update nullability
         return result.withExplicitNullability(receiverType.isExplicitlyNullable && node.isNullSafe);
@@ -279,8 +275,8 @@ export class TTSLTypeComputer {
         const rightOperandType = this.computeType(node.rightOperand);
 
         if (
-            this.typeChecker.isSubtypeOf(leftOperandType, new IntType(false)) &&
-            this.typeChecker.isSubtypeOf(rightOperandType, new IntType(false))
+            leftOperandType instanceof IntType &&
+            rightOperandType instanceof IntType
         ) {
             return new IntType(false);
         } else {
@@ -301,7 +297,7 @@ export class TTSLTypeComputer {
     private computeTypeOfArithmeticPrefixOperation(node: TslPrefixOperation): Type {
         const operandType = this.computeType(node.operand);
 
-        if (this.typeChecker.isSubtypeOf(operandType, new IntType(false))) {
+        if (operandType instanceof IntType) {
             return new IntType(false);
         } else {
             return new FloatType(false);
@@ -324,6 +320,8 @@ export class TTSLTypeComputer {
             return new StringType(false);
         } else if (isTslBooleanType(node)) {
             return new BooleanType(false);
+        } else if (isTslAnyType(node)) {
+            return new AnyType(false);
         } /* c8 ignore start */ else {
             return UnknownType;
         } /* c8 ignore stop */

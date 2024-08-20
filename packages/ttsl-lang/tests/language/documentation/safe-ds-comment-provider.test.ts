@@ -6,7 +6,6 @@ import {
     isTslFunction,
     isTslLocalVariable,
     isTslParameter,
-    isTslPlaceholder,
     isTslResult,
     isTslTypeParameter,
 } from '../../../src/language/generated/ast.js';
@@ -26,7 +25,7 @@ describe('TTSLCommentProvider', () => {
                 function F(){}
             `,
             predicate: isTslFunction,
-            expectedComment: undefined,
+            expectedComment: testComment,
         },
         {
             testName: 'commented module member (with annotations, with package)',
@@ -56,10 +55,10 @@ describe('TTSLCommentProvider', () => {
                 }
             `,
             predicate: isTslLocalVariable,
-            expectedComment: testComment,
+            expectedComment: undefined,
         },
         {
-            testName: 'uncommented class member',
+            testName: 'uncommented function member',
             code: `
                 function F() {
                     var a: Int = 0;
@@ -95,7 +94,7 @@ describe('TTSLCommentProvider', () => {
         {
             testName: 'uncommented result',
             code: `
-                segment mySegment(): Int {}
+                function F(): Int {}
             `,
             predicate: isTslResult,
             expectedComment: undefined,
@@ -103,7 +102,7 @@ describe('TTSLCommentProvider', () => {
         {
             testName: 'commented type parameter',
             code: `
-                constant c: List<${testComment} T> = [0, 1];
+                constant c: List<${testComment} Int> = [0, 1];
             `,
             predicate: isTslTypeParameter,
             expectedComment: undefined,
@@ -111,7 +110,7 @@ describe('TTSLCommentProvider', () => {
         {
             testName: 'uncommented type parameter',
             code: `
-                constant c: List<T> = [0, 1];
+                constant c: List<Int> = [0, 1];
             `,
             predicate: isTslTypeParameter,
             expectedComment: undefined,
@@ -130,7 +129,7 @@ describe('TTSLCommentProvider', () => {
         {
             testName: 'uncommented not-a-declaration',
             code: `
-                segment mySegment(p: Int) {
+                function F(p: Int) {
                     f();
                 }
             `,
@@ -145,6 +144,7 @@ describe('TTSLCommentProvider', () => {
             throw new AssertionError({ message: 'Node not found.' });
         }
 
+        console.log(node.$type + ': ' + commentProvider.getComment(node) + '\n');
         expect(commentProvider.getComment(node)).toStrictEqual(expectedComment);
     });
 });

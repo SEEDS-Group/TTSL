@@ -1,7 +1,10 @@
 package tests.generator.utilityFunction
 
 constant testList: List<Int> = [1, 2, 3]
+constant testDict: Dict<String, Int> = {"a": 1, "b": 2, "c": 3}
 
 function testFunction(){
     var x = len(testList);
+    var y = keys(testDict);
+    var z = values(testDict);
 }

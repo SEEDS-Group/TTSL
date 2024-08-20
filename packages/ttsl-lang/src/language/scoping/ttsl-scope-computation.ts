@@ -7,10 +7,17 @@ import {
     PrecomputedScopes,
 } from 'langium';
 import {
+    isTslConditionalStatement,
     isTslDeclaration,
+    isTslForeachLoop,
+    isTslForLoop,
     isTslFunction,
+    isTslLoop,
     isTslModule,
+    isTslWhileLoop,
+    TslConditionalStatement,
     TslFunction,
+    TslLoop,
 } from '../generated/ast.js';
 
 export class TTSLScopeComputation extends DefaultScopeComputation {
@@ -32,6 +39,10 @@ export class TTSLScopeComputation extends DefaultScopeComputation {
     protected override processNode(node: AstNode, document: LangiumDocument, scopes: PrecomputedScopes): void {
         if (isTslFunction(node)) {
             this.processTslFunction(node, document, scopes);
+        } else if (isTslLoop(node)){
+            this.processTslLoop(node, document, scopes)
+        } else if (isTslConditionalStatement(node)){
+            this.processTslConditionalStatement(node, document, scopes)
         } else {
             super.processNode(node, document, scopes);
         }
@@ -48,6 +59,50 @@ export class TTSLScopeComputation extends DefaultScopeComputation {
         this.addToScopesIfKeyIsDefined(scopes, node.parameterList, description);
         this.addToScopesIfKeyIsDefined(scopes, node.body, description);
         this.addToScopesIfKeyIsDefined(scopes, node.result, description);
+
+        const containingDeclaration = AstUtils.getContainerOfType(node.$container, isTslDeclaration);
+        if (isTslModule(containingDeclaration)) {
+            this.addToScopesIfKeyIsDefined(scopes, containingDeclaration, description);
+        }
+    }
+
+    private processTslLoop(node: TslLoop, document: LangiumDocument, scopes: PrecomputedScopes): void {
+        const name = this.nameProvider.getName(node);
+        if (!name) {
+            return;
+        }
+
+        const description = this.descriptions.createDescription(node, name, document);
+
+        this.addToScopesIfKeyIsDefined(scopes, node.block, description);
+
+        if (isTslForLoop(node)){
+            this.addToScopesIfKeyIsDefined(scopes, node.definitionStatement, description);
+            this.addToScopesIfKeyIsDefined(scopes, node.condition, description);
+            this.addToScopesIfKeyIsDefined(scopes, node.iteration, description);
+        } else if(isTslWhileLoop(node)){
+            this.addToScopesIfKeyIsDefined(scopes, node.condition, description);
+        } else if(isTslForeachLoop(node)){
+            this.addToScopesIfKeyIsDefined(scopes, node.element, description);
+            this.addToScopesIfKeyIsDefined(scopes, node.list, description);
+        }
+
+        const containingDeclaration = AstUtils.getContainerOfType(node.$container, isTslDeclaration);
+        if (isTslModule(containingDeclaration)) {
+            this.addToScopesIfKeyIsDefined(scopes, containingDeclaration, description);
+        }
+    }
+
+    private processTslConditionalStatement(node: TslConditionalStatement, document: LangiumDocument, scopes: PrecomputedScopes): void {
+        const name = this.nameProvider.getName(node);
+        if (!name) {
+            return;
+        }
+
+        const description = this.descriptions.createDescription(node, name, document);
+
+        this.addToScopesIfKeyIsDefined(scopes, node.ifBlock, description);
+        this.addToScopesIfKeyIsDefined(scopes, node.elseBlock, description);
 
         const containingDeclaration = AstUtils.getContainerOfType(node.$container, isTslDeclaration);
         if (isTslModule(containingDeclaration)) {

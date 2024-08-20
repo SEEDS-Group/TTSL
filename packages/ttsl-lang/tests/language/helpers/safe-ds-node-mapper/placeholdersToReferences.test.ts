@@ -27,7 +27,7 @@ describe('TTSLNodeMapper', () => {
 
         it('should return references directly in body', async () => {
             const code = `
-                pipeline myPipeline {
+                function myFunction () {
                     val a1 = 1;
 
                     a1;
@@ -73,7 +73,7 @@ describe('TTSLNodeMapper', () => {
 
         it('should not return references to other placeholders', async () => {
             const code = `
-                pipeline myPipeline {
+                function myFunction () {
                     val a1 = 1;
                     val a2 = 2;
 

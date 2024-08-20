@@ -4,19 +4,19 @@ segment mySegment(p: Int) -> r: Int {
     yield r = p;
 }
 
-pipeline myPipeline {
+function myFunction () {
     val blockLambda = (p: Int) {
         yield r = p;
     };
 
     val expressionLambda = (p: Int) -> p;
 
-    // $TEST$ serialization 1
+    # $TEST$ serialization 1
     »mySegment(1)«;
 
-    // $TEST$ serialization 1
+    # $TEST$ serialization 1
     »blockLambda(1)«;
 
-    // $TEST$ serialization 1
+    # $TEST$ serialization 1
     »expressionLambda(1)«;
 }

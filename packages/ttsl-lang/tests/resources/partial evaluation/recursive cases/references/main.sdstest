@@ -1,10 +1,10 @@
 package tests.partialEvaluation.recursiveCases.assignees.references
 
-pipeline myPipeline {
+function myFunction () {
     val a = 1;
 
-    // $TEST$ serialization 1
+    # $TEST$ serialization 1
     »a«;
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »unresolved«;
 }

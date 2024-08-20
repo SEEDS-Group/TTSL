@@ -14,7 +14,7 @@ import {
 } from '../generated/ast.js';
 import { getArguments } from '../helpers/nodeProperties.js';
 import { TTSLServices } from '../ttsl-module.js';
-import {BooleanType, DictionaryType, FloatType, IntType, ListType, UnknownType } from '../typing/model.js';
+import {AnyType, BooleanType, DictionaryType, FloatType, IntType, ListType, UnknownType } from '../typing/model.js';
 
 export const CODE_TYPE_CALLABLE_RECEIVER = 'type/callable-receiver';
 export const CODE_TYPE_MISMATCH = 'type/mismatch';
@@ -40,7 +40,7 @@ export const callArgumentTypesMustMatchParameterTypes = (services: TTSLServices)
             const argumentType = typeComputer.computeType(argument);
             const parameterType = typeComputer.computeType(parameter);
 
-            if (!typeChecker.isSubtypeOf(argumentType, parameterType)) {
+            if (!(argumentType.toString == parameterType.toString || parameterType instanceof AnyType)) {
                 accept('error', `Expected type '${parameterType}' but got '${argumentType}'.`, {
                     node: argument,
                     property: 'value',
@@ -104,7 +104,7 @@ export const indexedAccessIndexMustHaveCorrectType = (services: TTSLServices) =>
         const receiverType = typeComputer.computeType(node.receiver);
         if (receiverType instanceof ListType) {
             const indexType = typeComputer.computeType(node.index);
-            if (!typeChecker.isSubtypeOf(indexType, new IntType(false))) {
+            if (indexType instanceof IntType) {
                 accept('error', `Expected type 'Int' but got '${indexType}'.`, {
                     node,
                     property: 'index',
@@ -125,13 +125,13 @@ export const infixOperationOperandsMustHaveCorrectType = (services: TTSLServices
         switch (node.operator) {
             case 'or':
             case 'and':
-                if (node.leftOperand && !typeChecker.isSubtypeOf(leftType, new BooleanType(false))) {
+                if (node.leftOperand && !(leftType instanceof BooleanType)) {
                     accept('error', `Expected type 'Boolean' but got '${leftType}'.`, {
                         node: node.leftOperand,
                         code: CODE_TYPE_MISMATCH,
                     });
                 }
-                if (node.rightOperand && !typeChecker.isSubtypeOf(rightType, new BooleanType(false))) {
+                if (node.rightOperand && !(rightType instanceof BooleanType)) {
                     accept('error', `Expected type 'Boolean' but got '${rightType}'.`, {
                         node: node.rightOperand,
                         code: CODE_TYPE_MISMATCH,
@@ -148,8 +148,8 @@ export const infixOperationOperandsMustHaveCorrectType = (services: TTSLServices
             case '/':
                 if (
                     node.leftOperand &&
-                    !typeChecker.isSubtypeOf(leftType, new FloatType(false)) &&
-                    !typeChecker.isSubtypeOf(leftType, new IntType(false))
+                    !(leftType instanceof FloatType) &&
+                    !(leftType instanceof IntType)
                 ) {
                     accept('error', `Expected type 'Float' or 'Int' but got '${leftType}'.`, {
                         node: node.leftOperand,
@@ -158,8 +158,8 @@ export const infixOperationOperandsMustHaveCorrectType = (services: TTSLServices
                 }
                 if (
                     node.rightOperand &&
-                    !typeChecker.isSubtypeOf(rightType, new FloatType(false)) &&
-                    !typeChecker.isSubtypeOf(rightType, new IntType(false))
+                    !(leftType instanceof FloatType) &&
+                    !(leftType instanceof IntType)
                 ) {
                     accept(
                         'error',
@@ -230,7 +230,7 @@ export const parameterDefaultValueTypeMustMatchParameterType = (services: TTSLSe
         const defaultValueType = typeComputer.computeType(defaultValue);
         const parameterType = typeComputer.computeType(node);
 
-        if (!typeChecker.isSubtypeOf(defaultValueType, parameterType)) {
+        if (!(defaultValueType.toString == parameterType.toString)) {
             accept('error', `Expected type '${parameterType}' but got '${defaultValueType}'.`, {
                 node,
                 property: 'defaultValue',
@@ -248,7 +248,7 @@ export const prefixOperationOperandMustHaveCorrectType = (services: TTSLServices
         const operandType = typeComputer.computeType(node.operand);
         switch (node.operator) {
             case 'not':
-                if (!typeChecker.isSubtypeOf(operandType, new BooleanType(false))) {
+                if (!(operandType instanceof BooleanType)) {
                     accept('error', `Expected type 'Boolean' but got '${operandType}'.`, {
                         node,
                         property: 'operand',
@@ -258,8 +258,8 @@ export const prefixOperationOperandMustHaveCorrectType = (services: TTSLServices
                 return;
             case '-':
                 if (
-                    !typeChecker.isSubtypeOf(operandType, new FloatType(false)) &&
-                    !typeChecker.isSubtypeOf(operandType, new IntType(false))
+                    !(operandType instanceof FloatType) &&
+                    !(operandType instanceof IntType)
                 ) {
                     accept(
                         'error',

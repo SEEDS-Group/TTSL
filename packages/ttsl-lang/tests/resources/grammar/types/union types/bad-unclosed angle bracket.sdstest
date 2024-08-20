@@ -1,5 +1,0 @@
-// $TEST$ syntax_error
-
-segment mySegment(
-    x: union<
-) {}

@@ -98,6 +98,14 @@ export class IntType extends AnyType {
 
         return result;
     }
+
+    override withExplicitNullability(isExplicitlyNullable: boolean): IntType {
+        if (this.isExplicitlyNullable === isExplicitlyNullable) {
+            return this;
+        }
+
+        return new IntType(isExplicitlyNullable);
+    }
 }
 
 export class FloatType extends AnyType {
@@ -115,6 +123,14 @@ export class FloatType extends AnyType {
         }
 
         return result;
+    }
+
+    override withExplicitNullability(isExplicitlyNullable: boolean): FloatType {
+        if (this.isExplicitlyNullable === isExplicitlyNullable) {
+            return this;
+        }
+
+        return new FloatType(isExplicitlyNullable);
     }
 }
 
@@ -134,6 +150,14 @@ export class StringType extends AnyType {
 
         return result;
     }
+
+    override withExplicitNullability(isExplicitlyNullable: boolean): StringType {
+        if (this.isExplicitlyNullable === isExplicitlyNullable) {
+            return this;
+        }
+
+        return new StringType(isExplicitlyNullable);
+    }
 }
 
 export class BooleanType extends AnyType {
@@ -152,6 +176,14 @@ export class BooleanType extends AnyType {
 
         return result;
     }
+
+    override withExplicitNullability(isExplicitlyNullable: boolean): BooleanType {
+        if (this.isExplicitlyNullable === isExplicitlyNullable) {
+            return this;
+        }
+
+        return new BooleanType(isExplicitlyNullable);
+    }
 }
 
 export class DictionaryType extends AnyType {
@@ -165,8 +197,10 @@ export class DictionaryType extends AnyType {
     }
 
     override get isFullySubstituted(): boolean {
-        if (this._isFullySubstituted === undefined) {
+        if (this._isFullySubstituted === undefined && !isEmpty(this.substitutions)) {
             this._isFullySubstituted = stream(this.substitutions.values()).every((it) => it.isFullySubstituted);
+        } else {
+            this._isFullySubstituted = false
         }
 
         return this._isFullySubstituted;
@@ -222,8 +256,10 @@ export class ListType extends AnyType{
     }
 
     override get isFullySubstituted(): boolean {
-        if (this._isFullySubstituted === undefined) {
+        if (this._isFullySubstituted === undefined && !isEmpty(this.substitutions)) {
             this._isFullySubstituted = stream(this.substitutions.values()).every((it) => it.isFullySubstituted);
+        } else {
+            this._isFullySubstituted = false
         }
 
         return this._isFullySubstituted;
@@ -283,6 +319,14 @@ export class NothingType extends AnyType{
         }
 
         return result;
+    }
+
+    override withExplicitNullability(isExplicitlyNullable: boolean): NothingType {
+        if (this.isExplicitlyNullable === isExplicitlyNullable) {
+            return this;
+        }
+
+        return new NothingType(isExplicitlyNullable);
     }
 }
 

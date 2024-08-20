@@ -15,9 +15,9 @@ import {
     isTslAssignment,
     isTslBlock,
     isTslCallable,
+    isTslDeclaration,
     isTslImportedDeclaration,
     isTslModule,
-    isTslNamedTypeDeclaration,
     isTslParameter,
     isTslPlaceholder,
     isTslQualifiedImport,
@@ -129,10 +129,10 @@ export class TTSLScopeProvider extends DefaultScopeProvider {
         let start: AstNode | undefined;
 
         // Only containing classes, enums, and enum variants can be referenced
-        let current = AstUtils.getContainerOfType(start, isTslNamedTypeDeclaration);
+        let current = AstUtils.getContainerOfType(start, isTslDeclaration);
         while (current) {
             result.push(current);
-            current = AstUtils.getContainerOfType(current.$container, isTslNamedTypeDeclaration);
+            current = AstUtils.getContainerOfType(current.$container, isTslDeclaration);
         }
 
         return this.createScopeForNodes(result, outerScope);

@@ -21,6 +21,10 @@ interface TslLocalVariable extends TslDeclaration {
     ^type?: TslType
 }
 
+TslLocalVariable returns TslLocalVariable:
+    name=ID
+;
+
 // -----------------------------------------------------------------------------
 // Module
 // -----------------------------------------------------------------------------
@@ -239,7 +243,6 @@ TslBlock returns TslBlock:
 
 interface TslFunctionBlock extends TslBlock{
     timespanStatement: TslTimespanStatement[]
-    returnValue?: TslExpression
 }
 
 TslFunctionBlock returns TslFunctionBlock:
@@ -263,7 +266,7 @@ interface TslAssignment extends TslStatement {
 }
 
 TslAssignment returns TslAssignment:
-    assigneeList=TslAssigneeList '=' expression=TslExpression ';'
+    assigneeList=TslAssigneeList '=' expression=TslExpression ';'?
 ;
 
 interface TslAssigneeList extends TslObject {
@@ -280,6 +283,7 @@ interface TslPlaceholder extends TslAssignee, TslLocalVariable {}
 
 TslAssignee returns TslAssignee:
     {TslPlaceholder} 'var' name=ID (':' ^type=TslType)?  (groupedBy=TslGroupedBy)?
+    | TslReference
 ;
 
 interface TslExpressionStatement extends TslStatement {
@@ -326,19 +330,19 @@ interface TslForLoop extends TslLoop{
 }
 
 TslForLoop returns TslForLoop:
-    'for''(' (definitionStatement=TslStatement)?
-    ';' condition=TslExpression
-    ';' (iteration=TslStatement)?
+    'for''(' (definitionStatement=TslAssignment| ';')
+     condition=TslExpression
+    ';' (iteration=TslAssignment)?
     ')' block=TslBlock
 ;
 
 interface TslForeachLoop extends TslLoop{
-    element: string
+    element: TslLocalVariable
     list: TslExpression
 }
 
 TslForeachLoop returns TslForeachLoop:
-    'foreach''(' element=STRING 'in' list=TslExpression ')'
+    'foreach''(' element=TslLocalVariable 'in' list=TslExpression ')'
     block=TslBlock
 ;
 
@@ -536,6 +540,8 @@ TslCallArgument returns TslArgument:
 TslPrimaryExpression returns TslExpression:
     TslLiteral
   | TslReference
+  | TslParenthesizedExpression
+  | TslPredefinedFunction
 ;
 
 interface TslLiteral extends TslExpression {}
@@ -624,6 +630,23 @@ interface TslDate extends TslLiteral{
 
 TslDate returns TslDate:
     date=DATE
+;
+
+interface TslParenthesizedExpression extends TslExpression {
+    expression:TslExpression
+}
+
+TslParenthesizedExpression returns TslParenthesizedExpression:
+    '(' expression=TslExpression  ')'
+;
+
+interface TslPredefinedFunction extends TslExpression {
+    name: string
+    object: TslReference
+}
+
+TslPredefinedFunction returns TslPredefinedFunction:
+    name = ('len' | 'keys' | 'values') '(' object = TslReference ')'
 ;
 
 interface TslReference extends TslExpression {
@@ -737,16 +760,13 @@ TslTimespanValueEntry returns TslTimespanValueEntry:
 // Types
 // -----------------------------------------------------------------------------
 
-interface TslType extends TslObject {}
-
-interface TslNamedTypeDeclaration extends TslDeclaration {}
-
-interface TslMemberType extends TslType {
-    receiver: TslType
+interface TslType extends TslObject {
+    isNullable: boolean
 }
 
+
 TslType returns TslType:
-    TslPrimaryType 
+    TslPrimaryType (isNullable?='?')?
 ;
 
 TslPrimaryType returns TslType:
@@ -756,6 +776,7 @@ TslPrimaryType returns TslType:
   | TslBooleanType
   | TslDictionaryType
   | TslListType
+  | TslAnyType
 ;
 
 interface TslIntType extends TslType {}
@@ -822,6 +843,13 @@ TslTypeParameter returns TslTypeParameter:
     type=TslType
 ;
 
+interface TslAnyType extends TslType {}
+
+TslAnyType returns TslAnyType:
+    {TslAnyType} 'Any'
+;
+
+
 // -----------------------------------------------------------------------------
 // Terminals
 // -----------------------------------------------------------------------------
@@ -853,6 +881,6 @@ terminal TEMPLATE_STRING_INNER returns string: TEMPLATE_EXPRESSION_END STRING_TE
 terminal TEMPLATE_STRING_END returns string: TEMPLATE_EXPRESSION_END STRING_TEXT* STRING_END;
 
 hidden terminal ML_COMMENT: /\/\*[\s\S]*?\*\//;
-hidden terminal SL_COMMENT: /\/\/[^\n\r]*/;
+hidden terminal SL_COMMENT: /\#[^\n\r]*/;
 hidden terminal TEST_MARKER: /[»«]/;
 hidden terminal WS: /\s+/;

@@ -9,22 +9,22 @@ fun functionWithoutSideEffects() -> result: Boolean
 @Impure([ImpurityReason.FileWriteToConstantPath("test.txt")])
 fun functionWithSideEffects() -> result: Boolean
 
-pipeline test {
-    // $TEST$ serialization false
+function test () {
+    # $TEST$ serialization false
     »false and pureFunction()«;
 
-    // $TEST$ serialization false
+    # $TEST$ serialization false
     »false and functionWithoutSideEffects()«;
 
-    // $TEST$ serialization false
+    # $TEST$ serialization false
     »false and functionWithSideEffects()«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »true and pureFunction()«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »true and functionWithoutSideEffects()«;
 
-    // $TEST$ serialization ?
+    # $TEST$ serialization ?
     »true and functionWithSideEffects()«;
 }

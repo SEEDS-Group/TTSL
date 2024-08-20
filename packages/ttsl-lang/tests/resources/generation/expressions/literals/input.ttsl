@@ -1,0 +1,12 @@
+package tests.generator.literals
+
+function test () {
+    true;
+    false;
+    1.0;
+    1;
+    null;
+    "";
+    "multi
+line";
+}

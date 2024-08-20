@@ -4,7 +4,7 @@ from TTSL.scoping.annotationCalls.acrossFiles import MyAnnotation
 from tests.scoping.annotationCalls.acrossFiles.other import MyAnnotation
 from tests.scoping.annotationCalls.acrossFiles import MyAnnotation
 
-pipeline myPipeline {
-    // $TEST$ references TTSL_MyAnnotation
+function myFunction () {
+    # $TEST$ references TTSL_MyAnnotation
     »MyAnnotation«;
 }

@@ -4,57 +4,57 @@ from tests.scoping.references.acrossFiles.toSegments import mySegment as mySegme
 from TTSL.scoping.references.acrossFiles.toSegments import mySegment as mySegmentInTTSLPackage
 from tests.scoping.references.acrossFiles.toSegments.other import mySegment as mySegmentInAnotherPackage
 
-pipeline myPipeline {
-    // $TEST$ references same_mySegment
+function myFunction () {
+    # $TEST$ references same_mySegment
     »mySegment«;
 
 
-    // $TEST$ references same_publicSegmentInSamePackage
+    # $TEST$ references same_publicSegmentInSamePackage
     »publicSegmentInSamePackage«;
 
-    // $TEST$ references same_internalSegmentInSamePackage
+    # $TEST$ references same_internalSegmentInSamePackage
     »internalSegmentInSamePackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »privateSegmentInSamePackage«;
 
 
-    // $TEST$ references TTSL_publicSegmentInTTSLPackage
+    # $TEST$ references TTSL_publicSegmentInTTSLPackage
     »publicSegmentInTTSLPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »internalSegmentInTTSLPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »privateSegmentInTTSLPackage«;
 
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »publicSegmentInAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »internalSegmentInAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »privateSegmentInAnotherPackage«;
 
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »publicSegmentWithoutPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »internalSegmentWithoutPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »privateSegmentWithoutPackage«;
 
 
-    // $TEST$ references same_mySegment
+    # $TEST$ references same_mySegment
     »mySegmentInSamePackage«;
 
-    // $TEST$ references TTSL_mySegment
+    # $TEST$ references TTSL_mySegment
     »mySegmentInTTSLPackage«;
 
-    // $TEST$ references other_mySegment
+    # $TEST$ references other_mySegment
     »mySegmentInAnotherPackage«;
 }

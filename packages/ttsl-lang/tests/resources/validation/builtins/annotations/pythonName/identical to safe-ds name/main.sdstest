@@ -1,11 +1,11 @@
 package tests.validation.builtins.annotations.pythonName.identicalToTTSLName
 
-// $TEST$ info "The Python name is identical to the TTSL name, so the annotation call can be removed."
+# $TEST$ info "The Python name is identical to the TTSL name, so the annotation call can be removed."
 @»PythonName«("TestClass1")
 class TestClass1
 
-// $TEST$ no info "The Python name is identical to the TTSL name, so the annotation call can be removed."
+# $TEST$ no info "The Python name is identical to the TTSL name, so the annotation call can be removed."
 @»PythonName«("Test_Class_2")
-// $TEST$ no info "The Python name is identical to the TTSL name, so the annotation call can be removed."
+# $TEST$ no info "The Python name is identical to the TTSL name, so the annotation call can be removed."
 @»PythonName«("TestClass2")
 class TestClass2

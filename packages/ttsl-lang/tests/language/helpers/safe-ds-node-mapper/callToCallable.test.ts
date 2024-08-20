@@ -21,7 +21,7 @@ describe('TTSLNodeMapper', () => {
             it('should return undefined if receiver is unresolved', async () => {
                 const code = `
                     @unresolved
-                    pipeline myPipeline {}
+                    function myFunction () {}
                 `;
 
                 const call = await getNodeOfType(services, code, isTslAbstractCall);
@@ -48,7 +48,7 @@ describe('TTSLNodeMapper', () => {
         describe('calls', () => {
             it('should return undefined if receiver is unresolved', async () => {
                 const code = `
-                    pipeline myPipeline {
+                    function myFunction () {
                         unresolved();
                     }
                 `;
@@ -61,7 +61,7 @@ describe('TTSLNodeMapper', () => {
                 const code = `
                     enum MyEnum
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         MyEnum();
                     }
                 `;
@@ -74,7 +74,7 @@ describe('TTSLNodeMapper', () => {
                 const code = `
                     annotation MyAnnotation
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         MyAnnotation();
                     }
                 `;
@@ -87,7 +87,7 @@ describe('TTSLNodeMapper', () => {
                 const code = `
                     annotation MyAnnotation
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         val alias = MyAnnotation;
                         alias();
                     }
@@ -99,7 +99,7 @@ describe('TTSLNodeMapper', () => {
 
             it('should return the called block lambda (aliased)', async () => {
                 const code = `
-                    pipeline myPipeline {
+                    function myFunction () {
                         val alias = () {};
                         alias();
                     }
@@ -136,7 +136,7 @@ describe('TTSLNodeMapper', () => {
                 const code = `
                     class MyClass
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         MyClass();
                     }
                 `;
@@ -149,7 +149,7 @@ describe('TTSLNodeMapper', () => {
                 const code = `
                     class MyClass
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         val alias = MyClass;
                         alias();
                     }
@@ -165,7 +165,7 @@ describe('TTSLNodeMapper', () => {
                         MyEnumVariant
                     }
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         MyEnum.MyEnumVariant();
                     }
                 `;
@@ -180,7 +180,7 @@ describe('TTSLNodeMapper', () => {
                         MyEnumVariant
                     }
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         val alias = MyEnum.MyEnumVariant;
                         alias();
                     }
@@ -196,7 +196,7 @@ describe('TTSLNodeMapper', () => {
                         MyEnumVariant(p: Int)
                     }
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         val alias = MyEnum.MyEnumVariant;
                         alias(1);
                     }
@@ -208,7 +208,7 @@ describe('TTSLNodeMapper', () => {
 
             it('should return the called expression lambda (aliased)', async () => {
                 const code = `
-                    pipeline myPipeline {
+                    function myFunction () {
                         val alias = () -> 0;
                         alias()
                     }
@@ -222,7 +222,7 @@ describe('TTSLNodeMapper', () => {
                 const code = `
                     fun myFunction()
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         myFunction();
                     }
                 `;
@@ -235,7 +235,7 @@ describe('TTSLNodeMapper', () => {
                 const code = `
                     fun myFunction()
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         val alias = myFunction;
                         alias();
                     }
@@ -249,7 +249,7 @@ describe('TTSLNodeMapper', () => {
                 const code = `
                     segment mySegment() {}
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         mySegment();
                     }
                 `;
@@ -262,7 +262,7 @@ describe('TTSLNodeMapper', () => {
                 const code = `
                     segment mySegment() {}
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         val alias = mySegment;
                         alias();
                     }

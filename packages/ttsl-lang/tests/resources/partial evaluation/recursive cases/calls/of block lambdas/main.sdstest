@@ -1,11 +1,11 @@
 package tests.partialValidation.recursiveCases.calls.ofBlockLambdas
 
-pipeline test {
+function test () {
     val blockLambda = () {
         yield r = 1;
         yield s = 2;
     };
 
-    // $TEST$ serialization (r = 1, s = 2)
+    # $TEST$ serialization (r = 1, s = 2)
     »blockLambda()«;
 }

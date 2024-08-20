@@ -1,16 +1,16 @@
 package tests.scoping.references.inSameFile.toPlaceholders.ofContainingFunction
 
 function myFunction() {
-    // $TEST$ target before
+    # $TEST$ target before
     var »before«: Int = 0;
 
-    // $TEST$ target redeclared
+    # $TEST$ target redeclared
     var »redeclared«: Int = 0;
     var redeclared: Int = 0;
 
-    // $TEST$ references before
+    # $TEST$ references before
     »before«;
 
-    // $TEST$ references redeclared
+    # $TEST$ references redeclared
     »redeclared«;
 }

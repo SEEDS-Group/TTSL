@@ -2,19 +2,19 @@ package tests.scoping.references.acrossFiles.toGlobalClasses
 
 from TTSL.scoping.references.acrossFiles.toGlobalClasses import *
 
-pipeline myPipeline {
-    // $TEST$ references TTSL_MyClass
+function myFunction () {
+    # $TEST$ references TTSL_MyClass
     »MyClass«;
 
-    // $TEST$ references same_ClassInSamePackage
+    # $TEST$ references same_ClassInSamePackage
     »ClassInSamePackage«;
 
-    // $TEST$ references TTSL_ClassInTTSLPackage
+    # $TEST$ references TTSL_ClassInTTSLPackage
     »ClassInTTSLPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »ClassInAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »ClassWithoutPackage«;
 }

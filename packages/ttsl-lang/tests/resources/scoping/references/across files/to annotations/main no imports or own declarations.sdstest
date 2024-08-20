@@ -1,18 +1,18 @@
 package tests.scoping.references.acrossFiles.toAnnotations
 
-pipeline myPipeline {
-    // $TEST$ references same_MyAnnotation
+function myFunction () {
+    # $TEST$ references same_MyAnnotation
     »MyAnnotation«;
 
-    // $TEST$ references same_AnnotationInSamePackage
+    # $TEST$ references same_AnnotationInSamePackage
     »AnnotationInSamePackage«;
 
-    // $TEST$ references TTSL_AnnotationInTTSLPackage
+    # $TEST$ references TTSL_AnnotationInTTSLPackage
     »AnnotationInTTSLPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »AnnotationInAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »AnnotationWithoutPackage«;
 }

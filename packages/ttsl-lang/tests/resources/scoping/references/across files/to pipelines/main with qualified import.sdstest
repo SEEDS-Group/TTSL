@@ -4,21 +4,21 @@ from TTSL.scoping.references.acrossFiles.toPipelines import myPipeline
 from tests.scoping.references.acrossFiles.toPipelines.other import pipelineInAnotherPackage, pipeline2InAnotherPackage
 
 segment mySegment() {
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »myPipeline«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »pipelineInSamePackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »pipelineInTTSLPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »pipelineInAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »pipeline2InAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »pipelineWithoutPackage«;
 }

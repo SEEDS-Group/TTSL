@@ -1,7 +1,7 @@
 package TTSL.scoping.references.acrossFiles.toGlobalClasses
 
-// $TEST$ target TTSL_MyClass
+# $TEST$ target TTSL_MyClass
 class »MyClass«
 
-// $TEST$ target TTSL_ClassInTTSLPackage
+# $TEST$ target TTSL_ClassInTTSLPackage
 class »ClassInTTSLPackage«

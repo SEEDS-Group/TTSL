@@ -4,7 +4,7 @@ from TTSL.scoping.references.acrossFiles.toSegments import mySegment
 from tests.scoping.references.acrossFiles.toSegments.other import mySegment
 from tests.scoping.references.acrossFiles.toSegments import mySegment
 
-pipeline myPipeline {
-    // $TEST$ references TTSL_mySegment
+function myFunction () {
+    # $TEST$ references TTSL_mySegment
     »mySegment«;
 }

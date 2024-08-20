@@ -3,6 +3,7 @@ import { isEmpty } from '../../helpers/collections.js';
 import {
     isTslCall,
     isTslIndexedAccess,
+    isTslReturnStatement,
     TslCall,
     TslChainedExpression,
     TslFunction,
@@ -191,7 +192,7 @@ export const functionResultListShouldNotBeEmpty = (services: TTSLServices) => {
             return;
         }
 
-        if (node.result && node.body.returnValue == undefined) {
+        if (node.result && node.body.statements.filter(isTslReturnStatement).at(0) == undefined) {
             accept('info', 'This result list can be removed.', {
                 node,
                 property: 'result',

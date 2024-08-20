@@ -1,13 +1,13 @@
 package TTSL.scoping.references.acrossFiles.toSegments
 
-// $TEST$ target TTSL_mySegment
+# $TEST$ target TTSL_mySegment
 segment »mySegment«() {}
 
-// $TEST$ target TTSL_publicSegmentInTTSLPackage
+# $TEST$ target TTSL_publicSegmentInTTSLPackage
 segment »publicSegmentInTTSLPackage«() {}
 
-// $TEST$ target TTSL_internalSegmentInTTSLPackage
+# $TEST$ target TTSL_internalSegmentInTTSLPackage
 internal segment »internalSegmentInTTSLPackage«() {}
 
-// $TEST$ target TTSL_privateSegmentInTTSLPackage
+# $TEST$ target TTSL_privateSegmentInTTSLPackage
 private segment »privateSegmentInTTSLPackage«() {}

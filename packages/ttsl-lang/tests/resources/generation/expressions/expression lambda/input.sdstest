@@ -1,8 +1,0 @@
-package tests.generator.expressionLambda
-
-@Impure([ImpurityReason.Other]) fun f(param: (a: Int, b: Int) -> r: Int)
-
-pipeline test {
-    f((a, b = 2) -> 1);
-    f((a, b) -> 1);
-}

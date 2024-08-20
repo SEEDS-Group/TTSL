@@ -5,6 +5,6 @@ from tests.scoping.namedTypes.acrossFiles.toGlobalEnums.other import MyEnum
 from tests.scoping.namedTypes.acrossFiles.toGlobalEnums import MyEnum
 
 segment mySegment(
-    // $TEST$ references TTSL_MyEnum
+    # $TEST$ references TTSL_MyEnum
     p: »MyEnum«,
 ) {}
