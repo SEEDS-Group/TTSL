@@ -1,0 +1,6 @@
+# $TEST$ syntax_error
+
+
+function taxes(name: String): groupedBy XYZ_ID List<Int> {
+    var x: Int groupedBy XYZ_ID = 1;
+}
