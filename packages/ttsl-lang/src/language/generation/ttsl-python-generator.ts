@@ -633,9 +633,9 @@ export class TTSLPythonGenerator {
         timespan: TslTimespan,
     ): CompositeGeneratorNode | undefined {
         if(timespan.start){
-            return expandToNode`s${timespan.start.date.toUTCString()}`   // add 's' to mark that it's the start of the timespan
+            return expandToNode`"s${timespan.start.date}"`   // add 's' to mark that it's the start of the timespan
         } else if (timespan.end){
-            return expandToNode`e${timespan.end.date.toUTCString()}`     // add 'e' to mark that it's the end of the timespan
+            return expandToNode`"e${timespan.end.date}"`     // add 'e' to mark that it's the end of the timespan
         } else {
             /* c8 ignore next 2 */
             return undefined;
@@ -798,10 +798,10 @@ export class TTSLPythonGenerator {
             var start = ''
             var end = ''      
             if (statement.timespan.start){
-                start = statement.timespan.start.date.toUTCString() + ' <='
+                start = statement.timespan.start.date + ' <='
             }
             if (statement.timespan.end){
-                end = '< ' + statement.timespan.end.date.toUTCString()
+                end = '< ' + statement.timespan.end.date
             }
             if (!statement.timespan.start && !statement.timespan.end){
                 throw new Error(`Timespan has neither a start nor an end value`);

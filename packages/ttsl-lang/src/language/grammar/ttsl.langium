@@ -625,7 +625,7 @@ TslNull returns TslNull:
 ;
 
 interface TslDate extends TslLiteral{
-    date: Date
+    date: string
 }
 
 TslDate returns TslDate:
@@ -753,7 +753,7 @@ interface TslTimespanValueEntry extends TslObject{
 }
 
 TslTimespanValueEntry returns TslTimespanValueEntry:
-    timespan=TslTimespan '=' value=TslExpression
+    timespan=TslTimespan '=' value=TslExpression ';'
 ;
 
 // -----------------------------------------------------------------------------
@@ -861,7 +861,7 @@ terminal FLOAT returns number
     : DECIMAL_DIGIT+ '.' DECIMAL_DIGIT+ FLOAT_EXPONENT?
     | DECIMAL_DIGIT+ FLOAT_EXPONENT;
 terminal fragment DECIMAL_DIGIT: /[0-9]/;
-terminal DATE returns Date: /[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2})?/;
+terminal DATE returns string: /[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2})?/;
 terminal fragment FLOAT_EXPONENT: ('e' | 'E' )('+' | '-' )? DECIMAL_DIGIT+;
 terminal INT returns bigint: DECIMAL_DIGIT+;
 terminal STRING returns string: STRING_START STRING_TEXT* STRING_END;
