@@ -407,16 +407,6 @@ export class TTSLTypeComputer {
 
 }
 
-/**
- * Options for {@link lowestCommonSupertype}.
- */
-interface LowestCommonSupertypeOptions {
-    /**
-     * If `true`, the type simplification is skipped and the given types are used as is.
-     */
-    skipTypeSimplification?: boolean;
-}
-
 interface PartitionTypesLCSResult {
     containsUnknownType: boolean;
     containsOtherType: boolean;

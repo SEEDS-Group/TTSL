@@ -13,7 +13,6 @@ import {
     isTslReference,
     isTslResult,
 } from '../generated/ast.js';
-import { TTSLServices } from '../ttsl-module.js';
 
 export class TTSLSemanticTokenProvider extends AbstractSemanticTokenProvider {
     protected highlightElement(node: AstNode, acceptor: SemanticTokenAcceptor): void {

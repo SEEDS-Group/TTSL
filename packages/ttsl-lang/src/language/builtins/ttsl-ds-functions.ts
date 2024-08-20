@@ -72,7 +72,7 @@ export class TTSLFunction extends TTSLModuleMembers<TslFunction> {
         funct: TslFunction | undefined,
         parameterName: string,
     ): EvaluatedNode {
-        const value = funct?.parameterList?.parameters.find((param) => param.name== parameterName)
+        const value = funct?.parameterList?.parameters.find((param) => param.name === parameterName)
         if(!value){
             return UnknownEvaluatedNode
         }

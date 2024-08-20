@@ -20,7 +20,7 @@ export const assignmentAssigneeMustGetValue =
         }
     };
 
-export const assignmentShouldNotImplicitlyIgnoreResult = (services: TTSLServices) => {
+export const assignmentShouldNotImplicitlyIgnoreResult = () => {
     return (node: TslAssignment, accept: ValidationAcceptor): void => {
         const expression = node.expression;
         if (!isTslFunction(expression)) {
