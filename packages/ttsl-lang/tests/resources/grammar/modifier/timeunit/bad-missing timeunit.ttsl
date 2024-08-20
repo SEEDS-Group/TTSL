@@ -1,0 +1,4 @@
+# $TEST$ syntax_error
+
+# Function definition:
+function per f(): Int {}
