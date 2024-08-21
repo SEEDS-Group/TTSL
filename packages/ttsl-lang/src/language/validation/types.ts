@@ -102,7 +102,7 @@ export const indexedAccessIndexMustHaveCorrectType = (services: TTSLServices) =>
         const receiverType = typeComputer.computeType(node.receiver);
         if (receiverType instanceof ListType) {
             const indexType = typeComputer.computeType(node.index);
-            if (indexType instanceof IntType) {
+            if (!(indexType instanceof IntType)) {
                 accept('error', `Expected type 'Int' but got '${indexType}'.`, {
                     node,
                     property: 'index',
@@ -226,7 +226,7 @@ export const parameterDefaultValueTypeMustMatchParameterType = (services: TTSLSe
         const defaultValueType = typeComputer.computeType(defaultValue);
         const parameterType = typeComputer.computeType(node);
 
-        if (!(defaultValueType.toString === parameterType.toString)) {
+        if (!(defaultValueType.toString() === parameterType.toString())) {
             accept('error', `Expected type '${parameterType}' but got '${defaultValueType}'.`, {
                 node,
                 property: 'defaultValue',

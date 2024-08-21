@@ -18,7 +18,7 @@ interface TslDeclaration extends TslObject {
 interface TslLocalVariable extends TslDeclaration {
     groupedBy?: TslGroupedBy
     value?: TslExpression
-    ^type?: TslType
+    type?: TslType
 }
 
 TslLocalVariable returns TslLocalVariable:
@@ -208,7 +208,7 @@ interface TslParameter extends TslLocalVariable {
 TslParameter returns TslParameter:
     isConstant?='constant'?
     name=ID
-    ':' ^type=TslType
+    ':' type=TslType
     ('=' defaultValue=TslExpression)?
 ;
 
@@ -275,7 +275,7 @@ interface TslPlaceholder extends TslAssignee, TslLocalVariable {}
 
 TslAssignee returns TslAssignee:
     {TslPlaceholder} 'var' name=ID (':' ^type=TslType)?  (groupedBy=TslGroupedBy)?
-    | TslReference
+    | TslReference 
 ;
 
 interface TslExpressionStatement extends TslStatement {

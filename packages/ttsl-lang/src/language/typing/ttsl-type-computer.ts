@@ -38,6 +38,14 @@ import {
     isTslBoolean,
     isTslString,
     isTslAnyType,
+    isTslLocalVariable,
+    TslLocalVariable,
+    isTslForeachLoop,
+    isTslDictionaryType,
+    isTslListType,
+    isTslTypeParameterList,
+    isTslTypeParameter,
+    TslTypeParameter,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
 import {
@@ -102,7 +110,13 @@ export class TTSLTypeComputer {
             return this.computeTypeOfExpression(node);
         } else if (isTslType(node)) {
             return this.computeTypeOfType(node);
-        } /* c8 ignore start */ else {
+        } else if (isTslTypeParameter(node)){
+            console.log(node.$containerProperty)
+            return this.computeTypeOfTypeParameter(node);
+        } else if (isTslLocalVariable(node)){
+            console.log(node.$containerProperty)
+            return this.computeTypeOfElm(node);
+        }/* c8 ignore start */ else {
             return UnknownType;
         } /* c8 ignore stop */
     }
@@ -114,13 +128,8 @@ export class TTSLTypeComputer {
             return UnknownType;
         }
 
-        const assigneePosition = node.$containerIndex ?? -1;
         const expressionType = this.computeType(containingAssignment?.expression);
-        if (assigneePosition === 0) {
-            return expressionType;
-        }
-
-        return UnknownType;
+        return expressionType;
     }
 
     private computeTypeOfDeclaration(node: TslDeclaration): Type {
@@ -322,6 +331,25 @@ export class TTSLTypeComputer {
             return new BooleanType(false);
         } else if (isTslAnyType(node)) {
             return new AnyType(false);
+        } else if (isTslListType(node)) {
+            const elementType = this.lowestCommonSupertype(node.typeParameterList.typeParameters.map((it) => this.computeType(it)));
+            return new ListType([elementType], false);
+        } else if (isTslDictionaryType(node)) {
+            const types = this.lowestCommonSupertype(node.typeParameterList.typeParameters.map((it) => this.computeType(it)));
+            return new DictionaryType([types], false);
+        } /* c8 ignore start */ else {
+            return UnknownType;
+        } /* c8 ignore stop */
+    }
+
+    private computeTypeOfTypeParameter(node: TslTypeParameter): Type{
+        return this.computeType(node.type)
+    }
+
+    private computeTypeOfElm(node: TslLocalVariable): Type{
+        console.log(node)
+        if(isTslForeachLoop(node.$container)){
+            return this.computeType(node.$container.list)
         } /* c8 ignore start */ else {
             return UnknownType;
         } /* c8 ignore stop */
