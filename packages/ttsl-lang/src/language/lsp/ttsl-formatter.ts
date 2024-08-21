@@ -52,8 +52,6 @@ export class TTSLFormatter extends AbstractFormatter {
             this.formatTslBlock(node);
         } else if (ast.isTslAssignment(node)) {
             this.formatTslAssignment(node);
-        } else if (ast.isTslAssigneeList(node)) {
-            this.formatTslAssigneeList(node);
         } else if (ast.isTslPlaceholder(node)) {
             this.formatTslPlaceholder(node);
         } else if (ast.isTslExpressionStatement(node)) {
@@ -293,12 +291,6 @@ export class TTSLFormatter extends AbstractFormatter {
 
         formatter.keyword('=').surround(oneSpace());
         formatter.keyword(';').prepend(noSpace());
-    }
-
-    private formatTslAssigneeList(node: ast.TslAssigneeList) {
-        const formatter = this.getNodeFormatter(node);
-
-        formatter.keywords(',').prepend(noSpace()).append(oneSpace());
     }
 
     private formatTslPlaceholder(node: ast.TslPlaceholder) {

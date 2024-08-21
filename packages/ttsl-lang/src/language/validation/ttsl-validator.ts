@@ -34,10 +34,6 @@ import {
     moduleWithDeclarationsMustStatePackage,
 } from './other/modules.js';
 import {
-    assignmentAssigneeMustGetValue,
-    assignmentShouldNotImplicitlyIgnoreResult,
-} from './other/statements/assignments.js';
-import {
     callArgumentListShouldBeNeeded,
     chainedExpressionNullSafetyShouldBeNeeded,
     elvisOperatorShouldBeNeeded,
@@ -69,10 +65,6 @@ export const registerValidationChecks = function (services: TTSLServices) {
     const registry = services.validation.ValidationRegistry;
     const checks: ValidationChecks<TTSLAstType> = {
         TslAssignee: [
-        ],
-        TslAssignment: [
-            assignmentAssigneeMustGetValue(services),
-            assignmentShouldNotImplicitlyIgnoreResult(),
         ],
         TslAbstractCall: [
             argumentListMustNotHaveTooManyArguments(services),

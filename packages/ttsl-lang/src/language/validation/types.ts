@@ -39,7 +39,7 @@ export const callArgumentTypesMustMatchParameterTypes = (services: TTSLServices)
             const argumentType = typeComputer.computeType(argument);
             const parameterType = typeComputer.computeType(parameter);
 
-            if (!(argumentType.toString === parameterType.toString || parameterType instanceof AnyType)) {
+            if (!(argumentType.toString() === parameterType.toString() || parameterType instanceof AnyType)) {
                 accept('error', `Expected type '${parameterType}' but got '${argumentType}'.`, {
                     node: argument,
                     property: 'value',
@@ -155,8 +155,8 @@ export const infixOperationOperandsMustHaveCorrectType = (services: TTSLServices
                 }
                 if (
                     node.rightOperand &&
-                    !(leftType instanceof FloatType) &&
-                    !(leftType instanceof IntType)
+                    !(rightType instanceof FloatType) &&
+                    !(rightType instanceof IntType)
                 ) {
                     accept(
                         'error',

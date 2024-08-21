@@ -7,6 +7,7 @@ import {
     PrecomputedScopes,
 } from 'langium';
 import {
+    isTslAssignment,
     isTslConditionalStatement,
     isTslDeclaration,
     isTslForeachLoop,
@@ -14,6 +15,7 @@ import {
     isTslFunction,
     isTslLoop,
     isTslModule,
+    isTslPlaceholder,
     isTslWhileLoop,
     TslConditionalStatement,
     TslFunction,
@@ -72,25 +74,20 @@ export class TTSLScopeComputation extends DefaultScopeComputation {
             return;
         }
 
-        const description = this.descriptions.createDescription(node, name, document);
-
-        this.addToScopesIfKeyIsDefined(scopes, node.block, description);
-
-        if (isTslForLoop(node)){
-            this.addToScopesIfKeyIsDefined(scopes, node.definitionStatement, description);
-            this.addToScopesIfKeyIsDefined(scopes, node.condition, description);
-            this.addToScopesIfKeyIsDefined(scopes, node.iteration, description);
-        } else if(isTslWhileLoop(node)){
-            this.addToScopesIfKeyIsDefined(scopes, node.condition, description);
+        if (isTslForLoop(node) && isTslAssignment(node.definitionStatement) && isTslPlaceholder(node.definitionStatement.assignee)){
+            const description = this.descriptions.createDescription(node.definitionStatement.assignee, name, document);
+            this.addToScopesIfKeyIsDefined(scopes, node.block, description);
         } else if(isTslForeachLoop(node)){
+            const description = this.descriptions.createDescription(node, name, document);
             this.addToScopesIfKeyIsDefined(scopes, node.element, description);
-            this.addToScopesIfKeyIsDefined(scopes, node.list, description);
+            this.addToScopesIfKeyIsDefined(scopes, node.block, description);
         }
-
+/*
         const containingDeclaration = AstUtils.getContainerOfType(node.$container, isTslDeclaration);
         if (isTslModule(containingDeclaration)) {
             this.addToScopesIfKeyIsDefined(scopes, containingDeclaration, description);
         }
+            */
     }
 
     private processTslConditionalStatement(node: TslConditionalStatement, document: LangiumDocument, scopes: PrecomputedScopes): void {

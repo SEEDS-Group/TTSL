@@ -1,11 +1,13 @@
 package tests.scoping.references.inLoop
 
 function f(){
-    # $TEST$ target before
-    var »x«: Int = 0
-
-    while(1==1){
-        # $TEST$ references before
-        »x« = 2
+    
+    var x: Int = 0
+    # $TEST$ target before 
+    for(var »i« = 0;
+     i<= 10;
+     # $TEST$ references before
+     »i« = i+1){
+        x = 2
     }
 }

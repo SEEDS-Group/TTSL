@@ -101,7 +101,12 @@ export const getArguments = (node: TslArgumentList | TslAbstractCall | undefined
 };
 
 export const getAssignees = (node: TslAssignment | undefined): TslAssignee[] => {
-    return node?.assigneeList?.assignees ?? [];
+    if(node?.assignee){
+        return [node?.assignee];
+    }else{
+        return []
+    }
+    
 };
 
 export const getImports = (node: TslModule | undefined): TslImport[] => {

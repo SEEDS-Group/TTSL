@@ -261,20 +261,12 @@ TslStatement returns TslStatement:
 ;
 
 interface TslAssignment extends TslStatement {
-    assigneeList?: TslAssigneeList
+    assignee: TslAssignee
     expression?: TslExpression
 }
 
 TslAssignment returns TslAssignment:
-    assigneeList=TslAssigneeList '=' expression=TslExpression ';'?
-;
-
-interface TslAssigneeList extends TslObject {
-    assignees: TslAssignee[]
-}
-
-TslAssigneeList returns TslAssigneeList:
-    assignees+=TslAssignee  (',' assignees+=TslAssignee)* ','?
+    assignee=TslAssignee '=' expression=TslExpression ';'?
 ;
 
 interface TslAssignee extends TslObject {}
