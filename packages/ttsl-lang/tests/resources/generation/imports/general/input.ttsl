@@ -8,10 +8,10 @@ from tests.generator.withPythonModule import function2InCompilationUnitWithPytho
 function f(param: Any?){}
 
 function test () {
-    f(segment1InSamePackage());
-    f(segment1InSamePackage());
-    f(segment2InSamePackage());
-    f(segment2InSamePackage());
+    f(function1InSamePackage());
+    f(function1InSamePackage());
+    f(function2InSamePackage());
+    f(function2InSamePackage());
 
     f(function1InDifferentPackage());
     f(function1InDifferentPackage());
