@@ -13,7 +13,7 @@ def __gen_null_safe_indexed_access(receiver: Any, index: Any) -> __gen_T | None:
 
 # Functions --------------------------------------------------------------------
 
-def test(one, two):
-    x = one[0]
-    y = __gen_null_safe_indexed_access(two, 0)
+def test(param1: list[int], param2: list[int]):
+    x = param1[0]
+    y = __gen_null_safe_indexed_access(param2, 0)
 

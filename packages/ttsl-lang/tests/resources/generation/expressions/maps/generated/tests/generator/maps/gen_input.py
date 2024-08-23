@@ -1,9 +1,9 @@
 # Functions --------------------------------------------------------------------
 
-def g2(param):
+def g2(param: dict[str, float]):
     pass
 
-def g3(param):
+def g3(param: dict[float, str]):
     pass
 
 def h1():

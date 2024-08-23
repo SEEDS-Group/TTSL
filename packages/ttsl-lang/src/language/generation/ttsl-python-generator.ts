@@ -660,7 +660,7 @@ export class TTSLPythonGenerator {
         }
         return joinTracedToNode(parameters, 'parameters')(
             parameters?.parameters || [],
-            (param) => `${this.generateParameter(param, frame).contents}: ${this.generateType(param.type, frame)?.contents} ${this.generateDefaultValue(param.defaultValue, frame)?.contents}`,
+            (param) => `${this.generateParameter(param, frame).contents}${this.generateType(param.type, frame)?.contents}${this.generateDefaultValue(param.defaultValue, frame)?.contents}`,
             { separator: ', ' },
         );
     }
@@ -676,33 +676,49 @@ export class TTSLPythonGenerator {
     private generateType(
         type: TslType | undefined,
         frame: GenerationInfoFrame,
-    ): CompositeGeneratorNode| undefined {
+        rekursion: boolean = false,
+    ): CompositeGeneratorNode {
+        let result = new CompositeGeneratorNode
+        
         if(isTslIntType(type)){
-            return expandTracedToNode(type)`int`
+            if(!rekursion){
+                return result.append(`: int`)
+            }
+            return result.append(`int`)
         } else if(isTslFloatType(type)){
-            return expandTracedToNode(type)`float`
+            if(!rekursion){
+                return result.append(`: float`)
+            }
+            return result.append(`float`)
         } else if(isTslBooleanType(type)){
-            return expandTracedToNode(type)`bool`
+            if(!rekursion){
+                return result.append(`: bool`)
+            }
+            return result.append(`bool`)
         } else if(isTslStringType(type)){
-            return expandTracedToNode(type)`str`
+            if(!rekursion){
+                return result.append(`: str`)
+            }
+            return result.append(`str`)
         } else if(isTslListType(type)){
-            return expandTracedToNode(type)`list[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame)}]`
+            return result.append(`: list[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame, true)?.contents}]`)
         } else if(isTslDictionaryType(type)){
-            return expandTracedToNode(type)`dict[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame)},${this.generateType(type.typeParameterList.typeParameters.at(1)?.type, frame)}]`
+            return result.append(`: dict[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame, true)?.contents}, ${this.generateType(type.typeParameterList.typeParameters.at(1)?.type, frame, true)?.contents}]`)
         } else {
-            return undefined
+            return new CompositeGeneratorNode(``)
         }
     }
 
     private generateDefaultValue(
         value: TslExpression | undefined,
         frame: GenerationInfoFrame,
-    ): CompositeGeneratorNode| undefined {
+    ): CompositeGeneratorNode {
+        let result = new CompositeGeneratorNode
         if(isTslExpression(value)){
-            let result = new CompositeGeneratorNode
-            return result.append(`= ${this.generateExpression(value, frame).contents}`)
+            
+            return result.append(` = ${this.generateExpression(value, frame).contents}`)
         } else{
-            return undefined;
+            return result;
         }
     }
 
