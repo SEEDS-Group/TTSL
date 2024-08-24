@@ -771,7 +771,7 @@ export class TTSLPythonGenerator {
         if (targetPlaceholder) {
             statements = this.getStatementsNeededForPartialExecution(targetPlaceholder, statements);
         }
-        if (statements.length === 0) {
+        if (statements.length === 0 && !isTslForLoop(block.$container)) {
             return traceToNode(block)('pass');
         }
         return joinTracedToNode(block, 'statements')(
@@ -885,8 +885,8 @@ export class TTSLPythonGenerator {
                     thirdParameter = this.generateStatement((statement.iteration), frame)
                 }
                 return expandTracedToNode(statement)`${firstParameter}
-                    while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine().indent(indentingNode =>
-                    indentingNode.append(this.generateBlock((statement.block), frame))).append(`${thirdParameter}`);
+while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine().indent(indentingNode =>
+                    indentingNode.append(this.generateBlock((statement.block), frame)).append(thirdParameter));
             } else if (isTslForeachLoop(statement)){
                 return expandTracedToNode(statement)`for ${statement.element} in ${statement.list}:`.appendNewLine().indent(indentingNode =>
                     indentingNode.append(this.generateBlock((statement.block), frame)));
@@ -935,7 +935,9 @@ export class TTSLPythonGenerator {
     private generateAssignee(assignee: TslAssignee): CompositeGeneratorNode {
         if (isTslPlaceholder(assignee)) {
             return traceToNode(assignee)(assignee.name);
-        } 
+        } else if(isTslReference(assignee)) {
+            return traceToNode(assignee)(assignee.target.ref?.name)
+        }
         /* c8 ignore next 2 */
         throw new Error(`Unknown TslAssignment: ${assignee.$type}`);
     }

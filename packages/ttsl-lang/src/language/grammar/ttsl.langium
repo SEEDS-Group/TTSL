@@ -273,9 +273,15 @@ interface TslAssignee extends TslObject {}
 
 interface TslPlaceholder extends TslAssignee, TslLocalVariable {}
 
+interface TslPlaceholderReference extends TslAssignee, TslReference{}
+
+TslPlaceholderReference returns TslPlaceholderReference:
+    target = [TslPlaceholder:ID]
+;
+
 TslAssignee returns TslAssignee:
     {TslPlaceholder} 'var' name=ID (':' ^type=TslType)?  (groupedBy=TslGroupedBy)?
-    | TslReference 
+    | TslPlaceholderReference
 ;
 
 interface TslExpressionStatement extends TslStatement {
