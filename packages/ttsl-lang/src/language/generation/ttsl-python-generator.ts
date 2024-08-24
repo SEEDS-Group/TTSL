@@ -888,7 +888,7 @@ export class TTSLPythonGenerator {
 while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine().indent(indentingNode =>
                     indentingNode.append(this.generateBlock((statement.block), frame)).append(thirdParameter));
             } else if (isTslForeachLoop(statement)){
-                return expandTracedToNode(statement)`for ${statement.element} in ${statement.list}:`.appendNewLine().indent(indentingNode =>
+                return expandTracedToNode(statement)`for ${statement.element.name} in ${this.generateExpression(statement.list, frame).contents}:`.appendNewLine().indent(indentingNode =>
                     indentingNode.append(this.generateBlock((statement.block), frame)));
             } 
         }else if (isTslReturnStatement(statement)){
