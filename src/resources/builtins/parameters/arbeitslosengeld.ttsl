@@ -99,20 +99,20 @@ public constant stundengrenze: Int {
  */
 public constant anspruchsdauer: Dict<Int, Int> {
     from 1997-03-24 = {
-        nach_alter: {
-            0: 12
-            50: 15
-            55: 18
+        "nach_alter": {
+            0: 12,
+            50: 15,
+            55: 18,
             58: 24
         },
-        nach_versicherungspflichtige_monate: {
-            12: 6
-            18: 8
-            20: 10
-            24: 12
-            30: 15
-            36: 18
+        "nach_versicherungspflichtige_monate": {
+            12: 6,
+            18: 8,
+            20: 10,
+            24: 12,
+            30: 15,
+            36: 18,
             48: 24
         }
-    }
+    };
 }
