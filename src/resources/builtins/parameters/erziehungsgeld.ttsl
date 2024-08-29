@@ -8,27 +8,27 @@ package erziehungsgeld
  */
 public constant erziehungsgeldEinkommensgrenze: Dict<String, Dict<String, Dict<String, Int>>> {
 	from 2004-02-09 = {
-		limit: {
-			alleinerz: {
-				regelsatz: 23000,
-				budgetsatz: 19086
+		"limit": {
+			"alleinerz": {
+				"regelsatz": 23000,
+				"budgetsatz": 19086
 			},
-			paar: {
-				regelsatz: 30000,
-				budgetsatz: 22086
+			"paar": {
+				"regelsatz": 30000,
+				"budgetsatz": 22086
 			}
 		},
-		reduced_limit: {
-			alleinerz: {
-				regelsatz: 13500,
-				budgetsatz: 13500
+		"reduced_limit": {
+			"alleinerz": {
+				"regelsatz": 13500,
+				"budgetsatz": 13500
 			},
-			paar: {
-				regelsatz: 16500,
-				budgetsatz: 16500
+			"paar": {
+				"regelsatz": 16500,
+				"budgetsatz": 16500
 			}
 		}
-	}
+	};
 }
 
 /**
@@ -36,7 +36,7 @@ public constant erziehungsgeldEinkommensgrenze: Dict<String, Dict<String, Dict<S
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (p.209)
  */
 public constant erziehungsgeldAufschlagEinkommen: Dict<String, Int> {
-	from 2004-02-09 = 3140
+	from 2004-02-09 = 3140;
 }
 
 /**
@@ -45,9 +45,9 @@ public constant erziehungsgeldAufschlagEinkommen: Dict<String, Int> {
  */
 public constant erziehungsgeldSatz: Dict<String, Int> {
 	from 2004-02-09 = {
-		regelsatz: 300,
-		budgetsatz: 450
-	}
+		"regelsatz": 300,
+		"budgetsatz": 450
+	};
 }
 
 /**
@@ -59,7 +59,7 @@ public constant erziehungsgeldSatz: Dict<String, Int> {
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
  */
 public constant abschlagFaktor: Float {
-	from 2004-02-09 = 0.052
+	from 2004-02-09 = 0.052;
 }
 
 /**
@@ -68,7 +68,7 @@ public constant abschlagFaktor: Float {
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 6 (p.209)
  */
 public constant pauschalAbzugAufEinkommen: Float {
-	from 2004-02-09 = 0.76
+	from 2004-02-09 = 0.76;
 }
 
 /**
@@ -76,7 +76,7 @@ public constant pauschalAbzugAufEinkommen: Float {
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 15 (p.211)
  */
 public constant arbeitsstundenWoechentlicheGrenze: Int {
-	from 2004-02-09 = 30
+	from 2004-02-09 = 30;
 }
 
 /**
@@ -84,7 +84,7 @@ public constant arbeitsstundenWoechentlicheGrenze: Int {
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
  */
 public constant endAlterKindRegelsatz: Int {
-	from 2004-01-01 = 24
+	from 2004-01-01 = 24;
 }
 
 /**
@@ -92,7 +92,7 @@ public constant endAlterKindRegelsatz: Int {
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
  */
 public constant endAlterKindBudgetsatz: Int {
-	from 2004-01-01 = 12
+	from 2004-01-01 = 12;
 }
 
 # TODO: rounding
