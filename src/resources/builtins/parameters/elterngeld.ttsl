@@ -7,7 +7,7 @@ package elterngeld
  * § 2 (1) BEEG
  */
 public constant faktor: Float {
-	from 2007-01-01 = 0.67
+	from 2007-01-01 = 0.67;
 }
 
 /**
@@ -15,7 +15,7 @@ public constant faktor: Float {
  * § 2 (1) BEEG
  */
 public constant hoechstbetrag: Int {
-	from 2007-01-01 = 1800
+	from 2007-01-01 = 1800;
 }
 
 /**
@@ -28,13 +28,13 @@ public constant nettoeinkommenStufen: Dict<Int, Int> {
 	from 2007-01-01 = {
 		1: 1000,
 		2: 1001
-	}
+	};
 
 	# Reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
 	from 2011-01-01 = {
 		1: 1000,
 		2: 1201
-	}
+	};
 }
 
 /**
@@ -43,7 +43,7 @@ public constant nettoeinkommenStufen: Dict<Int, Int> {
  */
 public constant mindestbetrag: Int {
 	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-	from 2007-01-01 = 300
+	from 2007-01-01 = 300;
 }
 
 /**
@@ -52,7 +52,7 @@ public constant mindestbetrag: Int {
  */
 public constant prozentKorrektur: Float {
 	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-	from 2007-01-01 = 0.001
+	from 2007-01-01 = 0.001;
 }
 
 /**
@@ -60,10 +60,10 @@ public constant prozentKorrektur: Float {
  * § 2 (2) BEEG
  */
 public constant prozentMinimum: Float {
-	from 2007-01-01 = 0.67
+	from 2007-01-01 = 0.67;
 
 	# Reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
-	from 2011-01-01 = 0.65
+	from 2011-01-01 = 0.65;
 }
 
 /**
@@ -72,7 +72,7 @@ public constant prozentMinimum: Float {
  */
 public constant einkommensSchrittKorrektur: Int {
 	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-	from 2007-01-01 = 2
+	from 2007-01-01 = 2;
 }
 
 /**
@@ -85,7 +85,7 @@ public constant geschwisterbonusAltersgrenzenKinder: Dict<Int, Int> {
 	from 2007-01-01 = {
 		3: 2,
 		6: 3
-	}
+	};
 }
 
 /**
@@ -94,7 +94,7 @@ public constant geschwisterbonusAltersgrenzenKinder: Dict<Int, Int> {
  */
 public constant geschwisterbonusAufschlag: Float {
 	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-	from 2007-01-01 = 0.1
+	from 2007-01-01 = 0.1;
 }
 
 /**
@@ -103,7 +103,7 @@ public constant geschwisterbonusAufschlag: Float {
  */
 public constant geschwisterbonusMinimum: Int {
 	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-	from 2007-01-01 = 75
+	from 2007-01-01 = 75;
 }
 
 /**
@@ -113,7 +113,7 @@ public constant geschwisterbonusMinimum: Int {
  */
 public constant mehrlingbonus: Int {
 	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-	from 2007-01-01 = 300
+	from 2007-01-01 = 300;
 }
 
 /**
@@ -122,7 +122,7 @@ public constant mehrlingbonus: Int {
  */
 public constant sozialversicherungspauschale: Float {
 	# Reference: Art. 1 G. v. 10.09.2012 BGBl. I S. 1878
-	from 2012-09-18 = 0.21
+	from 2012-09-18 = 0.21;
 }
 
 /**
@@ -131,7 +131,7 @@ public constant sozialversicherungspauschale: Float {
  */
 public constant maxMonatePaar: Int {
 	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-	from 2007-01-01 = 14
+	from 2007-01-01 = 14;
 }
 
 /**
@@ -140,5 +140,5 @@ public constant maxMonatePaar: Int {
  */
 public constant maxMonateIndividuell: Int {
 	# Reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-	from 2007-01-01 = 12
+	from 2007-01-01 = 12;
 }
