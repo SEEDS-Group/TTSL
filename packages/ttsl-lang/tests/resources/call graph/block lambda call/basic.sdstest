@@ -1,8 +1,0 @@
-package tests.callGraph.blockLambdaCall.basic
-
-function myFunction () {
-    val lambda = () {};
-
-    # $TEST$ ["$blockLambda"]
-    »lambda()«;
-}

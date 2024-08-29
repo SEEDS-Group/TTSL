@@ -1,4 +1,0 @@
-package tests.partialValidation.baseCases.functions
-
-# $TEST$ serialization f
-@Pure »fun f()«
