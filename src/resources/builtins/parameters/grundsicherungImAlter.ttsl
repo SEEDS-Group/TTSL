@@ -10,18 +10,20 @@ package grundsicherungImAlter
  * Sozialgesetzbuch
  */
 public constant vermoegensfreibetrag: Dict<String, Int> {
-    from 1984-01-01: {
-        adult: 0,
-        child: 0,
-    },
-    from 2003-01-01: {
-        adult: 2600,
-        child: 0,
-    },
-    from 2017-04-01: {
-        adult: 5000,
-        child: 500,
-    },
+    from 1984-01-01 = {
+        "adult": 0,
+        "child": 0,
+    };
+
+    from 2003-01-01 = {
+        "adult": 2600,
+        "child": 0,
+    };
+
+    from 2017-04-01 = {
+        "adult": 5000,
+        "child": 500,
+    };
 }
 
 /**
@@ -30,31 +32,32 @@ public constant vermoegensfreibetrag: Dict<String, Int> {
  * Grundrentenzeiten erreicht wurden.
  */
 public constant gesetzlicheRenteAnrechnungsfrei: Dict<Int, Dict<String, Float>> {
-    from 1984-01-01: {
+    from 1984-01-01 = {
         0: {
-            lower_threshold: -inf,
-            upper_threshold: inf,
-            rate: 0,
-            intercept_at_lower_threshold: 0,
+            "lower_threshold": -1e10,
+            "upper_threshold": 1e10,
+            "rate": 0,
+            "intercept_at_lower_threshold": 0,
         },
-    },
-    from 2021-01-01: {
+    };
+
+    from 2021-01-01 = {
         0: {
-            lower_threshold: -inf,
-            upper_threshold: 0,
-            rate: 0,
-            intercept_at_lower_threshold: 0,
+            "lower_threshold": -1e10,
+            "upper_threshold": 0,
+            "rate": 0,
+            "intercept_at_lower_threshold": 0,
         },
         1: {
-            lower_threshold: 0,
-            upper_threshold: 100,
-            rate: 1,
+            "lower_threshold": 0,
+            "upper_threshold": 100,
+            "rate": 1,
         },
         2: {
-            upper_threshold: inf,
-            rate: 0.3,
+            "upper_threshold": 1e10,
+            "rate": 0.3,
         },
-    },
+    };
 }
 
 /**
@@ -63,10 +66,10 @@ public constant gesetzlicheRenteAnrechnungsfrei: Dict<Int, Dict<String, Float>> 
  * Grundsicherung im Alter angerechnet. The reference is § 82 SGB XII Abs. 2.
  */
 public constant kapitaleinkommensfreibetrag: Int {
-    from 1984-01-01 = 0
+    from 1984-01-01 = 0;
 
     # Reference: § 43 SGB XII Abs. 2
-    from 2016-01-01 = 26
+    from 2016-01-01 = 26;
 }
 
 /**
@@ -77,9 +80,9 @@ public constant kapitaleinkommensfreibetrag: Int {
  */
 public constant erwerbseinkommensfreibetrag: Float {
     # Unclear how it was handled before 2005
-    from 1984-01-01 = 0
+    from 1984-01-01 = 0;
 
-    from 2005-01-01 = 0.3
+    from 2005-01-01 = 0.3;
 }
 
 /**
@@ -89,32 +92,33 @@ public constant erwerbseinkommensfreibetrag: Float {
  * Reference: § 82 SGB XII Abs. 4
  */
 public constant privateRenteAnrechnungsfrei: Dict<Int, Dict<String, Float>> {
-    from 1984-01-01: {
+    from 1984-01-01 = {
         # Unclear how it was handled before 2005,
         0: {
-            lower_threshold: -inf,
-            upper_threshold: inf,
-            rate: 0,
-            intercept_at_lower_threshold: 0,
+            "lower_threshold": -1e10,
+            "upper_threshold": 1e10,
+            "rate": 0,
+            "intercept_at_lower_threshold": 0,
         },
-    },
-    from 2005-01-01: {
+    };
+
+    from 2005-01-01 = {
         0: {
-            lower_threshold: -inf,
-            upper_threshold: 0,
-            rate: 0,
-            intercept_at_lower_threshold: 0,
+            "lower_threshold": -1e10,
+            "upper_threshold": 0,
+            "rate": 0,
+            "intercept_at_lower_threshold": 0,
         },
         1: {
-            lower_threshold: 0,
-            upper_threshold: 100,
-            rate: 1,
+            "lower_threshold": 0,
+            "upper_threshold": 100,
+            "rate": 1,
         },
         2: {
-            upper_threshold: inf,
-            rate: 0.3,
+            "upper_threshold": 1e10,
+            "rate": 0.3,
         },
-    },
+    };
 }
 
 /**
@@ -125,5 +129,5 @@ public constant privateRenteAnrechnungsfrei: Dict<Int, Dict<String, Float>> {
  * Reference: § 30 Abs. 1 SGB XII, https:#www.buzer.de/gesetz/3415/al0-3758.htm
  */
 public constant mehrbedarfSchwerbehinderung: Float {
-    from 2006-12-07 = 0.17
+    from 2006-12-07 = 0.17;
 }
