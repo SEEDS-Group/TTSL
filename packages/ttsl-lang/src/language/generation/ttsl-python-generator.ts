@@ -701,9 +701,15 @@ export class TTSLPythonGenerator {
             }
             return result.append(`str`)
         } else if(isTslListType(type)){
-            return result.append(`: list[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame, true)?.contents}]`)
+            if(!rekursion){
+                return result.append(`: list[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame, true)?.contents}]`)
+            }
+            return result.append(`list[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame, true)?.contents}]`)
         } else if(isTslDictionaryType(type)){
-            return result.append(`: dict[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame, true)?.contents}, ${this.generateType(type.typeParameterList.typeParameters.at(1)?.type, frame, true)?.contents}]`)
+            if(!rekursion){
+                return result.append(`: dict[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame, true)?.contents}, ${this.generateType(type.typeParameterList.typeParameters.at(1)?.type, frame, true)?.contents}]`)
+            }
+            return result.append(`dict[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame, true)?.contents}, ${this.generateType(type.typeParameterList.typeParameters.at(1)?.type, frame, true)?.contents}]`)
         } else {
             return new CompositeGeneratorNode(``)
         }
