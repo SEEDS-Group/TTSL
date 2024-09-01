@@ -1,4 +1,4 @@
-pacakge einkommenssteuerAbzuege
+package einkommenssteuerAbzuege
 
 # eink_st_abzuege.yaml --------------------------------------------------
 
@@ -12,126 +12,118 @@ pacakge einkommenssteuerAbzuege
 public constant kinderFreibetrag: Dict<String, Int> {
     # Reference: Art. 1 G. v. 23.12.1982 BGBl. I S. 1857.
     from 1983-01-01 = {
-        saechlichesExistenzminimum: 110
-    }
+        "saechlichesExistenzminimum": 110
+    };
 
     # Reference: Art. 1 G. v. 26.06.1985 BGBl. I S. 1153.
     from 1986-01-01 = {
-        saechlichesExistenzminimum: 635
-    }
+        "saechlichesExistenzminimum": 635
+    };
 
     # Reference: Artikel 1 G. v. 25.07.1988 BGBl. I S. 1093.
     from 1990-01-01 = {
-        saechlichesExistenzminimum: 773
-    }
+        "saechlichesExistenzminimum": 773
+    };
 
     # Reference: Art. 1 G. v. 25.02.1992 BGBl. I S. 297.
     from 1992-01-01 = {
-        saechlichesExistenzminimum: 1049
-    }
+        "saechlichesExistenzminimum": 1049
+    };
 
     # Reference: Art. 1. G. v. 11.10.1995 BGBl. I S. 1250.
     from 1996-01-01 = {
-        saechlichesExistenzminimum: 1601
-    }
+        "saechlichesExistenzminimum": 1601
+    };
 
     from 1997-01-01 = {
-        saechlichesExistenzminimum: 1767
-    }
+        "saechlichesExistenzminimum": 1767
+    };
 
     # Reference: Art. 1 G. v. 28.12.1999 BGBl. I. S. 2552.
     from 2000-01-01 = {
-        beitragErziehungAusbildung: 774,
-        saechlichesExistenzminimum: 1767
-    }
+        "beitragErziehungAusbildung": 774,
+        "saechlichesExistenzminimum": 1767
+    };
 
     # Reference: Art. 1 G. v. 16.08.2001 BGBl. I S. 2074
     from 2002-01-01 = {
-        beitragErziehungAusbildung: 1080,
-        saechlichesExistenzminimum: 1824
-    }
+        "beitragErziehungAusbildung": 1080,
+        "saechlichesExistenzminimum": 1824
+    };
 
     # Reference: Art. 1 G. v. 22.12.2008 BGBl. I S. 2955
     from 2009-01-01 = {
-        beitragErziehungAusbildung: 1080, # previous
-        saechlichesExistenzminimum: 1932
-    }
+        "beitragErziehungAusbildung": 1080, # previous
+        "saechlichesExistenzminimum": 1932
+    };
 
     # Reference: Art. 1 G. v. 22.12.2009 BGBl. I S. 3950
     from 2010-01-01 = {
-        beitragErziehungAusbildung: 1320,
-        saechlichesExistenzminimum: 2184
-    }
+        "beitragErziehungAusbildung": 1320,
+        "saechlichesExistenzminimum": 2184
+    };
 
     # Reference: Art. 1 G. v. 16.07.2015 BGBl. I S. 1202
     from 2015-01-01 = {
-        beitragErziehungAusbildung: 1320, # previous
-        saechlichesExistenzminimum: 2256
-    }
+        "beitragErziehungAusbildung": 1320, # previous
+        "saechlichesExistenzminimum": 2256
+    };
 
     # Reference: Art. 2 G. v. 16.07.2015 BGBl. I S. 1202
     from 2016-01-01 = {
-        beitragErziehungAusbildung: 1320, # previous
-        saechlichesExistenzminimum: 2304
-    }
+        "beitragErziehungAusbildung": 1320, # previous
+        "saechlichesExistenzminimum": 2304
+    };
 
     # Reference: Art. 8 G. v. 20.12.2016 BGBl. I. S. 3000
     from 2017-01-01 = {
-        beitragErziehungAusbildung: 1320, # previous
-        saechlichesExistenzminimum: 2358
-    }
+        "beitragErziehungAusbildung": 1320, # previous
+        "saechlichesExistenzminimum": 2358
+    };
 
     # Reference: Art. 9 G. v. 20.12.2016 BGBl. I. S. 3000
     from 2018-01-01 = {
-        beitragErziehungAusbildung: 1320, # previous
-        saechlichesExistenzminimum: 2394
-    }
+        "beitragErziehungAusbildung": 1320, # previous
+        "saechlichesExistenzminimum": 2394
+    };
 
     # Reference: Art. 1 G. v. 29.11.2018 BGBl. I S. 2210
     from 2019-01-01 = {
-        beitragErziehungAusbildung: 1320, # previous
-        saechlichesExistenzminimum: 2490
-    }
+        "beitragErziehungAusbildung": 1320, # previous
+        "saechlichesExistenzminimum": 2490
+    };
 
     # Reference: Art. 3 G. v. 29.11.2018 BGBl. I S. 2210
     from 2020-01-01 = {
-        beitragErziehungAusbildung: 1320, # previous
-        saechlichesExistenzminimum: 2586
-    }
+        "beitragErziehungAusbildung": 1320, # previous
+        "saechlichesExistenzminimum": 2586
+    };
 
     # Reference: Art. 1 G. v. 01.12.2020 BGBl. I S. 2616
     from 2021-01-01 = {
-        saechlichesExistenzminimum: 2730,
+        "saechlichesExistenzminimum": 2730,
         beitr_erz_ausb: 1464
-    }
+    };
 
     # Reference: Art. 1 G. v. 08.12.2022 BGBl. I S. 2230.
     from 2022-01-01 = {
-        beitragErziehungAusbildung: 2730, # previous
-        saechlichesExistenzminimum: 2810
-    }
+        "beitragErziehungAusbildung": 2730, # previous
+        "saechlichesExistenzminimum": 2810
+    };
 
     # Reference: Art. 2 G. v. 08.12.2022 BGBl. I S. 2230.
     from 2023-01-01 = {
-        beitragErziehungAusbildung: 2730, # previous
-        saechlichesExistenzminimum: 3012
-    }
-
-    2024-01-01:
-    deviation_from: previous
-    sächl_existenzmin: 3306
-    reference: >-
-      Not implemented in law yet, but announced.
-      https:#www.bmfsfj.de/bmfsfj/aktuelles/alle-meldungen/
-      spuerbare-verbesserungen-fuer-familien--234802
+        "beitragErziehungAusbildung": 2730, # previous
+        "saechlichesExistenzminimum": 3012
+    };
 
     # Reference: Art. 3 G. v. 08.12.2022 BGBl. I S. 2230.
     # Not implemented in law yet, but announced. https:#www.bmfsfj.de/bmfsfj/aktuelles/alle-meldungen/spuerbare-verbesserungen-fuer-familien--234802
     from 2024-01-01 = {
         # deviation_from: previous
-        beitragErziehungAusbildung: 2730, # previous
-        saechlichesExistenzminimum: 3306
-    }
+        "beitragErziehungAusbildung": 2730, # previous
+        "saechlichesExistenzminimum": 3306
+    };
 }
 
 /**
@@ -141,18 +133,18 @@ public constant kinderFreibetrag: Dict<String, Int> {
  * Zeitverlauf wurde bereits 2005 festgelegt.
  */
 public constant vorsorge2004Vorwegabzug: Int {
-    from 1985-01-01 = 1534
-    from 1989-01-01 = 2045
-    from 1993-01-01 = 3068
-    from 2011-01-01 = 2700
-    from 2012-01-01 = 2400
-    from 2013-01-01 = 2100
-    from 2014-01-01 = 1800
-    from 2015-01-01 = 1500
-    from 2016-01-01 = 1200
-    from 2017-01-01 = 900
-    from 2018-01-01 = 600
-    from 2019-01-01 = 300
+    from 1985-01-01 = 1534;
+    from 1989-01-01 = 2045;
+    from 1993-01-01 = 3068;
+    from 2011-01-01 = 2700;
+    from 2012-01-01 = 2400;
+    from 2013-01-01 = 2100;
+    from 2014-01-01 = 1800;
+    from 2015-01-01 = 1500;
+    from 2016-01-01 = 1200;
+    from 2017-01-01 = 900;
+    from 2018-01-01 = 600;
+    from 2019-01-01 = 300;
 }
 
 /**
@@ -161,18 +153,18 @@ public constant vorsorge2004Vorwegabzug: Int {
  * This is the minimum amount deducted from any employment income.
  */
 public constant werbungskostenpauschbetrag: Int {
-    from 1975-01-01 = 288
-    from 1990-01-01 = 1044
-    from 2004-01-01 = 920
+    from 1975-01-01 = 288;
+    from 1990-01-01 = 1044;
+    from 2004-01-01 = 920;
 
     # Reference: Art. 1 G. v. 01.11.2011 BGBl. I S. 2131.
-    from 2012-01-01 = 1000
+    from 2012-01-01 = 1000;
 
     # Reference: Art. 2 G. v. 23.05.2022 BGBl. I S. 749
-    from 2022-01-01 = 1200
+    from 2022-01-01 = 1200;
 
     # Reference: G. v. 20.12.2022 BGBl. I S. 2294.
-    from 2023-01-01 = 1230
+    from 2023-01-01 = 1230;
 }
 
 /**
@@ -180,13 +172,13 @@ public constant werbungskostenpauschbetrag: Int {
  * § 10c EStG
  */
 public constant sonderausgabenpauschbetrag: Int {
-    from 1984-01-01 = 138
+    from 1984-01-01 = 138;
 
     # Reference: Art. 1 G. v. 25.07.1988, BGBl. I S. 1093
-    from 1988-01-01 = 55
+    from 1988-01-01 = 55;
 
     # Reference: Art. 1 G. v. 19.12.2000, BGBl. I S. 1790
-    from 2002-01-01 = 36
+    from 2002-01-01 = 36;
 }
 
 /**
@@ -195,21 +187,21 @@ public constant sonderausgabenpauschbetrag: Int {
  * gemeinsam veranlagte. seit 2009. vor 2008 Sparerfreibetrag.
  */
 public constant sparerpauschbetrag: Int {
-    from 1975-01-01 = 153
-    from 1990-01-01 = 307
-    from 1993-01-01 = 3068
-    from 2000-01-01 = 1534
+    from 1975-01-01 = 153;
+    from 1990-01-01 = 307;
+    from 1993-01-01 = 3068;
+    from 2000-01-01 = 1534;
 
     # Reference: Art. 1 G. v. 19.12.2000 BGBl I S. 1790.
-    from 2002-01-01 = 1550
-    from 2004-01-01 = 1370
-    from 2007-01-01 = 750
+    from 2002-01-01 = 1550;
+    from 2004-01-01 = 1370;
+    from 2007-01-01 = 750;
 
     # Reference: Art. 1 G. v. 14.08.2007 BGBl. I S. 1912
-    from 2009-01-01 = 801
+    from 2009-01-01 = 801;
 
     # Reference: G. v. 20.12.2022 BGBl. I S. 2294.
-    from 2023-01-01 = 1000
+    from 2023-01-01 = 1000;
 }
 
 /**
@@ -218,8 +210,8 @@ public constant sparerpauschbetrag: Int {
  * gemeinsam veranlagte. seit 2009. vor 2008 Sparerfreibetrag.
  */
 public constant sparerWerbungskostenPauschbetrag: Int {
-    from 1975-01-01 = 51
-    from 2009-01-01 = 0
+    from 1975-01-01 = 51;
+    from 2009-01-01 = 0;
 }
 
 /**
@@ -227,8 +219,8 @@ public constant sparerWerbungskostenPauschbetrag: Int {
  * §10 (3) EStG bis 2004.
  */
 public constant vorsorge2004Grundhoechstbetrag: Int {
-    from 1985-01-01 = 1196
-    from 1992-01-01 = 1334
+    from 1985-01-01 = 1196;
+    from 1992-01-01 = 1334;
 }
 
 /**
@@ -239,9 +231,9 @@ public constant vorsorge2004Grundhoechstbetrag: Int {
  * den diese Steuerpflichtigen erhalten, vom Geburtsjahr ab.
  */
 public constant altersentlastungsbetragMax: Int or Dict<Int, Int> {
-    from 1984-01-01 = 1534
-    from 1989-01-01 = 1902
-    from 2002-01-01 = 1908
+    from 1984-01-01 = 1534;
+    from 1989-01-01 = 1902;
+    from 2002-01-01 = 1908;
 
     # Reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
     2005-01-01 = {
@@ -281,7 +273,7 @@ public constant altersentlastungsbetragMax: Int or Dict<Int, Int> {
       1973: 76,
       1974: 38,
       1975: 0
-    }
+    };
 }
 
 /**
@@ -292,7 +284,7 @@ public constant altersentlastungsbetragMax: Int or Dict<Int, Int> {
  * den diese Steuerpflichtigen erhalten, vom Geburtsjahr ab.
  */
 public constant altersentlastungQuote: Float or Dict<Int, Float> {
-    from 1984-01-01 = 0.4
+    from 1984-01-01 = 0.4;
 
     # Reference: Artikel 1 G. v. 05.07.2004 BGBl. I S. 1427.
     2005-01-01 = {
@@ -332,7 +324,7 @@ public constant altersentlastungQuote: Float or Dict<Int, Float> {
       1973: 0.016,
       1974: 0.008,
       1975: 0
-    }
+    };
 }
 
 /**
@@ -343,7 +335,7 @@ public constant altersentlastungQuote: Float or Dict<Int, Float> {
  * Reference: § 24a Art. 3 EStG
  */
 public constant altersentlastungsbetragAltersgrenze: Int {
-    from 1984-01-01 = 64
+    from 1984-01-01 = 64;
 }
 
 /**
@@ -355,20 +347,20 @@ public constant altersentlastungsbetragAltersgrenze: Int {
  * 2023 auf 100% gesetzt.
  * Reference: § 10 Abs. 1 Nr. 2 Buchst. a und b EStG
  */
-public constant einfuehrungsfaktor: {
+public constant einfuehrungsfaktor: Dict<Int, Dict<String, Float>> {
     from 2005-01-01 = {
-		0: {lower_threshold: -inf, rate_linear: 0, intercept_at_lower_threshold: 0.6},
-		1: {lower_threshold: 2005, upper_threshold: 2025, rate_linear: 0.02},
-		2: {upper_threshold: inf, rate_linear: 0}
-    }
+		0: {"lower_threshold": -1e10, "rate_linear": 0, "intercept_at_lower_threshold": 0.6},
+		1: {"lower_threshold": 2005, "upper_threshold": 2025, "rate_linear": 0.02},
+		2: {"upper_threshold": 1e10, "rate_linear": 0}
+    };
 
     # Reference: G. v. 20.12.2022 BGBl. I S. 2294.
     from 2023-01-01 = {
-      	0: {lower_threshold: -inf, rate_linear: 0, intercept_at_lower_threshold: 0.6},
-      	1: {lower_threshold: 2005, rate_linear: 0.02},
-      	2: {lower_threshold: 2022, upper_threshold: 2023, rate_linear: 0.06},
-      	3: {upper_threshold: inf, rate_linear: 0}
-    }
+      	0: {"lower_threshold": -1e10, "rate_linear": 0, "intercept_at_lower_threshold": 0.6},
+      	1: {"lower_threshold": 2005, "rate_linear": 0.02},
+      	2: {"lower_threshold": 2022, "upper_threshold": 2023, "rate_linear": 0.06},
+      	3: {"upper_threshold": 1e10, "rate_linear": 0}
+    };
 }
 
 /**
@@ -376,21 +368,21 @@ public constant einfuehrungsfaktor: {
  * § 24b (1) EStG. vor 2004 "Haushaltsfreibetrag", § 32 (7) EStG
  */
 public constant alleinerzFreibetrag: Int {
-	from 1984-01-01 = 2154
-	from 1986-01-01 = 2319
-	from 1989-01-01 = 2871
-	from 2001-01-01 = 2916
-	from 2002-01-01 = 2340
-	from 2004-01-01 = 1308
+	from 1984-01-01 = 2154;
+	from 1986-01-01 = 2319;
+	from 1989-01-01 = 2871;
+	from 2001-01-01 = 2916;
+	from 2002-01-01 = 2340;
+	from 2004-01-01 = 1308;
 
 	# Reference: Art. 1 G. v. 16.07.2015 BGBl. I S.1202
-	from 2015-01-01 = 1908
+	from 2015-01-01 = 1908;
 
 	# Reference: Art. 3 Nr. 2 G. v. 29.12.2020 BGBl. I S.3096
-	from 2020-01-01 = 4008
+	from 2020-01-01 = 4008;
 
 	# Reference: G. v. 20.12.2022 BGBl. I S. 2294.
-	from 2023-01-01 = 4260
+	from 2023-01-01 = 4260;
 }
 
 /**
@@ -400,7 +392,7 @@ public constant alleinerzFreibetrag: Int {
  */
 public constant alleinerzFreibetragZusatz: Int {
 	# Reference: Art. 1 G. vs. 16.07.2015 BGBl. I S.1202
-	from 2015-01-01 = 240
+	from 2015-01-01 = 240;
 }
 
 /**
@@ -409,15 +401,15 @@ public constant alleinerzFreibetragZusatz: Int {
  * gekürzt bei abhängig Beschäftigten (vereinfacht).
  */
 public constant vorsorge2004KuerzungVorwegabzug: Float {
-	from 1985-01-01 = 0.0935
-	from 1986-01-01 = 0.096
-	from 1987-01-01 = 0.0935
+	from 1985-01-01 = 0.0935;
+	from 1986-01-01 = 0.096;
+	from 1987-01-01 = 0.0935;
 
 	# Reference: Art. 1 G. v. 25.07.1988 BGBl. I S. 1093
-	from 1989-01-01 = 0.12
+	from 1989-01-01 = 0.12;
 
 	# Reference: Art. 1 G. v. 21.12.1993 BGBl. I S. 2310.
-	from 1994-01-01 = 0.16
+	from 1994-01-01 = 0.16;
 }
 
 /**
@@ -427,10 +419,10 @@ public constant vorsorge2004KuerzungVorwegabzug: Float {
  */
 public constant vorsorgeSonstigeAufwendungenMax: Int {
 	# Reference: Art. 1 G. v. 05.07.2004 BGBl. I S.1427
-	from 2005-01-01 = 1500
+	from 2005-01-01 = 1500;
 
 	# Reference: Art. 1 G. v. 23.07.2009 BGBl. I S.1959.
-	from 2010-01-01 = 1900
+	from 2010-01-01 = 1900;
 }
 
 /**
@@ -439,35 +431,35 @@ public constant vorsorgeSonstigeAufwendungenMax: Int {
  */
 public constant vorsorgeAltersvorsorgeaufwendungenMax: Int {
 	# Art. 1 G. v. 05.07.2004 BGBl. I S.1427
-	from 2005-01-01 = 20000
+	from 2005-01-01 = 20000;
 
 	# Ab 2015 knappschaftlicher Höchstbetrag, d.h. knappschaftlicher Beitragssatz *
 	# knappschaftliche Beitragsbemessungsgrenze
-	from 2015-01-01 = 22170
+	from 2015-01-01 = 22170;
 
 	# .248 * 91800
-	from 2016-01-01 = 22766
+	from 2016-01-01 = 22766;
 
 	# .247 * 94200
-	from 2017-01-01 = 23362
+	from 2017-01-01 = 23362;
 
 	# .247 * 96000
-	from 2018-01-01 = 23712
+	from 2018-01-01 = 23712;
 
 	# .247 * 98400
-	from 2019-01-01 = 24305
+	from 2019-01-01 = 24305;
 
 	# .247 * 101400
 	# Reference: Art. 3 V. v. 17.12.2019 BGBl I S. 2848.
-	from 2020-01-01 = 25046
+	from 2020-01-01 = 25046;
 
 	# .247 * 104400
 	# Reference: §3 V. v. 30.11.2020 BGBl. I S. 2612.
-	from 2021-01-01 = 25787
+	from 2021-01-01 = 25787;
 
 	# .247 * 103800
 	# Reference: §3 V. v. 30.11.2021, BGBl. I S. 5044.
-	from 2022-01-01 = 25640
+	from 2022-01-01 = 25640;
 }
 
 /**
@@ -477,7 +469,7 @@ public constant vorsorgeAltersvorsorgeaufwendungenMax: Int {
  */
 public constant vorsorgeKrankenMinderung: Float {
 	# Reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
-	from 2009-07-23 = 0.04
+	from 2009-07-23 = 0.04;
 }
 
 /**
@@ -496,7 +488,7 @@ public constant behindertenPauschbetrag: Dict<Int, Int> {
 		75: 1058,
 		85: 1227,
 		95: 1411
-	}
+	};
 
 	# Reference: Art. 1 G. v. 19.12.2000 BGBl. I S. 1790.
 	from 2002-01-01 = {
@@ -509,7 +501,7 @@ public constant behindertenPauschbetrag: Dict<Int, Int> {
 		75: 1060,
 		85: 1230,
 		95: 1420
-	}
+	};
 
 	# Reference: Art. 1 G. v. 09.12.2020 BGBL. I  S. 2770.
 	from 2021-01-01 = {
@@ -523,7 +515,7 @@ public constant behindertenPauschbetrag: Dict<Int, Int> {
 		80: 2120,
 		90: 2460,
 		100: 2840
-	}
+	};
 }
 
 /**
@@ -533,7 +525,7 @@ public constant behindertenPauschbetrag: Dict<Int, Int> {
  */
 public constant kinderbetreuungskostenAbzAnteil: Float {
 	# Reference: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
-	from 2012-01-01 = 0.6666666
+	from 2012-01-01 = 0.6666666;
 }
 
 /**
@@ -542,7 +534,7 @@ public constant kinderbetreuungskostenAbzAnteil: Float {
  */
 public constant kinderbetreuungskostenAbzMaximum: Int {
 	# Reference: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
-	from 2012-01-01 = 4000
+	from 2012-01-01 = 4000;
 }
 
 /**
@@ -550,48 +542,48 @@ public constant kinderbetreuungskostenAbzMaximum: Int {
  * §10 (3) a) S.4 EStG
  */
 public constant vorsorgepauschaleRentenversicherungsAnteil: Dict<Int, Dict<String, Float>> {
-	2005-01-01 = {
+	from 2005-01-01 = {
 		0: {
-			lower_threshold: -inf,
-			upper_threshold: 2005,
-			rate_linear: 0,
-			intercept_at_lower_threshold: 0.2
+			"lower_threshold": -1e10,
+			"upper_threshold": 2005,
+			"rate_linear": 0,
+			"intercept_at_lower_threshold": 0.2
 		},
 		1: {
-			lower_threshold: 2005,
-			upper_threshold: 2025,
-			rate_linear: 0.04,
-			intercept_at_lower_threshold: 0.2
+			"lower_threshold": 2005,
+			"upper_threshold": 2025,
+			"rate_linear": 0.04,
+			"intercept_at_lower_threshold": 0.2
 		},
 		2: {
-			lower_threshold: 2025,
-			upper_threshold: inf,
-			rate_linear: 0,
-			intercept_at_lower_threshold: 1
+			"lower_threshold": 2025,
+			"upper_threshold": 1e10,
+			"rate_linear": 0,
+			"intercept_at_lower_threshold": 1
 		}
-	}
+	};
 
-	2023-01-01 = {
+	from 2023-01-01 = {
 		0: {
-			lower_threshold: -inf,
-			rate_linear: 0,
-			intercept_at_lower_threshold: 0.2
+			"lower_threshold": -1e10,
+			"rate_linear": 0,
+			"intercept_at_lower_threshold": 0.2
 		},
 		1: {
-			lower_threshold: 2005,
-			rate_linear: 0.04
+			"lower_threshold": 2005,
+			"rate_linear": 0.04
 		},
 		2: {
-			lower_threshold: 2022,
-			upper_threshold: 2023,
-			rate_linear: 0.12
+			"lower_threshold": 2022,
+			"upper_threshold": 2023,
+			"rate_linear": 0.12
 		},
 		3: {
-			lower_threshold: 2023,
-			upper_threshold: inf,
-			rate_linear: 0
+			"lower_threshold": 2023,
+			"upper_threshold": 1e10,
+			"rate_linear": 0
 		}
-	}
+	};
 }
 
 /**
@@ -602,7 +594,7 @@ public constant vorsorgepauschaleRentenversicherungsAnteil: Dict<Int, Dict<Strin
  */
 public constant vorsorgepauschaleMindestanteil: Float {
 	# Reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
-	from 2009-07-23 = 0.12
+	from 2009-07-23 = 0.12;
 }
 
 /**
@@ -614,9 +606,9 @@ public constant vorsorgepauschaleMindestanteil: Float {
 public constant vorsorgepauschaleKvMax: Dict<String, Int> {
 	# Reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
 	from 2009-07-23 = {
-		steuerklasse_3: 3000,
-		steuerklasse_nicht3: 1900
-	}
+		"steuerklasse_3": 3000,
+		"steuerklasse_nicht3": 1900
+	};
 }
 
 # TODO: rounding

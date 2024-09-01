@@ -4,10 +4,10 @@ package sozialversicherungsbeitrag
  * Beitragssätze zu den gesetzlichen Sozialversicherungen
  *
  * gesetzliche Krankenversicherung:
- * Beitragssätze für gesetzliche Krankenversicherung. mean_allgemein -
- * durchschnittlicher Beitragssatz, bis 2008 allgemein - allgemeiner Satz (§241 SGB
- * V), ab 2009 sonderbeitrag - bezahlt von Arbeitnehmern, ab Jul 2005 bis 2014
- * ermäßigt - ermäßigter Satz (§243 SGB V) zusatz - durchschnittlicher
+ * Beitragssätze für gesetzliche Krankenversicherung. "mean_allgemein" -
+ * durchschnittlicher Beitragssatz, bis 2008 "allgemein" - allgemeiner Satz (§241 SGB
+ * V), ab 2009 "sonderbeitrag" - bezahlt von Arbeitnehmern, ab Jul 2005 bis 2014
+ * "ermäßigt" - ermäßigter Satz (§243 SGB V) zusatz - durchschnittlicher
  * Zusatzbeitragssatz.
  *
  * gesetzliche Pflegeversicherung:
@@ -16,7 +16,7 @@ package sozialversicherungsbeitrag
  * Versicherte, die das 23. Lebensjahr vollendet haben. Wird vom Arbeitnehmer
  * alleine getragen. Eingeführt 2005.
  *
- * arbeitslosenversicherung:
+ * "arbeitslosenversicherung":
  * Beitragssätze zur Arbeitslosenversicherung für Arbeitnehmer.
  *
  * gesetzliche Rentenversicherung:
@@ -25,343 +25,343 @@ package sozialversicherungsbeitrag
  * access_different_date: jahresanfang
  */
 public constant beitragssatz: Dict<String, String or Dict<String, Float>> {
-    from 1984-01-01 {
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.134
-        }
-        gesetzlichePflegeversicherung: 0.0085
-        arbeitslosenversicherung: 0.0325
-        gesetzlicheRentenversicherung: 0.0975
-    }
+    from 1984-01-01 = {
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.134
+        },
+        "gesetzlichePflegeversicherung": 0.0085,
+        "arbeitslosenversicherung": 0.0325,
+        "gesetzlicheRentenversicherung": 0.0975,
+    };
 
-    from 1985-01-01 {
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.118
-        }
-        arbeitslosenversicherung: 0.022
-        gesetzlicheRentenversicherung: 0.0935
-    }
+    from 1985-01-01 = {
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.118,
+        },
+        "arbeitslosenversicherung": 0.022,
+        "gesetzlicheRentenversicherung": 0.0935,
+    };
 
-    from 1986-01-01 {
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.122
-        }
-        arbeitslosenversicherung: 0.0205
-        gesetzlicheRentenversicherung: 0.096
-    }
+    from 1986-01-01 = {
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.122,
+        },
+        "arbeitslosenversicherung": 0.0205,
+        "gesetzlicheRentenversicherung": 0.096,
+    };
 
-    from 1987-01-01 {
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.1248
-        }
-        arbeitslosenversicherung: 0.0215
-        gesetzlicheRentenversicherung: 0.0935
-    }
+    from 1987-01-01 = {
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.1248,
+        };
+        "arbeitslosenversicherung": 0.0215,
+        "gesetzlicheRentenversicherung": 0.0935,
+    };
 
-    from 1988-01-01 {
+    from 1988-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.1288
-        }
-    }
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.1288,
+        },
+    };
 
-    from 1989-01-01 {
+    from 1989-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.129
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.129,
         }
-    }
+    };
 
-    from 1990-01-01 {
+    from 1990-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.125
-        }
-    }
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.125,
+        },
+    };
 
-    from 1991-01-01 {
+    from 1991-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: .128
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": .128,
         }
-    }
+    };
 
-    from 1992-01-01 {
+    from 1992-01-01 = {
         # deviation_from: previous
-        arbeitslosenversicherung: 0.0315
-        gesetzlicheRentenversicherung: 0.0885
-    }
+        "arbeitslosenversicherung": 0.0315,
+        "gesetzlicheRentenversicherung": 0.0885
+    };
 
-    from 1993-01-01 {
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.134
-        }
-        arbeitslosenversicherung: 0.0325
-        gesetzlicheRentenversicherung: 0.0875
-    }
+    from 1993-01-01 = {
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.134,
+        },
+        "arbeitslosenversicherung": 0.0325,
+        "gesetzlicheRentenversicherung": 0.0875,
+    };
 
-    from 1994-01-01 {
+    from 1994-01-01 = {
         # deviation_from: previous
-        gesetzlicheRentenversicherung: 0.096
-    }
+        "gesetzlicheRentenversicherung": 0.096
+    };
 
-    from 1995-01-01 {
-        arbeitslosenversicherung: 0.0325
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.132
-        }
-        gesetzlichePflegeversicherung: 0.005
-        gesetzlicheRentenversicherung: 0.093
-    }
+    from 1995-01-01 = {
+        "arbeitslosenversicherung": 0.0325,
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.132,
+        },
+        "gesetzlichePflegeversicherung": 0.005,
+        "gesetzlicheRentenversicherung": 0.093,
+    };
 
-    from 1996-01-01 {
+    from 1996-01-01 = {
         # deviation_from: previous
-        gesetzlicheRentenversicherung: 0.096
-    }
+        "gesetzlicheRentenversicherung": 0.096,
+    };
 
-    from 1997-01-01 {
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.134
-        }
-        gesetzlichePflegeversicherung: 0.0085
-        arbeitslosenversicherung: 0.0325
-        gesetzlicheRentenversicherung: 0.1015
-    }
+    from 1997-01-01 = {
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.134,
+        },
+        "gesetzlichePflegeversicherung": 0.0085,
+        "arbeitslosenversicherung": 0.0325,
+        "gesetzlicheRentenversicherung": 0.1015,
+    };
 
-    from 1998-01-01 {
+    from 1998-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.136
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.136
         }
-    }
+    };
 
-    from 2000-01-01 {
+    from 2000-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.1357
-        }
-        gesetzlicheRentenversicherung: 0.0965
-    }
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.1357,
+        },
+        "gesetzlicheRentenversicherung": 0.0965,
+    };
 
-    from 2001-01-01 {
+    from 2001-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.1358
-        }
-        gesetzlicheRentenversicherung: 0.0955
-    }
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.1358,
+        },
+        "gesetzlicheRentenversicherung": 0.0955,
+    };
 
-    from 2002-01-01 {
+    from 2002-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.14
-        }
-    }
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.14,
+        },
+    };
 
-    from 2003-01-01 {
+    from 2003-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.144
-        }
-        gesetzlicheRentenversicherung: 0.0975
-    }
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.144,
+        },
+        "gesetzlicheRentenversicherung": 0.0975,
+    };
 
-    from 2004-01-01 {
+    from 2004-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.142
-        }
-    }
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.142
+        },
+    };
 
-    from 2005-01-01 {
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.142
-        }
-        gesetzlichePflegeversicherung: {
-            standard: 0.0085
-            zusatz_kinderlos: 0.0025
-        }
-        arbeitslosenversicherung: 0.0325
-        gesetzlicheRentenversicherung: 0.0975
-    }
+    from 2005-01-01 = {
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.142,
+        },
+        "gesetzlichePflegeversicherung": = {
+            standard: 0.0085,
+            zusatz_kinderlos: 0.0025,
+        },
+        "arbeitslosenversicherung": 0.0325,
+        "gesetzlicheRentenversicherung": 0.0975,
+    };
 
     # Allgemeiner Beitragssatz wird nicht mehr gleichmäßig aufgeteilt, Einführung des Sonderbeitrags
     # Reference: Art. 1 G. v. 15.12.2004, BGBl I S. 3445.
-    from 2005-07-01 {
+    from 2005-07-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.133
-            sonderbeitrag: 0.009
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.133,
+            "sonderbeitrag": 0.009,
         }
-    }
+    };
 
-    from 2007-01-01 {
+    from 2007-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.139
-        }
-        arbeitslosenversicherung: 0.021
-        gesetzlicheRentenversicherung: 0.0995
-    }
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.139,
+        },
+        "arbeitslosenversicherung": 0.021,
+        "gesetzlicheRentenversicherung": 0.0995,
+    };
 
-    from 2008-01-01 {
-        gesetzlicheKrankenversicherung: {
-            mean_allgemein: 0.14
-            sonderbeitrag: 0.009
-        }
-        gesetzlichePflegeversicherung: {
-            standard: 0.00975
-            zusatzKinderlos: 0.0025
-        }
-        arbeitslosenversicherung: 0.016
-        gesetzlicheRentenversicherung: 0.0995
-    }
+    from 2008-01-01 = {
+        "gesetzlicheKrankenversicherung": {
+            "mean_allgemein": 0.14,
+            "sonderbeitrag": 0.009,
+        },
+        "gesetzlichePflegeversicherung": {
+            "standard": 0.00975,
+            "zusatzKinderlos": 0.0025,
+        },
+        "arbeitslosenversicherung": 0.016,
+        "gesetzlicheRentenversicherung": 0.0995,
+    };
 
-    from 2009-01-01 {
+    from 2009-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            allgemein: 0.146
-            sonderbeitrag: 0.009
-            ermäßigt: 0.140
-        }
-        arbeitslosenversicherung: 0.014
-    }
+        "gesetzlicheKrankenversicherung": {
+            "allgemein": 0.146,
+            "sonderbeitrag": 0.009,
+            "ermäßigt": 0.140,
+        },
+        "arbeitslosenversicherung": 0.014,
+    };
 
-    from 2009-07-01 {
+    from 2009-07-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            allgemein: 0.14
-            ermäßigt: 0.134
-            sonderbeitrag: 0.009
+        "gesetzlicheKrankenversicherung": {
+            "allgemein": 0.14,
+            "ermäßigt": 0.134,
+            "sonderbeitrag": 0.009,
         }
-    }
+    };
 
     # Reference: Art. 1 G. v. 22.12.2010 BGBl. I S. 2309
-    from 2011-01-01 {
+    from 2011-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            allgemein: 0.146
-            ermäßigt: 0.14
-        }
-        arbeitslosenversicherung: 0.015
-    }
+        "gesetzlicheKrankenversicherung": {
+            "allgemein": 0.146,
+            "ermäßigt": 0.14,
+        },
+        "arbeitslosenversicherung": 0.015,
+    };
 
     # Quelle: http:#www.bmas.de/DE/Service/Presse/Pressemitteilungen/rentenbericht-16-11-2011.html
-    from 2012-01-01 {
+    from 2012-01-01 = {
         # deviation_from: previous
-        gesetzlicheRentenversicherung: 0.098
-    }
+        "gesetzlicheRentenversicherung": 0.098
+    };
 
-    from 2013-01-01 {
+    from 2013-01-01 = {
         # deviation_from: previous
-        gesetzlicheRentenversicherung: 0.0945
-        gesetzlichePflegeversicherung: {
-            standard: 0.01025
-        }
-    }
+        "gesetzlicheRentenversicherung": 0.0945,
+        "gesetzlichePflegeversicherung": {
+            standard: 0.01025,
+        },
+    };
 
     # Abschaffung Sonderbeitrag, Einführung kassenabhängiger Zusatzbeitrag
-    from 2015-01-01 {
-        gesetzlicheKrankenversicherung: {
-            allgemein: 0.146
-            ermäßigt: 0.14
-            meanZusatzbeitrag: 0.009
-        }
-        gesetzlichePflegeversicherung: {
-            standard: 0.01175
-            zusatzKinderlos: 0.0025
-        }
-        arbeitslosenversicherung: 0.015
-        gesetzlicheRentenversicherung: 0.0935
-    }
+    from 2015-01-01 = {
+        "gesetzlicheKrankenversicherung": {
+            "allgemein": 0.146,
+            "ermäßigt": 0.14,
+            "meanZusatzbeitrag": 0.009,
+        },
+        "gesetzlichePflegeversicherung": {
+            "standard": 0.01175,
+            "zusatzKinderlos": 0.0025,
+        },
+        "arbeitslosenversicherung": 0.015,
+        "gesetzlicheRentenversicherung": 0.0935,
+    };
 
     # Bekanntmachung Bundesanzeiger 30.12.2015
-    from 2016-01-01 {
+    from 2016-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            meanZusatzbeitrag: 0.011
-        }
-    }
+        "gesetzlicheKrankenversicherung": {
+            "meanZusatzbeitrag": 0.011
+        },
+    };
 
-    from 2017-01-01 {
+    from 2017-01-01 = {
         # deviation_from: previous
-        gesetzlichePflegeversicherung: {
-            standard: 0.01275
-        }
-    }
+        "gesetzlichePflegeversicherung": {
+            "standard": 0.01275,
+        },
+    };
 
-    from 2018-01-01 {
+    from 2018-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            meanZusatzbeitrag: 0.01
-        }
-        gesetzlicheRentenversicherung: 0.093
-    }
+        "gesetzlicheKrankenversicherung": {
+            "meanZusatzbeitrag": 0.01,
+        },
+        "gesetzlicheRentenversicherung": 0.093,
+    };
 
     # Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387
     # (arbeitsl_v:) Set to 0.026 in Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651.
     # Temporarily reduced to 0.025 in BeiSaV 2019.
     # Reference: (arbeitsl_v:) V. v. 21.12.2018 BGBl. I S. 2663
-    from 2019-01-01 {
-        gesetzlicheKrankenversicherung: {
-            allgemein: 0.146
-            ermäßigt: 0.14
-            meanZusatzbeitrag: 0.009
-        }
-        gesetzlichePflegeversicherung: {
-            standard: 0.01525
-            zusatzKinderlos: 0.0025
-        }
-        arbeitslosenversicherung: 0.0125
-        gesetzlicheRentenversicherung: 0.093
-    }
+    from 2019-01-01 = {
+        "gesetzlicheKrankenversicherung": {
+            "allgemein": 0.146,
+            "ermäßigt": 0.14,
+            "meanZusatzbeitrag": 0.009,
+        },
+        "gesetzlichePflegeversicherung": {
+            "standard": 0.01525,
+            "zusatzKinderlos": 0.0025,
+        },
+        "arbeitslosenversicherung": 0.0125,
+        "gesetzlicheRentenversicherung": 0.093,
+    };
 
     # Temporarily reduced to 0.024 in BeiSaV 2019.
-    # Reference: (ges_krankenv mean_zusatzbeitrag:) BAnz AT 28.10.2019 B3
+    # Reference: ("ges_krankenv" mean_zusatzbeitrag:) BAnz AT 28.10.2019 B3
     # (arbeitsl_v:) V. v. 02.12.2019 BGBl. I S. 1998
-    from 2020-01-01 {
+    from 2020-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            meanZusatzbeitrag: 0.011
-        }
-        arbeitslosenversicherung: 0.012
-    }
+        "gesetzlicheKrankenversicherung": {
+            "meanZusatzbeitrag": 0.011
+        },
+        "arbeitslosenversicherung": 0.012,
+    };
 
-    # Reference: (ges_krankenv mean_zusatzbeitrag:) BAnz AT 30.10.2020 B5
-    from 2021-01-01 {
+    # Reference: ("ges_krankenv" mean_zusatzbeitrag:) BAnz AT 30.10.2020 B5
+    from 2021-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            meanZusatzbeitrag: 0.013
-        }
-    }
+        "gesetzlicheKrankenversicherung": {
+            "meanZusatzbeitrag": 0.013,
+        },
+    };
 
     # Reference: Art. 2 Nr. 14 G. v. 11.07.2021, BGBl. I S. 2754.
-    from 2022-01-01 {
+    from 2022-01-01 = {
         # deviation_from: previous
-        gesetzlichePflegeversicherung: {
-            zusatzKinderlos: 0.0035
-        }
-    }
+        "gesetzlichePflegeversicherung": {
+            "zusatzKinderlos": 0.0035,
+        },
+    };
 
-    # Contribution rate for arbeitsl_v was temporarily reduced from 2019 to 2022 in BeiSaV 2019.
+    # Contribution "rate" for arbeitsl_v was temporarily reduced from 2019 to 2022 in BeiSaV 2019.
     # Now back to level specified in § 341 Abs. 2 SGB III.
     # Reference: (arbeitsl_v:) Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651
-    # (ges_krankenv mean_zusatzbeitrag:) BAnz AT 31.10.2022 B5
-    from 2023-01-01 {
+    # ("ges_krankenv" mean_zusatzbeitrag:) BAnz AT 31.10.2022 B5
+    from 2023-01-01 = {
         # deviation_from: previous
-        arbeitslosenversicherung: 0.013
-        gesetzlicheKrankenversicherung: {
-            meanZusatzbeitrag: 0.016
-        }
-    }
+        "arbeitslosenversicherung": 0.013,
+        "gesetzlicheKrankenversicherung": {
+            "meanZusatzbeitrag": 0.016,
+        },
+    };
 
     # Reference: BAnz AT 31.10.2023 B3
-    from 2024-01-01 {
+    from 2024-01-01 = {
         # deviation_from: previous
-        gesetzlicheKrankenversicherung: {
-            meanZusatzbeitrag: 0.017
-        }
-    }
+        "gesetzlicheKrankenversicherung": {
+            "meanZusatzbeitrag": 0.017,
+        },
+    };
 }
 
 /**
@@ -369,445 +369,445 @@ public constant beitragssatz: Dict<String, String or Dict<String, Float>> {
  * Die Beitragsbemessungsgrenze für Kranken- und Pflegeversicherung ist identisch.
  */
 public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
-    from 1984-01-01 {
-        ges_krankenv: {
-            west: 1994
-        }
-        ges_rentenv: {
-            west: 2659
-        }
-    }
+    from 1984-01-01 = {
+        "ges_krankenv": {
+            "west": 1994
+        },
+        "ges_rentenv": {
+            "west": 2659
+        },
+    };
 
-    from 1985-01-01 {
-        ges_krankenv: {
-            west: 2071
-        }
-        ges_rentenv: {
-            west: 2761
-        }
-    }
+    from 1985-01-01 = {
+        "ges_krankenv": {
+            "west": 2071
+        },
+        "ges_rentenv": {
+            "west": 2761
+        },
+    };
 
-    from 1986-01-01 {
-        ges_krankenv: {
-            west: 2147
-        }
-        ges_rentenv: {
-            west: 2863
-        }
-    }
+    from 1986-01-01 = {
+        "ges_krankenv": {
+            "west": 2147
+        },
+        "ges_rentenv": {
+            "west": 2863
+        },
+    };
 
-    from 1987-01-01 {
-        ges_krankenv: {
-            west: 2186
-        }
-        ges_rentenv: {
-            west: 2914
-        }
-    }
+    from 1987-01-01 = {
+        "ges_krankenv": {
+            "west": 2186
+        },
+        "ges_rentenv": {
+            "west": 2914
+        },
+    };
 
-    from 1988-01-01 {
-        ges_krankenv: {
-            west: 2301
-        }
-        ges_rentenv: {
-            west: 3068
-        }
-    }
+    from 1988-01-01 = {
+        "ges_krankenv": {
+            "west": 2301
+        },
+        "ges_rentenv": {
+            "west": 3068
+        },
+    };
 
-    from 1989-01-01 {
-        ges_krankenv: {
-            west: 2339
-        }
-        ges_rentenv: {
-            west: 3119
-        }
-    }
+    from 1989-01-01 = {
+        "ges_krankenv": {
+            "west": 2339
+        },
+        "ges_rentenv": {
+            "west": 3119
+        },
+    };
 
-    from 1990-01-01 {
-        ges_krankenv: {
-            west: 2416
-            ost: 1035
-        }
-        ges_rentenv: {
-            west: 3221
-            ost: 1380
-        }
-    }
+    from 1990-01-01 = {
+        "ges_krankenv": {
+            "west": 2416,
+            "ost": 1035
+        },
+        "ges_rentenv": {
+            "west": 3221,
+            "ost": 1380
+        },
+    };
 
-    from 1991-01-01 {
-        ges_krankenv: {
-            west: 2493
-            ost: 1151
-        }
-        ges_rentenv: {
-            west: 3323
-            ost: 1534
-        }
-    }
+    from 1991-01-01 = {
+        "ges_krankenv": {
+            "west": 2493,
+            "ost": 1151,
+        },
+        "ges_rentenv": {
+            "west": 3323,
+            "ost": 1534
+        },
+    };
 
-    from 1992-01-01 {
-        ges_krankenv: {
-            west: 2608
-            ost: 1841
+    from 1992-01-01 = {
+        "ges_krankenv": {
+            "west": 2608,
+            "ost": 1841
+        },
+        "ges_rentenv": {
+            "west": 3477,
+            "ost": 2454,
         }
-        ges_rentenv: {
-            west: 3477
-            ost: 2454
-        }
-    }
+    };
 
-    from 1993-01-01 {
-        ges_krankenv: {
-            west: 2761
-            ost: 2032
+    from 1993-01-01 = {
+        "ges_krankenv": {
+            "west": 2761,
+            "ost": 2032,
+        },
+        "ges_rentenv": {
+            "west": 3681,
+            "ost": 271,
         }
-        ges_rentenv: {
-            west: 3681
-            ost: 271
-        }
-    }
+    };
 
-    from 1994-01-01 {
-        ges_krankenv: {
-            west: 2914
-            ost: 2262
+    from 1994-01-01 = {
+        "ges_krankenv": {
+            "west": 2914,
+            "ost": 2262,
+        },
+        "ges_rentenv": {
+            "west": 3886,
+            "ost": 3017,
         }
-        ges_rentenv: {
-            west: 3886
-            ost: 3017
-        }
-    }
+    };
 
-    from 1995-01-01 {
-        ges_krankenv: {
-            west: 2991
-            ost: 2454
-        }
-        ges_rentenv: {
-            west: 3988
-            ost: 3272
-        }
-    }
+    from 1995-01-01 = {
+        "ges_krankenv": {
+            "west": 2991,
+            "ost": 2454,
+        },
+        "ges_rentenv": {
+            "west": 3988,
+            "ost": 3272,
+        },
+    };
 
-    from 1996-01-01 {
-        ges_krankenv: {
-            west: 3068
-            ost: 2608
+    from 1996-01-01 = {
+        "ges_krankenv": {
+            "west": 3068,
+            "ost": 2608,
+        },
+        "ges_rentenv": {
+            "west": 4090,
+            "ost": 3477,
         }
-        ges_rentenv: {
-            west: 4090
-            ost: 3477
-        }
-    }
+    };
 
-    from 1997-01-01 {
-        ges_krankenv: {
-            west: 3144
-            ost: 2723
+    from 1997-01-01 = {
+        "ges_krankenv": {
+            "west": 3144,
+            "ost": 2723,
+        },
+        "ges_rentenv": {
+            "west": 4193,
+            "ost": 3630,
         }
-        ges_rentenv: {
-            west: 4193
-            ost: 3630
-        }
-    }
+    };
 
-    from 1998-01-01 {
-        ges_krankenv: {
-            west: 3221
-            ost: 2684
+    from 1998-01-01 = {
+        "ges_krankenv": {
+            "west": 3221,
+            "ost": 2684,
+        },
+        "ges_rentenv": {
+            "west": 4295,
+            "ost": 3579,
         }
-        ges_rentenv: {
-            west: 4295
-            ost: 3579
-        }
-    }
+    };
 
-    from 1999-01-01 {
-        ges_krankenv: {
-            west: 3259
-            ost: 2761
-        }
-        ges_rentenv: {
-            west: 4339
-            ost: 3681
-        }
-    }
+    from 1999-01-01 = {
+        "ges_krankenv": {
+            "west": 3259,
+            "ost": 2761,
+        },
+        "ges_rentenv": {
+            "west": 4339,
+            "ost": 3681,
+        },
+    };
 
-    from 2000-01-01 {
-        ges_krankenv: {
-            west: 3298
-            ost: 2723
-        }
-        ges_rentenv: {
-            west: 4397
-            ost: 3630
-        }
-    }
+    from 2000-01-01 = {
+        "ges_krankenv": {
+            "west": 3298,
+            "ost": 2723,
+        },
+        "ges_rentenv": {
+            "west": 4397,
+            "ost": 3630,
+        },
+    };
 
-    from 2001-01-01 {
-        ges_krankenv: {
-            west: 3336
-            ost: 3336
-        }
-        ges_rentenv: {
-            west: 4448
-            ost: 3732
-        }
-    }
+    from 2001-01-01 = {
+        "ges_krankenv": {
+            "west": 3336,
+            "ost": 3336,
+        },
+        "ges_rentenv": {
+            "west": 4448,
+            "ost": 3732,
+        },
+    };
 
-    from 2002-01-01 {
-        ges_krankenv: {
-            west: 3375
-            ost: 3375
-        }
-        ges_rentenv: {
-            west: 4500
-            ost: 3750
-        }
-    }
+    from 2002-01-01 = {
+        "ges_krankenv": {
+            "west": 3375,
+            "ost": 3375,
+        },
+        "ges_rentenv": {
+            "west": 4500,
+            "ost": 3750,
+        },
+    };
 
-    from 2003-01-01 {
-        ges_krankenv: {
-            west: 3450
-            ost: 3375
-        }
-        ges_rentenv: {
-            west: 5100
-            ost: 4250
-        }
-    }
+    from 2003-01-01 = {
+        "ges_krankenv": {
+            "west": 3450,
+            "ost": 3375,
+        },
+        "ges_rentenv": {
+            "west": 5100,
+            "ost": 4250,
+        },
+    };
 
-    from 2004-01-01 {
-        ges_krankenv: {
-            west: 3488
-            ost: 3488
-        }
-        ges_rentenv: {
-            west: 5150
-            ost: 4350
-        }
-    }
+    from 2004-01-01 = {
+        "ges_krankenv": {
+            "west": 3488,
+            "ost": 3488,
+        },
+        "ges_rentenv": {
+            "west": 5150,
+            "ost": 4350,
+        },
+    };
 
-    from 2005-01-01 {
-        ges_krankenv: {
-            west: 3525
-            ost: 3525
+    from 2005-01-01 = {
+        "ges_krankenv": {
+            "west": 3525,
+            "ost": 3525,
+        },
+        "ges_rentenv": {
+            "west": 5200,
+            "ost": 4400,
         }
-        ges_rentenv: {
-            west: 5200
-            ost: 4400
-        }
-    }
+    };
 
-    from 2006-01-01 {
-        ges_krankenv: {
-            west: 3562.5
-            ost: 3562.5
+    from 2006-01-01 = {
+        "ges_krankenv": {
+            "west": 3562.5,
+            "ost": 3562.5,
+        },
+        "ges_rentenv": {
+            "west": 5250,
+            "ost": 4400,
         }
-        ges_rentenv: {
-            west: 5250
-            ost: 4400
-        }
-    }
+    };
 
-    from 2007-01-01 {
+    from 2007-01-01 = {
         # deviation_from: previous
-        ges_rentenv: {
-            ost: 4550
-        }
-    }
+        "ges_rentenv": {
+            "ost": 4550,
+        },
+    };
 
-    from 2008-01-01 {
-        ges_krankenv: {
-            west: 3600
-            ost: 3600
+    from 2008-01-01 = {
+        "ges_krankenv": {
+            "west": 3600,
+            "ost": 3600,
+        },
+        "ges_rentenv": {
+            "west": 5300,
+            "ost": 4500,
         }
-        ges_rentenv: {
-            west: 5300
-            ost: 4500
-        }
-    }
+    };
 
-    from 2009-01-01 {
-        ges_krankenv: {
-            west: 3675
-            ost: 3675
+    from 2009-01-01 = {
+        "ges_krankenv": {
+            "west": 3675,
+            "ost": 3675,
+        },
+        "ges_rentenv": {
+            "west": 5400,
+            "ost": 4550,
         }
-        ges_rentenv: {
-            west: 5400
-            ost: 4550
-        }
-    }
+    };
 
-    from 2010-01-01 {
-        ges_krankenv: {
-            west: 3750
-            ost: 3750
+    from 2010-01-01 = {
+        "ges_krankenv": {
+            "west": 3750,
+            "ost": 3750,
+        },
+        "ges_rentenv": {
+            "west": 5500,
+            "ost": 4650,
         }
-        ges_rentenv: {
-            west: 5500
-            ost: 4650
-        }
-    }
+    };
 
-    from 2011-01-01 {
+    from 2011-01-01 = {
         # deviation_from: previous
-        ges_krankenv: {
-            west: 3712.5
-            ost: 3712.5
+        "ges_krankenv": {
+            "west": 3712.5,
+            "ost": 3712.5,
+        },
+        "ges_rentenv": {
+            "ost": 4800,
         }
-        ges_rentenv: {
-            ost: 4800
-        }
-    }
+    };
 
-    from 2012-01-01 {
+    from 2012-01-01 = {
         # deviation_from: previous
-        ges_krankenv: {
-            west: 3825
-            ost: 3825
+        "ges_krankenv": {
+            "west": 3825,
+            "ost": 3825,
+        },
+        "ges_rentenv": {
+            "west": 5600,
         }
-        ges_rentenv: {
-            west: 5600
-        }
-    }
+    };
 
-    from 2013-01-01 {
-        ges_krankenv: {
-            west: 3937.5
-            ost: 3937.5
+    from 2013-01-01 = {
+        "ges_krankenv": {
+            "west": 3937.5,
+            "ost": 3937.5,
+        },
+        "ges_rentenv": {
+            "west": 5800,
+            "ost": 4900,
         }
-        ges_rentenv: {
-            west: 5800
-            ost: 4900
-        }
-    }
+    };
 
     # http:#www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
-    from 2014-01-01 {
-        ges_krankenv: {
-            west: 4050
-            ost: 4050
-        }
-        ges_rentenv: {
-            west: 5950
-            ost: 5000
-        }
-    }
+    from 2014-01-01 = {
+        "ges_krankenv": {
+            "west": 4050,
+            "ost": 4050,
+        },
+        "ges_rentenv": {
+            "west": 5950,
+            "ost": 5000,
+        },
+    };
 
-    from 2015-01-01 {
-        ges_krankenv: {
-            west: 4125
-            ost: 4125
-        }
-        ges_rentenv: {
-            west: 6050
-            ost: 5200
-        }
-    }
+    from 2015-01-01 = {
+        "ges_krankenv": {
+            "west": 4125,
+            "ost": 4125,
+        },
+        "ges_rentenv": {
+            "west": 6050,
+            "ost": 5200,
+        },
+    };
 
     # https:#www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
-    from 2016-01-01 {
-        ges_krankenv: {
-            west: 4237.5
-            ost: 4237.5
+    from 2016-01-01 = {
+        "ges_krankenv": {
+            "west": 4237.5,
+            "ost": 4237.5,
+        },
+        "ges_rentenv": {
+            "west": 6200,
+            "ost": 5400,
         }
-        ges_rentenv: {
-            west: 6200
-            ost: 5400
-        }
-    }
+    };
 
     # https:#www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
-    from 2017-01-01 {
-        ges_krankenv: {
-            west: 4350
-            ost: 4350
+    from 2017-01-01 = {
+        "ges_krankenv": {
+            "west": 4350,
+            "ost": 4350,
+        },
+        "ges_rentenv": {
+            "west": 6350,
+            "ost": 5700,
         }
-        ges_rentenv: {
-            west: 6350
-            ost: 5700
-        }
-    }
+    };
 
-    from 2018-01-01 {
-        ges_krankenv: {
-            west: 4425
-            ost: 4425
+    from 2018-01-01 = {
+        "ges_krankenv": {
+            "west": 4425,
+            "ost": 4425,
+        },
+        "ges_rentenv": {
+            "west": 6500,
+            "ost": 5800,
         }
-        ges_rentenv: {
-            west: 6500
-            ost: 5800
-        }
-    }
+    };
 
-    from 2019-01-01 {
-        ges_krankenv: {
-            west: 4537.5
-            ost: 4537.5
+    from 2019-01-01 = {
+        "ges_krankenv": {
+            "west": 4537.5,
+            "ost": 4537.5,
+        },
+        "ges_rentenv": {
+            "west": 6700,
+            "ost": 6150,
         }
-        ges_rentenv: {
-            west: 6700
-            ost: 6150
-        }
-    }
+    };
 
     # Reference: V. v. 17.12.2019 BGBl. I S. 2848
-    from 2020-01-01 {
-        ges_krankenv: {
-            west: 4687.5
-            ost: 4687.5
+    from 2020-01-01 = {
+        "ges_krankenv": {
+            "west": 4687.5,
+            "ost": 4687.5,
+        },
+        "ges_rentenv": {
+            "west": 6900,
+            "ost": 6450,
         }
-        ges_rentenv: {
-            west: 6900
-            ost: 6450
-        }
-    }
+    };
 
     # Reference: §3, §4 V. v. 30.11.2020, BGBl. I S. 2612.
-    from 2021-01-01 {
-        ges_krankenv: {
-            west: 4837.5
-            ost: 4837.5
+    from 2021-01-01 = {
+        "ges_krankenv": {
+            "west": 4837.5,
+            "ost": 4837.5,
+        },
+        "ges_rentenv": {
+            "west": 7100,
+            "ost": 6700,
         }
-        ges_rentenv: {
-            west: 7100
-            ost: 6700
-        }
-    }
+    };
 
     # Reference: §3 V. v. 30.11.2021, BGBl. I S. 5044.
-    from 2022-01-01 {
+    from 2022-01-01 = {
         # deviation_from: previous
-        ges_rentenv: {
-            west: 7050
-            ost: 6750
-        }
-    }
+        "ges_rentenv": {
+            "west": 7050,
+            "ost": 6750,
+        },
+    };
 
     # Reference: V. v. 28.11.2022 BGBl. I. S. 2128.
-    from 2023-01-01 {
-        ges_krankenv: {
-            west: 4987.5
-            ost: 4987.5
+    from 2023-01-01 = {
+        "ges_krankenv": {
+            "west": 4987.5,
+            "ost": 4987.5,
+        },
+        "ges_rentenv": {
+            "west": 7300,
+            "ost": 7100,
         }
-        ges_rentenv: {
-            west: 7300
-            ost: 7100
-        }
-    }
+    };
 
     # Reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 322
-    from 2024-01-01 {
-        ges_krankenv: {
-            west: 5175
-            ost: 5175
+    from 2024-01-01 = {
+        "ges_krankenv": {
+            "west": 5175,
+            "ost": 5175,
+        },
+        "ges_rentenv": {
+            "west": 7550,
+            "ost": 7450,
         }
-        ges_rentenv: {
-            west: 7550
-            ost: 7450
-        }
-    }
+    };
 }
 
 /**
@@ -815,208 +815,208 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
  * §18 SGB IV and https:#de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
  */
 public constant monatlicheBezugsgroeße: Dict<String, Float> {
-    from 1984-01-01 {
-        west: 1396
-    }
+    from 1984-01-01 = {
+        "west": 1396
+    };
 
-    from 1985-01-01 {
-        west: 1432
-    }
+    from 1985-01-01 = {
+        "west": 1432
+    };
 
-    from 1986-01-01 {
-        west: 1467
-    }
+    from 1986-01-01 = {
+        "west": 1467
+    };
 
-    from 1987-01-01 {
-        west: 1539
-    }
+    from 1987-01-01 = {
+        "west": 1539
+    };
 
-    from 1988-01-01 {
-        west: 1575
-    }
+    from 1988-01-01 = {
+        "west": 1575
+    };
 
-    from 1989-01-01 {
-        west: 1611
-    }
+    from 1989-01-01 = {
+        "west": 1611
+    };
 
-    from 1990-01-01 {
-        west: 1682
-        ost: 715.8086336747059
-    }
+    from 1990-01-01 = {
+        "west": 1682,
+        "ost": 715.8086336747059
+    };
 
-    from 1991-01-01 {
-        west: 1718
-        ost: 787.3894970421765
-    }
+    from 1991-01-01 = {
+        "west": 1718,
+        "ost": 787.3894970421765
+    };
 
-    from 1992-01-01 {
-        west: 1790
-        ost: 1073.712950512059
-    }
+    from 1992-01-01 = {
+        "west": 1790,
+        "ost": 1073.712950512059
+    };
 
-    from 1993-01-01 {
-        west: 1897
-        ost: 1395.826835665677
-    }
+    from 1993-01-01 = {
+        "west": 1897,
+        "ost": 1395.826835665677
+    };
 
-    from 1994-01-01 {
-        west: 2004
-        ost: 1574.778994084353
-    }
+    from 1994-01-01 = {
+        "west": 2004,
+        "ost": 1574.778994084353
+    };
 
-    from 1995-01-01 {
-        west: 2076
-        ost: 1682.150289135559
-    }
+    from 1995-01-01 = {
+        "west": 2076,
+        "ost": 1682.150289135559
+    };
 
-    from 1996-01-01 {
-        west: 2112
-        ost: 1789.521584186765
-    }
+    from 1996-01-01 = {
+        "west": 2112,
+        "ost": 1789.521584186765
+    };
 
-    from 1997-01-01 {
-        west: 2183
-        ost: 1861.102447554235
-    }
+    from 1997-01-01 = {
+        "west": 2183,
+        "ost": 1861.102447554235
+    };
 
-    from 1998-01-01 {
-        west: 2219
-        ost: 1896.892879237971
-    }
+    from 1998-01-01 = {
+        "west": 2219,
+        "ost": 1896.892879237971
+    };
 
-    from 1999-01-01 {
-        west: 2255
-        ost: 1896.892879237971
-    }
+    from 1999-01-01 = {
+        "west": 2255,
+        "ost": 1896.892879237971
+    };
 
-    from 2000-01-01 {
-        west: 2291
-        ost: 1861.102447554235
-    }
+    from 2000-01-01 = {
+        "west": 2291,
+        "ost": 1861.102447554235
+    };
 
-    from 2001-01-01 {
+    from 2001-01-01 = {
         # deviation_from: previous
-        ost: 1932.683310921706
-    }
+        "ost": 1932.683310921706
+    };
 
-    from 2002-01-01 {
-        west: 2345
-        ost: 1960
-    }
+    from 2002-01-01 = {
+        "west": 2345,
+        "ost": 1960
+    };
 
-    from 2003-01-01 {
-        west: 2380
-        ost: 1995
-    }
+    from 2003-01-01 = {
+        "west": 2380,
+        "ost": 1995
+    };
 
-    from 2004-01-01 {
-        west: 2415
-        ost: 2030
-    }
+    from 2004-01-01 = {
+        "west": 2415,
+        "ost": 2030
+    };
 
-    from 2006-01-01 {
-        west: 2450
-        ost: 2065
-    }
+    from 2006-01-01 = {
+        "west": 2450,
+        "ost": 2065
+    };
 
-    from 2007-01-01 {
+    from 2007-01-01 = {
         # deviation_from: previous
-        ost: 2100
-    }
+        "ost": 2100
+    };
 
-    from 2008-01-01 {
+    from 2008-01-01 = {
         # deviation_from: previous
-        west: 2485
-    }
+        "west": 2485
+    };
 
-    from 2009-01-01 {
-        west: 2520
-        ost: 2135
-    }
+    from 2009-01-01 = {
+        "west": 2520,
+        "ost": 2135
+    };
 
-    from 2010-01-01 {
-        west: 2555
-        ost: 2170
-    }
+    from 2010-01-01 = = {
+        "west": 2555,
+        "ost": 2170
+    };
 
-    from 2011-01-01 {
+    from 2011-01-01 = = {
         # deviation_from: previous
-        ost: 2240
-    }
+        "ost": 2240
+    };
 
-    from 2012-01-01 {
+    from 2012-01-01 = = {
         # deviation_from: previous
-        west: 2625
-    }
+        "west": 2625
+    };
 
-    from 2013-01-01 {
-        west: 2695
-        ost: 2275
-    }
+    from 2013-01-01 = = {
+        "west": 2695,
+        "ost": 2275
+    };
 
     # http:#www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
-    from 2014-01-01 {
-        west: 2765
-        ost: 2345
-    }
+    from 2014-01-01 = = {
+        "west": 2765,
+        "ost": 2345
+    };
 
-    from 2015-01-01 {
-        west: 2835
-        ost: 2415
-    }
+    from 2015-01-01 = = {
+        "west": 2835,
+        "ost": 2415
+    };
 
     # https:#www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
-    from 2016-01-01 {
-        west: 2905
-        ost: 2520
-    }
+    from 2016-01-01 = = {
+        "west": 2905,
+        "ost": 2520
+    };
 
     # https:#www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
-    from 2017-01-01 {
-        west: 2975
-        ost: 2660
-    }
+    from 2017-01-01 = = {
+        "west": 2975,
+        "ost": 2660
+    };
 
-    from 2018-01-01 {
-        west: 3045
-        ost: 2695
-    }
+    from 2018-01-01 = = {
+        "west": 3045,
+        "ost": 2695
+    };
 
     # Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
-    from 2019-01-01 {
-        west: 3115
-        ost: 2870
-    }
+    from 2019-01-01 = = {
+        "west": 3115,
+        "ost": 2870
+    };
 
     # Reference: §2 V. v. 17.12.2019 BGBl. I S. 2848
-    from 2020-01-01 {
-        west: 3185
-        ost: 3010
-    }
+    from 2020-01-01 = = {
+        "west": 3185,
+        "ost": 3010
+    };
 
     # Reference: §2 V. v. 30.11.2020, BGBl. I S. 2612.
-    from 2021-01-01 {
-        west: 3290
-        ost: 3115
-    }
+    from 2021-01-01 = = {
+        "west": 3290,
+        "ost": 3115
+    };
 
     # Reference: §2 V. v. 30.11.2021, BGBl. I S. 5044.
-    from 2022-01-01 {
-        west: 3290
-        ost: 3150
-    }
+    from 2022-01-01 = = {
+        "west": 3290,
+        "ost": 3150
+    };
 
     # Reference: V. v. 28.11.2022 BGBl. I. S. 2128.
-    from 2023-01-01 {
-        west: 3395
-        ost: 3290
-    }
+    from 2023-01-01 = = {
+        "west": 3395,
+        "ost": 3290
+    };
 
     # Reference: V. v. 29.11.2023 BGBl. 2023 I Nr. 322.
-    from 2024-01-01 {
-        west: 3535
-        ost: 3465
-    }
+    from 2024-01-01 = = {
+        "west": 3535,
+        "ost": 3465
+    };
 }
 
 /**
@@ -1026,9 +1026,7 @@ public constant monatlicheBezugsgroeße: Dict<String, Float> {
  * Reference: §240 SGB V Abs. 4
  */
 public constant mindestanteilBezugsgroeßeBeitragspflichtigeEinnahmeSelbst: Float {
-    from 1990-01-01 {
-        scalar: 0.33333333
-    }
+    from 1990-01-01 = 0.33333333;
 }
 
 /**
@@ -1036,166 +1034,166 @@ public constant mindestanteilBezugsgroeßeBeitragspflichtigeEinnahmeSelbst: Floa
  * Reference: Midijob § 20 (2) SGB IV, Minijob § 8 (1) Nr. 1 SGB IV
  */
 public constant geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int or Dict<String, Int>> {
-    from 1984-01-01 {
-        minijob: {
-            west: 199
+    from 1984-01-01 = {
+        "minijob": {
+            "west": 199
         }
-    }
+    };
 
-    from 1985-01-01 {
+    from 1985-01-01 = {
         # deviation_from: previous
-        minijob: {
-            west: 205
+        "minijob": {
+            "west": 205
         }
-    }
+    };
 
-    from 1986-01-01 {
+    from 1986-01-01 = {
         # deviation_from: previous
-        minijob: {
-            west: 210
+        "minijob": {
+            "west": 210
         }
-    }
+    };
 
-    from 1987-01-01 {
+    from 1987-01-01 = {
         # deviation_from: previous
-        minijob: {
-            west: 220
+        "minijob": {
+            "west": 220
         }
-    }
+    };
 
-    from 1988-01-01 {
+    from 1988-01-01 = {
         # deviation_from: previous
-        minijob: {
-            west: 225
+        "minijob": {
+            "west": 225
         }
-    }
+    };
 
-    from 1989-01-01 {
+    from 1989-01-01 = {
         # deviation_from: previous
-        minijob: {
-            west: 230
+        "minijob": {
+            "west": 230
         }
-    }
+    };
 
-    from 1990-01-01 {
-        minijob: {
-            west: 240
-            ost: 102
+    from 1990-01-01 = {
+        "minijob": {
+            "west": 240,
+            "ost": 102
         }
-    }
+    };
 
-    from 1991-01-01 {
+    from 1991-01-01 = {
         # deviation_from: previous
-        minijob: {
-            west: 245
-            ost: 120
+        "minijob": {
+            "west": 245,
+            "ost": 120
         }
-    }
+    };
 
-    from 1992-01-01 {
+    from 1992-01-01 = {
         # deviation_from: previous
-        minijob: {
-            west: 256
-            ost: 153
+        "minijob": {
+            "west": 256,
+            "ost": 153
         }
-    }
+    };
 
-    from 1993-01-01 {
+    from 1993-01-01 = {
         # deviation_from: previous
-        minijob: {
-            west: 271
-            ost: 199
+        "minijob": {
+            "west": 271,
+            "ost": 199
         }
-    }
+    };
 
-    from 1994-01-01 {
+    from 1994-01-01 = {
         # deviation_from: previous
-        minijob: {
-            west: 286
-            ost: 225
+        "minijob": {
+            "west": 286,
+            "ost": 225
         }
-    }
+    };
 
-    from 1995-01-01 {
+    from 1995-01-01 = {
         # deviation_from: previous
-        minijob: {
-            west: 297
-            ost: 240
+        "minijob": {
+            "west": 297,
+            "ost": 240
         }
-    }
+    };
 
-    from 1996-01-01 {
+    from 1996-01-01 = {
         # deviation_from: previous
-        minijob: {
-            west: 302
-            ost: 256
+        "minijob": {
+            "west": 302,
+            "ost": 256
         }
-    }
+    };
 
-    from 1997-01-01 {
+    from 1997-01-01 = {
         # deviation_from: previous
-        minijob: {
-            west: 312
-            ost: 266
+        "minijob": {
+            "west": 312,
+            "ost": 266
         }
-    }
+    };
 
-    from 1998-01-01 {
+    from 1998-01-01 = {
         # deviation_from: previous
-        minijob: {
-            west: 317
+        "minijob": {
+            "west": 317
         }
-    }
+    };
 
-    from 1999-01-01 {
+    from 1999-01-01 = {
         # deviation_from: previous
-        minijob: {
-            west: 322
-            ost: 271
+        "minijob": {
+            "west": 322,
+            "ost": 271
         }
-    }
+    };
 
-    from 2000-01-01 {
+    from 2000-01-01 = {
         # deviation_from: previous
-        minijob: 322
-    }
+        "minijob": 322
+    };
 
-    from 2002-01-01 {
+    from 2002-01-01 = {
         # deviation_from: previous
-        minijob: 325
-    }
+        "minijob": 325
+    };
 
-    from 2003-04-01 {
+    from 2003-04-01 = {
         # deviation_from: previous
-        minijob: 400
-        midijob: 800
-    }
+        "minijob": 400,
+        "midijob": 800
+    };
 
-    from 2013-01-01 {
+    from 2013-01-01 = {
         # deviation_from: previous
-        minijob: 450
-        midijob: 850
-    }
+        "minijob": 450,
+        "midijob": 850
+    };
 
     # Reference: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
-    from 2019-01-01 {
+    from 2019-01-01 = {
         # deviation_from: previous
-        midijob: 1300
-    }
+        "midijob": 1300
+    };
 
     # Reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
-    # minijob thresholds now calculated based on statutory minimum wage
-    from 2022-10-01 {
+    # "minijob" thresholds now calculated based on statutory minimum wage
+    from 2022-10-01 = {
         # deviation_from: previous
-        minijob: null
-        midijob: 1600
-    }
+        "minijob": null,
+        "midijob": 1600
+    };
 
     # Reference: Art. 3 G. v. 11.11.2022 BGBl. I S. 1985
-    from 2023-01-01 {
+    from 2023-01-01 = {
         # deviation_from: previous
-        midijob: 2000
-    }
+        "midijob": 2000
+    };
 }
 
 /**
@@ -1204,7 +1202,7 @@ public constant geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int or Dic
  * Reference: §8 (1a) SGB IV
  */
 public constant geringfuegigeEinkommensfaktor: Int {
-    from 2022-10-01 = 130
+    from 2022-10-01 = 130;
 }
 
 /**
@@ -1214,7 +1212,7 @@ public constant geringfuegigeEinkommensfaktor: Int {
  */
 public constant geringfuegigeEinkommensdivisor: Int {
     # Reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
-    from 2022-10-01 = 3
+    from 2022-10-01 = 3;
 }
 
 /**
@@ -1224,32 +1222,32 @@ public constant geringfuegigeEinkommensdivisor: Int {
  * EStG)
  */
 public constant pauschalabgabenGeringfuegigeBeschaeftigung: Dict<String, Float> {
-    from 1984-01-01 {
-        ges_krankenv: 0
-        ges_rentenv: 0
-        st: 0
-    }
+    from 1984-01-01 = {
+        "ges_krankenv": 0,
+        "ges_rentenv": 0,
+        "st": 0
+    };
 
-    from 1999-01-01 {
+    from 1999-01-01 = {
         # deviation_from: previous
-        ges_krankenv: 0.1
-        ges_rentenv: 0.12
-        st: 0
-    }
+        "ges_krankenv": 0.1,
+        "ges_rentenv": 0.12,
+        "st": 0
+    };
 
-    from 2003-04-01 {
+    from 2003-04-01 = {
         # deviation_from: previous
-        ges_krankenv: 0.11
-        ges_rentenv: 0.12
-        st: 0.02
-    }
+        "ges_krankenv": 0.11,
+        "ges_rentenv": 0.12,
+        "st": 0.02
+    };
 
-    from 2007-01-01 {
+    from 2007-01-01 = {
         # deviation_from: previous
-        ges_krankenv: 0.13
-        ges_rentenv: 0.15
-        st: 0.02
-    }
+        "ges_krankenv": 0.13,
+        "ges_rentenv": 0.15,
+        "st": 0.02
+    };
 }
 
 /**
@@ -1260,7 +1258,7 @@ public constant pauschalabgabenGeringfuegigeBeschaeftigung: Dict<String, Float> 
  * Reference: § 55 Abs. 3 SGB XI, KiBG Art. 1
  */
 public constant mindestalterBeitragszuschlagKinderlose: Int {
-    from 2005-01-01 = 23
+    from 2005-01-01 = 23;
 }
 
 /**
@@ -1268,21 +1266,21 @@ public constant mindestalterBeitragszuschlagKinderlose: Int {
  * Reference: §1 (2) Mindestlohngesetz
  */
 public constant mindestlohn: Float {
-    from 2015-01-01 = 8.5
-    from 2017-01-01 = 8.84
-    from 2019-01-01 = 9.19
-    from 2020-01-01 = 9.35
-    from 2021-01-01 = 9.5
-    from 2021-07-01 = 9.6
-    from 2022-01-01 = 9.82
-    from 2022-07-01 = 10.45
-    from 2022-10-01 = 12
+    from 2015-01-01 = 8.5;
+    from 2017-01-01 = 8.84;
+    from 2019-01-01 = 9.19;
+    from 2020-01-01 = 9.35;
+    from 2021-01-01 = 9.5;
+    from 2021-07-01 = 9.6;
+    from 2022-01-01 = 9.82;
+    from 2022-07-01 = 10.45;
+    from 2022-10-01 = 12;
 
     # Reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 321
-    from 2024-01-01 = 12.41
+    from 2024-01-01 = 12.41;
 
     # Reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 321
-    from 2025-01-01 = 12.82
+    from 2025-01-01 = 12.82;
 }
 
 # TODO: rounding

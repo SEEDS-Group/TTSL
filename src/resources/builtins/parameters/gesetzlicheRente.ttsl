@@ -8,8 +8,8 @@ package gesetzlicheRente
  * Reference: §68 Abs. 4 S. 6 SGB VI
  */
 public constant alpha: Float {
-    from 1984-01-01 = 0.0
-    from 2002-01-01 = 0.25
+    from 1984-01-01 = 0.0;
+    from 2002-01-01 = 0.25;
 }
 
 /**
@@ -17,15 +17,15 @@ public constant alpha: Float {
  * Reference: §68 Abs. 5 SGB VI
  */
 public constant altersVorsorgeAnteil: Float {
-    from 1993-01-01 = 0.0
-    from 2002-01-01 = 0.5
-    from 2003-01-01 = 1.0
-    from 2004-01-01 = 1.5
-    from 2005-01-01 = 2.0
-    from 2009-01-01 = 2.5
-    from 2010-01-01 = 3.0
-    from 2011-01-01 = 3.5
-    from 2012-01-01 = 4.0
+    from 1993-01-01 = 0.0;
+    from 2002-01-01 = 0.5;
+    from 2003-01-01 = 1.0;
+    from 2004-01-01 = 1.5;
+    from 2005-01-01 = 2.0;
+    from 2009-01-01 = 2.5;
+    from 2010-01-01 = 3.0;
+    from 2011-01-01 = 3.5;
+    from 2012-01-01 = 4.0;
 }
 
 /**
@@ -34,35 +34,35 @@ public constant altersVorsorgeAnteil: Float {
  * statistik-rente.de/drv
  */
 public constant beitragsvolumen: Dict<Date, Int> {
-    from 1991-01-01 = 108688000
-    from 1992-01-01 = 117359000
-    from 1993-01-01 = 120559000
-    from 1994-01-01 = 132938000
-    from 1995-01-01 = 139921000
-    from 1996-01-01 = 146160000
-    from 1997-01-01 = 153658000
-    from 1998-01-01 = 153763000
-    from 1999-01-01 = 160506000
-    from 2000-01-01 = 163367000
-    from 2001-01-01 = 164694000
-    from 2002-01-01 = 165481000
-    from 2003-01-01 = 169425000
-    from 2004-01-01 = 169399000
-    from 2005-01-01 = 168954000
-    from 2006-01-01 = 180545000
-    from 2007-01-01 = 174726000
-    from 2008-01-01 = 180028000
-    from 2009-01-01 = 181572000
-    from 2010-01-01 = 185288000
-    from 2011-01-01 = 189850000
-    from 2012-01-01 = 193687000
-    from 2013-01-01 = 194334000
-    from 2014-01-01 = 201647000
-    from 2015-01-01 = 207317000
-    from 2016-01-01 = 215422000
-    from 2017-01-01 = 225244000
-    from 2018-01-01 = 236404000
-    from 2019-01-01 = 247949000
+    from 1991-01-01 = 108688000;
+    from 1992-01-01 = 117359000;
+    from 1993-01-01 = 120559000;
+    from 1994-01-01 = 132938000;
+    from 1995-01-01 = 139921000;
+    from 1996-01-01 = 146160000;
+    from 1997-01-01 = 153658000;
+    from 1998-01-01 = 153763000;
+    from 1999-01-01 = 160506000;
+    from 2000-01-01 = 163367000;
+    from 2001-01-01 = 164694000;
+    from 2002-01-01 = 165481000;
+    from 2003-01-01 = 169425000;
+    from 2004-01-01 = 169399000;
+    from 2005-01-01 = 168954000;
+    from 2006-01-01 = 180545000;
+    from 2007-01-01 = 174726000;
+    from 2008-01-01 = 180028000;
+    from 2009-01-01 = 181572000;
+    from 2010-01-01 = 185288000;
+    from 2011-01-01 = 189850000;
+    from 2012-01-01 = 193687000;
+    from 2013-01-01 = 194334000;
+    from 2014-01-01 = 201647000;
+    from 2015-01-01 = 207317000;
+    from 2016-01-01 = 215422000;
+    from 2017-01-01 = 225244000;
+    from 2018-01-01 = 236404000;
+    from 2019-01-01 = 247949000;
 }
 
 /**
@@ -72,30 +72,30 @@ public constant beitragsvolumen: Dict<Date, Int> {
  * Reference: § 154 Abs. 3 Satz 1 Nr. 2 SGB VI
  */
 public constant eckrente: Float {
-    from 1995-01-01 = 988.15
-    from 1996-01-01 = 992.72
-    from 1997-01-01 = 1009.1
-    from 1998-01-01 = 1012.47
-    from 1999-01-01 = 1026.62
-    from 2000-01-01 = 1032.79
-    from 2001-01-01 = 1051.99
-    from 2002-01-01 = 1072.35
-    from 2003-01-01 = 1081.79
-    from 2004-01-01 = 1071.79
-    from 2005-01-01 = 1063.41
-    from 2006-01-01 = 1066.35
-    from 2007-01-01 = 1067.8
-    from 2008-01-01 = 1077.02
-    from 2009-01-01 = 1100.84
-    from 2010-01-01 = 1102.67
-    from 2011-01-01 = 1109.91
-    from 2012-01-01 = 1134.15
-    from 2013-01-01 = 1135.71
-    from 2014-01-01 = 1154.68
-    from 2015-01-01 = 1174.96
-    from 2016-01-01 = 1222.09
-    from 2017-01-01 = 1242.58
-    from 2018-01-01 = 1284.06
+    from 1995-01-01 = 988.15;
+    from 1996-01-01 = 992.72;
+    from 1997-01-01 = 1009.1;
+    from 1998-01-01 = 1012.47;
+    from 1999-01-01 = 1026.62;
+    from 2000-01-01 = 1032.79;
+    from 2001-01-01 = 1051.99;
+    from 2002-01-01 = 1072.35;
+    from 2003-01-01 = 1081.79;
+    from 2004-01-01 = 1071.79;
+    from 2005-01-01 = 1063.41;
+    from 2006-01-01 = 1066.35;
+    from 2007-01-01 = 1067.8;
+    from 2008-01-01 = 1077.02;
+    from 2009-01-01 = 1100.84;
+    from 2010-01-01 = 1102.67;
+    from 2011-01-01 = 1109.91;
+    from 2012-01-01 = 1134.15;
+    from 2013-01-01 = 1135.71;
+    from 2014-01-01 = 1154.68;
+    from 2015-01-01 = 1174.96;
+    from 2016-01-01 = 1222.09;
+    from 2017-01-01 = 1242.58;
+    from 2018-01-01 = 1284.06;
 }
 
 /**
@@ -103,18 +103,18 @@ public constant eckrente: Float {
  * Durchschnittsbruttolohn aller Arbeitnehmer:innen in einem Jahr
  */
 public constant durchschnittslohn: Float {
-    from 2005-01-01 = 28468.23
-    from 2006-01-01 = 28673.22
-    from 2007-01-01 = 28978.19
-    from 2008-01-01 = 29262.71
-    from 2009-01-01 = 29774.24
-    from 2010-01-01 = 30086.57
-    from 2011-01-01 = 30770.62
-    from 2012-01-01 = 31452.49
-    from 2013-01-01 = 31583.35
-    from 2014-01-01 = 32313.66
-    from 2015-01-01 = 33047.02
-    from 2016-01-01 = 33608.42
+    from 2005-01-01 = 28468.23;
+    from 2006-01-01 = 28673.22;
+    from 2007-01-01 = 28978.19;
+    from 2008-01-01 = 29262.71;
+    from 2009-01-01 = 29774.24;
+    from 2010-01-01 = 30086.57;
+    from 2011-01-01 = 30770.62;
+    from 2012-01-01 = 31452.49;
+    from 2013-01-01 = 31583.35;
+    from 2014-01-01 = 32313.66;
+    from 2015-01-01 = 33047.02;
+    from 2016-01-01 = 33608.42;
 }
 
 /**
@@ -123,42 +123,42 @@ public constant durchschnittslohn: Float {
  * Dieses wird benötigt zur Berechnung der Entgeltpunkte.
  */
 public constant beitragspflichtigesDurchschnittsentgelt: Int {
-    from 2005-01-01 = 29202
-    from 2006-01-01 = 29494
-    from 2007-01-01 = 29951
-    from 2008-01-01 = 30625
-    from 2009-01-01 = 30506
-    from 2010-01-01 = 31144
-    from 2011-01-01 = 32100
-    from 2012-01-01 = 33002
-    from 2013-01-01 = 33659
-    from 2014-01-01 = 34514
-    from 2015-01-01 = 35363
-    from 2016-01-01 = 36187
-    from 2017-01-01 = 37077
+    from 2005-01-01 = 29202;
+    from 2006-01-01 = 29494;
+    from 2007-01-01 = 29951;
+    from 2008-01-01 = 30625;
+    from 2009-01-01 = 30506;
+    from 2010-01-01 = 31144;
+    from 2011-01-01 = 32100;
+    from 2012-01-01 = 33002;
+    from 2013-01-01 = 33659;
+    from 2014-01-01 = 34514;
+    from 2015-01-01 = 35363;
+    from 2016-01-01 = 36187;
+    from 2017-01-01 = 37077;
 
     # Reference: V. v. 17.12.2019 BGBl. I S. 2848.
-    from 2018-01-01 = 38212
+    from 2018-01-01 = 38212;
 
     # Reference: V. v. 30.11.2020 BGBl. I S. 2612.
-    from 2019-01-01 = 39301
+    from 2019-01-01 = 39301;
 
     # Reference: §1 V. v. 30.11.2021, BGBl. I S. 5044.
-    from 2020-01-01 = 39167
+    from 2020-01-01 = 39167;
 
     # Reference: §3 V. v. 28.11.2022 BGBl. I S. 2128 (Nr. 47).
-    from 2021-01-01 = 40463
+    from 2021-01-01 = 40463;
 
     # Reference: §3 V. v. 24.11.2023 BGBl. 2023 I Nr. 322
-    from 2022-01-01 = 42053
+    from 2022-01-01 = 42053;
 
     # Reference: §3 V. v. 28.11.2022 BGBl. 2022 I Nr. 2128
     # Vorläufiges Durchschnittsentgelt
-    from 2023-01-01 = 43142
+    from 2023-01-01 = 43142;
 
     # Reference: §3 V. v. 24.11.2023 BGBl. 2023 I Nr. 322
     # Vorläufiges Durchschnittsentgelt
-    from 2024-01-01 = 45358
+    from 2024-01-01 = 45358;
 }
 
 /**
@@ -168,87 +168,87 @@ public constant beitragspflichtigesDurchschnittsentgelt: Int {
  * Reference: §256a SGB VI and Anlage 10 SGB VI
  */
 public constant umrechnungEntgeltpBeitrittsgebiet: Float {
-    from 1945-01-01 = 1.0000
-    from 1946-01-01 = 1.0000
-    from 1947-01-01 = 1.0000
-    from 1948-01-01 = 1.0000
-    from 1949-01-01 = 1.0000
-    from 1950-01-01 = 0.9931
-    from 1951-01-01 = 1.0502
-    from 1952-01-01 = 1.0617
-    from 1953-01-01 = 1.0458
-    from 1954-01-01 = 1.0185
-    from 1955-01-01 = 1.0656
-    from 1956-01-01 = 1.1029
-    from 1957-01-01 = 1.1081
-    from 1958-01-01 = 1.0992
-    from 1959-01-01 = 1.0838
-    from 1960-01-01 = 1.1451
-    from 1961-01-01 = 1.2374
-    from 1962-01-01 = 1.3156
-    from 1963-01-01 = 1.3667
-    from 1964-01-01 = 1.4568
-    from 1965-01-01 = 1.5462
-    from 1966-01-01 = 1.6018
-    from 1967-01-01 = 1.5927
-    from 1968-01-01 = 1.6405
-    from 1969-01-01 = 1.7321
-    from 1970-01-01 = 1.8875
-    from 1971-01-01 = 2.0490
-    from 1972-01-01 = 2.1705
-    from 1973-01-01 = 2.3637
-    from 1974-01-01 = 2.5451
-    from 1975-01-01 = 2.6272
-    from 1976-01-01 = 2.7344
-    from 1977-01-01 = 2.8343
-    from 1978-01-01 = 2.8923
-    from 1979-01-01 = 2.9734
-    from 1980-01-01 = 3.1208
-    from 1981-01-01 = 3.1634
-    from 1982-01-01 = 3.2147
-    from 1983-01-01 = 3.2627
-    from 1984-01-01 = 3.2885
-    from 1985-01-01 = 3.3129
-    from 1986-01-01 = 3.2968
-    from 1987-01-01 = 3.2548
-    from 1988-01-01 = 3.2381
-    from 1989-01-01 = 3.2330
-    from 1990-01-01 = 3.0707
-    from 1990-06-01 = 2.3473
-    from 1991-01-01 = 1.7235
-    from 1992-01-01 = 1.4393
-    from 1993-01-01 = 1.3197
-    from 1994-01-01 = 1.2687
-    from 1995-01-01 = 1.2317
-    from 1996-01-01 = 1.2209
-    from 1997-01-01 = 1.2089
-    from 1998-01-01 = 1.2113
-    from 1999-01-01 = 1.2054
-    from 2000-01-01 = 1.2030
-    from 2001-01-01 = 1.2003
-    from 2002-01-01 = 1.1972
-    from 2003-01-01 = 1.1943
-    from 2004-01-01 = 1.1932
-    from 2005-01-01 = 1.1827
-    from 2006-01-01 = 1.1827
-    from 2007-01-01 = 1.1841
-    from 2008-01-01 = 1.1857
-    from 2009-01-01 = 1.1712
-    from 2010-01-01 = 1.1726
-    from 2011-01-01 = 1.1740
-    from 2012-01-01 = 1.1785
-    from 2013-01-01 = 1.1762
-    from 2014-01-01 = 1.1665
-    from 2015-01-01 = 1.1502
-    from 2016-01-01 = 1.1415
-    from 2017-01-01 = 1.1374
-    from 2018-01-01 = 1.1339
-    from 2019-01-01 = 1.0840
-    from 2020-01-01 = 1.0700
-    from 2021-01-01 = 1.0560
-    from 2022-01-01 = 1.0420
-    from 2023-01-01 = 1.0280
-    from 2024-01-01 = 1.0140
+    from 1945-01-01 = 1.0000;
+    from 1946-01-01 = 1.0000;
+    from 1947-01-01 = 1.0000;
+    from 1948-01-01 = 1.0000;
+    from 1949-01-01 = 1.0000;
+    from 1950-01-01 = 0.9931;
+    from 1951-01-01 = 1.0502;
+    from 1952-01-01 = 1.0617;
+    from 1953-01-01 = 1.0458;
+    from 1954-01-01 = 1.0185;
+    from 1955-01-01 = 1.0656;
+    from 1956-01-01 = 1.1029;
+    from 1957-01-01 = 1.1081;
+    from 1958-01-01 = 1.0992;
+    from 1959-01-01 = 1.0838;
+    from 1960-01-01 = 1.1451;
+    from 1961-01-01 = 1.2374;
+    from 1962-01-01 = 1.3156;
+    from 1963-01-01 = 1.3667;
+    from 1964-01-01 = 1.4568;
+    from 1965-01-01 = 1.5462;
+    from 1966-01-01 = 1.6018;
+    from 1967-01-01 = 1.5927;
+    from 1968-01-01 = 1.6405;
+    from 1969-01-01 = 1.7321;
+    from 1970-01-01 = 1.8875;
+    from 1971-01-01 = 2.0490;
+    from 1972-01-01 = 2.1705;
+    from 1973-01-01 = 2.3637;
+    from 1974-01-01 = 2.5451;
+    from 1975-01-01 = 2.6272;
+    from 1976-01-01 = 2.7344;
+    from 1977-01-01 = 2.8343;
+    from 1978-01-01 = 2.8923;
+    from 1979-01-01 = 2.9734;
+    from 1980-01-01 = 3.1208;
+    from 1981-01-01 = 3.1634;
+    from 1982-01-01 = 3.2147;
+    from 1983-01-01 = 3.2627;
+    from 1984-01-01 = 3.2885;
+    from 1985-01-01 = 3.3129;
+    from 1986-01-01 = 3.2968;
+    from 1987-01-01 = 3.2548;
+    from 1988-01-01 = 3.2381;
+    from 1989-01-01 = 3.2330;
+    from 1990-01-01 = 3.0707;
+    from 1990-06-01 = 2.3473;
+    from 1991-01-01 = 1.7235;
+    from 1992-01-01 = 1.4393;
+    from 1993-01-01 = 1.3197;
+    from 1994-01-01 = 1.2687;
+    from 1995-01-01 = 1.2317;
+    from 1996-01-01 = 1.2209;
+    from 1997-01-01 = 1.2089;
+    from 1998-01-01 = 1.2113;
+    from 1999-01-01 = 1.2054;
+    from 2000-01-01 = 1.2030;
+    from 2001-01-01 = 1.2003;
+    from 2002-01-01 = 1.1972;
+    from 2003-01-01 = 1.1943;
+    from 2004-01-01 = 1.1932;
+    from 2005-01-01 = 1.1827;
+    from 2006-01-01 = 1.1827;
+    from 2007-01-01 = 1.1841;
+    from 2008-01-01 = 1.1857;
+    from 2009-01-01 = 1.1712;
+    from 2010-01-01 = 1.1726;
+    from 2011-01-01 = 1.1740;
+    from 2012-01-01 = 1.1785;
+    from 2013-01-01 = 1.1762;
+    from 2014-01-01 = 1.1665;
+    from 2015-01-01 = 1.1502;
+    from 2016-01-01 = 1.1415;
+    from 2017-01-01 = 1.1374;
+    from 2018-01-01 = 1.1339;
+    from 2019-01-01 = 1.0840;
+    from 2020-01-01 = 1.0700;
+    from 2021-01-01 = 1.0560;
+    from 2022-01-01 = 1.0420;
+    from 2023-01-01 = 1.0280;
+    from 2024-01-01 = 1.0140;
 }
 
 /**
@@ -256,35 +256,35 @@ public constant umrechnungEntgeltpBeitrittsgebiet: Float {
  * Gesamtvolumen der ausgezahlten Renten
  */
 public constant gesamtesRentenvolumen: Int {
-    from 1991-01-01 = 117912000
-    from 1992-01-01 = 130901000
-    from 1993-01-01 = 141180000
-    from 1994-01-01 = 152798000
-    from 1995-01-01 = 162625000
-    from 1996-01-01 = 168955000
-    from 1997-01-01 = 174479000
-    from 1998-01-01 = 180323800
-    from 1999-01-01 = 184139000
-    from 2000-01-01 = 190198000
-    from 2001-01-01 = 195776000
-    from 2002-01-01 = 202355000
-    from 2003-01-01 = 207749000
-    from 2004-01-01 = 210522000
-    from 2005-01-01 = 211861000
-    from 2006-01-01 = 212421000
-    from 2007-01-01 = 213649000
-    from 2008-01-01 = 216182000
-    from 2009-01-01 = 220841000
-    from 2010-01-01 = 224352000
-    from 2011-01-01 = 225411000
-    from 2012-01-01 = 229231000
-    from 2013-01-01 = 232297000
-    from 2014-01-01 = 238991000
-    from 2015-01-01 = 249568000
-    from 2016-01-01 = 259345000
-    from 2017-01-01 = 286860000
-    from 2018-01-01 = 277102000
-    from 2019-01-01 = 291359000
+    from 1991-01-01 = 117912000;
+    from 1992-01-01 = 130901000;
+    from 1993-01-01 = 141180000;
+    from 1994-01-01 = 152798000;
+    from 1995-01-01 = 162625000;
+    from 1996-01-01 = 168955000;
+    from 1997-01-01 = 174479000;
+    from 1998-01-01 = 180323800;
+    from 1999-01-01 = 184139000;
+    from 2000-01-01 = 190198000;
+    from 2001-01-01 = 195776000;
+    from 2002-01-01 = 202355000;
+    from 2003-01-01 = 207749000;
+    from 2004-01-01 = 210522000;
+    from 2005-01-01 = 211861000;
+    from 2006-01-01 = 212421000;
+    from 2007-01-01 = 213649000;
+    from 2008-01-01 = 216182000;
+    from 2009-01-01 = 220841000;
+    from 2010-01-01 = 224352000;
+    from 2011-01-01 = 225411000;
+    from 2012-01-01 = 229231000;
+    from 2013-01-01 = 232297000;
+    from 2014-01-01 = 238991000;
+    from 2015-01-01 = 249568000;
+    from 2016-01-01 = 259345000;
+    from 2017-01-01 = 286860000;
+    from 2018-01-01 = 277102000;
+    from 2019-01-01 = 291359000;
 }
 
 /**
@@ -297,167 +297,167 @@ public constant rentenwert: Dict<String, Float> {
     from 1992-01-01 = {
         west: 21.19,
         ost: 12.05
-    }
+    };
 
     from 1992-07-01 = {
         west: 21.80,
         ost: 13.59
-    }
+    };
 
     from 1993-01-01 = {
         west: 21.80, # deviation_from: previous
         ost: 14.41
-    }
+    };
 
     from 1993-07-01 = {
         west: 22.75,
         ost: 16.45
-    }
+    };
 
     from 1994-01-01 = {
         west: 22.75, # deviation_from: previous
         ost: 17.05
-    }
+    };
 
     from 1994-07-01 = {
         west: 23.52,
         ost: 17.63
-    }
+    };
 
     from 1995-01-01 = {
         west: 23.52, # deviation_from: previous
         ost: 18.13
-    }
+    };
 
     from 1995-07-01 = {
         west: 23.64,
         ost: 18.58
-    }
+    };
 
     from 1996-01-01 = {
         west: 23.64, # deviation_from: previous
         ost: 19.39
-    }
+    };
 
     from 1996-07-01 = {
         west: 23.86,
         ost: 19.62
-    }
+    };
 
     from 1997-07-01 = {
         west: 24.26,
         ost: 20.71
-    }
+    };
 
     from 1998-07-01 = {
         west: 24.36,
         ost: 20.90
-    }
+    };
 
     from 1999-07-01 = {
         west: 24.69,
         ost: 21.48
-    }
+    };
 
     from 2000-07-01 = {
         west: 24.84,
         ost: 21.61
-    }
+    };
 
     from 2001-07-01 = {
         west: 25.31,
         ost: 22.06
-    }
+    };
 
     from 2002-07-01 = {
         west: 25.86,
         ost: 22.70
-    }
+    };
 
     from 2003-07-01 = {
         west: 26.13,
         ost: 22.97
-    }
+    };
 
     from 2007-07-01 = {
         west: 26.27,
         ost: 23.09
-    }
+    };
 
     from 2008-07-01 = {
         west: 26.56,
         ost: 23.34
-    }
+    };
 
     from 2009-07-01 = {
         west: 27.2,
         ost: 24.13
-    }
+    };
 
     from 2011-07-01 = {
         west: 27.47,
         ost: 24.37
-    }
+    };
 
     from 2012-07-01 = {
         west: 28.07,
         ost: 24.92
-    }
+    };
 
     from 2013-07-01 = {
         west: 28.14,
         ost: 25.74
-    }
+    };
 
     from 2014-07-01 = {
         west: 28.61,
         ost: 26.39
-    }
+    };
 
     from 2015-07-01 = {
         west: 29.21,
         ost: 27.05
-    }
+    };
 
     from 2016-07-01 = {
         west: 30.45,
         ost: 28.66
-    }
+    };
 
     from 2017-07-01 = {
         west: 31.03,
         ost: 29.69
-    }
+    };
 
     from 2018-07-01 = {
         west: 32.03,
         ost: 30.69
-    }
+    };
 
     from 2019-07-01 = {
         west: 33.05,
         ost: 31.89
-    }
+    };
 
     from 2020-07-01 = {
         west: 34.19,
         ost: 33.23
-    }
+    };
 
     from 2021-07-01 = {
         west: 34.19, # deviation_from: previous
         ost: 33.47
-    }
+    };
 
     from 2022-07-01 = {
         west: 36.02,
         ost: 36.52
-    }
+    };
 
     from 2023-07-01 = {
         west: 37.60,
         ost: 37.60
-    }
+    };
 }
 
 /**
@@ -470,7 +470,7 @@ public constant grundrenteHöchstwert: Dict<String, Float> {
     from 2021-01-01 = {
         base: 0.0334,
         increment: 0.001389,
-    }
+    };
 }
 
 /**
@@ -479,7 +479,7 @@ public constant grundrenteHöchstwert: Dict<String, Float> {
  * Reference: § 77 Abs. 2 SGB VI
  */
 public constant grundrenteZugangsfaktorMax: Int {
-    from 2021-01-01 = 1
+    from 2021-01-01 = 1;
 }
 
 /**
@@ -493,7 +493,7 @@ public constant grundrenteZeiten: Dict<String, Int> {
     from 2021-01-01 = {
         min: 396,
         max: 420,
-    }
+    };
 }
 
 /**
@@ -506,20 +506,20 @@ public constant grundrenteEinkommensanrechnungSingle: Dict<Int, Dict<String, Flo
     # Reference: § 97a Abs. 4 S. 2, 4 SGB VI
     from 2021-01-01 = {
         0: {
-            lower_threshold: -inf,
-            upper_threshold: 36.56,
-            rate_linear: 0,
-            intercept_at_lower_threshold: 0,
+            "lower_threshold": -1e10,
+            "upper_threshold": 36.56,
+            "rate_linear": 0,
+            "intercept_at_lower_threshold": 0,
         },
         1: {
-            upper_threshold: 46.78,
-            rate_linear: 0.6,
+            "upper_threshold": 46.78,
+            "rate_linear": 0.6,
         },
         2: {
-            upper_threshold: inf,
-            rate_linear: 1,
+            "upper_threshold": 1e10,
+            "rate_linear": 1,
         },
-    }
+    };
 }
 
 /**
@@ -532,20 +532,20 @@ public constant grundrenteEinkommensanrechnungMarried: Dict<Int, Dict<String, Fl
     # Reference: § 97a Abs. 4 S. 2, 4 SGB VI
     from 2021-01-01 = {
         0: {
-            lower_threshold: -inf,
-            upper_threshold: 57.03,
-            rate_linear: 0,
-            intercept_at_lower_threshold: 0,
+            "lower_threshold": -1e10,
+            "upper_threshold": 57.03,
+            "rate_linear": 0,
+            "intercept_at_lower_threshold": 0,
         },
         1: {
-            upper_threshold: 67.27,
-            rate_linear: 0.6,
+            "upper_threshold": 67.27,
+            "rate_linear": 0.6,
         },
         2: {
-            upper_threshold: inf,
-            rate_linear: 1,
+            "upper_threshold": 1e10,
+            "rate_linear": 1,
         },
-    }
+    };
 }
 
 /**
@@ -555,7 +555,7 @@ public constant grundrenteEinkommensanrechnungMarried: Dict<Int, Dict<String, Fl
  */
 public constant grundrenteFaktorBonus: Float {
     # Reference: §§ 76g Abs. 4 S. 3, 4 SGB VI
-    from 2021-01-01 = 0.875
+    from 2021-01-01 = 0.875;
 }
 
 /**
@@ -567,9 +567,9 @@ public constant grundrenteFaktorBonus: Float {
 public constant zugangsfaktorVeraenderungProJahr: Dict<String, Float> {
     # Reference: §77 Abs. 2 Nr. 2 SGB VI
     from 2001-01-01 = {
-        vorzeitiger_renteneintritt: 0.036,
-        späterer_renteneintritt: 0.06,
-    }
+        "vorzeitiger_renteneintritt": 0.036,
+        "späterer_renteneintritt": 0.06,
+    };
 }
 
 /**
@@ -583,24 +583,24 @@ public constant zugangsfaktorVeraenderungProJahr: Dict<String, Float> {
 public constant regelaltersgrenze: Dict<Int, Dict<String, Float>> {
     from 1984-01-01 = {
         0: {
-            lower_threshold: -inf,
-            upper_threshold: 1946,
-            rate_linear: 0,
-            intercept_at_lower_threshold: 65,
+            "lower_threshold": -1e10,
+            "upper_threshold": 1946,
+            "rate_linear": 0,
+            "intercept_at_lower_threshold": 65,
         },
         1: {
-            upper_threshold: 1958,
-            rate_linear: 0.083333333,
+            "upper_threshold": 1958,
+            "rate_linear": 0.083333333,
         },
         2: {
-            upper_threshold: 1964,
-            rate_linear: 0.16666666,
+            "upper_threshold": 1964,
+            "rate_linear": 0.16666666,
         },
         3: {
-            upper_threshold: inf,
-            rate_linear: 0,
+            "upper_threshold": 1e10,
+            "rate_linear": 0,
         },
-    }
+    };
 }
 
 /**
@@ -612,37 +612,37 @@ public constant regelaltersgrenze: Dict<Int, Dict<String, Float>> {
 public constant altersgrenzeFrauen: Dict<Int, Dict<String, Float>> {
     from 1980-01-01 = {
         0: {
-            lower_threshold: -inf,
-            upper_threshold: 1939.916667,
-            rate_linear: 0,
-            intercept_at_lower_threshold: 60,
+            "lower_threshold": -1e10,
+            "upper_threshold": 1939.916667,
+            "rate_linear": 0,
+            "intercept_at_lower_threshold": 60,
         },
         1: {
-            upper_threshold: 1944.916666666,
-            rate_linear: 1,
+            "upper_threshold": 1944.916666666,
+            "rate_linear": 1,
         },
         2: {
-            upper_threshold: 1951.916666666,  #  65
-            rate_linear: 0,
+            "upper_threshold": 1951.916666666,  #  65
+            "rate_linear": 0,
         },
         3: {
-            upper_threshold: 1952,
+            "upper_threshold": 1952,
             # since 1952 abolished - regelaltersgrenze applies - jump in theshold by 6 month
-            rate_linear: 6,
+            "rate_linear": 6,
         },
         4: {
-            upper_threshold: 1958,
-            rate_linear: 0.083333333,
+            "upper_threshold": 1958,
+            "rate_linear": 0.083333333,
         },
         5: {
-            upper_threshold: 1964,
-            rate_linear: 0.16666666,
+            "upper_threshold": 1964,
+            "rate_linear": 0.16666666,
         },
         6: {
-            upper_threshold: inf,
-            rate_linear: 0,
+            "upper_threshold": 1e10,
+            "rate_linear": 0,
         },
-    }
+    };
 }
 
 /**
@@ -654,20 +654,20 @@ public constant altersgrenzeFrauen: Dict<Int, Dict<String, Float>> {
 public constant altersgrenzeFrauenVorzeitig: Dict<Int, Dict<String, Float>> {
     from 1980-01-01 = {
         0: {
-            lower_threshold: -inf,
-            upper_threshold: 1952,
-            rate_linear: 0,
-            intercept_at_lower_threshold: 60,
+            "lower_threshold": -1e10,
+            "upper_threshold": 1952,
+            "rate_linear": 0,
+            "intercept_at_lower_threshold": 60,
         },
         1: {
-            upper_threshold: 1953,
-            rate_linear: 7,
+            "upper_threshold": 1953,
+            "rate_linear": 7,
         },
         2: {
-            upper_threshold: inf,  #  67
-            rate_linear: 0,
+            "upper_threshold": 1e10,  #  67
+            "rate_linear": 0,
         },
-    }
+    };
 }
 
 /**
@@ -676,7 +676,7 @@ public constant altersgrenzeFrauenVorzeitig: Dict<Int, Dict<String, Float>> {
  * Reference: § 237a SGB VI
  */
 public constant firstBirthyearWithoutRenteFrauen: Int {
-    from 1980-01-01 = 1952
+    from 1980-01-01 = 1952;
 }
 
 /**
@@ -687,7 +687,7 @@ public constant firstBirthyearWithoutRenteFrauen: Int {
  * Reference: § 237a SGB VI
  */
 public constant renteFrauenPflichtbeitrag: Int {
-    from 1950-01-01 = 10
+    from 1950-01-01 = 10;
 }
 
 /**
@@ -697,15 +697,10 @@ public constant renteFrauenPflichtbeitrag: Int {
  * Reference: § 237 SGB VI
  */
 public constant altersgrenzeArbeitslosigkeitAbschlagsfrei: Float or Dict<Int, Dict<String, Float or Dict<Int, Float>> {
-    from 1980-01-01 = {
-        0: {
-            scalar: 60.0,
-        },
-    }
+    from 1980-01-01 = 60.0;
+
     from 1992-01-01 = {
-        0: {
-            scalar: 60.0,
-        },
+        0: 60.0,
         1941: {
             1: 60.083333,
             2: 60.083333,
@@ -874,11 +869,10 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei: Float or Dict<Int, Di
             11: 65.0,
             12: 65.0,
         },
-    }
+    };
+
     from 1996-07-29 = {
-        0: {
-            scalar: 60.0,
-        },
+        0: 60.0,
         1937: {
             1: 60.083333,
             2: 60.166667,
@@ -1110,9 +1104,9 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei: Float or Dict<Int, Di
         covered under Vertrauensschutz.
         Reference: § 237 SGB VI Abs. 4
         */
-        vertrauensschutz: {
-            max_birthyear_old_regime: 1940,
-            entry_age_old_regime: 60.0,
+        "vertrauensschutz": {
+            "max_birthyear_old_regime": 1940,
+            "entry_age_old_regime": 60.0,
             1941: {
                 1: 60.083333,
                 2: 60.083333,
@@ -1160,15 +1154,15 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei: Float or Dict<Int, Di
                 2: 60.833333,
             },
         },
-    }
+    };
 
     # Reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461 1996
     # Increase of full retirement age from 60 to 65 for birth cohort 1937-1941.
     from 1996-09-27 = {
-        max_birthyear_old_regime: 1936,
-        min_birthyear_new_regime: 1942,
-        entry_age_old_regime: 60.0,
-        entry_age_new_regime: 65.0,
+        "max_birthyear_old_regime": 1936,
+        "min_birthyear_new_regime": 1942,
+        "entry_age_old_regime": 60.0,
+        "entry_age_new_regime": 65.0,
         1937: {
             1: 60.083333,
             2: 60.166667,
@@ -1239,7 +1233,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei: Float or Dict<Int, Di
             11: 64.916667,
             12: 65.0,
         },
-        vertrauensschutz: {
+        "vertrauensschutz": {
             /*
             Altersgrenze für Altersrente wegen Arbeitslosigkeit mit Vertrauensschutz
             (abschlagsfrei).
@@ -1247,8 +1241,8 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei: Float or Dict<Int, Di
             covered under Vertrauensschutz.
             Reference: § 237 SGB VI Abs. 4
             */
-            max_birthyear_old_regime: 1940,
-            entry_age_old_regime: 60.0,
+            "max_birthyear_old_regime": 1940,
+            "entry_age_old_regime": 60.0,
             1941: {
                 1: 60.083333,
                 2: 60.083333,
@@ -1296,7 +1290,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei: Float or Dict<Int, Di
                 2: 60.833333,
             },
         },
-    }
+    };
 }
 
 /**
@@ -1306,15 +1300,15 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei: Float or Dict<Int, Di
  * Reference: § 237 SGB VI
  */
 public constant altersgrenzeArbeitslosigkeitVorzeitig: Float or Dict<Int, Dict<Int, Float>>{
-    from 1980-01-01 = 60.0
+    from 1980-01-01 = 60.0;
 
     # Increase of early retirement age from 60 to 62 for birth cohort 1949-1952.
     # Reference: Rentenreformgesetz 1992. BGBl. I S. 2261 1989 § 41
     from 1992-01-01 = {
-        max_birthyear_old_regime: 1948,
-        min_birthyear_new_regime: 1953,
-        entry_age_old_regime: 60.0,
-        entry_age_new_regime: 62.0,
+        "max_birthyear_old_regime": 1948,
+        "min_birthyear_new_regime": 1953,
+        "entry_age_old_regime": 60.0,
+        "entry_age_new_regime": 62.0,
         1949: {
             1: 60.083333,
             2: 60.083333,
@@ -1371,15 +1365,15 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig: Float or Dict<Int, Dict<I
             11: 62.0,
             12: 62.0,
         },
-    }
+    };
 
     # Increase of early retirement age from 60 to 65 for birth cohort 1937-1941.
     # Reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461 1996
     from 1996-07-29 = {
-        max_birthyear_old_regime: 1948,
-        min_birthyear_new_regime: 1953,
-        entry_age_old_regime: 60.0,
-        entry_age_new_regime: 62.0,
+        "max_birthyear_old_regime": 1948,
+        "min_birthyear_new_regime": 1953,
+        "entry_age_old_regime": 60.0,
+        "entry_age_new_regime": 62.0,
         1949: {
             1: 60.083333,
             2: 60.083333,
@@ -1436,18 +1430,18 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig: Float or Dict<Int, Dict<I
             11: 62.0,
             12: 62.0,
         },
-        vertrauensschutz: 60.0,
-    }
+        "vertrauensschutz": 60.0,
+    };
 
     # Increase of ERA was revoked.
     # Reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461 1996
-    from 1996-09-27 = 60.0,
+    from 1996-09-27 = 60.0;
 
     from 2004-07-26 = {
-        max_birthyear_old_regime: 1945,
-        min_birthyear_new_regime: 1949,
-        entry_age_old_regime: 60.0,
-        entry_age_new_regime: 63.0,
+        "max_birthyear_old_regime": 1945,
+        "min_birthyear_new_regime": 1949,
+        "entry_age_old_regime": 60.0,
+        "entry_age_new_regime": 63.0,
         1946: {
             1: 60.083333,
             2: 60.166667,
@@ -1490,17 +1484,17 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig: Float or Dict<Int, Dict<I
             11: 62.916667,
             12: 63.0,
         },
-        vertrauensschutz: 60.0,
-    }
+        "vertrauensschutz": 60.0,
+    };
 
     # Same statutory retirement ages as before, but abolishment with birth cohort 1952.
     # Reference: RV-Nachhaltigkeitsgesetz 2004 and RV-Altersgrenzenanpassungsgesetz 2007.
     from 2007-04-30 = {
-        first_birthyear_without_rente_für_arbeitsl: 1952,
-        max_birthyear_old_regime: 1945,
-        min_birthyear_new_regime: 1949,
-        entry_age_old_regime: 60.0,
-        entry_age_new_regime: 63.0,
+        "first_birthyear_without_rente_für_arbeitsl": 1952,
+        "max_birthyear_old_regime": 1945,
+        "min_birthyear_new_regime": 1949,
+        "entry_age_old_regime": 60.0,
+        "entry_age_new_regime": 63.0,
         1946: {
             1: 60.083333,
             2: 60.166667,
@@ -1543,8 +1537,8 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig: Float or Dict<Int, Dict<I
             11: 62.916667,
             12: 63.0,
         },
-        vertrauensschutz: 60.0,
-    }
+        "vertrauensschutz": 60.0,
+    };
 }
 
 /**
@@ -1554,7 +1548,7 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig: Float or Dict<Int, Dict<I
  * Reference: § 236 SGB VI
  */
 public constant altersgrenzeLangjährigVersicherteVorzeitig: Float {
-    from 1980-01-01 = 63.0
+    from 1980-01-01 = 63.0;
 }
 
 /**
@@ -1568,40 +1562,40 @@ public constant altersgrenzeLangjährigVersicherteVorzeitig: Float {
 public constant altersgrenzeLangjährigVersicherteAbschlagsfrei: Dict<Int, Dict<Int, Float>> {
     from 1984-01-01 = {
         0: {
-            lower_threshold: -inf,
-            upper_threshold: 1936.916666666,
-            rate_linear: 0,
-            intercept_at_lower_threshold: 63,
+            "lower_threshold": -1e10,
+            "upper_threshold": 1936.916666666,
+            "rate_linear": 0,
+            "intercept_at_lower_threshold": 63,
         },
         1: {
-            upper_threshold: 1938.916666666,
-            rate_linear: 1,
+            "upper_threshold": 1938.916666666,
+            "rate_linear": 1,
         },
         2: {
-            upper_threshold: 1948.916666666,
-            rate_linear: 0,
+            "upper_threshold": 1948.916666666,
+            "rate_linear": 0,
         },
         3: {
-            upper_threshold: 1949.25,
-            rate_linear: 1,
+            "upper_threshold": 1949.25,
+            "rate_linear": 1,
         },
         4: {
-            upper_threshold: 1950,  # 1950.91667
-            rate_linear: 0,
+            "upper_threshold": 1950,  # 1950.91667
+            "rate_linear": 0,
         },
         5: {
-            upper_threshold: 1958,
-            rate_linear: 0.083333333,
+            "upper_threshold": 1958,
+            "rate_linear": 0.083333333,
         },
         6: {
-            upper_threshold: 1964,
-            rate_linear: 0.16666666,
+            "upper_threshold": 1964,
+            "rate_linear": 0.16666666,
         },
         7: {
-            upper_threshold: inf,
-            rate_linear: 0,
+            "upper_threshold": 1e10,
+            "rate_linear": 0,
         },
-    }
+    };
 }
 
 /**
@@ -1611,7 +1605,7 @@ public constant altersgrenzeLangjährigVersicherteAbschlagsfrei: Dict<Int, Dict<
  * Reference: § 237 SGB VI
  */
 public constant alignmentCohortLangjährigVersicherte: Int {
-    from 1980-01-01 = 1950
+    from 1980-01-01 = 1950;
 }
 
 /**
@@ -1634,36 +1628,37 @@ public constant alignmentCohortLangjährigVersicherte: Int {
 public constant altersgrenzeBesondersLangjährigVersicherte: Dict<Int, Dict<Int, Float>> {
     from 2012-01-01 = {
         0: {
-            lower_threshold: -inf,
-            upper_threshold: inf,
-            rate_linear: 0,
-            intercept_at_lower_threshold: 65,
+            "lower_threshold": -1e10,
+            "upper_threshold": 1e10,
+            "rate_linear": 0,
+            "intercept_at_lower_threshold": 65,
         },
-    },
+    };
+
     from 2014-07-01 = {
         0: {
-            lower_threshold: -inf,
-            upper_threshold: 1949.5,
-            rate_linear: 0,
-            intercept_at_lower_threshold: 65,
+            "lower_threshold": -1e10,
+            "upper_threshold": 1949.5,
+            "rate_linear": 0,
+            "intercept_at_lower_threshold": 65,
         },
         1: {
-            upper_threshold: 1951.5,
-            rate_linear: -1,
+            "upper_threshold": 1951.5,
+            "rate_linear": -1,
         },
         2: {
-            upper_threshold: 1952,
-            rate_linear: 0,
+            "upper_threshold": 1952,
+            "rate_linear": 0,
         },
         3: {
-            upper_threshold: 1964,
-            rate_linear: 0.16666666,
+            "upper_threshold": 1964,
+            "rate_linear": 0.16666666,
         },
         4: {
-            upper_threshold: inf,
-            rate_linear: 0,
+            "upper_threshold": 1e10,
+            "rate_linear": 0,
         }
-    }
+    };
 }
 
 /**
@@ -1672,7 +1667,7 @@ public constant altersgrenzeBesondersLangjährigVersicherte: Dict<Int, Dict<Int,
  * Reference: § 237 SGB VI
  */
 public constant firstBirthyearBesondersLangjährigVersicherte: Int {
-    from 2012-01-01 = 1952
+    from 2012-01-01 = 1952;
 }
 
 # TODO: rounding
