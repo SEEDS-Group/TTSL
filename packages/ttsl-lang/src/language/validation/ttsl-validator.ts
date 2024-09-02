@@ -1,9 +1,6 @@
 import { ValidationChecks } from 'langium';
 import { TTSLAstType } from '../generated/ast.js';
 import type { TTSLServices } from '../ttsl-module.js';
-import {    
-    mapsShouldBeUsedWithCaution,
-} from './experimentalLanguageFeatures.js';
 import {
     moduleMemberMustHaveNameThatIsUniqueInPackage,
     moduleMustContainUniqueNames,
@@ -113,7 +110,7 @@ export const registerValidationChecks = function (services: TTSLServices) {
             infixOperationOperandsMustHaveCorrectType(services),
         ],
         TslList: [listMustNotContainNamedTuples(services)],
-        TslDictionary: [mapMustNotContainNamedTuples(services), mapsShouldBeUsedWithCaution(services)],
+        TslDictionary: [mapMustNotContainNamedTuples(services)],
         TslModule: [
             moduleMemberMustHaveNameThatIsUniqueInPackage(services),
             moduleMustContainUniqueNames,

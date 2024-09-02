@@ -853,7 +853,7 @@ TslAnyType returns TslAnyType:
 // -----------------------------------------------------------------------------
 
 terminal ID returns string: IDENTIFIER | '`' IDENTIFIER '`';
-terminal fragment IDENTIFIER: /[_a-zA-Z][_a-zA-Z0-9]*/;
+terminal fragment IDENTIFIER: /[_a-zA-Zäöüß][_a-zA-Zäöüß0-9]*/;
 
 terminal FLOAT returns number
     : DECIMAL_DIGIT+ '.' DECIMAL_DIGIT+ FLOAT_EXPONENT?
