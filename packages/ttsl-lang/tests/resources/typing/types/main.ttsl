@@ -11,8 +11,8 @@ function nonNullableTypes(
     d: »Boolean«,
     # $TEST$ serialization List<Int>
     e: »List<Int>«,
-    # $TEST$ serialization Dictionary<String, Int>
-    f: »Dictionary<String, Int>«,
+    # $TEST$ serialization Dict<String, Int>
+    f: »Dict<String, Int>«,
     # $TEST$ serialization $unknown
     g: »unresolved«,
 )
@@ -29,7 +29,7 @@ function nullableNamedTypes(
     # $TEST$ serialization List<Int>?
     e: »List<Int>?«,
     # $TEST$ serialization Dictionary<String, Int>?
-    f: »Dictionary<String, Int>?«,
+    f: »Dict<String, Int>?«,
     # $TEST$ serialization $unknown?
     g: »unresolved?«,
 )

@@ -1,7 +1,7 @@
 package tests.typing.expressions.lists
 
-function float(): Float
-function string(): String
+function float(): Float {}
+function string(): String {}
 
 function myFunction() {
 

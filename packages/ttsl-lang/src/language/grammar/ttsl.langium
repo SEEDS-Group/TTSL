@@ -775,6 +775,7 @@ TslPrimaryType returns TslType:
   | TslDictionaryType
   | TslListType
   | TslAnyType
+  | TslNothingType
 ;
 
 interface TslIntType extends TslType {}
@@ -845,6 +846,12 @@ interface TslAnyType extends TslType {}
 
 TslAnyType returns TslAnyType:
     {TslAnyType} 'Any'
+;
+
+interface TslNothingType extends TslType {}
+
+TslNothingType returns TslNothingType:
+    {TslNothingType} 'Nothing'
 ;
 
 

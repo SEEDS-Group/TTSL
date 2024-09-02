@@ -47,6 +47,9 @@ import {
     isTslTypeParameter,
     TslTypeParameter,
     isTslConstant,
+    isTslNothingType,
+    isTslNull,
+    isTslCallable,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
 import {
@@ -182,6 +185,8 @@ export class TTSLTypeComputer {
             return new BooleanType(false);
         } else if(isTslString(node) || isTslTemplateString(node)){
             return new StringType(false);
+        } else if(isTslNull(node)){
+            return new NothingType(false);
         }
 
         // Recursive cases
@@ -321,21 +326,47 @@ export class TTSLTypeComputer {
 
     private computeTypeOfType(node: TslType): Type {
         if (isTslIntType(node)) {
+            if (node.isNullable){
+                return new IntType(true);
+            }
             return new IntType(false);
         } else if (isTslFloatType(node)) {
+            if (node.isNullable){
+                return new FloatType(true);
+            }
             return new FloatType(false);
         } else if (isTslStringType(node)) {
+            if (node.isNullable){
+                return new StringType(true);
+            }
             return new StringType(false);
         } else if (isTslBooleanType(node)) {
+            if (node.isNullable){
+                return new BooleanType(true);
+            }
             return new BooleanType(false);
         } else if (isTslAnyType(node)) {
+            if (node.isNullable){
+                return new AnyType(true);
+            }
             return new AnyType(false);
         } else if (isTslListType(node)) {
             const elementType = node.typeParameterList.typeParameters.map((it) => this.computeTypeOfType(it.type));
+            if (node.isNullable){
+                return new ListType(elementType, true);
+            }
             return new ListType(elementType, false);
         } else if (isTslDictionaryType(node)) {
             const types = node.typeParameterList.typeParameters.map((it) => this.computeTypeOfType(it.type));
+            if (node.isNullable){
+                return new DictionaryType(types, true);
+            }
             return new DictionaryType(types, false);
+        } else if (isTslNothingType(node)) {
+            if (node.isNullable){
+                return new NothingType(true);
+            }
+            return new NothingType(false);
         } /* c8 ignore start */ else {
             return UnknownType;
         } /* c8 ignore stop */
@@ -377,6 +408,8 @@ export class TTSLTypeComputer {
         // A single type is its own lowest common supertype
         if (types.length === 1) {
             return types[0]!;
+        } else if(types.length === 0){
+            return new NothingType(false)
         }
 
         // Partition types by their kind
@@ -388,16 +421,20 @@ export class TTSLTypeComputer {
         }
 
         // The result must be nullable if any of the types is nullable
-        const isNullable = types.some((it) => it.isExplicitlyNullable);
+        const isNullable = types.some((it) => it.isExplicitlyNullable || it instanceof NothingType);
 
         // Includes unhandled type
         if (partitionedTypes.containsOtherType) {
-            return this.Any(isNullable);
+            return new AnyType(isNullable);
         }
 
         let firstType = types.at(0)
         if (firstType && types.every(type => type.toString() === firstType.toString())){
             return types[0]!
+        } else if (firstType && types.every(type => type.toString() === firstType.toString() || type instanceof NothingType)){
+            return types[0]?.withExplicitNullability(true)!
+        } else if( firstType && !(types.every(type => type.toString() === firstType.toString()))){
+            return new AnyType(isNullable)
         }
 
         return UnknownType
