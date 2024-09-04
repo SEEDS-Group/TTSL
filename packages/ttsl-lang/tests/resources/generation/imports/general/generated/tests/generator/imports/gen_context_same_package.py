@@ -5,8 +5,8 @@ def impureFunction():
 
 def function1InSamePackage():
 
-    return [object Object],(,[object Object],)
+    return impureFunction()
 
 def function2InSamePackage():
 
-    return [object Object],(,[object Object],)
+    return impureFunction()

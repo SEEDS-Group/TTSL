@@ -566,20 +566,20 @@ export class TTSLPythonGenerator {
                 resultBlock.append(`if timeunit != None:`)
                 if (timeunit?.timeunit === 'day'){
                     frame.addUtility(UTILITY_TIMEUNIT_DAY);
-                    resultBlock.appendNewLine().indent([`result = ${UTILITY_TIMEUNIT_DAY.name}(${this.generateExpression(returnStatement.result, frame).contents}, timeunit)`]).appendNewLine()
+                    resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_DAY.name}(${this.generateExpression(returnStatement.result, frame)}, timeunit)`]).appendNewLine()
                 } else if (timeunit?.timeunit === 'week'){
                     frame.addUtility(UTILITY_TIMEUNIT_WEEK);
-                    resultBlock.appendNewLine().indent([`result = ${UTILITY_TIMEUNIT_WEEK.name}(${this.generateExpression(returnStatement.result, frame).contents}, timeunit)`]).appendNewLine()
+                    resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_WEEK.name}(${this.generateExpression(returnStatement.result, frame)}, timeunit)`]).appendNewLine()
                 } else if (timeunit?.timeunit === 'month'){
                     frame.addUtility(UTILITY_TIMEUNIT_MONTH);
-                    resultBlock.appendNewLine().indent([`result = ${UTILITY_TIMEUNIT_MONTH.name}(${this.generateExpression(returnStatement.result, frame).contents}, timeunit)`]).appendNewLine()
+                    resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_MONTH.name}(${this.generateExpression(returnStatement.result, frame)}, timeunit)`]).appendNewLine()
                 } else if (timeunit?.timeunit === 'year'){
                     frame.addUtility(UTILITY_TIMEUNIT_YEAR);
-                    resultBlock.appendNewLine().indent([`result = ${UTILITY_TIMEUNIT_YEAR.name}(${this.generateExpression(returnStatement.result, frame).contents}, timeunit)`]).appendNewLine()
+                    resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_YEAR.name}(${this.generateExpression(returnStatement.result, frame)}, timeunit)`]).appendNewLine()
                 }
-                resultBlock.append(`return result`)
+                resultBlock.append(expandToNode`return result`)
             }else{
-                resultBlock.append(`return ${this.generateExpression(returnStatement.result, frame).contents}`)
+                resultBlock.append(expandToNode`return ${this.generateExpression(returnStatement.result, frame)}`)
             }
             
         } else if (restStatements.length === 0) {
@@ -660,7 +660,7 @@ export class TTSLPythonGenerator {
         }
         return joinTracedToNode(parameters, 'parameters')(
             parameters?.parameters || [],
-            (param) => `${this.generateParameter(param, frame).contents}${this.generateType(param.type, frame)?.contents}${this.generateDefaultValue(param.defaultValue, frame)?.contents}`,
+            (param) => expandToNode`${this.generateParameter(param, frame)}`.append(expandToNode`${this.generateType(param.type, frame)}`).append(expandToNode`${this.generateDefaultValue(param.defaultValue, frame)}`),
             { separator: ', ' },
         );
     }
@@ -679,37 +679,22 @@ export class TTSLPythonGenerator {
         rekursion: boolean = false,
     ): CompositeGeneratorNode {
         let result = new CompositeGeneratorNode
-        
+        if(!rekursion){
+            result.append(`: `)
+        }
+
         if(isTslIntType(type)){
-            if(!rekursion){
-                return result.append(`: int`)
-            }
             return result.append(`int`)
         } else if(isTslFloatType(type)){
-            if(!rekursion){
-                return result.append(`: float`)
-            }
             return result.append(`float`)
         } else if(isTslBooleanType(type)){
-            if(!rekursion){
-                return result.append(`: bool`)
-            }
             return result.append(`bool`)
         } else if(isTslStringType(type)){
-            if(!rekursion){
-                return result.append(`: str`)
-            }
             return result.append(`str`)
         } else if(isTslListType(type)){
-            if(!rekursion){
-                return result.append(`: list[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame, true)?.contents}]`)
-            }
-            return result.append(`list[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame, true)?.contents}]`)
+            return result.append(expandToNode`list[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame, true)}]`)
         } else if(isTslDictionaryType(type)){
-            if(!rekursion){
-                return result.append(`: dict[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame, true)?.contents}, ${this.generateType(type.typeParameterList.typeParameters.at(1)?.type, frame, true)?.contents}]`)
-            }
-            return result.append(`dict[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame, true)?.contents}, ${this.generateType(type.typeParameterList.typeParameters.at(1)?.type, frame, true)?.contents}]`)
+            return result.append(expandToNode`dict[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame, true)}, ${this.generateType(type.typeParameterList.typeParameters.at(1)?.type, frame, true)}]`)
         } else {
             return new CompositeGeneratorNode(``)
         }
@@ -722,7 +707,7 @@ export class TTSLPythonGenerator {
         let result = new CompositeGeneratorNode
         if(isTslExpression(value)){
             
-            return result.append(` = ${this.generateExpression(value, frame).contents}`)
+            return result.append(expandToNode` = ${this.generateExpression(value, frame).contents}`)
         } else{
             return result;
         }
