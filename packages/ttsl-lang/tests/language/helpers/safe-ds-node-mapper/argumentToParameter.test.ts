@@ -16,7 +16,7 @@ describe('TTSLNodeMapper', () => {
         describe('named argument', () => {
             it('should return undefined if the parameter is unresolved', async () => {
                 const code = `
-                    fun f(p: Int) {}
+                    function f(p: Int) {}
 
                     function myFunction () {
                         f(unresolved = 1);
@@ -30,7 +30,7 @@ describe('TTSLNodeMapper', () => {
 
             it('should return the resolved parameter', async () => {
                 const code = `
-                    fun f(p1: Int, p2: Int, p3: Int) {}
+                    function f(p1: Int, p2: Int, p3: Int) {}
 
                     function myFunction () {
                         f(p2 = 1, p3 = 1, p1 = 1);
@@ -46,7 +46,7 @@ describe('TTSLNodeMapper', () => {
         describe('positional argument', () => {
             it('should return the parameter at the same index if all prior arguments are positional', async () => {
                 const code = `
-                    fun f(p1: Int = 0, p2: Int, p3: Int) {}
+                    function f(p1: Int = 0, p2: Int, p3: Int) {}
 
                     function myFunction () {
                         f(1, 2, 3);
@@ -60,7 +60,7 @@ describe('TTSLNodeMapper', () => {
 
             it('should return undefined if a prior argument is named', async () => {
                 const code = `
-                    fun f(p1: Int = 0, p2: Int, p3: Int) {}
+                    function f(p1: Int = 0, p2: Int, p3: Int) {}
 
                     function myFunction () {
                         f(p2 = 1, 2, 3);
@@ -74,7 +74,7 @@ describe('TTSLNodeMapper', () => {
 
             it('should return undefined if argument is out of bounds', async () => {
                 const code = `
-                    fun f(p1: Int, p2: Int) {}
+                    function f(p1: Int, p2: Int) {}
 
                     function myFunction () {
                         f(1, 2, 3);

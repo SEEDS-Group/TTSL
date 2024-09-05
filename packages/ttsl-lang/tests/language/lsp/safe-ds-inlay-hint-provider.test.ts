@@ -15,7 +15,7 @@ describe('TTSLInlayHintProvider', async () => {
         {
             testName: 'resolved positional argument',
             code: `
-                fun f(p: Int)
+                function f(p: Int){}
 
                 function myFunction () {
                     # $TEST$ before "p = "
@@ -26,7 +26,7 @@ describe('TTSLInlayHintProvider', async () => {
         {
             testName: 'unresolved positional argument',
             code: `
-                fun f()
+                function f(){}
 
                 function myFunction () {
                     f(1);
@@ -36,7 +36,7 @@ describe('TTSLInlayHintProvider', async () => {
         {
             testName: 'named argument',
             code: `
-                fun f(p: Int)
+                function f(p: Int){}
 
                 function myFunction () {
                     f(p = 1);
@@ -44,39 +44,11 @@ describe('TTSLInlayHintProvider', async () => {
             `,
         },
         {
-            testName: 'block lambda result',
-            code: `
-                function myFunction () {
-                    () {
-                        # $TEST$ after ": literal<1>"
-                        yield r»« = 1;
-                    };
-                }
-            `,
-        },
-        {
             testName: 'placeholder',
             code: `
                 function myFunction () {
-                    # $TEST$ after ": literal<1>"
-                    val x»« = 1;
-                }
-            `,
-        },
-        {
-            testName: 'wildcard',
-            code: `
-                function myFunction () {
-                    _ = 1;
-                }
-            `,
-        },
-        {
-            testName: 'yield',
-            code: `
-                segment s() -> r: Int {
-                    # $TEST$ after ": literal<1>"
-                    yield r»« = 1;
+                    # $TEST$ after ": Int"
+                    var x»« = 1;
                 }
             `,
         },
@@ -93,7 +65,7 @@ describe('TTSLInlayHintProvider', async () => {
             /**
              * @param p Lorem ipsum.
              */
-            fun f(p: Int)
+            function f(p: Int)
 
             function myFunction () {
                 f(1);
@@ -107,45 +79,15 @@ describe('TTSLInlayHintProvider', async () => {
 
     it.each([
         {
-            testName: 'class',
+            testName: 'function',
             code: `
                 /**
                  * Lorem ipsum.
                  */
-                class C()
+                function C(){}
 
                 function myFunction () {
-                    val a = C();
-                }
-            `,
-        },
-        {
-            testName: 'enum',
-            code: `
-                /**
-                 * Lorem ipsum.
-                 */
-                enum E
-
-                fun f() -> e: E
-
-                function myFunction () {
-                    val a = f();
-                }
-            `,
-        },
-        {
-            testName: 'enum variant',
-            code: `
-                enum E {
-                    /**
-                     * Lorem ipsum.
-                     */
-                    V
-                }
-
-                function myFunction () {
-                    val a = E.V;
+                    var a = C();
                 }
             `,
         },
