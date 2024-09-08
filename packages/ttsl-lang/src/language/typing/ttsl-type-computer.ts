@@ -50,6 +50,7 @@ import {
     isTslNothingType,
     isTslNull,
     isTslCallable,
+    isTslData,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
 import {
@@ -138,6 +139,8 @@ export class TTSLTypeComputer {
         } else if (isTslResult(node)) {
             return this.computeType(node.type);
         } else if (isTslConstant(node)){
+            return this.computeType(node.type);
+        } else if (isTslData(node)){
             return this.computeType(node.type);
         } else if (isTslLocalVariable(node) && isTslForeachLoop(node.$container)){
             return this.computeTypeOfElm(node);
