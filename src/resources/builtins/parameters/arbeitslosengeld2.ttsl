@@ -136,168 +136,172 @@ public constant anrechnungsfreieEinkommensanteileFallsKinder: Dict<Int, Dict<Str
  * S.
  * 3159.
  */
-public constant regelsatz: Int or Dict<Int, Int> {
-    from 2005-01-01 = 338;
+public constant regelsatz {
+    Int {
+        from 2005-01-01 = 338;
 
-    # Reference: B. v. 01.09.2005 BGBl. I S. 2718.
-    # Betrag unverändert. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Hier wurde vereinfachend 338 Euro als ungewichteter Mittelwert genommen. Korrekte Werte für die Zeit ab 1. Juli 2005 sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
-    from 2005-07-01 = 338;
+        # Reference: B. v. 01.09.2005 BGBl. I S. 2718.
+        # Betrag unverändert. Der tatsächliche Wert unterscheidet sich zwischen Ost und West. Hier wurde vereinfachend 338 Euro als ungewichteter Mittelwert genommen. Korrekte Werte für die Zeit ab 1. Juli 2005 sind in den alten Bundesländern einschließlich Berlin (Ost) 345 Euro, in den neuen Bundesländern 331 Euro.
+        from 2005-07-01 = 338;
 
-    # Reference: B. v. 20.07.2006 BGBl. I S. 1702.
-    from 2006-07-01 = 345;
+        # Reference: B. v. 20.07.2006 BGBl. I S. 1702.
+        from 2006-07-01 = 345;
 
-    # Reference: B. v. 18.06.2007 BGBl. I S. 1139.
-    from 2007-07-01 = 347;
+        # Reference: B. v. 18.06.2007 BGBl. I S. 1139.
+        from 2007-07-01 = 347;
 
-    # Reference: B. v. 26.06.2008 BGBl. I S. 1102.
-    from 2008-07-01 = 351;
+        # Reference: B. v. 26.06.2008 BGBl. I S. 1102.
+        from 2008-07-01 = 351;
 
-    # Reference: B. v. 17.06.2009 BGBl. I S. 1342.
-    from 2009-07-01 = 359;
+        # Reference: B. v. 17.06.2009 BGBl. I S. 1342.
+        from 2009-07-01 = 359;
 
-    # Reference: B. v. 07.06.2010 BGBl. I S. 820. Betrag unverändert.
-    from 2010-07-01 = 359;
+        # Reference: B. v. 07.06.2010 BGBl. I S. 820. Betrag unverändert.
+        from 2010-07-01 = 359;
+    }
 
-    # Reference: Artikel 1 G. v. 24.03.2011 BGBl. I S. 453.
-    from 2011-01-01 = {
-        1: 364,
-        2: 328,
-        3: 291,
-        4: 287,
-        5: 251,
-        6: 215,
-    };
+    Dict<Int, Int> {
+        # Reference: Artikel 1 G. v. 24.03.2011 BGBl. I S. 453.
+        from 2011-01-01 = {
+            1: 364,
+            2: 328,
+            3: 291,
+            4: 287,
+            5: 251,
+            6: 215,
+        };
 
-    # Reference: V. v. 20.10.2011 BGBl. I S. 2093.
-    from 2012-01-01 = {
-        1: 374,
-        2: 337,
-        3: 299,
-        4: 287,
-        5: 251,
-        6: 219,
-    };
+        # Reference: V. v. 20.10.2011 BGBl. I S. 2093.
+        from 2012-01-01 = {
+            1: 374,
+            2: 337,
+            3: 299,
+            4: 287,
+            5: 251,
+            6: 219,
+        };
 
-    # Reference: B. v. 18.10.2012 BGBl. I S. 2175.
-    from 2013-01-01 = {
-        1: 382,
-        2: 345,
-        3: 306,
-        4: 289,
-        5: 255,
-        6: 224,
-    };
+        # Reference: B. v. 18.10.2012 BGBl. I S. 2175.
+        from 2013-01-01 = {
+            1: 382,
+            2: 345,
+            3: 306,
+            4: 289,
+            5: 255,
+            6: 224,
+        };
 
-    # Reference: B. v. 16.10.2013 BGBl. I S. 3857.
-    from 2014-01-01 = {
-        1: 391,
-        2: 353,
-        3: 313,
-        4: 296,
-        5: 261,
-        6: 229,
-    };
+        # Reference: B. v. 16.10.2013 BGBl. I S. 3857.
+        from 2014-01-01 = {
+            1: 391,
+            2: 353,
+            3: 313,
+            4: 296,
+            5: 261,
+            6: 229,
+        };
 
-    # Reference: B. v. 15.10.2014 BGBl. I S. 1620.
-    from 2015-01-01 = {
-        1: 399,
-        2: 360,
-        3: 320,
-        4: 302,
-        5: 267,
-        6: 234,
-    };
+        # Reference: B. v. 15.10.2014 BGBl. I S. 1620.
+        from 2015-01-01 = {
+            1: 399,
+            2: 360,
+            3: 320,
+            4: 302,
+            5: 267,
+            6: 234,
+        };
 
-    # Reference: B. v. 22.10.2015 BGBl. I S. 1792.
-    from 2016-01-01 = {
-        1: 404,
-        2: 364,
-        3: 324,
-        4: 306,
-        5: 270,
-        6: 237,
-    };
+        # Reference: B. v. 22.10.2015 BGBl. I S. 1792.
+        from 2016-01-01 = {
+            1: 404,
+            2: 364,
+            3: 324,
+            4: 306,
+            5: 270,
+            6: 237,
+        };
 
-    # Reference: G. v. 22.12.2016 BGBl. I S. 3159.
-    from 2017-01-01 = {
-        1: 409,
-        2: 368,
-        3: 327,
-        4: 311,
-        5: 291,
-        6: 236,
-    };
+        # Reference: G. v. 22.12.2016 BGBl. I S. 3159.
+        from 2017-01-01 = {
+            1: 409,
+            2: 368,
+            3: 327,
+            4: 311,
+            5: 291,
+            6: 236,
+        };
 
-    # Reference: V. v. 08.11.2017 BGBl. I S. 3767.
-    from 2018-01-01 = {
-        1: 416,
-        2: 374,
-        3: 332,
-        4: 316,
-        5: 296,
-        6: 240,
-    };
+        # Reference: V. v. 08.11.2017 BGBl. I S. 3767.
+        from 2018-01-01 = {
+            1: 416,
+            2: 374,
+            3: 332,
+            4: 316,
+            5: 296,
+            6: 240,
+        };
 
-    # Reference: V. v. 19.10.2018 BGBl. I S. 1766.
-    from 2019-01-01 = {
-        1: 424,
-        2: 382,
-        3: 339,
-        4: 322,
-        5: 302,
-        6: 245,
-    };
+        # Reference: V. v. 19.10.2018 BGBl. I S. 1766.
+        from 2019-01-01 = {
+            1: 424,
+            2: 382,
+            3: 339,
+            4: 322,
+            5: 302,
+            6: 245,
+        };
 
-    # Reference: V. v. 18.10.2019 BGBl. I S. 1452.
-    from 2020-01-01 = {
-        1: 432,
-        2: 389,
-        3: 345,
-        4: 328,
-        5: 308,
-        6: 250
-    };
+        # Reference: V. v. 18.10.2019 BGBl. I S. 1452.
+        from 2020-01-01 = {
+            1: 432,
+            2: 389,
+            3: 345,
+            4: 328,
+            5: 308,
+            6: 250
+        };
 
-    # Reference: G. v. 09.12.2020 BGBl. I S. 2855.
-    from 2021-01-01 = {
-        1: 446,
-        2: 401,
-        3: 357,
-        4: 373,
-        5: 309,
-        6: 283
-    };
+        # Reference: G. v. 09.12.2020 BGBl. I S. 2855.
+        from 2021-01-01 = {
+            1: 446,
+            2: 401,
+            3: 357,
+            4: 373,
+            5: 309,
+            6: 283
+        };
 
-    # Reference: V. v. 13.10.2021 BGBl. I S. 4674.
-    from 2022-01-01 = {
-        1: 449,
-        2: 404,
-        3: 360,
-        4: 376,
-        5: 311,
-        6: 285
-    };
+        # Reference: V. v. 13.10.2021 BGBl. I S. 4674.
+        from 2022-01-01 = {
+            1: 449,
+            2: 404,
+            3: 360,
+            4: 376,
+            5: 311,
+            6: 285
+        };
 
-    # Reference: G. v. 20.12.2022 BGBl. I S. 2328.
-    # Bürgergeld-Gesetz
-    from 2023-01-01 = {
-        1: 502,
-        2: 451,
-        3: 402,
-        4: 420,
-        5: 348,
-        6: 318
-    };
+        # Reference: G. v. 20.12.2022 BGBl. I S. 2328.
+        # Bürgergeld-Gesetz
+        from 2023-01-01 = {
+            1: 502,
+            2: 451,
+            3: 402,
+            4: 420,
+            5: 348,
+            6: 318
+        };
 
-    # Reference: §2 V. v. 24.10.2024 BGBl. I Nr. 287
-    from 2024-01-01 = {
-        1: 563,
-        2: 506,
-        3: 451,
-        4: 471,
-        5: 390,
-        6: 357
-    };
+        # Reference: §2 V. v. 24.10.2024 BGBl. I Nr. 287
+        from 2024-01-01 = {
+            1: 563,
+            2: 506,
+            3: 451,
+            4: 471,
+            5: 390,
+            6: 357
+        };
+    }
 }
 
 /**
@@ -502,8 +506,8 @@ public constant berechtigteWohnflaecheMiete: Dict<String, Int> {
  * gestiegen und wird ab 5 Personen im Haushalt um 20 Quadratmeter pro Person
  * angehoben.
  */
-public constant berechtigteWohnflaecheEigentum: Dict<Int or String, Int> {
-    from 1984-01-01 = {
+public constant berechtigteWohnflaecheEigentum {
+    from 1984-01-01: Dict<Int, Int> = {
         1: 80,
         2: 80,
         3: 100,
@@ -512,11 +516,11 @@ public constant berechtigteWohnflaecheEigentum: Dict<Int or String, Int> {
     };
 
     # Reference: Art. 1 Nr.12 Abschnitt 5, G. v. 20.12.2022 BGBl. I S. 2328
-    from 2023-01-01 = {
-        1: 140,
-        2: 140,
-        3: 140,
-        4: 140,
+    from 2023-01-01: Dict<String, Int> = {
+        "1": 140,
+        "2": 140,
+        "3": 140,
+        "4": 140,
         "je_weitere_person": 20
     };
 }
