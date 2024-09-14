@@ -1,4 +1,4 @@
-package safeds.lang
+package TTSL.lang
 
 /**
  * Indicates that the function has no side effects and always returns the same results given the same arguments.

@@ -1,0 +1,4 @@
+package tests.generator.differentPackage
+
+function function1InDifferentPackage(): Int {}
+function function2InDifferentPackage(): Int {}

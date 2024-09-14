@@ -1,6 +1,6 @@
 import { Location, Range } from 'vscode-languageserver';
 import { isRangeEqual, parseHelper } from 'langium/test';
-import { SafeDsServices } from '../../src/language/index.js';
+import { TTSLServices } from '../../src/language/index.js';
 import { AstNode, AstUtils, URI } from 'langium';
 import { TslModule } from '../../src/language/generated/ast.js';
 import { AssertionError } from 'assert';
@@ -14,7 +14,7 @@ import { locationToString } from '../../src/helpers/locations.js';
  * @returns The node at the given location.
  * @throws AssertionError If no matching node was found.
  */
-export const getNodeByLocation = (services: SafeDsServices, location: Location): AstNode => {
+export const getNodeByLocation = (services: TTSLServices, location: Location): AstNode => {
     const langiumDocuments = services.shared.workspace.LangiumDocuments;
     const uri = URI.parse(location.uri);
 
@@ -47,7 +47,7 @@ export const getNodeByLocation = (services: SafeDsServices, location: Location):
 /**
  * Returns the range of the name of the given node or undefined if the node has no name.
  */
-const getNameRange = (services: SafeDsServices, node: AstNode): Range | undefined => {
+const getNameRange = (services: TTSLServices, node: AstNode): Range | undefined => {
     return services.references.NameProvider.getNameNode(node)?.range;
 };
 
@@ -60,7 +60,7 @@ const getNameRange = (services: SafeDsServices, node: AstNode): Range | undefine
  * @param index The index of the node to find.
  */
 export const getNodeOfType = async <T extends AstNode>(
-    services: SafeDsServices,
+    services: TTSLServices,
     code: string,
     predicate: (value: unknown) => value is T,
     index: number = 0,

@@ -1,6 +1,6 @@
 package tests.scoping.references.inSameFile.toPlaceholders.fromOutside
 
-pipeline myPipeline1 {
+function myFunction1 {
     val pipelinePlaceholder = 1;
 }
 
@@ -8,17 +8,17 @@ segment mySegment(mySegmentParameter: String) {
     val segmentPlaceholder = 1;
 }
 
-pipeline myPipeline2 {
+function myFunction2 {
     () {
         val blockLambdaPlaceholder = 1;
     };
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »pipelinePlaceholder«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »segmentPlaceholder«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »blockLambdaPlaceholder«;
 }

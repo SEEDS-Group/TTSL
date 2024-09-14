@@ -3,18 +3,18 @@ import { parseHelper } from 'langium/test';
 import { SignatureHelp } from 'vscode-languageserver';
 import { NodeFileSystem } from 'langium/node';
 import { findTestRanges } from '../../helpers/testRanges.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const signatureHelpProvider = services.lsp.SignatureHelp!;
 const parse = parseHelper(services);
 
-describe('SafeDsSignatureHelpProvider', async () => {
+describe('TTSLSignatureHelpProvider', async () => {
     it('should always select the first signature', async () => {
         const code = `
             fun f(p: Int)
 
-            pipeline myPipeline {
+            function myFunction () {
                 f(»«);
             }
         `;
@@ -29,7 +29,7 @@ describe('SafeDsSignatureHelpProvider', async () => {
             code: `
                 fun f(p: Int)
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(»«);
                 }
             `,
@@ -40,7 +40,7 @@ describe('SafeDsSignatureHelpProvider', async () => {
             code: `
                 fun f(p: Int)
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(»«, );
                 }
             `,
@@ -51,7 +51,7 @@ describe('SafeDsSignatureHelpProvider', async () => {
             code: `
                 fun f(p: Int)
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(1, »«);
                 }
             `,
@@ -71,7 +71,7 @@ describe('SafeDsSignatureHelpProvider', async () => {
         {
             testName: 'unresolved callable',
             code: `
-                pipeline myPipeline {
+                function myFunction () {
                     f(»«);
                 }
             `,
@@ -86,7 +86,7 @@ describe('SafeDsSignatureHelpProvider', async () => {
                 annotation A(p: Int)
 
                 @A(»«)
-                pipeline myPipeline {}
+                function myFunction () {}
             `,
             expectedSignature: [
                 {
@@ -111,7 +111,7 @@ describe('SafeDsSignatureHelpProvider', async () => {
                  */
                 class C(p: Int)
 
-                pipeline myPipeline {
+                function myFunction () {
                     C(»«);
                 }
             `,
@@ -138,7 +138,7 @@ describe('SafeDsSignatureHelpProvider', async () => {
                  */
                 fun f(p: Int)
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(»«);
                 }
             `,
@@ -160,7 +160,7 @@ describe('SafeDsSignatureHelpProvider', async () => {
         {
             testName: 'call (lambda)',
             code: `
-                pipeline myPipeline {
+                function myFunction () {
                     ((p: Int) {})(»«);
                 }
             `,
@@ -176,13 +176,13 @@ describe('SafeDsSignatureHelpProvider', async () => {
                 },
             ],
         },
-        // https://github.com/Safe-DS/DSL/issues/791
+        // https://github.com/TTSL/DSL/issues/791
         {
             testName: 'optional parameter',
             code: `
                 fun f(p: Int = 0)
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(»«);
                 }
             `,

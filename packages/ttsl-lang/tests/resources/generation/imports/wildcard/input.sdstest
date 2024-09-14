@@ -3,9 +3,9 @@ package tests.generator.wildcard
 from tests.generator.differentPackageWildcard import *
 from tests.generator.withPythonModuleWildcard import *
 
-@Impure([ImpurityReason.Other]) fun f(param: Any?)
+function f(param: Any?){}
 
-pipeline test {
+function test () {
     f(function1InDifferentPackage());
     f(function1InDifferentPackage());
     f(function2InDifferentPackage());

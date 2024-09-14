@@ -1,32 +1,32 @@
 package tests.scoping.namedTypes.inSameFile.toNestedEnums
 
 class BeforeClass {
-    // $TEST$ target before
+    # $TEST$ target before
     enum »BeforeEnum«
 }
 
 enum BeforeEnum
 
 segment mySegment(
-    // $TEST$ references before
+    # $TEST$ references before
     p1: BeforeClass.»BeforeEnum«,
 
-    // $TEST$ references after
+    # $TEST$ references after
     p2: AfterClass.»AfterEnum«,
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     p3: BeforeClass.»AfterEnum«,
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     p4: AfterClass.»BeforeEnum«,
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     p5: BeforeClass.»Unresolved«,
 ) {}
 
 enum AfterEnum
 
 class AfterClass {
-    // $TEST$ target after
+    # $TEST$ target after
     enum »AfterEnum«
 }

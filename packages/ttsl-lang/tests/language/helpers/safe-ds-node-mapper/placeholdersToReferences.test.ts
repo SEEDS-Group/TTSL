@@ -1,13 +1,13 @@
 import { EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
 import { isTslPlaceholder } from '../../../../src/language/generated/ast.js';
-import { createSafeDsServices } from '../../../../src/language/index.js';
+import { createTTSLServices } from '../../../../src/language/index.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 const nodeMapper = services.helpers.NodeMapper;
 
-describe('SafeDsNodeMapper', () => {
+describe('TTSLNodeMapper', () => {
     describe('placeholderToReferences', () => {
         it('should return an empty list if passed undefined', async () => {
             expect(nodeMapper.placeholderToReferences(undefined).toArray()).toStrictEqual([]);
@@ -27,7 +27,7 @@ describe('SafeDsNodeMapper', () => {
 
         it('should return references directly in body', async () => {
             const code = `
-                pipeline myPipeline {
+                function myFunction () {
                     val a1 = 1;
 
                     a1;
@@ -73,7 +73,7 @@ describe('SafeDsNodeMapper', () => {
 
         it('should not return references to other placeholders', async () => {
             const code = `
-                pipeline myPipeline {
+                function myFunction () {
                     val a1 = 1;
                     val a2 = 2;
 

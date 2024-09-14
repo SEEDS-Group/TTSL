@@ -1,27 +1,27 @@
 package tests.scoping.references.acrossFiles.toGlobalFunctions
 
-from safeds.scoping.references.acrossFiles.toGlobalFunctions import myFunction as myOwnFunction
+from TTSL.scoping.references.acrossFiles.toGlobalFunctions import myFunction as myOwnFunction
 from tests.scoping.references.acrossFiles.toGlobalFunctions.other import functionInAnotherPackage, function2InAnotherPackage
 
-// $TEST$ target own_myOwnFunction
+# $TEST$ target own_myOwnFunction
 fun »myOwnFunction«()
 
-pipeline myPipeline {
-    // $TEST$ references own_myOwnFunction
+function myFunction () {
+    # $TEST$ references own_myOwnFunction
     »myOwnFunction«;
 
-    // $TEST$ references same_functionInSamePackage
+    # $TEST$ references same_functionInSamePackage
     »functionInSamePackage«;
 
-    // $TEST$ references safeds_functionInSafeDsPackage
-    »functionInSafeDsPackage«;
+    # $TEST$ references TTSL_functionInTTSLPackage
+    »functionInTTSLPackage«;
 
-    // $TEST$ references other_functionInAnotherPackage
+    # $TEST$ references other_functionInAnotherPackage
     »functionInAnotherPackage«;
 
-    // $TEST$ references other_function2InAnotherPackage
+    # $TEST$ references other_function2InAnotherPackage
     »function2InAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »functionWithoutPackage«;
 }

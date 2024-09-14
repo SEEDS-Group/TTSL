@@ -1,31 +1,31 @@
 package tests.scoping.annotationCalls.acrossFiles
 
 from tests.scoping.annotationCalls.acrossFiles import MyAnnotation as MyAnnotationInSamePackage
-from safeds.scoping.annotationCalls.acrossFiles import MyAnnotation as MyAnnotationInSafeDsPackage
+from TTSL.scoping.annotationCalls.acrossFiles import MyAnnotation as MyAnnotationInTTSLPackage
 from tests.scoping.annotationCalls.acrossFiles.other import MyAnnotation as MyAnnotationInAnotherPackage
 
-// $TEST$ references same_MyAnnotation
+# $TEST$ references same_MyAnnotation
 @»MyAnnotation«
 
 
-// $TEST$ references same_AnnotationInSamePackage
+# $TEST$ references same_AnnotationInSamePackage
 @»AnnotationInSamePackage«
 
-// $TEST$ references safeds_AnnotationInSafeDsPackage
-@»AnnotationInSafeDsPackage«
+# $TEST$ references TTSL_AnnotationInTTSLPackage
+@»AnnotationInTTSLPackage«
 
-// $TEST$ unresolved
+# $TEST$ unresolved
 @»AnnotationInAnotherPackage«
 
-// $TEST$ unresolved
+# $TEST$ unresolved
 @»AnnotationWithoutPackage«
 
-// $TEST$ references same_MyAnnotation
+# $TEST$ references same_MyAnnotation
 @»MyAnnotationInSamePackage«
 
-// $TEST$ references safeds_MyAnnotation
-@»MyAnnotationInSafeDsPackage«
+# $TEST$ references TTSL_MyAnnotation
+@»MyAnnotationInTTSLPackage«
 
-// $TEST$ references other_MyAnnotation
+# $TEST$ references other_MyAnnotation
 @»MyAnnotationInAnotherPackage«
-pipeline myPipeline {}
+function myFunction () {}

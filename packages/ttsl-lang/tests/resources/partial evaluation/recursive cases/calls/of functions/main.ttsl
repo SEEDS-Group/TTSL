@@ -1,0 +1,8 @@
+package tests.partialValidation.recursiveCases.calls.ofFunctions
+
+function f(){}
+
+function test () {
+    # $TEST$ serialization ?
+    »f()«;
+}

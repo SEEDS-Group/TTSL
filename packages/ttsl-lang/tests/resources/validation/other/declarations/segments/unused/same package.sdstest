@@ -1,6 +1,6 @@
 package tests.validation.other.declarations.segments.unused
 
-pipeline myPipeline2 {
+function myFunction2 {
     myUsedInternalSegment();
     myUsedPublicSegment();
 }

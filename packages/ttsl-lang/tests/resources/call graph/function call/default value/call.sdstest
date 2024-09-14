@@ -7,7 +7,7 @@ package tests.callGraph.functionCall.defaultValue.call
     f: Any = default()
 )
 
-pipeline myPipeline {
-    // $TEST$ ["myFunction", "default"]
+function myFunction () {
+    # $TEST$ ["myFunction", "default"]
     »myFunction()«;
 }

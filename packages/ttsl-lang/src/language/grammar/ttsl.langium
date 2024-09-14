@@ -6,24 +6,24 @@ grammar TTSL
 
 interface TslObject {}
 
-interface TslAnnotatedObject extends TslObject {
-    annotationCalls?: TslAnnotationCall[]
-}
-
 interface TslAbstractCall extends TslObject {
     argumentList: TslArgumentList
 }
 
-interface TslDeclaration extends TslAnnotatedObject {
-    annotationCallList?: TslAnnotationCallList
+interface TslDeclaration extends TslObject {
     name: string
+    visibility?: TslVisibility
 }
 
 interface TslLocalVariable extends TslDeclaration {
     groupedBy?: TslGroupedBy
-    type: TslType
     value?: TslExpression
+    type?: TslType
 }
+
+TslLocalVariable returns TslLocalVariable:
+    name=ID
+;
 
 // -----------------------------------------------------------------------------
 // Module
@@ -31,22 +31,20 @@ interface TslLocalVariable extends TslDeclaration {
 
 interface TslModule extends TslDeclaration {
     imports: TslImport[];
-    members: TslAnnotatedObject[]
+    members: TslObject[]
 }
 
 entry TslModule returns TslModule:
     {TslModule}
-    annotationCalls+=TslAnnotationCall*
     (
         ('package' name=QualifiedName)
         imports+=TslImport*
-        members+=(TslAnnotatedModuleMember | TslUnannotatedModuleMember)*
+        members+=TslModuleMember*
 
     |   imports+=TslImport+
-        members+=(TslAnnotatedModuleMember | TslUnannotatedModuleMember)*
+        members+=TslModuleMember*
 
-    |   members+=TslUnannotatedModuleMember
-        members+=(TslAnnotatedModuleMember | TslUnannotatedModuleMember)*
+    |   members+=TslModuleMember*
     )?
 ;
 
@@ -114,48 +112,10 @@ QualifiedName returns string:
 // Declarations
 // -----------------------------------------------------------------------------
 
-interface TslModuleMember extends TslDeclaration {
-    visibility?: TslVisibility
-}
+interface TslModuleMember extends TslDeclaration {}
 
-TslAnnotatedModuleMember returns TslModuleMember:
-    {TslAnnotationCallList}
-    annotationCalls+=TslAnnotationCall+
-    (
-        {TslAnnotation.annotationCallList=current}
-        TslAnnotationFragment
-
-      | {TslClass.annotationCallList=current}
-        TslClassFragment
-
-      | {TslEnum.annotationCallList=current}
-        TslEnumFragment
-
-      | {TslFunction.annotationCallList=current}
-        TslFunctionFragment
-
-      | {TslSchema.annotationCallList=current}
-        TslSchemaFragment
-
-      | {TslPipeline.annotationCallList=current}
-        TslPipelineFragment
-
-      | {TslSegment.annotationCallList=current}
-        TslSegmentFragment
-    )
-;
-
-TslUnannotatedModuleMember returns TslModuleMember:
-      {TslAnnotation}
-      TslAnnotationFragment
-
-    | {TslClass}
-      TslClassFragment
-
-    | {TslEnum}
-      TslEnumFragment
-
-    | {TslFunction}
+TslModuleMember returns TslModuleMember:
+    {TslFunction}
       TslFunctionFragment
 
     | {TslConstant}
@@ -163,154 +123,13 @@ TslUnannotatedModuleMember returns TslModuleMember:
 
     | {TslData}
       TslDataFragment
-
-    | {TslSchema}
-      TslSchemaFragment
-
-    | {TslPipeline}
-      TslPipelineFragment
-
-    | {TslSegment}
-      TslSegmentFragment
 ;
 
-interface TslAnnotation extends TslCallable, TslModuleMember {
-    constraintList?: TslConstraintList
-}
-
-fragment TslAnnotationFragment:
-    'annotation' name=ID
-    parameterList=TslParameterList?
-    constraintList=TslConstraintList?
-;
-
-interface TslClass extends TslCallable, TslClassMember, TslModuleMember, TslNamedTypeDeclaration {
-    typeParameterList?: TslTypeParameterList
-    parentTypeList?: TslParentTypeList
-    constraintList?: TslConstraintList
-    body?: TslClassBody
-}
-
-fragment TslClassFragment:
-    'class'
-    name=ID
-    typeParameterList=TslTypeParameterList?
-    parameterList=TslParameterList?
-    parentTypeList=TslParentTypeList?
-    constraintList=TslConstraintList?
-    body=TslClassBody?
-;
-
-interface TslParentTypeList extends TslObject {
-    parentTypes: TslType[]
-}
-
-TslParentTypeList returns TslParentTypeList:
-    'sub'
-    parentTypes+=TslParentType
-    (',' parentTypes+=TslParentType)*
-    ','?
-;
-
-interface TslClassBody extends TslObject {
-    members: TslClassMember[]
-}
-
-TslClassBody returns TslClassBody:
-    {TslClassBody} '{' members+=TslClassMember* '}'
-;
-
-interface TslClassMember extends TslDeclaration {
-    isStatic?: boolean
-}
-
-TslClassMember returns TslClassMember:
-    TslAnnotatedClassMember
-  | TslUnannotatedClassMember
-;
-
-TslAnnotatedClassMember returns TslClassMember:
-    {TslAnnotationCallList}
-    annotationCalls+=TslAnnotationCall+
-    (
-        {TslAttribute.annotationCallList=current}
-        TslAttributeFragment
-
-      | {TslClass.annotationCallList=current}
-        TslClassFragment
-
-      | {TslEnum.annotationCallList=current}
-        TslEnumFragment
-
-      | {TslFunction.annotationCallList=current}
-        isStatic?='static'?
-        TslFunctionFragment
-    )
-;
-
-TslUnannotatedClassMember returns TslClassMember:
-      {TslAttribute}
-      TslAttributeFragment
-
-    | {TslClass}
-      TslClassFragment
-
-    | {TslEnum}
-      TslEnumFragment
-
-    | {TslFunction}
-      isStatic?='static'?
-      TslFunctionFragment
-;
-
-interface TslAttribute extends TslClassMember {
-    ^type?: TslType
-}
-
-fragment TslAttributeFragment:
-    isStatic?='static'?
-    'attr'
-    name=ID
-    (':' ^type=TslType)?
-;
-
-
-interface TslEnum extends TslNamedTypeDeclaration, TslClassMember, TslModuleMember {
-    body?: TslEnumBody
-}
-
-fragment TslEnumFragment:
-    'enum'
-    name=ID
-    body=TslEnumBody?
-;
-
-interface TslEnumBody extends TslObject {
-    variants: TslEnumVariant[]
-}
-
-TslEnumBody returns TslEnumBody:
-    {TslEnumBody} '{' variants+=TslEnumVariant * '}'
-;
-
-interface TslEnumVariant extends TslCallable, TslNamedTypeDeclaration {
-    constraintList?: TslConstraintList
-}
-
-TslEnumVariant returns TslEnumVariant:
-    annotationCalls+=TslAnnotationCall*
-    name=ID
-    parameterList=TslParameterList?
-    constraintList=TslConstraintList?
-;
-
-interface TslFunction extends TslCallable, TslClassMember, TslModuleMember {
+interface TslFunction extends TslCallable, TslModuleMember {
     isID: boolean
-    typeParameterList?: TslTypeParameterList
-    resultList?: TslResultList
+    result?: TslResult
     timeunit?: TslTimeunit
     groupedBy?: TslGroupedBy
-    constraintList?: TslConstraintList
     body: TslFunctionBlock
 }
 
@@ -320,31 +139,16 @@ fragment TslFunctionFragment:
     'function'
     (timeunit=TslTimeunit)?
     name=ID
-    typeParameterList=TslTypeParameterList?
     parameterList=TslParameterList
-    resultList=TslResultList?
+    (result=TslResult)?
     (groupedBy=TslGroupedBy)?
-    constraintList=TslConstraintList?
     body=TslFunctionBlock
 ;
 
-interface TslFunctionBlock extends TslBlock{
-    timespans: TslTimespan[]
-}
-
-TslFunctionBlock returns TslFunctionBlock:
-    {TslFunctionBlock} 
-    '{' ( statements+=TslStatement* 
-    | timespans+=TslTimespan 
-    '{' ( timespans+=TslTimespan statements+=TslStatement 
-    | statements+=TslStatement)* 
-    '}')* '}'
-;
-
-interface TslConstant extends TslModuleMember {
-    timespan: TslTimespan
+interface TslConstant extends TslModuleMember, TslDeclaration {
+    timespanValueEntries?: TslTimespanValueEntry[]
     ^type: TslType
-    value: TslExpression
+    value?: TslExpression
 }
 
 fragment TslConstantFragment:
@@ -352,11 +156,11 @@ fragment TslConstantFragment:
     'constant'
     name=ID
     ':' ^type=TslType
-    ('{' (timespan=TslTimespan '=' value=TslExpression)*'}' |
+    ('{' (timespanValueEntries+=TslTimespanValueEntry)* '}' |
     '=' value=TslExpression) ';'?
 ;
 
-interface TslData extends TslModuleMember {
+interface TslData extends TslModuleMember, TslDeclaration {
     isID: boolean
     ^type: TslType
     timeunit?: TslTimeunit
@@ -372,93 +176,6 @@ fragment TslDataFragment:
     ':' ^type=TslType
     (groupedBy=TslGroupedBy)? ';'?
 ;
-
-interface TslPipeline extends TslModuleMember {
-    body: TslBlock
-}
-
-fragment TslPipelineFragment:
-    'pipeline'
-    name=ID
-    body=TslBlock
-;
-
-interface TslSegment extends TslCallable, TslModuleMember {
-    resultList?: TslResultList
-    constraintList?: TslConstraintList
-    body: TslBlock
-}
-
-fragment TslSegmentFragment:
-    'segment'
-    name=ID
-    parameterList=TslParameterList
-    resultList=TslResultList?
-    constraintList=TslConstraintList?
-    body=TslBlock
-;
-
-
-// -----------------------------------------------------------------------------
-// Annotation calls
-// -----------------------------------------------------------------------------
-
-interface TslAnnotationCallList extends TslAnnotatedObject {}
-
-interface TslAnnotationCall extends TslAbstractCall {
-    annotation?: @TslAnnotation
-}
-
-TslAnnotationCall returns TslAnnotationCall:
-    '@' annotation=[TslAnnotation:ID] argumentList=TslAnnotationCallArgumentList?
-;
-
-TslAnnotationCallArgumentList returns TslArgumentList:
-    {TslArgumentList} '(' (arguments+=TslAnnotationCallArgument  (',' arguments+=TslAnnotationCallArgument)* ','? )? ')'
-;
-
-TslAnnotationCallArgument returns TslArgument:
-    (parameter=[TslParameter:ID ] '=')? value=TslExpression
-;
-
-
-// -----------------------------------------------------------------------------
-// Constraints
-// -----------------------------------------------------------------------------
-
-interface TslConstraintList extends TslObject {
-    constraints: TslConstraint[]
-}
-
-TslConstraintList returns TslConstraintList:
-    'where'
-    '{'
-    (
-        constraints+=TslConstraint
-        (',' constraints+=TslConstraint)*
-        ','?
-    )?
-    '}'
-;
-
-interface TslConstraint extends TslObject {}
-
-TslConstraint returns TslConstraint:
-    TslParameterBound
-;
-
-interface TslParameterBound extends TslConstraint {
-    leftOperand?: @TslParameter
-    operator: string
-    rightOperand: TslExpression
-}
-
-TslParameterBound returns TslParameterBound:
-    leftOperand=[TslParameter:ID]
-    operator=TslComparisonOperator
-    rightOperand=TslExpression
-;
-
 
 // -----------------------------------------------------------------------------
 // Callables, parameters, and results
@@ -489,10 +206,9 @@ interface TslParameter extends TslLocalVariable {
 }
 
 TslParameter returns TslParameter:
-    annotationCalls+=TslAnnotationCall*
     isConstant?='constant'?
     name=ID
-    (':' ^type=TslType)?
+    ':' type=TslType
     ('=' defaultValue=TslExpression)?
 ;
 
@@ -500,21 +216,14 @@ interface TslResultList extends TslObject {
     results: TslResult[]
 }
 
-TslResultList returns TslResultList:
-    {TslResultList} ':' results+=TslResult
-  | {TslResultList} ':' '(' (results+=TslResult (',' results+=TslResult)* ','? )? ')'
-;
 
-interface TslAbstractResult extends TslDeclaration {}
-
-interface TslResult extends TslAbstractResult {
+interface TslResult extends TslDeclaration {
     ^type?: TslType
 }
 
 TslResult returns TslResult:
-    annotationCalls+=TslAnnotationCall*
-    name=ID
-    (':' ^type=TslType)?
+    (name=ID )?
+    ':' ^type=TslType
 ;
 
 
@@ -532,44 +241,47 @@ TslBlock returns TslBlock:
     {TslBlock} '{' statements+=TslStatement* '}'
 ;
 
+interface TslFunctionBlock extends TslBlock{
+    timespanStatement: TslTimespanStatement[]
+}
+
+TslFunctionBlock returns TslFunctionBlock:
+    {TslFunctionBlock}
+    '{' ( timespanStatement+=TslTimespanStatement
+    | statements+=TslStatement)*
+    '}'
+;
+
 TslStatement returns TslStatement:
     TslAssignment
   | TslExpressionStatement
   | TslConditionalStatement
   | TslLoop
+  | TslReturnStatement
 ;
 
 interface TslAssignment extends TslStatement {
-    assigneeList?: TslAssigneeList
+    assignee: TslAssignee
     expression?: TslExpression
 }
 
 TslAssignment returns TslAssignment:
-    assigneeList=TslAssigneeList '=' expression=TslExpression ';'
-;
-
-interface TslAssigneeList extends TslObject {
-    assignees: TslAssignee[]
-}
-
-TslAssigneeList returns TslAssigneeList:
-    assignees+=TslAssignee  (',' assignees+=TslAssignee)* ','?
+    assignee=TslAssignee '=' expression=TslExpression ';'?
 ;
 
 interface TslAssignee extends TslObject {}
 
 interface TslPlaceholder extends TslAssignee, TslLocalVariable {}
 
-interface TslWildcard extends TslAssignee {}
+interface TslPlaceholderReference extends TslAssignee, TslReference{}
 
-interface TslYield extends TslAssignee {
-    result?: @TslResult
-}
+TslPlaceholderReference returns TslPlaceholderReference:
+    target = [TslPlaceholder:ID]
+;
 
 TslAssignee returns TslAssignee:
-    {TslPlaceholder} 'var' name=ID ':' type=TslType (groupedBy=TslGroupedBy)?
-  | {TslWildcard} '_'
-  | {TslYield} 'yield' result=[TslResult:ID]
+    {TslPlaceholder} 'var' name=ID (':' ^type=TslType)?  (groupedBy=TslGroupedBy)?
+    | TslPlaceholderReference
 ;
 
 interface TslExpressionStatement extends TslStatement {
@@ -616,20 +328,28 @@ interface TslForLoop extends TslLoop{
 }
 
 TslForLoop returns TslForLoop:
-    'for''(' (definitionStatement=TslStatement)?
-    ';' condition=TslExpression
-    ';' (iteration=TslStatement)?
+    'for''(' (definitionStatement=TslAssignment| ';')
+     condition=TslExpression
+    ';' (iteration=TslAssignment)?
     ')' block=TslBlock
 ;
 
 interface TslForeachLoop extends TslLoop{
-    element: string
+    element: TslLocalVariable
     list: TslExpression
 }
 
 TslForeachLoop returns TslForeachLoop:
-    'foreach''(' element=STRING 'in' list=TslExpression ')'
+    'foreach''(' element=TslLocalVariable 'in' list=TslExpression ')'
     block=TslBlock
+;
+
+interface TslReturnStatement extends TslStatement{
+    result: TslExpression
+}
+
+TslReturnStatement returns TslReturnStatement:
+    'return' result=TslExpression ';'
 ;
 
 // -----------------------------------------------------------------------------
@@ -639,59 +359,17 @@ TslForeachLoop returns TslForeachLoop:
 interface TslExpression extends TslObject {}
 
 TslExpression returns TslExpression:
-    TslLambda | TslOrExpression | TslAggregation
+    TslOrExpression | TslAggregation
 ;
 
 interface TslAggregation extends TslExpression{
-    function: @TslFunction
-    data: @TslData[]
+    function: TslString
+    data: TslReference
     groupedBy: TslGroupedBy
 }
 
 TslAggregation returns TslAggregation:
-    'aggregate' function=[TslFunction:ID] 'of' data+=[TslData:ID] (',' data+=[TslData:ID])* groupedBy=TslGroupedBy
-;
-
-interface TslLambda extends TslCallable, TslExpression {}
-
-interface TslBlockLambda extends TslLambda {
-    body: TslBlock
-}
-
-interface TslExpressionLambda extends TslLambda {
-    result: TslExpression
-}
-
-TslLambda returns TslExpression:
-    TslParameterList
-    (
-      {TslBlockLambda.parameterList=current} body=TslBlockLambdaBlock
-    | {TslExpressionLambda.parameterList=current} '->' result=TslExpression
-    )
-;
-
-TslBlockLambdaBlock returns TslBlock:
-    {TslBlock} '{' statements+=TslBlockLambdaStatement* '}'
-;
-
-TslBlockLambdaStatement returns TslStatement:
-    TslBlockLambdaAssignment | TslExpressionStatement
-;
-
-TslBlockLambdaAssignment returns TslAssignment:
-    assigneeList=TslBlockLambdaAssigneeList  '=' expression=TslExpression  ';'
-;
-
-TslBlockLambdaAssigneeList returns TslAssigneeList:
-    assignees+=TslBlockLambdaAssignee  (',' assignees+=TslBlockLambdaAssignee)* ','?
-;
-
-interface TslBlockLambdaResult extends TslAssignee, TslAbstractResult {}
-
-TslBlockLambdaAssignee returns TslAssignee:
-    {TslWildcard} '_'
-  | {TslPlaceholder} 'var' name=ID ':' type=TslType (groupedBy=TslGroupedBy)?
-  | {TslBlockLambdaResult} 'yield' name=ID
+    'aggregate' function=TslString 'of' data=TslReference groupedBy=TslGroupedBy
 ;
 
 interface TslInfixOperation extends TslExpression {
@@ -810,6 +488,7 @@ TslUnaryOperation returns TslExpression:
 
 interface TslChainedExpression extends TslExpression {
     receiver: TslExpression
+    timeunit?: TslTimeunit
     isNullSafe: boolean
 }
 
@@ -817,10 +496,6 @@ interface TslCall extends TslAbstractCall, TslChainedExpression {}
 
 interface TslIndexedAccess extends TslChainedExpression {
     index: TslExpression
-}
-
-interface TslMemberAccess extends TslChainedExpression {
-    member?: TslReference
 }
 
 TslChainedExpression returns TslExpression:
@@ -833,11 +508,6 @@ TslChainedExpression returns TslExpression:
     |   {TslIndexedAccess.receiver=current}
         (isNullSafe?='?')?
         '[' index=TslExpression ']'
-
-    |   {TslMemberAccess.receiver=current}
-        (isNullSafe?='?')?
-        '.'
-        member=TslReference
     )*
 ;
 
@@ -867,9 +537,9 @@ TslCallArgument returns TslArgument:
 
 TslPrimaryExpression returns TslExpression:
     TslLiteral
-  | TslParenthesizedExpression
   | TslReference
-  | TslTemplateString
+  | TslParenthesizedExpression
+  | TslPredefinedFunction
 ;
 
 interface TslLiteral extends TslExpression {}
@@ -878,10 +548,11 @@ TslLiteral returns TslLiteral:
     TslBoolean
   | TslFloat
   | TslInt
+  | TslString
   | TslList
   | TslDictionary
   | TslNull
-  | TslString
+  | TslTemplateString
   | TslDate
 ;
 
@@ -910,6 +581,14 @@ interface TslInt extends TslNumber {
 
 TslInt returns TslInt:
     value=INT
+;
+
+interface TslString extends TslNumber {
+    value: string
+}
+
+TslString returns TslString:
+    value=STRING
 ;
 
 interface TslList extends TslLiteral {
@@ -943,29 +622,29 @@ TslNull returns TslNull:
     {TslNull} 'null'
 ;
 
-interface TslString extends TslLiteral {
-    value: string
-}
-
-TslString returns TslString:
-    value=STRING
-;
-
 interface TslDate extends TslLiteral{
-    date: Date
+    date: string
 }
 
 TslDate returns TslDate:
     date=DATE
 ;
 
-
 interface TslParenthesizedExpression extends TslExpression {
-    expression: TslExpression
+    expression:TslExpression
 }
 
 TslParenthesizedExpression returns TslParenthesizedExpression:
     '(' expression=TslExpression  ')'
+;
+
+interface TslPredefinedFunction extends TslExpression {
+    name: string
+    object: TslReference
+}
+
+TslPredefinedFunction returns TslPredefinedFunction:
+    name = ('len' | 'keys' | 'values') '(' object = TslReference ')'
 ;
 
 interface TslReference extends TslExpression {
@@ -1019,13 +698,13 @@ TslTemplateStringEnd returns TslExpression:
 interface TslModifier extends TslObject{}
 
 interface TslVisibility extends TslModifier{
-    isPublic?: boolean 
+    isPublic?: boolean
     isPackageprivate?: boolean
     isPrivate?: boolean
 }
 
 TslVisibility returns TslVisibility:
-    isPublic?='public'? | isPackageprivate?='packageprivate'? | isPrivate?='private'?
+    isPublic?='public' | isPackageprivate?='packageprivate' | isPrivate?='private'
 ;
 
 interface TslTimeunit extends TslModifier{
@@ -1037,11 +716,11 @@ TslTimeunit returns TslTimeunit:
 ;
 
 interface TslGroupedBy extends TslModifier{
-    id: TslExpression
+    id: TslReference
 }
 
 TslGroupedBy returns TslGroupedBy:
-    'groupedBy' id=TslExpression
+    'groupedBy' id=TslReference
 ;
 
 // -----------------------------------------------------------------------------
@@ -1054,103 +733,90 @@ interface TslTimespan extends TslObject{
 }
 
 TslTimespan returns TslTimespan:
-    ('from' start=TslDate)? ('to' end=TslDate)?
+    ('from' start=TslDate | 'to' end=TslDate | 'from' start=TslDate 'to' end=TslDate)
+;
+
+interface TslTimespanStatement extends TslBlock, TslStatement{
+    timespan: TslTimespan
+    block: TslFunctionBlock
+}
+
+TslTimespanStatement returns TslTimespanStatement:
+    timespan=TslTimespan '{' block=TslFunctionBlock '}'
+;
+
+interface TslTimespanValueEntry extends TslObject{
+    timespan: TslTimespan
+    value: TslExpression
+}
+
+TslTimespanValueEntry returns TslTimespanValueEntry:
+    timespan=TslTimespan '=' value=TslExpression ';'
 ;
 
 // -----------------------------------------------------------------------------
 // Types
 // -----------------------------------------------------------------------------
 
-interface TslType extends TslObject {}
-
-interface TslNamedTypeDeclaration extends TslDeclaration {}
-
-interface TslMemberType extends TslType {
-    receiver: TslType
-    member?: TslNamedType
-}
-
-TslType returns TslType:
-    TslPrimaryType ({TslMemberType.receiver=current} '.' member=TslNamedType)*
-;
-
-TslPrimaryType returns TslType:
-    TslCallableType
-  | TslLiteralType
-  | TslNamedType
-  | TslUnionType
-;
-
-interface TslCallableType extends TslCallable, TslType {
-    resultList: TslResultList
-}
-
-TslCallableType returns TslCallableType:
-    parameterList=TslParameterList
-    resultList=TslResultList
-;
-
-interface TslLiteralType extends TslType {
-    literalList: TslLiteralList
-}
-
-TslLiteralType returns TslLiteralType:
-    'literal' literalList=TslLiteralList
-;
-
-interface TslLiteralList extends TslObject {
-    literals: TslLiteral[]
-}
-
-TslLiteralList returns TslLiteralList:
-    {TslLiteralList}
-    '<'
-    (
-        literals+=TslLiteral
-        (',' literals+=TslLiteral)*
-        ','?
-    )?
-    '>'
-;
-
-interface TslNamedType extends TslType {
-    declaration?: @TslNamedTypeDeclaration
-    typeArgumentList?: TslTypeArgumentList
+interface TslType extends TslObject {
     isNullable: boolean
 }
 
-TslNamedType returns TslNamedType:
-    declaration=[TslNamedTypeDeclaration:ID]
-    typeArgumentList=TslTypeArgumentList?
-    (isNullable?='?' )?
+
+TslType returns TslType:
+    TslPrimaryType (isNullable?='?')?
 ;
 
-interface TslUnionType extends TslType {
-    typeArgumentList: TslTypeArgumentList
+TslPrimaryType returns TslType:
+    TslIntType
+  | TslFloatType
+  | TslStringType
+  | TslBooleanType
+  | TslDictionaryType
+  | TslListType
+  | TslAnyType
+;
+
+interface TslIntType extends TslType {}
+
+TslIntType returns TslIntType:
+    {TslIntType} "Int"
+;
+
+interface TslFloatType extends TslType {}
+
+TslFloatType returns TslFloatType:
+    {TslFloatType} "Float"
+;
+
+interface TslStringType extends TslType {}
+
+TslStringType returns TslStringType:
+    {TslStringType} "String"
+;
+
+interface TslBooleanType extends TslType {}
+
+TslBooleanType returns TslBooleanType:
+    {TslBooleanType} "Boolean"
+;
+
+interface TslDictionaryType extends TslType {
+    typeParameterList:TslTypeParameterList
 }
 
-TslUnionType returns TslUnionType:
-    'union' typeArgumentList=TslUnionTypeArgumentList
+TslDictionaryType returns TslDictionaryType:
+    'Dict' typeParameterList=TslTypeParameterList
 ;
 
-TslUnionTypeArgumentList returns TslTypeArgumentList:
-    {TslTypeArgumentList}
-    '<'
-    (
-        typeArguments+=TslUnionTypeArgument
-        (',' typeArguments+=TslUnionTypeArgument)*
-        ','?
-    )?
-    '>'
+interface TslListType extends TslType {
+    typeParameterList:TslTypeParameterList
+}
+
+TslListType returns TslListType:
+    'List' typeParameterList=TslTypeParameterList
 ;
 
-TslUnionTypeArgument returns TslTypeArgument:
-    value=TslType
-;
-
-TslParentType returns TslType:
-    TslNamedType ({TslMemberType.receiver=current} '.' member=TslNamedType)*
-;
 
 interface TslTypeParameterList extends TslObject {
     typeParameters: TslTypeParameter[]
@@ -1167,75 +833,18 @@ TslTypeParameterList returns TslTypeParameterList:
     '>'
 ;
 
-interface TslTypeParameter extends TslNamedTypeDeclaration {
-    variance?: string
-    upperBound?: TslType
-    defaultValue?: TslType
+interface TslTypeParameter extends TslType {
+    type: TslType
 }
 
 TslTypeParameter returns TslTypeParameter:
-    annotationCalls+=TslAnnotationCall*
-    variance=TslTypeParameterVariance?
-    name=ID
-    ('sub' upperBound=TslType)?
-    ('=' defaultValue=TslType)?
+    type=TslType
 ;
 
-TslTypeParameterVariance returns string:
-    'in' | 'out'
-;
+interface TslAnyType extends TslType {}
 
-interface TslTypeArgumentList extends TslObject {
-    typeArguments: TslTypeArgument[]
-}
-
-TslTypeArgumentList returns TslTypeArgumentList:
-    {TslTypeArgumentList}
-    '<'
-    (typeArguments+=TslTypeArgument (',' typeArguments+=TslTypeArgument)* ','? )?
-    '>'
-;
-
-interface TslTypeArgument extends TslObject {
-    typeParameter?: @TslTypeParameter
-    value: TslType
-}
-
-TslTypeArgument returns TslTypeArgument:
-    (typeParameter=[TslTypeParameter:ID] '=' )?
-    value=TslType
-;
-
-
-// -----------------------------------------------------------------------------
-// Schemas
-// -----------------------------------------------------------------------------
-
-interface TslSchema extends TslModuleMember {
-    columnList: TslColumnList
-}
-
-fragment TslSchemaFragment:
-    'schema'
-    name=ID
-    columnList=TslColumnList
-;
-
-interface TslColumnList extends TslObject {
-    columns: TslColumn[]
-}
-
-TslColumnList returns TslColumnList:
-    {TslColumnList} '{' (columns+=TslColumn  (',' columns+=TslColumn)* ','? )? '}'
-;
-
-interface TslColumn extends TslObject {
-    columnName: TslString
-    columnType: TslType
-}
-
-TslColumn returns TslColumn:
-    columnName=TslString ":" columnType=TslType
+TslAnyType returns TslAnyType:
+    {TslAnyType} 'Any'
 ;
 
 
@@ -1244,13 +853,13 @@ TslColumn returns TslColumn:
 // -----------------------------------------------------------------------------
 
 terminal ID returns string: IDENTIFIER | '`' IDENTIFIER '`';
-terminal fragment IDENTIFIER: /[_a-zA-Z][_a-zA-Z0-9]*/;
+terminal fragment IDENTIFIER: /[_a-zA-Zäöüß][_a-zA-Zäöüß0-9]*/;
 
 terminal FLOAT returns number
     : DECIMAL_DIGIT+ '.' DECIMAL_DIGIT+ FLOAT_EXPONENT?
     | DECIMAL_DIGIT+ FLOAT_EXPONENT;
 terminal fragment DECIMAL_DIGIT: /[0-9]/;
-terminal DATE returns Date: /[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}/;
+terminal DATE returns string: /[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2})?/;
 terminal fragment FLOAT_EXPONENT: ('e' | 'E' )('+' | '-' )? DECIMAL_DIGIT+;
 terminal INT returns bigint: DECIMAL_DIGIT+;
 terminal STRING returns string: STRING_START STRING_TEXT* STRING_END;
@@ -1259,9 +868,10 @@ terminal fragment STRING_END: '{'? STRING_DELIMITER;
 terminal fragment STRING_DELIMITER: '"';
 terminal fragment STRING_TEXT
     : '{'? ESCAPE_SEQUENCE
-    | /{?[^\\"{]/
+    | OTHER_SEQUENCE
 ;
 terminal fragment ESCAPE_SEQUENCE: '\\' .;
+terminal fragment OTHER_SEQUENCE: /{?[^\\"{]/;
 terminal fragment TEMPLATE_EXPRESSION_START: '{{';
 terminal fragment TEMPLATE_EXPRESSION_END: '}}';
 terminal TEMPLATE_STRING_START returns string: STRING_START STRING_TEXT* TEMPLATE_EXPRESSION_START;

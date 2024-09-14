@@ -1,0 +1,7 @@
+package tests.typing.assignees.placeholders
+
+function f1(): Int {
+    # $TEST$ equivalence_class assignedValue
+    # $TEST$ equivalence_class assignedValue
+    var »r« = »1«;
+}

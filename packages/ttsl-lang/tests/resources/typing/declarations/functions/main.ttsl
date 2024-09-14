@@ -1,0 +1,13 @@
+package tests.typing.declarations.functions
+
+# $TEST$ serialization $unknown
+function »myFunction1«(){}
+
+# $TEST$ serialization Int
+function »myFunction2«(): Int {}
+
+# $TEST$ serialization $unknown
+function »myFunction3«(p1: Int, p2: String) {}
+
+# $TEST$ serialization Int
+function »myFunction4«(p1: Int, p2: String): Int {}

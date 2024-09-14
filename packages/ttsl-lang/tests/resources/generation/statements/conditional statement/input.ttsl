@@ -1,0 +1,9 @@
+package tests.generator.conditionalStatement
+
+function test () {
+    if( 1 == 0){
+        1;
+    }else{
+        2;
+    }
+}

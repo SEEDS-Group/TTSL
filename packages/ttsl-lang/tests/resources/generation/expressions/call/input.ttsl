@@ -1,0 +1,29 @@
+package tests.generator.call
+
+function f(param: Boolean?){}
+
+function g(
+    param1: Int,
+    param2: Int = 0
+): Boolean {}
+
+function h(param1: Int, param2: Int = 0
+): Boolean {}
+
+function i(param: String?) {}
+
+function test () {
+    f((g(1, 2)));
+    f((g(param2 = 1, param1 = 2)));
+    f((h(1, 2)));
+    f((h(param2 = 1, param1 = 2)));
+    f((h(param1 = 2)));
+    i("abc");
+
+    f?((g(1, 2)));
+    f?((g(param2 = 1, param1 = 2)));
+    f?((h(1, 2)));
+    f?((h(param2 = 1, param1 = 2)));
+    f?((h(param1 = 2)));
+    i?("abc");
+}

@@ -1,6 +1,6 @@
 // Services
-export type { SafeDsServices } from './safe-ds-module.js';
-export { createSafeDsServices } from './safe-ds-module.js';
+export type { TTSLServices } from './ttsl-module.js';
+export { createTTSLServices } from './ttsl-module.js';
 
 // Language Server
 export { startLanguageServer } from './main.js';

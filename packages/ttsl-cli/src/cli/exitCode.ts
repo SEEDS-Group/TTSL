@@ -18,9 +18,9 @@ export enum ExitCode {
     NotAFileOrDirectory = 101,
 
     /**
-     * The given file does not have a Safe-DS extension.
+     * The given file does not have a TTSL extension.
      */
-    FileWithoutSafeDsExtension = 102,
+    FileWithoutTTSLExtension = 102,
 
     /**
      * The given file has errors.

@@ -12,7 +12,7 @@ segment mySegment2(param2: () -> ()) {
     param2();
 }
 
-pipeline myPipeline {
-    // $TEST$ ["mySegment1", "mySegment2", "$blockLambda", "$blockLambda", "f"]
+function myFunction () {
+    # $TEST$ ["mySegment1", "mySegment2", "$blockLambda", "$blockLambda", "f"]
     »mySegment1(() { f(); })«;
 }
