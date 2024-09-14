@@ -29,7 +29,7 @@ class __gen_ClassConstants():
 def myFunction():
     x = 0
     for elm in list:
-        x = x + elm
+        x = (x) + (elm)
     return x
 
 # Constants --------------------------------------------------------------------

@@ -95,14 +95,12 @@ function hasAggregation(statements: TslStatement[]| undefined, id: string): bool
         } else if(isTslAssignment(elm)){
             if(isTslAggregation(elm.expression)){
                 result = true
-            }else if(elm.assigneeList?.assignees.filter(isTslPlaceholder)){
-                elm.assigneeList.assignees.filter(isTslPlaceholder).forEach(placeholder => {
-                    if(placeholder.groupedBy?.id.target.ref?.name === id){
-                        result = true
-                    }
-                })
+            }else if(isTslPlaceholder(elm.assignee)){
+                if(elm.assignee.groupedBy?.id.target.ref?.name === id){
+                    result = true
+                }
             }
-        }  
+        }
     });
     return result
 }

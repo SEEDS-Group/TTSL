@@ -18,7 +18,7 @@ interface TslDeclaration extends TslObject {
 interface TslLocalVariable extends TslDeclaration {
     groupedBy?: TslGroupedBy
     value?: TslExpression
-    ^type?: TslType
+    type?: TslType
 }
 
 TslLocalVariable returns TslLocalVariable:
@@ -208,7 +208,7 @@ interface TslParameter extends TslLocalVariable {
 TslParameter returns TslParameter:
     isConstant?='constant'?
     name=ID
-    ':' ^type=TslType
+    ':' type=TslType
     ('=' defaultValue=TslExpression)?
 ;
 
@@ -261,29 +261,27 @@ TslStatement returns TslStatement:
 ;
 
 interface TslAssignment extends TslStatement {
-    assigneeList?: TslAssigneeList
+    assignee: TslAssignee
     expression?: TslExpression
 }
 
 TslAssignment returns TslAssignment:
-    assigneeList=TslAssigneeList '=' expression=TslExpression ';'?
-;
-
-interface TslAssigneeList extends TslObject {
-    assignees: TslAssignee[]
-}
-
-TslAssigneeList returns TslAssigneeList:
-    assignees+=TslAssignee  (',' assignees+=TslAssignee)* ','?
+    assignee=TslAssignee '=' expression=TslExpression ';'?
 ;
 
 interface TslAssignee extends TslObject {}
 
 interface TslPlaceholder extends TslAssignee, TslLocalVariable {}
 
+interface TslPlaceholderReference extends TslAssignee, TslReference{}
+
+TslPlaceholderReference returns TslPlaceholderReference:
+    target = [TslPlaceholder:ID]
+;
+
 TslAssignee returns TslAssignee:
     {TslPlaceholder} 'var' name=ID (':' ^type=TslType)?  (groupedBy=TslGroupedBy)?
-    | TslReference
+    | TslPlaceholderReference
 ;
 
 interface TslExpressionStatement extends TslStatement {
@@ -855,7 +853,7 @@ TslAnyType returns TslAnyType:
 // -----------------------------------------------------------------------------
 
 terminal ID returns string: IDENTIFIER | '`' IDENTIFIER '`';
-terminal fragment IDENTIFIER: /[_a-zA-Z][_a-zA-Z0-9]*/;
+terminal fragment IDENTIFIER: /[_a-zA-Zäöüß][_a-zA-Zäöüß0-9]*/;
 
 terminal FLOAT returns number
     : DECIMAL_DIGIT+ '.' DECIMAL_DIGIT+ FLOAT_EXPONENT?

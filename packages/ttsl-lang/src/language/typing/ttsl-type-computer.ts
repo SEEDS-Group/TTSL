@@ -38,6 +38,15 @@ import {
     isTslBoolean,
     isTslString,
     isTslAnyType,
+    isTslLocalVariable,
+    TslLocalVariable,
+    isTslForeachLoop,
+    isTslDictionaryType,
+    isTslListType,
+    isTslTypeParameterList,
+    isTslTypeParameter,
+    TslTypeParameter,
+    isTslConstant,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
 import {
@@ -114,13 +123,8 @@ export class TTSLTypeComputer {
             return UnknownType;
         }
 
-        const assigneePosition = node.$containerIndex ?? -1;
         const expressionType = this.computeType(containingAssignment?.expression);
-        if (assigneePosition === 0) {
-            return expressionType;
-        }
-
-        return UnknownType;
+        return expressionType;
     }
 
     private computeTypeOfDeclaration(node: TslDeclaration): Type {
@@ -130,7 +134,11 @@ export class TTSLTypeComputer {
             return this.computeTypeOfParameter(node);
         } else if (isTslResult(node)) {
             return this.computeType(node.type);
-        } /* c8 ignore start */ else {
+        } else if (isTslConstant(node)){
+            return this.computeType(node.type);
+        } else if (isTslLocalVariable(node) && isTslForeachLoop(node.$container)){
+            return this.computeTypeOfElm(node);
+        }/* c8 ignore start */ else {
             return UnknownType;
         } /* c8 ignore stop */
     }
@@ -322,6 +330,25 @@ export class TTSLTypeComputer {
             return new BooleanType(false);
         } else if (isTslAnyType(node)) {
             return new AnyType(false);
+        } else if (isTslListType(node)) {
+            const elementType = node.typeParameterList.typeParameters.map((it) => this.computeTypeOfType(it.type));
+            return new ListType(elementType, false);
+        } else if (isTslDictionaryType(node)) {
+            const types = node.typeParameterList.typeParameters.map((it) => this.computeTypeOfType(it.type));
+            return new DictionaryType(types, false);
+        } /* c8 ignore start */ else {
+            return UnknownType;
+        } /* c8 ignore stop */
+    }
+
+    private computeTypeOfElm(node: TslLocalVariable): Type{
+        if(isTslForeachLoop(node.$container)){
+            let listType = this.computeType(node.$container.list)
+            if(listType instanceof ListType){
+                return listType.getTypeParameterTypeByIndex(0)
+            } else{
+                return UnknownType;
+            }
         } /* c8 ignore start */ else {
             return UnknownType;
         } /* c8 ignore stop */
@@ -368,6 +395,11 @@ export class TTSLTypeComputer {
             return this.Any(isNullable);
         }
 
+        let firstType = types.at(0)
+        if (firstType && types.every(type => type.toString() === firstType.toString())){
+            return types[0]!
+        }
+
         return UnknownType
     }
 
@@ -381,13 +413,13 @@ export class TTSLTypeComputer {
             containsUnknownType: false,
             containsOtherType: false,
         };
-
+        
         for (const type of types) {
             if (type.equals(new NothingType(false)) || type.equals(new NothingType(true))) {
                 // Drop Nothing/Nothing? types. They are compatible to everything with appropriate nullability.
             } else if (type === UnknownType) {
                 result.containsUnknownType = true;
-            } else {
+            } else if(!(type instanceof AnyType)) {
                 // Since these types don't occur in legal programs, we don't need to handle them better
                 result.containsOtherType = true;
                 return result;

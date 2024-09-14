@@ -1,8 +1,0 @@
-package tests.callGraph.expressionLambdaCall.basic
-
-function myFunction () {
-    val lambda = () -> 1;
-
-    # $TEST$ ["$expressionLambda"]
-    »lambda()«;
-}

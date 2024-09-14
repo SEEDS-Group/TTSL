@@ -1,8 +1,0 @@
-package tests.callGraph.classCall.basic
-
-class MyClass()
-
-function myFunction () {
-    # $TEST$ ["MyClass"]
-    »MyClass()«;
-}

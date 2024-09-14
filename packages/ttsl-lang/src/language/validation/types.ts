@@ -39,7 +39,7 @@ export const callArgumentTypesMustMatchParameterTypes = (services: TTSLServices)
             const argumentType = typeComputer.computeType(argument);
             const parameterType = typeComputer.computeType(parameter);
 
-            if (!(argumentType.toString === parameterType.toString || parameterType instanceof AnyType)) {
+            if (!(argumentType.toString() === parameterType.toString() || parameterType instanceof AnyType)) {
                 accept('error', `Expected type '${parameterType}' but got '${argumentType}'.`, {
                     node: argument,
                     property: 'value',
@@ -102,7 +102,7 @@ export const indexedAccessIndexMustHaveCorrectType = (services: TTSLServices) =>
         const receiverType = typeComputer.computeType(node.receiver);
         if (receiverType instanceof ListType) {
             const indexType = typeComputer.computeType(node.index);
-            if (indexType instanceof IntType) {
+            if (!(indexType instanceof IntType)) {
                 accept('error', `Expected type 'Int' but got '${indexType}'.`, {
                     node,
                     property: 'index',
@@ -155,8 +155,8 @@ export const infixOperationOperandsMustHaveCorrectType = (services: TTSLServices
                 }
                 if (
                     node.rightOperand &&
-                    !(leftType instanceof FloatType) &&
-                    !(leftType instanceof IntType)
+                    !(rightType instanceof FloatType) &&
+                    !(rightType instanceof IntType)
                 ) {
                     accept(
                         'error',
@@ -226,7 +226,7 @@ export const parameterDefaultValueTypeMustMatchParameterType = (services: TTSLSe
         const defaultValueType = typeComputer.computeType(defaultValue);
         const parameterType = typeComputer.computeType(node);
 
-        if (!(defaultValueType.toString === parameterType.toString)) {
+        if (!(defaultValueType.toString() === parameterType.toString())) {
             accept('error', `Expected type '${parameterType}' but got '${defaultValueType}'.`, {
                 node,
                 property: 'defaultValue',

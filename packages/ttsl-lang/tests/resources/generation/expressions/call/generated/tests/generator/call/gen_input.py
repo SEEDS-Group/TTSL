@@ -13,16 +13,16 @@ def __gen_null_safe_call(receiver: Any, callable: Callable[[], __gen_T]) -> __ge
 
 # Functions --------------------------------------------------------------------
 
-def f(param):
+def f(param: bool):
     pass
 
-def g(param1, param2=0):
+def g(param1: int, param2: int = 0):
     pass
 
-def h(param1, param2=0):
+def h(param1: int, param2: int = 0):
     pass
 
-def i(param):
+def i(param: str):
     pass
 
 def test():

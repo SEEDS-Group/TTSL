@@ -1,9 +1,6 @@
 import { ValidationChecks } from 'langium';
 import { TTSLAstType } from '../generated/ast.js';
 import type { TTSLServices } from '../ttsl-module.js';
-import {    
-    mapsShouldBeUsedWithCaution,
-} from './experimentalLanguageFeatures.js';
 import {
     moduleMemberMustHaveNameThatIsUniqueInPackage,
     moduleMustContainUniqueNames,
@@ -33,10 +30,6 @@ import { importPackageMustExist, importPackageShouldNotBeEmpty } from './other/i
 import {
     moduleWithDeclarationsMustStatePackage,
 } from './other/modules.js';
-import {
-    assignmentAssigneeMustGetValue,
-    assignmentShouldNotImplicitlyIgnoreResult,
-} from './other/statements/assignments.js';
 import {
     callArgumentListShouldBeNeeded,
     chainedExpressionNullSafetyShouldBeNeeded,
@@ -69,10 +62,6 @@ export const registerValidationChecks = function (services: TTSLServices) {
     const registry = services.validation.ValidationRegistry;
     const checks: ValidationChecks<TTSLAstType> = {
         TslAssignee: [
-        ],
-        TslAssignment: [
-            assignmentAssigneeMustGetValue(services),
-            assignmentShouldNotImplicitlyIgnoreResult(),
         ],
         TslAbstractCall: [
             argumentListMustNotHaveTooManyArguments(services),
@@ -121,7 +110,7 @@ export const registerValidationChecks = function (services: TTSLServices) {
             infixOperationOperandsMustHaveCorrectType(services),
         ],
         TslList: [listMustNotContainNamedTuples(services)],
-        TslDictionary: [mapMustNotContainNamedTuples(services), mapsShouldBeUsedWithCaution(services)],
+        TslDictionary: [mapMustNotContainNamedTuples(services)],
         TslModule: [
             moduleMemberMustHaveNameThatIsUniqueInPackage(services),
             moduleMustContainUniqueNames,

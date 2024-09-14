@@ -1,8 +1,0 @@
-package tests.partialValidation.recursiveCases.calls.ofFunctions
-
-@Pure fun f()
-
-function test () {
-    # $TEST$ serialization ?
-    »f()«;
-}

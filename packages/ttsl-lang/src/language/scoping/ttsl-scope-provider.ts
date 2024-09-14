@@ -16,7 +16,10 @@ import {
     isTslBlock,
     isTslCallable,
     isTslDeclaration,
+    isTslForeachLoop,
+    isTslForLoop,
     isTslImportedDeclaration,
+    isTslLocalVariable,
     isTslModule,
     isTslParameter,
     isTslPlaceholder,
@@ -28,6 +31,7 @@ import {
     type TslCallable,
     TslDeclaration,
     TslImportedDeclaration,
+    TslLocalVariable,
     type TslParameter,
     TslPlaceholder,
     TslReference,
@@ -117,6 +121,7 @@ export class TTSLScopeProvider extends DefaultScopeProvider {
         // Declarations in containing blocks
         currentScope = this.localDeclarations(node, currentScope);
 
+
         // Core declarations
         return this.coreDeclarations(TslDeclaration, currentScope);
     }
@@ -169,18 +174,34 @@ export class TTSLScopeProvider extends DefaultScopeProvider {
         // Placeholders up to the containing statement
         const containingStatement = AstUtils.getContainerOfType(node.$container, isTslStatement);
 
-        let placeholders: Iterable<TslPlaceholder>;
+        let placeholders: TslLocalVariable[] = [];
+        if(isTslForLoop(containingStatement) && isTslAssignment(containingStatement.definitionStatement) && isTslPlaceholder(containingStatement.definitionStatement.assignee)){
+            placeholders.push(containingStatement.definitionStatement.assignee)
+        } else if (isTslForeachLoop(containingStatement)){
+            placeholders.push(containingStatement.element)
+        }
+        
         if (!containingCallable || isContainedInOrEqual(containingStatement, containingCallable)) {
-            placeholders = this.placeholdersUpToStatement(containingStatement);
-        } else {
-            // Placeholders are further away than the parameters
-            placeholders = [];
+            placeholders.push(...this.placeholdersUpToStatement(containingStatement));
         }
 
         // Local declarations
-        const localDeclarations = [...parameters, ...placeholders];
-
-        return this.createScopeForNodes(localDeclarations, outerScope);
+        const result = [...parameters, ...placeholders];
+        
+        const containingLoop = AstUtils.getContainerOfType(node.$container, isTslAssignment);
+        const containingBlock = AstUtils.getContainerOfType(node.$container, isTslBlock);
+        
+        if(containingBlock) {
+            const outerLocalDeclarations = this.localDeclarations(containingBlock, outerScope)
+            if(!containingLoop){
+                return this.createScopeForNodes(result, outerLocalDeclarations);
+            }
+        } if(containingLoop){
+            const loopDeclarations = this.localDeclarations(containingLoop, outerScope)
+            return this.createScopeForNodes(result, loopDeclarations);
+        } else{
+            return this.createScopeForNodes(result, outerScope);
+        } 
     }
 
     private *parametersUpToParameter(

@@ -1,8 +1,0 @@
-package tests.callGraph.annotationCall
-
-annotation MyAnnotation
-
-function myFunction () {
-    # $TEST$ ["undefined"]
-    »MyAnnotation()«;
-}
