@@ -24,345 +24,195 @@ package sozialversicherungsbeitrag
  *
  * access_different_date: jahresanfang
  */
-public constant beitragssatz: Dict<String, String or Dict<String, Float>> {
-    from 1984-01-01 = {
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.134
-        },
-        "gesetzlichePflegeversicherung": 0.0085,
-        "arbeitslosenversicherung": 0.0325,
-        "gesetzlicheRentenversicherung": 0.0975,
-    };
 
-    from 1985-01-01 = {
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.118,
-        },
-        "arbeitslosenversicherung": 0.022,
-        "gesetzlicheRentenversicherung": 0.0935,
-    };
 
-    from 1986-01-01 = {
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.122,
-        },
-        "arbeitslosenversicherung": 0.0205,
-        "gesetzlicheRentenversicherung": 0.096,
-    };
+/**
+ * Beitragssatz der gesetzlichen Krankenversicherung
+ */
+public constant gesetzlicheKrankenversicherung {
+    Float {
+        from 1984-01-01 = 0.134;
+        from 1985-01-01 = 0.118;
+        from 1986-01-01 = 0.122;
+        from 1987-01-01 = 0.1248;
 
-    from 1987-01-01 = {
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.1248,
-        };
-        "arbeitslosenversicherung": 0.0215,
-        "gesetzlicheRentenversicherung": 0.0935,
-    };
-
-    from 1988-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.1288,
-        },
-    };
-
-    from 1989-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.129,
-        }
-    };
-
-    from 1990-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.125,
-        },
-    };
-
-    from 1991-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": .128,
-        }
-    };
-
-    from 1992-01-01 = {
-        # deviation_from: previous
-        "arbeitslosenversicherung": 0.0315,
-        "gesetzlicheRentenversicherung": 0.0885
-    };
-
-    from 1993-01-01 = {
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.134,
-        },
-        "arbeitslosenversicherung": 0.0325,
-        "gesetzlicheRentenversicherung": 0.0875,
-    };
-
-    from 1994-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheRentenversicherung": 0.096
-    };
-
-    from 1995-01-01 = {
-        "arbeitslosenversicherung": 0.0325,
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.132,
-        },
-        "gesetzlichePflegeversicherung": 0.005,
-        "gesetzlicheRentenversicherung": 0.093,
-    };
-
-    from 1996-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheRentenversicherung": 0.096,
-    };
-
-    from 1997-01-01 = {
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.134,
-        },
-        "gesetzlichePflegeversicherung": 0.0085,
-        "arbeitslosenversicherung": 0.0325,
-        "gesetzlicheRentenversicherung": 0.1015,
-    };
-
-    from 1998-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.136
-        }
-    };
-
-    from 2000-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.1357,
-        },
-        "gesetzlicheRentenversicherung": 0.0965,
-    };
-
-    from 2001-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.1358,
-        },
-        "gesetzlicheRentenversicherung": 0.0955,
-    };
-
-    from 2002-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.14,
-        },
-    };
-
-    from 2003-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.144,
-        },
-        "gesetzlicheRentenversicherung": 0.0975,
-    };
-
-    from 2004-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.142
-        },
-    };
-
-    from 2005-01-01 = {
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.142,
-        },
-        "gesetzlichePflegeversicherung": = {
-            standard: 0.0085,
-            zusatz_kinderlos: 0.0025,
-        },
-        "arbeitslosenversicherung": 0.0325,
-        "gesetzlicheRentenversicherung": 0.0975,
-    };
+        from 1988-01-01 = 0.1288;
+        from 1989-01-01 = 0.129;
+        from 1990-01-01 = 0.125;
+        from 1991-01-01 = .128;
+        from 1993-01-01 = 0.134;
+        from 1995-01-01 = 0.132;
+        from 1996-01-01 = 0.134;
+        from 1998-01-01 = 0.136;
+        from 2000-01-01 = 0.1357;
+        from 2001-01-01 = 0.1358;
+        from 2002-01-01 = 0.14;
+        from 2003-01-01 = 0.144;
+        from 2004-01-01 = 0.142;
+        from 2005-01-01 = 0.142;
+    }
 
     # Allgemeiner Beitragssatz wird nicht mehr gleichmäßig aufgeteilt, Einführung des Sonderbeitrags
     # Reference: Art. 1 G. v. 15.12.2004, BGBl I S. 3445.
-    from 2005-07-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.133,
-            "sonderbeitrag": 0.009,
-        }
+    from 2005-07-01: Dict<String, Float> = {
+        "mean_allgemein": 0.133,
+        "sonderbeitrag": 0.009,
     };
 
-    from 2007-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
-            "mean_allgemein": 0.139,
-        },
-        "arbeitslosenversicherung": 0.021,
-        "gesetzlicheRentenversicherung": 0.0995,
-    };
+    from 2007-01-01: Float = 0.139;
 
-    from 2008-01-01 = {
-        "gesetzlicheKrankenversicherung": {
+    Dict<String, Float> {
+        from 2008-01-01 = {
             "mean_allgemein": 0.14,
             "sonderbeitrag": 0.009,
-        },
-        "gesetzlichePflegeversicherung": {
-            "standard": 0.00975,
-            "zusatzKinderlos": 0.0025,
-        },
-        "arbeitslosenversicherung": 0.016,
-        "gesetzlicheRentenversicherung": 0.0995,
-    };
-
-    from 2009-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
+        };
+        from 2009-01-01 = {
             "allgemein": 0.146,
             "sonderbeitrag": 0.009,
             "ermäßigt": 0.140,
-        },
-        "arbeitslosenversicherung": 0.014,
-    };
-
-    from 2009-07-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
+        };
+        from 2009-07-01 = {
             "allgemein": 0.14,
             "ermäßigt": 0.134,
             "sonderbeitrag": 0.009,
-        }
-    };
-
-    # Reference: Art. 1 G. v. 22.12.2010 BGBl. I S. 2309
-    from 2011-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
+        };
+        from 2011-01-01 = {
             "allgemein": 0.146,
             "ermäßigt": 0.14,
-        },
-        "arbeitslosenversicherung": 0.015,
-    };
-
-    # Quelle: http:#www.bmas.de/DE/Service/Presse/Pressemitteilungen/rentenbericht-16-11-2011.html
-    from 2012-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheRentenversicherung": 0.098
-    };
-
-    from 2013-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheRentenversicherung": 0.0945,
-        "gesetzlichePflegeversicherung": {
-            standard: 0.01025,
-        },
-    };
-
-    # Abschaffung Sonderbeitrag, Einführung kassenabhängiger Zusatzbeitrag
-    from 2015-01-01 = {
-        "gesetzlicheKrankenversicherung": {
+        };
+        from 2015-01-01 = {
             "allgemein": 0.146,
             "ermäßigt": 0.14,
             "meanZusatzbeitrag": 0.009,
-        },
-        "gesetzlichePflegeversicherung": {
-            "standard": 0.01175,
-            "zusatzKinderlos": 0.0025,
-        },
-        "arbeitslosenversicherung": 0.015,
-        "gesetzlicheRentenversicherung": 0.0935,
-    };
-
-    # Bekanntmachung Bundesanzeiger 30.12.2015
-    from 2016-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
+        };
+        # Bekanntmachung Bundesanzeiger 30.12.2015
+        from 2016-01-01 = {
             "meanZusatzbeitrag": 0.011
-        },
-    };
-
-    from 2017-01-01 = {
-        # deviation_from: previous
-        "gesetzlichePflegeversicherung": {
-            "standard": 0.01275,
-        },
-    };
-
-    from 2018-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
+        };
+        from 2018-01-01 = {
             "meanZusatzbeitrag": 0.01,
-        },
-        "gesetzlicheRentenversicherung": 0.093,
+        };
+        from 2019-01-01 = {
+            "allgemein": 0.146,
+            "ermäßigt": 0.14,
+            "meanZusatzbeitrag": 0.009,
+        };
+
+        # Temporarily reduced to 0.024 in BeiSaV 2019.
+        # Reference: ("ges_krankenv" mean_zusatzbeitrag:) BAnz AT 28.10.2019 B3
+        from 2020-01-01 = {
+            "meanZusatzbeitrag": 0.011
+        };
+
+        # Reference: ("ges_krankenv" mean_zusatzbeitrag:) BAnz AT 30.10.2020 B5
+        from 2021-01-01 = {
+            "meanZusatzbeitrag": 0.013,
+        };
+
+        # Contribution "rate" for arbeitsl_v was temporarily reduced from 2019 to 2022 in BeiSaV 2019.
+        # Now back to level specified in § 341 Abs. 2 SGB III.
+        # Reference: (arbeitsl_v:) Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651
+        # ("ges_krankenv" mean_zusatzbeitrag:) BAnz AT 31.10.2022 B5
+        from 2023-01-01 = {
+            "meanZusatzbeitrag": 0.016,
+        };
+
+        # Reference: BAnz AT 31.10.2023 B3
+        from 2024-01-01 = {
+            "meanZusatzbeitrag": 0.017,
+        };
+    }
+}
+
+public constant gesetzlichePflegeversicherung {
+    Float {
+        from 1984-01-01 = 0.0085;
+        from 1995-01-01 = 0.005;
+        from 1997-01-01 = 0.0085;
+    }
+
+    from 2005-01-01: Dict<String, Float> = {
+        "standard": 0.0085,
+        "zusatz_kinderlos": 0.0025,
     };
+    from 2008-01-01: Dict<String, Float> = {
+        "standard": 0.00975,
+        "zusatzKinderlos": 0.0025,
+    };
+    from 2013-01-01: Float = 0.01025;
+
+    from 2015-01-01: Dict<String, Float> = {
+        "standard": 0.01175,
+        "zusatzKinderlos": 0.0025,
+    };
+    from 2017-01-01: Float = 0.01275;
+    from 2019-01-01: Dict<String, Float> = {
+        "standard": 0.01525,
+        "zusatzKinderlos": 0.0025,
+    };
+    # Reference: Art. 2 Nr. 14 G. v. 11.07.2021, BGBl. I S. 2754.
+    from 2022-01-01: Dict<String, Float> = {
+        "zusatzKinderlos": 0.0035,
+    };
+}
+
+public constant arbeitslosenversicherung: Float {
+    from 1984-01-01 = 0.0325;
+    from 1985-01-01 = 0.022;
+    from 1986-01-01 = 0.0205;
+    from 1987-01-01 = 0.0215;
+    from 1992-01-01 = 0.0315;
+    from 1993-01-01 = 0.0325;
+    from 1997-01-01 = 0.0325;
+    from 2005-01-01 = 0.0325;
+    from 2007-01-01 = 0.021;
+    from 2008-01-01 = 0.016;
+    from 2009-01-01 = 0.014;
+
+    # Reference: Art. 1 G. v. 22.12.2010 BGBl. I S. 2309
+    from 2011-01-01 = 0.015;
+    from 2015-01-01 = 0.015;
 
     # Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387
     # (arbeitsl_v:) Set to 0.026 in Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651.
     # Temporarily reduced to 0.025 in BeiSaV 2019.
     # Reference: (arbeitsl_v:) V. v. 21.12.2018 BGBl. I S. 2663
-    from 2019-01-01 = {
-        "gesetzlicheKrankenversicherung": {
-            "allgemein": 0.146,
-            "ermäßigt": 0.14,
-            "meanZusatzbeitrag": 0.009,
-        },
-        "gesetzlichePflegeversicherung": {
-            "standard": 0.01525,
-            "zusatzKinderlos": 0.0025,
-        },
-        "arbeitslosenversicherung": 0.0125,
-        "gesetzlicheRentenversicherung": 0.093,
-    };
+    from 2019-01-01 = 0.0125;
 
     # Temporarily reduced to 0.024 in BeiSaV 2019.
-    # Reference: ("ges_krankenv" mean_zusatzbeitrag:) BAnz AT 28.10.2019 B3
     # (arbeitsl_v:) V. v. 02.12.2019 BGBl. I S. 1998
-    from 2020-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
-            "meanZusatzbeitrag": 0.011
-        },
-        "arbeitslosenversicherung": 0.012,
-    };
-
-    # Reference: ("ges_krankenv" mean_zusatzbeitrag:) BAnz AT 30.10.2020 B5
-    from 2021-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
-            "meanZusatzbeitrag": 0.013,
-        },
-    };
-
-    # Reference: Art. 2 Nr. 14 G. v. 11.07.2021, BGBl. I S. 2754.
-    from 2022-01-01 = {
-        # deviation_from: previous
-        "gesetzlichePflegeversicherung": {
-            "zusatzKinderlos": 0.0035,
-        },
-    };
-
-    # Contribution "rate" for arbeitsl_v was temporarily reduced from 2019 to 2022 in BeiSaV 2019.
-    # Now back to level specified in § 341 Abs. 2 SGB III.
-    # Reference: (arbeitsl_v:) Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651
-    # ("ges_krankenv" mean_zusatzbeitrag:) BAnz AT 31.10.2022 B5
-    from 2023-01-01 = {
-        # deviation_from: previous
-        "arbeitslosenversicherung": 0.013,
-        "gesetzlicheKrankenversicherung": {
-            "meanZusatzbeitrag": 0.016,
-        },
-    };
-
-    # Reference: BAnz AT 31.10.2023 B3
-    from 2024-01-01 = {
-        # deviation_from: previous
-        "gesetzlicheKrankenversicherung": {
-            "meanZusatzbeitrag": 0.017,
-        },
-    };
+    from 2020-01-01 = 0.012;
+    from 2023-01-01 = 0.013;
 }
+
+public constant gesetzlicheRentenversicherung: Float{
+
+    from 1984-01-01 = 0.0975;
+    from 1985-01-01 = 0.0935;
+    from 1986-01-01 = 0.096;
+    from 1987-01-01 = 0.0935;
+    from 1992-01-01 = 0.0885;
+    from 1993-01-01 = 0.0875;
+    from 1994-01-01 = 0.096;
+    from 1995-01-01 = 0.093;
+    from 1996-01-01 = 0.096;
+    from 1997-01-01 = 0.1015;
+    from 2000-01-01 = 0.0965;
+    from 2001-01-01 = 0.0955;
+    from 2003-01-01 = 0.0975;
+    from 2005-01-01 = 0.0975;
+    from 2007-01-01 = 0.0995;
+    from 2008-01-01 = 0.0995;
+
+    # Quelle: http:#www.bmas.de/DE/Service/Presse/Pressemitteilungen/rentenbericht-16-11-2011.html
+    from 2012-01-01 = 0.098;
+    from 2013-01-01 = 0.0945;
+    # Abschaffung Sonderbeitrag, Einführung kassenabhängiger Zusatzbeitrag
+    from 2015-01-01 = 0.0935;
+    from 2018-01-01 = 0.093;
+    from 2019-01-01 = 0.093;
+}
+
 
 /**
  * Beitragssätze zu den gesetzlichen Sozialversicherungen
@@ -934,86 +784,86 @@ public constant monatlicheBezugsgroeße: Dict<String, Float> {
         "ost": 2135
     };
 
-    from 2010-01-01 = = {
+    from 2010-01-01 = {
         "west": 2555,
         "ost": 2170
     };
 
-    from 2011-01-01 = = {
+    from 2011-01-01 = {
         # deviation_from: previous
         "ost": 2240
     };
 
-    from 2012-01-01 = = {
+    from 2012-01-01 = {
         # deviation_from: previous
         "west": 2625
     };
 
-    from 2013-01-01 = = {
+    from 2013-01-01 = {
         "west": 2695,
         "ost": 2275
     };
 
     # http:#www.bundesregierung.de/ContentArchiv/DE/Archiv17/Artikel/2013/10/2013-10-16-rechengroessen-sozialversicherung.html
-    from 2014-01-01 = = {
+    from 2014-01-01 = {
         "west": 2765,
         "ost": 2345
     };
 
-    from 2015-01-01 = = {
+    from 2015-01-01 = {
         "west": 2835,
         "ost": 2415
     };
 
     # https:#www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
-    from 2016-01-01 = = {
+    from 2016-01-01 = {
         "west": 2905,
         "ost": 2520
     };
 
     # https:#www.bundesregierung.de/Content/DE/Artikel/2016/10/2016-10-12-bemessunggrenzen-sozialversicherung.html
-    from 2017-01-01 = = {
+    from 2017-01-01 = {
         "west": 2975,
         "ost": 2660
     };
 
-    from 2018-01-01 = = {
+    from 2018-01-01 = {
         "west": 3045,
         "ost": 2695
     };
 
     # Sozialversicherungs-Rechengrößenverordnung 2019, BGBl I S. 2024, 27.11.2018
-    from 2019-01-01 = = {
+    from 2019-01-01 = {
         "west": 3115,
         "ost": 2870
     };
 
     # Reference: §2 V. v. 17.12.2019 BGBl. I S. 2848
-    from 2020-01-01 = = {
+    from 2020-01-01 = {
         "west": 3185,
         "ost": 3010
     };
 
     # Reference: §2 V. v. 30.11.2020, BGBl. I S. 2612.
-    from 2021-01-01 = = {
+    from 2021-01-01 = {
         "west": 3290,
         "ost": 3115
     };
 
     # Reference: §2 V. v. 30.11.2021, BGBl. I S. 5044.
-    from 2022-01-01 = = {
+    from 2022-01-01 = {
         "west": 3290,
         "ost": 3150
     };
 
     # Reference: V. v. 28.11.2022 BGBl. I. S. 2128.
-    from 2023-01-01 = = {
+    from 2023-01-01 = {
         "west": 3395,
         "ost": 3290
     };
 
     # Reference: V. v. 29.11.2023 BGBl. 2023 I Nr. 322.
-    from 2024-01-01 = = {
+    from 2024-01-01 = {
         "west": 3535,
         "ost": 3465
     };
@@ -1033,167 +883,167 @@ public constant mindestanteilBezugsgroeßeBeitragspflichtigeEinnahmeSelbst: Floa
  * Gleitzone (Midijob Grenze) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
  * Reference: Midijob § 20 (2) SGB IV, Minijob § 8 (1) Nr. 1 SGB IV
  */
-public constant geringfuegigeEinkommensgrenzenMonatlich: Dict<String, Int or Dict<String, Int>> {
-    from 1984-01-01 = {
-        "minijob": {
-            "west": 199
-        }
-    };
+public constant geringfuegigeEinkommensgrenzenMonatlich {
+    Dict<String, Dict<String, Int>> {
+        from 1984-01-01 = {
+            "minijob": {
+                "west": 199
+            }
+        };
 
-    from 1985-01-01 = {
-        # deviation_from: previous
-        "minijob": {
-            "west": 205
-        }
-    };
+        from 1985-01-01 = {
+            # deviation_from: previous
+            "minijob": {
+                "west": 205
+            }
+        };
 
-    from 1986-01-01 = {
-        # deviation_from: previous
-        "minijob": {
-            "west": 210
-        }
-    };
+        from 1986-01-01 = {
+            # deviation_from: previous
+            "minijob": {
+                "west": 210
+            }
+        };
 
-    from 1987-01-01 = {
-        # deviation_from: previous
-        "minijob": {
-            "west": 220
-        }
-    };
+        from 1987-01-01 = {
+            # deviation_from: previous
+            "minijob": {
+                "west": 220
+            }
+        };
 
-    from 1988-01-01 = {
-        # deviation_from: previous
-        "minijob": {
-            "west": 225
-        }
-    };
+        from 1988-01-01 = {
+            # deviation_from: previous
+            "minijob": {
+                "west": 225
+            }
+        };
 
-    from 1989-01-01 = {
-        # deviation_from: previous
-        "minijob": {
-            "west": 230
-        }
-    };
+        from 1989-01-01 = {
+            # deviation_from: previous
+            "minijob": {
+                "west": 230
+            }
+        };
 
-    from 1990-01-01 = {
-        "minijob": {
-            "west": 240,
-            "ost": 102
-        }
-    };
+        from 1990-01-01 = {
+            "minijob": {
+                "west": 240,
+                "ost": 102
+            }
+        };
 
-    from 1991-01-01 = {
-        # deviation_from: previous
-        "minijob": {
-            "west": 245,
-            "ost": 120
-        }
-    };
+        from 1991-01-01 = {
+            # deviation_from: previous
+            "minijob": {
+                "west": 245,
+                "ost": 120
+            }
+        };
 
-    from 1992-01-01 = {
-        # deviation_from: previous
-        "minijob": {
-            "west": 256,
-            "ost": 153
-        }
-    };
+        from 1992-01-01 = {
+            # deviation_from: previous
+            "minijob": {
+                "west": 256,
+                "ost": 153
+            }
+        };
 
-    from 1993-01-01 = {
-        # deviation_from: previous
-        "minijob": {
-            "west": 271,
-            "ost": 199
-        }
-    };
+        from 1993-01-01 = {
+            # deviation_from: previous
+            "minijob": {
+                "west": 271,
+                "ost": 199
+            }
+        };
 
-    from 1994-01-01 = {
-        # deviation_from: previous
-        "minijob": {
-            "west": 286,
-            "ost": 225
-        }
-    };
+        from 1994-01-01 = {
+            # deviation_from: previous
+            "minijob": {
+                "west": 286,
+                "ost": 225
+            }
+        };
 
-    from 1995-01-01 = {
-        # deviation_from: previous
-        "minijob": {
-            "west": 297,
-            "ost": 240
-        }
-    };
+        from 1995-01-01 = {
+            # deviation_from: previous
+            "minijob": {
+                "west": 297,
+                "ost": 240
+            }
+        };
 
-    from 1996-01-01 = {
-        # deviation_from: previous
-        "minijob": {
-            "west": 302,
-            "ost": 256
-        }
-    };
+        from 1996-01-01 = {
+            # deviation_from: previous
+            "minijob": {
+                "west": 302,
+                "ost": 256
+            }
+        };
 
-    from 1997-01-01 = {
-        # deviation_from: previous
-        "minijob": {
-            "west": 312,
-            "ost": 266
-        }
-    };
+        from 1997-01-01 = {
+            # deviation_from: previous
+            "minijob": {
+                "west": 312,
+                "ost": 266
+            }
+        };
 
-    from 1998-01-01 = {
-        # deviation_from: previous
-        "minijob": {
-            "west": 317
-        }
-    };
+        from 1998-01-01 = {
+            # deviation_from: previous
+            "minijob": {
+                "west": 317
+            }
+        };
 
-    from 1999-01-01 = {
-        # deviation_from: previous
-        "minijob": {
-            "west": 322,
-            "ost": 271
-        }
-    };
+        from 1999-01-01 = {
+            # deviation_from: previous
+            "minijob": {
+                "west": 322,
+                "ost": 271
+            }
+        };
+    }
 
-    from 2000-01-01 = {
-        # deviation_from: previous
-        "minijob": 322
-    };
+    Dict<String, Int> {
+        from 2000-01-01 = {
+            "minijob": 322
+        };
 
-    from 2002-01-01 = {
-        # deviation_from: previous
-        "minijob": 325
-    };
+        from 2002-01-01 = {
+            "minijob": 325
+        };
 
-    from 2003-04-01 = {
-        # deviation_from: previous
-        "minijob": 400,
-        "midijob": 800
-    };
+        from 2003-04-01 = {
+            "minijob": 400,
+            "midijob": 800
+        };
 
-    from 2013-01-01 = {
-        # deviation_from: previous
-        "minijob": 450,
-        "midijob": 850
-    };
+        from 2013-01-01 = {
+            "minijob": 450,
+            "midijob": 850
+        };
 
-    # Reference: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
-    from 2019-01-01 = {
-        # deviation_from: previous
-        "midijob": 1300
-    };
+        # Reference: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
+        from 2019-01-01 = {
+            # deviation_from: previous
+            "midijob": 1300
+        };
 
-    # Reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
-    # "minijob" thresholds now calculated based on statutory minimum wage
-    from 2022-10-01 = {
-        # deviation_from: previous
-        "minijob": null,
-        "midijob": 1600
-    };
+        # Reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
+        # "minijob" thresholds now calculated based on statutory minimum wage
+        from 2022-10-01 = {
+            # deviation_from: previous
+            "minijob": null,
+            "midijob": 1600
+        };
 
-    # Reference: Art. 3 G. v. 11.11.2022 BGBl. I S. 1985
-    from 2023-01-01 = {
-        # deviation_from: previous
-        "midijob": 2000
-    };
+        # Reference: Art. 3 G. v. 11.11.2022 BGBl. I S. 1985
+        from 2023-01-01 = {
+            # deviation_from: previous
+            "midijob": 2000
+        };
+    }
 }
 
 /**

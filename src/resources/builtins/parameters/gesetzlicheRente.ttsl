@@ -33,7 +33,7 @@ public constant altersVorsorgeAnteil: Float {
  * Beschäftigten, der geringfügig Beschäftigten und der Bezieher von ALG.
  * statistik-rente.de/drv
  */
-public constant beitragsvolumen: Dict<Date, Int> {
+public constant beitragsvolumen: Int {
     from 1991-01-01 = 108688000;
     from 1992-01-01 = 117359000;
     from 1993-01-01 = 120559000;
@@ -1185,7 +1185,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfreiVertrauensschutz: Dict<
     covered under Vertrauensschutz.
     Reference: § 237 SGB VI Abs. 4
     */
-    from 1996-07-29 {
+    from 1996-07-29 = {
         1941: {
             1: 60.083333,
             2: 60.083333,
@@ -1291,47 +1291,47 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfreiVertrauensschutz: Dict<
     };
 }
 
-public const altersgrenzeArbeitslosigkeitAbschlagsfreiVertrauensschutzMaxBirthyearOldRegime: Int {
+public constant altersgrenzeArbeitslosigkeitAbschlagsfreiVertrauensschutzMaxBirthyearOldRegime: Int {
     from 1996-07-29 = 1940;
 }
 
-public const altersgrenzeArbeitslosigkeitAbschlagsfreiVertrauensschutzEntryAgeOldRegime: Float{
+public constant altersgrenzeArbeitslosigkeitAbschlagsfreiVertrauensschutzEntryAgeOldRegime: Float{
     from 1996-07-29 = 60.0;
 }
 
-public const altersgrenzeArbeitslosigkeitAbschlagsfreiMaxBirthyearOldRegime: Int {
+public constant altersgrenzeArbeitslosigkeitAbschlagsfreiMaxBirthyearOldRegime: Int {
     from 1996-09-27 = 1936;
 }
 
-public const altersgrenzeArbeitslosigkeitAbschlagsfreiMinBirthyearNewRegime: Int {
+public constant altersgrenzeArbeitslosigkeitAbschlagsfreiMinBirthyearNewRegime: Int {
     from 1996-09-27 = 1942;
 }
 
-public const altersgrenzeArbeitslosigkeitAbschlagsfreiEntryAgeOldRegime: Float {
+public constant altersgrenzeArbeitslosigkeitAbschlagsfreiEntryAgeOldRegime: Float {
     from 1996-09-27 = 60.0;
 }
 
-public const altersgrenzeArbeitslosigkeitAbschlagsfreiEntryAgeNewRegime: Float {
+public constant altersgrenzeArbeitslosigkeitAbschlagsfreiEntryAgeNewRegime: Float {
     from 1996-09-27 = 65.0;
 }
 
 
-public const altersgrenzeArbeitslosigkeitVorzeitigMaxBirthYearOldRegime: Int {
+public constant altersgrenzeArbeitslosigkeitVorzeitigMaxBirthYearOldRegime: Int {
     from 1992-01-01 = 1948;
     from 2004-07-26 = 1945;
 }
 
-public const altersgrenzeArbeitslosigkeitVorzeitigMinBirthYearNewRegime: Int {
+public constant altersgrenzeArbeitslosigkeitVorzeitigMinBirthYearNewRegime: Int {
     from 1992-01-01 = 1953;
     from 2004-07-26 = 1949;
 }
 
-public const altersgrenzeArbeitslosigkeitVorzeitigEntryAgeOldRegime: Float {
+public constant altersgrenzeArbeitslosigkeitVorzeitigEntryAgeOldRegime: Float {
     from 1992-01-01 = 60.0;
-    from 2004-07-26 = 60.0
+    from 2004-07-26 = 60.0;
 }
 
-public const altersgrenzeArbeitslosigkeitVorzeitigEntryAgeNewRegime: Float {
+public constant altersgrenzeArbeitslosigkeitVorzeitigEntryAgeNewRegime: Float {
     from 1992-01-01 = 62.0;
     from 2004-07-26 = 63.0;
 }
@@ -1350,7 +1350,7 @@ public constant altersgrenzeArbeitslosigkeitVorzeitigFirstBirthyearWithoutRenteF
  * bezogen werden kann (mit Abschlägen), einschließlich Vertrauensschutz.
  * Reference: § 237 SGB VI
  */
-public constant altersgrenzeArbeitslosigkeitVorzeitig: Float or Dict<Int, Dict<Int, Float>>{
+public constant altersgrenzeArbeitslosigkeitVorzeitig {
     from 1980-01-01: Float = 60.0;
 
     Dict<Int, Dict<Int, Float>> {
