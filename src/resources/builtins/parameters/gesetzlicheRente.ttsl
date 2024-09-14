@@ -564,7 +564,7 @@ public constant grundrenteFaktorBonus: Float {
  * jedes Jahr, das länger/kürzer gearbeitet wird
  * Reference: §77 Abs. 2 Nr. 2 SGB VI
  */
-public constant zugangsfaktorVeraenderungProJahr: Dict<String, Float> {
+public constant zugangsfaktorVeränderungProJahr: Dict<String, Float> {
     # Reference: §77 Abs. 2 Nr. 2 SGB VI
     from 2001-01-01 = {
         "vorzeitiger_renteneintritt": 0.036,

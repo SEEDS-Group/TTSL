@@ -359,7 +359,7 @@ public constant mehrbedarfAnteil: Dict<String, Float> {
  * mehr auf und ist nicht mehr relevant,
  * da alle betroffenen Personen zu alt für ALG 2 sind.
  */
-public constant vermoegensGrundfreibetragObergrenze: Dict<Int, Int> {
+public constant vermögensGrundfreibetragObergrenze: Dict<Int, Int> {
     # Reference: Artikel 1 G. v. 23.12.2002 BGBl. I S. 4607.
     from 2005-01-01 = {
         1947: 33800,
@@ -400,10 +400,10 @@ public constant vermoegensGrundfreibetragObergrenze: Dict<Int, Int> {
  * von einem Jahr. Während der Karenzzeit ist ein Vermögen von 40.000 Euro für die
  * erste Person einer Bedarfsgemeinschaft und 15.000 Euro für jede weitere erlaubt.
  */
-public constant schonvermoegenBuergergeld: Dict<String, Int> {
+public constant schonvermögenBürgergeld: Dict<String, Int> {
     # Reference: G. v. 20.12.2022 BGBl. I S. 2328. (Bürgergeld-Gesetz)
     from 2023-01-01 = {
-        "waehrend_karenzzeit": 40000,
+        "während_karenzzeit": 40000,
         "normaler_satz": 15000
     };
  }
@@ -412,7 +412,7 @@ public constant schonvermoegenBuergergeld: Dict<String, Int> {
  * Vermögensfreibetrag für Erstausstattung
  * § 12 (2) Satz 1 Nr. 4 SGB II.
  */
-public constant vermoegensfreibetragAusstattung: Int {
+public constant vermögensfreibetragAusstattung: Int {
     # Reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
     from 2005-01-01 = 750;
 
@@ -424,7 +424,7 @@ public constant vermoegensfreibetragAusstattung: Int {
  * Vermögensgrundfreibetrag je Kind
  * § 12 (2) Satz 1 Nr. 1 SGB II.
  */
-public constant vermoegensfreibetragKind: Int {
+public constant vermögensfreibetragKind: Int {
     # Reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
     from 2005-01-01 = 4100;
 
@@ -439,7 +439,7 @@ public constant vermoegensfreibetragKind: Int {
  * Altersgrenzen für Vermögensfreibetrag
  * Vermögensfreibetrag ändert sich nach Geburtsjahr
  */
-public constant vermoegensfreibetragAlter: Dict<Int, Int> {
+public constant vermögensfreibetragAlter: Dict<Int, Int> {
     from 2005-01-01 = {
         1: 1948,
         2: 1958,
@@ -460,7 +460,7 @@ public constant vermoegensfreibetragAlter: Dict<Int, Int> {
  * .2016 BGBl. I S. 1858 entfallen. Wie entfallen?
  * § 3 Alg II-V. Seit 01.01.2008 in § 6 Alg II-V.
  */
-public constant abzugfaehigePauschale: Dict<String, Float> {
+public constant abzugfähigePauschale: Dict<String, Float> {
     # Reference: V. v. 20.10.2004 BGBl. I S. 2622
     from 2005-01-01 = {
         "werbung": 15.33,
@@ -491,7 +491,7 @@ public constant maxMieteProQuadratMeter: Int {
  * Eine Mietwohnung darf für einen Single 45 Quadratmeter (+15 für jede weitere
  * Person) groß sein.
  */
-public constant berechtigteWohnflaecheMiete: Dict<String, Int> {
+public constant berechtigteWohnflächeMiete: Dict<String, Int> {
     from 1984-01-01 = {
         "single": 45,
         "je_weitere_person": 15
@@ -506,7 +506,7 @@ public constant berechtigteWohnflaecheMiete: Dict<String, Int> {
  * gestiegen und wird ab 5 Personen im Haushalt um 20 Quadratmeter pro Person
  * angehoben.
  */
-public constant berechtigteWohnflaecheEigentum {
+public constant berechtigteWohnflächeEigentum {
     from 1984-01-01: Dict<Int, Int> = {
         1: 80,
         2: 80,

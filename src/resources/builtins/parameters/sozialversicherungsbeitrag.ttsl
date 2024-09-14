@@ -664,7 +664,7 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
  * Monatliche Bezugsgröße
  * §18 SGB IV and https:#de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
  */
-public constant monatlicheBezugsgroeße: Dict<String, Float> {
+public constant monatlicheBezugsgröße: Dict<String, Float> {
     from 1984-01-01 = {
         "west": 1396
     };
@@ -875,7 +875,7 @@ public constant monatlicheBezugsgroeße: Dict<String, Float> {
  * neunzigste Teil der monatlichen Bezugsgröße (1/90*30)
  * Reference: §240 SGB V Abs. 4
  */
-public constant mindestanteilBezugsgroeßeBeitragspflichtigeEinnahmeSelbst: Float {
+public constant mindestanteilBezugsgrößeBeitragspflichtigeEinnahmeSelbst: Float {
     from 1990-01-01 = 0.33333333;
 }
 
@@ -883,7 +883,7 @@ public constant mindestanteilBezugsgroeßeBeitragspflichtigeEinnahmeSelbst: Floa
  * Gleitzone (Midijob Grenze) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
  * Reference: Midijob § 20 (2) SGB IV, Minijob § 8 (1) Nr. 1 SGB IV
  */
-public constant geringfuegigeEinkommensgrenzenMonatlich {
+public constant geringfügigeEinkommensgrenzenMonatlich {
     Dict<String, Dict<String, Int>> {
         from 1984-01-01 = {
             "minijob": {
@@ -1051,7 +1051,7 @@ public constant geringfuegigeEinkommensgrenzenMonatlich {
  * multipliziert wird.
  * Reference: §8 (1a) SGB IV
  */
-public constant geringfuegigeEinkommensfaktor: Int {
+public constant geringfügigeEinkommensfaktor: Int {
     from 2022-10-01 = 130;
 }
 
@@ -1060,7 +1060,7 @@ public constant geringfuegigeEinkommensfaktor: Int {
  * wird, um die Geringfügigkeitsgrenze zu erhalten.
  * Reference: §8 (1a) SGB IV
  */
-public constant geringfuegigeEinkommensdivisor: Int {
+public constant geringfügigeEinkommensdivisor: Int {
     # Reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
     from 2022-10-01 = 3;
 }
@@ -1071,7 +1071,7 @@ public constant geringfuegigeEinkommensdivisor: Int {
  * Rentenversicherung (§ 168 I Nr. 1b SGB VI), Pauschalierte Lohnsteuer (§40a II
  * EStG)
  */
-public constant pauschalabgabenGeringfuegigeBeschaeftigung: Dict<String, Float> {
+public constant pauschalabgabenGeringfügigeBeschäftigung: Dict<String, Float> {
     from 1984-01-01 = {
         "ges_krankenv": 0,
         "ges_rentenv": 0,

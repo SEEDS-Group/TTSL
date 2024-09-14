@@ -2241,7 +2241,7 @@ public constant maxMiete {
  * Wohngeld sein kann. Die genauen Werte regelt die Verwaltungsvorschrift vom April
  * 2009. Vorher war hohes Vermögen laut WoGG kein Ausschlussgrund.
  */
-public constant vermoegensgrundfreibetrag: Float {
+public constant vermögensgrundfreibetrag: Float {
   # No wealth threshold in place.
   from 1970-01-01 = inf;
 
@@ -2254,7 +2254,7 @@ public constant vermoegensgrundfreibetrag: Float {
  * Vermögensfreibetrag für jedes weitere Haushaltsmitglied
  * Wohngeld-Verwaltungsvorschift 21.37
  */
-public constant vermoegensfreibetragPerson: Float {
+public constant vermögensfreibetragPerson: Float {
   # No wealth threshold in place
   from 1970-01-01 = inf;
 

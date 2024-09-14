@@ -1,11 +1,11 @@
-package solidaritaetszuschlag
+package solidaritätszuschlag
 
 /**
  * Solidaritätszuschlag
  * Ab 1995, der upper threshold im Intervall 1 ist nach der Formel
  * transition_threshold in soli_st.py berechnet.
  */
-public constant solidaritaetszuschlag: Dict<Int, Dict<String, Float>> {
+public constant solidaritätszuschlag: Dict<Int, Dict<String, Float>> {
     # Reference: Artikel 1 G. v. 24.06.1991 BGBl. I S. 1318.
     from 1991-01-01 = {
         0: {
