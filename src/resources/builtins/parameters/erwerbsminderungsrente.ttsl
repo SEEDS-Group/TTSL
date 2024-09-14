@@ -1,6 +1,6 @@
-package Erwerbsminderungsrente
+package erwerbsminderungsrente
 
-// erwerbsm_rente.yaml ---------------------------------------------------
+# erwerbsm_rente.yaml ---------------------------------------------------
 
 /**
  * Regelaltersgrenze
@@ -10,26 +10,26 @@ package Erwerbsminderungsrente
  * Reference: § 77 SGB VI Zugangsfaktor
  * pro Jahr
  */
-const abschlagsfreieAltersgrenze: Dict<Date, Float> {
-	from 2001-01-01 = 63
-	from 2012-01-01 = 63.083333
-	from 2012-02-01 = 63.166666
-	from 2012-03-01 = 63.25
-	from 2012-04-01 = 63.333333
-	from 2012-05-01 = 63.416666
-	from 2012-06-01 = 63.5
-	from 2013-01-01 = 63.583333
-	from 2014-01-01 = 63.666666
-	from 2015-01-01 = 63.75
-	from 2016-01-01 = 63.833333
-	from 2017-01-01 = 63.916666
-	from 2018-01-01 = 64
-	from 2019-01-01 = 64.166666
-	from 2020-01-01 = 64.333333
-	from 2021-01-01 = 64.5
-	from 2022-01-01 = 64.666666
-	from 2023-01-01 = 64.833333
-	from 2024-01-01 = 65
+public constant abschlagsfreieAltersgrenze: Float {
+	from 2001-01-01 = 63;
+	from 2012-01-01 = 63.083333;
+	from 2012-02-01 = 63.166666;
+	from 2012-03-01 = 63.25;
+	from 2012-04-01 = 63.333333;
+	from 2012-05-01 = 63.416666;
+	from 2012-06-01 = 63.5;
+	from 2013-01-01 = 63.583333;
+	from 2014-01-01 = 63.666666;
+	from 2015-01-01 = 63.75;
+	from 2016-01-01 = 63.833333;
+	from 2017-01-01 = 63.916666;
+	from 2018-01-01 = 64;
+	from 2019-01-01 = 64.166666;
+	from 2020-01-01 = 64.333333;
+	from 2021-01-01 = 64.5;
+	from 2022-01-01 = 64.666666;
+	from 2023-01-01 = 64.833333;
+	from 2024-01-01 = 65;
 }
 
 /**
@@ -39,8 +39,8 @@ const abschlagsfreieAltersgrenze: Dict<Date, Float> {
  * Reference: § 77 Abs. 4 SGB VI Zugangsfaktor
  * pro Jahr
  */
-const regelaltersgrezeLangjaehrigeVersicherte: Dict<Date, Float> {
-	from 2001-01-01 = 63
+public constant regelaltersgrezeLangjaehrigeVersicherte: Float {
+	from 2001-01-01 = 63;
 }
 
 /**
@@ -50,9 +50,9 @@ const regelaltersgrezeLangjaehrigeVersicherte: Dict<Date, Float> {
  * Reference: § 264d SGB VI Zugangsfaktor
  * pro Jahr
  */
-const wartezeitgrenzeLangjaehrigeVersicherteAbschlagsfrei: Dict<Date, Int> {
-	from 2001-01-01 = 35
-	from 2024-01-01 = 40
+public constant wartezeitgrenzeLangjaehrigeVersicherteAbschlagsfrei: Int {
+	from 2001-01-01 = 35;
+	from 2024-01-01 = 40;
 }
 
 /**
@@ -63,57 +63,57 @@ const wartezeitgrenzeLangjaehrigeVersicherteAbschlagsfrei: Dict<Date, Int> {
  * Reference: § 59 SGB VI Zurechnungszeit
  * pro Jahr
  */
-const zurechnungszeitgrenze: Dict<Date, Float> {
-	from 2001-01-01 = 62.916666
-	from 2001-02-01 = 62.833333
-	from 2001-03-01 = 62.75
-	from 2001-04-01 = 62.666666
-	from 2001-05-01 = 62.583333
-	from 2001-06-01 = 62.5
-	from 2001-07-01 = 62.416666
-	from 2001-08-01 = 62.333333
-	from 2001-09-01 = 62.25
-	from 2001-10-01 = 62.166666
-	from 2001-11-01 = 62.083333
-	from 2001-12-01 = 62
-	from 2002-01-01 = 61.916666
-	from 2002-02-01 = 61.833333
-	from 2002-03-01 = 61.75
-	from 2002-04-01 = 61.666666
-	from 2002-05-01 = 61.583333
-	from 2002-06-01 = 61.5
-	from 2002-07-01 = 61.416666
-	from 2002-08-01 = 61.333333
-	from 2002-09-01 = 61.25
-	from 2002-10-01 = 61.166666
-	from 2002-11-01 = 61.083333
-	from 2002-12-01 = 61
-	from 2003-01-01 = 60.916666
-	from 2003-02-01 = 60.833333
-	from 2003-03-01 = 60.75
-	from 2003-04-01 = 60.666666
-	from 2003-05-01 = 60.583333
-	from 2003-06-01 = 60.5
-	from 2003-07-01 = 60.416666
-	from 2003-08-01 = 60.333333
-	from 2003-09-01 = 60.25
-	from 2003-10-01 = 60.166666
-	from 2003-11-01 = 60.083333
-	from 2003-12-01 = 60
-	from 2014-07-01 = 62
-	from 2019-01-01 = 65.666666
-	from 2020-01-01 = 65.75
-	from 2021-01-01 = 65.833333
-	from 2022-01-01 = 65.916666
-	from 2023-01-01 = 66
-	from 2024-01-01 = 66.083333
-	from 2025-01-01 = 66.166666
-	from 2026-01-01 = 66.25
-	from 2027-01-01 = 66.333333
-	from 2028-01-01 = 66.5
-	from 2029-01-01 = 66.666666
-	from 2030-01-01 = 66.833333
-	from 2031-01-01 = 67
+public constant zurechnungszeitgrenze: Float {
+	from 2001-01-01 = 62.916666;
+	from 2001-02-01 = 62.833333;
+	from 2001-03-01 = 62.75;
+	from 2001-04-01 = 62.666666;
+	from 2001-05-01 = 62.583333;
+	from 2001-06-01 = 62.5;
+	from 2001-07-01 = 62.416666;
+	from 2001-08-01 = 62.333333;
+	from 2001-09-01 = 62.25;
+	from 2001-10-01 = 62.166666;
+	from 2001-11-01 = 62.083333;
+	from 2001-12-01 = 62;
+	from 2002-01-01 = 61.916666;
+	from 2002-02-01 = 61.833333;
+	from 2002-03-01 = 61.75;
+	from 2002-04-01 = 61.666666;
+	from 2002-05-01 = 61.583333;
+	from 2002-06-01 = 61.5;
+	from 2002-07-01 = 61.416666;
+	from 2002-08-01 = 61.333333;
+	from 2002-09-01 = 61.25;
+	from 2002-10-01 = 61.166666;
+	from 2002-11-01 = 61.083333;
+	from 2002-12-01 = 61;
+	from 2003-01-01 = 60.916666;
+	from 2003-02-01 = 60.833333;
+	from 2003-03-01 = 60.75;
+	from 2003-04-01 = 60.666666;
+	from 2003-05-01 = 60.583333;
+	from 2003-06-01 = 60.5;
+	from 2003-07-01 = 60.416666;
+	from 2003-08-01 = 60.333333;
+	from 2003-09-01 = 60.25;
+	from 2003-10-01 = 60.166666;
+	from 2003-11-01 = 60.083333;
+	from 2003-12-01 = 60;
+	from 2014-07-01 = 62;
+	from 2019-01-01 = 65.666666;
+	from 2020-01-01 = 65.75;
+	from 2021-01-01 = 65.833333;
+	from 2022-01-01 = 65.916666;
+	from 2023-01-01 = 66;
+	from 2024-01-01 = 66.083333;
+	from 2025-01-01 = 66.166666;
+	from 2026-01-01 = 66.25;
+	from 2027-01-01 = 66.333333;
+	from 2028-01-01 = 66.5;
+	from 2029-01-01 = 66.666666;
+	from 2030-01-01 = 66.833333;
+	from 2031-01-01 = 67;
 }
 
 /**
@@ -122,8 +122,8 @@ const zurechnungszeitgrenze: Dict<Date, Float> {
  * sind bei 10.8% gedeckelt.
  * Reference: § 77 SGB VI Zugangsfaktor
  */
-const minZugangsfaktor: Dict<Date, Float> {
-	from 2000-01-01 = 0.892
+public constant minZugangsfaktor: Float {
+	from 2000-01-01 = 0.892;
 }
 
 /**
@@ -133,11 +133,11 @@ const minZugangsfaktor: Dict<Date, Float> {
  * das Sicherungsziel der Rentenart im Verhältnis zu einer Altersrente.
  * Reference: § 67 SGB VI Rentenartfaktor
  */
-const rentenartfaktor: Dict<String, Float> {
+public constant rentenartfaktor: Dict<String, Float> {
 	from 2001-01-01 = {
-		teilw: 0.5,
-		voll: 1.0
-	}
+		"teilw": 0.5,
+		"voll": 1.0
+	};
 }
 
 /**
@@ -147,6 +147,6 @@ const rentenartfaktor: Dict<String, Float> {
  * Lebensjahr bis zum   Beginn der Rente
  * Reference: SGB VI § 72: Grundbewertung
  */
-const altersgrenzeGrundbewertung: Dict<Date, Int> {
-	from 2001-01-01 = 16
+public constant altersgrenzeGrundbewertung: Int {
+	from 2001-01-01 = 16;
 }

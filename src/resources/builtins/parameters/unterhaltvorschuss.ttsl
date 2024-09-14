@@ -5,8 +5,8 @@ package unterhaltvorschuss
  * `altersgrenze_mindesteinkommen` Jahren zu erhalten.
  * Reference: § 1 (1a) Nr. 2 Unterhaltsvorschussgesetz
  */
-const mindesteinkommen: Int = {
-    // Reference: Art. 23 G. v. 14.08.2017 BGBl. I S. 3122.
+public constant mindesteinkommen: Int {
+    # Reference: Art. 23 G. v. 14.08.2017 BGBl. I S. 3122.
     from 2017-01-01 = 600;
 }
 
@@ -15,8 +15,8 @@ const mindesteinkommen: Int = {
  * `mindesteinkommen` bezogen werden kann.
  * Reference: § 1 (1a) Nr. 2 Unterhaltsvorschussgesetz
  */
-const altersgrenzeMindesteinkommen: Int = {
-    // Reference: Art. 23 G. v. 14.08.2017 BGBl. I S. 3122.
+public constant altersgrenzeMindesteinkommen: Int {
+    # Reference: Art. 23 G. v. 14.08.2017 BGBl. I S. 3122.
     from 2017-01-01 = 12;
 }
 
@@ -28,8 +28,8 @@ const altersgrenzeMindesteinkommen: Int = {
  * bekommen, wenn das Elternteil ein Mindesteinkommen hat.
  * Reference: § 1 Abs. 1, 1a UhVorschG
  */
-const altersgrenzen: Dict<Int, Int> = {
-    // Reference: § 1 Abs. 1, 1a UhVorschG
+public constant altersgrenzen: Dict<Int, Int> {
+    # Reference: § 1 Abs. 1, 1a UhVorschG
     from 2017-01-01 = {
         1: 6,
         2: 12,
@@ -37,4 +37,4 @@ const altersgrenzen: Dict<Int, Int> = {
     };
 }
 
-// TODO: rounding
+# TODO: rounding

@@ -1,53 +1,53 @@
 package erziehungsgeld
 
-// erziehungsgeld.yaml ---------------------------------------------------
+# erziehungsgeld.yaml ---------------------------------------------------
 
 /**
  * Einkommensgrenze für abzugsfreies Erziehungsgeld
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (p.209)
  */
-const erziehungsgeldEinkommensgrenze: Dict<String, Dict<String, Dict<String, Int>>> {
+public constant erziehungsgeldEinkommensgrenze: Dict<String, Dict<String, Dict<String, Int>>> {
 	from 2004-02-09 = {
-		limit: {
-			alleinerz: {
-				regelsatz: 23000,
-				budgetsatz: 19086
+		"limit": {
+			"alleinerz": {
+				"regelsatz": 23000,
+				"budgetsatz": 19086
 			},
-			paar: {
-				regelsatz: 30000,
-				budgetsatz: 22086
+			"paar": {
+				"regelsatz": 30000,
+				"budgetsatz": 22086
 			}
 		},
-		reduced_limit: {
-			alleinerz: {
-				regelsatz: 13500,
-				budgetsatz: 13500
+		"reduced_limit": {
+			"alleinerz": {
+				"regelsatz": 13500,
+				"budgetsatz": 13500
 			},
-			paar: {
-				regelsatz: 16500,
-				budgetsatz: 16500
+			"paar": {
+				"regelsatz": 16500,
+				"budgetsatz": 16500
 			}
 		}
-	}
+	};
 }
 
 /**
  * Erhöhung der Einkommensgrenze pro weiterem Kind
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (p.209)
  */
-const erziehungsgeldAufschlagEinkommen: Dict<String, Int> {
-	from 2004-02-09 = 3140
+public constant erziehungsgeldAufschlagEinkommen: Dict<String, Int> {
+	from 2004-02-09 = 3140;
 }
 
 /**
  * Höhe des Erziehungsgeldes abhängig vom beantragtem Satz
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 5 (p.208)
  */
-const erziehungsgeldSatz: Dict<String, Int> {
+public constant erziehungsgeldSatz: Dict<String, Int> {
 	from 2004-02-09 = {
-		regelsatz: 300,
-		budgetsatz: 450
-	}
+		"regelsatz": 300,
+		"budgetsatz": 450
+	};
 }
 
 /**
@@ -58,8 +58,8 @@ const erziehungsgeldSatz: Dict<String, Int> {
  * das Produkt entsprechend vom Erziehungsgeld Anspruch abgezogen
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
  */
-const abschlagFaktor: Float {
-	from 2004-02-09 = 0.052
+public constant abschlagFaktor: Float {
+	from 2004-02-09 = 0.052;
 }
 
 /**
@@ -67,33 +67,33 @@ const abschlagFaktor: Float {
  * relevanten Einkommen zu berechnen
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 6 (p.209)
  */
-const pauschalAbzugAufEinkommen: Float {
-	from 2004-02-09 = 0.76
+public constant pauschalAbzugAufEinkommen: Float {
+	from 2004-02-09 = 0.76;
 }
 
 /**
  * Grenze der wöchentlichen Arbeitsstunden bis zu der Erziehungsgeld ausgezahlt wird
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 15 (p.211)
  */
-const arbeitsstundenWoechentlicheGrenze: Int {
-	from 2004-02-09 = 30
+public constant arbeitsstundenWoechentlicheGrenze: Int {
+	from 2004-02-09 = 30;
 }
 
 /**
  * Alter des Kindes in Monaten bis zu dem der Regelsatz bezogen werden kann.
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
  */
-const endAlterKindRegelsatz: Int {
-	from 2004-01-01 = 24
+public constant endAlterKindRegelsatz: Int {
+	from 2004-01-01 = 24;
 }
 
 /**
  * Alter des Kindes in Monaten bis zu dem der Budgetsatz bezogen werden kann.
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
  */
-const endAlterKindBudgetsatz: Int {
-	from 2004-01-01 = 12
+public constant endAlterKindBudgetsatz: Int {
+	from 2004-01-01 = 12;
 }
 
-// TODO: rounding
+# TODO: rounding
 
