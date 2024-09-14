@@ -1,6 +1,6 @@
 package gesetzlicheRentenversicherung
 
-from sozialversicherungsBeitragsParameter import beitragssatz, pauschalabgabenGeringfuegigeBeschaeftigung
+from sozialversicherungsBeitragsParameter import beitragssatz, pauschalabgabenGeringfügigeBeschäftigung
 
 from math import min
 
@@ -10,7 +10,7 @@ from math import min
 public function beitrag(): Float per month {
     to 2003-03-31 {
         var beitrRegularJob = bruttolohn() * beitragssatz["ges_rentenv"];
-        if geringfuegigBeschaeftigt() {
+        if geringfügigBeschäftigt() {
             return 0.0;
         } else {
             return beitrRegularJob();
@@ -18,7 +18,7 @@ public function beitrag(): Float per month {
     }
     from 2003-04-01 {
         var beitrRegularJob = bruttolohn() * beitragssatz["ges_rentenv"];
-        if geringfuegigBeschaeftigt() {
+        if geringfügigBeschäftigt() {
             return 0.0;
         } else if inGleitzone() {
             return beitrMidijobArbeitnehmer();
@@ -36,16 +36,16 @@ public function beitragArbeitgeber(
 ): Float per month {
     to 2003-03-31 {
         var beitrRegularJob = bruttolohn * beitragssatz["ges_rentenv"];
-        if geringfuegigBeschaeftigt() {
-            return bruttolohn * pauschalabgabenGeringfuegigeBeschaeftigung["ges_rentenv"];
+        if geringfügigBeschäftigt() {
+            return bruttolohn * pauschalabgabenGeringfügigeBeschäftigung["ges_rentenv"];
         } else {
             return beitrRegularJob();
         }
     }
     from 2003-04-01 {
         var beitrRegularJob = bruttolohn * beitragssatz["ges_rentenv"];
-        if geringfuegigBeschaeftigt() {
-            return bruttolohn * pauschalabgabenGeringfuegigeBeschaeftigung["ges_rentenv"];
+        if geringfügigBeschäftigt() {
+            return bruttolohn * pauschalabgabenGeringfügigeBeschäftigung["ges_rentenv"];
         } else if inGleitzone {
             return beitrMidijobArbeitgeber();
         } else {

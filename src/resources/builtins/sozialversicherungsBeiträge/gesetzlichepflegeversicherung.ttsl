@@ -3,7 +3,7 @@ package gesetzlichePflegeversicherung
 from sozialversicherungsBeitragsParameter import beitragssatz, mindestalterBeitragszuschlagKinderlose
 
 /**
- * Zusaetzlicher Beitrag fuer Kinderlose ab 2005.
+ * Zusätzlicher Beitrag für Kinderlose ab 2005.
  */
 public function zusatzbeitragKinderlos(
     hatKinder: Boolean,
@@ -16,7 +16,7 @@ public function zusatzbeitragKinderlos(
 }
 
 /**
- * Beitragssatz fuer die gesetzliche Pflegeversicherung.
+ * Beitragssatz für die gesetzliche Pflegeversicherung.
  */
 public function beitragssatz(
     anzEigeneKinderBis24: Int
@@ -44,57 +44,57 @@ public function beitragssatz(
 }
 
 /**
- * Beitrag fuer die gesetzliche Pflegeversicherung bis Maerz 2003.
+ * Beitrag für die gesetzliche Pflegeversicherung bis März 2003.
  */
 public function beitrag(
-    selbststaendig: Boolean
+    selbstständig: Boolean
 ): Float per month {
     to 2003-03-31 {
-        if selbststaendig {
-            return beitragSelbststaendig() + beitragRente();
+        if selbstständig {
+            return beitragSelbstständig() + beitragRente();
         }
-        if geringfuegigBeschaeftigt {
+        if geringfügigBeschäftigt {
             return 0 + beitragRente();
         }
-        return beitragRegulaerBeschaeftigt() + beitragRente();
+        return beitragRegulärBeschäftigt() + beitragRente();
     }
     from 2003-04-01 {
-        if selbststaendig {
-            return beitragSelbststaendig() + beitragRente();
+        if selbstständig {
+            return beitragSelbstständig() + beitragRente();
         }
-        if geringfuegigBeschaeftigt {
+        if geringfügigBeschäftigt {
             return 0 + beitragRente();
         }
         if inGleitzone {
             return beitragMidijobArbeitnehmer() + beitragRente();
         }
-        return beitragRegulaerBeschaeftigt() + beitragRente();
+        return beitragRegulärBeschäftigt() + beitragRente();
     }
 }
 
 /**
- * Beitrag fuer regulaer Beschaeftigte in der gesetzlichen Pflegeversicherung.
+ * Beitrag für regulär Beschäftigte in der gesetzlichen Pflegeversicherung.
  */
-public function beitragRegulaerBeschaeftigt(): Float per month {
-    var beitrRegulaerBeschaeftigt = gesetzlicheKrankenversicherung.bruttolohn() * beitragssatz();
-    return beitrRegulaerBeschaeftigt;
+public function beitragRegulärBeschäftigt(): Float per month {
+    var beitrRegulärBeschäftigt = gesetzlicheKrankenversicherung.bruttolohn() * beitragssatz();
+    return beitrRegulärBeschäftigt;
 }
 
 /**
- * Beitrag des Arbeitgebers fuer die gesetzliche Pflegeversicherung bis Maerz 2003.
+ * Beitrag des Arbeitgebers für die gesetzliche Pflegeversicherung bis März 2003.
  */
 public function beitragArbeitgeber(
-    selbststaendig: Boolean
+    selbstständig: Boolean
 ): Float per month {
     to 2003-03-31 {
-        if selbststaendig or geringfuegigBeschaeftigt {
+        if selbstständig or geringfügigBeschäftigt {
             return 0.0;
         } else {
             return bruttolohn * beitragssatz["ges_pflegev"];
         }
     }
     from 2003-04-01 {
-        if selbststaendig or geringfuegigBeschaeftigt {
+        if selbstständig or geringfügigBeschäftigt {
             return 0.0;
         } else if inGleitzone {
             return beitragMidijobArbeitgeber;
@@ -105,19 +105,19 @@ public function beitragArbeitgeber(
 }
 
 /**
- * Beitragssatz fuer selbststaendige bis Maerz 2003.
+ * Beitragssatz für selbstständige bis März 2003.
  */
-public function beitragSelbststaendig(): Float per month {
+public function beitragSelbstständig(): Float per month {
     from 1995-01-01 to 2004-12-31 {
-        return bemessungsgrundlageSelbststaendig() * beitragssatz["ges_pflegev"] * 2;
+        return bemessungsgrundlageSelbstständig() * beitragssatz["ges_pflegev"] * 2;
     }
     from 2005-01-01 {
-        return bemessungsgrundlageSelbststaendig() * (beitragssatz() + beitragssatz["ges_pflegev"]["standard"]);
+        return bemessungsgrundlageSelbstständig() * (beitragssatz() + beitragssatz["ges_pflegev"]["standard"]);
     }
 }
 
 /**
- * Beitrag fuer Renteneinkommen in der gesetzlichen Pflegeversicherung.
+ * Beitrag für Renteneinkommen in der gesetzlichen Pflegeversicherung.
  */
 public function beitragRente(): Float per month {
     to 2004-03-31 {
@@ -134,7 +134,7 @@ public function beitragRente(): Float per month {
 }
 
 /**
- * Beitrag fuer Midijobs.
+ * Beitrag für Midijobs.
  */
 public function beitragMidijobSummeArbeitnehmerArbeitgeber(): Float per month {
     from 2003-04-01 to 2004-12-31 {
@@ -146,7 +146,7 @@ public function beitragMidijobSummeArbeitnehmerArbeitgeber(): Float per month {
 }
 
 /**
- * Arbeitgeberanteil fuer Midijobs bis Dezember 2004.
+ * Arbeitgeberanteil für Midijobs bis Dezember 2004.
  */
 public function beitragMidijobArbeitgeber(
     bruttolohn: Float
@@ -163,7 +163,7 @@ public function beitragMidijobArbeitgeber(
 }
 
 /**
- * Arbeitnehmeranteil fuer Midijobs in der gesetzlichen Pflegeversicherung.
+ * Arbeitnehmeranteil für Midijobs in der gesetzlichen Pflegeversicherung.
  */
 public function beitragMidijobArbeitnehmer(
     anzEigeneKinderBis24: Int

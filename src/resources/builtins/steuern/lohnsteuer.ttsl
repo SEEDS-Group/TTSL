@@ -1,6 +1,6 @@
 package lohnsteuer
 
-from einkommenssteuerAbzuege import alleinerzFreibetrag, werbungskostenpauschale, sonderausgabenpauschbetrag, einkommenssteuerTarif, vorsorgepauschaleMindestanteil, vorsorgepauschaleKvMax
+from einkommenssteuerAbzüge import alleinerzFreibetrag, werbungskostenpauschale, sonderausgabenpauschbetrag, einkommenssteuerTarif, vorsorgepauschaleMindestanteil, vorsorgepauschaleKvMax
 from sozialversicherungsbeitrag import beitragssatz
 from einkommenssteuer import einkommenssteuer
 from math import max
@@ -55,7 +55,7 @@ public function vorsorgeKrankenversicherungOptionB(
 ): Float per year {
     to 2018-12-31 {
         return bruttolohn * 12 * (
-            beitragssatz["gesetzlicheKrankenversicherung"]["ermaessigt"] / 2
+            beitragssatz["gesetzlicheKrankenversicherung"]["ermßigt"] / 2
             + krankenversicherungZusatzbeitragssatz() / 100
             + pflegeversicherungBeitragssatz()
         );
@@ -63,7 +63,7 @@ public function vorsorgeKrankenversicherungOptionB(
 
     from 2019-01-01 {
         return bruttolohn * 12 * (
-            beitragssatz["gesetzlicheKrankenversicherung"]["ermaessigt"] / 2
+            beitragssatz["gesetzlicheKrankenversicherung"]["ermßigt"] / 2
             + krankenversicherungZusatzbeitragssatz() / 2 / 100
             + pflegeversicherungBeitragssatz()
         );
@@ -126,16 +126,16 @@ public function vorsorgePauschale(
 /**
  * Berechnung des Kinderfreibetrags für die Lohnsteuer und den Solidaritätszuschlag.
  */
-public function kinderfreibetragFuerLohnsteuerSoli(
+public function kinderfreibetragFürLohnsteuerSoli(
     steuerklasse: Int
 ): Float per year {
-    Float kinderfreibetragBasis = kinderfreibetrag["SaechlichesExistenzminimum"]
+    Float kinderfreibetragBasis = kinderfreibetrag["SächlichesExistenzminimum"]
         + kinderfreibetragBeitrag["ErziehungAusbildung"];
 
     if steuerklasse == 1 or steuerklasse == 2 or steuerklasse == 3} {
-        return kinderfreibetragBasis * 2 * kinderfreibetragAnsprueche();
+        return kinderfreibetragBasis * 2 * kinderfreibetragAnsprüche();
     } else if steuerklasse == 4 {
-        return kinderfreibetragBasis * kinderfreibetragAnsprueche();
+        return kinderfreibetragBasis * kinderfreibetragAnsprüche();
     } else {
         return 0.0;
     }

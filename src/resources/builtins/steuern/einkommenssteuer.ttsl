@@ -45,7 +45,7 @@ public function einkommenssteuer(): Float per year {
         einkommenssteuerMitKinderfreibetrag()
     }
     from 1997-01-01 {
-        if kinderfreibetragGuenstiger() {
+        if kinderfreibetragGünstiger() {
             return einkommenssteuerMitKinderfreibetrag() + relativesKindergeld();
         } else {
             return einkommenssteuerOhneKinderfreibetrag();
@@ -56,7 +56,7 @@ public function einkommenssteuer(): Float per year {
 /**
  * Bestimmung, ob der Kinderfreibetrag günstiger ist als das Kindergeld.
  */
-public function kinderfreibetragGuenstiger(): Boolean {
+public function kinderfreibetragGünstiger(): Boolean {
     var differenzbetrag = einkommenssteuerOhneKinderfreibetrag() - einkommenssteuerMitKinderfreibetrag();
     return differenzbetrag > relativesKindergeld();
 }
@@ -66,19 +66,19 @@ public function kinderfreibetragGuenstiger(): Boolean {
  */
 public function relativesKindergeldOhneStaffelung(): Float per month {
     to 2022-12-31 {
-        var anzahlAnsprueche = anzahlAnsprueche1() + anzahlAnsprueche2();
-        if anzahlAnsprueche == 0 {
+        var anzahlAnsprüche = anzahlAnsprüche1() + anzahlAnsprüche2();
+        if anzahlAnsprüche == 0 {
             return 0.0;
         }
         var sumKindergeld = 0.0;
-        for(var i = 1; i < anzahlAnsprueche; i = i + 1) {
+        for(var i = 1; i < anzahlAnsprüche; i = i + 1) {
             var kindergeldKey = min(i, max(kindergeldParameter["kindergeld"].keys()));
             sumKindergeld += kindergeldParameter["kindergeld"][kindergeldKey];
         }
         return sumKindergeld / 2;
     }
     from 2023-01-01 {
-        var anzahlAnsprueche = anzahlAnsprueche1 + anzahlAnsprueche2;
-        return kindergeldParameter["kindergeld"] * anzahlAnsprueche / 2;
+        var anzahlAnsprüche = anzahlAnsprüche1 + anzahlAnsprüche2;
+        return kindergeldParameter["kindergeld"] * anzahlAnsprüche / 2;
     }
 }
