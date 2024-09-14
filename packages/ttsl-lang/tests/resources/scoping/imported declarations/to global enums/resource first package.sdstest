@@ -1,7 +1,7 @@
 package tests.scoping.importedDeclarations.toEnums.first
 
-// $TEST$ target firstPackage_EnumInFirstPackage
+# $TEST$ target firstPackage_EnumInFirstPackage
 enum »EnumInFirstPackage«
 
-// $TEST$ target firstPackage_EnumInBothPackages
+# $TEST$ target firstPackage_EnumInBothPackages
 enum »EnumInBothPackages«

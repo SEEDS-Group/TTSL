@@ -1,5 +1,5 @@
-// $TEST$ target without_MyClass
+# $TEST$ target without_MyClass
 class »MyClass«
 
-// $TEST$ target without_ClassWithoutPackage
+# $TEST$ target without_ClassWithoutPackage
 class »ClassWithoutPackage«

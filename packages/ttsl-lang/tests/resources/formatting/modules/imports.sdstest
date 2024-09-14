@@ -7,7 +7,7 @@ from  myPackage . mySubpackage  import  *
 
 from  myPackage . mySubpackage  import  MyClass ,  MyClass  as  Class
 
-// -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 from myPackage.mySubpackage import MyClass
 from myPackage.mySubpackage import MyClass as Class

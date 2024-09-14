@@ -1,9 +1,0 @@
-package tests.generator.parenthesizedExpression
-
-@Impure([ImpurityReason.Other]) fun f(param: Any?)
-
-@Pure fun g() -> result: Boolean
-
-pipeline test {
-    f((g()));
-}

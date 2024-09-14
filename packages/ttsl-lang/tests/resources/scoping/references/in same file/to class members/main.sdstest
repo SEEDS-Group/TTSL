@@ -12,22 +12,22 @@ class MyClass {
     fun instanceMethod()
 }
 
-pipeline myPipeline {
-    // $TEST$ unresolved
+function myFunction () {
+    # $TEST$ unresolved
     »staticAttribute«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »instanceAttribute«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »NestedClass«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »NestedEnum«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »staticMethod«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »instanceMethod«;
 }

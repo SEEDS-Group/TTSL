@@ -1,0 +1,19 @@
+package tests.typing.expressions.literals
+
+function myFunction() {
+
+    # $TEST$ serialization Boolean
+    var booleanLiteral = »true«;
+
+    # $TEST$ serialization Float
+    var floatLiteral = »1.5«;
+
+    # $TEST$ serialization Int
+    var intLiteral = »1«;
+
+    # $TEST$ serialization Nothing?
+    var nullLiteral = »null«;
+
+    # $TEST$ serialization String
+    var stringLiteral = »"myString"«;
+}

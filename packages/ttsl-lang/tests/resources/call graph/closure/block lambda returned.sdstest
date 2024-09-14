@@ -2,7 +2,7 @@ package tests.callGraph.closure.blockLambdaReturned
 
 @Pure fun f()
 
-pipeline myPipeline {
+function myFunction () {
     val lambda = (param: () -> ()) {
         yield f = () {
             param();
@@ -10,6 +10,6 @@ pipeline myPipeline {
     };
     val closure = lambda(f);
 
-    // $TEST$ ["$blockLambda", "f"]
+    # $TEST$ ["$blockLambda", "f"]
     »closure()«;
 }

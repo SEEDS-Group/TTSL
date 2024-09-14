@@ -1,10 +1,10 @@
 package tests.validation.style.unnecessaryConstraintInEnumVariant
 
 enum MyEnum {
-    // $TEST$ info "This constraint list can be removed."
+    # $TEST$ info "This constraint list can be removed."
     MyVariant1 »where {}«
 
-    // $TEST$ no info "This constraint list can be removed."
+    # $TEST$ no info "This constraint list can be removed."
     MyVariant2(p: Int) »where {
         p < 0
     }«

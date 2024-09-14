@@ -1,13 +1,13 @@
 package tests.scoping.namedTypes.acrossFiles.toGlobalEnums.other
 
-// $TEST$ target other_MyEnum
+# $TEST$ target other_MyEnum
 enum »MyEnum«
 
-// $TEST$ target other_EnumInAnotherPackage
+# $TEST$ target other_EnumInAnotherPackage
 enum »EnumInAnotherPackage«
 
-// $TEST$ target other_Enum2InAnotherPackage
+# $TEST$ target other_Enum2InAnotherPackage
 enum »Enum2InAnotherPackage«
 
-// $TEST$ target other_notANamedTypeDeclaration
+# $TEST$ target other_notANamedTypeDeclaration
 fun »notANamedTypeDeclaration«()

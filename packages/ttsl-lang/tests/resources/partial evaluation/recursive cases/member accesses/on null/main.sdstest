@@ -1,9 +1,0 @@
-package tests.partialValidation.recursiveCases.memberAccesses.onNull
-
-pipeline test {
-    // $TEST$ serialization ?
-    »null.toString«;
-
-    // $TEST$ serialization null
-    »null?.toString«;
-}

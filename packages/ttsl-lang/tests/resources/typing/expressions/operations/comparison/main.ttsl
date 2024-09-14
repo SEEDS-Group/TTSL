@@ -1,0 +1,21 @@
+package tests.typing.operations.comparison
+
+function myFunction () {
+    # $TEST$ serialization Boolean
+    var lessThan = »1 < 1«;
+    # $TEST$ serialization Boolean
+    var lessThanOrEquals = »1 <= 1«;
+    # $TEST$ serialization Boolean
+    var greaterThanOrEquals = »1 >= 1«;
+    # $TEST$ serialization Boolean
+    var greaterThan = »1 > 1«;
+
+    # $TEST$ serialization Boolean
+    var lessThanInvarid = »true < true«;
+    # $TEST$ serialization Boolean
+    var lessThanOrEqualsInvarid  = »true <= true«;
+    # $TEST$ serialization Boolean
+    var greaterThanOrEqualsInvarid  = »true >= true«;
+    # $TEST$ serialization Boolean
+    var greaterThanInvarid  = »true > true«;
+}

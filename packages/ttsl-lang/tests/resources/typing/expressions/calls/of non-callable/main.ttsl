@@ -1,0 +1,11 @@
+package tests.typing.expressions.calls.ofNonCallables
+
+constant myConstant: Int = 0;
+
+function MyFunction() {
+    # $TEST$ serialization $unknown
+    »myConstant()«;
+
+    # $TEST$ serialization $unknown
+    »myConstant?()«;
+}

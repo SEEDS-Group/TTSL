@@ -1,57 +1,57 @@
 package tests.scoping.references.acrossFiles.toSegments
 
-from safeds.scoping.references.acrossFiles.toSegments import mySegment as myOwnSegment
+from TTSL.scoping.references.acrossFiles.toSegments import mySegment as myOwnSegment
 from tests.scoping.references.acrossFiles.toSegments.other import publicSegmentInAnotherPackage, public2SegmentInAnotherPackage
 from tests.scoping.references.acrossFiles.toSegments.other import internalSegmentInAnotherPackage
 from tests.scoping.references.acrossFiles.toSegments.other import privateSegmentInAnotherPackage
 
-// $TEST$ target own_myOwnSegment
+# $TEST$ target own_myOwnSegment
 segment »myOwnSegment«() {}
 
-pipeline myPipeline {
-    // $TEST$ references own_myOwnSegment
+function myFunction () {
+    # $TEST$ references own_myOwnSegment
     »myOwnSegment«;
 
 
-    // $TEST$ references same_publicSegmentInSamePackage
+    # $TEST$ references same_publicSegmentInSamePackage
     »publicSegmentInSamePackage«;
 
-    // $TEST$ references same_internalSegmentInSamePackage
+    # $TEST$ references same_internalSegmentInSamePackage
     »internalSegmentInSamePackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »privateSegmentInSamePackage«;
 
 
-    // $TEST$ references safeds_publicSegmentInSafeDsPackage
-    »publicSegmentInSafeDsPackage«;
+    # $TEST$ references TTSL_publicSegmentInTTSLPackage
+    »publicSegmentInTTSLPackage«;
 
-    // $TEST$ unresolved
-    »internalSegmentInSafeDsPackage«;
+    # $TEST$ unresolved
+    »internalSegmentInTTSLPackage«;
 
-    // $TEST$ unresolved
-    »privateSegmentInSafeDsPackage«;
+    # $TEST$ unresolved
+    »privateSegmentInTTSLPackage«;
 
 
-    // $TEST$ references other_publicSegmentInAnotherPackage
+    # $TEST$ references other_publicSegmentInAnotherPackage
     »publicSegmentInAnotherPackage«;
 
-    // $TEST$ references other_public2SegmentInAnotherPackage
+    # $TEST$ references other_public2SegmentInAnotherPackage
     »public2SegmentInAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »internalSegmentInAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »privateSegmentInAnotherPackage«;
 
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »publicSegmentWithoutPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »internalSegmentWithoutPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »privateSegmentWithoutPackage«;
 }

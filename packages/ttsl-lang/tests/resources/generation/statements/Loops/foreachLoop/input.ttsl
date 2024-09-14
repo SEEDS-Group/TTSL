@@ -1,0 +1,11 @@
+package tests.generator.forEachLoop
+
+constant list: List<Int> = [1,2,3]
+
+function myFunction (): Int {
+    var x = 0;
+    foreach(elm in list){
+        x = x + elm;
+    }
+    return x;
+}

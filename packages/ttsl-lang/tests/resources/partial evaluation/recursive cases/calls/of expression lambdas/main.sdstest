@@ -1,8 +1,0 @@
-package tests.partialValidation.recursiveCases.calls.ofExpressionLambdas
-
-pipeline test {
-    val expressionLambda = () -> 1;
-
-    // $TEST$ serialization 1
-    »expressionLambda()«;
-}

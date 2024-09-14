@@ -1,4 +1,4 @@
-import { createSafeDsServices } from '@ttsl/lang';
+import { createTTSLServices } from '@ttsl/lang';
 import { NodeFileSystem } from 'langium/node';
 import { extractDocuments } from '../helpers/documents.js';
 import { exitIfDocumentHasSyntaxErrors } from '../helpers/diagnostics.js';
@@ -7,7 +7,7 @@ import { writeFile } from 'node:fs/promises';
 import chalk from 'chalk';
 
 export const format = async (fsPaths: string[]): Promise<void> => {
-    const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+    const services = (await createTTSLServices(NodeFileSystem)).TTSL;
     const documents = await extractDocuments(services, fsPaths);
 
     // Exit if any document has syntax errors before formatting code
@@ -31,5 +31,5 @@ export const format = async (fsPaths: string[]): Promise<void> => {
         await writeFile(document.uri.fsPath, editedDocument);
     }
 
-    console.log(chalk.green(`Safe-DS code formatted successfully.`));
+    console.log(chalk.green(`TTSL code formatted successfully.`));
 };

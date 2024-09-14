@@ -1,4 +1,11 @@
-# Pipelines --------------------------------------------------------------------
+# Functions --------------------------------------------------------------------
+
+def f(param):
+    pass
+
+def explainModel():
+    pass
 
 def test():
-    f(explain_model())
+    f(explainModel())
+

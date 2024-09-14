@@ -1,0 +1,16 @@
+# $TEST$ no_syntax_error
+
+function `_` () {}
+function `and` () {}
+function `as` () {}
+function `const` () {}
+function `false` () {}
+function `function` () {}
+function `import` () {}
+function `not` () {}
+function `null` () {}
+function `or` () {}
+function `package` () {}
+function `private` () {}
+function `true` () {}
+function `var` () {}

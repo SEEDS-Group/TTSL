@@ -1,0 +1,15 @@
+package tests.partialValidation.recursiveCases.infixOperations.elvis
+
+function test () {
+    # $TEST$ serialization true
+    »true ?: false«;
+
+    # $TEST$ serialization false
+    »null ?: false«;
+
+    # $TEST$ serialization ?
+    »unresolved ?: null«;
+
+    # $TEST$ serialization ?
+    »null ?: unresolved«;
+}

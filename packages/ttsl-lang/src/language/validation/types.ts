@@ -1,49 +1,34 @@
-import { AstNode, AstUtils, ValidationAcceptor } from 'langium';
-import { isEmpty } from '../../helpers/collections.js';
-import { pluralize } from '../../helpers/strings.js';
+import { AstNode, ValidationAcceptor } from 'langium';
 import {
-    isTslAnnotation,
-    isTslCallable,
-    isTslClass,
-    isTslLambda,
-    isTslMemberAccess,
-    isTslPipeline,
     isTslReference,
-    isTslSchema,
-    TslAttribute,
     TslCall,
     TslIndexedAccess,
     TslInfixOperation,
     TslList,
     TslDictionary,
-    TslNamedType,
     TslParameter,
     TslPrefixOperation,
     TslResult,
     TslTypeCast,
-    TslTypeParameter,
-    TslYield,
+    isTslFunction,
 } from '../generated/ast.js';
-import { getArguments, getTypeArguments, getTypeParameters, TypeParameter } from '../helpers/nodeProperties.js';
-import { SafeDsServices } from '../safe-ds-module.js';
-import { ClassType, NamedTupleType, TypeParameterType, UnknownType } from '../typing/model.js';
+import { getArguments } from '../helpers/nodeProperties.js';
+import { TTSLServices } from '../ttsl-module.js';
+import {AnyType, BooleanType, DictionaryType, FloatType, IntType, ListType, UnknownType } from '../typing/model.js';
 
 export const CODE_TYPE_CALLABLE_RECEIVER = 'type/callable-receiver';
 export const CODE_TYPE_MISMATCH = 'type/mismatch';
-export const CODE_TYPE_MISSING_TYPE_ARGUMENTS = 'type/missing-type-arguments';
 export const CODE_TYPE_MISSING_TYPE_HINT = 'type/missing-type-hint';
 
 // -----------------------------------------------------------------------------
 // Type checking
 // -----------------------------------------------------------------------------
 
-export const callArgumentTypesMustMatchParameterTypes = (services: SafeDsServices) => {
+export const callArgumentTypesMustMatchParameterTypes = (services: TTSLServices) => {
     const nodeMapper = services.helpers.NodeMapper;
-    const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslCall, accept: ValidationAcceptor) => {
-        const substitutions = typeComputer.computeSubstitutionsForCall(node);
 
         for (const argument of getArguments(node)) {
             const parameter = nodeMapper.argumentToParameter(argument);
@@ -51,10 +36,10 @@ export const callArgumentTypesMustMatchParameterTypes = (services: SafeDsService
                 return;
             }
 
-            const argumentType = typeComputer.computeType(argument).substituteTypeParameters(substitutions);
-            const parameterType = typeComputer.computeType(parameter).substituteTypeParameters(substitutions);
+            const argumentType = typeComputer.computeType(argument);
+            const parameterType = typeComputer.computeType(parameter);
 
-            if (!typeChecker.isSubtypeOf(argumentType, parameterType)) {
+            if (!(argumentType.toString() === parameterType.toString() || parameterType instanceof AnyType)) {
                 accept('error', `Expected type '${parameterType}' but got '${argumentType}'.`, {
                     node: argument,
                     property: 'value',
@@ -65,32 +50,24 @@ export const callArgumentTypesMustMatchParameterTypes = (services: SafeDsService
     };
 };
 
-export const callReceiverMustBeCallable = (services: SafeDsServices) => {
+export const callReceiverMustBeCallable = (services: TTSLServices) => {
     const nodeMapper = services.helpers.NodeMapper;
 
     return (node: TslCall, accept: ValidationAcceptor): void => {
         let receiver: AstNode | undefined = node.receiver;
-        if (isTslMemberAccess(receiver)) {
-            receiver = receiver.member;
-        }
 
         if (isTslReference(receiver)) {
             const target = receiver.target.ref;
 
             // We already report other errors at this position in those cases
-            if (!target || isTslAnnotation(target) || isTslPipeline(target) || isTslSchema(target)) {
+            if (!target || isTslFunction(target)) {
                 return;
             }
         }
 
         const callable = nodeMapper.callToCallable(node);
-        if (node.receiver && (!callable || isTslAnnotation(callable))) {
+        if (node.receiver && !callable) {
             accept('error', 'This expression is not callable.', {
-                node: node.receiver,
-                code: CODE_TYPE_CALLABLE_RECEIVER,
-            });
-        } else if (node.receiver && isTslClass(callable) && !callable.parameterList) {
-            accept('error', 'Cannot instantiate a class that has no constructor.', {
                 node: node.receiver,
                 code: CODE_TYPE_CALLABLE_RECEIVER,
             });
@@ -98,7 +75,7 @@ export const callReceiverMustBeCallable = (services: SafeDsServices) => {
     };
 };
 
-export const indexedAccessReceiverMustBeListOrMap = (services: SafeDsServices) => {
+export const indexedAccessReceiverMustBeListOrMap = (services: TTSLServices) => {
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
@@ -118,43 +95,25 @@ export const indexedAccessReceiverMustBeListOrMap = (services: SafeDsServices) =
     };
 };
 
-export const indexedAccessIndexMustHaveCorrectType = (services: SafeDsServices) => {
-    const coreClasses = services.builtins.Classes;
-    const coreTypes = services.types.CoreTypes;
-    const typeChecker = services.types.TypeChecker;
+export const indexedAccessIndexMustHaveCorrectType = (services: TTSLServices) => {
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslIndexedAccess, accept: ValidationAcceptor): void => {
         const receiverType = typeComputer.computeType(node.receiver);
-        if (typeChecker.isList(receiverType)) {
+        if (receiverType instanceof ListType) {
             const indexType = typeComputer.computeType(node.index);
-            if (!typeChecker.isSubtypeOf(indexType, coreTypes.Int)) {
-                accept('error', `Expected type '${coreTypes.Int}' but got '${indexType}'.`, {
+            if (!(indexType instanceof IntType)) {
+                accept('error', `Expected type 'Int' but got '${indexType}'.`, {
                     node,
                     property: 'index',
                     code: CODE_TYPE_MISMATCH,
                 });
             }
-        } else if (receiverType instanceof ClassType || receiverType instanceof TypeParameterType) {
-            const mapType = typeComputer.computeMatchingSupertype(receiverType, coreClasses.Map);
-            if (mapType) {
-                const keyType = mapType.getTypeParameterTypeByIndex(0);
-                const indexType = typeComputer.computeType(node.index);
-                if (!typeChecker.isSubtypeOf(indexType, keyType)) {
-                    accept('error', `Expected type '${keyType}' but got '${indexType}'.`, {
-                        node,
-                        property: 'index',
-                        code: CODE_TYPE_MISMATCH,
-                    });
-                }
-            }
         }
     };
 };
 
-export const infixOperationOperandsMustHaveCorrectType = (services: SafeDsServices) => {
-    const coreTypes = services.types.CoreTypes;
-    const typeChecker = services.types.TypeChecker;
+export const infixOperationOperandsMustHaveCorrectType = (services: TTSLServices) => {
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslInfixOperation, accept: ValidationAcceptor): void => {
@@ -163,14 +122,14 @@ export const infixOperationOperandsMustHaveCorrectType = (services: SafeDsServic
         switch (node.operator) {
             case 'or':
             case 'and':
-                if (node.leftOperand && !typeChecker.isSubtypeOf(leftType, coreTypes.Boolean)) {
-                    accept('error', `Expected type '${coreTypes.Boolean}' but got '${leftType}'.`, {
+                if (node.leftOperand && !(leftType instanceof BooleanType)) {
+                    accept('error', `Expected type 'Boolean' but got '${leftType}'.`, {
                         node: node.leftOperand,
                         code: CODE_TYPE_MISMATCH,
                     });
                 }
-                if (node.rightOperand && !typeChecker.isSubtypeOf(rightType, coreTypes.Boolean)) {
-                    accept('error', `Expected type '${coreTypes.Boolean}' but got '${rightType}'.`, {
+                if (node.rightOperand && !(rightType instanceof BooleanType)) {
+                    accept('error', `Expected type 'Boolean' but got '${rightType}'.`, {
                         node: node.rightOperand,
                         code: CODE_TYPE_MISMATCH,
                     });
@@ -186,22 +145,22 @@ export const infixOperationOperandsMustHaveCorrectType = (services: SafeDsServic
             case '/':
                 if (
                     node.leftOperand &&
-                    !typeChecker.isSubtypeOf(leftType, coreTypes.Float) &&
-                    !typeChecker.isSubtypeOf(leftType, coreTypes.Int)
+                    !(leftType instanceof FloatType) &&
+                    !(leftType instanceof IntType)
                 ) {
-                    accept('error', `Expected type '${coreTypes.Float}' or '${coreTypes.Int}' but got '${leftType}'.`, {
+                    accept('error', `Expected type 'Float' or 'Int' but got '${leftType}'.`, {
                         node: node.leftOperand,
                         code: CODE_TYPE_MISMATCH,
                     });
                 }
                 if (
                     node.rightOperand &&
-                    !typeChecker.isSubtypeOf(rightType, coreTypes.Float) &&
-                    !typeChecker.isSubtypeOf(rightType, coreTypes.Int)
+                    !(rightType instanceof FloatType) &&
+                    !(rightType instanceof IntType)
                 ) {
                     accept(
                         'error',
-                        `Expected type '${coreTypes.Float}' or '${coreTypes.Int}' but got '${rightType}'.`,
+                        `Expected type 'Float' or 'Int' but got '${rightType}'.`,
                         {
                             node: node.rightOperand,
                             code: CODE_TYPE_MISMATCH,
@@ -213,13 +172,13 @@ export const infixOperationOperandsMustHaveCorrectType = (services: SafeDsServic
     };
 };
 
-export const listMustNotContainNamedTuples = (services: SafeDsServices) => {
+export const listMustNotContainNamedTuples = (services: TTSLServices) => {
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslList, accept: ValidationAcceptor): void => {
         for (const element of node.elements) {
             const elementType = typeComputer.computeType(element);
-            if (elementType instanceof NamedTupleType) {
+            if (elementType instanceof ListType) {
                 accept('error', `Cannot add a value of type '${elementType}' to a list.`, {
                     node: element,
                     code: CODE_TYPE_MISMATCH,
@@ -229,14 +188,14 @@ export const listMustNotContainNamedTuples = (services: SafeDsServices) => {
     };
 };
 
-export const mapMustNotContainNamedTuples = (services: SafeDsServices) => {
+export const mapMustNotContainNamedTuples = (services: TTSLServices) => {
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslDictionary, accept: ValidationAcceptor): void => {
         for (const entry of node.entries) {
             const keyType = typeComputer.computeType(entry.key);
-            if (keyType instanceof NamedTupleType) {
-                accept('error', `Cannot use a value of type '${keyType}' as a map key.`, {
+            if (keyType instanceof DictionaryType) {
+                accept('error', `Cannot use a value of type '${keyType}' as a Dictionary key.`, {
                     node: entry,
                     property: 'key',
                     code: CODE_TYPE_MISMATCH,
@@ -244,8 +203,8 @@ export const mapMustNotContainNamedTuples = (services: SafeDsServices) => {
             }
 
             const valueKey = typeComputer.computeType(entry.value);
-            if (valueKey instanceof NamedTupleType) {
-                accept('error', `Cannot use a value of type '${valueKey}' as a map value.`, {
+            if (keyType instanceof DictionaryType) {
+                accept('error', `Cannot use a value of type '${valueKey}' as a Dictionary value.`, {
                     node: entry,
                     property: 'value',
                     code: CODE_TYPE_MISMATCH,
@@ -255,46 +214,7 @@ export const mapMustNotContainNamedTuples = (services: SafeDsServices) => {
     };
 };
 
-export const namedTypeTypeArgumentsMustMatchBounds = (services: SafeDsServices) => {
-    const nodeMapper = services.helpers.NodeMapper;
-    const typeChecker = services.types.TypeChecker;
-    const typeComputer = services.types.TypeComputer;
-
-    return (node: TslNamedType, accept: ValidationAcceptor): void => {
-        const type = typeComputer.computeType(node);
-        if (!(type instanceof ClassType) || isEmpty(type.substitutions)) {
-            return;
-        }
-
-        for (const typeArgument of getTypeArguments(node)) {
-            const typeParameter = nodeMapper.typeArgumentToTypeParameter(typeArgument);
-            if (!typeParameter) {
-                continue;
-            }
-
-            const typeArgumentType = type.substitutions.get(typeParameter);
-            if (!typeArgumentType) {
-                /* c8 ignore next 2 */
-                continue;
-            }
-
-            const upperBound = typeComputer
-                .computeUpperBound(typeParameter, { stopAtTypeParameterType: true })
-                .substituteTypeParameters(type.substitutions);
-
-            if (!typeChecker.isSubtypeOf(typeArgumentType, upperBound)) {
-                accept('error', `Expected type '${upperBound}' but got '${typeArgumentType}'.`, {
-                    node: typeArgument,
-                    property: 'value',
-                    code: CODE_TYPE_MISMATCH,
-                });
-            }
-        }
-    };
-};
-
-export const parameterDefaultValueTypeMustMatchParameterType = (services: SafeDsServices) => {
-    const typeChecker = services.types.TypeChecker;
+export const parameterDefaultValueTypeMustMatchParameterType = (services: TTSLServices) => {
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslParameter, accept: ValidationAcceptor) => {
@@ -306,7 +226,7 @@ export const parameterDefaultValueTypeMustMatchParameterType = (services: SafeDs
         const defaultValueType = typeComputer.computeType(defaultValue);
         const parameterType = typeComputer.computeType(node);
 
-        if (!typeChecker.isSubtypeOf(defaultValueType, parameterType)) {
+        if (!(defaultValueType.toString() === parameterType.toString())) {
             accept('error', `Expected type '${parameterType}' but got '${defaultValueType}'.`, {
                 node,
                 property: 'defaultValue',
@@ -316,17 +236,15 @@ export const parameterDefaultValueTypeMustMatchParameterType = (services: SafeDs
     };
 };
 
-export const prefixOperationOperandMustHaveCorrectType = (services: SafeDsServices) => {
-    const coreTypes = services.types.CoreTypes;
-    const typeChecker = services.types.TypeChecker;
+export const prefixOperationOperandMustHaveCorrectType = (services: TTSLServices) => {
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslPrefixOperation, accept: ValidationAcceptor): void => {
         const operandType = typeComputer.computeType(node.operand);
         switch (node.operator) {
             case 'not':
-                if (!typeChecker.isSubtypeOf(operandType, coreTypes.Boolean)) {
-                    accept('error', `Expected type '${coreTypes.Boolean}' but got '${operandType}'.`, {
+                if (!(operandType instanceof BooleanType)) {
+                    accept('error', `Expected type 'Boolean' but got '${operandType}'.`, {
                         node,
                         property: 'operand',
                         code: CODE_TYPE_MISMATCH,
@@ -335,12 +253,12 @@ export const prefixOperationOperandMustHaveCorrectType = (services: SafeDsServic
                 return;
             case '-':
                 if (
-                    !typeChecker.isSubtypeOf(operandType, coreTypes.Float) &&
-                    !typeChecker.isSubtypeOf(operandType, coreTypes.Int)
+                    !(operandType instanceof FloatType) &&
+                    !(operandType instanceof IntType)
                 ) {
                     accept(
                         'error',
-                        `Expected type '${coreTypes.Float}' or '${coreTypes.Int}' but got '${operandType}'.`,
+                        `Expected type 'Float' or 'Int' but got '${operandType}'.`,
                         {
                             node,
                             property: 'operand',
@@ -353,7 +271,7 @@ export const prefixOperationOperandMustHaveCorrectType = (services: SafeDsServic
     };
 };
 
-export const typeCastExpressionMustHaveUnknownType = (services: SafeDsServices) => {
+export const typeCastExpressionMustHaveUnknownType = (services: TTSLServices) => {
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslTypeCast, accept: ValidationAcceptor): void => {
@@ -368,116 +286,18 @@ export const typeCastExpressionMustHaveUnknownType = (services: SafeDsServices) 
     };
 };
 
-export const typeParameterDefaultValueMustMatchUpperBound = (services: SafeDsServices) => {
-    const typeChecker = services.types.TypeChecker;
-    const typeComputer = services.types.TypeComputer;
-
-    return (node: TslTypeParameter, accept: ValidationAcceptor): void => {
-        if (!node.defaultValue || !node.upperBound) {
-            return;
-        }
-
-        const defaultValueType = typeComputer.computeType(node.defaultValue);
-        const upperBoundType = typeComputer.computeUpperBound(node, { stopAtTypeParameterType: true });
-
-        if (!typeChecker.isSubtypeOf(defaultValueType, upperBoundType)) {
-            accept('error', `Expected type '${upperBoundType}' but got '${defaultValueType}'.`, {
-                node,
-                property: 'defaultValue',
-                code: CODE_TYPE_MISMATCH,
-            });
-        }
-    };
-};
-
-export const yieldTypeMustMatchResultType = (services: SafeDsServices) => {
-    const typeChecker = services.types.TypeChecker;
-    const typeComputer = services.types.TypeComputer;
-
-    return (node: TslYield, accept: ValidationAcceptor) => {
-        const result = node.result?.ref;
-        if (!result) {
-            return;
-        }
-
-        const yieldType = typeComputer.computeType(node);
-        const resultType = typeComputer.computeType(result);
-
-        if (!typeChecker.isSubtypeOf(yieldType, resultType)) {
-            accept('error', `Expected type '${resultType}' but got '${yieldType}'.`, {
-                node,
-                property: 'result',
-                code: CODE_TYPE_MISMATCH,
-            });
-        }
-    };
-};
-
-// -----------------------------------------------------------------------------
-// Missing type arguments
-// -----------------------------------------------------------------------------
-
-export const namedTypeMustSetAllTypeParameters =
-    (services: SafeDsServices) =>
-    (node: TslNamedType, accept: ValidationAcceptor): void => {
-        const expectedTypeParameters = getTypeParameters(node.declaration?.ref).filter(TypeParameter.isRequired);
-        if (isEmpty(expectedTypeParameters)) {
-            return;
-        }
-
-        if (node.typeArgumentList) {
-            const actualTypeParameters = getTypeArguments(node.typeArgumentList).map((it) =>
-                services.helpers.NodeMapper.typeArgumentToTypeParameter(it),
-            );
-
-            const missingTypeParameters = expectedTypeParameters.filter((it) => !actualTypeParameters.includes(it));
-            if (!isEmpty(missingTypeParameters)) {
-                const kind = pluralize(missingTypeParameters.length, 'type parameter');
-                const missingTypeParametersString = missingTypeParameters.map((it) => `'${it.name}'`).join(', ');
-
-                accept('error', `The ${kind} ${missingTypeParametersString} must be set here.`, {
-                    node,
-                    property: 'typeArgumentList',
-                    code: CODE_TYPE_MISSING_TYPE_ARGUMENTS,
-                });
-            }
-        } else {
-            accept(
-                'error',
-                `The type '${node.declaration?.$refText}' has required type parameters, so a type argument list must be added.`,
-                {
-                    node,
-                    code: CODE_TYPE_MISSING_TYPE_ARGUMENTS,
-                },
-            );
-        }
-    };
-
 // -----------------------------------------------------------------------------
 // Missing type hints
 // -----------------------------------------------------------------------------
 
-export const attributeMustHaveTypeHint = (node: TslAttribute, accept: ValidationAcceptor): void => {
+export const parameterMustHaveTypeHint = (node: TslParameter, accept: ValidationAcceptor): void => {
     if (!node.type) {
-        accept('error', 'An attribute must have a type hint.', {
+        accept('error', 'A parameter must have a type hint.', {
             node,
             property: 'name',
             code: CODE_TYPE_MISSING_TYPE_HINT,
         });
-    }
-};
-
-export const parameterMustHaveTypeHint = (node: TslParameter, accept: ValidationAcceptor): void => {
-    if (!node.type) {
-        const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
-
-        if (!isTslLambda(containingCallable)) {
-            accept('error', 'A parameter must have a type hint.', {
-                node,
-                property: 'name',
-                code: CODE_TYPE_MISSING_TYPE_HINT,
-            });
-        }
+        
     }
 };
 

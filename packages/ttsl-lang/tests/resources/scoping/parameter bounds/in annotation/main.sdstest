@@ -3,22 +3,22 @@ package tests.scoping.parameterBounds.inAnnotation
 fun myFunction1(before: Int)
 
 annotation MyAnnotation(
-    // $TEST$ target own
+    # $TEST$ target own
     »own«: Int
 ) where {
-    // $TEST$ references own
+    # $TEST$ references own
     »own« < 0,
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »before« < 0,
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »after« < 0,
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »notAParameter« < 0,
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »unresolved« < 0
 }
 

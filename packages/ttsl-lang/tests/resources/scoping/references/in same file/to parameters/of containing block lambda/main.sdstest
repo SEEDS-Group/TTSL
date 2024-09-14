@@ -4,75 +4,75 @@ segment mySegment(myShadowedSegmentParameter: Int) {
     val myShadowedPlaceholder = 0;
 
     (
-        // $TEST$ target outer_myOuterBlockLambdaParameter
+        # $TEST$ target outer_myOuterBlockLambdaParameter
         »myOuterBlockLambdaParameter«,
         
-        // $TEST$ target outer_myShadowedSegmentParameter
+        # $TEST$ target outer_myShadowedSegmentParameter
         »myShadowedSegmentParameter«,
         
-        // $TEST$ target outer_myShadowedBlockLambdaParameter
+        # $TEST$ target outer_myShadowedBlockLambdaParameter
         »myShadowedBlockLambdaParameter«,
         
-        // $TEST$ target outer_myShadowedPlaceholder
+        # $TEST$ target outer_myShadowedPlaceholder
         »myShadowedPlaceholder«,
 
-        // $TEST$ target redeclaredAsParameter
+        # $TEST$ target redeclaredAsParameter
         »redeclaredAsParameter«,
         redeclaredAsParameter,
 
-        // $TEST$ target redeclaredAsPlaceholder
+        # $TEST$ target redeclaredAsPlaceholder
         »redeclaredAsPlaceholder«,
     ) {
         val redeclaredAsPlaceholder = 0;
 
-        // $TEST$ references outer_myOuterBlockLambdaParameter
+        # $TEST$ references outer_myOuterBlockLambdaParameter
         »myOuterBlockLambdaParameter«;
 
-        // $TEST$ references outer_myShadowedSegmentParameter
+        # $TEST$ references outer_myShadowedSegmentParameter
         »myShadowedSegmentParameter«;
 
-        // $TEST$ references outer_myShadowedBlockLambdaParameter
+        # $TEST$ references outer_myShadowedBlockLambdaParameter
         »myShadowedBlockLambdaParameter«;
 
-        // $TEST$ references outer_myShadowedPlaceholder
+        # $TEST$ references outer_myShadowedPlaceholder
         »myShadowedPlaceholder«;
 
-        // $TEST$ references redeclaredAsParameter
+        # $TEST$ references redeclaredAsParameter
         »redeclaredAsParameter«;    
         
-        // $TEST$ references redeclaredAsPlaceholder
+        # $TEST$ references redeclaredAsPlaceholder
         »redeclaredAsPlaceholder«;
 
-        // $TEST$ unresolved
+        # $TEST$ unresolved
         »myInnerBlockLambdaParameter«;
 
         (
-            // $TEST$ target inner_myInnerBlockLambdaParameter
+            # $TEST$ target inner_myInnerBlockLambdaParameter
             »myInnerBlockLambdaParameter«,
             
-            // $TEST$ target inner_myShadowedBlockLambdaParameter
+            # $TEST$ target inner_myShadowedBlockLambdaParameter
             »myShadowedBlockLambdaParameter«
         ) {
             () ->
-                // $TEST$ references outer_myOuterBlockLambdaParameter
+                # $TEST$ references outer_myOuterBlockLambdaParameter
                 »myOuterBlockLambdaParameter« +
 
-                // $TEST$ references outer_myShadowedSegmentParameter
+                # $TEST$ references outer_myShadowedSegmentParameter
                 »myShadowedSegmentParameter« +
 
-                // $TEST$ references inner_myShadowedBlockLambdaParameter
+                # $TEST$ references inner_myShadowedBlockLambdaParameter
                 »myShadowedBlockLambdaParameter«;
 
-                // $TEST$ references outer_myShadowedPlaceholder
+                # $TEST$ references outer_myShadowedPlaceholder
                 »myShadowedPlaceholder« +
 
-                // $TEST$ references redeclaredAsParameter
+                # $TEST$ references redeclaredAsParameter
                 »redeclaredAsParameter« +
                 
-                // $TEST$ references redeclaredAsPlaceholder
+                # $TEST$ references redeclaredAsPlaceholder
                 »redeclaredAsPlaceholder« +
 
-                // $TEST$ references inner_myInnerBlockLambdaParameter
+                # $TEST$ references inner_myInnerBlockLambdaParameter
                 »myInnerBlockLambdaParameter«;
 
         };

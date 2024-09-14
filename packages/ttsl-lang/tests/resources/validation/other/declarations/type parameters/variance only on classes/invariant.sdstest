@@ -1,6 +1,6 @@
 package tests.validation.other.declarations.typeParameters.varianceOnlyOnClasses
 
-// $TEST$ no error "Only type parameters of classes can be variant."
+# $TEST$ no error "Only type parameters of classes can be variant."
 
 class C1<T>
 

@@ -1,0 +1,142 @@
+package tests.typing.operations.arithmetic
+
+function anyInt(): Int
+function anyFloat(): Float
+
+function constantOperands() {
+    # $TEST$ serialization Int
+    var additionIntInt = »1 + 1«;
+    # $TEST$ serialization Int
+    var subtractionIntInt = »1 - 1«;
+    # $TEST$ serialization Int
+    var multiplicationIntInt = »1 * 1«;
+    # $TEST$ serialization Int
+    var divisionIntInt = »1 / 1«;
+
+    # $TEST$ serialization Float
+    var additionIntFloat = »1 + 1.5«;
+    # $TEST$ serialization Float
+    var subtractionIntFloat = »1 - 1.5«;
+    # $TEST$ serialization Float
+    var multiplicationIntFloat = »1 * 1.5«;
+    # $TEST$ serialization Float
+    var divisionIntFloat = »1 / 0.625«;
+
+    # $TEST$ serialization Float
+    var additionFloatInt = »1.5 + 1«;
+    # $TEST$ serialization Float
+    var subtractionFloatInt = »1.5 - 1«;
+    # $TEST$ serialization Float
+    var multiplicationFloatInt = »1.5 * 1«;
+    # $TEST$ serialization Float
+    var divisionFloatInt = »1.5 / 1«;
+
+    # $TEST$ serialization Float
+    var additionFloatFloat = »1.5 + 1.25«;
+    # $TEST$ serialization Float
+    var subtractionFloatFloat = »1.5 - 1.25«;
+    # $TEST$ serialization Float
+    var multiplicationFloatFloat = »1.5 * 1.25«;
+    # $TEST$ serialization Float
+    var divisionFloatFloat = »1.5 / 2.5«;
+
+    # $TEST$ serialization Int
+    var negationInt = »-1«;
+    # $TEST$ serialization Float
+    var negationFloat = »-1.5«;
+}
+
+function invaridOperands() {
+    # $TEST$ serialization Float
+    var additionInvarid = »true + true«;
+    # $TEST$ serialization Float
+    var subtractionInvarid  = »true - true«;
+    # $TEST$ serialization Float
+    var multiplicationInvarid  = »true * true«;
+    # $TEST$ serialization Float
+    var divisionInvarid  = »true / true«;
+
+    # $TEST$ serialization Float
+    var negationInvarid  = »-true«;
+}
+
+function nonConstantOperands() {
+    # $TEST$ serialization Int
+    var additionIntInt = »anyInt() + anyInt()«;
+    # $TEST$ serialization Int
+    var subtractionIntInt = »anyInt() - anyInt()«;
+    # $TEST$ serialization Int
+    var multiplicationIntInt = »anyInt() * anyInt()«;
+    # $TEST$ serialization Int
+    var divisionIntInt = »anyInt() / anyInt()«;
+
+    # $TEST$ serialization Float
+    var additionIntFloat = »anyInt() + anyFloat()«;
+    # $TEST$ serialization Float
+    var subtractionIntFloat = »anyInt() - anyFloat()«;
+    # $TEST$ serialization Float
+    var multiplicationIntFloat = »anyInt() * anyFloat()«;
+    # $TEST$ serialization Float
+    var divisionIntFloat = »anyInt() / anyFloat()«;
+
+    # $TEST$ serialization Float
+    var additionFloatInt = »anyFloat() + anyInt()«;
+    # $TEST$ serialization Float
+    var subtractionFloatInt = »anyFloat() - anyInt()«;
+    # $TEST$ serialization Float
+    var multiplicationFloatInt = »anyFloat() * anyInt()«;
+    # $TEST$ serialization Float
+    var divisionFloatInt = »anyFloat() / anyInt()«;
+
+    # $TEST$ serialization Float
+    var additionFloatFloat = »anyFloat() + anyFloat()«;
+    # $TEST$ serialization Float
+    var subtractionFloatFloat = »anyFloat() - anyFloat()«;
+    # $TEST$ serialization Float
+    var multiplicationFloatFloat = »anyFloat() * anyFloat()«;
+    # $TEST$ serialization Float
+    var divisionFloatFloat = »anyFloat() / anyFloat()«;
+
+    # $TEST$ serialization Int
+    var negationInt = »-anyInt()«;
+    # $TEST$ serialization Float
+    var negationFloat = »-anyFloat()«;
+}
+
+function mixedOperands() {
+    # $TEST$ serialization Int
+    var additionIntInt = »10 + anyInt()«;
+    # $TEST$ serialization Int
+    var subtractionIntInt = »10 - anyInt()«;
+    # $TEST$ serialization Int
+    var multiplicationIntInt = »10 * anyInt()«;
+    # $TEST$ serialization Int
+    var divisionIntInt = »10 / anyInt()«;
+
+    # $TEST$ serialization Float
+    var additionIntFloat = »10 + anyFloat()«;
+    # $TEST$ serialization Float
+    var subtractionIntFloat = »10 - anyFloat()«;
+    # $TEST$ serialization Float
+    var multiplicationIntFloat = »10 * anyFloat()«;
+    # $TEST$ serialization Float
+    var divisionIntFloat = »10 / anyFloat()«;
+
+    # $TEST$ serialization Float
+    var additionFloatInt = »1.5 + anyInt()«;
+    # $TEST$ serialization Float
+    var subtractionFloatInt = »1.5 - anyInt()«;
+    # $TEST$ serialization Float
+    var multiplicationFloatInt = »1.5 * anyInt()«;
+    # $TEST$ serialization Float
+    var divisionFloatInt = »1.5 / anyInt()«;
+
+    # $TEST$ serialization Float
+    var additionFloatFloat = »1.5 + anyFloat()«;
+    # $TEST$ serialization Float
+    var subtractionFloatFloat = »1.5 - anyFloat()«;
+    # $TEST$ serialization Float
+    var multiplicationFloatFloat = »1.5 * anyFloat()«;
+    # $TEST$ serialization Float
+    var divisionFloatFloat = »1.5 / anyFloat()«;
+}

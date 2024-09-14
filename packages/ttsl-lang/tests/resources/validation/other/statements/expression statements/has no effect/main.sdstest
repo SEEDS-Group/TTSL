@@ -30,62 +30,62 @@ segment recursiveB() {
 }
 
 segment mySegment() {
-    // $TEST$ warning "This statement does nothing."
+    # $TEST$ warning "This statement does nothing."
     »1 + 2;«
-    // $TEST$ warning "This statement does nothing."
+    # $TEST$ warning "This statement does nothing."
     »pureFunction();«
-    // $TEST$ warning "This statement does nothing."
+    # $TEST$ warning "This statement does nothing."
     »MyClass().pureFunction();«
 
-    // $TEST$ no warning "This statement does nothing."
+    # $TEST$ no warning "This statement does nothing."
     »impureFunction();«
-    // $TEST$ no warning "This statement does nothing."
+    # $TEST$ no warning "This statement does nothing."
     »MyClass().impureFunction();«
 
     () {
-        // $TEST$ warning "This statement does nothing."
+        # $TEST$ warning "This statement does nothing."
         »1 + 2;«
-        // $TEST$ warning "This statement does nothing."
+        # $TEST$ warning "This statement does nothing."
         »pureFunction();«
-        // $TEST$ warning "This statement does nothing."
+        # $TEST$ warning "This statement does nothing."
         »MyClass().pureFunction();«
 
-        // $TEST$ no warning "This statement does nothing."
+        # $TEST$ no warning "This statement does nothing."
         »impureFunction();«
-        // $TEST$ no warning "This statement does nothing."
+        # $TEST$ no warning "This statement does nothing."
         »MyClass().impureFunction();«
     };
 
-    // $TEST$ warning "This statement does nothing."
+    # $TEST$ warning "This statement does nothing."
     »pureSegment();«
 
-    // $TEST$ no warning "This statement does nothing."
+    # $TEST$ no warning "This statement does nothing."
     »impureSegment();«
 
-    // $TEST$ warning "This statement does nothing."
+    # $TEST$ warning "This statement does nothing."
     »(() {
         pureFunction();
         MyClass().pureFunction();
     })();«
 
-    // $TEST$ no warning "This statement does nothing."
+    # $TEST$ no warning "This statement does nothing."
     »(() {
         impureFunction();
     })();«
 
-    // $TEST$ no warning "This statement does nothing."
+    # $TEST$ no warning "This statement does nothing."
     »(() {
         MyClass().impureFunction();
     })();«
 
-    // $TEST$ no warning "This statement does nothing."
+    # $TEST$ no warning "This statement does nothing."
     »recursiveA();«
 }
 
 segment mySegment2(f: () -> (r: Int)) {
-    // $TEST$ no warning "This statement does nothing."
+    # $TEST$ no warning "This statement does nothing."
     »f();«
 
-    // $TEST$ no warning "This statement does nothing."
+    # $TEST$ no warning "This statement does nothing."
     »unresolved();«
 }

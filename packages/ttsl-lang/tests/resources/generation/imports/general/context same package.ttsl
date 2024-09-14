@@ -1,0 +1,11 @@
+package tests.generator.imports
+
+function impureFunction(): Int{}
+
+function function1InSamePackage(): Int {
+    return impureFunction();
+}
+
+function function2InSamePackage(): Int {
+    return impureFunction();
+}

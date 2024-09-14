@@ -3,9 +3,9 @@ import { NodeFileSystem } from 'langium/node';
 import { createGenerationTests } from './creator.js';
 import { loadDocuments } from '../../helpers/testResources.js';
 import { stream, URI } from 'langium';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const langiumDocuments = services.shared.workspace.LangiumDocuments;
 const pythonGenerator = services.generation.PythonGenerator;
 

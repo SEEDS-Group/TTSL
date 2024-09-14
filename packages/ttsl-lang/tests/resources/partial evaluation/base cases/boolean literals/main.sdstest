@@ -1,9 +1,0 @@
-package tests.partialValidation.baseCases.booleanLiterals
-
-pipeline test {
-    // $TEST$ serialization false
-    »false«;
-
-    // $TEST$ serialization true
-    »true«;
-}

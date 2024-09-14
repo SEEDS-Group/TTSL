@@ -1,10 +1,10 @@
 package tests.scoping.namedTypes.acrossFiles.toGlobalClasses
 
-from safeds.scoping.namedTypes.acrossFiles.toGlobalClasses import MyClass
+from TTSL.scoping.namedTypes.acrossFiles.toGlobalClasses import MyClass
 from tests.scoping.namedTypes.acrossFiles.toGlobalClasses.other import MyClass
 from tests.scoping.namedTypes.acrossFiles.toGlobalClasses import MyClass
 
 segment mySegment(
-    // $TEST$ references safeds_MyClass
+    # $TEST$ references TTSL_MyClass
     p: »MyClass«,
 ) {}

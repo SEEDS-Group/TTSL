@@ -1,7 +1,7 @@
 package tests.callGraph.recursion.transitiveViaFunctionPointerArgument
 
 segment s1() {
-    // $TEST$ ["s2", "s1", "s2"]
+    # $TEST$ ["s2", "s1", "s2"]
     »s2(s1)«;
 }
 

@@ -26,78 +26,78 @@ segment mySegment() -> (
     r13: Any?,
     r14: Any?,
 ) {
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »_« = noResults();
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »_«, »_« = oneResult();
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »_«, »_«, »_« = twoResults();
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »_«, »_« = MyClass();
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »_«, »_« = MyEnum.MyEnumVariant();
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »_«, »_« = 1;
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »_«, »_« = unresolved;
-    // $TEST$ error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »_«, »_« = unresolved();
 
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »val a« = noResults();
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »val b«, »val c« = oneResult();
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »val d«, »val e«, »val f« = twoResults();
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »val g«, »val h« = MyClass();
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »val i«, »val j« = MyEnum.MyEnumVariant();
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »val k«, »val l« = 1;
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »val m«, »val n« = unresolved;
-    // $TEST$ error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »val o«, »val p« = unresolved();
 
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »yield r1« = noResults();
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »yield r2«, »yield r3« = oneResult();
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »yield r4«, »yield r5«, »yield r6« = twoResults();
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »yield r7«, »yield r8« = MyClass();
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »yield r9«, »yield r10« = MyEnum.MyEnumVariant();
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »yield r11«, »yield r12« = 1;
-    // $TEST$ no error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ no error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »yield r13«, »yield r14« = unresolved;
-    // $TEST$ error "No value is assigned to this assignee."
-    // $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
+    # $TEST$ error "No value is assigned to this assignee."
     »yield r15«, »yield r16« = unresolved();
 }

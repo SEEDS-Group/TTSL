@@ -1,8 +1,0 @@
-package tests.generator.segmentWithPythonName
-
-@Impure([ImpurityReason.Other]) fun f()
-
-@PythonName("test_segment")
-segment testSegment() {
-    f();
-}

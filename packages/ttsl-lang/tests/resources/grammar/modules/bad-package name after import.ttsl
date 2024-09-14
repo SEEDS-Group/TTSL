@@ -1,0 +1,5 @@
+# $TEST$ syntax_error
+
+from myPackage import someDeclaration
+
+package test

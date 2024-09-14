@@ -1,0 +1,6 @@
+package tests.generator.indexedAccess
+
+function test(param1: List<Int>, param2: List<Int>?) {
+    var x = param1[0];
+    var y = param2?[0];
+}

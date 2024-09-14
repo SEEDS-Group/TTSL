@@ -1,33 +1,33 @@
 package tests.scoping.references.acrossFiles.toPipelines
 
 from tests.scoping.references.acrossFiles.toPipelines import myPipeline as myPipelineInSamePackage
-from safeds.scoping.references.acrossFiles.toPipelines import myPipeline as myPipelineInSafeDsPackage
+from TTSL.scoping.references.acrossFiles.toPipelines import myPipeline as myPipelineInTTSLPackage
 from tests.scoping.references.acrossFiles.toPipelines.other import myPipeline as myPipelineInAnotherPackage
 
 segment mySegment() {
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »myPipeline«;
 
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »pipelineInSamePackage«;
 
-    // $TEST$ unresolved
-    »pipelineInSafeDsPackage«;
+    # $TEST$ unresolved
+    »pipelineInTTSLPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »pipelineInAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »pipelineWithoutPackage«;
 
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »myPipelineInSamePackage«;
 
-    // $TEST$ unresolved
-    »myPipelineInSafeDsPackage«;
+    # $TEST$ unresolved
+    »myPipelineInTTSLPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »myPipelineInAnotherPackage«;
 }

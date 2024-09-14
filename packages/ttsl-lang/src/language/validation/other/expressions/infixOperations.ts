@@ -1,13 +1,12 @@
 import { TslInfixOperation } from '../../../generated/ast.js';
 import { ValidationAcceptor } from 'langium';
-import { SafeDsServices } from '../../../safe-ds-module.js';
+import { TTSLServices } from '../../../ttsl-module.js';
 import { FloatConstant, IntConstant, NumberConstant } from '../../../partialEvaluation/model.js';
-import { UnknownType } from '../../../typing/model.js';
+import { FloatType, IntType, UnknownType } from '../../../typing/model.js';
 
 export const CODE_INFIX_OPERATION_DIVISION_BY_ZERO = 'infix-operation/division-by-zero';
 
-export const divisionDivisorMustNotBeZero = (services: SafeDsServices) => {
-    const coreTypes = services.types.CoreTypes;
+export const divisionDivisorMustNotBeZero = (services: TTSLServices) => {
     const partialEvaluator = services.evaluation.PartialEvaluator;
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
@@ -24,8 +23,8 @@ export const divisionDivisorMustNotBeZero = (services: SafeDsServices) => {
         const dividendType = typeComputer.computeType(node.leftOperand);
         if (
             dividendType === UnknownType ||
-            (!typeChecker.isSubtypeOf(dividendType, coreTypes.Float) &&
-                !typeChecker.isSubtypeOf(dividendType, coreTypes.Int))
+            (!typeChecker.isSubtypeOf(dividendType, new FloatType(false)) &&
+                !typeChecker.isSubtypeOf(dividendType, new IntType(false)))
         ) {
             return;
         }

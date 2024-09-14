@@ -1,0 +1,4 @@
+package tests.typing.declarations.results
+
+# $TEST$ equivalence_class functionResult
+function myFun(): »String« {}

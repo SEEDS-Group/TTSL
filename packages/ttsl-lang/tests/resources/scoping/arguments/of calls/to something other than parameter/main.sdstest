@@ -2,7 +2,7 @@ package tests.scoping.arguments.ofCalls.toSomethingOtherThanParameter
 
 fun f(a: Int)
 
-pipeline myPipeline {
-    // $TEST$ unresolved
+function myFunction () {
+    # $TEST$ unresolved
     f(»f« = 1);
 }

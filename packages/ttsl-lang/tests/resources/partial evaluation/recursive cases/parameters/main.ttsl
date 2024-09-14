@@ -1,0 +1,10 @@
+package tests.partialEvaluation.recursiveCases.assignees.parameters
+
+function myFunction(p: Int): Int {
+    return p;
+}
+
+function myTestFunction () {
+    # $TEST$ serialization 1
+    myFunction(1)«;
+}

@@ -1,5 +1,5 @@
 import {
-    listTestSafeDsFilesGroupedByParentDirectory,
+    listTestTTSLFilesGroupedByParentDirectory,
     uriToShortenedTestResourceName,
 } from '../../../helpers/testResources.js';
 import fs from 'fs';
@@ -7,14 +7,14 @@ import { findTestChecks } from '../../../helpers/testChecks.js';
 import { Location } from 'vscode-languageserver';
 import { getSyntaxErrors, SyntaxErrorsInCodeError } from '../../../helpers/diagnostics.js';
 import { EmptyFileSystem, URI } from 'langium';
-import { createSafeDsServices } from '../../../../src/language/index.js';
+import { createTTSLServices } from '../../../../src/language/index.js';
 import { TestDescription, TestDescriptionError } from '../../../helpers/testDescription.js';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 const rootResourceName = 'typing';
 
 export const createTypingTests = (): Promise<TypingTest[]> => {
-    const filesGroupedByParentDirectory = listTestSafeDsFilesGroupedByParentDirectory(rootResourceName);
+    const filesGroupedByParentDirectory = listTestTTSLFilesGroupedByParentDirectory(rootResourceName);
     const testCases = filesGroupedByParentDirectory.map((entry) => createTypingTest(...entry));
 
     return Promise.all(testCases);

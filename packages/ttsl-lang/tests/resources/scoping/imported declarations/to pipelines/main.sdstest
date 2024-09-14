@@ -1,26 +1,26 @@
 package tests.scoping.importedDeclarations.toPipelines
 
-// $TEST$ unresolved
+# $TEST$ unresolved
 from tests.scoping.importedDeclarations.toPipelines import »ownPipeline«
 
 
-// $TEST$ unresolved
+# $TEST$ unresolved
 from tests.scoping.importedDeclarations.toPipelines.first import »pipelineInFirstPackage«
 
-// $TEST$ unresolved
+# $TEST$ unresolved
 from tests.scoping.importedDeclarations.toPipelines.second import »pipelineInSecondPackage«
 
-// $TEST$ unresolved
-// $TEST$ unresolved
+# $TEST$ unresolved
+# $TEST$ unresolved
 from tests.scoping.importedDeclarations.toPipelines.second import »redeclaredPipelineInSameFile«, »redeclaredPipelineInOtherFile«
 
-// $TEST$ unresolved
+# $TEST$ unresolved
 from tests.scoping.importedDeclarations.toPipelines.second import »pipelineInBothPackages«
 
 
-// $TEST$ unresolved
+# $TEST$ unresolved
 from tests.scoping.importedDeclarations.toPipelines.second import »pipelineInFirstPackage«
 
 
-// $TEST$ target own_ownPipeline
+# $TEST$ target own_ownPipeline
 pipeline »ownPipeline« {}

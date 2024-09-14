@@ -6,9 +6,9 @@ import { Diagnostic, DiagnosticSeverity } from 'vscode-languageserver';
 import { locationToString } from '../../../src/helpers/locations.js';
 import { loadDocuments } from '../../helpers/testResources.js';
 import { createValidationTests, ExpectedIssue } from './creator.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const langiumDocuments = services.shared.workspace.LangiumDocuments;
 
 describe('validation', async () => {

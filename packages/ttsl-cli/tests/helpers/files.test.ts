@@ -5,7 +5,7 @@ import { uriToRelativePath } from '../../src/helpers/files.js';
 
 describe('uriToRelativePath', () => {
     it('should return a path that is relative to the current working directory', () => {
-        const fileName = 'test.Tsltest';
+        const fileName = 'test.ttsl';
         const uri = URI.file(path.join(process.cwd(), fileName));
 
         expect(uriToRelativePath(uri)).toBe(fileName);

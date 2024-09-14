@@ -1,0 +1,15 @@
+package tests.partialValidation.recursiveCases.infixOperations.notEquals
+
+function test () {
+    # $TEST$ serialization false
+    »true != true«;
+
+    # $TEST$ serialization true
+    »false != 1«;
+
+    # $TEST$ serialization ?
+    »1 != unresolved«;
+
+    # $TEST$ serialization ?
+    »unresolved != 1.25«;
+}

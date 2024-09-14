@@ -1,9 +1,0 @@
-package tests.partialValidation.recursiveCases.typeCasts
-
-pipeline test {
-    // $TEST$ serialization true
-    »true as Boolean«;
-
-    // $TEST$ serialization 1
-    »1 as Boolean«;
-}

@@ -1,4 +1,4 @@
-package safeds.lang
+package TTSL.lang
 
 /**
  * The common superclass of all classes.

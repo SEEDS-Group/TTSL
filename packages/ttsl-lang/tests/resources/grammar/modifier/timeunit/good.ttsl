@@ -1,0 +1,7 @@
+# $TEST$ no_syntax_error
+
+# Function definition:
+function per day f(): Int {}
+
+# Data definition:
+data per month salary: Int;

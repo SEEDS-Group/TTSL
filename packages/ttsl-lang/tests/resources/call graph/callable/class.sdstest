@@ -3,5 +3,5 @@ package tests.callGraph.callable.`class`
 @Pure fun f() -> r: Any
 @Pure fun g()
 
-// $TEST$ ["MyClass", "f", "g"]
+# $TEST$ ["MyClass", "f", "g"]
 »class MyClass(param1: Any = f(), param2: () -> () = g)«

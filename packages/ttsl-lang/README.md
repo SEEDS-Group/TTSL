@@ -1,1 +1,1 @@
-# Safe-DS Language Server
+# TTSL Language Server

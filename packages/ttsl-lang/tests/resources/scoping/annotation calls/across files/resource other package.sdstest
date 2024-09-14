@@ -1,13 +1,13 @@
 package tests.scoping.annotationCalls.acrossFiles.other
 
-// $TEST$ target other_MyAnnotation
+# $TEST$ target other_MyAnnotation
 annotation »MyAnnotation«
 
-// $TEST$ target other_AnnotationInAnotherPackage
+# $TEST$ target other_AnnotationInAnotherPackage
 annotation »AnnotationInAnotherPackage«
 
-// $TEST$ target other_Annotation2InAnotherPackage
+# $TEST$ target other_Annotation2InAnotherPackage
 annotation »Annotation2InAnotherPackage«
 
-// $TEST$ target other_NotAnAnnotation
+# $TEST$ target other_NotAnAnnotation
 class »NotAnAnnotation«

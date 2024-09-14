@@ -1,8 +1,8 @@
 import path from 'path';
 import { globSync } from 'glob';
-import { SAFE_DS_FILE_EXTENSIONS } from '../../src/language/helpers/fileExtensions.js';
+import { TSL_FILE_EXTENSIONS } from '../../src/language/helpers/fileExtensions.js';
 import { BuildOptions, LangiumDocument, URI } from 'langium';
-import { SafeDsServices } from '../../src/language/index.js';
+import { TTSLServices } from '../../src/language/index.js';
 import { groupBy } from '../../src/helpers/collections.js';
 import { fileURLToPath } from 'url';
 
@@ -44,14 +44,14 @@ export const uriToShortenedTestResourceName = (
 };
 
 /**
- * Lists all Safe-DS files in the given root directory that are not skipped.
+ * Lists all TTSL files in the given root directory that are not skipped.
  *
  * @param rootTestResourceName The resource name of the root directory.
- * @return URIs of the discovered Safe-DS files.
+ * @return URIs of the discovered TTSL files.
  */
-export const listTestSafeDsFiles = (rootTestResourceName: TestResourceName): URI[] => {
+export const listTestTTSLFiles = (rootTestResourceName: TestResourceName): URI[] => {
     const rootPath = testResourceNameToUri(rootTestResourceName).fsPath;
-    return listTestFilesWithExtensions(rootTestResourceName, SAFE_DS_FILE_EXTENSIONS).filter((uri) =>
+    return listTestFilesWithExtensions(rootTestResourceName, TSL_FILE_EXTENSIONS).filter((uri) =>
         isNotSkipped(path.relative(rootPath, uri.fsPath)),
     );
 };
@@ -71,14 +71,14 @@ export const listTestFilesWithExtensions = (rootTestResourceName: TestResourceNa
 };
 
 /**
- * Lists all Safe-DS files in the given root directory that are not skipped. The result is grouped by the parent
+ * Lists all TTSL files in the given root directory that are not skipped. The result is grouped by the parent
  * directory.
  *
  * @param rootTestResourceName The resource name of the root directory.
- * @return URIs of the discovered Safe-DS files grouped by the parent directory.
+ * @return URIs of the discovered TTSL files grouped by the parent directory.
  */
-export const listTestSafeDsFilesGroupedByParentDirectory = (rootTestResourceName: TestResourceName): [URI, URI[]][] => {
-    const uris = listTestSafeDsFiles(rootTestResourceName);
+export const listTestTTSLFilesGroupedByParentDirectory = (rootTestResourceName: TestResourceName): [URI, URI[]][] => {
+    const uris = listTestTTSLFiles(rootTestResourceName);
     const groupedByParentDirectory = groupBy(uris, (p) => path.dirname(p.fsPath));
 
     const result: [URI, URI[]][] = [];
@@ -103,7 +103,7 @@ const isNotSkipped = (pathRelativeToResources: string) => {
  * @returns The loaded documents.
  */
 export const loadDocuments = async (
-    services: SafeDsServices,
+    services: TTSLServices,
     uris: URI[],
     options: BuildOptions = {},
 ): Promise<LangiumDocument[]> => {

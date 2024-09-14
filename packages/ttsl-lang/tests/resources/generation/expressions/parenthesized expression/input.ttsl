@@ -1,0 +1,9 @@
+package tests.generator.parenthesizedExpression
+
+function f(param: Any?){}
+
+function g(): Boolean{}
+
+function test () {
+    f((g()));
+}

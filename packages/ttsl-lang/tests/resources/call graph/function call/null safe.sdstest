@@ -11,15 +11,15 @@ segment mySegment(
     myClass: MyClass,
     myClassOrNull: MyClass?
 ) {
-    // $TEST$ ["myFunction"]
+    # $TEST$ ["myFunction"]
     »myFunction?()«;
 
-    // $TEST$ ["myStaticMethod"]
+    # $TEST$ ["myStaticMethod"]
     »MyClass.myStaticMethod?()«;
 
-    // $TEST$ ["myInstanceMethod"]
+    # $TEST$ ["myInstanceMethod"]
     »myClass.myInstanceMethod?()«;
 
-    // $TEST$ ["myInstanceMethod"]
+    # $TEST$ ["myInstanceMethod"]
     »myClassOrNull?.myInstanceMethod?()«;
 }

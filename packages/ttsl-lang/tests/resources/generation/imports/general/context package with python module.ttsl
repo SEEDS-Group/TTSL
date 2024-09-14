@@ -1,0 +1,4 @@
+package tests.generator.withPythonModule
+
+function function1InCompilationUnitWithPythonModule(): Int {}
+function function2InCompilationUnitWithPythonModule(): Int{}

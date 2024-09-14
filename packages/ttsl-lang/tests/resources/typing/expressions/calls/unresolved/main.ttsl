@@ -1,0 +1,9 @@
+package tests.typing.expressions.calls.ofUnresolved
+
+function myFunction() {
+    # $TEST$ serialization $unknown
+    »unresolved()«;
+
+    # $TEST$ serialization $unknown
+    »unresolved?()«;
+}

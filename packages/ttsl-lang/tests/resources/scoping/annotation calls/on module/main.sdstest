@@ -1,13 +1,13 @@
-// $TEST$ references annotation
+# $TEST$ references annotation
 @»MyAnnotation«
-// $TEST$ unresolved
+# $TEST$ unresolved
 @»NotAnAnnotation«
-// $TEST$ unresolved
+# $TEST$ unresolved
 @»Unresolved«
 
 package tests.scoping.annotationCalls.onModule
 
-// $TEST$ target annotation 
+# $TEST$ target annotation 
 annotation »MyAnnotation«
 
 class NotAnAnnotation

@@ -1,4 +1,0 @@
-package tests.partialValidation.baseCases.segments
-
-// $TEST$ serialization mySegment
-»segment mySegment() {}«

@@ -14,7 +14,7 @@
         "programming language",
         "static checking"
     ],
-    "homepage": "https://dsl.safeds.com",
+    "homepage": "https://dsl.TTSL.com",
     "bugs": {
         "url": "https://github.com/SEEDS-Group/TTSL/issues"
     },
@@ -25,7 +25,7 @@
     },
     "type": "module",
     "bin": {
-        "safe-ds": "./bin/cli.js"
+        "ttsl": "./bin/cli.js"
     },
     "exports": null,
     "files": [

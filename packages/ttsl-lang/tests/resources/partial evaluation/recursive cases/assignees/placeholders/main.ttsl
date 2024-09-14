@@ -1,0 +1,13 @@
+package tests.partialValidation.recursiveCases.assignees.placeholders
+
+function myFunction(): Int {
+    yield r = 2;
+}
+
+function test () {
+    # $TEST$ serialization 1
+    »val a« = 1;
+
+    # $TEST$ serialization 2
+    »val c« = myFunction();
+}

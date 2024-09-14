@@ -1,0 +1,11 @@
+package tests.typing.expressions.calls.ofFunctions
+
+function f1(): String {}
+
+function myFunction() {
+    # $TEST$ serialization String
+    »f1()«;
+
+    # $TEST$ serialization String
+    »f1?()«;
+}

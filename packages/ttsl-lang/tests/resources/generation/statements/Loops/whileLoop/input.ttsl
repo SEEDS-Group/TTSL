@@ -1,0 +1,8 @@
+package tests.generator.whileLoop
+
+function myFunction () {
+    var i: Int = 0;
+    while(i == 0){
+        i = 1;
+    }
+}

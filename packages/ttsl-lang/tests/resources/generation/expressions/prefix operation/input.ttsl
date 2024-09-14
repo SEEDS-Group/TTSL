@@ -1,0 +1,12 @@
+package tests.generator.prefixOperation
+
+function f(param: Any?){}
+
+function g(): Boolean{}
+
+function h(): Int{}
+
+function test () {
+    f(not g());
+    f(-h());
+}

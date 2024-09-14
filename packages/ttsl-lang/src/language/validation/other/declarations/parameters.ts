@@ -1,12 +1,12 @@
-import { AstUtils, ValidationAcceptor } from 'langium';
-import { isTslAnnotation, isTslCallable, TslParameter } from '../../../generated/ast.js';
+import { ValidationAcceptor } from 'langium';
+import { TslParameter } from '../../../generated/ast.js';
 import { Parameter } from '../../../helpers/nodeProperties.js';
-import { SafeDsServices } from '../../../safe-ds-module.js';
+import { TTSLServices } from '../../../ttsl-module.js';
 
 export const CODE_PARAMETER_CONSTANT_DEFAULT_VALUE = 'parameter/constant-default-value';
 export const CODE_PARAMETER_CONSTANT_TYPE = 'parameter/constant-type';
 
-export const constantParameterMustHaveConstantDefaultValue = (services: SafeDsServices) => {
+export const constantParameterMustHaveConstantDefaultValue = (services: TTSLServices) => {
     const partialEvaluator = services.evaluation.PartialEvaluator;
 
     return (node: TslParameter, accept: ValidationAcceptor) => {
@@ -15,10 +15,7 @@ export const constantParameterMustHaveConstantDefaultValue = (services: SafeDsSe
         }
 
         if (!partialEvaluator.canBeValueOfConstantParameter(node.defaultValue)) {
-            const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
-            const kind = isTslAnnotation(containingCallable) ? 'annotation' : 'constant';
-
-            accept('error', `Default values of ${kind} parameters must be constant.`, {
+            accept('error', `Default values of constant parameters must be constant.`, {
                 node,
                 property: 'defaultValue',
                 code: CODE_PARAMETER_CONSTANT_DEFAULT_VALUE,
@@ -27,7 +24,7 @@ export const constantParameterMustHaveConstantDefaultValue = (services: SafeDsSe
     };
 };
 
-export const constantParameterMustHaveTypeThatCanBeEvaluatedToConstant = (services: SafeDsServices) => {
+export const constantParameterMustHaveTypeThatCanBeEvaluatedToConstant = (services: TTSLServices) => {
     const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
@@ -38,10 +35,7 @@ export const constantParameterMustHaveTypeThatCanBeEvaluatedToConstant = (servic
 
         const type = typeComputer.computeType(node);
         if (!typeChecker.canBeTypeOfConstantParameter(type)) {
-            const containingCallable = AstUtils.getContainerOfType(node, isTslCallable);
-            const kind = isTslAnnotation(containingCallable) ? 'An annotation' : 'A constant';
-
-            accept('error', `${kind} parameter cannot have type '${type.toString()}'.`, {
+            accept('error', `A constant parameter cannot have type '${type.toString()}'.`, {
                 node,
                 property: 'type',
                 code: CODE_PARAMETER_CONSTANT_TYPE,

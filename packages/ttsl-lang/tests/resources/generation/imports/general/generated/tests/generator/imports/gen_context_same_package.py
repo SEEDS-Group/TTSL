@@ -1,9 +1,12 @@
-# Segments ---------------------------------------------------------------------
+# Functions --------------------------------------------------------------------
 
-def segment1InSamePackage():
-    __gen_yield_result = impureFunction()
-    return __gen_yield_result
+def impureFunction():
+    pass
 
-def segment2InSamePackage():
-    __gen_yield_result = impureFunction()
-    return __gen_yield_result
+def function1InSamePackage():
+
+    return [object Object],(,[object Object],)
+
+def function2InSamePackage():
+
+    return [object Object],(,[object Object],)

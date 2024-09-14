@@ -1,14 +1,14 @@
 package tests.validation.names.casing
 
 fun myFunction2() -> (
-    // $TEST$ warning "Names of results should be lowerCamelCase."
+    # $TEST$ warning "Names of results should be lowerCamelCase."
     »ResultUppercase«: Int,
-    // $TEST$ no warning "Names of results should be lowerCamelCase."
+    # $TEST$ no warning "Names of results should be lowerCamelCase."
     »resultLowercase1«: Int,
-    // $TEST$ no warning "Names of results should be lowerCamelCase."
+    # $TEST$ no warning "Names of results should be lowerCamelCase."
     »`resultLowercase2`«: Int,
-    // $TEST$ warning "Names of results should be lowerCamelCase."
+    # $TEST$ warning "Names of results should be lowerCamelCase."
     »_resultUnderscore«: Int,
-    // $TEST$ warning "Names of results should be lowerCamelCase."
+    # $TEST$ warning "Names of results should be lowerCamelCase."
     »result_snake_case«: Int
 )

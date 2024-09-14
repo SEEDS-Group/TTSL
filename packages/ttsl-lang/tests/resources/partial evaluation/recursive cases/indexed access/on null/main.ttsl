@@ -1,0 +1,9 @@
+package tests.partialValidation.recursiveCases.indexedAccess.onNull
+
+function test () {
+    # $TEST$ serialization ?
+    »null[0]«;
+
+    # $TEST$ serialization null
+    »null?[0]«;
+}

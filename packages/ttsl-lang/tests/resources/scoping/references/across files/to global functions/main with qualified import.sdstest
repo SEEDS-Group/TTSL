@@ -1,24 +1,24 @@
 package tests.scoping.references.acrossFiles.toGlobalFunctions
 
-from safeds.scoping.references.acrossFiles.toGlobalFunctions import myFunction
+from TTSL.scoping.references.acrossFiles.toGlobalFunctions import myFunction
 from tests.scoping.references.acrossFiles.toGlobalFunctions.other import functionInAnotherPackage, function2InAnotherPackage
 
-pipeline myPipeline {
-    // $TEST$ references safeds_myFunction
+function myFunction () {
+    # $TEST$ references TTSL_myFunction
     »myFunction«;
 
-    // $TEST$ references same_functionInSamePackage
+    # $TEST$ references same_functionInSamePackage
     »functionInSamePackage«;
 
-    // $TEST$ references safeds_functionInSafeDsPackage
-    »functionInSafeDsPackage«;
+    # $TEST$ references TTSL_functionInTTSLPackage
+    »functionInTTSLPackage«;
 
-    // $TEST$ references other_functionInAnotherPackage
+    # $TEST$ references other_functionInAnotherPackage
     »functionInAnotherPackage«;
 
-    // $TEST$ references other_function2InAnotherPackage
+    # $TEST$ references other_function2InAnotherPackage
     »function2InAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »functionWithoutPackage«;
 }

@@ -1,5 +1,0 @@
-package tests.typing.declarations.typeParameters
-
-// $TEST$ serialization K
-// $TEST$ serialization V
-class MyClass<»K«, »V«>

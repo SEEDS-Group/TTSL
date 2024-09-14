@@ -2,7 +2,7 @@ class MyOuterClass {
     @MyAnnotation  enum  MyEnum  {  MyEnumVariant  }
 }
 
-// -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 class MyOuterClass {
     @MyAnnotation

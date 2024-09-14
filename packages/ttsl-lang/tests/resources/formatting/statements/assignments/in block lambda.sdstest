@@ -1,13 +1,13 @@
-pipeline myPipeline {
+function myFunction () {
     () {
          val  a  =  0 ;
        val  a ,  _ ,  yield  b  =  call() ;
      };
 }
 
-// -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
-pipeline myPipeline {
+function myFunction () {
     () {
         val a = 0;
         val a, _, yield b = call();

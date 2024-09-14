@@ -1,0 +1,3 @@
+# $TEST$ syntax_error
+
+id constant testConstant: Int = 0;

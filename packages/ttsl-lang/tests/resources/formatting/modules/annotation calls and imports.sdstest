@@ -12,7 +12,7 @@ from  myPackage . mySubpackage  import  *
 
 from  myPackage . mySubpackage  import  MyClass ,  MyClass  as  Class
 
-// -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 @Annotation1
 @Annotation2
