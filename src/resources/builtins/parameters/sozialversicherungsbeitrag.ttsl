@@ -664,7 +664,7 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
  * Monatliche Bezugsgröße
  * §18 SGB IV and https:#de.wikipedia.org/wiki/Bezugsgr%C3%B6%C3%9Fe
  */
-public constant monatlicheBezugsgroeße: Dict<String, Float> {
+public constant monatlicheBezugsgröße: Dict<String, Float> {
     from 1984-01-01 = {
         "west": 1396
     };
