@@ -1,15 +1,29 @@
 package arbeitslosenversicherung
 
-from sozialversichernugsbeitrag import beitragssatz
+from gesetzlichePflegeversicherung import beitrag as gesetzlichePflegeVersicherungsBeitrag
+from gesetzlicheKrankenversicherung import beitrag as gesetzlicheKrankenVersicherungsBeitrag
+from gesetzlicheRentenversicherung import beitrag as gesetzlicheRentenVersicherungsBeitrag
+
+from gesetzlichePflegeversicherung import beitragArbeitgeber as gesetzlicherPflegeVersicherungsBeitragArbeitgeber
+from gesetzlicheKrankenversicherung import beitragArbeitgeber as gesetzlicherKrankenVersicherungsBeitragArbeitgeber
+from gesetzlicheRentenversicherung import beitragArbeitgeber as gesetzlicherRentenVersicherungsBeitragArbeitgeber
+
+from einkommensgrenzen import geringfügigBeschäftigt
+from einkommensgrenzen import inGleitzone
+from einkommensgrenzen import midijobBemessungsentgeld
+from einkommensgrenzen import midijobBeitragspflichtigeEinnahmeArbeitnehmer
+from gesetzlicheRentenversicherung import beitragBruttolohn as gesetzlicheRentenversicherungBetragBruttolohn
+
+from parameters.sozialversicherungsbeitrag import arbeitslosenversicherung as beitragssatzArbeitslosenversicherung
 
 /**
  * Sum of employee's social insurance contributions.
  */
-public function sozialversicherungsBeitrag(): Float per month {
+public function per month sozialversicherungsBeitrag(): Float {
     var pv = gesetzlichePflegeVersicherungsBeitrag() per month;
     var kv = gesetzlicheKrankenVersicherungsBeitrag() per month;
     var rv = gesetzlicheRentenVersicherungsBeitrag() per month;
-    var av = arbeitslosenversicherungsBeitrag() per month;
+    var av = beitrag() per month;
 
     return pv + kv + rv + av;
 }
@@ -21,7 +35,7 @@ public function sozialversicherungsBeitragArbeitgeber(): Float per month {
     var pv = gesetzlicherPflegeVersicherungsBeitragArbeitgeber() per month;
     var kv = gesetzlicherKrankenVersicherungsBeitragArbeitgeber() per month;
     var rv = gesetzlicherRentenVersicherungsBeitragArbeitgeber() per month;
-    var av = arbeitslosenversicherungsBeitragArbeitgeber() per month;
+    var av = beitragArbeitgeber() per month;
 
     return pv + kv + rv + av;
 }
@@ -41,7 +55,7 @@ public function beitrag(): Float per month {
         if (geringfügigBeschäftigt()) {
             return 0;
         } else {
-            return gesetzlicheRentenversicherungBetragBruttolohn() per month * beitragssatz[arbeitslosenversicherung];
+            return gesetzlicheRentenversicherungBetragBruttolohn() per month * beitragssatzArbeitslosenversicherung;
         }
     }
     from 2003-04-01 {
@@ -53,7 +67,7 @@ public function beitrag(): Float per month {
             return arbeitslosenversicherungBeitragArbeitnehmer() per month;
         }
 
-        return gesetzlicheRentenversicherungBetragBruttolohn() per month * beitragssatz[arbeitslosenversicherung];
+        return gesetzlicheRentenversicherungBetragBruttolohn() per month * beitragssatzArbeitslosenversicherung;
     }
 }
 
@@ -65,7 +79,7 @@ public function beitragArbeitgeber(): Float per month {
         if (geringfügigBeschäftigt()) {
             return 0;
         } else {
-            return gesetzlicheRentenversicherungBetragBruttolohn() per month * beitragssatz[arbeitslosenversicherung];
+            return gesetzlicheRentenversicherungBetragBruttolohn() per month * beitragssatzArbeitslosenversicherung;
         }
     }
 
@@ -75,10 +89,10 @@ public function beitragArbeitgeber(): Float per month {
         }
 
         if (inGleitzone()) {
-            return arbeitslosenversicherungBeitragMidijobArbeitgeber() per month;
+            return midijobArbeitnehmer() per month;
         }
 
-        return arbeitslosenversicherungRegulärBeschäftigt() per month;
+        return gesetzlicheRentenversicherungBetragBruttolohn() per month * beitragssatzArbeitslosenversicherung
     }
 }
 
@@ -88,7 +102,7 @@ public function beitragArbeitgeber(): Float per month {
  */
 private function midijobSummeArbeitgeberArbeitnehmer(): Float per month {
     from 2003-04-01 {
-        return midijobBemessungsentgeld() per month * 2 * beitragssatz[arbeitslosenversicherung];
+        return midijobBemessungsentgeld() per month * 2 * beitragssatzArbeitslosenversicherung;
     }
 }
 
@@ -98,7 +112,7 @@ private function midijobSummeArbeitgeberArbeitnehmer(): Float per month {
  */
 private function midijobArbeitgeberAnteilBruttolohn(bruttolohn per month): Float per month {
     from 2003-04-01 to 2022-09-30 {
-        bruttolohn per month * beitragssatz[arbeitslosenversicherung];
+        bruttolohn per month * beitragssatzArbeitslosenversicherung;
     }
 }
 
@@ -121,7 +135,6 @@ private function midijobArbeitnehmer(): Float per month {
     }
 
     from 2022-10-01 {
-        # TODO
-        return _midijob_beitragspfl_einnahme_arbeitn_m * beitragssatz[arbeitslosenversicherung];
+        return midijobBeitragspflichtigeEinnahmeArbeitnehmer() * beitragssatzArbeitslosenversicherung;
     }
 }

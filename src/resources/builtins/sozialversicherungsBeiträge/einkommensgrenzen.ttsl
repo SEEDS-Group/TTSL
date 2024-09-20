@@ -34,7 +34,7 @@ public function minijobGrenze(): Float per month {
  * Marginal employed pay no social insurance contributions.
  * Legal reference: § 8 Abs. 1 Satz 1 and 2 SGB IV
  */
-public function geringügigBeschäftigt(bruttolohn per month): Boolean {
+public function geringfügigBeschäftigt(bruttolohn per month): Boolean {
     return bruttolohn per month <= minijobGrenze()
 }
 
@@ -145,7 +145,7 @@ public function midijobFaktorF(): Float {
  * social insurance contribution.
  * Legal reference: § 163 Abs. 10 SGB VI
  */
-public function midijobBemessungsgeld(bruttolohn per month): Float per month {
+public function midijobBemessungsentgeld(bruttolohn per month): Float per month {
     from 2003-04-01 {
         # Now use the factor to calculate the overall bemessungsentgelt
         var minijob_anteil = midijobFaktorF() * minijobGrenze()
