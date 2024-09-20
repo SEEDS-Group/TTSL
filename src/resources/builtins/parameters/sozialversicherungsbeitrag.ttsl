@@ -883,7 +883,7 @@ public constant mindestanteilBezugsgroeßeBeitragspflichtigeEinnahmeSelbst: Floa
  * Gleitzone (Midijob Grenze) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
  * Reference: Midijob § 20 (2) SGB IV, Minijob § 8 (1) Nr. 1 SGB IV
  */
-public constant geringfuegigeEinkommensgrenzenMonatlich {
+public constant geringfügigeEinkommensgrenzenMonatlich {
     Dict<String, Dict<String, Int>> {
         from 1984-01-01 = {
             "minijob": {
@@ -1051,7 +1051,7 @@ public constant geringfuegigeEinkommensgrenzenMonatlich {
  * multipliziert wird.
  * Reference: §8 (1a) SGB IV
  */
-public constant geringfuegigeEinkommensfaktor: Int {
+public constant geringfügigeEinkommensfaktor: Int {
     from 2022-10-01 = 130;
 }
 
@@ -1071,7 +1071,7 @@ public constant geringfuegigeEinkommensdivisor: Int {
  * Rentenversicherung (§ 168 I Nr. 1b SGB VI), Pauschalierte Lohnsteuer (§40a II
  * EStG)
  */
-public constant pauschalabgabenGeringfuegigeBeschaeftigung: Dict<String, Float> {
+public constant pauschalabgabenGeringfügigeBeschäftigung: Dict<String, Float> {
     from 1984-01-01 = {
         "ges_krankenv": 0,
         "ges_rentenv": 0,
