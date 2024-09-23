@@ -1,6 +1,5 @@
 package gesetzlichePflegeversicherung
 
-from sozialversicherungsbeitrag import beitragssatz
 from sozialversicherungsbeitrag import mindestalterBeitragszuschlagKinderlose
 from sozialversicherungsbeitrag import gesetzlichePflegeversicherung
 
