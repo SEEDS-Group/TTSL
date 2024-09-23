@@ -20,7 +20,7 @@ public function gesetzlicheKrankenversicherung(wohnort_ost: Boolean): Float per 
     }
 }
 
-public function gesetzlicheKrankenversicherungBezugsgrße(wohnort_ost: Boolean): Float per month {
+public function gesetzlicheKrankenversicherungBezugsgröße(wohnort_ost: Boolean): Float per month {
     if wohnort_ost {
         return monatlicheBezugsgröße["ost"];
     } else {

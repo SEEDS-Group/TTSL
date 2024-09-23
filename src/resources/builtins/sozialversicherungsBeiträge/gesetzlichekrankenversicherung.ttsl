@@ -1,6 +1,17 @@
 package gesetzlicheKrankenversicherung
 
-from sozialversicherungsBeitragsParameter import pauschalabgabenGeringfügigeBeschäftigung, beitragssatz, mindestanteilBezugsgrßeBeitragspflichtigeEinnahmeSelbst
+from sozialversicherungsbeitrag import pauschalabgabenGeringfügigeBeschäftigung
+from sozialversicherungsbeitrag import gesetzlicheKrankenversicherung as beitragssatzGesetzlicheKrankenversicherung
+from sozialversicherungsbeitrag import mindestanteilBezugsgrößeBeitragspflichtigeEinnahmeSelbst
+
+from beitragsbemessungsgrenzen import gesetzlicheKrankenversicherung as gesetzlicheKrankenversicherungBeitragsbemessungsgrenze
+from beitragsbemessungsgrenzen import gesetzlicheKrankenversicherungBezugsgröße
+
+from einkommensgrenzen import inGleitzone
+from einkommensgrenzen import geringfügigBeschäftigt
+from einkommensgrenzen import midijobBemessungsentgeld
+from einkommensgrenzen import midijobBeitragspflichtigeEinnahmeArbeitnehmer
+
 from math import min, max
 
 /**
@@ -47,7 +58,7 @@ public function beitragArbeitgeber(
         } else if geringfügigBeschäftigt {
             return bruttolohn * pauschalabgabenGeringfügigeBeschäftigung["ges_krankenv"];
         } else {
-            return bruttolohnMonatlich() * beitragssatzArbeitgeber();
+            return bruttolohn() per month * beitragssatzArbeitgeber();
         }
     }
     from 2003-04-01 {
@@ -55,10 +66,10 @@ public function beitragArbeitgeber(
             return 0.0;
         } else if geringfügigBeschäftigt {
             return bruttolohn * pauschalabgabenGeringfügigeBeschäftigung["ges_krankenv"];
-        } else if inGleitzone {
+        } else if inGleitzone() {
             return beitragMidijobArbeitgeber();
         } else {
-            return bruttolohnMonatlich() * beitragssatzArbeitgeber();
+            return bruttolohn() per month * beitragssatzArbeitgeber();
         }
     }
 }
@@ -68,10 +79,10 @@ public function beitragArbeitgeber(
  */
 public function zusatzbeitragssatz(): Float per year {
     to 2014-12-31 {
-        return beitragssatz["gesetzlicheKrankenversicherung"]["sonderbeitrag"];
+        return beitragssatzGesetzlicheKrankenversicherung["sonderbeitrag"];
     }
     from 2015-01-01 {
-        return beitragssatz["gesetzlicheKrankenversicherung"]["mean_zusatzbeitrag"];
+        return beitragssatzGesetzlicheKrankenversicherung["mean_zusatzbeitrag"];
     }
 }
 
@@ -80,18 +91,18 @@ public function zusatzbeitragssatz(): Float per year {
  */
 public function beitragssatz(): Float per month {
     to 2005-06-30 {
-        return beitragssatz["gesetzlicheKrankenversicherung"]["mean_allgemein"] / 2;
+        return beitragssatzGesetzlicheKrankenversicherung["mean_allgemein"] / 2;
     }
     from 2005-07-01 to 2008-12-31 {
-        var meanAllgemein = beitragssatz["gesetzlicheKrankenversicherung"]["mean_allgemein"];
+        var meanAllgemein = beitragssatzGesetzlicheKrankenversicherung["mean_allgemein"];
         return meanAllgemein / 2 + zusatzbeitragssatz();
     }
     from 2009-01-01 to 2018-12-31 {
-        var allgemein = beitragssatz["gesetzlicheKrankenversicherung"]["allgemein"];
+        var allgemein = beitragssatzGesetzlicheKrankenversicherung["allgemein"];
         return allgemein / 2 + zusatzbeitragssatz();
     }
     from 2019-01-01 {
-        var allgemeinerBeitragssatz = beitragssatz["gesetzlicheKrankenversicherung"]["allgemein"];
+        var allgemeinerBeitragssatz = beitragssatzGesetzlicheKrankenversicherung["allgemein"];
         return (allgemeinerBeitragssatz + zusatzbeitragssatz()) / 2;
     }
 }
@@ -101,18 +112,18 @@ public function beitragssatz(): Float per month {
  */
 public function beitragssatzJahresanfang(): Float per month {
     to 2005-06-30 {
-        return sozialversicherungsBeitragsParameter["beitr_satz_jahresanfang"]["gesetzlicheKrankenversicherung"]["mean_allgemein"] / 2;
+        return beitragssatzGesetzlicheKrankenversicherung["mean_allgemein"] / 2;
     }
     from 2005-07-01 to 2008-12-31 {
-        var meanAllgemein = sozialversicherungsBeitragsParameter["beitr_satz_jahresanfang"]["gesetzlicheKrankenversicherung"]["mean_allgemein"];
+        var meanAllgemein = beitragssatzGesetzlicheKrankenversicherung["mean_allgemein"];
         return meanAllgemein / 2 + zusatzbeitragssatz();
     }
     from 2009-01-01 to 2018-12-31 {
-        var allgemein = sozialversicherungsBeitragsParameter["beitr_satz_jahresanfang"]["gesetzlicheKrankenversicherung"]["allgemein"];
+        var allgemein = beitragssatzGesetzlicheKrankenversicherung["allgemein"];
         return allgemein / 2 + zusatzbeitragssatz();
     }
     from 2019-01-01 {
-        var allgemeinerBeitragssatz = sozialversicherungsBeitragsParameter["beitr_satz_jahresanfang"]["gesetzlicheKrankenversicherung"]["allgemein"];
+        var allgemeinerBeitragssatz = beitragssatzGesetzlicheKrankenversicherung["allgemein"];
         return (allgemeinerBeitragssatz() + zusatzbeitragssatz()) / 2;
     }
 }
@@ -122,15 +133,15 @@ public function beitragssatzJahresanfang(): Float per month {
  */
 public function beitragssatzArbeitgeber(): Float per month {
     to 2008-12-31 {
-        return beitragssatz["gesetzlicheKrankenversicherung"]["mean_allgemein"] / 2;
+        return beitragssatzGesetzlicheKrankenversicherung["mean_allgemein"] / 2;
     }
     from 2009-01-01 to 2018-12-31 {
-        return beitragssatz["gesetzlicheKrankenversicherung"]["allgemein"] / 2;
+        return beitragssatzGesetzlicheKrankenversicherung["allgemein"] / 2;
     }
     from 2019-01-01 {
-        var allgemeinerBeitragssatz = beitragssatz["gesetzlicheKrankenversicherung"]["allgemein"];
-        var zusatzbeitragssatz = beitragssatz["gesetzlicheKrankenversicherung"]["mean_zusatzbeitrag"];
-        return (allgemeinerBeitragssatz + zusatzbeitragssatz) / 2;
+        var allgemeinerBeitragssatz = beitragssatzGesetzlicheKrankenversicherung["allgemein"];
+        var zusatzbeitragssatz = beitragssatzGesetzlicheKrankenversicherung["mean_zusatzbeitrag"];
+        return (allgemeinerBeitragssatz + zusatzbeitragssatz()) / 2;
     }
 }
 
@@ -139,14 +150,14 @@ public function beitragssatzArbeitgeber(): Float per month {
  */
 public function beitragssatzArbeitgeberJahresanfang(): Float per month {
     to 2008-12-31 {
-        return sozialversicherungsBeitragsParameter["beitr_satz_jahresanfang"]["gesetzlicheKrankenversicherung"]["mean_allgemein"] / 2;
+        return beitragssatzGesetzlicheKrankenversicherung["mean_allgemein"] / 2;
     }
     from 2009-01-01 to 2018-12-31 {
-        return sozialversicherungsBeitragsParameter["beitr_satz_jahresanfang"]["gesetzlicheKrankenversicherung"]["allgemein"] / 2;
+        return beitragssatzGesetzlicheKrankenversicherung["allgemein"] / 2;
     }
     from 2019-01-01 {
         var allgemeinerBeitragssatz = sozialversicherungsBeitragsParameter["beitr_satz_jahresanfang"]["gesetzlicheKrankenversicherung"]["allgemein"];
-        var zusatzbeitragssatz = beitragssatz["gesetzlicheKrankenversicherung"]["mean_zusatzbeitrag"];
+        var zusatzbeitragssatz = beitragssatzGesetzlicheKrankenversicherung["mean_zusatzbeitrag"];
         return (allgemeinerBeitragssatz + zusatzbeitragssatz) / 2;
     }
 }
@@ -157,8 +168,8 @@ public function beitragssatzArbeitgeberJahresanfang(): Float per month {
 public function bruttolohnRegulärBeschäftigt(
     bruttolohn: Float
 ): Float per month {
-    if bruttolohn > beitragsbemessungsgrenze() {
-        return beitragsbemessungsgrenze();
+    if bruttolohn > gesetzlicheKrankenversicherungBeitragsbemessungsgrenze() {
+        return gesetzlicheKrankenversicherungBeitragsbemessungsgrenze();
     } else {
         return bruttolohn;
     }
@@ -167,10 +178,8 @@ public function bruttolohnRegulärBeschäftigt(
 /**
  * Bruttolohn, der der gesetzlichen Krankenversicherung unterliegt.
  */
-public function bruttolohn(
-    regulärBeschäftigt: Boolean
-): Float per month {
-    if regulärBeschäftigt {
+public function bruttolohn(): Float per month {
+    if regulärBeschäftigt() {
         return bruttolohnRegulärBeschäftigt();
     } else {
         return 0.0;
@@ -192,11 +201,11 @@ public function bemessungsgrundlageSelbstständig(
     selbstständig: Boolean,
     inPrivaterKrankenversicherung: Boolean,
 ): Float per month {
-    if selbstständig and not inPrivaterKrankenversicherung {
+    if (selbstständig and not inPrivaterKrankenversicherung) {
         return min(
-            beitragsbemessungsgrenze(),
+            gesetzlicheKrankenversicherungBeitragsbemessungsgrenze(),
             max(
-                bezugsgrßeSelbstständig() * mindestanteilBezugsgrßeBeitragspflichtigeEinnahmeSelbst,
+                gesetzlicheKrankenversicherungBezugsgröße() * mindestanteilBezugsgrößeBeitragspflichtigeEinnahmeSelbst,
                 einkommenSelbstständig
             )
         );
@@ -206,22 +215,42 @@ public function bemessungsgrundlageSelbstständig(
 }
 
 /**
+ * Choose the amount of pension which is subject to health insurance contribution.
+ * TODO: Abhängigkeit zu Transfer Rente
+ */
+public function bemessungsgrundlageRente(): Float per month {
+    min(summeGesetzlicheRentePrivateRente, gesetzlicheKrankenversicherungBeitragsbemessungsgrenze)
+}
+
+/**
  * Beitrag für selbstständiges Einkommen.
  */
 public function beitragSelbstständig(): Float per month {
-    var params = beitragssatz["gesetzlicheKrankenversicherung"];
-    var ermßigterBeitrag = params["ermßigt"] if "ermßigt" in params else params["mean_allgemein"];
-    var zusatzbeitrag = params["mean_zusatzbeitrag"] if "mean_zusatzbeitrag" in params else 0.0;
-    var beitragssatzSelbstständig = ermßigterBeitrag + zusatzbeitrag;
-    return beitragssatzSelbstständig * bemessungsgrundlageSelbstständig();
+    var params = beitragssatzGesetzlicheKrankenversicherung;
+    if ("ermäßigt" in params) {
+        var ermäßigterBeitrag = params["ermäßigt"];
+    } else {
+        var ermäßigterBeitrag = params["mean_allgemein"];
+    }
+
+    if ("zusatzbeitrag" in params) {
+        zusatzbeitrag = params["zusatzbeitrag"];
+    } else {
+        zusatzbeitrag = 0.0;
+    }
+
+    var beitragssatzSelbstständig = ermäßigterBeitrag + zusatzbeitrag;
+    return beitragssatzSelbstständig * gesetzlicheKrankenversicherungBeitragsbemessungsgrenze();
 }
 
 /**
  * Bemessungsgrundlage für Renteneinkommen.
  */
-public function bemessungsgrundlageRente(): Float per month {
-    return min(summeGesetzlicheRentePrivateRente(), beitragsbemessungsgrenze());
-}
+
+# TODO: summeGesetzlicheRentePrivateRente Abhängigkeit zum Transfer Rente
+# public function bemessungsgrundlageRente(): Float per month {
+#     return min(summeGesetzlicheRentePrivateRente(), beitragsbemessungsgrenze());
+# }
 
 /**
  * Beitrag für Renteneinkommen.
@@ -235,7 +264,7 @@ public function beitragRente(): Float per month {
  */
 public function beitragMidijobSummeArbeitnehmerArbeitgeber(): Float per month {
     from 2003-04-01 {
-        return (beitragssatz() + beitragssatzArbeitgeber()) * midijobBemessungsentgelt();
+        return (beitragssatz() + beitragssatzArbeitgeber()) * midijobBemessungsentgeld();
     }
 }
 
@@ -245,13 +274,14 @@ public function beitragMidijobSummeArbeitnehmerArbeitgeber(): Float per month {
 public function beitragMidijobArbeitgeber(
     bruttolohn: Float
 ): Float per month {
-    from 2003-04-01 to 2022-09-30 {
+    from 2003-04-01 {
         if inGleitzone() {
             return beitragssatzArbeitgeber() * bruttolohn;
         } else {
             return 0.0;
         }
     }
+
     from 2022-10-01 {
         if inGleitzone() {
             return beitragMidijobSummeArbeitnehmerArbeitgeber() - beitragMidijobArbeitnehmer();
@@ -268,11 +298,8 @@ public function beitragMidijobArbeitnehmer(): Float per month {
     from 2003-04-01 to 2022-09-30 {
         return beitragMidijobSummeArbeitnehmerArbeitgeber() - beitragMidijobArbeitgeber();
     }
+
     from 2022-10-01 {
-        if inGleitzone {
-            return beitragspflichtigesEinkommenArbeitnehmer() * beitragssatz();
-        } else {
-            return 0.0;
-        }
+        return midijobBeitragspflichtigeEinnahmeArbeitnehmer() * beitragssatz();
     }
 }
