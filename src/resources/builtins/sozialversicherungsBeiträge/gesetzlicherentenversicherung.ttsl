@@ -1,6 +1,14 @@
 package gesetzlicheRentenversicherung
 
-from sozialversicherungsBeitragsParameter import beitragssatz, pauschalabgabenGeringfügigeBeschäftigung
+from sozialversicherungsbeitrag import pauschalabgabenGeringfügigeBeschäftigung
+from sozialversicherungsbeitrag import beitragssatzGesetzlicheRentenversicherung
+
+from einkommensgrenzen import geringfügigBeschäftigt
+from einkommensgrenzen import inGleitzone
+from einkommensgrenzen import midijobBemessungsentgeld
+from einkommensgrenzen import midijobBeitragspflichtigeEinnahmeArbeitnehmer
+
+from beitragsbemessungsgrenzen import gesetzlicheRentenversicherung as gesetzlicheRentenversicherungBeitragsbemessungsgrenze
 
 from math import min
 
@@ -9,23 +17,24 @@ from math import min
  */
 public function beitrag(): Float per month {
     to 2003-03-31 {
-        var beitrRegularJob = bruttolohn() * beitragssatz["ges_rentenv"];
+        var beitrRegularJob = bruttolohn() * beitragssatzGesetzlicheRentenversicherung;
         if geringfügigBeschäftigt() {
             return 0.0;
         } else {
-            return beitrRegularJob();
+            return beitrRegularJob;
         }
-    }
+    };
+
     from 2003-04-01 {
-        var beitrRegularJob = bruttolohn() * beitragssatz["ges_rentenv"];
+        var beitrRegularJob = bruttolohn() * beitragssatzGesetzlicheRentenversicherung;
         if geringfügigBeschäftigt() {
             return 0.0;
         } else if inGleitzone() {
-            return beitrMidijobArbeitnehmer();
+            return beitragMidijobArbeitnehmer();
         } else {
-            return beitrRegularJob();
+            return beitrRegularJob;
         }
-    }
+    };
 }
 
 /**
@@ -35,23 +44,26 @@ public function beitragArbeitgeber(
     bruttolohn: Float
 ): Float per month {
     to 2003-03-31 {
-        var beitrRegularJob = bruttolohn * beitragssatz["ges_rentenv"];
+        var beitrRegularJob = bruttolohn() * beitragssatzGesetzlicheRentenversicherung;
         if geringfügigBeschäftigt() {
             return bruttolohn * pauschalabgabenGeringfügigeBeschäftigung["ges_rentenv"];
         } else {
-            return beitrRegularJob();
+            return beitrRegularJob;
         }
-    }
+    };
+
     from 2003-04-01 {
-        var beitrRegularJob = bruttolohn * beitragssatz["ges_rentenv"];
+        var beitrRegularJob = bruttolohn() * beitragssatzGesetzlicheRentenversicherung;
         if geringfügigBeschäftigt() {
             return bruttolohn * pauschalabgabenGeringfügigeBeschäftigung["ges_rentenv"];
-        } else if inGleitzone {
-            return beitrMidijobArbeitgeber();
-        } else {
-            return beitrRegularJob();
         }
-    }
+
+        if inGleitzone {
+            return beitragMidijobArbeitgeber();
+        } else {
+            return beitrRegularJob;
+        }
+    };
 }
 
 /**
@@ -59,8 +71,8 @@ public function beitragArbeitgeber(
  */
 public function beitragMidijobSummeArbeitnehmerArbeitgeber(): Float per month {
     from 2003-04-01 {
-        return midijobBemessungsentgelt() * 2 * beitragssatz["ges_rentenv"];
-    }
+        return midijobBemessungsentgeld() * 2 * beitragssatzGesetzlicheRentenversicherung;
+    };
 }
 
 /**
@@ -70,11 +82,12 @@ public function beitragMidijobArbeitgeber(
     bruttolohn: Float
 ): Float per month {
     to 2022-09-30 {
-        return bruttolohn * beitragssatz["ges_rentenv"];
-    }
+        return bruttolohn * beitragssatzGesetzlicheRentenversicherung;
+    };
+
     from 2022-10-01 {
         return beitragMidijobSummeArbeitnehmerArbeitgeber() - beitragMidijobArbeitnehmer();
-    }
+    };
 }
 
 /**
@@ -83,17 +96,18 @@ public function beitragMidijobArbeitgeber(
 public function beitragMidijobArbeitnehmer(): Float per month {
     to 2022-09-30 {
         return beitragMidijobSummeArbeitnehmerArbeitgeber() - beitragMidijobArbeitgeber();
-    }
+    };
+
     from 2022-10-01 {
-        return beitragspflichtigesEinkommenArbeitnehmer * beitragssatz["ges_rentenv"];
-    }
+        return midijobBeitragspflichtigeEinnahmeArbeitnehmer * beitragssatzGesetzlicheRentenversicherung;
+    };
 }
 
 /**
  * Berechnung des Bruttolohns, der der Rentenversicherung unterliegt.
  */
-public function beitragBruttolohn(
+public function bruttolohn(
     bruttolohn: Float
 ): Float per month {
-    return min(bruttolohn, beitragsbemessungsgrenze());
+    return min(bruttolohn, gesetzlicheRentenversicherungBeitragsbemessungsgrenze());
 }
