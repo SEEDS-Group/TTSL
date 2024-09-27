@@ -43,14 +43,14 @@ import {
     isTslForeachLoop,
     isTslDictionaryType,
     isTslListType,
-    isTslTypeParameterList,
-    isTslTypeParameter,
-    TslTypeParameter,
     isTslConstant,
     isTslNothingType,
     isTslNull,
-    isTslCallable,
     isTslData,
+    isTslFunctionBlock,
+    TslTimespan,
+    isTslTimespanStatement,
+    TslTimespanValueEntry,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
 import {
@@ -139,7 +139,11 @@ export class TTSLTypeComputer {
         } else if (isTslResult(node)) {
             return this.computeType(node.type);
         } else if (isTslConstant(node)){
-            return this.computeType(node.type);
+            if(node.type){
+                return this.computeType(node.type);
+            }else{
+                return UnknownType;
+            }
         } else if (isTslData(node)){
             return this.computeType(node.type);
         } else if (isTslLocalVariable(node) && isTslForeachLoop(node.$container)){
@@ -322,9 +326,91 @@ export class TTSLTypeComputer {
 
     private computeTypeOfReference(node: TslReference): Type {
         const target = node.target.ref;
+        
+        // Compute Type of Constant with different Types for different Timespans
+        if(isTslConstant(target) && !target.type){
+
+            const containingTimespan = this.computeContainingTimespan(node);
+            const constantTimespans = this.fillinTimespans(target.timespanValueEntries)
+
+            if(containingTimespan && constantTimespans){
+                let indexOfCorrectConstant = constantTimespans.indexOf(constantTimespans.filter(timespan => 
+                    timespan.at(0)! >= containingTimespan.at(0)! && timespan.at(0)! < containingTimespan.at(1)! ||
+                    timespan.at(1)! > containingTimespan.at(0)! && timespan.at(1)! < containingTimespan.at(1)! ||
+                    timespan.at(0)! <= containingTimespan.at(0)! && timespan.at(1)! >= containingTimespan.at(1)!
+                ).at(0)!)
+                return this.doComputeType(target.timespanValueEntries.at(indexOfCorrectConstant)!.value)
+            }
+        }
         const instanceType = this.computeType(target);
 
         return instanceType;
+    }
+
+    private computeContainingTimespan(node: TslReference): string[] {
+        const containingFunction = AstUtils.getContainerOfType(node, isTslFunction)
+        const containingTimespan = AstUtils.getContainerOfType(node, isTslTimespanStatement)
+
+        let result = this.computeTimespan(containingTimespan!.timespan, containingFunction?.body.timespanStatement.map(stmt => stmt.timespan)!)
+
+        return result
+    }
+
+    private computeTimespan(node: TslTimespan, allTimespans: TslTimespan[]): string[]{
+        const indexOfTimespan = allTimespans.findIndex(timespan => timespan == node)!
+
+        let start = ""
+        let end = ""
+        // compute missing Timespan date if needed
+        if(!node.end && node.start){
+            start = node.start.date
+            
+            const followingTimespan = allTimespans.at(indexOfTimespan + 1)
+            if(!followingTimespan){
+                end = new Date().toLocaleString("fr-CA").split(' ')[0]!
+            } else {
+                end = followingTimespan?.start!.date!
+            }
+        } else if(!node.start && node.end){
+            end = node.end.date
+
+            const beforeTimespan = allTimespans.at(indexOfTimespan - 1)
+
+            if(!beforeTimespan){
+                start = "1900-01-01"
+            } else {
+                start = beforeTimespan?.end!.date!
+            }
+        } else {
+            start = node.start!.date!
+            end = node.end!.date!
+        }
+        return [start, end]
+    }
+
+    private fillinTimespans(node: TslTimespanValueEntry[]): String[][]{
+        let result = [["start", "end"]]
+        let now = new Date().toLocaleString("fr-CA").split(' ')[0]!
+        node.forEach(timespan => {
+                let index = node.indexOf(timespan)
+                if(!timespan.timespan.end && timespan.timespan.start){
+                    if(!node.at(index+1)){
+                        result.push([timespan.timespan.start?.date, now])
+                    }else{
+                        result.push([timespan.timespan.start?.date, node.at(index+1)?.timespan.start?.date!])
+                    }
+                } else if(!timespan.timespan.start && timespan.timespan.end){
+                    if(!node.at(index-1)){
+                        result.push(["1900-01-01", timespan.timespan.end?.date])
+                    }else{
+                        result.push([node.at(index-1)?.timespan.end?.date!, timespan.timespan.end?.date])
+                    }
+                } else {
+                    result.push([timespan.timespan.start?.date!, timespan.timespan.end?.date!])
+                }
+            }
+        )
+        return result.slice(1)
     }
 
     private computeTypeOfType(node: TslType): Type {

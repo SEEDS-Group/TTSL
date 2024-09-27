@@ -155,9 +155,9 @@ fragment TslConstantFragment:
     (visibility=TslVisibility)?
     'constant'
     name=ID
-    ':' ^type=TslType
-    ('{' (timespanValueEntries+=TslTimespanValueEntry)* '}' |
-    '=' value=TslExpression) ';'?
+    (':' ^type=TslType ('{' (timespanValueEntries+=TslTimespanValueEntry)* '}' |
+    '=' value=TslExpression ';'?) | '{' (timespanValueEntries+=TslTimespanValueEntry)* '}')
+    
 ;
 
 interface TslData extends TslModuleMember, TslDeclaration {
@@ -503,6 +503,7 @@ TslChainedExpression returns TslExpression:
     (
         {TslCall.receiver=current}
         (isNullSafe?='?')?
+        (timeunit=TslTimeunit)?
         argumentList=TslCallArgumentList
 
     |   {TslIndexedAccess.receiver=current}
@@ -742,16 +743,17 @@ interface TslTimespanStatement extends TslBlock, TslStatement{
 }
 
 TslTimespanStatement returns TslTimespanStatement:
-    timespan=TslTimespan '{' block=TslFunctionBlock '}'
+    timespan=TslTimespan block=TslFunctionBlock 
 ;
 
 interface TslTimespanValueEntry extends TslObject{
     timespan: TslTimespan
     value: TslExpression
+    type?: TslType
 }
 
 TslTimespanValueEntry returns TslTimespanValueEntry:
-    timespan=TslTimespan '=' value=TslExpression ';'
+    timespan=TslTimespan (':' type=TslType)? '=' value=TslExpression ';'
 ;
 
 // -----------------------------------------------------------------------------
