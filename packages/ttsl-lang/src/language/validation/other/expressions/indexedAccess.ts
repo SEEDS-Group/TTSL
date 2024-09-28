@@ -17,11 +17,10 @@ export const indexedAccessIndexMustBeValid = (services: TTSLServices) => {
         }
 
         const receiverValue = partialEvaluator.evaluate(node.receiver);
-
         // Check map key
         if (receiverValue instanceof EvaluatedMap) {
             if (!receiverValue.has(indexValue)) {
-                accept('error', `Map key '${indexValue}' does not exist.`, {
+                accept('error', `Dictionary key '${indexValue}' does not exist.`, {
                     node,
                     property: 'index',
                     code: CODE_INDEXED_ACCESS_INVALID_INDEX,
