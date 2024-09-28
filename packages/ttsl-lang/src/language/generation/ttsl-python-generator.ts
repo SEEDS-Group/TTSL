@@ -1123,7 +1123,7 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
     ): CompositeGeneratorNode {
         return expandTracedToNode(expression)`${this.generateExpression(expression.receiver, frame)}(`
         .appendIf(expression.timeunit !== undefined, `timeunit = ${expression.timeunit?.timeunit}`)
-        .append(`${joinTracedToNode(
+        .append(expandToNode`${joinTracedToNode(
             expression.argumentList,
             'arguments',
         )(sortedArgs, (arg) => this.generateArgument(arg, frame), { separator: ', ' })})`);

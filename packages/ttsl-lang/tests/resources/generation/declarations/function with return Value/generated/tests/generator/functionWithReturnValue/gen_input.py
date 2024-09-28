@@ -28,7 +28,7 @@ class __gen_ClassConstants():
 
 def test():
 
-    return 1
+    return x
 
 # Constants --------------------------------------------------------------------
 

@@ -262,7 +262,7 @@ export class TTSLTypeComputer {
     private computeTypeOfCall(node: TslCall): Type {
         const receiverType = this.computeType(node.receiver);
         let result = receiverType
-
+        
         // Update nullability
         return result.withExplicitNullability(receiverType.isExplicitlyNullable && node.isNullSafe);
     }
