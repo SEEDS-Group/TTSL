@@ -51,6 +51,7 @@ import {
     TslTimespan,
     isTslTimespanStatement,
     TslTimespanValueEntry,
+    isTslAggregation,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
 import {
@@ -254,6 +255,8 @@ export class TTSLTypeComputer {
             }
         } else if (isTslReference(node)) {
             return this.computeTypeOfReference(node);
+        } else if (isTslAggregation(node)) {
+            return this.computeType(node.data);
         } /* c8 ignore start */ else {
             return UnknownType;
         } /* c8 ignore stop */

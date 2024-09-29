@@ -717,11 +717,11 @@ TslTimeunit returns TslTimeunit:
 ;
 
 interface TslGroupedBy extends TslModifier{
-    id: TslReference
+    id: TslReference[]
 }
 
 TslGroupedBy returns TslGroupedBy:
-    'groupedBy' id=TslReference
+    'groupedBy' id+=TslReference (',' id+=TslReference)*
 ;
 
 // -----------------------------------------------------------------------------

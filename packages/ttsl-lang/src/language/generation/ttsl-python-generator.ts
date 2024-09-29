@@ -1110,7 +1110,7 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
             frame.addUtility(UTILITY_AGGREGATION);
             return expandTracedToNode(expression)`${traceToNode(
                 expression
-            )(UTILITY_AGGREGATION.name)}(${'dataframe'}, ${expression.data.target.ref?.name}, ${expression.groupedBy.id.target.ref?.name}, '${expression.function.value}')`;
+            )(UTILITY_AGGREGATION.name)}(${'dataframe'}, ${expression.data.target.ref?.name}, ${expression.groupedBy.id.map(id => id.target.ref?.name).toString()}, '${expression.function.value}')`;
         }
         /* c8 ignore next 2 */
         throw new Error(`Unknown expression type: ${expression.$type}`);
@@ -1133,7 +1133,7 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
         funct: TslFunction,
     ): CompositeGeneratorNode | undefined {
         if(funct.timeunit !== undefined|| funct.groupedBy !== undefined){
-            return expandToNode`timeunit = None, groupedBy = None, date = None`
+            return expandToNode`timeunit = None, groupedBy = None, date = None, `
         }
         return undefined
     }
