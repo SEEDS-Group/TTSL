@@ -971,8 +971,15 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
                     (value) => this.generateExpression(value, frame),
                     { separator: ', ' },
                 )}]`;
-            } else if (isTslInt(expression) || isTslFloat(expression) || isTslBoolean(expression)){
+            } else if (isTslInt(expression) || isTslFloat(expression)){
                 return expandTracedToNode(expression)`${expression.value}`
+            } else if(isTslBoolean(expression)){
+                if(expression.value.valueOf().toString() == "true"){
+                    return expandTracedToNode(expression)`True`
+                } else{
+                    return expandTracedToNode(expression)`False`
+                }
+                
             } else if (isTslString(expression)){
                 return expandTracedToNode(expression)`"${expression.value}"`
             } else if (isTslNull(expression)){

@@ -9,15 +9,37 @@ constant myConstant2 {
     from 2003-01-01: Boolean = false;
 }
 
+constant myConstant3 {
+    Int {
+        from 1999-01-01 = 0;
+    }
+    String{
+        from 2001-01-01 = "a";
+        from 2003-01-01 = "b";
+    }
+    Int{
+        from 2004-01-01 = 2;
+    }
+}
+
 function myFunction() {
     from 1999-05-05{
         # $TEST$ serialization Int
         var »myData« = myConstant2
+        # $TEST$ serialization Int
+        var »myData2« = myConstant3
     } from 2001-09-09{
         # $TEST$ serialization Float
         var »myData« = myConstant2
+        # $TEST$ serialization String
+        var »myData2« = myConstant3
     } from 2003-01-01{
         # $TEST$ serialization Boolean
         var »myData« = myConstant2
+        # $TEST$ serialization String
+        var »myData2« = myConstant3
+    } from 2004-01-01{
+        # $TEST$ serialization Int
+        var »myData« = myConstant3
     }
 }

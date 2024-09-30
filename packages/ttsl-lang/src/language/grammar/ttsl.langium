@@ -147,7 +147,7 @@ fragment TslFunctionFragment:
 
 interface TslConstant extends TslModuleMember, TslDeclaration {
     timespanValueEntries?: TslTimespanValueEntry[]
-    ^type: TslType
+    ^type: TslType[]
     value?: TslExpression
 }
 
@@ -155,8 +155,8 @@ fragment TslConstantFragment:
     (visibility=TslVisibility)?
     'constant'
     name=ID
-    (':' ^type=TslType ('{' (timespanValueEntries+=TslTimespanValueEntry)* '}' |
-    '=' value=TslExpression ';'?) | '{' (timespanValueEntries+=TslTimespanValueEntry)* '}')
+    (':' ^type+=TslType ('{' (timespanValueEntries+=TslTimespanValueEntry)* '}' |
+    '=' value=TslExpression ';'?) | '{' ((timespanValueEntries+=TslTimespanValueEntry)* | (^type+=TslType '{' (timespanValueEntries+=TslTimespanValueEntry)* '}')*)'}')
     
 ;
 
