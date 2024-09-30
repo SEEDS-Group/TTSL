@@ -1,11 +1,23 @@
 package freibeträge
 
+from einkommenssteuerAbzuege import alleinerziehendFreibetrag
+from einkommenssteuerAbzuege import alleinerzFreibetragZusatz
+
+from math import max
+
+id data kinderfreibetragEmpfänger1: Int;
+id data kinderfreibetragEmpfänger2: Int;
+data kinderfreibetragAnspruch: Int;
+
 /**
  * Gibt die Anzahl der Kinderfreibeträge zurück, auf die eine Person Anspruch hat.
  * Die Person könnte ein Elternteil oder gesetzlicher Vormund sein.
  */
-public function kinderfreibetragAnzahlAnsprüche(): Int {
-    return 0; # TODO
+public function kinderfreibetragAnzahlAnsprüche(): Int groupedBy kinderfreibetragEmpfänger1, kinderfreibetragEmpfänger2 {
+    var anspruch1: Int = aggregate "sum" of kinderfreibetragAnspruch groupedBy kinderfreibetragEmpfänger1;
+    var anspruch2: Int = aggregate "sum" of kinderfreibetragAnspruch groupedBy kinderfreibetragEmpfänger2;
+
+    return anspruch1 + anspruch2;
 }
 
 /**
@@ -14,12 +26,30 @@ public function kinderfreibetragAnzahlAnsprüche(): Int {
 public function behinderungsgradPauschbetrag(
     behinderungsgrad: Int,
 ): Float {
-    # Extrahiere die Schwellenwerte der Behindertenpauschbeträge
-    var thresholds = pauschbetragList.keys().sorted();
-
-    # Finde den passenden Schwellenwert für den Behinderungsgrad
-    var selectedThreshold = thresholds.firstWhereOrLast({ it >= behinderungsgrad }, thresholds.last());
-
-    # Gib den entsprechenden Pauschbetrag zurück
-    return pauschbetragList[selectedThreshold];
+    # TODO
+    return 0.0;
 }
+
+/**
+ * Berechnung des Alleinerziehendenfreibetrags (ehemals Haushaltsfreibetrag), der abhängig von der Anzahl der Kinder
+ * und dem Jahr, in dem die Berechnung stattfindet, variiert.
+ */
+public function alleinerzFreibetrag(): Float per year {
+    to 2014-12-31 {
+        if (alleinerziehend()) {
+            return alleinerziehendFreibetrag;
+        } else {
+            return 0.0;
+        }
+    }
+
+    from 2015-01-01 {
+        if (alleinerziehend()) {
+            return alleinerziehendFreibetrag + (kinderfreibetragAnzahlAnsprüche() - 1) * alleinerzFreibetragZusatz;
+        } else {
+            return 0.0;
+        }
+    }
+}
+
+

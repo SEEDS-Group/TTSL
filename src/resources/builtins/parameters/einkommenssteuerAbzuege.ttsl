@@ -373,7 +373,7 @@ public constant einführungsfaktor: Dict<Int, Dict<String, Float>> {
  * Entlastungsbetrag für Alleinerziehende
  * § 24b (1) EStG. vor 2004 "Haushaltsfreibetrag", § 32 (7) EStG
  */
-public constant alleinerzFreibetrag: Int {
+public constant alleinerziehendFreibetrag: Int {
 	from 1984-01-01 = 2154;
 	from 1986-01-01 = 2319;
 	from 1989-01-01 = 2871;
