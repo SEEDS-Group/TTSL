@@ -3,7 +3,7 @@ package einkommenssteuer
 /**
  * Berechnung der Einkommenssteuer ohne Kinderfreibetrag auf Steuernummer-Ebene.
  */
-public function einkommenssteuerOhneKinderfreibetrag(): Float per year {
+public function ohneKinderfreibetrag(): Float per year {
     var zuVerstEinkProPerson = zuVersteuerndesEinkommenOhneKinderfreibetrag() / anzahlPersonen();
     var einkommensteuer = anzahlPersonen() * einkommensteuerTarif(zuVerstEinkProPerson, einkommensteuerParameter);
     return einkommensteuer;
@@ -13,7 +13,7 @@ public function einkommenssteuerOhneKinderfreibetrag(): Float per year {
  * Berechnung der Einkommenssteuer mit Kinderfreibetrag auf Steuernummer-Ebene ab 2002.
  * TODO
  */
-public function einkommenssteuerMitKinderfreibetrag(): Float per year {
+public function mitKinderfreibetrag(): Float per year {
     from 2002-01-01 {
         var zuVerstEinkProPerson = zuVersteuerndesEinkommenMitKinderfreibetrag() / anzahlPersonen();
         var einkommensteuer = anzahlPersonen() * einkommensteuerTarif(zuVerstEinkProPerson, einkommensteuerParameter);
@@ -25,7 +25,7 @@ public function einkommenssteuerMitKinderfreibetrag(): Float per year {
  * Berechnung des Einkommensteuertarifs.
  * TODO
  */
-private function einkommensteuerTarif(
+private function tarif(
     einkommen: Float,
     einkommensteuerParameter: Map
 ): Float {
