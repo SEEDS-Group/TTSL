@@ -12,9 +12,7 @@ constant myConstant2 {
 }
 
 constant myConstant3 {
-    Int {
-        from 1999-01-01 = 0;
-    }
+    from 1999-01-01: Int = 0;
     String{
         from 2001-01-01 = "a";
         from 2003-01-01 = "b";
