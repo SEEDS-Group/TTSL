@@ -53,7 +53,7 @@ import {
 } from './types.js';
 import { indexedAccessIndexMustBeValid } from './other/expressions/indexedAccess.js';
 import { chainedExpressionsMustBeNullSafeIfReceiverIsNullable } from './other/expressions/chainedExpressions.js';
-import { groupByVariableMustBeAnID, groupedFunctionHasAggregation, groupedFunctionHasValidID } from './aggregation.js';
+import { groupByVariableMustBeASingleID, groupedFunctionHasAggregation, groupedFunctionHasValidID } from './aggregation.js';
 
 /**
  * Register custom validation checks.
@@ -61,20 +61,16 @@ import { groupByVariableMustBeAnID, groupedFunctionHasAggregation, groupedFuncti
 export const registerValidationChecks = function (services: TTSLServices) {
     const registry = services.validation.ValidationRegistry;
     const checks: ValidationChecks<TTSLAstType> = {
-        TslAssignee: [
-        ],
         TslAbstractCall: [
             argumentListMustNotHaveTooManyArguments(services),
             argumentListMustSetAllRequiredParameters(services),
-        ],
-        TslArgument: [
         ],
         TslArgumentList: [
             argumentListMustNotHavePositionalArgumentsAfterNamedArguments,
             argumentListMustNotSetParameterMultipleTimes(services),
         ],
         TslAggregation: [
-            groupByVariableMustBeAnID(),
+            groupByVariableMustBeASingleID(),
         ],
         TslCall: [
             callArgumentListShouldBeNeeded(services),

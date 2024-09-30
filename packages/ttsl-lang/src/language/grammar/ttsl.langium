@@ -155,9 +155,9 @@ fragment TslConstantFragment:
     (visibility=TslVisibility)?
     'constant'
     name=ID
-    ':' ^type=TslType
-    ('{' (timespanValueEntries+=TslTimespanValueEntry)* '}' |
-    '=' value=TslExpression) ';'?
+    (':' ^type=TslType ('{' (timespanValueEntries+=TslTimespanValueEntry)* '}' |
+    '=' value=TslExpression ';'?) | '{' (timespanValueEntries+=TslTimespanValueEntry)* '}')
+    
 ;
 
 interface TslData extends TslModuleMember, TslDeclaration {
@@ -503,6 +503,7 @@ TslChainedExpression returns TslExpression:
     (
         {TslCall.receiver=current}
         (isNullSafe?='?')?
+        (timeunit=TslTimeunit)?
         argumentList=TslCallArgumentList
 
     |   {TslIndexedAccess.receiver=current}
@@ -716,11 +717,11 @@ TslTimeunit returns TslTimeunit:
 ;
 
 interface TslGroupedBy extends TslModifier{
-    id: TslReference
+    id: TslReference[]
 }
 
 TslGroupedBy returns TslGroupedBy:
-    'groupedBy' id=TslReference
+    'groupedBy' id+=TslReference (',' id+=TslReference)*
 ;
 
 // -----------------------------------------------------------------------------
@@ -742,16 +743,17 @@ interface TslTimespanStatement extends TslBlock, TslStatement{
 }
 
 TslTimespanStatement returns TslTimespanStatement:
-    timespan=TslTimespan '{' block=TslFunctionBlock '}'
+    timespan=TslTimespan block=TslFunctionBlock 
 ;
 
 interface TslTimespanValueEntry extends TslObject{
     timespan: TslTimespan
     value: TslExpression
+    type?: TslType
 }
 
 TslTimespanValueEntry returns TslTimespanValueEntry:
-    timespan=TslTimespan '=' value=TslExpression ';'
+    timespan=TslTimespan (':' type=TslType)? '=' value=TslExpression ';'
 ;
 
 // -----------------------------------------------------------------------------
@@ -775,6 +777,7 @@ TslPrimaryType returns TslType:
   | TslDictionaryType
   | TslListType
   | TslAnyType
+  | TslNothingType
 ;
 
 interface TslIntType extends TslType {}
@@ -845,6 +848,12 @@ interface TslAnyType extends TslType {}
 
 TslAnyType returns TslAnyType:
     {TslAnyType} 'Any'
+;
+
+interface TslNothingType extends TslType {}
+
+TslNothingType returns TslNothingType:
+    {TslNothingType} 'Nothing'
 ;
 
 

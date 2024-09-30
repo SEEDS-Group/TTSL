@@ -1,7 +1,7 @@
 package tests.typing.operations.arithmetic
 
-function anyInt(): Int
-function anyFloat(): Float
+function anyInt(): Int {}
+function anyFloat(): Float {}
 
 function constantOperands() {
     # $TEST$ serialization Int

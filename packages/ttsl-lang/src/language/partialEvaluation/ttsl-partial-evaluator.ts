@@ -144,19 +144,11 @@ export class TTSLPartialEvaluator {
             return UnknownEvaluatedNode;
         }
 
-        const evaluatedExpression = this.evaluateWithRecursionCheck(
+        return this.evaluateWithRecursionCheck(
             containingAssignment.expression,
             substitutions,
             visited,
         );
-        const nodeIndex = node.$containerIndex ?? -1;
-        if (evaluatedExpression instanceof EvaluatedNamedTuple) {
-            return evaluatedExpression.getResultValueByIndex(nodeIndex);
-        } else if (nodeIndex === 0) {
-            return evaluatedExpression;
-        } else {
-            return UnknownEvaluatedNode;
-        }
     }
 
     private evaluateDeclaration(

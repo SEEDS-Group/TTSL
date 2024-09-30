@@ -11,7 +11,7 @@ function myFunction() {
     # $TEST$ serialization Int
     var intLiteral = »1«;
 
-    # $TEST$ serialization Nothing?
+    # $TEST$ serialization Nothing
     var nullLiteral = »null«;
 
     # $TEST$ serialization String

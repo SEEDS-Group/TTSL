@@ -1,6 +1,6 @@
 # Imports ----------------------------------------------------------------------
 
-from typing import TypeVar
+from typing import Any, Callable, TypeVar
 
 # Type variables ---------------------------------------------------------------
 
@@ -13,6 +13,9 @@ def __gen_eager_or(left_operand: bool, right_operand: bool) -> bool:
 
 def __gen_eager_and(left_operand: bool, right_operand: bool) -> bool:
     return left_operand and right_operand
+
+def __gen_null_safe_call(receiver: Any, callable: Callable[[], __gen_T]) -> __gen_T | None:
+    return callable() if receiver is not None else None
 
 def __gen_eager_elvis(left_operand: __gen_T, right_operand: __gen_T) -> __gen_T:
     return left_operand if left_operand is not None else right_operand
@@ -46,5 +49,5 @@ def test():
     f((h()) - (h()))
     f((h()) * (h()))
     f((h()) / (h()))
-    f(__gen_eager_elvis(i(), i()))
+    f(__gen_eager_elvis(__gen_null_safe_call(i, lambda: i()), __gen_null_safe_call(i, lambda: i())))
 

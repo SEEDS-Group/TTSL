@@ -1,1 +1,1 @@
-{"version":3,"sources":["context same package.ttsl"],"names":["impurefunction","function1insamepackage","function2insamepackage"],"mappings":"AAAA;;AAEA,IAASA,cAAc;IAAO,IAAE;;AAEhC,IAASC,sBAAsB;AAC3B;;;AAGJ,IAASC,sBAAsB;AAC3B","file":"gen_context_same_package.py"}
+{"version":3,"sources":["context same package.ttsl"],"names":["impurefunction","function1insamepackage","function2insamepackage"],"mappings":"AAAA;;AAEA,IAASA,cAAc;IAAO,IAAE;;AAEhC,IAASC,sBAAsB;AAC3B;WAAOD,cAAc;;AAGzB,IAASE,sBAAsB;AAC3B;WAAOF,cAAc","file":"gen_context_same_package.py"}

@@ -14,14 +14,14 @@ describe('TTSLCallHierarchyProvider', async () => {
         const testCases: IncomingCallTest[] = [
             {
                 testName: 'unused',
-                code: `class »«C`,
+                code: `function »«f() {}`,
                 expectedIncomingCalls: undefined,
             },
             {
                 testName: 'single caller, single call',
                 code: `
-                    class »«C()
-                    class D()
+                    function »«C() {}
+                    function D() {}
 
                     function myFunction () {
                         C();
@@ -30,7 +30,7 @@ describe('TTSLCallHierarchyProvider', async () => {
                 `,
                 expectedIncomingCalls: [
                     {
-                        fromName: 'myPipeline',
+                        fromName: 'myFunction',
                         fromRangesLength: 1,
                     },
                 ],
@@ -38,19 +38,19 @@ describe('TTSLCallHierarchyProvider', async () => {
             {
                 testName: 'single caller, multiple calls',
                 code: `
-                    class »«C()
-                    class D()
+                    function »«C() {}
+                    function D() {}
 
                     function myFunction () {
                         C();
-                        () -> C();
-                        () { C() };
+                        C();
+                        C();
                         D();
                     }
                 `,
                 expectedIncomingCalls: [
                     {
-                        fromName: 'myPipeline',
+                        fromName: 'myFunction',
                         fromRangesLength: 3,
                     },
                 ],
@@ -58,8 +58,8 @@ describe('TTSLCallHierarchyProvider', async () => {
             {
                 testName: 'multiple callers',
                 code: `
-                    class »«C()
-                    class D()
+                    function »«C(): Int {}
+                    function D() {}
 
                     function myFunction () {
                         C();
@@ -67,7 +67,7 @@ describe('TTSLCallHierarchyProvider', async () => {
                         D();
                     }
 
-                   segment mySegment(myParam: C = C()) {
+                   function myFunction2(param1: Int = C()) {
                        C();
                        C();
                        D();
@@ -75,39 +75,21 @@ describe('TTSLCallHierarchyProvider', async () => {
                 `,
                 expectedIncomingCalls: [
                     {
-                        fromName: 'myPipeline',
+                        fromName: 'myFunction',
                         fromRangesLength: 2,
                     },
                     {
-                        fromName: 'mySegment',
+                        fromName: 'myFunction2',
                         fromRangesLength: 3,
-                    },
-                ],
-            },
-            {
-                testName: 'null-safe',
-                code: `
-                    class C {
-                        fun »«f()
-                    }
-
-                    segment s(cOrNull: C?) {
-                        cOrNull?.f?();
-                    }
-                `,
-                expectedIncomingCalls: [
-                    {
-                        fromName: 's',
-                        fromRangesLength: 1,
                     },
                 ],
             },
             {
                 testName: 'only referenced',
                 code: `
-                    class »«C()
+                    function »«C() {}
 
-                    pipeline p {
+                    function f() {
                         C;
                     }
                 `,
@@ -125,15 +107,15 @@ describe('TTSLCallHierarchyProvider', async () => {
         const testCases: OutgoingCallTest[] = [
             {
                 testName: 'no calls',
-                code: `pipeline »«p {}`,
+                code: `function »«p() {}`,
                 expectedOutgoingCalls: undefined,
             },
             {
                 testName: 'single callee, single call',
                 code: `
-                    fun f()
+                    function f() {}
 
-                    pipeline »«p {
+                    function »«p() {
                         f();
                     }
                 `,
@@ -147,12 +129,12 @@ describe('TTSLCallHierarchyProvider', async () => {
             {
                 testName: 'single callee, multiple calls',
                 code: `
-                    fun f()
+                    function f() {}
 
-                    pipeline »«p {
+                    function »«p() {
                         f();
-                        () -> f();
-                        () { f() };
+                        f();
+                        (f());
                     }
                 `,
                 expectedOutgoingCalls: [
@@ -165,10 +147,10 @@ describe('TTSLCallHierarchyProvider', async () => {
             {
                 testName: 'multiple callees',
                 code: `
-                    fun f()
-                    fun g()
+                    function f() {}
+                    function g() {}
 
-                    pipeline »«p {
+                    function »«p() {
                         f();
                         f();
                         g();
@@ -186,29 +168,11 @@ describe('TTSLCallHierarchyProvider', async () => {
                 ],
             },
             {
-                testName: 'null-safe',
-                code: `
-                    class C {
-                        fun f()
-                    }
-
-                    segment »«s(cOrNull: C?) {
-                        cOrNull?.f?();
-                    }
-                `,
-                expectedOutgoingCalls: [
-                    {
-                        fromRangesLength: 1,
-                        toName: 'f',
-                    },
-                ],
-            },
-            {
                 testName: 'only referenced',
                 code: `
-                    fun f()
+                    function f() {}
 
-                    pipeline »«p {
+                    function »«p() {
                         f;
                     }
                 `,

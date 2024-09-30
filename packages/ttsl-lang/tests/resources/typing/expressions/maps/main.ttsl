@@ -1,25 +1,25 @@
 package tests.typing.expressions.maps
 
-function float(): Float
-function string(): String
+function float(): Float {}
+function string(): String {}
 
 function myFunction() {
 
-    # $TEST$ serialization Map<Nothing, Nothing>
+    # $TEST$ serialization Dictionary<Nothing, Nothing>
     »{}«;
 
-    # $TEST$ serialization Map<Int, Int>
+    # $TEST$ serialization Dictionary<Int, Int>
     »{1: 1, 2: 2, 3: 3}«;
 
-    # $TEST$ serialization Map<Any, Any>
+    # $TEST$ serialization Dictionary<Any, Any>
     »{1: 1, float(): float(), 3: 3}«;
 
-    # $TEST$ serialization Map<Any, Any>
+    # $TEST$ serialization Dictionary<Any, Any>
     »{1: 1, string(): string(), 3: 3}«;
 
-    # $TEST$ serialization Map<Any?, Any?>
+    # $TEST$ serialization Dictionary<Any?, Any?>
     »{1: 1, string(): string(), null: null}«;
 
-    # $TEST$ serialization Map<Any, String?>
+    # $TEST$ serialization Dictionary<Any, String?>
     »{float(): string(), 1: null}«;
 }

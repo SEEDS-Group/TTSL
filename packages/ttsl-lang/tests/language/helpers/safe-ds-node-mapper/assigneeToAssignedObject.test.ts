@@ -51,7 +51,7 @@ describe('TTSLNodeMapper', () => {
             const placeholder = await getNodeOfType(services, code, isTslPlaceholder);
             expect(nodeMapper.assigneeToAssignedObject(placeholder)?.$type).toBeUndefined();
         });
-
+        
         it('should return the entire RHS of an assignment if it is not a call (constant)', async () => {
             const code = `
                 function myFunction() {
@@ -66,7 +66,7 @@ describe('TTSLNodeMapper', () => {
         it('should return the entire RHS of an assignment if it is not a call (unresolved reference)', async () => {
             const code = `
                 function myFunction() {
-                    val a = unresolved;
+                    var a = unresolved;
                 };
             `;
 
