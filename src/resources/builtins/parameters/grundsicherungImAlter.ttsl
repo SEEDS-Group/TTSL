@@ -9,7 +9,7 @@ package grundsicherungImAlter
  * Reference: § 1 Verordnung zur Durchführung des § 90 Abs. 2 Nr. 9 des Zwölften Buches
  * Sozialgesetzbuch
  */
-public constant vermoegensfreibetrag: Dict<String, Int> {
+public constant vermögensfreibetrag: Dict<String, Int> {
     from 1984-01-01 = {
         "adult": 0,
         "child": 0,

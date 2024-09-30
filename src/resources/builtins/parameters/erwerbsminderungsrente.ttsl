@@ -39,7 +39,7 @@ public constant abschlagsfreieAltersgrenze: Float {
  * Reference: § 77 Abs. 4 SGB VI Zugangsfaktor
  * pro Jahr
  */
-public constant regelaltersgrezeLangjaehrigeVersicherte: Float {
+public constant regelaltersgrezeLangjährigeVersicherte: Float {
 	from 2001-01-01 = 63;
 }
 
@@ -50,7 +50,7 @@ public constant regelaltersgrezeLangjaehrigeVersicherte: Float {
  * Reference: § 264d SGB VI Zugangsfaktor
  * pro Jahr
  */
-public constant wartezeitgrenzeLangjaehrigeVersicherteAbschlagsfrei: Int {
+public constant wartezeitgrenzeLangjährigeVersicherteAbschlagsfrei: Int {
 	from 2001-01-01 = 35;
 	from 2024-01-01 = 40;
 }

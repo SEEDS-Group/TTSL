@@ -75,7 +75,7 @@ public constant pauschalAbzugAufEinkommen: Float {
  * Grenze der wöchentlichen Arbeitsstunden bis zu der Erziehungsgeld ausgezahlt wird
  * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 15 (p.211)
  */
-public constant arbeitsstundenWoechentlicheGrenze: Int {
+public constant arbeitsstundenWöchentlicheGrenze: Int {
 	from 2004-02-09 = 30;
 }
 

@@ -14,7 +14,7 @@ public constant faktor: Float {
  * Höchstbetrag des Elterngeldes
  * § 2 (1) BEEG
  */
-public constant hoechstbetrag: Int {
+public constant höchstbetrag: Int {
 	from 2007-01-01 = 1800;
 }
 

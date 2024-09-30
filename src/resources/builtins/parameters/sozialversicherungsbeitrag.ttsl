@@ -875,7 +875,7 @@ public constant monatlicheBezugsgröße: Dict<String, Float> {
  * neunzigste Teil der monatlichen Bezugsgröße (1/90*30)
  * Reference: §240 SGB V Abs. 4
  */
-public constant mindestanteilBezugsgroeßeBeitragspflichtigeEinnahmeSelbst: Float {
+public constant mindestanteilBezugsgrößeBeitragspflichtigeEinnahmeSelbst: Float {
     from 1990-01-01 = 0.33333333;
 }
 
@@ -1060,7 +1060,7 @@ public constant geringfügigeEinkommensfaktor: Int {
  * wird, um die Geringfügigkeitsgrenze zu erhalten.
  * Reference: §8 (1a) SGB IV
  */
-public constant geringfuegigeEinkommensdivisor: Int {
+public constant geringfügigeEinkommensdivisor: Int {
     # Reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
     from 2022-10-01 = 3;
 }
