@@ -1,0 +1,25 @@
+package freibeträge
+
+/**
+ * Gibt die Anzahl der Kinderfreibeträge zurück, auf die eine Person Anspruch hat.
+ * Die Person könnte ein Elternteil oder gesetzlicher Vormund sein.
+ */
+public function kinderfreibetragAnzahlAnsprüche(): Int {
+    return 0; # TODO
+}
+
+/**
+ * Berechnet den Behindertenpauschbetrag basierend auf dem Behinderungsgrad.
+ */
+public function behinderungsgradPauschbetrag(
+    behinderungsgrad: Int,
+): Float {
+    # Extrahiere die Schwellenwerte der Behindertenpauschbeträge
+    var thresholds = pauschbetragList.keys().sorted();
+
+    # Finde den passenden Schwellenwert für den Behinderungsgrad
+    var selectedThreshold = thresholds.firstWhereOrLast({ it >= behinderungsgrad }, thresholds.last());
+
+    # Gib den entsprechenden Pauschbetrag zurück
+    return pauschbetragList[selectedThreshold];
+}
