@@ -1,6 +1,25 @@
 package tests.generator.timespan
 
-constant test: Int {
+constant myConstant: Int {
     from 2000-01-01 = 1;
     from 2001-01-01 = 2;
+}
+
+constant myConstant2 {
+    from 1999-01-01: Int = 0;
+    from 2001-01-01: Float = 0.0;
+    from 2003-01-01: Boolean = true;
+}
+
+constant myConstant3 {
+    Int {
+        from 1999-01-01 = 0;
+    }
+    String{
+        from 2001-01-01 = "a";
+        from 2003-01-01 = "b";
+    }
+    Int{
+        from 2004-01-01 = 2;
+    }
 }

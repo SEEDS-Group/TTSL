@@ -9,3 +9,16 @@ constant test1 {
     from 1999-01-01: Int = 0;
     from 2000-01-01: Float = 1.0;
 }
+
+constant test2 {
+    Int {
+        from 1999-01-01 = 0;
+        from 2000-01-01 = 1;
+    }
+    String{
+        from 2001-01-01 = "a";
+    }
+    Int{
+        from 2003-01-01 = 2;
+    }
+}
