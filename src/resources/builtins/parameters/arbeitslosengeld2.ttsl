@@ -13,7 +13,7 @@ public constant anrechnungsfreieEinkommensanteile: Dict<Int, Dict<String, Float>
     # Reference: Artikel 1. G. v. 24.12.2003 BGBl. I S. 2954.
     from 2005-01-01 = {
         0: {
-            "lower_threshold": -inf,
+            "lower_threshold": -1e10,
             "upper_threshold": 0,
             "rate": 0,
             "intercept_at_lower_threshold": 0
@@ -32,7 +32,7 @@ public constant anrechnungsfreieEinkommensanteile: Dict<Int, Dict<String, Float>
             "rate": 0.15
         },
         4: {
-            "upper_threshold": inf,
+            "upper_threshold": 1e10,
             "rate": 0
         }
     };
@@ -40,7 +40,7 @@ public constant anrechnungsfreieEinkommensanteile: Dict<Int, Dict<String, Float>
     # Reference: Artikel 1 G. v. 14.08.2005 BGBl. I S. 2407.
     from 2005-10-01 = {
         0: {
-            "lower_threshold": -inf,
+            "lower_threshold": -1e10,
             "upper_threshold": 0,
             "rate": 0,
             "intercept_at_lower_threshold": 0
@@ -59,7 +59,7 @@ public constant anrechnungsfreieEinkommensanteile: Dict<Int, Dict<String, Float>
             "rate": 0.1
         },
         4: {
-            "upper_threshold": inf,
+            "upper_threshold": 1e10,
             "rate": 0
         }
     };
@@ -74,7 +74,7 @@ public constant anrechnungsfreieEinkommensanteile: Dict<Int, Dict<String, Float>
     # Reference: G. v. 20.12.2022 BGBl. I S. 2328.
     from 2023-07-01 = {
         0: {
-            "lower_threshold": -inf,
+            "lower_threshold": -1e10,
             "upper_threshold": 0,
             "rate": 0,
             "intercept_at_lower_threshold": 0
@@ -97,7 +97,7 @@ public constant anrechnungsfreieEinkommensanteile: Dict<Int, Dict<String, Float>
             "rate": 0.1
         },
         5: {
-            "upper_threshold": inf,
+            "upper_threshold": 1e10,
             "rate": 0
         }
     };
