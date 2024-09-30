@@ -37,6 +37,7 @@
     },
     "prettier": "@lars-reimann/prettier-config",
     "dependencies": {
+        "@esbuild/darwin-arm64": "^0.24.0",
         "@vscode/vsce": "^3.0.0"
     }
 }
