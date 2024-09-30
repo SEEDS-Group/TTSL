@@ -124,7 +124,7 @@ const nameShouldBeLowerCamelCase = (node: TslDeclaration, nodeName: string, acce
 };
 
 const isLowerCamelCase = (name: string): boolean => {
-    return /^[a-z][a-zA-Z0-9]*$/gu.test(name);
+    return /^[a-zäöüß][a-zA-Z0-9äöüß]*$/gu.test(name);
 };
 
 const acceptCasingWarning = (
