@@ -140,7 +140,7 @@ export class TTSLTypeComputer {
         } else if (isTslResult(node)) {
             return this.computeType(node.type);
         } else if (isTslConstant(node)){
-            if(node.type.length == 1){
+            if(node.type.length === 1){
                 return this.computeType(node.type.at(0));
             }else{
                 return UnknownType;
@@ -335,7 +335,6 @@ export class TTSLTypeComputer {
 
             const containingTimespan = this.computeContainingTimespan(node);
             const constantTimespans = this.fillinTimespans(target.timespanValueEntries)
-            console.log(constantTimespans)
 
             if(containingTimespan && constantTimespans){
                 let indexOfCorrectConstant = constantTimespans.indexOf(constantTimespans.filter(timespan => 
@@ -361,7 +360,7 @@ export class TTSLTypeComputer {
     }
 
     private computeTimespan(node: TslTimespan, allTimespans: TslTimespan[]): string[]{
-        const indexOfTimespan = allTimespans.findIndex(timespan => timespan == node)!
+        const indexOfTimespan = allTimespans.findIndex(timespan => timespan === node)!
 
         let start = ""
         let end = ""

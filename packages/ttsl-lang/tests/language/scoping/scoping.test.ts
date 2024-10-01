@@ -134,22 +134,6 @@ const findActualReference = (document: LangiumDocument, expectedReference: Expec
 };
 
 /**
- * Both nodes should be defined and in the same document or an `AssertionError` is thrown.
- */
-const expectSameDocument = (node1: AstNode | undefined, node2: AstNode | undefined): void => {
-    if (!node1) {
-        throw new AssertionError({ message: `node1 is undefined.` });
-    } else if (!node2) {
-        throw new AssertionError({ message: `node2 is undefined.` });
-    }
-
-    const document1 = AstUtils.getDocument(node1);
-    const document2 = AstUtils.getDocument(node2);
-
-    expect(document1.uri.toString()).toStrictEqual(document2.uri.toString());
-};
-
-/**
  * The given code should have no linking errors or an `AssertionError` is thrown.
  */
 const expectNoLinkingErrors = async (code: string) => {

@@ -667,8 +667,6 @@ export class TTSLPythonGenerator {
 
     private generateParameter(
         parameter: TslParameter,
-        frame: GenerationInfoFrame,
-        defaultValue: boolean = true,
     ): CompositeGeneratorNode {
         return expandTracedToNode(parameter)`${this.getPythonNameOrDefault(parameter)}`;
     }
@@ -974,7 +972,7 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
             } else if (isTslInt(expression) || isTslFloat(expression)){
                 return expandTracedToNode(expression)`${expression.value}`
             } else if(isTslBoolean(expression)){
-                if(expression.value.valueOf().toString() == "true"){
+                if(expression.value.valueOf().toString() === "true"){
                     return expandTracedToNode(expression)`True`
                 } else{
                     return expandTracedToNode(expression)`False`

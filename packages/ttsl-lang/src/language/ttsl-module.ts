@@ -116,7 +116,7 @@ export const TTSLModule: Module<TTSLServices, PartialLangiumServices & TTSLAdded
         ScopeProvider: (services) => new TTSLScopeProvider(services),
     },
     types: {
-        TypeChecker: (services) => new TTSLTypeChecker(),
+        TypeChecker: () => new TTSLTypeChecker(),
         TypeComputer: (services) => new TTSLTypeComputer(services),
     },
     workspace: {

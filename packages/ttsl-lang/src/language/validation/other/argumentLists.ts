@@ -1,7 +1,7 @@
-import { AstUtils, ValidationAcceptor } from 'langium';
+import { ValidationAcceptor } from 'langium';
 import { duplicatesBy, isEmpty } from '../../../helpers/collections.js';
 import { pluralize } from '../../../helpers/strings.js';
-import { isTslCall, TslAbstractCall, TslArgumentList } from '../../generated/ast.js';
+import { TslAbstractCall, TslArgumentList } from '../../generated/ast.js';
 import { getArguments, getParameters, Parameter } from '../../helpers/nodeProperties.js';
 import { TTSLServices } from '../../ttsl-module.js';
 
