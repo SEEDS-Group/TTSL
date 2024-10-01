@@ -156,7 +156,7 @@ fragment TslConstantFragment:
     'constant'
     name=ID
     (':' ^type+=TslType ('{' (timespanValueEntries+=TslTimespanValueEntry)* '}' |
-    '=' value=TslExpression ';'?) | '{' ((timespanValueEntries+=TslTimespanValueEntry)* | (^type+=TslType '{' (timespanValueEntries+=TslTimespanValueEntry)* '}')*)'}')
+    '=' value=TslExpression ';'?) | '{' ((timespanValueEntries+=TslTimespanValueEntry) | (^type+=TslType '{' (timespanValueEntries+=TslTimespanValueEntry)* '}'))* '}')
     
 ;
 
