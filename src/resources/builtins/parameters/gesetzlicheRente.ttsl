@@ -295,168 +295,168 @@ public constant gesamtesRentenvolumen: Int {
  */
 public constant rentenwert: Dict<String, Float> {
     from 1992-01-01 = {
-        west: 21.19,
-        ost: 12.05
+        "west": 21.19,
+        "ost": 12.05
     };
 
     from 1992-07-01 = {
-        west: 21.80,
-        ost: 13.59
+        "west": 21.80,
+        "ost": 13.59
     };
 
     from 1993-01-01 = {
-        west: 21.80, # deviation_from: previous
-        ost: 14.41
+        "west": 21.80, # deviation_from: previous
+        "ost": 14.41
     };
 
     from 1993-07-01 = {
-        west: 22.75,
-        ost: 16.45
+        "west": 22.75,
+        "ost": 16.45
     };
 
     from 1994-01-01 = {
-        west: 22.75, # deviation_from: previous
-        ost: 17.05
+        "west": 22.75, # deviation_from: previous
+        "ost": 17.05
     };
 
     from 1994-07-01 = {
-        west: 23.52,
-        ost: 17.63
+        "west": 23.52,
+        "ost": 17.63
     };
 
     from 1995-01-01 = {
-        west: 23.52, # deviation_from: previous
-        ost: 18.13
+        "west": 23.52, # deviation_from: previous
+        "ost": 18.13
     };
 
     from 1995-07-01 = {
-        west: 23.64,
-        ost: 18.58
+        "west": 23.64,
+        "ost": 18.58
     };
 
     from 1996-01-01 = {
-        west: 23.64, # deviation_from: previous
-        ost: 19.39
+        "west": 23.64, # deviation_from: previous
+        "ost": 19.39
     };
 
     from 1996-07-01 = {
-        west: 23.86,
-        ost: 19.62
+        "west": 23.86,
+        "ost": 19.62
     };
 
     from 1997-07-01 = {
-        west: 24.26,
-        ost: 20.71
+        "west": 24.26,
+        "ost": 20.71
     };
 
     from 1998-07-01 = {
-        west: 24.36,
-        ost: 20.90
+        "west": 24.36,
+        "ost": 20.90
     };
 
     from 1999-07-01 = {
-        west: 24.69,
-        ost: 21.48
+        "west": 24.69,
+        "ost": 21.48
     };
 
     from 2000-07-01 = {
-        west: 24.84,
-        ost: 21.61
+        "west": 24.84,
+        "ost": 21.61
     };
 
     from 2001-07-01 = {
-        west: 25.31,
-        ost: 22.06
+        "west": 25.31,
+        "ost": 22.06
     };
 
     from 2002-07-01 = {
-        west: 25.86,
-        ost: 22.70
+        "west": 25.86,
+        "ost": 22.70
     };
 
     from 2003-07-01 = {
-        west: 26.13,
-        ost: 22.97
+        "west": 26.13,
+        "ost": 22.97
     };
 
     from 2007-07-01 = {
-        west: 26.27,
-        ost: 23.09
+        "west": 26.27,
+        "ost": 23.09
     };
 
     from 2008-07-01 = {
-        west: 26.56,
-        ost: 23.34
+        "west": 26.56,
+        "ost": 23.34
     };
 
     from 2009-07-01 = {
-        west: 27.2,
-        ost: 24.13
+        "west": 27.2,
+        "ost": 24.13
     };
 
     from 2011-07-01 = {
-        west: 27.47,
-        ost: 24.37
+        "west": 27.47,
+        "ost": 24.37
     };
 
     from 2012-07-01 = {
-        west: 28.07,
-        ost: 24.92
+        "west": 28.07,
+        "ost": 24.92
     };
 
     from 2013-07-01 = {
-        west: 28.14,
-        ost: 25.74
+        "west": 28.14,
+        "ost": 25.74
     };
 
     from 2014-07-01 = {
-        west: 28.61,
-        ost: 26.39
+        "west": 28.61,
+        "ost": 26.39
     };
 
     from 2015-07-01 = {
-        west: 29.21,
-        ost: 27.05
+        "west": 29.21,
+        "ost": 27.05
     };
 
     from 2016-07-01 = {
-        west: 30.45,
-        ost: 28.66
+        "west": 30.45,
+        "ost": 28.66
     };
 
     from 2017-07-01 = {
-        west: 31.03,
-        ost: 29.69
+        "west": 31.03,
+        "ost": 29.69
     };
 
     from 2018-07-01 = {
-        west: 32.03,
-        ost: 30.69
+        "west": 32.03,
+        "ost": 30.69
     };
 
     from 2019-07-01 = {
-        west: 33.05,
-        ost: 31.89
+        "west": 33.05,
+        "ost": 31.89
     };
 
     from 2020-07-01 = {
-        west: 34.19,
-        ost: 33.23
+        "west": 34.19,
+        "ost": 33.23
     };
 
     from 2021-07-01 = {
-        west: 34.19, # deviation_from: previous
-        ost: 33.47
+        "west": 34.19, # deviation_from: previous
+        "ost": 33.47
     };
 
     from 2022-07-01 = {
-        west: 36.02,
-        ost: 36.52
+        "west": 36.02,
+        "ost": 36.52
     };
 
     from 2023-07-01 = {
-        west: 37.60,
-        ost: 37.60
+        "west": 37.60,
+        "ost": 37.60
     };
 }
 
@@ -468,8 +468,8 @@ public constant rentenwert: Dict<String, Float> {
 public constant grundrenteHöchstwert: Dict<String, Float> {
     # Reference: § 76g Abs. 4 S. 3, 4 SGB VI
     from 2021-01-01 = {
-        base: 0.0334,
-        increment: 0.001389,
+        "base": 0.0334,
+        "increment": 0.001389,
     };
 }
 
@@ -491,8 +491,8 @@ public constant grundrenteZugangsfaktorMax: Int {
 public constant grundrenteZeiten: Dict<String, Int> {
     # Reference: § 76g Abs. 4 S. 5,6 / Abs. 1 S. 1 SGB VI
     from 2021-01-01 = {
-        min: 396,
-        max: 420,
+        "min": 396,
+        "max": 420,
     };
 }
 
@@ -1174,7 +1174,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
                 12: 65.0,
             },
         };
-    };
+    }
 }
 
 public constant altersgrenzeArbeitslosigkeitAbschlagsfreiVertrauensschutz: Dict<Int, Dict<Int, Float>> {
@@ -1475,7 +1475,7 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig {
                 12: 62.0,
             }
         };
-    };
+    }
 
     # Increase of ERA was revoked.
     # Reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461 1996
@@ -1573,7 +1573,7 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig {
                 12: 63.0,
             }
         };
-    };
+    }
 }
 
 /**

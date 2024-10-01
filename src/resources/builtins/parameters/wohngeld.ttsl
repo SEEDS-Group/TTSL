@@ -607,32 +607,32 @@ public constant koeffizientenBerechnungsformel: Dict<Int, Dict<String, Float>> {
 public constant bonusSehrGrosseHaushalte: Dict<String, Int> {
   # Reference: Art. 5 G. v. 22.12.1999 BGBl. I S. 2671
   from 2001-01-01 = {
-    max_anz_personen_normale_berechnung: 12,
-    bonus_jede_weitere_person: 40
+    "max_anz_personen_normale_berechnung": 12,
+    "bonus_jede_weitere_person": 40
   };
 
   # Reference: Art. 1 G. v. 24.09 2008 BGBl. I S. 1856
   from 2009-01-01 = {
     # deviation_from: previous
-    bonus_jede_weitere_person: 43
+    "bonus_jede_weitere_person": 43
   };
 
   # Reference: Art. 1 G. v. 08.10.2015 BGBl 38 S.1610
   from 2016-01-01 = {
     # deviation_from: previous
-    bonus_jede_weitere_person: 47
+    "bonus_jede_weitere_person": 47
   };
 
   # Reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
   from 2020-01-01 = {
     # deviation_from: previous
-    bonus_jede_weitere_person: 51
+    "bonus_jede_weitere_person": 51
   };
 
   # Reference: Art. 1 G. v. 08.12.2022 BGBl. I Nr. 48 S. 2160
   from 2023-01-01 = {
     # deviation_from: previous
-    bonus_jede_weitere_person: 57
+    "bonus_jede_weitere_person": 57
   };
 }
 
@@ -857,25 +857,25 @@ public constant minEink: Dict<Int, Int> {
  */
 public constant freibetragKinder: Dict<String, Int> {
   from 1984-01-01 = {
-    alleinerz: 51,
-    arbeitendes_kind: 0
+    "alleinerz": 51,
+    "arbeitendes_kind": 0
   };
 
   from 2001-01-01 = {
     # deviation_from: previous
-    arbeitendes_kind: 51
+    "arbeitendes_kind": 51
   };
 
   from 2002-01-01 = {
-    alleinerz: 50,
-    arbeitendes_kind: 50
+    "alleinerz": 50,
+    "arbeitendes_kind": 50
   };
 
   # Reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
   # Neu §17 3. WoGG a) Alleinerziehend b) Kind unter 18 und neu §17 4. WoGG Kind noch nicht 25J.
   from 2016-01-01 = {
-    alleinerz: 110,
-    arbeitendes_kind: 100
+    "alleinerz": 110,
+    "arbeitendes_kind": 100
   };
 }
 
@@ -1256,7 +1256,7 @@ public constant maxMiete {
         1977: {
           1: 41,
           2: 43,
-          3: 46
+          3: 46,
           4: 49,
           5: 51
         },
@@ -1851,7 +1851,7 @@ public constant maxMiete {
 
     # Reference: Art. 5 G. v. 22.12.1999, BGBl I S. 2671.
     # Nimmt die Umrechnung in Euro von 2002 vorweg.
-    from 2001-01-01:
+    from 2001-01-01 = {
       "1": {
         1965: {
           1: 200,
@@ -2009,7 +2009,7 @@ public constant maxMiete {
         }
       }
     };
-  };
+  }
 
   Dict<String, Dict<Int, Int>> {
     # Reference: Art. 1 G. v. 24.09.2008, BGBl I S. 1856.
@@ -2231,7 +2231,7 @@ public constant maxMiete {
         7: 157
       }
     };
-  };
+  }
 }
 
 /**
@@ -2243,7 +2243,7 @@ public constant maxMiete {
  */
 public constant vermögensgrundfreibetrag: Float {
   # No wealth threshold in place.
-  from 1970-01-01 = inf;
+  from 1970-01-01 = 1e10;
 
   # Reference: Wohngeld-Verwaltungsvorschrift 2009.
   # At least in place since then.
@@ -2256,7 +2256,7 @@ public constant vermögensgrundfreibetrag: Float {
  */
 public constant vermögensfreibetragPerson: Float {
   # No wealth threshold in place
-  from 1970-01-01 = inf;
+  from 1970-01-01 = 1e10;
 
   # Reference: Wohngeld-Verwaltungsvorschrift 2009.
   # At least in place since then.
