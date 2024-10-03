@@ -69,7 +69,7 @@ export class AnyType extends Type {
         return result;
     }
 
-    override substituteTypeParameters(): AnyType {
+    override substituteTypeParameters(substitutions: TypeParameterSubstitutions): AnyType {
         return this;
     }
 

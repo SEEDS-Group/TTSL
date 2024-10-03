@@ -65,8 +65,8 @@
         "description": "A conditional statement with an else-Block."
     },
     "GroupedBy": {
-        "prefix": ["GroupedBy"],
-        "body": ["GroupedBy $1"],
+        "prefix": ["groupedBy"],
+        "body": ["groupedBy $1"],
         "description": "A GroupedBy modifier."
     },
     "TimeUnit": {
@@ -82,6 +82,11 @@
     "LocalVariable": {
         "prefix": ["var"],
         "body": ["var ${1:myVariable}${2:: $3}"],
-        "description": "A Timestamp from one Date to another."
+        "description": "A LocalVariable to be used in declared scope."
+    },
+    "TypeAlias": {
+        "prefix": ["typealias"],
+        "body": ["private typealias ${1:myAlias}${2:: $3}"],
+        "description": "An alias for Types."
     }
 }

@@ -9,3 +9,6 @@ def explainModel():
 def test():
     f(explainModel())
 
+
+def g(param: int):
+    pass

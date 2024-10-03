@@ -31,6 +31,3 @@ myConstant = __gen_ClassConstants(myConstantDict)
 
 myConstant2Dict = {"s1999-01-01": 0, "s2001-01-01": 0, "s2003-01-01": True}
 myConstant2 = __gen_ClassConstants(myConstant2Dict)
-
-myConstant3Dict = {"s1999-01-01": 0, "s2001-01-01": "a", "s2003-01-01": "b", "s2004-01-01": 2}
-myConstant3 = __gen_ClassConstants(myConstant3Dict)

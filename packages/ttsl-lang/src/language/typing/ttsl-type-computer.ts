@@ -52,6 +52,7 @@ import {
     isTslTimespanStatement,
     TslTimespanValueEntry,
     isTslAggregation,
+    isTslTypeAlias,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
 import {
@@ -137,7 +138,7 @@ export class TTSLTypeComputer {
             return this.computeTypeOfCallableWithManifestTypes(node);
         } else if (isTslParameter(node)) {
             return this.computeTypeOfParameter(node);
-        } else if (isTslResult(node)) {
+        } else if (isTslResult(node) || isTslData(node) || isTslTypeAlias(node)) {
             return this.computeType(node.type);
         } else if (isTslConstant(node)){
             if(node.type.length === 1){
@@ -145,8 +146,6 @@ export class TTSLTypeComputer {
             }else{
                 return UnknownType;
             }
-        } else if (isTslData(node)){
-            return this.computeType(node.type);
         } else if (isTslLocalVariable(node) && isTslForeachLoop(node.$container)){
             return this.computeTypeOfElm(node);
         }/* c8 ignore start */ else {

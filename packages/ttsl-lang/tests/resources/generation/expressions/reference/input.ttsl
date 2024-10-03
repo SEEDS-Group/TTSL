@@ -7,3 +7,7 @@ function explainModel(): Int{}
 function test () {
     f(explainModel());
 }
+
+private typealias i = Int
+
+function g(param: i){}
