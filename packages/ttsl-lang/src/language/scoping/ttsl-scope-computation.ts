@@ -16,7 +16,6 @@ import {
     isTslLoop,
     isTslModule,
     isTslPlaceholder,
-    isTslWhileLoop,
     TslConditionalStatement,
     TslFunction,
     TslLoop,

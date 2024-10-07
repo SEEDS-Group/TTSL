@@ -79,6 +79,7 @@ import {
     isTslBooleanType,
     isTslStringType,
     isTslExpression,
+    isTslTypeAlias,
 } from '../generated/ast.js';
 import { isInFile, isFile } from '../helpers/fileExtensions.js';
 import {
@@ -660,15 +661,13 @@ export class TTSLPythonGenerator {
         }
         return joinTracedToNode(parameters, 'parameters')(
             parameters?.parameters || [],
-            (param) => expandToNode`${this.generateParameter(param, frame)}`.append(expandToNode`${this.generateType(param.type, frame)}`).append(expandToNode`${this.generateDefaultValue(param.defaultValue, frame)}`),
+            (param) => expandToNode`${this.generateParameter(param)}`.append(expandToNode`${this.generateType(param.type, frame)}`).append(expandToNode`${this.generateDefaultValue(param.defaultValue, frame)}`),
             { separator: ', ' },
         );
     }
 
     private generateParameter(
         parameter: TslParameter,
-        frame: GenerationInfoFrame,
-        defaultValue: boolean = true,
     ): CompositeGeneratorNode {
         return expandTracedToNode(parameter)`${this.getPythonNameOrDefault(parameter)}`;
     }
@@ -695,6 +694,8 @@ export class TTSLPythonGenerator {
             return result.append(expandToNode`list[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame, true)}]`)
         } else if(isTslDictionaryType(type)){
             return result.append(expandToNode`dict[${this.generateType(type.typeParameterList.typeParameters.at(0)?.type, frame, true)}, ${this.generateType(type.typeParameterList.typeParameters.at(1)?.type, frame, true)}]`)
+        } else if(isTslReference(type)){
+            return this.generateExpression(type, frame)
         } else {
             return new CompositeGeneratorNode(``)
         }
@@ -974,7 +975,7 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
             } else if (isTslInt(expression) || isTslFloat(expression)){
                 return expandTracedToNode(expression)`${expression.value}`
             } else if(isTslBoolean(expression)){
-                if(expression.value.valueOf().toString() == "true"){
+                if(expression.value.valueOf().toString() === "true"){
                     return expandTracedToNode(expression)`True`
                 } else{
                     return expandTracedToNode(expression)`False`
@@ -1108,6 +1109,9 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
             }
         } else if (isTslReference(expression)) {
             const declaration = expression.target.ref!;
+            if(isTslTypeAlias(declaration)){
+                return this.generateType(declaration.type, frame)
+            }
             const referenceImport =
                 this.getExternalReferenceNeededImport(expression, declaration) ||
                 this.getInternalReferenceNeededImport(expression, declaration);
@@ -1234,7 +1238,7 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
         const parameter = this.nodeMapper.argumentToParameter(argument);
         return expandTracedToNode(argument)`${
             parameter !== undefined && !Parameter.isRequired(parameter) && generateOptionalParameterName
-                ? expandToNode`${this.generateParameter(parameter, frame, false)}=`
+                ? expandToNode`${this.generateParameter(parameter)}=`
                 : ''
         }${this.generateExpression(argument.value, frame)}`;
     }

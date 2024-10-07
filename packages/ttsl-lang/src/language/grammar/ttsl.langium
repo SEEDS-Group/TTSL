@@ -123,6 +123,9 @@ TslModuleMember returns TslModuleMember:
 
     | {TslData}
       TslDataFragment
+
+    | {TslTypeAlias}
+    TslTypeAliasFragment
 ;
 
 interface TslFunction extends TslCallable, TslModuleMember {
@@ -156,7 +159,7 @@ fragment TslConstantFragment:
     'constant'
     name=ID
     (':' ^type+=TslType ('{' (timespanValueEntries+=TslTimespanValueEntry)* '}' |
-    '=' value=TslExpression ';'?) | '{' ((timespanValueEntries+=TslTimespanValueEntry) | (^type+=TslType '{' (timespanValueEntries+=TslTimespanValueEntry)* '}'))* '}')
+    '=' value=TslExpression ';'?) | '{' (timespanValueEntries+=TslTimespanValueEntry)* '}')
     
 ;
 
@@ -175,6 +178,17 @@ fragment TslDataFragment:
     name=ID
     ':' ^type=TslType
     (groupedBy=TslGroupedBy)? ';'?
+;
+
+interface TslTypeAlias extends TslModuleMember, TslDeclaration {
+    ^type: TslType
+}
+
+fragment TslTypeAliasFragment:
+    visibility=TslVisibility
+    'typealias'
+    name=ID
+    '=' ^type=TslType
 ;
 
 // -----------------------------------------------------------------------------
@@ -766,7 +780,7 @@ interface TslType extends TslObject {
 
 
 TslType returns TslType:
-    TslPrimaryType (isNullable?='?')?
+    (TslPrimaryType | TslReference) (isNullable?='?')?
 ;
 
 TslPrimaryType returns TslType:

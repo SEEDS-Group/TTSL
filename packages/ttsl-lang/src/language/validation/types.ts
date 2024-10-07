@@ -11,6 +11,8 @@ import {
     TslResult,
     TslTypeCast,
     isTslFunction,
+    TslReference,
+    isTslTypeAlias,
 } from '../generated/ast.js';
 import { getArguments } from '../helpers/nodeProperties.js';
 import { TTSLServices } from '../ttsl-module.js';
@@ -19,6 +21,7 @@ import {AnyType, BooleanType, DictionaryType, FloatType, IntType, ListType, Unkn
 export const CODE_TYPE_CALLABLE_RECEIVER = 'type/callable-receiver';
 export const CODE_TYPE_MISMATCH = 'type/mismatch';
 export const CODE_TYPE_MISSING_TYPE_HINT = 'type/missing-type-hint';
+export const CODE_NO_TYPE_ALIAS_GIVEN = "type/no-type-alias-given"
 
 // -----------------------------------------------------------------------------
 // Type checking
@@ -285,6 +288,17 @@ export const typeCastExpressionMustHaveUnknownType = (services: TTSLServices) =>
         }
     };
 };
+
+export const typeReferenceMustBeReferencingATypeAlias = (service: TTSLServices) => {
+    return (node: TslReference, accept: ValidationAcceptor): void => {
+        if(node.$containerProperty?.includes("type") && !isTslTypeAlias(node.target.ref)){
+            accept('error', 'The Type has to be either a type or a reference to a typealias.', {
+                node: node,
+                code: CODE_NO_TYPE_ALIAS_GIVEN,
+            });
+        }
+    }
+}
 
 // -----------------------------------------------------------------------------
 // Missing type hints

@@ -16,7 +16,7 @@
         },
         {
             "name": "storage.type.ttsl",
-            "match": "\\b(annotation|attr|class|enum|function|constant|data|package|pipeline|schema|segment|var|return)\\b"
+            "match": "\\b(annotation|attr|class|enum|function|constant|data|package|pipeline|schema|segment|var|return|typealias)\\b"
         },
         {
             "name": "storage.modifier.ttsl",

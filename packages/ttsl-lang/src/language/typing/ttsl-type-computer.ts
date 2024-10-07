@@ -52,6 +52,7 @@ import {
     isTslTimespanStatement,
     TslTimespanValueEntry,
     isTslAggregation,
+    isTslTypeAlias,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
 import {
@@ -137,16 +138,14 @@ export class TTSLTypeComputer {
             return this.computeTypeOfCallableWithManifestTypes(node);
         } else if (isTslParameter(node)) {
             return this.computeTypeOfParameter(node);
-        } else if (isTslResult(node)) {
+        } else if (isTslResult(node) || isTslData(node) || isTslTypeAlias(node)) {
             return this.computeType(node.type);
         } else if (isTslConstant(node)){
-            if(node.type.length == 1){
+            if(node.type.length === 1){
                 return this.computeType(node.type.at(0));
             }else{
                 return UnknownType;
             }
-        } else if (isTslData(node)){
-            return this.computeType(node.type);
         } else if (isTslLocalVariable(node) && isTslForeachLoop(node.$container)){
             return this.computeTypeOfElm(node);
         }/* c8 ignore start */ else {
@@ -335,7 +334,6 @@ export class TTSLTypeComputer {
 
             const containingTimespan = this.computeContainingTimespan(node);
             const constantTimespans = this.fillinTimespans(target.timespanValueEntries)
-            console.log(constantTimespans)
 
             if(containingTimespan && constantTimespans){
                 let indexOfCorrectConstant = constantTimespans.indexOf(constantTimespans.filter(timespan => 
@@ -361,7 +359,7 @@ export class TTSLTypeComputer {
     }
 
     private computeTimespan(node: TslTimespan, allTimespans: TslTimespan[]): string[]{
-        const indexOfTimespan = allTimespans.findIndex(timespan => timespan == node)!
+        const indexOfTimespan = allTimespans.findIndex(timespan => timespan === node)!
 
         let start = ""
         let end = ""

@@ -19,7 +19,6 @@ import {
     isTslForeachLoop,
     isTslForLoop,
     isTslImportedDeclaration,
-    isTslLocalVariable,
     isTslModule,
     isTslParameter,
     isTslPlaceholder,
