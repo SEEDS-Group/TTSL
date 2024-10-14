@@ -110,8 +110,23 @@
                 "category": "TTSL"
             },
             {
+                "command": "ttsl.installRunner",
+                "title": "Install the TTSL Runner",
+                "category": "TTSL"
+            },
+            {
                 "command": "ttsl.openDiagnosticsDumps",
                 "title": "Open Diagnostics Dumps in New VS Code Window",
+                "category": "TTSL"
+            },
+            {
+                "command": "ttsl.refreshWebview",
+                "title": "Refresh Webview",
+                "category": "TTSL"
+            },
+            {
+                "command": "ttsl.updateRunner",
+                "title": "Update the TTSL Runner",
                 "category": "TTSL"
             }
         ],
