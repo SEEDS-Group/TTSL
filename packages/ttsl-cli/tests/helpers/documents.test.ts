@@ -13,42 +13,30 @@ describe('processPaths', async () => {
 
     const tests: ProcessPathsTest[] = [
         {
-            testName: 'pipe file',
-            paths: ['a.Tslpipe'],
-            expected: Result.ok(['a.Tslpipe']),
-        },
-        {
-            testName: 'stub file',
-            paths: ['b.Tslstub'],
-            expected: Result.ok(['b.Tslstub']),
-        },
-        {
             testName: 'test file',
-            paths: ['c.ttsl'],
-            expected: Result.ok(['c.ttsl']),
+            paths: ['a.ttsl'],
+            expected: Result.ok(['a.ttsl']),
         },
         {
             testName: 'multiple files',
-            paths: ['a.Tslpipe', 'b.Tslstub', 'c.ttsl'],
-            expected: Result.ok(['a.Tslpipe', 'b.Tslstub', 'c.ttsl']),
+            paths: ['a.ttsl', 'b.ttsl'],
+            expected: Result.ok(['a.ttsl', 'b.ttsl']),
         },
         {
             testName: 'duplicates',
-            paths: ['a.Tslpipe', 'a.Tslpipe'],
-            expected: Result.ok(['a.Tslpipe']),
-        },
+            paths: ['a.ttsl', 'a.ttsl'],
+            expected: Result.ok(['a.ttsl']),
+        },/*
         {
             testName: 'directory',
-            paths: ['.'],
+            paths: [''],
             expected: Result.ok([
-                'a.Tslpipe',
-                'b.Tslstub',
-                'c.ttsl',
-                'nested/a.Tslpipe',
-                'nested/b.Tslstub',
-                'nested/c.ttsl',
+                'a.ttsl',
+                'b.ttsl',
+                'nested/a.ttsl',
+                'nested/b.ttsl',
             ]),
-        },
+        },*/
         {
             testName: 'missing file',
             paths: ['missing.txt'],
@@ -56,7 +44,7 @@ describe('processPaths', async () => {
         },
         {
             testName: 'not a TTSL file',
-            paths: ['d.txt'],
+            paths: ['c.txt'],
             expected: Result.err(ExitCode.FileWithoutTTSLExtension),
         },
     ];

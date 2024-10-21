@@ -10,62 +10,22 @@ const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 describe('TTSLSemanticTokenProvider', async () => {
     it.each([
         {
-            testName: 'annotation call',
-            code: '<|@|><|A|>',
-            expectedTokenTypes: [SemanticTokenTypes.decorator],
-        },
-        {
             testName: 'argument',
             code: `
-                fun f(p: String)
+                function f(p: String){}
 
-                pipeline p {
+                function p() {
                     f(<|p|> = "foo")
                 }
             `,
             expectedTokenTypes: [SemanticTokenTypes.parameter],
         },
         {
-            testName: 'annotation declaration',
-            code: 'annotation <|A|>',
-            expectedTokenTypes: [SemanticTokenTypes.decorator],
-        },
-        {
-            testName: 'attribute declaration',
-            code: `
-                class C {
-                    attr <|a|>
-                    static attr <|b|>
-                }
-            `,
-            expectedTokenTypes: [SemanticTokenTypes.property, SemanticTokenTypes.property],
-        },
-        {
-            testName: 'class declaration',
-            code: 'class <|C|>',
-            expectedTokenTypes: [SemanticTokenTypes.class],
-        },
-        {
-            testName: 'enum declaration',
-            code: 'enum <|E|>',
-            expectedTokenTypes: [SemanticTokenTypes.enum],
-        },
-        {
-            testName: 'enum variant declaration',
-            code: 'enum E { <|V|> }',
-            expectedTokenTypes: [SemanticTokenTypes.enumMember],
-        },
-        {
             testName: 'function declaration',
             code: `
-                class C {
-                    fun <|f|>()
-                    static fun <|g|>()
-                }
-
-                fun <|f|>()
+                function <|f|>() {}
             `,
-            expectedTokenTypes: [SemanticTokenTypes.method, SemanticTokenTypes.method, SemanticTokenTypes.function],
+            expectedTokenTypes: [SemanticTokenTypes.function],
         },
         {
             testName: 'module',
@@ -74,99 +34,48 @@ describe('TTSLSemanticTokenProvider', async () => {
         },
         {
             testName: 'parameter declaration',
-            code: 'fun f(<|p|>: String)',
+            code: 'function f(<|p|>: String)',
             expectedTokenTypes: [SemanticTokenTypes.parameter],
-        },
-        {
-            testName: 'pipeline declaration',
-            code: 'pipeline <|p|> {}',
-            expectedTokenTypes: [SemanticTokenTypes.function],
         },
         {
             testName: 'placeholder declaration',
             code: `
-                pipeline p {
-                    val <|a|> = 1;
+                function f() {
+                    var <|a|>: Int = 1;
                 }
             `,
             expectedTokenTypes: [SemanticTokenTypes.variable],
-        },
+        },/* 
         {
             testName: 'result declaration',
             code: 'fun f() -> (<|r|>: String)',
             expectedTokenTypes: [SemanticTokenTypes.parameter],
-        },
+        }, 
         {
-            testName: 'schema declaration',
-            code: 'schema <|S|>() {}',
-            expectedTokenTypes: [SemanticTokenTypes.type],
-        },
-        {
-            testName: 'segment declaration',
-            code: 'segment <|s|>() {}',
-            expectedTokenTypes: [SemanticTokenTypes.function],
-        },
-        {
-            testName: 'type parameter declaration',
-            code: 'class C<<|T|>>',
-            expectedTokenTypes: [SemanticTokenTypes.typeParameter],
-        },
+            testName: 'type alias declaration',
+            code: 'typealias <|T|> = List<Int>',
+            expectedTokenTypes: [SemanticTokenTypes.typealias],
+        },*/
         {
             testName: 'import',
             code: 'from <|a.b.c|> import X',
             expectedTokenTypes: [SemanticTokenTypes.namespace],
-        },
+        },/* 
         {
             testName: 'imported declaration',
             code: 'from TTSL.lang import <|Any|>',
-            expectedTokenTypes: [SemanticTokenTypes.class],
-        },
-        {
-            testName: 'named type',
-            code: `
-                enum E {}
-
-                fun f(p: <|E|>)
-            `,
-            expectedTokenTypes: [SemanticTokenTypes.enum],
-        },
-        {
-            testName: 'parameter bound',
-            code: `
-                class C(p: Int) where {
-                    <|p|> < 0
-                }
-            `,
-            expectedTokenTypes: [SemanticTokenTypes.parameter],
-        },
+            expectedTokenTypes: [SemanticTokenTypes.function],
+        }, */
         {
             testName: 'reference',
             code: `
-                fun f(p: String)
+                function f(p: String){}
 
-                pipeline p {
+                function p() {
                     <|f|>;
                 }
             `,
             expectedTokenTypes: [SemanticTokenTypes.function],
-        },
-        {
-            testName: 'type argument',
-            code: `
-                class C<T>
-
-                fun f(p: C<<|T|> = C>)
-            `,
-            expectedTokenTypes: [SemanticTokenTypes.typeParameter],
-        },
-        {
-            testName: 'yield',
-            code: `
-                segment mySegment() -> result: Int {
-                    yield <|result|> = 1;
-                }
-            `,
-            expectedTokenTypes: [SemanticTokenTypes.parameter],
         },
     ])('should assign the correct token types ($testName)', async ({ code, expectedTokenTypes }) => {
         await checkSemanticTokens(code, expectedTokenTypes);

@@ -14,7 +14,7 @@ import type {
     SignatureHelpParams,
 } from 'vscode-languageserver';
 import { createMarkupContent } from '../documentation/ttsl-comment-provider.js';
-import { isTslAbstractCall, TslCallable, TslParameter } from '../generated/ast.js';
+import { isTslAbstractCall, isTslFunction, TslCallable, TslParameter } from '../generated/ast.js';
 import { getParameters, Parameter } from '../helpers/nodeProperties.js';
 import { type TTSLNodeMapper } from '../helpers/ttsl-node-mapper.js';
 import type { TTSLServices } from '../ttsl-module.js';
@@ -86,9 +86,19 @@ export class TTSLSignatureHelpProvider implements SignatureHelpProvider {
     }
 
     private getLabel(callable: TslCallable): string {
-        const type = this.typeComputer.computeType(callable);
-
-        return type.toString();
+        if(isTslFunction(callable)){
+            const parameterTypes = callable.parameterList?.parameters.map(param =>{
+                let result = param.name
+                if(param.defaultValue){
+                    result = result + "?"
+                }
+                return result + ": "+ this.typeComputer.computeType(param).toString()
+            })
+            const resultType = this.typeComputer.computeType(callable.result)
+            return callable.name + "(" + parameterTypes + "): " + resultType
+        } else{
+            return "$unknown"
+        }
     }
 
     private getParameterInformation = (parameter: TslParameter) => {

@@ -53,6 +53,7 @@ import {
     TslTimespanValueEntry,
     isTslAggregation,
     isTslTypeAlias,
+    isTslCallable,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
 import {
@@ -262,6 +263,9 @@ export class TTSLTypeComputer {
     }
 
     private computeTypeOfCall(node: TslCall): Type {
+        if(isTslReference(node.receiver) && !isTslCallable(node.receiver.target.ref)){
+            return UnknownType
+        }
         const receiverType = this.computeType(node.receiver);
         let result = receiverType
         
