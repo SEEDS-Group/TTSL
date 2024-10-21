@@ -1,5 +1,3 @@
-import { pipVersionRange } from './runtime/ttsl-python-server.js';
-
 // Services
 export type { TTSLServices } from './ttsl-module.js';
 export { createTTSLServices } from './ttsl-module.js';
@@ -16,12 +14,3 @@ export * from './helpers/nodeProperties.js';
 
 // Location
 export { locationToString, positionToString, rangeToString } from '../helpers/locations.js';
-
-// RPC
-export * as rpc from './communication/rpc.js';
-
-export const dependencies = {
-    'ttsl-runner': {
-        pipVersionRange,
-    },
-};
