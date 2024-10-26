@@ -194,7 +194,7 @@ export class TTSLTypeComputer {
         } else if(isTslString(node) || isTslTemplateString(node)){
             return new StringType(false);
         } else if(isTslNull(node)){
-            return new NothingType(false);
+            return new NothingType(true);
         }
 
         // Recursive cases
@@ -314,7 +314,12 @@ export class TTSLTypeComputer {
         const leftOperandType = this.computeType(node.leftOperand);
         if (leftOperandType.isExplicitlyNullable) {
             const rightOperandType = this.computeType(node.rightOperand);
-            return rightOperandType;
+            if (rightOperandType.toString().includes(leftOperandType.toString().replace('?',''))){
+                return rightOperandType;
+            } else if(rightOperandType instanceof NothingType){
+                return leftOperandType;
+            }
+            return new AnyType(rightOperandType.isExplicitlyNullable);
         } else {
             return leftOperandType;
         }
