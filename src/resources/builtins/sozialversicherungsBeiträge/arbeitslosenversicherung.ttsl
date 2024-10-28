@@ -20,10 +20,10 @@ from parameters.sozialversicherungsbeitrag import arbeitslosenversicherung as be
  * Sum of employee's social insurance contributions.
  */
 public function per month sozialversicherungsBeitrag(): Float {
-    var pv = gesetzlichePflegeVersicherungsBeitrag() per month;
-    var kv = gesetzlicheKrankenVersicherungsBeitrag() per month;
-    var rv = gesetzlicheRentenVersicherungsBeitrag() per month;
-    var av = beitrag() per month;
+    var pv = per month gesetzlichePflegeVersicherungsBeitrag();
+    var kv = per month gesetzlicheKrankenVersicherungsBeitrag();
+    var rv = per month gesetzlicheRentenVersicherungsBeitrag();
+    var av = per month beitrag();
 
     return pv + kv + rv + av;
 }
@@ -31,11 +31,11 @@ public function per month sozialversicherungsBeitrag(): Float {
 /**
  * Sum of employer's social insurance contributions.
  */
-public function sozialversicherungsBeitragArbeitgeber(): Float per month {
-    var pv = gesetzlicherPflegeVersicherungsBeitragArbeitgeber() per month;
-    var kv = gesetzlicherKrankenVersicherungsBeitragArbeitgeber() per month;
-    var rv = gesetzlicherRentenVersicherungsBeitragArbeitgeber() per month;
-    var av = beitragArbeitgeber() per month;
+public function  per month sozialversicherungsBeitragArbeitgeber(): Float{
+    var pv =  per month gesetzlicherPflegeVersicherungsBeitragArbeitgeber();
+    var kv =  per month gesetzlicherKrankenVersicherungsBeitragArbeitgeber();
+    var rv =  per month gesetzlicherRentenVersicherungsBeitragArbeitgeber();
+    var av =  per month beitragArbeitgeber();
 
     return pv + kv + rv + av;
 }
@@ -43,19 +43,19 @@ public function sozialversicherungsBeitragArbeitgeber(): Float per month {
 /**
  * Sum of employer's and employee's social insurance contributions.
  */
-private function sozialversicherungsBeitragArbeitnehmerArbeitgeber(): Float per month {
-    return sozialversicherungsBeitrag() per month + sozialversicherungsBeitragArbeitgeber() per month;
+private function  per month sozialversicherungsBeitragArbeitnehmerArbeitgeber(): Float {
+    return  per month sozialversicherungsBeitrag() +  per month sozialversicherungsBeitragArbeitgeber();
 }
 
 /**
  * Employee's unemployment insurance contribution.
  */
-public function beitrag(): Float per month {
+public function  per month beitrag(): Float {
     to 2003-03-31 {
         if (geringfügigBeschäftigt()) {
             return 0;
         } else {
-            return gesetzlicheRentenversicherungBetragBruttolohn() per month * beitragssatzArbeitslosenversicherung;
+            return per month gesetzlicheRentenversicherungBetragBruttolohn() * beitragssatzArbeitslosenversicherung;
         }
     }
     from 2003-04-01 {
@@ -64,22 +64,22 @@ public function beitrag(): Float per month {
         }
 
         if (inGleitzone()) {
-            return arbeitslosenversicherungBeitragArbeitnehmer() per month;
+            return per month arbeitslosenversicherungBeitragArbeitnehmer();
         }
 
-        return gesetzlicheRentenversicherungBetragBruttolohn() per month * beitragssatzArbeitslosenversicherung;
+        return per month gesetzlicheRentenversicherungBetragBruttolohn() * beitragssatzArbeitslosenversicherung;
     }
 }
 
 /**
  * Employer's unemployment insurance contribution until March 2003.
  */
-public function beitragArbeitgeber(): Float per month {
+public function per month beitragArbeitgeber(): Float {
     to 2003-03-31 {
         if (geringfügigBeschäftigt()) {
             return 0;
         } else {
-            return gesetzlicheRentenversicherungBetragBruttolohn() per month * beitragssatzArbeitslosenversicherung;
+            return per month gesetzlicheRentenversicherungBetragBruttolohn() * beitragssatzArbeitslosenversicherung;
         }
     }
 
@@ -89,10 +89,10 @@ public function beitragArbeitgeber(): Float per month {
         }
 
         if (inGleitzone()) {
-            return midijobArbeitnehmer() per month;
+            return per month midijobArbeitnehmer();
         }
 
-        return gesetzlicheRentenversicherungBetragBruttolohn() per month * beitragssatzArbeitslosenversicherung
+        return per month gesetzlicheRentenversicherungBetragBruttolohn() * beitragssatzArbeitslosenversicherung
     }
 }
 
@@ -100,9 +100,9 @@ public function beitragArbeitgeber(): Float per month {
  * Sum of employee's and employer's unemployment insurance contribution
  * for midijobs.
  */
-private function midijobSummeArbeitgeberArbeitnehmer(): Float per month {
+private function per month midijobSummeArbeitgeberArbeitnehmer(): Float {
     from 2003-04-01 {
-        return midijobBemessungsentgeld() per month * 2 * beitragssatzArbeitslosenversicherung;
+        return per month midijobBemessungsentgeld() * 2 * beitragssatzArbeitslosenversicherung;
     }
 }
 
@@ -110,18 +110,18 @@ private function midijobSummeArbeitgeberArbeitnehmer(): Float per month {
  * Employers' unemployment insurance contribution for Midijobs until September
  * 2022.
  */
-private function midijobArbeitgeberAnteilBruttolohn(bruttolohn per month): Float per month {
+private function per month midijobArbeitgeberAnteilBruttolohn(): Float {
     from 2003-04-01 to 2022-09-30 {
-        bruttolohn per month * beitragssatzArbeitslosenversicherung;
+        per month bruttolohn * beitragssatzArbeitslosenversicherung;
     }
 }
 
 /**
  * Employer's unemployment insurance contribution since October 2022.
  */
-private function midijobArbeitgeber(): Float per month {
+private function per month midijobArbeitgeber(): Float {
     from 2022-10-01 {
-        return midijobSummeArbeitgeberArbeitnehmer() per month - midijobArbeitnehmer() per month;
+        return per month midijobSummeArbeitgeberArbeitnehmer() - per month midijobArbeitnehmer();
     }
 }
 
@@ -129,9 +129,9 @@ private function midijobArbeitgeber(): Float per month {
  * Employees' unemployment insurance contribution for Midijobs until September
  * 2022.
  */
-private function midijobArbeitnehmer(): Float per month {
+private function per month midijobArbeitnehmer(): Float {
     from 2003-04-01 to 2022-09-30 {
-        return midijobSummeArbeitgeberArbeitnehmer() per month - midijobArbeitgeber() per month;
+        return per month midijobSummeArbeitgeberArbeitnehmer() - per month midijobArbeitgeber();
     }
 
     from 2022-10-01 {

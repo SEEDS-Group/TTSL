@@ -12,13 +12,16 @@ from gesetzlicheKrankenversicherung import bruttolohn as gesetzlicheKrankenversi
 from gesetzlicheKrankenversicherung import bemessungsgrundlageSelbstständig
 from gesetzlicheKrankenversicherung import bemessungsgrundlageRente
 
+data hatKinder: Boolean;
+data alter: Int;
+data anzEigeneKinderBis24: Int;
+data selbstständig: Boolean;
+data bruttolohn: Float;
+
 /**
  * Zusätzlicher Beitrag für Kinderlose ab 2005.
  */
-public function zusatzbeitragKinderlos(
-    hatKinder: Boolean,
-    alter: Int
-): Boolean {
+public function zusatzbeitragKinderlos(): Boolean {
     from 2005-01-01 {
         var mindestalter = mindestalterBeitragszuschlagKinderlose;
         if (not hatKinder or alter >= mindestalter) {
@@ -26,73 +29,69 @@ public function zusatzbeitragKinderlos(
         } else {
             return false;
         }
-    };
+    }
 }
 
 /**
  * Beitragssatz für die gesetzliche Pflegeversicherung.
  */
-public function beitragssatz(
-    anzEigeneKinderBis24: Int
-): Float per year {
+public function per year beitragssatz(): Float {
     from 1995-01-01 to 2004-12-31 {
         return gesetzlichePflegeversicherung;
-    };
+    }
 
     from 2005-01-01 to 2023-06-30 {
         var out = gesetzlichePflegeversicherung["standard"];
-        if zusatzbeitragKinderlos() {
+        if (zusatzbeitragKinderlos()) {
             out = out + gesetzlichePflegeversicherung["zusatz_kinderlos"];
         }
         return out;
-    };
+    }
 
     from 2023-07-01 {
         var out = gesetzlichePflegeversicherung["standard"];
-        if zusatzbeitragKinderlos() {
+        if (zusatzbeitragKinderlos()) {
             out = out + gesetzlichePflegeversicherung["zusatz_kinderlos"];
         }
-        if anzEigeneKinderBis24 >= 2 {
+        if (anzEigeneKinderBis24 >= 2) {
             out = out - gesetzlichePflegeversicherung["abschlag_kinder"] * min(anzEigeneKinderBis24 - 1, 4);
         }
         return out;
-    };
+    }
 }
 
 /**
  * Beitrag für die gesetzliche Pflegeversicherung bis März 2003.
  */
-public function beitrag(
-    selbstständig: Boolean
-): Float per month {
+public function per month beitrag(): Float {
     to 2003-03-31 {
-        if selbstständig {
+        if (selbstständig) {
             return beitragSelbstständig() + beitragRente();
         }
-        if geringfügigBeschäftigt() {
+        if (geringfügigBeschäftigt()) {
             return 0 + beitragRente();
         }
         return beitragRegulärBeschäftigt() + beitragRente();
-    };
+    }
 
     from 2003-04-01 {
-        if selbstständig {
+        if (selbstständig) {
             return beitragSelbstständig() + beitragRente();
         }
-        if geringfügigBeschäftigt() {
+        if (geringfügigBeschäftigt()) {
             return 0 + beitragRente();
         }
-        if inGleitzone() {
+        if (inGleitzone()) {
             return beitragMidijobArbeitnehmer() + beitragRente();
         }
         return beitragRegulärBeschäftigt() + beitragRente();
-    };
+    }
 }
 
 /**
  * Beitrag für regulär Beschäftigte in der gesetzlichen Pflegeversicherung.
  */
-public function beitragRegulärBeschäftigt(): Float per month {
+public function per month beitragRegulärBeschäftigt(): Float {
     var beitrRegulärBeschäftigt = gesetzlicheKrankenversicherungBruttolohn() * beitragssatz();
     return beitrRegulärBeschäftigt;
 }
@@ -100,119 +99,115 @@ public function beitragRegulärBeschäftigt(): Float per month {
 /**
  * Beitrag des Arbeitgebers für die gesetzliche Pflegeversicherung bis März 2003.
  */
-public function beitragArbeitgeber(
-    selbstständig: Boolean
-): Float per month {
+public function per month beitragArbeitgeber(): Float {
     to 2003-03-31 {
-        if selbstständig or geringfügigBeschäftigt() {
+        if (selbstständig or geringfügigBeschäftigt()) {
             return 0.0;
         } else {
             return gesetzlicheKrankenversicherungBruttolohn() * gesetzlichePflegeversicherung;
         }
-    };
+    }
 
     from 2003-04-01 {
-        if selbstständig or geringfügigBeschäftigt() {
+        if (selbstständig or geringfügigBeschäftigt()) {
             return 0.0;
-        } else if inGleitzone() {
-            return beitragMidijobArbeitgeber();
-        } else {
-            return bruttogesetzlicheKrankenversicherungBruttolohn() * gesetzlichePflegeversicherung["standard"];
         }
-    };
+        if (inGleitzone()) {
+            return beitragMidijobArbeitgeber();
+        }
+        return bruttogesetzlicheKrankenversicherungBruttolohn() * gesetzlichePflegeversicherung["standard"];
+    }
 }
 
 /**
  * Beitragssatz für selbstständige bis März 2003.
  */
-public function beitragSelbstständig(): Float per month {
+public function per month beitragSelbstständig(): Float {
     from 1995-01-01 to 2004-12-31 {
         return bemessungsgrundlageSelbstständig() * gesetzlichePflegeversicherung * 2;
-    };
+    }
 
     from 2005-01-01 {
         return bemessungsgrundlageSelbstständig() * (beitragssatz() + gesetzlichePflegeversicherung["standard"]);
-    };
+    }
 }
 
 /**
  * Beitrag für Renteneinkommen in der gesetzlichen Pflegeversicherung.
  */
-public function beitragRente(): Float per month {
+public function per month beitragRente(): Float {
     to 2004-03-31 {
         return bemessungsgrundlageRente() * beitragssatz();
-    };
+    }
 
     from 2004-04-01 to 2004-12-31 {
         return bemessungsgrundlageRente() * (beitragssatz() * 2);
-    };
+    }
 
     from 2005-01-01 {
         return bemessungsgrundlageRente() * (
             beitragssatz() + gesetzlichePflegeversicherung["standard"]
         );
-    };
+    }
 }
 
 /**
  * Beitrag für Midijobs.
  */
-public function beitragMidijobSummeArbeitnehmerArbeitgeber(): Float per month {
+public function per month beitragMidijobSummeArbeitnehmerArbeitgeber(): Float {
     from 2003-04-01 to 2004-12-31 {
         return midijobBemessungsentgeld() * (beitragssatz() + gesetzlichePflegeversicherung);
-    };
+    }
 
     from 2005-01-01 {
         return midijobBemessungsentgeld() * (beitragssatz() + gesetzlichePflegeversicherung["standard"]);
-    };
+    }
 }
 
 /**
  * Arbeitgeberanteil für Midijobs bis Dezember 2004.
  */
-public function beitragMidijobArbeitgeber(
-    bruttolohn: Float
-): Float per month {
+public function per month beitragMidijobArbeitgeber(): Float {
     to 2004-12-31 {
         return bruttolohn * gesetzlichePflegeversicherung;
-    };
+    }
 
     from 2005-01-01 to 2022-09-30 {
         return bruttolohn * gesetzlichePflegeversicherung["standard"];
-    };
+    }
 
     from 2022-10-01 {
         return beitragMidijobSummeArbeitnehmerArbeitgeber() - beitragMidijobArbeitnehmer();
-    };
+    }
 }
 
 /**
  * Arbeitnehmeranteil für Midijobs in der gesetzlichen Pflegeversicherung.
  */
-public function beitragMidijobArbeitnehmer(
+public function per month beitragMidijobArbeitnehmer(
     anzEigeneKinderBis24: Int
-): Float per month {
+): Float {
     to 2022-09-30 {
         return beitragMidijobSummeArbeitnehmerArbeitgeber() - beitragMidijobArbeitgeber();
-    };
+    }
 
     from 2022-10-01 to 2023-06-30 {
         var anBeitragMidijob = midijobBeitragspflichtigeEinnahmeArbeitnehmer() * gesetzlichePflegeversicherung["standard"];
-        if zusatzbeitragKinderlos() {
+        if (zusatzbeitragKinderlos()) {
             anBeitragMidijob = anBeitragMidijob + midijobBemessungsentgeld() * gesetzlichePflegeversicherung["zusatz_kinderlos"];
         }
         return anBeitragMidijob;
-    };
+    }
 
     from 2023-07-01 {
         var pflegevRate = gesetzlichePflegeversicherung["standard"];
-        if anzEigeneKinderBis24 >= 2 {
+        if (anzEigeneKinderBis24 >= 2) {
             pflegevRate = pflegevRate - gesetzlichePflegeversicherung["abschlag_kinder"] * min(anzEigeneKinderBis24 - 1, 4);
         }
         var anBeitragMidijob = midijobBeitragspflichtigeEinnahmeArbeitnehmer() * pflegevRate;
-        if zusatzbeitragKinderlos() {
+        if (zusatzbeitragKinderlos()) {
             anBeitragMidijob = anBeitragMidijob + midijobBemessungsentgeld() * gesetzlichePflegeversicherung["zusatz_kinderlos"];
         }
         return anBeitragMidijob;
-    };
+    }
 }

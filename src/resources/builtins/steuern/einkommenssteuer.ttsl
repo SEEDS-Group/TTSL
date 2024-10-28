@@ -3,7 +3,7 @@ package einkommenssteuer
 /**
  * Berechnung der Einkommenssteuer ohne Kinderfreibetrag auf Steuernummer-Ebene.
  */
-public function ohneKinderfreibetrag(): Float per year {
+public function per year ohneKinderfreibetrag(): Float {
     var zuVerstEinkProPerson = zuVersteuerndesEinkommenOhneKinderfreibetrag() / anzahlPersonen();
     var einkommensteuer = anzahlPersonen() * einkommensteuerTarif(zuVerstEinkProPerson, einkommensteuerParameter);
     return einkommensteuer;
@@ -13,7 +13,7 @@ public function ohneKinderfreibetrag(): Float per year {
  * Berechnung der Einkommenssteuer mit Kinderfreibetrag auf Steuernummer-Ebene ab 2002.
  * TODO
  */
-public function mitKinderfreibetrag(): Float per year {
+public function per year mitKinderfreibetrag(): Float {
     from 2002-01-01 {
         var zuVerstEinkProPerson = zuVersteuerndesEinkommenMitKinderfreibetrag() / anzahlPersonen();
         var einkommensteuer = anzahlPersonen() * einkommensteuerTarif(zuVerstEinkProPerson, einkommensteuerParameter);
@@ -21,31 +21,31 @@ public function mitKinderfreibetrag(): Float per year {
     }
 }
 
-/**
- * Berechnung des Einkommensteuertarifs.
- * TODO
- */
-private function tarif(
-    einkommen: Float,
-    einkommensteuerParameter: Map
-): Float {
-    return piecewisePolynomial(
-        x=einkommen,
-        thresholds=einkommensteuerParameter["eink_st_tarif"]["thresholds"],
-        rates=einkommensteuerParameter["eink_st_tarif"]["rates"],
-        intercepts_at_lower_thresholds=einkommensteuerParameter["eink_st_tarif"]["intercepts_at_lower_thresholds"]
-    );
-}
+# /**
+#  * Berechnung des Einkommensteuertarifs.
+#  * TODO
+#  */
+# private function tarif(
+#     einkommen: Float,
+# ): Float {
+#     return piecewisePolynomial(
+#         x=einkommen,
+#         thresholds=einkommensteuerParameter["eink_st_tarif"]["thresholds"],
+#         rates=einkommensteuerParameter["eink_st_tarif"]["rates"],
+#         intercepts_at_lower_thresholds=einkommensteuerParameter["eink_st_tarif"]["intercepts_at_lower_thresholds"]
+#     );
+# }
 
 /**
  * Einkommenssteuer auf Steuernummer-Ebene, die Kindergeld oder Kinderfreibetrag berücksichtigt.
  */
-public function einkommenssteuer(): Float per year {
+public function per year einkommenssteuer(): Float {
     to 1996-12-31 {
-        einkommenssteuerMitKinderfreibetrag()
+        return einkommenssteuerMitKinderfreibetrag();
     }
+
     from 1997-01-01 {
-        if kinderfreibetragGünstiger() {
+        if (kinderfreibetragGünstiger()) {
             return einkommenssteuerMitKinderfreibetrag() + relativesKindergeld();
         } else {
             return einkommenssteuerOhneKinderfreibetrag();
@@ -61,24 +61,26 @@ public function kinderfreibetragGünstiger(): Boolean {
     return differenzbetrag > relativesKindergeld();
 }
 
-/**
- * Kindergeld relevant für die Einkommenssteuer ohne Staffelung ab 2023.
- */
-public function relativesKindergeldOhneStaffelung(): Float per month {
-    to 2022-12-31 {
-        var anzahlAnsprüche = anzahlAnsprüche1() + anzahlAnsprüche2();
-        if anzahlAnsprüche == 0 {
-            return 0.0;
-        }
-        var sumKindergeld = 0.0;
-        for(var i = 1; i < anzahlAnsprüche; i = i + 1) {
-            var kindergeldKey = min(i, max(kindergeldParameter["kindergeld"].keys()));
-            sumKindergeld += kindergeldParameter["kindergeld"][kindergeldKey];
-        }
-        return sumKindergeld / 2;
-    }
-    from 2023-01-01 {
-        var anzahlAnsprüche = anzahlAnsprüche1 + anzahlAnsprüche2;
-        return kindergeldParameter["kindergeld"] * anzahlAnsprüche / 2;
-    }
-}
+# TODO: kindergeldParameter["kindergeld"].keys() nicht Möglich
+# /**
+#  * Kindergeld relevant für die Einkommenssteuer ohne Staffelung ab 2023.
+#  */
+# public function per month relativesKindergeldOhneStaffelung(): Float {
+#     to 2022-12-31 {
+#         var anzahlAnsprüche = anzahlAnsprüche1() + anzahlAnsprüche2();
+#         if (anzahlAnsprüche == 0) {
+#             return 0.0;
+#         }
+#         var sumKindergeld = 0.0;
+#         for(var i = 1; i < anzahlAnsprüche; i = i + 1) {
+#             var kindergeldKey = min(i, max(kindergeldParameter["kindergeld"].keys()));
+#             sumKindergeld = sumKindergeld + kindergeldParameter["kindergeld"][kindergeldKey];
+#         }
+#         return sumKindergeld / 2;
+#     }
+
+#     from 2023-01-01 {
+#         var anzahlAnsprüche = anzahlAnsprüche1 + anzahlAnsprüche2;
+#         return kindergeldParameter["kindergeld"] * anzahlAnsprüche / 2;
+#     }
+# }

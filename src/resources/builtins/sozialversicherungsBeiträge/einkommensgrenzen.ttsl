@@ -14,21 +14,24 @@ from sozialversicherungsbeitrag import gesetzlichePflegeversicherung as beitrags
 from gesetzlicheKrankenversicherung import beitragssatzJahresanfang as gesetzlicheKrankenversicherungBeitragssatzJahresanfang
 from gesetzlicheKrankenversicherung import beitragssatzArbeitgeberJahresanfang as gesetzlicheKrankenversicherungBeitragssatzArbeitgeberJahresanfang
 
+data per month bruttolohn: Float;
+data wohnort_ost: Boolean;
+
 /**
  * Select the income threshold depending on place of living.
  */
-public function minijobGrenze(wohnort_ost: Boolean): Float per month {
+public function per month minijobGrenze(): Float {
     to 1999-12-31 {
-        if wohnort_ost {
+        if (wohnort_ost) {
             return geringfügigeEinkommensgrenzenMonatlich["minijob"]["ost"];
         } else {
             return geringfügigeEinkommensgrenzenMonatlich["minijob"]["west"];
         }
-    };
+    }
 
     from 2000-01-01 to 2022-09-30 {
         return geringfügigeEinkommensgrenzenMonatlich["minijob"];
-    };
+    }
 
     /**
      * Obtains marginal job threshold since 10/2022. Since then, it is calculated from
@@ -36,7 +39,7 @@ public function minijobGrenze(wohnort_ost: Boolean): Float per month {
      */
     from 2022-10-01 {
         return mindestlohn * geringfügigeEinkommensfaktor / geringfügigeEinkommensdivisor;
-    };
+    }
 }
 
 /**
@@ -44,8 +47,9 @@ public function minijobGrenze(wohnort_ost: Boolean): Float per month {
  * Marginal employed pay no social insurance contributions.
  * Legal reference: § 8 Abs. 1 Satz 1 and 2 SGB IV
  */
-public function geringfügigBeschäftigt(bruttolohn per month): Boolean {
-    return bruttolohn per month <= minijobGrenze();
+public function geringfügigBeschäftigt(): Boolean {
+    var isGeringfügigBeschäftigt = per month bruttolohn <= minijobGrenze();
+    return isGeringfügigBeschäftigt;
 }
 
 /**
@@ -54,10 +58,10 @@ public function geringfügigBeschäftigt(bruttolohn per month): Boolean {
  * insurance contributions.
  * Legal reference: § 20 Abs. 2 SGB IV
  */
-public function inGleitzone(bruttolohn per month): Boolean {
+public function inGleitzone(): Boolean {
     from 2003-04-01 {
-        return (bruttolohn per month <= geringfügigeEinkommensgrenzenMonatlich["midijob"]) and (not geringfügigBeschäftigt(bruttolohn per month));
-    };
+        return (per month bruttolohn <= geringfügigeEinkommensgrenzenMonatlich["midijob"]) and (not geringfügigBeschäftigt());
+    }
 }
 
 public function midijobFaktorF(): Float {
@@ -88,7 +92,7 @@ public function midijobFaktorF(): Float {
 
         # Now calculate final factor
         return pausch_mini / (an_anteil + ag_anteil);
-    };
+    }
 
     /**
      * Midijob Faktor F between 2005 and September 2025.
@@ -117,7 +121,7 @@ public function midijobFaktorF(): Float {
 
         # Now calculate final factor
         return pausch_mini / (an_anteil + ag_anteil);
-    };
+    }
 
     from 2022-10-01 {
         # Calculate the Gesamtsozialversicherungsbeitragssatz by summing social
@@ -145,7 +149,7 @@ public function midijobFaktorF(): Float {
 
         # Now calculate final factor f
         return pausch_mini / (an_anteil + ag_anteil);
-    };
+    }
 }
 
 /**
@@ -155,11 +159,11 @@ public function midijobFaktorF(): Float {
  * social insurance contribution.
  * Legal reference: § 163 Abs. 10 SGB VI
  */
-public function midijobBemessungsentgeld(bruttolohn per month): Float per month {
+public function per month midijobBemessungsentgeld(): Float {
     from 2003-04-01 {
         # Now use the factor to calculate the overall bemessungsentgelt
         var minijob_anteil = midijobFaktorF() * minijobGrenze();
-        var lohn_über_mini = bruttolohn per month - minijobGrenze();
+        var lohn_über_mini = per month bruttolohn - minijobGrenze();
         var gewichtete_midijob_rate = (
             geringfügigeEinkommensgrenzenMonatlich["midijob"]
             / (
@@ -176,7 +180,7 @@ public function midijobBemessungsentgeld(bruttolohn per month): Float per month 
         );
 
         return minijob_anteil + lohn_über_mini * gewichtete_midijob_rate;
-    };
+    }
 
     /**
      * Total income subject to social insurance contributions for employers a and
@@ -192,12 +196,12 @@ public function midijobBemessungsentgeld(bruttolohn per month): Float per month 
 
         var quotient1 = (midijob_grenze) / (midijob_grenze - minijob_grenze);
         var quotient2 = (minijob_grenze) / (midijob_grenze - minijob_grenze);
-        var einkommen_diff = bruttolohn per month - minijob_grenze;
+        var einkommen_diff = per month bruttolohn - minijob_grenze;
 
         var faktor1 = midijobFaktorF() * minijob_grenze;
         var faktor2 = (quotient1 - quotient2 * midijobFaktorF()) * einkommen_diff;
         return faktor1 + faktor2;
-    };
+    }
 }
 
 /**
@@ -207,18 +211,18 @@ public function midijobBemessungsentgeld(bruttolohn per month): Float per month 
  * to employee social insurance contribution.
  * Legal reference: Changes in § 20 SGB IV from 01.10.2022
  */
-private function midijobBeitragspflichtigeEinnahmeArbeitnehmer(bruttolohn per month): Float per month {
-    var midijob_grenze = geringfügigeEinkommensgrenzenMonatlich["midijob"]
-    var minijob_grenze = minijobGrenze()
+private function per month midijobBeitragspflichtigeEinnahmeArbeitnehmer(): Float {
+    var midijob_grenze = geringfügigeEinkommensgrenzenMonatlich["midijob"];
+    var minijob_grenze = minijobGrenze();
 
-    var quotient = midijob_grenze / (midijob_grenze - minijob_grenze)
-    var einkommen_diff = bruttolohn per month - minijob_grenze
+    var quotient = midijob_grenze / (midijob_grenze - minijob_grenze);
+    var einkommen_diff = per month bruttolohn - minijob_grenze;
 
-    return quotient * einkommen_diff
+    return quotient * einkommen_diff;
 }
 
 
-public function regulärBeschäftigt(bruttolohn per month): Boolean {
+public function regulärBeschäftigt(): Boolean {
     /**
     * Regular employment check until March 2003.
     * Employees earning more than the minijob threshold, are subject to all ordinary
@@ -226,7 +230,7 @@ public function regulärBeschäftigt(bruttolohn per month): Boolean {
     * regular employed.
     */
     to 2003-03-31 {
-        return bruttolohn per month >= minijobGrenze()
+        return per month bruttolohn >= minijobGrenze();
     }
 
     /**
@@ -236,6 +240,6 @@ public function regulärBeschäftigt(bruttolohn per month): Boolean {
      * regular employed.
      */
     from 2003-04-01 {
-        return bruttolohn per month >= geringfügigeEinkommensgrenzenMonatlich["midijob"]
+        return per month bruttolohn >= geringfügigeEinkommensgrenzenMonatlich["midijob"];
     }
 }

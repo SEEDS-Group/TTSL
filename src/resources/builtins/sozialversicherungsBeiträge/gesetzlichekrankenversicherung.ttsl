@@ -14,30 +14,33 @@ from einkommensgrenzen import midijobBeitragspflichtigeEinnahmeArbeitnehmer
 
 from math import min, max
 
+data selbstständig: Boolean;
+data inPrivaterKrankenversicherung: Boolean;
+data per month bruttolohn: Float;
+data per month einkommenSelbstständig: Float;
+
 /**
  * Beitrag für die gesetzliche Krankenversicherung.
  */
-public function beitrag(
-    selbstständig: Boolean
-): Float per month {
+public function per month beitrag(): Float {
     to 2003-03-31 {
-        if selbstständig {
+        if (selbstständig) {
             return beitragSelbstständig() + beitragRente();
         }
-        if geringfügigBeschäftigt {
+        if (geringfügigBeschäftigt()) {
             return 0 + beitragRente();
         }
         return beitragRegulärBeschäftigt() + beitragRente();
     }
 
     from 2003-04-01 {
-        if selbstständig {
+        if (selbstständig) {
             return beitragSelbstständig() + beitragRente();
         }
-        if geringfügigBeschäftigt {
+        if (geringfügigBeschäftigt()) {
             return 0 + beitragRente();
         }
-        if inGleitzone {
+        if (inGleitzone()) {
             return beitragMidijobArbeitnehmer() + beitragRente();
         }
         return beitragRegulärBeschäftigt() + beitragRente();
@@ -47,37 +50,34 @@ public function beitrag(
 /**
  * Beitrag des Arbeitgebers für die gesetzliche Krankenversicherung.
  */
-public function beitragArbeitgeber(
-    geringfügigBeschäftigt: Boolean,
-    selbstständig: Boolean,
-    bruttolohn: Float
-): Float per month {
+public function per month beitragArbeitgeber(): Float {
     to 2003-03-31 {
-        if selbstständig {
+        if (selbstständig) {
             return 0.0;
-        } else if geringfügigBeschäftigt {
-            return bruttolohn * pauschalabgabenGeringfügigeBeschäftigung["ges_krankenv"];
-        } else {
-            return bruttolohn() per month * beitragssatzArbeitgeber();
         }
+        if (geringfügigBeschäftigt()) {
+            return bruttolohn * pauschalabgabenGeringfügigeBeschäftigung["ges_krankenv"];
+        }
+        return per month bruttolohn * beitragssatzArbeitgeber();
     }
     from 2003-04-01 {
-        if selbstständig {
+        if (selbstständig) {
             return 0.0;
-        } else if geringfügigBeschäftigt {
-            return bruttolohn * pauschalabgabenGeringfügigeBeschäftigung["ges_krankenv"];
-        } else if inGleitzone() {
-            return beitragMidijobArbeitgeber();
-        } else {
-            return bruttolohn() per month * beitragssatzArbeitgeber();
         }
+        if (geringfügigBeschäftigt()) {
+            return bruttolohn * pauschalabgabenGeringfügigeBeschäftigung["ges_krankenv"];
+        }
+        if (inGleitzone()) {
+            return beitragMidijobArbeitgeber();
+        }
+        return per month bruttolohn * beitragssatzArbeitgeber();
     }
 }
 
 /**
  * Zusatzbeitragssatz basierend auf dem Sonderbeitrag bis Dezember 2014 und dem mittleren Zusatzbeitrag seit Januar 2015.
  */
-public function zusatzbeitragssatz(): Float per year {
+public function per month zusatzbeitragssatz(): Float {
     to 2014-12-31 {
         return beitragssatzGesetzlicheKrankenversicherung["sonderbeitrag"];
     }
@@ -89,7 +89,7 @@ public function zusatzbeitragssatz(): Float per year {
 /**
  * Beitragssatz für die gesetzliche Krankenversicherung, inklusive kassenspezifischer und einheitlicher Zusatzbeitragssätze.
  */
-public function beitragssatz(): Float per month {
+public function per month beitragssatz(): Float {
     to 2005-06-30 {
         return beitragssatzGesetzlicheKrankenversicherung["mean_allgemein"] / 2;
     }
@@ -110,7 +110,7 @@ public function beitragssatz(): Float per month {
 /**
  * Beitragssatz für die gesetzliche Krankenversicherung am Jahresanfang, inklusive kassenspezifischer und einheitlicher Zusatzbeitragssätze.
  */
-public function beitragssatzJahresanfang(): Float per month {
+public function per month beitragssatzJahresanfang(): Float {
     to 2005-06-30 {
         return beitragssatzGesetzlicheKrankenversicherung["mean_allgemein"] / 2;
     }
@@ -131,7 +131,7 @@ public function beitragssatzJahresanfang(): Float per month {
 /**
  * Beitragssatz des Arbeitgebers für die gesetzliche Krankenversicherung, inklusive kassenspezifischer und einheitlicher Zusatzbeitragssätze.
  */
-public function beitragssatzArbeitgeber(): Float per month {
+public function per month beitragssatzArbeitgeber(): Float {
     to 2008-12-31 {
         return beitragssatzGesetzlicheKrankenversicherung["mean_allgemein"] / 2;
     }
@@ -148,7 +148,7 @@ public function beitragssatzArbeitgeber(): Float per month {
 /**
  * Beitragssatz des Arbeitgebers für die gesetzliche Krankenversicherung am Jahresanfang, inklusive kassenspezifischer und einheitlicher Zusatzbeitragssätze.
  */
-public function beitragssatzArbeitgeberJahresanfang(): Float per month {
+public function per month beitragssatzArbeitgeberJahresanfang(): Float {
     to 2008-12-31 {
         return beitragssatzGesetzlicheKrankenversicherung["mean_allgemein"] / 2;
     }
@@ -165,10 +165,8 @@ public function beitragssatzArbeitgeberJahresanfang(): Float per month {
 /**
  * Bruttolohn für regulär Beschäftigte, der der gesetzlichen Krankenversicherung unterliegt.
  */
-public function bruttolohnRegulärBeschäftigt(
-    bruttolohn: Float
-): Float per month {
-    if bruttolohn > gesetzlicheKrankenversicherungBeitragsbemessungsgrenze() {
+public function per month bruttolohnRegulärBeschäftigt(): Float {
+    if (bruttolohn > gesetzlicheKrankenversicherungBeitragsbemessungsgrenze()) {
         return gesetzlicheKrankenversicherungBeitragsbemessungsgrenze();
     } else {
         return bruttolohn;
@@ -178,8 +176,8 @@ public function bruttolohnRegulärBeschäftigt(
 /**
  * Bruttolohn, der der gesetzlichen Krankenversicherung unterliegt.
  */
-public function bruttolohn(): Float per month {
-    if regulärBeschäftigt() {
+public function per month bruttolohn(): Float {
+    if (regulärBeschäftigt()) {
         return bruttolohnRegulärBeschäftigt();
     } else {
         return 0.0;
@@ -189,18 +187,14 @@ public function bruttolohn(): Float per month {
 /**
  * Beitrag für regulär Beschäftigte.
  */
-public function beitragRegulärBeschäftigt(): Float per month {
+public function per month beitragRegulärBeschäftigt(): Float {
     return beitragssatz() * bruttolohn();
 }
 
 /**
  * Bemessungsgrundlage für selbstständiges Einkommen.
  */
-public function bemessungsgrundlageSelbstständig(
-    einkommenSelbstständig: Float,
-    selbstständig: Boolean,
-    inPrivaterKrankenversicherung: Boolean,
-): Float per month {
+public function per month bemessungsgrundlageSelbstständig(): Float{
     if (selbstständig and not inPrivaterKrankenversicherung) {
         return min(
             gesetzlicheKrankenversicherungBeitragsbemessungsgrenze(),
@@ -218,15 +212,16 @@ public function bemessungsgrundlageSelbstständig(
  * Choose the amount of pension which is subject to health insurance contribution.
  * TODO: Abhängigkeit zu Transfer Rente
  */
-public function bemessungsgrundlageRente(): Float per month {
+public function per month bemessungsgrundlageRente(): Float {
     min(summeGesetzlicheRentePrivateRente, gesetzlicheKrankenversicherungBeitragsbemessungsgrenze)
 }
 
 /**
  * Beitrag für selbstständiges Einkommen.
  */
-public function beitragSelbstständig(): Float per month {
+public function per month beitragSelbstständig(): Float {
     var params = beitragssatzGesetzlicheKrankenversicherung;
+    # TODO "in" keyword
     if ("ermäßigt" in params) {
         var ermäßigterBeitrag = params["ermäßigt"];
     } else {
@@ -255,14 +250,14 @@ public function beitragSelbstständig(): Float per month {
 /**
  * Beitrag für Renteneinkommen.
  */
-public function beitragRente(): Float per month {
+public function per month beitragRente(): Float {
     return beitragssatz() * bemessungsgrundlageRente();
 }
 
 /**
  * Beitrag für Midijobs.
  */
-public function beitragMidijobSummeArbeitnehmerArbeitgeber(): Float per month {
+public function per month beitragMidijobSummeArbeitnehmerArbeitgeber(): Float {
     from 2003-04-01 {
         return (beitragssatz() + beitragssatzArbeitgeber()) * midijobBemessungsentgeld();
     }
@@ -271,19 +266,17 @@ public function beitragMidijobSummeArbeitnehmerArbeitgeber(): Float per month {
 /**
  * Arbeitgeberanteil für Midijobs.
  */
-public function beitragMidijobArbeitgeber(
-    bruttolohn: Float
-): Float per month {
+public function per month beitragMidijobArbeitgeber(): Float {
     from 2003-04-01 {
-        if inGleitzone() {
-            return beitragssatzArbeitgeber() * bruttolohn;
+        if (inGleitzone()) {
+            return beitragssatzArbeitgeber() * per month bruttolohn;
         } else {
             return 0.0;
         }
     }
 
     from 2022-10-01 {
-        if inGleitzone() {
+        if (inGleitzone()) {
             return beitragMidijobSummeArbeitnehmerArbeitgeber() - beitragMidijobArbeitnehmer();
         } else {
             return 0.0;
@@ -294,7 +287,7 @@ public function beitragMidijobArbeitgeber(
 /**
  * Arbeitnehmeranteil für Midijobs.
  */
-public function beitragMidijobArbeitnehmer(): Float per month {
+public function per month beitragMidijobArbeitnehmer(): Float {
     from 2003-04-01 to 2022-09-30 {
         return beitragMidijobSummeArbeitnehmerArbeitgeber() - beitragMidijobArbeitgeber();
     }

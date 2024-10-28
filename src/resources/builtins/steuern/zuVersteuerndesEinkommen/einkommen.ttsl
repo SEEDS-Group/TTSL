@@ -10,13 +10,15 @@ from einkommenssteuer import renteErtragsanteil
 
 from einkommensgrenzen import geringfügigBeschäftigt
 
+data per month bruttolohn: Float;
+data per year einkommenAbhängigBeschäftigt: Float;
+data per month summeGesamtRentePrivatRente: Float;
+
 /**
  * Aggregiere das monatliche Bruttoeinkommen aus abhängiger Beschäftigung zu einem jährlichen Einkommen und ziehe
  * die Werbungskostenpauschale ab.
  */
-public function einkommenAbhängigBeschäftigt(
-    bruttolohn: Float per month
-): Float per year {
+public function per year einkommenAbhängigBeschäftigt(): Float {
     return max(12 * bruttolohn - werbungskostenpauschbetrag, 0.0);
 }
 
@@ -24,9 +26,7 @@ public function einkommenAbhängigBeschäftigt(
  * Berechne das zu versteuernde Einkommen aus abhängiger Beschäftigung. Für geringfügig Beschäftigte wird das zu
  * versteuernde Einkommen auf 0 gesetzt.
  */
-public function zuVersteuerndesEinkommenAbhängigBeschäftigt(
-    einkommenAbhängigBeschäftigt: Float per year
-): Float per year {
+public function per year zuVersteuerndesEinkommenAbhängigBeschäftigt(): Float {
     if (geringfügigBeschäftigt()) {
         return 0.0;
     } else {
@@ -37,9 +37,7 @@ public function zuVersteuerndesEinkommenAbhängigBeschäftigt(
 /**
  * Berechne den monatlichen Rentenbetrag, der der Besteuerung unterliegt.
  */
-public function zuVersteuerndeRenteMonat(
-    summeGesamtRentePrivatRente: Float per month
-): Float per month {
+public function per month zuVersteuerndeRenteMonat(): Float {
     return rentenErtragsanteil() * summeGesamtRentePrivatRente;
 }
 
@@ -48,48 +46,42 @@ public function zuVersteuerndeRenteMonat(
  *
  * Seit 2009 unterliegt das Kapitaleinkommen nicht der normalen Besteuerung.
  */
-public function summeEinkommen(
-    einkommenSelbstständig: Float per year,
-    einkommenVermietung: Float per year,
-    zuVersteuerndeRente: Float per year,
-    bruttoKapitaleinkommen: Float per year,
-): Float per year {
+public function per year summeEinkommen(): Float {
     to 2008-12-31 {
-        return einkommenSelbstständig
-            + zuVersteuerndesEinkommenAbhängigBeschäftigt
-            + einkommenVermietung
-            + zuVersteuerndeRente
-            + bruttoKapitaleinkommen;
-    };
+        return einkommenSelbstständig()
+            + zuVersteuerndesEinkommenAbhängigBeschäftigt()
+            + einkommenVermietung()
+            + zuVersteuerndeRente()
+            + bruttoKapitaleinkommen();
+    }
 
     from 2009-01-01 {
-        return einkommenSelbstständig
-            + zuVersteuerndesEinkommenAbhängigBeschäftigt
-            + einkommenVermietung
-            + zuVersteuerndeRente;
-    };
+        return einkommenSelbstständig()
+            + zuVersteuerndesEinkommenAbhängigBeschäftigt()
+            + einkommenVermietung()
+            + zuVersteuerndeRente();
+    }
 }
 
 /**
  * Kapitalerträge abzüglich Sparerpauschbetrag.
  */
-public function kapitaleinkommen(
-    bruttoKapitaleinkommen: Float per year,
-): Float per year {
+public function per year kapitaleinkommen(): Float {
     var abgezogen = bruttoKapitaleinkommen - sparerpauschbetrag - sparerWerbungskostenPauschbetrag;
     return max(abgezogen, 0.0);
 }
 
-/**
- * Berechnung des Anteils der Rente, der der Einkommensbesteuerung unterliegt.
- */
-public function renteErtragsanteil(
-    rentenEintrittsJahr: Int,
-): Float {
-    return piecewiseLinear( # TODO
-        x = jahrRentenEintritt,
-        thresholds = renteErtragsanteil["thresholds"],
-        rates = renteErtragsanteil["rates"],
-        interceptsAtLowerThresholds = renteErtragsanteil["intercepts_at_lower_thresholds"]
-    );
-}
+# TODO: piecewiseLinear is not defined
+# /**
+#  * Berechnung des Anteils der Rente, der der Einkommensbesteuerung unterliegt.
+#  */
+# public function renteErtragsanteil(
+#     rentenEintrittsJahr: Int,
+# ): Float {
+#     return piecewiseLinear( # TODO
+#         x = jahrRentenEintritt,
+#         thresholds = renteErtragsanteil["thresholds"],
+#         rates = renteErtragsanteil["rates"],
+#         interceptsAtLowerThresholds = renteErtragsanteil["intercepts_at_lower_thresholds"]
+#     );
+# }
