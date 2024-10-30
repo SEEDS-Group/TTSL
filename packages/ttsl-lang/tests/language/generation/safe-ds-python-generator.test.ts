@@ -22,10 +22,10 @@ describe('generation', async () => {
         const documents = await loadDocuments(services, test.inputUris);
 
         // Get target placeholder name for "run until"
-        let runUntilPlaceholderName: string | undefined = undefined;
+        let runUntilPlaceholderName: string[] | undefined = undefined;
         if (test.runUntil) {
             const document = langiumDocuments.getDocument(URI.parse(test.runUntil.uri))!;
-            runUntilPlaceholderName = document.textDocument.getText(test.runUntil.range);
+            runUntilPlaceholderName = [document.textDocument.getText(test.runUntil.range)];
         }
 
         // Generate code for all documents

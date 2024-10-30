@@ -33,7 +33,11 @@ import { TTSLPackageManager } from './workspace/ttsl-package-manager.js';
 import { TTSLWorkspaceManager } from './workspace/ttsl-workspace-manager.js';
 import { TTSLSettingsProvider } from './workspace/ttsl-settings-provider.js';
 import { TTSLRenameProvider } from './lsp/ttsl-rename-provider.js';
-import { TTSLFunction } from './builtins/ttsl-ds-functions.js';
+import { TTSLFunction } from './builtins/ttsl-functions.js';
+import { TTSLMessagingProvider } from './communication/ttsl-messaging-provider.js';
+import { TTSLPythonServer } from './runtime/ttsl-python-server.js';
+import { TTSLRunner } from './runtime/ttsl-runner.js';
+import { TTSLSlicer } from './flow/ttsl-slicer.js';
 
 /**
  * Declaration of custom services - add your own service classes here.
@@ -42,11 +46,15 @@ export type TTSLAddedServices = {
     builtins: {
         Functions: TTSLFunction;
     };
+    communication: {
+        MessagingProvider: TTSLMessagingProvider;
+    };
     evaluation: {
         PartialEvaluator: TTSLPartialEvaluator;
     };
     flow: {
         CallGraphComputer: TTSLCallGraphComputer;
+        Slicer: TTSLSlicer;
     };
     generation: {
         PythonGenerator: TTSLPythonGenerator;
@@ -56,6 +64,10 @@ export type TTSLAddedServices = {
     };
     lsp: {
         NodeInfoProvider: TTSLNodeInfoProvider;
+    };
+    runtime: {
+        PythonServer: TTSLPythonServer;
+        Runner: TTSLRunner;
     };
     types: {
         TypeChecker: TTSLTypeChecker;
@@ -82,6 +94,9 @@ export const TTSLModule: Module<TTSLServices, PartialLangiumServices & TTSLAdded
     builtins: {
         Functions: (services) => new TTSLFunction(services),
     },
+    communication: {
+        MessagingProvider: (services) => new TTSLMessagingProvider(services),
+    },
     documentation: {
         CommentProvider: (services) => new TTSLCommentProvider(services),
         DocumentationProvider: (services) => new TTSLDocumentationProvider(services),
@@ -91,6 +106,7 @@ export const TTSLModule: Module<TTSLServices, PartialLangiumServices & TTSLAdded
     },
     flow: {
         CallGraphComputer: (services) => new TTSLCallGraphComputer(services),
+        Slicer: (services) => new TTSLSlicer(services),
     },
     generation: {
         PythonGenerator: (services) => new TTSLPythonGenerator(services),
@@ -114,6 +130,10 @@ export const TTSLModule: Module<TTSLServices, PartialLangiumServices & TTSLAdded
     references: {
         ScopeComputation: (services) => new TTSLScopeComputation(services),
         ScopeProvider: (services) => new TTSLScopeProvider(services),
+    },
+    runtime: {
+        PythonServer: (services) => new TTSLPythonServer(services),
+        Runner: (services) => new TTSLRunner(services),
     },
     types: {
         TypeChecker: () => new TTSLTypeChecker(),

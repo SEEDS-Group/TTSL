@@ -8,12 +8,12 @@ id data testID: Int
 
 function testFunction() groupedBy testID {
     # $TEST$ serialization Int
-    var int = aggregate "sum" of IntData groupedBy testID;
+    var »int« = aggregate "sum" of IntData groupedBy testID;
     # $TEST$ serialization Float
-    var float = aggregate "sum" of FloatData groupedBy testID;
+    var »float« = aggregate "sum" of FloatData groupedBy testID;
     # $TEST$ serialization String
-    var string = aggregate "append" of StringData groupedBy testID;
+    var »string« = aggregate "append" of StringData groupedBy testID;
     # $TEST$ serialization Boolean
-    var boolean = aggregate "and" of BooleanData groupedBy testID;
+    var »bool« = aggregate "and" of BooleanData groupedBy testID;
 }
 

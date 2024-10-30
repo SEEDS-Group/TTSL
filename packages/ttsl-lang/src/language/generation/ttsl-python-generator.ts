@@ -97,7 +97,8 @@ import {
 import { TTSLNodeMapper } from '../helpers/ttsl-node-mapper.js';
 import { TTSLPartialEvaluator } from '../partialEvaluation/ttsl-partial-evaluator.js';
 import { TTSLServices } from '../ttsl-module.js';
-import { TTSLFunction } from '../builtins/ttsl-ds-functions.js';
+import { TTSLFunction } from '../builtins/ttsl-functions.js';
+import { TTSLSlicer } from '../flow/ttsl-slicer.js';
 
 export const CODEGEN_PREFIX = '__gen_';
 
@@ -317,11 +318,13 @@ export class TTSLPythonGenerator {
     private readonly builtinFunction: TTSLFunction;
     private readonly nodeMapper: TTSLNodeMapper;
     private readonly partialEvaluator: TTSLPartialEvaluator;
+    private readonly slicer: TTSLSlicer;
 
     constructor(services: TTSLServices) {
         this.builtinFunction = services.builtins.Functions;
         this.nodeMapper = services.helpers.NodeMapper;
         this.partialEvaluator = services.evaluation.PartialEvaluator;
+        this.slicer = services.flow.Slicer;
     }
 
     generate(document: LangiumDocument, generateOptions: GenerateOptions): TextDocument[] {
@@ -553,10 +556,12 @@ export class TTSLPythonGenerator {
         frame: GenerationInfoFrame,
         timeunit: TslTimeunit | undefined,
     ): CompositeGeneratorNode {
-        const targetPlaceholder = getPlaceholderByName(block, frame.targetPlaceholder);
         let statements = getStatements(block);
-        if (targetPlaceholder) {
-            statements = this.getStatementsNeededForPartialExecution(targetPlaceholder, statements);
+        if (frame.targetPlaceholder) {
+            const targetPlaceholders = frame.targetPlaceholder.flatMap((it) => getPlaceholderByName(block, it) ?? []);
+            if (!isEmpty(targetPlaceholders)) {
+                statements = this.slicer.computeBackwardSlice(statements, targetPlaceholders);
+            }
         }
         let resultBlock = new CompositeGeneratorNode();
         let returnStatement = statements.filter(isTslReturnStatement).at(0);
@@ -758,10 +763,12 @@ export class TTSLPythonGenerator {
         block: TslBlock,
         frame: GenerationInfoFrame,
     ): CompositeGeneratorNode {
-        const targetPlaceholder = getPlaceholderByName(block, frame.targetPlaceholder);
         let statements = getStatements(block);
-        if (targetPlaceholder) {
-            statements = this.getStatementsNeededForPartialExecution(targetPlaceholder, statements);
+        if (frame.targetPlaceholder) {
+            const targetPlaceholders = frame.targetPlaceholder.flatMap((it) => getPlaceholderByName(block, it) ?? []);
+            if (!isEmpty(targetPlaceholders)) {
+                statements = this.slicer.computeBackwardSlice(statements, targetPlaceholders);
+            }
         }
         if (statements.length === 0 && !isTslForLoop(block.$container)) {
             return traceToNode(block)('pass');
@@ -1335,7 +1342,7 @@ class GenerationInfoFrame {
     private readonly utilitySet: Set<UtilityFunction>;
     private readonly typeVariableSet: Set<string>;
     public readonly isInsideFunction: boolean;
-    public readonly targetPlaceholder: string | undefined;
+    public readonly targetPlaceholder: string[] | undefined;
     public readonly disableRunnerIntegration: boolean;
 
     constructor(
@@ -1343,7 +1350,7 @@ class GenerationInfoFrame {
         utilitySet: Set<UtilityFunction> = new Set<UtilityFunction>(),
         typeVariableSet: Set<string> = new Set<string>(),
         insideFunction: boolean = false,
-        targetPlaceholder: string | undefined = undefined,
+        targetPlaceholder: string[] | undefined = undefined,
         disableRunnerIntegration: boolean = false,
     ) {
         this.importSet = importSet;
@@ -1385,6 +1392,6 @@ class GenerationInfoFrame {
 export interface GenerateOptions {
     destination: URI;
     createSourceMaps: boolean;
-    targetPlaceholder: string | undefined;
+    targetPlaceholder: string[] | undefined;
     disableRunnerIntegration: boolean;
 }

@@ -5,8 +5,12 @@ import { LanguageClient, TransportKind } from 'vscode-languageclient/node.js';
 import { getTTSLOutputChannel, initializeLog } from './output.js';
 import { dumpDiagnostics } from './commands/dumpDiagnostics.js';
 import { openDiagnosticsDumps } from './commands/openDiagnosticsDumps.js';
+import { installRunner } from './actions/installRunner.ts';
+import { updateRunner } from './actions/updateRunner.ts';
+import { TTSLServices } from '../../../ttsl-lang/src/language/ttsl-module.ts';
 
 let client: LanguageClient;
+let services: TTSLServices;
 
 // This function is called when the extension is activated.
 export const activate = async function (context: vscode.ExtensionContext) {
@@ -72,5 +76,7 @@ const registerVSCodeCommands = function (context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand('ttsl.dumpDiagnostics', dumpDiagnostics(context)));
     context.subscriptions.push(
         vscode.commands.registerCommand('ttsl.openDiagnosticsDumps', openDiagnosticsDumps(context)),
+        vscode.commands.registerCommand('ttsl.installRunne', installRunner(client)),
+        vscode.commands.registerCommand('ttsl.updateRunner', updateRunner(context, client)),
     );
 };
