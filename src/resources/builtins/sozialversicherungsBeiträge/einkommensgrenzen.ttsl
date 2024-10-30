@@ -1,4 +1,4 @@
-package einkomensgrenzen
+package einkommensgrenzen
 
 from sozialversicherungsbeitrag import geringfügigeEinkommensgrenzenMonatlich
 from sozialversicherungsbeitrag import mindestlohn

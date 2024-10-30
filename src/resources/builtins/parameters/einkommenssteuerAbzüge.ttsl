@@ -12,109 +12,128 @@ package einkommenssteuerAbzüge
 public constant kinderFreibetrag: Dict<String, Int> {
     # Reference: Art. 1 G. v. 23.12.1982 BGBl. I S. 1857.
     from 1983-01-01 = {
-        "sächlichesExistenzminimum": 110
+        "sächlichesExistenzminimum": 110,
+        "sum": 110
     };
 
     # Reference: Art. 1 G. v. 26.06.1985 BGBl. I S. 1153.
     from 1986-01-01 = {
-        "sächlichesExistenzminimum": 635
+        "sächlichesExistenzminimum": 635,
+        "sum": 635
     };
 
     # Reference: Artikel 1 G. v. 25.07.1988 BGBl. I S. 1093.
     from 1990-01-01 = {
-        "sächlichesExistenzminimum": 773
+        "sächlichesExistenzminimum": 773,
+        "sum": 773
     };
 
     # Reference: Art. 1 G. v. 25.02.1992 BGBl. I S. 297.
     from 1992-01-01 = {
-        "sächlichesExistenzminimum": 1049
+        "sächlichesExistenzminimum": 1049,
+        "sum": 1049
     };
 
     # Reference: Art. 1. G. v. 11.10.1995 BGBl. I S. 1250.
     from 1996-01-01 = {
-        "sächlichesExistenzminimum": 1601
+        "sächlichesExistenzminimum": 1601,
+        "sum": 1601
     };
 
     from 1997-01-01 = {
-        "sächlichesExistenzminimum": 1767
+        "sächlichesExistenzminimum": 1767,
+        "sum": 1767
     };
 
     # Reference: Art. 1 G. v. 28.12.1999 BGBl. I. S. 2552.
     from 2000-01-01 = {
         "beitragErziehungAusbildung": 774,
-        "sächlichesExistenzminimum": 1767
+        "sächlichesExistenzminimum": 1767,
+        "sum": 2541
     };
 
     # Reference: Art. 1 G. v. 16.08.2001 BGBl. I S. 2074
     from 2002-01-01 = {
         "beitragErziehungAusbildung": 1080,
-        "sächlichesExistenzminimum": 1824
+        "sächlichesExistenzminimum": 1824,
+        "sum": 2904
     };
 
     # Reference: Art. 1 G. v. 22.12.2008 BGBl. I S. 2955
     from 2009-01-01 = {
         "beitragErziehungAusbildung": 1080, # previous
-        "sächlichesExistenzminimum": 1932
+        "sächlichesExistenzminimum": 1932,
+        "sum": 3012
     };
 
     # Reference: Art. 1 G. v. 22.12.2009 BGBl. I S. 3950
     from 2010-01-01 = {
         "beitragErziehungAusbildung": 1320,
-        "sächlichesExistenzminimum": 2184
+        "sächlichesExistenzminimum": 2184,
+        "sum": 3504
     };
 
     # Reference: Art. 1 G. v. 16.07.2015 BGBl. I S. 1202
     from 2015-01-01 = {
         "beitragErziehungAusbildung": 1320, # previous
-        "sächlichesExistenzminimum": 2256
+        "sächlichesExistenzminimum": 2256,
+        "sum": 3576
     };
 
     # Reference: Art. 2 G. v. 16.07.2015 BGBl. I S. 1202
     from 2016-01-01 = {
         "beitragErziehungAusbildung": 1320, # previous
-        "sächlichesExistenzminimum": 2304
+        "sächlichesExistenzminimum": 2304,
+        "sum": 3624
     };
 
     # Reference: Art. 8 G. v. 20.12.2016 BGBl. I. S. 3000
     from 2017-01-01 = {
         "beitragErziehungAusbildung": 1320, # previous
-        "sächlichesExistenzminimum": 2358
+        "sächlichesExistenzminimum": 2358,
+        "sum": 3678
     };
 
     # Reference: Art. 9 G. v. 20.12.2016 BGBl. I. S. 3000
     from 2018-01-01 = {
         "beitragErziehungAusbildung": 1320, # previous
-        "sächlichesExistenzminimum": 2394
+        "sächlichesExistenzminimum": 2394,
+        "sum": 3714
     };
 
     # Reference: Art. 1 G. v. 29.11.2018 BGBl. I S. 2210
     from 2019-01-01 = {
         "beitragErziehungAusbildung": 1320, # previous
-        "sächlichesExistenzminimum": 2490
+        "sächlichesExistenzminimum": 2490,
+        "sum": 3810
     };
 
     # Reference: Art. 3 G. v. 29.11.2018 BGBl. I S. 2210
     from 2020-01-01 = {
         "beitragErziehungAusbildung": 1320, # previous
-        "sächlichesExistenzminimum": 2586
+        "sächlichesExistenzminimum": 2586,
+        "sum": 3906
     };
 
     # Reference: Art. 1 G. v. 01.12.2020 BGBl. I S. 2616
     from 2021-01-01 = {
         "sächlichesExistenzminimum": 2730,
-        "beitr_erz_ausb": 1464
+        "beitr_erz_ausb": 1464,
+        "sum": 4194
     };
 
     # Reference: Art. 1 G. v. 08.12.2022 BGBl. I S. 2230.
     from 2022-01-01 = {
         "beitragErziehungAusbildung": 2730, # previous
-        "sächlichesExistenzminimum": 2810
+        "sächlichesExistenzminimum": 2810,
+        "sum": 5540
     };
 
     # Reference: Art. 2 G. v. 08.12.2022 BGBl. I S. 2230.
     from 2023-01-01 = {
         "beitragErziehungAusbildung": 2730, # previous
-        "sächlichesExistenzminimum": 3012
+        "sächlichesExistenzminimum": 3012,
+        "sum": 5742
     };
 
     # Reference: Art. 3 G. v. 08.12.2022 BGBl. I S. 2230.
@@ -122,7 +141,8 @@ public constant kinderFreibetrag: Dict<String, Int> {
     from 2024-01-01 = {
         # deviation_from: previous
         "beitragErziehungAusbildung": 2730, # previous
-        "sächlichesExistenzminimum": 3306
+        "sächlichesExistenzminimum": 3306,
+        "sum": 6036
     };
 }
 

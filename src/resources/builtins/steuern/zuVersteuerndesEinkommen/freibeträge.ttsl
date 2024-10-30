@@ -1,13 +1,21 @@
 package freibeträge
 
-from einkommenssteuerAbzuege import alleinerziehendFreibetrag
-from einkommenssteuerAbzuege import alleinerzFreibetragZusatz
+from einkommenssteuerAbzüge import alleinerziehendFreibetrag
+from einkommenssteuerAbzüge import alleinerzFreibetragZusatz
+from einkommenssteuerAbzüge import sonderausgabenpauschbetrag
+from einkommenssteuerAbzüge import kinderbetreuungskostenAbzMaximum
+from einkommenssteuerAbzüge import kinderbetreuungskostenAbzAnteil
+from einkommenssteuerAbzüge import kinderFreibetrag
 
 from math import max
+from math import min
 
 id data kinderfreibetragEmpfänger1: Int;
 id data kinderfreibetragEmpfänger2: Int;
 data kinderfreibetragAnspruch: Int;
+id data steuernummer: Int;
+data alleinerziehend: Boolean;
+data anzPersonen: Int;
 
 /**
  * Gibt die Anzahl der Kinderfreibeträge zurück, auf die eine Person Anspruch hat.
@@ -20,23 +28,24 @@ public function kinderfreibetragAnzahlAnsprüche(): Int groupedBy kinderfreibetr
     return anspruch1 + anspruch2;
 }
 
-/**
- * Berechnet den Behindertenpauschbetrag basierend auf dem Behinderungsgrad.
- */
-public function behinderungsgradPauschbetrag(
-    behinderungsgrad: Int,
-): Float {
-    # TODO
-    return 0.0;
-}
+# not implementable
+# /**
+#  * Berechnet den Behindertenpauschbetrag basierend auf dem Behinderungsgrad.
+#  */
+# public function behinderungsgradPauschbetrag(
+#     behinderungsgrad: Int,
+# ): Float {
+#     # TODO
+#     return 0.0;
+# }
 
 /**
  * Berechnung des Alleinerziehendenfreibetrags (ehemals Haushaltsfreibetrag), der abhängig von der Anzahl der Kinder
  * und dem Jahr, in dem die Berechnung stattfindet, variiert.
  */
-public function alleinerzFreibetrag(): Float per year {
+public function per year alleinerzFreibetrag(): Float {
     to 2014-12-31 {
-        if (alleinerziehend()) {
+        if (alleinerziehend) {
             return alleinerziehendFreibetrag;
         } else {
             return 0.0;
@@ -44,7 +53,7 @@ public function alleinerzFreibetrag(): Float per year {
     }
 
     from 2015-01-01 {
-        if (alleinerziehend()) {
+        if (alleinerziehend) {
             return alleinerziehendFreibetrag + (kinderfreibetragAnzahlAnsprüche() - 1) * alleinerzFreibetragZusatz;
         } else {
             return 0.0;
@@ -52,4 +61,49 @@ public function alleinerzFreibetrag(): Float per year {
     }
 }
 
+# altersfreibetrag not implementable
 
+/**
+ * Berechnet die Sonderausgaben auf Steuernummer-Ebene, die je nach Jahr variieren.
+ * Bis 2011 wird nur ein Pauschalbetrag verwendet. Ab 2012 wird zusätzlich ein
+ * Betreuungsbetrag berücksichtigt.
+ */
+public function per year sonderausgaben(): Float groupedBy steuernummer {
+    to 2011-12-31 {
+        # Sonderausgabenpauschale bis einschließlich 2011
+        return sonderausgabenpauschbetrag["single"] * anzahlPersonen;
+    }
+
+    from 2012-01-01 {
+        # Sonderausgaben ab 2012: Berücksichtigung von Betreuungskosten
+        var sonderausgabenGesamt = sonderausgabenBetreuung();
+        var pauschale = sonderausgabenpauschbetrag["single"] * anzahlPersonen;
+
+        return max(sonderausgabenGesamt, pauschale);
+    }
+}
+
+/**
+ * Berechnet die abzugsfähigen Kinderbetreuungskosten für jedes Kind unter 14 Jahren.
+ */
+public function per year abzugsfähigeBetreuungskosten(): Float {
+    return min(
+        per year betreuungskostenElternteil(),
+        kinderbetreuungskostenAbzMaximum
+    );
+}
+
+/**
+ * Berechnet die Sonderausgaben für Kinderbetreuungskosten auf Steuernummer-Ebene.
+ * Siehe §10 Abs.1 Nr. 5 EStG für Details.
+ */
+public function per year sonderausgabenBetreuung(): Float {
+    return abzugsfähigeBetreuungskosten() * kinderbetreuungskostenAbzAnteil;
+}
+
+/**
+ * Berechnet den individuellen Kinderfreibetrag.
+ */
+public function per year kinderfreibetrag(): Float {
+    return kinderFreibetrag["sum"] * anzahlAnsprüche();
+}
