@@ -1,5 +1,5 @@
 import { AssertionError } from 'assert';
-import { AstNode, AstUtils, DocumentValidator, LangiumDocument, Reference, URI } from 'langium';
+import { DocumentValidator, LangiumDocument, Reference, URI } from 'langium';
 import { NodeFileSystem } from 'langium/node';
 import { clearDocuments, isRangeEqual, validationHelper } from 'langium/test';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';

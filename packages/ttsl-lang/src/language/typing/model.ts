@@ -32,7 +32,7 @@ export abstract class Type {
     /**
      * Returns a copy of this type with the given type parameters substituted.
      */
-    abstract substituteTypeParameters(substitutions: TypeParameterSubstitutions): Type;
+    abstract substituteTypeParameters(_substitutions: TypeParameterSubstitutions): Type;
 
     /**
      * Returns a copy of this type with the given nullability.
@@ -54,9 +54,11 @@ export class AnyType extends Type {
     override equals(other: unknown): boolean {
         if (other === this) {
             return true;
-        } else {
+        } else if (!(other instanceof AnyType)) {
             return false;
         }
+
+        return (other instanceof AnyType) && other.isExplicitlyNullable === this.isExplicitlyNullable;
     }
 
     override toString(): string {
@@ -69,7 +71,7 @@ export class AnyType extends Type {
         return result;
     }
 
-    override substituteTypeParameters(substitutions: TypeParameterSubstitutions): AnyType {
+    override substituteTypeParameters(_substitutions: TypeParameterSubstitutions): AnyType {
         return this;
     }
 

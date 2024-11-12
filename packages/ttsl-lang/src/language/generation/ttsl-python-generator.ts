@@ -177,7 +177,7 @@ const UTILITY_AGGREGATION: UtilityFunction = {
             indentedChildren: ['return dataFrame'],
             indentation: PYTHON_INDENT,
         }),
-    imports: [{ importPath: 'gettsim', declarationName: '(compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)' }, {importPath: '', declarationName: 'pandas', alias: 'pd'}],
+    imports: [{importPath: '', declarationName: 'pandas', alias: 'pd'}],
     typeVariables: [`${CODEGEN_PREFIX}T`],
 };
 
@@ -237,9 +237,9 @@ const UTILITY_TIMEUNIT_DAY: UtilityFunction = {
     code: expandToNode`def ${CODEGEN_PREFIX}TimeUnitDay(value, timeunit):`
         .appendNewLine()
         .indent(indentingNode =>
-            indentingNode.append('if(timeunit == "per week"):').appendNewLine().indent([`return value * 7`])
-            .appendNewLine().append(`if(timeunit == 'per month'):`).appendNewLine().indent([`return value * 30`])
-            .appendNewLine().append(`if(timeunit == 'per year'):`).appendNewLine().indent([`return value * 365`])
+            indentingNode.append(`if(timeunit == 'week'):`).appendNewLine().indent([`return value * 7`])
+            .appendNewLine().append(`if(timeunit == 'month'):`).appendNewLine().indent([`return value * 30`])
+            .appendNewLine().append(`if(timeunit == 'year'):`).appendNewLine().indent([`return value * 365`])
             .appendNewLine().append(`return value`)),
     imports: [{ importPath: 'typing', declarationName: 'Any' }],
     typeVariables: [`${CODEGEN_PREFIX}T`],
@@ -250,9 +250,9 @@ const UTILITY_TIMEUNIT_WEEK: UtilityFunction = {
     code: expandToNode`def ${CODEGEN_PREFIX}TimeUnitWeek(value, timeunit):`
         .appendNewLine()
         .indent(indentingNode =>
-            indentingNode.append(`if(timeunit == 'per day'):`).appendNewLine().indent([`return value / 7`])
-                .appendNewLine().append(`if(timeunit == 'per month'):`).appendNewLine().indent([`return value * 4`])
-                .appendNewLine().append(`if(timeunit == 'per year'):`).appendNewLine().indent([`return value * 52`])
+            indentingNode.append(`if(timeunit == 'day'):`).appendNewLine().indent([`return value / 7`])
+                .appendNewLine().append(`if(timeunit == 'month'):`).appendNewLine().indent([`return value * 4`])
+                .appendNewLine().append(`if(timeunit == 'year'):`).appendNewLine().indent([`return value * 52`])
                 .appendNewLine().append(`return value`)),
     imports: [{ importPath: 'typing', declarationName: 'Any' }],
     typeVariables: [`${CODEGEN_PREFIX}T`],
@@ -263,9 +263,9 @@ const UTILITY_TIMEUNIT_MONTH: UtilityFunction = {
     code: expandToNode`def ${CODEGEN_PREFIX}TimeUnitMonth(value, timeunit):`
         .appendNewLine()
         .indent(indentingNode =>
-            indentingNode.append(`if(timeunit == 'per day'):`).appendNewLine().indent([`return value / 30`])
-                .appendNewLine().append(`if(timeunit == 'per week'):`).appendNewLine().indent([`return value / 4`])
-                .appendNewLine().append(`if(timeunit == 'per year'):`).appendNewLine().indent([`return value * 12`])
+            indentingNode.append(`if(timeunit == 'day'):`).appendNewLine().indent([`return value / 30`])
+                .appendNewLine().append(`if(timeunit == 'week'):`).appendNewLine().indent([`return value / 4`])
+                .appendNewLine().append(`if(timeunit == 'year'):`).appendNewLine().indent([`return value * 12`])
                 .appendNewLine().append(`return value`)),
     imports: [{ importPath: 'typing', declarationName: 'Any' }],
     typeVariables: [`${CODEGEN_PREFIX}T`],
@@ -276,9 +276,9 @@ const UTILITY_TIMEUNIT_YEAR: UtilityFunction = {
     code: expandToNode`def ${CODEGEN_PREFIX}TimeUnitYear(value, timeunit):`
         .appendNewLine()
         .indent(indentingNode =>
-            indentingNode.append(`if(timeunit == 'per day'):`).appendNewLine().indent([`return value / 365`])
-                .appendNewLine().append(`if(timeunit == 'per week'):`).appendNewLine().indent([`return value / 52`])
-                .appendNewLine().append(`if(timeunit == 'per month'):`).appendNewLine().indent([`return value / 12`])
+            indentingNode.append(`if(timeunit == 'day'):`).appendNewLine().indent([`return value / 365`])
+                .appendNewLine().append(`if(timeunit == 'week'):`).appendNewLine().indent([`return value / 52`])
+                .appendNewLine().append(`if(timeunit == 'month'):`).appendNewLine().indent([`return value / 12`])
                 .appendNewLine().append(`return value`)),
     imports: [{ importPath: 'typing', declarationName: 'Any' }],
     typeVariables: [`${CODEGEN_PREFIX}T`],
@@ -329,6 +329,7 @@ export class TTSLPythonGenerator {
 
     generate(document: LangiumDocument, generateOptions: GenerateOptions): TextDocument[] {
         const node = document.parseResult.value;
+        const inputPath = path.parse(document.uri.fsPath);
 
         // Do not generate stub files
         if (!isFile(document) || !isTslModule(node)) {
@@ -341,7 +342,7 @@ export class TTSLPythonGenerator {
         const parentDirectoryPath = path.join(generateOptions.destination!.fsPath, ...packagePath);
 
         const generatedFiles = new Map<string, string>();
-        const generatedModule = this.generateModule(node, generateOptions);
+        const generatedModule = this.generateModule(node, generateOptions, inputPath);
         const { text, trace } = toStringAndTrace(generatedModule);
         const pythonOutputPath = `${path.join(parentDirectoryPath, this.formatGeneratedFileName(name))}.py`;
         if (generateOptions.createSourceMaps) {
@@ -363,8 +364,8 @@ export class TTSLPythonGenerator {
             )}\n\nif __name__ == '__main__':\n${PYTHON_INDENT}${this.getPythonNameOrDefault(
                 funct,
             )}()`.appendNewLine();
-            const generatedPipelineEntry = toStringAndTrace(entryPointContent);
-            generatedFiles.set(entryPointFilename, generatedPipelineEntry.text);
+            const generatedFunctionEntry = toStringAndTrace(entryPointContent);
+            generatedFiles.set(entryPointFilename, generatedFunctionEntry.text);
         }
 
         return Array.from(generatedFiles.entries()).map(([fsPath, content]) =>
@@ -464,7 +465,7 @@ export class TTSLPythonGenerator {
         return moduleName.replaceAll('%2520', '_').replaceAll(/[ .-]/gu, '_').replaceAll(/\\W/gu, '');
     }
 
-    private generateModule(module: TslModule, generateOptions: GenerateOptions): CompositeGeneratorNode {
+    private generateModule(module: TslModule, generateOptions: GenerateOptions, inputPath: path.ParsedPath): CompositeGeneratorNode {
         const importSet = new Map<String, ImportData>();
         const utilitySet = new Set<UtilityFunction>();
         const typeVariableSet = new Set<string>();
@@ -488,6 +489,8 @@ export class TTSLPythonGenerator {
             output.appendNewLine();
             output.append(joinToNode(imports, (importDecl) => importDecl, { separator: NL }));
             output.appendNewLine();
+            output.append(`from gettsim import (compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)\nimport pandas as pd\n`)
+            output.append(`import numpy as np`)
         }
         if (typeVariableSet.size > 0) {
             output.appendNewLineIf(imports.length > 0);
@@ -525,6 +528,27 @@ export class TTSLPythonGenerator {
             output.append(joinToNode(constants, (constant) => constant, { separator: SPACING }));
             output.appendNewLine();
         }
+        output.appendNewLine()
+        .append('# Simulation --------------------------------------------------------------------')
+        .appendNewLine()
+        .appendNewLine()
+        .append(expandToNode`date = "TODO"`)
+        .appendNewLine()
+        .appendNewLine()
+        .append(expandToNode`functions = {${joinToNode(getModuleMembers(module)
+            .filter(isTslFunction).map(funct => funct.name), (functName) => expandToNode`'${functName}': ${functName}`, { separator: ', ' })}}`)
+        .appendNewLine()
+        .appendNewLine()
+        .append(`params = {'${inputPath.name}':{`)
+        .append(expandToNode`${joinToNode(getModuleMembers(module).filter(isTslConstant).map(constant => constant.name), (constName) => `'${constName}': ${constName}.getValue(date)`, { separator: ', ' })}}}`)
+        .appendNewLine()
+        .appendNewLine()
+        .append(`def simulate(data: pd, targets: list[str]) -> pd:`)
+        .appendNewLine()
+        .indent({
+            indentedChildren:['return compute_taxes_and_transfers(data = data, targets = targets, functions = functions, params = params)'],
+            indentation: PYTHON_INDENT,
+        })
         return output;
     }
 
@@ -546,7 +570,7 @@ export class TTSLPythonGenerator {
         return expandTracedToNode(funct)`def ${traceToNode(
             funct,
             'name',
-        )(this.getPythonNameOrDefault(funct))}(${this.generateFunctionParameter(funct)}${this.generateParameters(funct.parameterList, infoFrame)}):`
+        )(this.getPythonNameOrDefault(funct))}(${this.generateFunctionParameter(funct)}${this.generateParameters(funct.parameterList, infoFrame)})`.appendIf(funct.result !== undefined, expandToNode`->${this.generateType(funct.result?.type, infoFrame, true)}`).append(`:`)
             .appendNewLine()
             .indent({ indentedChildren: [this.generateFunctionBlock(funct.body, infoFrame, funct.timeunit)], indentation: PYTHON_INDENT });
     }
@@ -974,11 +998,11 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
                     { separator: ', ' },
                 )}}`;
             } else if (isTslList(expression)) {
-                return expandTracedToNode(expression)`[${joinTracedToNode(expression, 'elements')(
+                return expandTracedToNode(expression)`np.array([${joinTracedToNode(expression, 'elements')(
                     expression.elements,
                     (value) => this.generateExpression(value, frame),
                     { separator: ', ' },
-                )}]`;
+                )}])`;
             } else if (isTslInt(expression) || isTslFloat(expression)){
                 return expandTracedToNode(expression)`${expression.value}`
             } else if(isTslBoolean(expression)){
@@ -1128,7 +1152,7 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
             frame.addUtility(UTILITY_AGGREGATION);
             return expandTracedToNode(expression)`${traceToNode(
                 expression
-            )(UTILITY_AGGREGATION.name)}(${'dataframe'}, ${expression.data.target.ref?.name}, ${expression.groupedBy.id.map(id => id.target.ref?.name).toString()}, '${expression.function.value}')`;
+            )(UTILITY_AGGREGATION.name)}(${'dataframe'}, ${expression.data.target.ref?.name}, ${expression.groupedBy.id.map(id => id.target.ref?.name).toString()}, '${expression.function}')`;
         }
         /* c8 ignore next 2 */
         throw new Error(`Unknown expression type: ${expression.$type}`);
@@ -1139,8 +1163,13 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
         sortedArgs: TslArgument[],
         frame: GenerationInfoFrame,
     ): CompositeGeneratorNode {
+        let timeunit;
+        if(isTslReference(expression.receiver) && expression.receiver.timeunit !== undefined){
+            timeunit = expression.receiver.timeunit
+        }
+
         return expandTracedToNode(expression)`${this.generateExpression(expression.receiver, frame)}(`
-        .appendIf(expression.timeunit !== undefined, `timeunit = ${expression.timeunit?.timeunit}`)
+        .appendIf(timeunit !== undefined, `timeunit = "${timeunit!.timeunit}"`)
         .append(expandToNode`${joinTracedToNode(
             expression.argumentList,
             'arguments',

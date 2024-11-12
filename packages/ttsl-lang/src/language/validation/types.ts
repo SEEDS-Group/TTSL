@@ -289,7 +289,7 @@ export const typeCastExpressionMustHaveUnknownType = (services: TTSLServices) =>
     };
 };
 
-export const typeReferenceMustBeReferencingATypeAlias = (service: TTSLServices) => {
+export const typeReferenceMustBeReferencingATypeAlias = () => {
     return (node: TslReference, accept: ValidationAcceptor): void => {
         if(node.$containerProperty?.includes("type") && !isTslTypeAlias(node.target.ref)){
             accept('error', 'The Type has to be either a type or a reference to a typealias.', {

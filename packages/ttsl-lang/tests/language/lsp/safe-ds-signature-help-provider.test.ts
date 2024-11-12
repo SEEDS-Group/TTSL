@@ -12,7 +12,7 @@ const parse = parseHelper(services);
 describe('TTSLSignatureHelpProvider', async () => {
     it('should always select the first signature', async () => {
         const code = `
-            fun f(p: Int)
+            function f(p: Int) {}
 
             function myFunction () {
                 f(»«);
@@ -27,7 +27,7 @@ describe('TTSLSignatureHelpProvider', async () => {
         {
             testName: 'empty argument list',
             code: `
-                fun f(p: Int)
+                function f(p: Int){}
 
                 function myFunction () {
                     f(»«);
@@ -38,7 +38,7 @@ describe('TTSLSignatureHelpProvider', async () => {
         {
             testName: 'before comma',
             code: `
-                fun f(p: Int)
+                function f(p: Int) {}
 
                 function myFunction () {
                     f(»«, );
@@ -49,7 +49,7 @@ describe('TTSLSignatureHelpProvider', async () => {
         {
             testName: 'after comma',
             code: `
-                fun f(p: Int)
+                function f(p: Int) {}
 
                 function myFunction () {
                     f(1, »«);
@@ -78,65 +78,12 @@ describe('TTSLSignatureHelpProvider', async () => {
             expectedSignature: undefined,
         },
         {
-            testName: 'annotation call',
-            code: `
-                /**
-                 * Lorem ipsum.
-                 */
-                annotation A(p: Int)
-
-                @A(»«)
-                function myFunction () {}
-            `,
-            expectedSignature: [
-                {
-                    label: 'A(p: Int) -> ()',
-                    documentation: {
-                        kind: 'markdown',
-                        value: 'Lorem ipsum.',
-                    },
-                    parameters: [
-                        {
-                            label: 'p: Int',
-                        },
-                    ],
-                },
-            ],
-        },
-        {
-            testName: 'call (class)',
-            code: `
-                /**
-                 * Lorem ipsum.
-                 */
-                class C(p: Int)
-
-                function myFunction () {
-                    C(»«);
-                }
-            `,
-            expectedSignature: [
-                {
-                    label: 'C(p: Int)',
-                    documentation: {
-                        kind: 'markdown',
-                        value: 'Lorem ipsum.',
-                    },
-                    parameters: [
-                        {
-                            label: 'p: Int',
-                        },
-                    ],
-                },
-            ],
-        },
-        {
             testName: 'call (function)',
             code: `
                 /**
                  * Lorem ipsum.
                  */
-                fun f(p: Int)
+                function f(p: Int) {}
 
                 function myFunction () {
                     f(»«);
@@ -144,7 +91,7 @@ describe('TTSLSignatureHelpProvider', async () => {
             `,
             expectedSignature: [
                 {
-                    label: 'f(p: Int) -> ()',
+                    label: 'f(p: Int): $unknown',
                     documentation: {
                         kind: 'markdown',
                         value: 'Lorem ipsum.',
@@ -158,29 +105,9 @@ describe('TTSLSignatureHelpProvider', async () => {
             ],
         },
         {
-            testName: 'call (lambda)',
-            code: `
-                function myFunction () {
-                    ((p: Int) {})(»«);
-                }
-            `,
-            expectedSignature: [
-                {
-                    label: '(p: Int) -> ()',
-                    documentation: undefined,
-                    parameters: [
-                        {
-                            label: 'p: Int',
-                        },
-                    ],
-                },
-            ],
-        },
-        // https://github.com/TTSL/DSL/issues/791
-        {
             testName: 'optional parameter',
             code: `
-                fun f(p: Int = 0)
+                function f(p: Int = 0): Int {}
 
                 function myFunction () {
                     f(»«);
@@ -188,7 +115,7 @@ describe('TTSLSignatureHelpProvider', async () => {
             `,
             expectedSignature: [
                 {
-                    label: 'f(p?: Int) -> ()',
+                    label: 'f(p?: Int): Int',
                     documentation: undefined,
                     parameters: [
                         {

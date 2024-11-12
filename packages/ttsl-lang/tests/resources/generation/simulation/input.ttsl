@@ -1,0 +1,19 @@
+package tests.generator.simulation
+
+function f(a: Int, b: String){}
+
+function g(): Int {}
+
+function test(): Int {
+    return x;
+}
+
+constant x: Int {
+    from 1999-01-01 to 2000-01-01 = 1;
+    from 2000-01-01 to 2003-01-01 = 2;
+    from 2003-01-01 to 2010-01-01 = 3;
+}
+
+constant y: List<Int> = [1,2,3,4];
+
+constant z: Dict<String, Dict<String, Int>> = {"a": {"b": 1}, "c": {"d": 1}}

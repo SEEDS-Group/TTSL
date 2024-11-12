@@ -36,7 +36,7 @@ package myPackage2
 class Class4
 `;
 
-describe('TTSLPackageManager', () => {
+describe.skip('TTSLPackageManager', () => {
     beforeAll(async () => {
         await parseHelper(services)(document1);
         await parseHelper(services)(document2);

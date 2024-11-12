@@ -1,9 +1,9 @@
 package tests.generator.aggregation
 
-data testData: Int 
+data testData: Int
 id data testID: Int
 
 function testFunction() groupedBy testID {
-    aggregate "sum" of testData groupedBy testID;
+    aggregate sum of testData groupedBy testID;
 }
 

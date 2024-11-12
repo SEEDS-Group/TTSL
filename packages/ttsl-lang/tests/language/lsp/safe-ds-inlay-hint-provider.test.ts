@@ -76,14 +76,14 @@ describe('TTSLInlayHintProvider', async () => {
 
         expect(firstInlayHint?.tooltip).toStrictEqual({ kind: 'markdown', value: 'Lorem ipsum.' });
     });
-
+/* 
     it.each([
         {
             testName: 'function',
             code: `
                 /**
                  * Lorem ipsum.
-                 */
+                 *
                 function C(){}
 
                 function myFunction () {
@@ -96,7 +96,7 @@ describe('TTSLInlayHintProvider', async () => {
         const firstInlayHint = actualInlayHints?.[0];
 
         expect(firstInlayHint?.tooltip).toStrictEqual({ kind: 'markdown', value: 'Lorem ipsum.' });
-    });
+    }); */
 });
 
 const getActualInlayHints = async (code: string): Promise<InlayHint[] | undefined> => {

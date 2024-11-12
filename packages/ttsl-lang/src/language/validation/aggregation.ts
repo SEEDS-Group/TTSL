@@ -95,7 +95,7 @@ export const groupedFunctionHasAggregation = () => {
     }
 };
 
-function hasAggregation(statements: TslStatement[]| undefined, id: string): boolean{
+const hasAggregation = (statements: TslStatement[]| undefined, id: string) => {
     let result =  false
     if(statements === undefined){
         return result

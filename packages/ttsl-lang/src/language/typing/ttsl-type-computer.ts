@@ -47,12 +47,14 @@ import {
     isTslNothingType,
     isTslNull,
     isTslData,
-    isTslFunctionBlock,
     TslTimespan,
     isTslTimespanStatement,
     TslTimespanValueEntry,
     isTslAggregation,
     isTslTypeAlias,
+    isTslCallable,
+    isTslPredefinedFunction,
+    TslPredefinedFunction,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
 import {
@@ -193,7 +195,7 @@ export class TTSLTypeComputer {
         } else if(isTslString(node) || isTslTemplateString(node)){
             return new StringType(false);
         } else if(isTslNull(node)){
-            return new NothingType(false);
+            return new NothingType(true);
         }
 
         // Recursive cases
@@ -256,12 +258,17 @@ export class TTSLTypeComputer {
             return this.computeTypeOfReference(node);
         } else if (isTslAggregation(node)) {
             return this.computeType(node.data);
+        } else if (isTslPredefinedFunction(node)) {
+            return this.computeTypeOfPredefinedFunction(node);
         } /* c8 ignore start */ else {
             return UnknownType;
         } /* c8 ignore stop */
     }
 
     private computeTypeOfCall(node: TslCall): Type {
+        if(isTslReference(node.receiver) && !isTslCallable(node.receiver.target.ref)){
+            return UnknownType
+        }
         const receiverType = this.computeType(node.receiver);
         let result = receiverType
         
@@ -310,7 +317,12 @@ export class TTSLTypeComputer {
         const leftOperandType = this.computeType(node.leftOperand);
         if (leftOperandType.isExplicitlyNullable) {
             const rightOperandType = this.computeType(node.rightOperand);
-            return rightOperandType;
+            if (rightOperandType.toString().includes(leftOperandType.toString().replace('?',''))){
+                return rightOperandType;
+            } else if(rightOperandType instanceof NothingType){
+                return leftOperandType;
+            }
+            return new AnyType(rightOperandType.isExplicitlyNullable);
         } else {
             return leftOperandType;
         }
@@ -347,6 +359,26 @@ export class TTSLTypeComputer {
         const instanceType = this.computeType(target);
 
         return instanceType;
+    }
+
+    private computeTypeOfPredefinedFunction(node: TslPredefinedFunction): Type {
+        const obj = node.object.target.ref
+        const typeOfObj = this.computeType(obj)
+
+        if(!(typeOfObj instanceof ListType || typeOfObj instanceof DictionaryType)){
+            return UnknownType;
+        }
+
+        if(node.name === "len"){
+            return new IntType(false);
+        } else if (typeOfObj instanceof DictionaryType){
+            if(node.name === "keys"){
+                return new ListType([typeOfObj.getTypeParameterTypeByIndex(0)], false)
+            } else {
+                return new ListType([typeOfObj.getTypeParameterTypeByIndex(1)], false)
+            }
+        }
+        return UnknownType
     }
 
     private computeContainingTimespan(node: TslReference): string[] {

@@ -5,15 +5,15 @@ function stringOrNull(): String? {}
 
 function elvisWithNullableLeftOperand() {
     # $TEST$ serialization Int?
-    »intOrNull() ?: intOrNull()«;
+    »intOrNull?() ?: intOrNull?()«;
     # $TEST$ serialization Int?
-    »intOrNull() ?: null«;
+    »intOrNull?() ?: null«;
     # $TEST$ serialization Int
-    »intOrNull() ?: 1«;
+    »intOrNull?() ?: 1«;
     # $TEST$ serialization Any
-    »intOrNull() ?: 1.0«;
+    »intOrNull?() ?: 1.0«;
     # $TEST$ serialization Any
-    »intOrNull() ?: ""«;
+    »intOrNull?() ?: ""«;
     # $TEST$ serialization Any?
-    »intOrNull() ?: stringOrNull()«;
+    »intOrNull?() ?: stringOrNull?()«;
 }

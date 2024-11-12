@@ -508,8 +508,10 @@ export class TTSLRunner {
     }
 
     public getMainModuleName(functDocument: LangiumDocument): string {
-        if (functDocument.uri.fsPath.endsWith('.ttsl')) {
-            return this.generator.sanitizeModuleNameForPython(path.basename(functDocument.uri.fsPath, '.ttsl'));
+        if (functDocument.uri.fsPath.endsWith('.sds')) {
+            return this.generator.sanitizeModuleNameForPython(path.basename(functDocument.uri.fsPath, '.sds'));
+        } else if (functDocument.uri.fsPath.endsWith('.sdsdev')) {
+            return this.generator.sanitizeModuleNameForPython(path.basename(functDocument.uri.fsPath, '.sdsdev'));
         } else {
             return this.generator.sanitizeModuleNameForPython(path.basename(functDocument.uri.fsPath));
         }
