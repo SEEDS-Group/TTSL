@@ -15,3 +15,11 @@ public function max(a: Float, b: Float): Float {
         return b;
     }
 }
+
+public function sum(list: List<Float>): Float {
+    var summe: Float = 0.0;
+    for(var i: Int = 0; i < len(list); i = i + 1) {
+        summe = summe + list[i];
+    }
+    return summe;
+}
