@@ -38,6 +38,7 @@ import { TTSLMessagingProvider } from './communication/ttsl-messaging-provider.j
 import { TTSLPythonServer } from './runtime/ttsl-python-server.js';
 import { TTSLRunner } from './runtime/ttsl-runner.js';
 import { TTSLSlicer } from './flow/ttsl-slicer.js';
+import { TTSLServiceRegistry } from './ttsl-service-registry.js';
 
 /**
  * Declaration of custom services - add your own service classes here.
@@ -79,11 +80,17 @@ export type TTSLAddedServices = {
     };
 };
 
+export type TTSLAddedSharedServices = {
+    ServiceRegistry: TTSLServiceRegistry;
+};
+
 /**
  * Union of Langium default services and your custom services - use this as constructor parameter
  * of custom service classes.
  */
-export type TTSLServices = LangiumServices & TTSLAddedServices;
+export type TTSLServices = LangiumServices & TTSLAddedServices & {
+        shared: TTSLAddedSharedServices;
+    };
 
 /**
  * Dependency injection module that overrides Langium default services and contributes the
@@ -145,7 +152,7 @@ export const TTSLModule: Module<TTSLServices, PartialLangiumServices & TTSLAdded
     },
 };
 
-export type TTSLSharedServices = LangiumSharedServices;
+export type TTSLSharedServices = LangiumSharedServices & TTSLAddedSharedServices;
 
 export const TTSLSharedModule: Module<TTSLSharedServices, DeepPartial<TTSLSharedServices>> = {
     lsp: {
