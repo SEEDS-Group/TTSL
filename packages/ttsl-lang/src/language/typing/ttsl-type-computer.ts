@@ -54,6 +54,8 @@ import {
     isTslAggregation,
     isTslTypeAlias,
     isTslCallable,
+    isTslPredefinedFunction,
+    TslPredefinedFunction,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
 import {
@@ -257,6 +259,8 @@ export class TTSLTypeComputer {
             return this.computeTypeOfReference(node);
         } else if (isTslAggregation(node)) {
             return this.computeType(node.data);
+        } else if (isTslPredefinedFunction(node)) {
+            return this.computeTypeOfPredefinedFunction(node);
         } /* c8 ignore start */ else {
             return UnknownType;
         } /* c8 ignore stop */
@@ -356,6 +360,26 @@ export class TTSLTypeComputer {
         const instanceType = this.computeType(target);
 
         return instanceType;
+    }
+
+    private computeTypeOfPredefinedFunction(node: TslPredefinedFunction): Type {
+        const obj = node.object.target.ref
+        const typeOfObj = this.computeType(obj)
+
+        if(!(typeOfObj instanceof ListType || typeOfObj instanceof DictionaryType)){
+            return UnknownType;
+        }
+
+        if(node.name === "len"){
+            return new IntType(false);
+        } else if (typeOfObj instanceof DictionaryType){
+            if(node.name === "keys"){
+                return new ListType([typeOfObj.getTypeParameterTypeByIndex(0)], false)
+            } else {
+                return new ListType([typeOfObj.getTypeParameterTypeByIndex(1)], false)
+            }
+        }
+        return UnknownType
     }
 
     private computeContainingTimespan(node: TslReference): string[] {
