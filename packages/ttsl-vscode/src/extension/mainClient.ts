@@ -7,10 +7,8 @@ import { dumpDiagnostics } from './commands/dumpDiagnostics.js';
 import { openDiagnosticsDumps } from './commands/openDiagnosticsDumps.js';
 import { installRunner } from './actions/installRunner.ts';
 import { updateRunner } from './actions/updateRunner.ts';
-import { TTSLServices } from '../../../ttsl-lang/src/language/ttsl-module.ts';
 
 let client: LanguageClient;
-let services: TTSLServices;
 
 // This function is called when the extension is activated.
 export const activate = async function (context: vscode.ExtensionContext) {

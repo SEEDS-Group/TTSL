@@ -32,7 +32,7 @@ export abstract class Type {
     /**
      * Returns a copy of this type with the given type parameters substituted.
      */
-    abstract substituteTypeParameters(substitutions: TypeParameterSubstitutions): Type;
+    abstract substituteTypeParameters(_substitutions: TypeParameterSubstitutions): Type;
 
     /**
      * Returns a copy of this type with the given nullability.

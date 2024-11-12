@@ -47,7 +47,6 @@ import {
     isTslNothingType,
     isTslNull,
     isTslData,
-    isTslFunctionBlock,
     TslTimespan,
     isTslTimespanStatement,
     TslTimespanValueEntry,

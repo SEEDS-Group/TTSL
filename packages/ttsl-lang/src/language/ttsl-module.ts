@@ -113,7 +113,7 @@ export const TTSLModule: Module<TTSLServices, PartialLangiumServices & TTSLAdded
     },
     flow: {
         CallGraphComputer: (services) => new TTSLCallGraphComputer(services),
-        Slicer: (services) => new TTSLSlicer(services),
+        Slicer: (services) => new TTSLSlicer(),
     },
     generation: {
         PythonGenerator: (services) => new TTSLPythonGenerator(services),

@@ -1,12 +1,8 @@
-import { TTSLServices } from '../ttsl-module.js';
 import { isTslAssignment, isTslPlaceholder, isTslReference, TslPlaceholder, TslStatement } from '../generated/ast.js';
 import { AstUtils, Stream } from 'langium';
 import { getAssignees } from '../helpers/nodeProperties.js';
 
 export class TTSLSlicer {
-
-    constructor(services: TTSLServices) {}
-
     /**
      * Computes the subset of the given statements that are needed to calculate the target placeholders.
      */
