@@ -21,7 +21,7 @@ export class TTSLNodeKindProvider implements NodeKindProvider {
             case TslConstant:
                 return SymbolKind.Constant;
             case TslData:
-                return SymbolKind.Data;
+                return SymbolKind.Property;
             case TslModule:
                 return SymbolKind.Package;
             /* c8 ignore next 2 */
