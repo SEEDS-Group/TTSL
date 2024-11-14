@@ -55,5 +55,5 @@ functions = {'f': f, 'g': g, 'test': test}
 
 params = {'input':{'x': x.getValue(date), 'y': y.getValue(date), 'z': z.getValue(date)}}
 
-def simulate(data: pd, targets: list[str]) -> pd:
+def simulate(data: pd.DataFrame, targets: list[str]) -> pd.DataFrame:
     return compute_taxes_and_transfers(data = data, targets = targets, functions = functions, params = params)

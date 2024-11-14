@@ -10,7 +10,7 @@ __gen_T = TypeVar("__gen_T")
 
 # Utils ------------------------------------------------------------------------
 
-def __gen_aggregation(dataFrame: pd, data, id, function: str) -> pd | None:
+def __gen_aggregation(dataFrame: pd.DataFrame, data, id, function: str) -> pd.DataFrame | None:
     dataFrame = dataFrame.join(dataFrame[id])
     dataFrame[data] = dataFrame.groupby(id)[data].transform(function)
     return dataFrame

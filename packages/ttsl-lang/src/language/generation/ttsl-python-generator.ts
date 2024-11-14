@@ -161,7 +161,7 @@ const UTILITY_NULL_SAFE_INDEXED_ACCESS: UtilityFunction = {
 
 const UTILITY_AGGREGATION: UtilityFunction = {
     name: `${CODEGEN_PREFIX}aggregation`,
-    code: expandToNode`def ${CODEGEN_PREFIX}aggregation(dataFrame: pd, data, id, function: str) -> pd | None:`
+    code: expandToNode`def ${CODEGEN_PREFIX}aggregation(dataFrame: pd.Dataframe, data, id, function: str) -> pd.Dataframe | None:`
         .appendNewLine()
         .indent({
             indentedChildren:['dataFrame = dataFrame.join(dataFrame[id])'],
@@ -543,7 +543,7 @@ export class TTSLPythonGenerator {
         .append(expandToNode`${joinToNode(getModuleMembers(module).filter(isTslConstant).map(constant => constant.name), (constName) => `'${constName}': ${constName}.getValue(date)`, { separator: ', ' })}}}`)
         .appendNewLine()
         .appendNewLine()
-        .append(`def simulate(data: pd, targets: list[str]) -> pd:`)
+        .append(`def simulate(data: pd.Dataframe, targets: list[str]) -> pd.Dataframe:`)
         .appendNewLine()
         .indent({
             indentedChildren:['return compute_taxes_and_transfers(data = data, targets = targets, functions = functions, params = params)'],
