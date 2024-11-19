@@ -327,7 +327,7 @@ export class TTSLPythonGenerator {
         this.slicer = services.flow.Slicer;
     }
 
-    generate(document: LangiumDocument, generateOptions: GenerateOptions): TextDocument[] {
+    generate(document: LangiumDocument, generateOptions: GenerateOptions, params: string[] = []): TextDocument[] {
         const node = document.parseResult.value;
         const inputPath = path.parse(document.uri.fsPath);
 
@@ -342,7 +342,7 @@ export class TTSLPythonGenerator {
         const parentDirectoryPath = path.join(generateOptions.destination!.fsPath, ...packagePath);
 
         const generatedFiles = new Map<string, string>();
-        const generatedModule = this.generateModule(node, generateOptions, inputPath);
+        const generatedModule = this.generateModule(node, generateOptions, inputPath, params);
         const { text, trace } = toStringAndTrace(generatedModule);
         const pythonOutputPath = `${path.join(parentDirectoryPath, this.formatGeneratedFileName(name))}.py`;
         if (generateOptions.createSourceMaps) {
@@ -465,7 +465,7 @@ export class TTSLPythonGenerator {
         return moduleName.replaceAll('%2520', '_').replaceAll(/[ .-]/gu, '_').replaceAll(/\\W/gu, '');
     }
 
-    private generateModule(module: TslModule, generateOptions: GenerateOptions, inputPath: path.ParsedPath): CompositeGeneratorNode {
+    private generateModule(module: TslModule, generateOptions: GenerateOptions, inputPath: path.ParsedPath, params: string[] = []): CompositeGeneratorNode {
         const importSet = new Map<String, ImportData>();
         const utilitySet = new Set<UtilityFunction>();
         const typeVariableSet = new Set<string>();
@@ -528,11 +528,14 @@ export class TTSLPythonGenerator {
             output.append(joinToNode(constants, (constant) => constant, { separator: SPACING }));
             output.appendNewLine();
         }
+        if(params.length !== 3){
+            params = ["2000-01-01", "dataFile.csv", "[target1, target2]"]
+        }
         output.appendNewLine()
-        .append('# Simulation --------------------------------------------------------------------')
+        .append(`# Simulation --------------------------------------------------------------------`)
         .appendNewLine()
         .appendNewLine()
-        .append(expandToNode`date = "TODO"`)
+        .append(expandToNode`date = "${params[0]}"`)
         .appendNewLine()
         .appendNewLine()
         .append(expandToNode`functions = {${joinToNode(getModuleMembers(module)
@@ -543,10 +546,10 @@ export class TTSLPythonGenerator {
         .append(expandToNode`${joinToNode(getModuleMembers(module).filter(isTslConstant).map(constant => constant.name), (constName) => `'${constName}': ${constName}.getValue(date)`, { separator: ', ' })}}}`)
         .appendNewLine()
         .appendNewLine()
-        .append(`def simulate(data: pd.Dataframe, targets: list[str]) -> pd.Dataframe:`)
+        .append(`def simulate(data: pd.DataFrame, targets: list[str]) -> pd.DataFrame:`)
         .appendNewLine()
         .indent({
-            indentedChildren:['return compute_taxes_and_transfers(data = data, targets = targets, functions = functions, params = params)'],
+            indentedChildren:[`return compute_taxes_and_transfers(data = pd.read_csv("${params[1]}"), targets = ${params[2]}, functions = functions, params = params)`],
             indentation: PYTHON_INDENT,
         })
         return output;
