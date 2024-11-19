@@ -38,7 +38,7 @@ describe('TTSLSemanticTokenProvider', async () => {
             expectedSymbols: [
                 {
                     name: 'd',
-                    kind: SymbolKind.Data
+                    kind: SymbolKind.Property
                 },
             ],
         },

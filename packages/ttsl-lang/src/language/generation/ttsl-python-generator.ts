@@ -1167,7 +1167,7 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
         frame: GenerationInfoFrame,
     ): CompositeGeneratorNode {
         let timeunit;
-        if(isTslReference(expression.receiver) && expression.receiver.timeunit !== undefined){
+        if(isTslReference(expression.receiver) && isTslFunction(expression.receiver.target.ref) && expression.receiver.target.ref.timeunit){
             timeunit = expression.receiver.timeunit
         }
 
