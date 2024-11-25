@@ -1170,9 +1170,8 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
         if(isTslReference(expression.receiver) && expression.receiver.timeunit){
             timeunit = expression.receiver.timeunit
         }
-
         return expandTracedToNode(expression)`${this.generateExpression(expression.receiver, frame)}(`
-        .appendIf(timeunit !== undefined, `timeunit = "${timeunit!.timeunit}"`)
+        .appendIf(timeunit !== undefined, `timeunit = "${timeunit?.timeunit}"`)
         .append(expandToNode`${joinTracedToNode(
             expression.argumentList,
             'arguments',

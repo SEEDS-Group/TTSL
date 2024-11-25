@@ -55,6 +55,8 @@ import {
     isTslCallable,
     isTslPredefinedFunction,
     TslPredefinedFunction,
+    isTslPlaceholder,
+    isTslParenthesizedExpression,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
 import {
@@ -260,6 +262,8 @@ export class TTSLTypeComputer {
             return this.computeType(node.data);
         } else if (isTslPredefinedFunction(node)) {
             return this.computeTypeOfPredefinedFunction(node);
+        } else if (isTslParenthesizedExpression(node)) {
+            return this.computeTypeOfExpression(node.expression);
         } /* c8 ignore start */ else {
             return UnknownType;
         } /* c8 ignore stop */

@@ -377,13 +377,13 @@ TslExpression returns TslExpression:
 ;
 
 interface TslAggregation extends TslExpression{
-    function: TslString
+    function: string
     data: TslReference
     groupedBy: TslGroupedBy
 }
 
 TslAggregation returns TslAggregation:
-    'aggregate' function=TslString 'of' data=TslReference groupedBy=TslGroupedBy
+    'aggregate' function=("sum"|"count"|"mean"|"max"|"min"|"any") 'of' data=TslReference groupedBy=TslGroupedBy
 ;
 
 interface TslInfixOperation extends TslExpression {
