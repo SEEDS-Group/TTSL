@@ -56,7 +56,7 @@ export class TTSLRunner {
         return this.pythonServer.isStarted;
     }
 
-    async runFunction(documentUri: string, nodePath: string) {
+    async runFunction(documentUri: string, nodePath: string, params: string[]=[]) {
         const uri = URI.parse(documentUri);
         const document = this.langiumDocuments.getDocument(uri);
         if (!document) {
@@ -329,6 +329,7 @@ export class TTSLRunner {
         functDocument: LangiumDocument,
         functName: string,
         targetPlaceholders: string[] | undefined = undefined,
+        params: string[] = []
     ) {
         const node = functDocument.parseResult.value;
         if (!isTslModule(node)) {
@@ -339,7 +340,7 @@ export class TTSLRunner {
         const mainPackage = mainPythonModuleName === undefined ? node.name.split('.') : [mainPythonModuleName];
         const mainModuleName = this.getMainModuleName(functDocument);
         // Code generation
-        const [codeMap, lastGeneratedSources] = this.generateCodeForRunner(functDocument, targetPlaceholders);
+        const [codeMap, lastGeneratedSources] = this.generateCodeForRunner(functDocument, targetPlaceholders, params);
         // Store information about the run
         this.executionInformation.set(id, {
             generatedSource: lastGeneratedSources,
@@ -467,6 +468,7 @@ export class TTSLRunner {
     public generateCodeForRunner(
         functDocument: LangiumDocument,
         targetPlaceholder: string[] | undefined,
+        params: string[] = []
     ): [ProgramCodeMap, Map<string, string>] {
         const rootGenerationDir = path.parse(functDocument.uri.fsPath).dir;
         const generatedDocuments = this.generator.generate(functDocument, {
@@ -474,7 +476,7 @@ export class TTSLRunner {
             createSourceMaps: true,
             targetPlaceholder,
             disableRunnerIntegration: false,
-        });
+        }, params);
         const lastGeneratedSources = new Map<string, string>();
         let codeMap: ProgramCodeMap = {};
         for (const generatedDocument of generatedDocuments) {

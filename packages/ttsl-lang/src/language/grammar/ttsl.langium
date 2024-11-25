@@ -517,7 +517,6 @@ TslChainedExpression returns TslExpression:
     (
         {TslCall.receiver=current}
         (isNullSafe?='?')?
-        (timeunit=TslTimeunit)?
         argumentList=TslCallArgumentList
 
     |   {TslIndexedAccess.receiver=current}
@@ -663,11 +662,12 @@ TslPredefinedFunction returns TslPredefinedFunction:
 ;
 
 interface TslReference extends TslExpression {
+    timeunit?: TslTimeunit
     target: @TslDeclaration
 }
 
 TslReference returns TslReference:
-    target=[TslDeclaration:ID]
+    (timeunit=TslTimeunit)? target=[TslDeclaration:ID]
 ;
 
 interface TslTemplateString extends TslExpression {

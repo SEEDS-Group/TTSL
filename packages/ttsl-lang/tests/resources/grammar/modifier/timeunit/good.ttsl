@@ -5,3 +5,8 @@ function per day f(): Int {}
 
 # Data definition:
 data per month salary: Int;
+
+function test() {
+    var x = per month f();
+    var y= per week salary;
+}
