@@ -1,7 +1,9 @@
 # Imports ----------------------------------------------------------------------
 
 from typing import Any, Callable, TypeVar
-
+from gettsim import (compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)
+import pandas as pd
+import numpy as np
 # Type variables ---------------------------------------------------------------
 
 __gen_T = TypeVar("__gen_T")
@@ -25,13 +27,13 @@ def __gen_eager_elvis(left_operand: __gen_T, right_operand: __gen_T) -> __gen_T:
 def f(param):
     pass
 
-def g():
+def g()->bool:
     pass
 
-def h():
+def h()->int:
     pass
 
-def i():
+def i()->int:
     pass
 
 def test():
@@ -51,3 +53,14 @@ def test():
     f((h()) / (h()))
     f(__gen_eager_elvis(__gen_null_safe_call(i, lambda: i()), __gen_null_safe_call(i, lambda: i())))
 
+
+# Simulation --------------------------------------------------------------------
+
+date = "2000-01-01"
+
+functions = {'f': f, 'g': g, 'h': h, 'i': i, 'test': test}
+
+params = {'input':{}}
+
+def simulate(data: pd.DataFrame, targets: list[str]) -> pd.DataFrame:
+    return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = [target1, target2], functions = functions, params = params)
