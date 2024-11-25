@@ -5,10 +5,14 @@ from sozialversicherungsbeitrag import beitragssatz
 from einkommenssteuer import einkommenssteuer
 from math import max
 
+data per month bruttolohn: Float;
+data steuerklasse: Int;
+data wohnortOst: Boolean;
+
 /**
  * Calculate tax base for Lohnsteuer (withholding tax on earnings).
  */
-public function einkommen(bruttolohn: Float): Float per year {
+public function per year einkommen(bruttolohn: Float): Float {
     entlastung_freibetrag_alleinerz = (steuerklasse() == 2) * alleinerzFreibetrag
 
     if(steuerklasse == 6) {
@@ -35,14 +39,11 @@ public function einkommen(bruttolohn: Float): Float per year {
 /**
  * Berechnung der Lohnsteuer für die Steuerklassen 5 und 6, basierend auf dem zu versteuernden Einkommen.
  */
-private function berechneLohnsteuerKlasse5_6Basis(
-    einkommen: Float,
-    einkommensteuerParameter: Map
-): Float {
+private function berechneLohnsteuerKlasse5_6Basis(): Float {
     return max(
         2 * (
-            einkommensteuer(einkommen * 1.25) - einkommensteuer(einkommen * 0.75)),
-        einkommen * einkommenssteuerTarif[0][1]
+            einkommensteuer(einkommen * 1.25) - einkommensteuer(einkommen() * 0.75)),
+        einkommen() * einkommenssteuerTarif[0][1]
     );
 }
 
@@ -50,12 +51,10 @@ private function berechneLohnsteuerKlasse5_6Basis(
  * Berechnung der Vorsorgepauschale für die Krankenversicherung (Option B), differenziert nach den
  * zeitlichen Validitäten.
  */
-public function vorsorgeKrankenversicherungOptionB(
-    bruttolohn: Float
-): Float per year {
+public function per year vorsorgeKrankenversicherungOptionB(): Float  {
     to 2018-12-31 {
         return bruttolohn * 12 * (
-            beitragssatz["gesetzlicheKrankenversicherung"]["ermßigt"] / 2
+            beitragssatz["gesetzlicheKrankenversicherung"]["ermäßigt"] / 2
             + krankenversicherungZusatzbeitragssatz() / 100
             + pflegeversicherungBeitragssatz()
         );
@@ -63,7 +62,7 @@ public function vorsorgeKrankenversicherungOptionB(
 
     from 2019-01-01 {
         return bruttolohn * 12 * (
-            beitragssatz["gesetzlicheKrankenversicherung"]["ermßigt"] / 2
+            beitragssatz["gesetzlicheKrankenversicherung"]["ermäßigt"] / 2
             + krankenversicherungZusatzbeitragssatz() / 2 / 100
             + pflegeversicherungBeitragssatz()
         );
@@ -73,14 +72,11 @@ public function vorsorgeKrankenversicherungOptionB(
 /**
  * Berechnung der Vorsorgepauschale für die Krankenversicherung (Option A).
  */
-public function vorsorgeKrankenversicherungOptionA(
-    bruttolohn: Float per year,
-    steuerklasse: Int
-): Float per year {
+public function per year vorsorgeKrankenversicherungOptionA(): Float {
     var basisPauschale = vorsorgepauschaleMindestanteil * bruttolohn;
 
     var maxPauschale;
-    if steuerklasse == 3 {
+    if (steuerklasse == 3) {
         maxPauschale = vorsorgepauschaleKvMax["steuerklasse3"];
     } else {
         maxPauschale = vorsorgepauschaleKvMax["steuerklasseNicht3"];
@@ -92,10 +88,7 @@ public function vorsorgeKrankenversicherungOptionA(
 /**
  * Berechnung der Vorsorgepauschale für die Lohnsteuer ab dem Jahr 2010.
  */
-public function vorsorgePauschale(
-    bruttolohn: Float per month,
-    wohnortOst: Boolean
-): Float per year {
+public function per year vorsorgePauschale(): Float{
     from 2005-01-01 {
         return 0.0;
     }
@@ -109,15 +102,15 @@ public function vorsorgePauschale(
         } else {
             bruttolohnRente = min(
                 bruttolohn * 12,
-                beitragsbemessungsgrenzeWestRente["ges_rentenv"]["west"]] * 12
+                beitragsbemessungsgrenzeWestRente["ges_rentenv"]["west"] * 12
             );
         }
 
-        Float vorsorgeRente = bruttolohnRente
+        vorsorgeRente = bruttolohnRente
             * beitragssatz["ges_rentenv"]
             * vorsorgepauschaleRentenversicherungAnteil;
 
-        Float vorsorgeKrankenversicherung = max(krankenversicherungOptionA(), krankenversicherungOptionB());
+        vorsorgeKrankenversicherung = max(krankenversicherungOptionA(), krankenversicherungOptionB());
 
         return vorsorgeRente + vorsorgeKrankenversicherung;
     }
@@ -126,67 +119,64 @@ public function vorsorgePauschale(
 /**
  * Berechnung des Kinderfreibetrags für die Lohnsteuer und den Solidaritätszuschlag.
  */
-public function kinderfreibetragFürLohnsteuerSoli(
-    steuerklasse: Int
-): Float per year {
-    Float kinderfreibetragBasis = kinderfreibetrag["SächlichesExistenzminimum"]
+public function per year kinderfreibetragFürLohnsteuerSoli(): Float {
+    kinderfreibetragBasis = kinderfreibetrag["SächlichesExistenzminimum"]
         + kinderfreibetragBeitrag["ErziehungAusbildung"];
 
-    if steuerklasse == 1 or steuerklasse == 2 or steuerklasse == 3} {
+    if (steuerklasse == 1 or steuerklasse == 2 or steuerklasse == 3) {
         return kinderfreibetragBasis * 2 * kinderfreibetragAnsprüche();
-    } else if steuerklasse == 4 {
+    }
+    if (steuerklasse == 4) {
         return kinderfreibetragBasis * kinderfreibetragAnsprüche();
     } else {
         return 0.0;
     }
 }
 
-private function lohnsteuer_m(
-    einkommen: Float per month,
-    steuerklasse: Int,
-    ): Float per month {
-    var lohnsteuerBasistarif = einkommensteuer.tarif(einkommen));
-    var lohnsteuerSplittingtarif = 2 * einkommensteuer.tarif(einkommen) / 2);
-    var lohnsteuerKlasse5_6Basis = berechneLohnsteuerKlasse5_6Basis(einkommen));
+# TODO: einkommenssteuer.tarif not defined yet
+# private function per month lohnsteuer(): Float {
+#     var lohnsteuerBasistarif = einkommensteuer.tarif(einkommen));
+#     var lohnsteuerSplittingtarif = 2 * einkommensteuer.tarif(einkommen) / 2);
+#     var lohnsteuerKlasse5_6Basis = berechneLohnsteuerKlasse5_6Basis(einkommen));
 
-    var grenze1 = einkommensgrenzen[0];
-    var grenze2 = einkommensgrenzen[1];
-    var grenze3 = einkommensgrenzen[2];
+#     var grenze1 = einkommensgrenzen[0];
+#     var grenze2 = einkommensgrenzen[1];
+#     var grenze3 = einkommensgrenzen[2];
 
-    var lohnsteuerGrenze1 = berechneLohnsteuerKlasse5_6Basis(grenze1);
-    var maxLohnsteuer = lohnsteuerGrenze1
-        + (einkommen - grenze1) * tarif["rates"][0][3];
+#     var lohnsteuerGrenze1 = berechneLohnsteuerKlasse5_6Basis(grenze1);
+#     var maxLohnsteuer = lohnsteuerGrenze1
+#         + (einkommen - grenze1) * tarif["rates"][0][3];
 
-    var lohnsteuerGrenze2 = lohnsteuerKlasse5_6BasisBerechnung(grenze2);
-    var lohnsteuerZwischenGrenze2_3 = (grenze3 - grenze2) * tarif["rates"][0][3];
-    var lohnsteuerKlasse5_6Tmp = lohnsteuerGrenze2 + lohnsteuerZwischenGrenze2_3;
+#     var lohnsteuerGrenze2 = lohnsteuerKlasse5_6BasisBerechnung(grenze2);
+#     var lohnsteuerZwischenGrenze2_3 = (grenze3 - grenze2) * tarif["rates"][0][3];
+#     var lohnsteuerKlasse5_6Tmp = lohnsteuerGrenze2 + lohnsteuerZwischenGrenze2_3;
 
-    var lohnsteuerKlasse5_6;
-    if einkommen) < grenze1 {
-        lohnsteuerKlasse5_6 = lohnsteuerKlasse5_6Basis;
-    } elif grenze1 <= einkommen < grenze2 {
-        lohnsteuerKlasse5_6 = min(maxLohnsteuer, lohnsteuerKlasse5_6BasisBerechnung(einkommen)));
-    } elif grenze2 <= einkommen) < grenze3 {
-        lohnsteuerKlasse5_6 = lohnsteuerGrenze2
-            + (einkommen) - grenze2) * tarif["rates"][0][3];
-    } else {
-        lohnsteuerKlasse5_6 = lohnsteuerKlasse5_6Tmp
-            + (einkommen) - grenze3) * tarif["rates"][0][4];
-    }
+#     var lohnsteuerKlasse5_6;
+#     if einkommen) < grenze1 {
+#         lohnsteuerKlasse5_6 = lohnsteuerKlasse5_6Basis;
+#     } elif grenze1 <= einkommen < grenze2 {
+#         lohnsteuerKlasse5_6 = min(maxLohnsteuer, lohnsteuerKlasse5_6BasisBerechnung(einkommen)));
+#     } elif grenze2 <= einkommen) < grenze3 {
+#         lohnsteuerKlasse5_6 = lohnsteuerGrenze2
+#             + (einkommen) - grenze2) * tarif["rates"][0][3];
+#     } else {
+#         lohnsteuerKlasse5_6 = lohnsteuerKlasse5_6Tmp
+#             + (einkommen) - grenze3) * tarif["rates"][0][4];
+#     }
 
-    var lohnsteuer;
-    if steuerklasse == 1 or steuerklasse == 2 or steuerklasse == 4} {
-        lohnsteuer = lohnsteuerBasistarif;
-    } elif steuerklasse == 3 {
-        lohnsteuer = lohnsteuerSplittingtarif;
-    } else {
-        lohnsteuer = lohnsteuerKlasse5_6;
-    }
+#     var lohnsteuer;
+#     if steuerklasse == 1 or steuerklasse == 2 or steuerklasse == 4} {
+#         lohnsteuer = lohnsteuerBasistarif;
+#     } elif steuerklasse == 3 {
+#         lohnsteuer = lohnsteuerSplittingtarif;
+#     } else {
+#         lohnsteuer = lohnsteuerKlasse5_6;
+#     }
 
-    return max(lohnsteuer / 12, 0.0);
-}
+#     return max(lohnsteuer / 12, 0.0);
+# }
 
-public lohnsteuer(): Float per month {
+public function per month lohnsteuer(): Float {
     return lohnsteuer_m();
 }
 
@@ -195,10 +185,8 @@ public lohnsteuer(): Float per month {
  * Diese Berechnung wird hauptsächlich für die Berechnung des Solidaritätszuschlags
  * auf die Lohnsteuer verwendet.
  */
-public function lohnsteuerMitKinderfreibetrag(
-    steuerklasse: Int
-): Float per month {
-    Float angepasstesEinkommen = max(lohnSteuerEinkommen() - kinderfreibetragFürSoli(), 0.0);
+public function per month lohnsteuerMitKinderfreibetrag(): Float {
+    angepasstesEinkommen = max(lohnSteuerEinkommen() - kinderfreibetragFürSoli(), 0.0);
 
     return lohnsteuerBerechnung(angepasstesEinkommen, steuerklasse);
 }

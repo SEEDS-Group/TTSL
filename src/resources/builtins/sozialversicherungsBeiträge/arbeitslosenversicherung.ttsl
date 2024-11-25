@@ -12,9 +12,11 @@ from einkommensgrenzen import geringfügigBeschäftigt
 from einkommensgrenzen import inGleitzone
 from einkommensgrenzen import midijobBemessungsentgeld
 from einkommensgrenzen import midijobBeitragspflichtigeEinnahmeArbeitnehmer
-from gesetzlicheRentenversicherung import beitragBruttolohn as gesetzlicheRentenversicherungBetragBruttolohn
+from gesetzlicheRentenversicherung import bruttolohn as gesetzlicheRentenversicherungBetragBruttolohn
 
-from parameters.sozialversicherungsbeitrag import arbeitslosenversicherung as beitragssatzArbeitslosenversicherung
+from sozialversicherungsbeitrag import arbeitslosenversicherung as beitragssatzArbeitslosenversicherung
+
+data per month bruttolohn: Float;
 
 /**
  * Sum of employee's social insurance contributions.
@@ -58,13 +60,14 @@ public function  per month beitrag(): Float {
             return per month gesetzlicheRentenversicherungBetragBruttolohn() * beitragssatzArbeitslosenversicherung;
         }
     }
+
     from 2003-04-01 {
         if (geringfügigBeschäftigt()) {
             return 0;
         }
 
         if (inGleitzone()) {
-            return per month arbeitslosenversicherungBeitragArbeitnehmer();
+            return per month beitragArbeitgeber();
         }
 
         return per month gesetzlicheRentenversicherungBetragBruttolohn() * beitragssatzArbeitslosenversicherung;
@@ -92,7 +95,7 @@ public function per month beitragArbeitgeber(): Float {
             return per month midijobArbeitnehmer();
         }
 
-        return per month gesetzlicheRentenversicherungBetragBruttolohn() * beitragssatzArbeitslosenversicherung
+        return per month gesetzlicheRentenversicherungBetragBruttolohn() * beitragssatzArbeitslosenversicherung;
     }
 }
 

@@ -72,10 +72,7 @@ public function midijobFaktorF(): Float {
     from 2003-04-01 to 2004-12-31 {
         # First calculate the factor F from the formula in § 163 (10) SGB VI
         # Therefore sum the contributions which are the same for employee and employer
-        var allg_sozialv_beitr = (
-            beitragssatzGesetzlicheRentenversicherung
-            + beitragssatzArbeitslosenversicherung
-        );
+        var allg_sozialv_beitr = beitragssatzGesetzlicheRentenversicherung + beitragssatzArbeitslosenversicherung;
 
         allg_sozialv_beitr = allg_sozialv_beitr + beitragssatzGesetzlichePflegeversicherung;
 
@@ -84,11 +81,7 @@ public function midijobFaktorF(): Float {
         var ag_anteil = allg_sozialv_beitr + gesetzlicheKrankenversicherungBeitragssatzArbeitgeberJahresanfang();
 
         # Sum over the shares which are specific for midijobs.
-        var pausch_mini = (
-            pauschalabgabenGeringfügigeBeschäftigung["ges_krankenv"]
-            + pauschalabgabenGeringfügigeBeschäftigung["ges_rentenv"]
-            + pauschalabgabenGeringfügigeBeschäftigung["st"]
-        );
+        var pausch_mini = pauschalabgabenGeringfügigeBeschäftigung["ges_krankenv"] + pauschalabgabenGeringfügigeBeschäftigung["ges_rentenv"] + pauschalabgabenGeringfügigeBeschäftigung["st"];
 
         # Now calculate final factor
         return pausch_mini / (an_anteil + ag_anteil);
@@ -101,10 +94,7 @@ public function midijobFaktorF(): Float {
     from 2005-01-01 {
         # First calculate the factor F from the formula in § 163 (10) SGB VI
         # Therefore sum the contributions which are the same for employee and employer
-        var allg_sozialv_beitr = (
-            beitragssatzGesetzlicheRentenversicherung
-            + beitragssatzArbeitslosenversicherung
-        );
+        var allg_sozialv_beitr = beitragssatzGesetzlicheRentenversicherung + beitragssatzArbeitslosenversicherung;
 
         allg_sozialv_beitr = allg_sozialv_beitr + beitragssatzGesetzlichePflegeversicherung["standard"];
 
@@ -113,11 +103,7 @@ public function midijobFaktorF(): Float {
         var ag_anteil = allg_sozialv_beitr + gesetzlicheKrankenversicherungBeitragssatzArbeitgeberJahresanfang();
 
         # Sum over the shares which are specific for midijobs.
-        var pausch_mini = (
-            pauschalabgabenGeringfügigeBeschäftigung["ges_krankenv"]
-            + pauschalabgabenGeringfügigeBeschäftigung["ges_rentenv"]
-            + pauschalabgabenGeringfügigeBeschäftigung["st"]
-        );
+        var pausch_mini = pauschalabgabenGeringfügigeBeschäftigung["ges_krankenv"] + pauschalabgabenGeringfügigeBeschäftigung["ges_rentenv"] + pauschalabgabenGeringfügigeBeschäftigung["st"];
 
         # Now calculate final factor
         return pausch_mini / (an_anteil + ag_anteil);
@@ -129,11 +115,7 @@ public function midijobFaktorF(): Float {
         # adding the mean Zusatzbeitrag
         # First calculate the factor F from the formula in § 163 (10) SGB VI
         # Therefore sum the contributions which are the same for employee and employer
-        var allg_sozialv_beitr = (
-            beitragssatzGesetzlicheRentenversicherung
-            + beitragssatzGesetzlichePflegeversicherung["standard"]
-            + beitragssatzArbeitslosenversicherung
-        );
+        var allg_sozialv_beitr = beitragssatzGesetzlicheRentenversicherung + beitragssatzGesetzlichePflegeversicherung["standard"] + beitragssatzArbeitslosenversicherung;
 
         # Then calculate specific shares
         var an_anteil = allg_sozialv_beitr + gesetzlicheKrankenversicherungBeitragssatzJahresanfang();
@@ -142,10 +124,7 @@ public function midijobFaktorF(): Float {
         # Sum over the shares which are specific for midijobs.
         # New formula only inludes the lump-sum contributions to health care
         # and pension insurance
-        var pausch_mini = (
-            pauschalabgabenGeringfügigeBeschäftigung["ges_krankenv"]
-            + pauschalabgabenGeringfügigeBeschäftigung["ges_rentenv"]
-        );
+        var pausch_mini = pauschalabgabenGeringfügigeBeschäftigung["ges_krankenv"] + pauschalabgabenGeringfügigeBeschäftigung["ges_rentenv"];
 
         # Now calculate final factor f
         return pausch_mini / (an_anteil + ag_anteil);
@@ -194,8 +173,8 @@ public function per month midijobBemessungsentgeld(): Float {
         var midijob_grenze = geringfügigeEinkommensgrenzenMonatlich["midijob"];
         var minijob_grenze = minijobGrenze();
 
-        var quotient1 = (midijob_grenze) / (midijob_grenze - minijob_grenze);
-        var quotient2 = (minijob_grenze) / (midijob_grenze - minijob_grenze);
+        var quotient1 = midijob_grenze / (midijob_grenze - minijob_grenze);
+        var quotient2 = minijob_grenze / (midijob_grenze - minijob_grenze);
         var einkommen_diff = per month bruttolohn - minijob_grenze;
 
         var faktor1 = midijobFaktorF() * minijob_grenze;

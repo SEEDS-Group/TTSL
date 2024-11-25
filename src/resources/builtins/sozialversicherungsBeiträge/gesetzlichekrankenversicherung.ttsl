@@ -176,7 +176,7 @@ public function per month bruttolohnRegulärBeschäftigt(): Float {
 /**
  * Bruttolohn, der der gesetzlichen Krankenversicherung unterliegt.
  */
-public function per month bruttolohn(): Float {
+public function per month betragBruttolohn(): Float {
     if (regulärBeschäftigt()) {
         return bruttolohnRegulärBeschäftigt();
     } else {
@@ -188,7 +188,7 @@ public function per month bruttolohn(): Float {
  * Beitrag für regulär Beschäftigte.
  */
 public function per month beitragRegulärBeschäftigt(): Float {
-    return beitragssatz() * bruttolohn();
+    return beitragssatz() * betragBruttolohn();
 }
 
 /**

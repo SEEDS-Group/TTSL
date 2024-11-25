@@ -8,9 +8,11 @@ from einkommensgrenzen import geringfügigBeschäftigt
 from einkommensgrenzen import midijobBemessungsentgeld
 from einkommensgrenzen import midijobBeitragspflichtigeEinnahmeArbeitnehmer
 
-from gesetzlicheKrankenversicherung import bruttolohn as gesetzlicheKrankenversicherungBruttolohn
+from gesetzlicheKrankenversicherung import betragBruttolohn as gesetzlicheKrankenversicherungBruttolohn
 from gesetzlicheKrankenversicherung import bemessungsgrundlageSelbstständig
 from gesetzlicheKrankenversicherung import bemessungsgrundlageRente
+
+from math import min
 
 data hatKinder: Boolean;
 data alter: Int;
@@ -115,7 +117,7 @@ public function per month beitragArbeitgeber(): Float {
         if (inGleitzone()) {
             return beitragMidijobArbeitgeber();
         }
-        return bruttogesetzlicheKrankenversicherungBruttolohn() * gesetzlichePflegeversicherung["standard"];
+        return gesetzlicheKrankenversicherungBruttolohn() * gesetzlichePflegeversicherung["standard"];
     }
 }
 
@@ -141,13 +143,11 @@ public function per month beitragRente(): Float {
     }
 
     from 2004-04-01 to 2004-12-31 {
-        return bemessungsgrundlageRente() * (beitragssatz() * 2);
+        return bemessungsgrundlageRente() * beitragssatz() * 2;
     }
 
     from 2005-01-01 {
-        return bemessungsgrundlageRente() * (
-            beitragssatz() + gesetzlichePflegeversicherung["standard"]
-        );
+        return bemessungsgrundlageRente() * beitragssatz() + gesetzlichePflegeversicherung["standard"];
     }
 }
 
@@ -184,9 +184,7 @@ public function per month beitragMidijobArbeitgeber(): Float {
 /**
  * Arbeitnehmeranteil für Midijobs in der gesetzlichen Pflegeversicherung.
  */
-public function per month beitragMidijobArbeitnehmer(
-    anzEigeneKinderBis24: Int
-): Float {
+public function per month beitragMidijobArbeitnehmer(): Float {
     to 2022-09-30 {
         return beitragMidijobSummeArbeitnehmerArbeitgeber() - beitragMidijobArbeitgeber();
     }
