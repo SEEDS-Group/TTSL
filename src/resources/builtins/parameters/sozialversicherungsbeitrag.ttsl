@@ -129,23 +129,33 @@ public constant gesetzlichePflegeversicherung {
         "standard": 0.0085,
         "zusatz_kinderlos": 0.0025,
     };
+
     from 2008-01-01: Dict<String, Float> = {
         "standard": 0.00975,
         "zusatzKinderlos": 0.0025,
     };
-    from 2013-01-01: Float = 0.01025;
+
+    from 2013-01-01: Dict<String, Float> = {
+        "standard": 0.01025,
+    };
 
     from 2015-01-01: Dict<String, Float> = {
         "standard": 0.01175,
         "zusatzKinderlos": 0.0025,
     };
-    from 2017-01-01: Float = 0.01275;
+
+    from 2017-01-01: Dict<String, Float> =  {
+        "standard": 0.01275,
+    };
+
     from 2019-01-01: Dict<String, Float> = {
         "standard": 0.01525,
         "zusatzKinderlos": 0.0025,
     };
+
     # Reference: Art. 2 Nr. 14 G. v. 11.07.2021, BGBl. I S. 2754.
     from 2022-01-01: Dict<String, Float> = {
+        "standard": 0.01525,
         "zusatzKinderlos": 0.0035,
     };
 }
