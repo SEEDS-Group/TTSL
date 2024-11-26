@@ -1,0 +1,3 @@
+package tests.commands.simulation
+
+function f(a: Int, b: String){}
