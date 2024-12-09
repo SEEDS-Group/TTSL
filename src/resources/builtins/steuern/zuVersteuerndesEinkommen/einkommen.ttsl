@@ -11,8 +11,10 @@ from einkommenssteuer import renteErtragsanteil
 from einkommensgrenzen import geringfügigBeschäftigt
 
 data per month bruttolohn: Float;
-data per year einkommenAbhängigBeschäftigt: Float;
 data per month summeGesamtRentePrivatRente: Float;
+data per month einkommenSelbstständig: Float;
+data per month einkommenVermietung: Float;
+data per month bruttoKapitaleinkommen: Float;
 
 /**
  * Aggregiere das monatliche Bruttoeinkommen aus abhängiger Beschäftigung zu einem jährlichen Einkommen und ziehe
@@ -30,7 +32,7 @@ public function per year zuVersteuerndesEinkommenAbhängigBeschäftigt(): Float 
     if (geringfügigBeschäftigt()) {
         return 0.0;
     } else {
-        return einkommenAbhängigBeschäftigt;
+        return einkommenAbhängigBeschäftigt();
     }
 }
 
@@ -38,7 +40,9 @@ public function per year zuVersteuerndesEinkommenAbhängigBeschäftigt(): Float 
  * Berechne den monatlichen Rentenbetrag, der der Besteuerung unterliegt.
  */
 public function per month zuVersteuerndeRenteMonat(): Float {
-    return rentenErtragsanteil() * summeGesamtRentePrivatRente;
+    # rentenErtragsanteil not implemented yet
+    # return rentenErtragsanteil() * summeGesamtRentePrivatRente;
+    return 0;
 }
 
 /**
@@ -48,19 +52,28 @@ public function per month zuVersteuerndeRenteMonat(): Float {
  */
 public function per year summeEinkommen(): Float {
     to 2008-12-31 {
-        return einkommenSelbstständig()
-            + zuVersteuerndesEinkommenAbhängigBeschäftigt()
-            + einkommenVermietung()
-            + zuVersteuerndeRente()
-            + bruttoKapitaleinkommen();
+        return per year einkommenSelbstständig
+            + per year zuVersteuerndesEinkommenAbhängigBeschäftigt()
+            + per year einkommenVermietung
+            + per year zuVersteuerndeRente()
+            + per year kapitaleinkommen();
     }
 
     from 2009-01-01 {
-        return einkommenSelbstständig()
-            + zuVersteuerndesEinkommenAbhängigBeschäftigt()
-            + einkommenVermietung()
-            + zuVersteuerndeRente();
+        return per year einkommenSelbstständig
+            + per year zuVersteuerndesEinkommenAbhängigBeschäftigt()
+            + per year einkommenVermietung
+            + per year zuVersteuerndeRente();
     }
+}
+
+/**
+ * Calculate monthly pension payment subject to taxation.
+ */
+public function per month zuVersteuerndeRente(): Float {
+    # rentenErtragsanteil not implemented yet
+    # return renteErtragsanteil * summeGesamtRentePrivatRente;
+    return 0;
 }
 
 /**
