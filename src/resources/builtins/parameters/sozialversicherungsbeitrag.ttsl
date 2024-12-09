@@ -995,7 +995,8 @@ public constant geringfügigeEinkommensgrenzenMonatlich {
     from 1998-01-01: Dict<String, Dict<String, Int>> = {
         # deviation_from: previous
         "minijob": {
-            "west": 317
+            "west": 317,
+            "ost": 266
         }
     };
 
