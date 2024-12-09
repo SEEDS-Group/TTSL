@@ -102,7 +102,7 @@ public function per month beitragRegulärBeschäftigt(): Float {
  * Beitrag des Arbeitgebers für die gesetzliche Pflegeversicherung bis März 2003.
  */
 public function per month beitragArbeitgeber(): Float {
-    to 2003-03-31 {
+    to 2004-12-31 {
         if (selbstständig or geringfügigBeschäftigt()) {
             return 0.0;
         } else {
@@ -110,7 +110,8 @@ public function per month beitragArbeitgeber(): Float {
         }
     }
 
-    from 2003-04-01 {
+    # Changed from 2003-04-01
+    from 2005-01-01 {
         if (selbstständig or geringfügigBeschäftigt()) {
             return 0.0;
         }
