@@ -170,15 +170,15 @@ public function per month midijobBemessungsentgeld(): Float {
      * Legal reference: Changes in § 20 SGB IV from 01.10.2022
      */
     from 2022-10-01 {
-        var midijob_grenze = geringfügigeEinkommensgrenzenMonatlich["midijob"];
-        var minijob_grenze = minijobGrenze();
+        var midijobGrenze = geringfügigeEinkommensgrenzenMonatlich["midijob"];
+        var minijobGrenze = minijobGrenze();
 
-        var quotient1 = midijob_grenze / (midijob_grenze - minijob_grenze);
-        var quotient2 = minijob_grenze / (midijob_grenze - minijob_grenze);
-        var einkommen_diff = per month bruttolohn - minijob_grenze;
+        var quotient1 = midijobGrenze / (midijobGrenze - minijobGrenze);
+        var quotient2 = minijobGrenze / (midijobGrenze - minijobGrenze);
+        var einkommenDiff = per month bruttolohn - minijobGrenze;
 
-        var faktor1 = midijobFaktorF() * minijob_grenze;
-        var faktor2 = (quotient1 - quotient2 * midijobFaktorF()) * einkommen_diff;
+        var faktor1 = midijobFaktorF() * minijobGrenze;
+        var faktor2 = (quotient1 - quotient2 * midijobFaktorF()) * einkommenDiff;
         return faktor1 + faktor2;
     }
 }
@@ -191,13 +191,15 @@ public function per month midijobBemessungsentgeld(): Float {
  * Legal reference: Changes in § 20 SGB IV from 01.10.2022
  */
 private function per month midijobBeitragspflichtigeEinnahmeArbeitnehmer(): Float {
-    var midijob_grenze = geringfügigeEinkommensgrenzenMonatlich["midijob"];
-    var minijob_grenze = minijobGrenze();
+    from 2000-01-01 {
+        var midijobGrenze = geringfügigeEinkommensgrenzenMonatlich["midijob"];
+        var minijobGrenze = minijobGrenze();
 
-    var quotient = midijob_grenze / (midijob_grenze - minijob_grenze);
-    var einkommen_diff = per month bruttolohn - minijob_grenze;
+        var quotient = midijobGrenze / (midijobGrenze - minijobGrenze);
+        var einkommenDiff = per month bruttolohn - minijobGrenze;
 
-    return quotient * einkommen_diff;
+        return quotient * einkommenDiff;
+    }
 }
 
 
