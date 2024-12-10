@@ -357,7 +357,7 @@ export class TTSLPythonGenerator {
                 parentDirectoryPath,
                 `${this.formatGeneratedFileName(name)}_${this.getPythonNameOrDefault(funct)}`,
             )}.py`;
-            const entryPointContent = expandTracedToNode(funct)`from .${this.formatGeneratedFileName(
+            const entryPointContent = expandTracedToNode(funct)`from ${this.formatGeneratedFileName(
                 name,
             )} import ${this.getPythonNameOrDefault(
                 funct,
@@ -367,6 +367,15 @@ export class TTSLPythonGenerator {
             const generatedFunctionEntry = toStringAndTrace(entryPointContent);
             generatedFiles.set(entryPointFilename, generatedFunctionEntry.text);
         }
+        const entryPointFilename = `${path.join(
+            parentDirectoryPath,
+            `${this.formatGeneratedFileName(name)}_simulate`,
+        )}.py`;
+        const entryPointContent = expandToNode`from ${this.formatGeneratedFileName(
+            name,
+        )} import simulate\n\nif __name__ == '__main__':\n${PYTHON_INDENT}simulate()`.appendNewLine();
+        const generatedFunctionEntry = toStringAndTrace(entryPointContent);
+        generatedFiles.set(entryPointFilename, generatedFunctionEntry.text);
 
         return Array.from(generatedFiles.entries()).map(([fsPath, content]) =>
             TextDocument.create(URI.file(fsPath).toString(), 'py', 0, content),
@@ -483,14 +492,15 @@ export class TTSLPythonGenerator {
         const imports = this.generateImports(Array.from(importSet.values()));
         const output = new CompositeGeneratorNode();
         output.trace(module);
+        output.append('# Imports ----------------------------------------------------------------------');
+        output.appendNewLine();
+        output.appendNewLine();
+        output.append(`from gettsim import (compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)\nimport pandas as pd\n`)
+        output.append(`import numpy as np`)
+        output.appendNewLine();
         if (imports.length > 0) {
-            output.append('# Imports ----------------------------------------------------------------------');
-            output.appendNewLine();
-            output.appendNewLine();
             output.append(joinToNode(imports, (importDecl) => importDecl, { separator: NL }));
             output.appendNewLine();
-            output.append(`from gettsim import (compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)\nimport pandas as pd\n`)
-            output.append(`import numpy as np`)
         }
         if (typeVariableSet.size > 0) {
             output.appendNewLineIf(imports.length > 0);
@@ -546,10 +556,10 @@ export class TTSLPythonGenerator {
         .append(expandToNode`${joinToNode(getModuleMembers(module).filter(isTslConstant).map(constant => constant.name), (constName) => `'${constName}': ${constName}.getValue(date)`, { separator: ', ' })}}}`)
         .appendNewLine()
         .appendNewLine()
-        .append(`def simulate(data: pd.DataFrame, targets: list[str]) -> pd.DataFrame:`)
+        .append(`def simulate() -> pd.DataFrame:`)
         .appendNewLine()
         .indent({
-            indentedChildren:[`return compute_taxes_and_transfers(data = pd.read_csv("${params[1]}"), targets = ${params[2]}, functions = functions, params = params)`],
+            indentedChildren:[`return compute_taxes_and_transfers(data = pd.read_csv("${params[1]?.replaceAll("\\", "\\\\")}"), targets = ${params[2]}, functions = functions, params = params)`],
             indentation: PYTHON_INDENT,
         })
         return output;

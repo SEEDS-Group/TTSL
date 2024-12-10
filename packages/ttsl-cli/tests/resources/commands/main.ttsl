@@ -1,3 +1,7 @@
 package tests.commands.simulation
 
-function f(a: Int, b: String){}
+constant x: Int = 2
+
+function f(a: Int, b: String){
+    return a + x;
+}
