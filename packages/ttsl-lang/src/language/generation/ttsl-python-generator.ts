@@ -446,6 +446,9 @@ export class TTSLPythonGenerator {
     }
 
     private getPythonNameOrDefault(object: TslDeclaration) {
+        if(isTslConstant(object)){
+            return object.name + ".getValue(date)"
+        }
         return this.builtinFunction.getPythonName(object) || object.name;
     }
 
@@ -656,7 +659,7 @@ export class TTSLPythonGenerator {
         infoFrame.addUtility(UTILITY_CONSTANTS);
 
         if(constant.value){
-            return expandTracedToNode(constant)`${this.getPythonNameOrDefault(constant)} = ${traceToNode(
+            return expandTracedToNode(constant)`${constant.name} = ${traceToNode(
                 constant
             )(UTILITY_CONSTANTS.name)}({"empty": ${this.generateExpression(constant.value, infoFrame)}})`
         } else if (constant.timespanValueEntries){
