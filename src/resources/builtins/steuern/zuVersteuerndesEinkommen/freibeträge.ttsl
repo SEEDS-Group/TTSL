@@ -68,16 +68,16 @@ public function per year alleinerzFreibetrag(): Float {
  * Bis 2011 wird nur ein Pauschalbetrag verwendet. Ab 2012 wird zusätzlich ein
  * Betreuungsbetrag berücksichtigt.
  */
-public function per year sonderausgaben(): Float groupedBy steuernummer {
+public function per year sonderausgaben(): Float {
     to 2011-12-31 {
         # Sonderausgabenpauschale bis einschließlich 2011
-        return sonderausgabenpauschbetrag["single"] * anzahlPersonen;
+        return sonderausgabenpauschbetrag["single"] * anzPersonen;
     }
 
     from 2012-01-01 {
         # Sonderausgaben ab 2012: Berücksichtigung von Betreuungskosten
         var sonderausgabenGesamt = sonderausgabenBetreuung();
-        var pauschale = sonderausgabenpauschbetrag["single"] * anzahlPersonen;
+        var pauschale = sonderausgabenpauschbetrag["single"] * anzPersonen;
 
         return max(sonderausgabenGesamt, pauschale);
     }
@@ -105,5 +105,5 @@ public function per year sonderausgabenBetreuung(): Float {
  * Berechnet den individuellen Kinderfreibetrag.
  */
 public function per year kinderfreibetrag(): Float {
-    return kinderFreibetrag["sum"] * anzahlAnsprüche();
+    return kinderFreibetrag["sum"] * kinderfreibetragAnzahlAnsprüche();
 }

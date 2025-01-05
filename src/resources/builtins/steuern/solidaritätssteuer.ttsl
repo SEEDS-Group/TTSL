@@ -1,27 +1,39 @@
 package solidaritätssteuer
 
-public function solidaritätsSteuer(): Float per year {
-    to 2008-12-31 {
-        Float einkommensteuerProPerson = einkommensteuerMitKinderfreibetrag() / anzahlPersonen();
-        return anzahlPersonen * solisteuerTarif(einkommensteuerProPerson);
-    }
+from solidaritätszuschlag import solidaritätszuschlag
+from lohnsteuer import lohnsteuerMitKinderfreibetrag
+from einkommenssteuer import mitKinderfreibetrag
 
-    from 2009-01-01{
-        Float einkommensteuerProPerson = einkommensteuerMitKinderfreibetrag() / anzahlPersonen();
+data person: Int;
+id data steuernummer: Int;
 
-        return anzahlPersonen() * solisteuerTarif(einkommensteuerProPerson) + solisteuer["rates"][0, -1] * abgeltungssteuer() per year;
-    }
-}
+# TODO: Implement solisteuerTarif
 
-/**
- * Berechnet den Solidaritätszuschlag auf die Lohnsteuer.
- */
-public function soliStLohnsteuerBerechnung(
-    lohnsteuerMitKinderfreibetrag: Float per month
-): Float per month {
-    return solisteuerTarif(lohnsteuerMitKinderfreibetrag * 12) / 12;
-}
+# public function solisteuerTarif(): Float per year {
+#     # TODO: Piecewise polynomial function
+# }
 
-public function solisteuerTarif(): Float per year {
-    # TODO: Piecewise polynomial function
-}
+# public function per year solidaritätsSteuer(): Float {
+
+#     to 2008-12-31 {
+#         var anzahlPersonen: Int = aggregate "count" of person groupedBy steuernummer;
+#         var einkommensteuerProPerson = mitKinderfreibetrag() / anzahlPersonen;
+#         return anzahlPersonen * solisteuerTarif(einkommensteuerProPerson);
+#     }
+
+#     from 2009-01-01{
+#         var anzahlPersonen: Int = aggregate "count" of person groupedBy steuernummer;
+#         var einkommensteuerProPerson = mitKinderfreibetrag() / anzahlPersonen;
+
+#         return anzahlPersonen * solisteuerTarif(einkommensteuerProPerson) + solidaritätszuschlag[0] * per year abgeltungssteuer() ;
+#     }
+# }
+
+# }
+
+
+# /**
+#  * Berechnet den Solidaritätszuschlag auf die Lohnsteuer.
+#  */
+# public function per month soliStLohnsteuerBerechnung(): Float {
+#     return solisteuerTarif(lohnsteuerMitKinderfreibetrag * 12) / 12;
