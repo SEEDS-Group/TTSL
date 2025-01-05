@@ -751,7 +751,7 @@ TslTimespan returns TslTimespan:
     ('from' start=TslDate | 'to' end=TslDate | 'from' start=TslDate 'to' end=TslDate)
 ;
 
-interface TslTimespanStatement extends TslBlock, TslStatement{
+interface TslTimespanStatement extends TslStatement{
     timespan: TslTimespan
     block: TslFunctionBlock
 }
