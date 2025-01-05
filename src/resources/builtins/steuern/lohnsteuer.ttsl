@@ -1,9 +1,16 @@
 package lohnsteuer
 
-from einkommenssteuerAbzüge import alleinerzFreibetrag, werbungskostenpauschale, sonderausgabenpauschbetrag, einkommenssteuerTarif, vorsorgepauschaleMindestanteil, vorsorgepauschaleKvMax
-from sozialversicherungsbeitrag import beitragssatz
+from einkommenssteuerAbzüge import alleinerziehendFreibetrag, sparerWerbungskostenPauschbetrag, sonderausgabenpauschbetrag, vorsorgepauschaleMindestanteil, vorsorgepauschaleKvMax, vorsorgepauschaleRentenversicherungsAnteil, kinderFreibetrag
+from sozialversicherungsbeitrag import gesetzlicheKrankenversicherung, gesetzlicheRentenversicherung, beitragsbemessungsgrenze
+from freibeträge import kinderfreibetragAnzahlAnsprüche
+
 from einkommenssteuer import einkommenssteuer
-from math import max
+from math import min, max
+
+from gesetzlicheKrankenversicherung import bruttolohnRegulärBeschäftigt as krankenversicherungBruttolohnRegulärBeschäftigt
+from gesetzlicheKrankenversicherung import zusatzbeitragssatz as krankenversicherungZusatzbeitragssatz
+
+from gesetzlichePflegeversicherung import beitragssatz as pflegeversicherungBeitragssatz
 
 data per month bruttolohn: Float;
 data steuerklasse: Int;
@@ -13,48 +20,51 @@ data wohnortOst: Boolean;
  * Calculate tax base for Lohnsteuer (withholding tax on earnings).
  */
 public function per year einkommen(bruttolohn: Float): Float {
-    entlastung_freibetrag_alleinerz = (steuerklasse() == 2) * alleinerzFreibetrag
+    var entlastung_freibetrag_alleinerz = alleinerziehendFreibetrag;
+    if (steuerklasse != 2) {
+        entlastung_freibetrag_alleinerz = 0.0;
+    }
 
-    if(steuerklasse == 6) {
-        werbungskosten = 0
-        sonderausgaben = 0
-    } else {
-        werbungskosten = werbungskostenpauschale
-        sonderausgaben = sonderausgabenpauschbetrag["single"]
+    var werbungskosten = 0
+    var sonderausgaben = 0
+    if (steuerklasse != 6) {
+        werbungskosten = sparerWerbungskostenPauschbetrag
+        sonderausgaben = sonderausgabenpauschbetrag
     }
 
     # Zu versteuerndes Einkommen / tax base for Lohnsteuer.
-    out = max(
-        12 * bruttolohn_m
+    var out = max(
+        12 * per month bruttolohn
         - werbungskosten
         - sonderausgaben
         - entlastung_freibetrag_alleinerz
-        - vorsorgepauschale() per year,
+        - per year vorsorgepauschale(),
         0.0
     )
 
-    return out
+    return out;
 }
 
-/**
- * Berechnung der Lohnsteuer für die Steuerklassen 5 und 6, basierend auf dem zu versteuernden Einkommen.
- */
-private function berechneLohnsteuerKlasse5_6Basis(): Float {
-    return max(
-        2 * (
-            einkommensteuer(einkommen * 1.25) - einkommensteuer(einkommen() * 0.75)),
-        einkommen() * einkommenssteuerTarif[0][1]
-    );
-}
+# TODO: Implement _eink_st_tarif from eink_st.py (piecewise polynomial function)
+# /**
+#  * Berechnung der Lohnsteuer für die Steuerklassen 5 und 6, basierend auf dem zu versteuernden Einkommen.
+#  */
+# private function berechneLohnsteuerKlasse5_6Basis(): Float {
+#     return max(
+#         2 * (
+#             einkommensteuer(einkommen * 1.25) - einkommensteuer(einkommen() * 0.75)),
+#         einkommen() * einkommenssteuerTarif[0][1]
+#     );
+# }
 
 /**
  * Berechnung der Vorsorgepauschale für die Krankenversicherung (Option B), differenziert nach den
  * zeitlichen Validitäten.
  */
 public function per year vorsorgeKrankenversicherungOptionB(): Float  {
-    to 2018-12-31 {
-        return bruttolohn * 12 * (
-            beitragssatz["gesetzlicheKrankenversicherung"]["ermäßigt"] / 2
+    from 2015-01-01 to 2018-12-31 {
+        return krankenversicherungBruttolohnRegulärBeschäftigt() * 12 * (
+            gesetzlicheKrankenversicherung["ermäßigt"] / 2
             + krankenversicherungZusatzbeitragssatz() / 100
             + pflegeversicherungBeitragssatz()
         );
@@ -62,7 +72,7 @@ public function per year vorsorgeKrankenversicherungOptionB(): Float  {
 
     from 2019-01-01 {
         return bruttolohn * 12 * (
-            beitragssatz["gesetzlicheKrankenversicherung"]["ermäßigt"] / 2
+            gesetzlicheKrankenversicherung["ermäßigt"] / 2
             + krankenversicherungZusatzbeitragssatz() / 2 / 100
             + pflegeversicherungBeitragssatz()
         );
@@ -75,11 +85,11 @@ public function per year vorsorgeKrankenversicherungOptionB(): Float  {
 public function per year vorsorgeKrankenversicherungOptionA(): Float {
     var basisPauschale = vorsorgepauschaleMindestanteil * bruttolohn;
 
-    var maxPauschale;
+    var maxPauschale: Int = 0;
     if (steuerklasse == 3) {
-        maxPauschale = vorsorgepauschaleKvMax["steuerklasse3"];
+        var maxPauschale = vorsorgepauschaleKvMax["steuerklasse3"];
     } else {
-        maxPauschale = vorsorgepauschaleKvMax["steuerklasseNicht3"];
+        var maxPauschale = vorsorgepauschaleKvMax["steuerklasseNicht3"];
     }
 
     return min(maxPauschale, basisPauschale);
@@ -94,23 +104,26 @@ public function per year vorsorgePauschale(): Float{
     }
 
     from 2010-01-01 {
+        var bruttolohnRente: Float = 0.0;
         if (wohnortOst) {
-            bruttolohnRente = min(
+            var bruttolohnRente = min(
                 bruttolohn * 12,
-                beitragsbemessungsgrenzeOstRente["ges_rentenv"]["ost"] * 12
+                beitragsbemessungsgrenze["ges_rentenv"]["ost"] * 12
             );
         } else {
-            bruttolohnRente = min(
+            var bruttolohnRente = min(
                 bruttolohn * 12,
-                beitragsbemessungsgrenzeWestRente["ges_rentenv"]["west"] * 12
+                beitragsbemessungsgrenze["ges_rentenv"]["west"] * 12
             );
         }
 
-        vorsorgeRente = bruttolohnRente
-            * beitragssatz["ges_rentenv"]
-            * vorsorgepauschaleRentenversicherungAnteil;
+        # TODO: vorsorgepauschaleRentenversicherungsAnteil is piecewise polynomial function
+        var vorsorgeRente = 0.0;
+        # var vorsorgeRente = bruttolohnRente
+        #     * gesetzlicheRentenversicherung
+        #     * vorsorgepauschaleRentenversicherungsAnteil;
 
-        vorsorgeKrankenversicherung = max(krankenversicherungOptionA(), krankenversicherungOptionB());
+        var vorsorgeKrankenversicherung = max(vorsorgeKrankenversicherungOptionA(), vorsorgeKrankenversicherungOptionB());
 
         return vorsorgeRente + vorsorgeKrankenversicherung;
     }
@@ -120,21 +133,20 @@ public function per year vorsorgePauschale(): Float{
  * Berechnung des Kinderfreibetrags für die Lohnsteuer und den Solidaritätszuschlag.
  */
 public function per year kinderfreibetragFürLohnsteuerSoli(): Float {
-    kinderfreibetragBasis = kinderfreibetrag["SächlichesExistenzminimum"]
-        + kinderfreibetragBeitrag["ErziehungAusbildung"];
+    var kinderfreibetragBasis = kinderfreibetrag["sächlichesExistenzminimum"] + kinderfreibetrag["beitragErziehungAusbildung"];
 
     if (steuerklasse == 1 or steuerklasse == 2 or steuerklasse == 3) {
-        return kinderfreibetragBasis * 2 * kinderfreibetragAnsprüche();
+        return kinderfreibetragBasis * 2 * kinderfreibetragAnzahlAnsprüche();
     }
     if (steuerklasse == 4) {
-        return kinderfreibetragBasis * kinderfreibetragAnsprüche();
+        return kinderfreibetragBasis * kinderfreibetragAnzahlAnsprüche();
     } else {
         return 0.0;
     }
 }
 
 # TODO: einkommenssteuer.tarif not defined yet
-# private function per month lohnsteuer(): Float {
+# public function per month lohnsteuer(): Float {
 #     var lohnsteuerBasistarif = einkommensteuer.tarif(einkommen));
 #     var lohnsteuerSplittingtarif = 2 * einkommensteuer.tarif(einkommen) / 2);
 #     var lohnsteuerKlasse5_6Basis = berechneLohnsteuerKlasse5_6Basis(einkommen));
@@ -176,17 +188,13 @@ public function per year kinderfreibetragFürLohnsteuerSoli(): Float {
 #     return max(lohnsteuer / 12, 0.0);
 # }
 
-public function per month lohnsteuer(): Float {
-    return lohnsteuer_m();
-}
+# /**
+#  * Berechnet die Lohnsteuer unter Berücksichtigung des Kinderfreibetrags.
+#  * Diese Berechnung wird hauptsächlich für die Berechnung des Solidaritätszuschlags
+#  * auf die Lohnsteuer verwendet.
+#  */
+# public function per month lohnsteuerMitKinderfreibetrag(): Float {
+#     var angepasstesEinkommen = max(einkommen() - kinderfreibetragFürLohnsteuerSoli(), 0.0);
 
-/**
- * Berechnet die Lohnsteuer unter Berücksichtigung des Kinderfreibetrags.
- * Diese Berechnung wird hauptsächlich für die Berechnung des Solidaritätszuschlags
- * auf die Lohnsteuer verwendet.
- */
-public function per month lohnsteuerMitKinderfreibetrag(): Float {
-    angepasstesEinkommen = max(lohnSteuerEinkommen() - kinderfreibetragFürSoli(), 0.0);
-
-    return lohnsteuerBerechnung(angepasstesEinkommen, steuerklasse);
-}
+#     return lohnsteuer_m(angepasstesEinkommen, steuerklasse);
+# }
