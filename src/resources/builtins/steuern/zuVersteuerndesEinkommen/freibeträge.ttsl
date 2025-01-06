@@ -1,11 +1,6 @@
 package freibeträge
 
-from einkommenssteuerAbzüge import alleinerziehendFreibetrag
-from einkommenssteuerAbzüge import alleinerzFreibetragZusatz
-from einkommenssteuerAbzüge import sonderausgabenpauschbetrag
-from einkommenssteuerAbzüge import kinderbetreuungskostenAbzMaximum
-from einkommenssteuerAbzüge import kinderbetreuungskostenAbzAnteil
-from einkommenssteuerAbzüge import kinderFreibetrag
+from einkommenssteuerAbzüge import alleinerziehendFreibetrag, alleinerzFreibetragZusatz, sonderausgabenpauschbetrag, kinderbetreuungskostenAbzMaximum, kinderbetreuungskostenAbzAnteil, kinderFreibetrag
 
 from math import max
 from math import min
@@ -13,9 +8,13 @@ from math import min
 id data kinderfreibetragEmpfänger1: Int;
 id data kinderfreibetragEmpfänger2: Int;
 data kinderfreibetragAnspruch: Int;
+
 id data steuernummer: Int;
 data alleinerziehend: Boolean;
 data anzPersonen: Int;
+
+id data betreuungskostenTräger: Int;
+data betreuungskosten: Float;
 
 /**
  * Gibt die Anzahl der Kinderfreibeträge zurück, auf die eine Person Anspruch hat.
@@ -71,13 +70,13 @@ public function per year alleinerzFreibetrag(): Float {
 public function per year sonderausgaben(): Float {
     to 2011-12-31 {
         # Sonderausgabenpauschale bis einschließlich 2011
-        return sonderausgabenpauschbetrag["single"] * anzPersonen;
+        return sonderausgabenpauschbetrag * anzPersonen;
     }
 
     from 2012-01-01 {
         # Sonderausgaben ab 2012: Berücksichtigung von Betreuungskosten
         var sonderausgabenGesamt = sonderausgabenBetreuung();
-        var pauschale = sonderausgabenpauschbetrag["single"] * anzPersonen;
+        var pauschale = sonderausgabenpauschbetrag * anzPersonen;
 
         return max(sonderausgabenGesamt, pauschale);
     }
@@ -87,8 +86,9 @@ public function per year sonderausgaben(): Float {
  * Berechnet die abzugsfähigen Kinderbetreuungskosten für jedes Kind unter 14 Jahren.
  */
 public function per year abzugsfähigeBetreuungskosten(): Float {
+    var betreuungskostenElternteil = aggregate "sum" of betreuungskosten groupedBy betreuungskostenTräger;
     return min(
-        per year betreuungskostenElternteil(),
+        per year betreuungskostenElternteil,
         kinderbetreuungskostenAbzMaximum
     );
 }
