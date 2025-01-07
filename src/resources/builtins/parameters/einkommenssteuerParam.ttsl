@@ -1,4 +1,4 @@
-package einkommenssteuer
+package einkommenssteuerParam
 
 # eink_st.yaml ----------------------------------------------------------
 
@@ -10,9 +10,6 @@ package einkommenssteuer
  * add_progressionsfaktor beschrieben.
  */
 public constant einkommenssteuerTarif: Dict<Int, Dict<String, Float>> {
-
-	# TODO: klren wie das mit deviation_from aussieht
-
 	from 2002-01-01 = {
 		0: {
 			"lower_threshold": -1e10,
@@ -23,11 +20,13 @@ public constant einkommenssteuerTarif: Dict<Int, Dict<String, Float>> {
 		},
 		1: {
 			"upper_threshold": 9251,
-			"rate_linear": 0.199
+			"rate_linear": 0.199,
+			"rate_quadratic": 0,
 		},
 		2: {
 			"upper_threshold": 55007,
-			"rate_linear": 0.23
+			"rate_linear": 0.23,
+			"rate_quadratic": 0,
 		},
 		3: {
 			"upper_threshold": 1e10,
