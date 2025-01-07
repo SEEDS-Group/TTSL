@@ -1,11 +1,14 @@
 package lohnsteuer
 
+from math import min, max
+
+from lohnsteuerParam import lohnsteuerEinkommensgrenzen
 from einkommenssteuerAbzüge import alleinerziehendFreibetrag, sparerWerbungskostenPauschbetrag, sonderausgabenpauschbetrag, vorsorgepauschaleMindestanteil, vorsorgepauschaleKvMax, vorsorgepauschaleRentenversicherungsAnteil, kinderFreibetrag
 from sozialversicherungsbeitrag import gesetzlicheKrankenversicherung, gesetzlicheRentenversicherung, beitragsbemessungsgrenze
-from freibeträge import kinderfreibetragAnzahlAnsprüche
+from einkommenssteuerParam import einkommenssteuerTarif
 
-from einkommenssteuer import einkommenssteuer
-from math import min, max
+from freibeträge import kinderfreibetragAnzahlAnsprüche
+from einkommenssteuer import einkommenssteuer, tarif
 
 from gesetzlicheKrankenversicherung import bruttolohnRegulärBeschäftigt as krankenversicherungBruttolohnRegulärBeschäftigt
 from gesetzlicheKrankenversicherung import zusatzbeitragssatz as krankenversicherungZusatzbeitragssatz
@@ -19,7 +22,7 @@ data wohnortOst: Boolean;
 /**
  * Calculate tax base for Lohnsteuer (withholding tax on earnings).
  */
-public function per year einkommen(bruttolohn: Float): Float {
+public function per year einkommen(): Float {
     var entlastung_freibetrag_alleinerz = alleinerziehendFreibetrag;
     if (steuerklasse != 2) {
         entlastung_freibetrag_alleinerz = 0.0;
@@ -45,17 +48,16 @@ public function per year einkommen(bruttolohn: Float): Float {
     return out;
 }
 
-# TODO: Implement _eink_st_tarif from eink_st.py (piecewise polynomial function)
-# /**
-#  * Berechnung der Lohnsteuer für die Steuerklassen 5 und 6, basierend auf dem zu versteuernden Einkommen.
-#  */
-# private function berechneLohnsteuerKlasse5_6Basis(): Float {
-#     return max(
-#         2 * (
-#             einkommensteuer(einkommen * 1.25) - einkommensteuer(einkommen() * 0.75)),
-#         einkommen() * einkommenssteuerTarif[0][1]
-#     );
-# }
+/**
+ * Berechnung der Lohnsteuer für die Steuerklassen 5 und 6, basierend auf dem zu versteuernden Einkommen.
+ */
+private function berechneLohnsteuerKlasse5_6Basis(zuVersteuerndesEinkommen: Float): Float {
+    return max(
+        2 * (
+            tarif(zuVersteuerndesEinkommen * 1.25) - tarif(zuVersteuerndesEinkommen * 0.75)),
+        zuVersteuerndesEinkommen * einkommenssteuerTarif[0][1]
+    );
+}
 
 /**
  * Berechnung der Vorsorgepauschale für die Krankenversicherung (Option B), differenziert nach den
@@ -145,56 +147,55 @@ public function per year kinderfreibetragFürLohnsteuerSoli(): Float {
     }
 }
 
-# TODO: einkommenssteuer.tarif not defined yet
-# public function per month lohnsteuer(): Float {
-#     var lohnsteuerBasistarif = einkommensteuer.tarif(einkommen));
-#     var lohnsteuerSplittingtarif = 2 * einkommensteuer.tarif(einkommen) / 2);
-#     var lohnsteuerKlasse5_6Basis = berechneLohnsteuerKlasse5_6Basis(einkommen));
+public function per month lohnsteuer(einkommen: Float, steuerklasse: Int): Float {
+    var lohnsteuerBasistarif = tarif(einkommen);
+    var lohnsteuerSplittingtarif = 2 * tarif(einkommen) / 2;
+    var lohnsteuerKlasse5_6Basis = berechneLohnsteuerKlasse5_6Basis(einkommen);
 
-#     var grenze1 = einkommensgrenzen[0];
-#     var grenze2 = einkommensgrenzen[1];
-#     var grenze3 = einkommensgrenzen[2];
+    var grenze1 = lohnsteuerEinkommensgrenzen[0];
+    var grenze2 = lohnsteuerEinkommensgrenzen[1];
+    var grenze3 = lohnsteuerEinkommensgrenzen[2];
 
-#     var lohnsteuerGrenze1 = berechneLohnsteuerKlasse5_6Basis(grenze1);
-#     var maxLohnsteuer = lohnsteuerGrenze1
-#         + (einkommen - grenze1) * tarif["rates"][0][3];
+    var lohnsteuerGrenze1 = berechneLohnsteuerKlasse5_6Basis(grenze1);
+    var maxLohnsteuer = lohnsteuerGrenze1 + (einkommen - grenze1) * einkommenssteuerTarif[3]["rate_linear"];
 
-#     var lohnsteuerGrenze2 = lohnsteuerKlasse5_6BasisBerechnung(grenze2);
-#     var lohnsteuerZwischenGrenze2_3 = (grenze3 - grenze2) * tarif["rates"][0][3];
-#     var lohnsteuerKlasse5_6Tmp = lohnsteuerGrenze2 + lohnsteuerZwischenGrenze2_3;
+    var lohnsteuerGrenze2 = berechneLohnsteuerKlasse5_6Basis(grenze2);
+    var lohnsteuerZwischenGrenze2_3 = (grenze3 - grenze2) * einkommenssteuerTarif[3]["rate_linear"];
+    var lohnsteuerKlasse5_6Tmp = lohnsteuerGrenze2 + lohnsteuerZwischenGrenze2_3;
 
-#     var lohnsteuerKlasse5_6;
-#     if einkommen) < grenze1 {
-#         lohnsteuerKlasse5_6 = lohnsteuerKlasse5_6Basis;
-#     } elif grenze1 <= einkommen < grenze2 {
-#         lohnsteuerKlasse5_6 = min(maxLohnsteuer, lohnsteuerKlasse5_6BasisBerechnung(einkommen)));
-#     } elif grenze2 <= einkommen) < grenze3 {
-#         lohnsteuerKlasse5_6 = lohnsteuerGrenze2
-#             + (einkommen) - grenze2) * tarif["rates"][0][3];
-#     } else {
-#         lohnsteuerKlasse5_6 = lohnsteuerKlasse5_6Tmp
-#             + (einkommen) - grenze3) * tarif["rates"][0][4];
-#     }
+    var lohnsteuerKlasse5_6= 0.0;
+    if (einkommen < grenze1) {
+        lohnsteuerKlasse5_6 = lohnsteuerKlasse5_6Basis;
+    } else { if (grenze1 <= einkommen and einkommen < grenze2) {
+        lohnsteuerKlasse5_6 = min(maxLohnsteuer, berechneLohnsteuerKlasse5_6Basis(einkommen));
+    } else { if (grenze2 <= einkommen and einkommen < grenze3) {
+        lohnsteuerKlasse5_6 = lohnsteuerGrenze2 + (einkommen - grenze2) * einkommenssteuerTarif[3]["rate_linear"];
+    } else {
+        lohnsteuerKlasse5_6 = lohnsteuerKlasse5_6Tmp + (einkommen - grenze3) * einkommenssteuerTarif[4]["rate_linear"];
+    }
+    }
+    }
 
-#     var lohnsteuer;
-#     if steuerklasse == 1 or steuerklasse == 2 or steuerklasse == 4} {
-#         lohnsteuer = lohnsteuerBasistarif;
-#     } elif steuerklasse == 3 {
-#         lohnsteuer = lohnsteuerSplittingtarif;
-#     } else {
-#         lohnsteuer = lohnsteuerKlasse5_6;
-#     }
+    var lohnsteuer= 0.0;
+    if (steuerklasse == 1 or steuerklasse == 2 or steuerklasse == 4) {
+        lohnsteuer = lohnsteuerBasistarif;
+    } else { if (steuerklasse == 3) {
+        lohnsteuer = lohnsteuerSplittingtarif;
+    } else {
+        lohnsteuer = lohnsteuerKlasse5_6;
+    }
+    }
 
-#     return max(lohnsteuer / 12, 0.0);
-# }
+    return max(lohnsteuer / 12, 0.0);
+}
 
-# /**
-#  * Berechnet die Lohnsteuer unter Berücksichtigung des Kinderfreibetrags.
-#  * Diese Berechnung wird hauptsächlich für die Berechnung des Solidaritätszuschlags
-#  * auf die Lohnsteuer verwendet.
-#  */
-# public function per month lohnsteuerMitKinderfreibetrag(): Float {
-#     var angepasstesEinkommen = max(einkommen() - kinderfreibetragFürLohnsteuerSoli(), 0.0);
+/**
+ * Berechnet die Lohnsteuer unter Berücksichtigung des Kinderfreibetrags.
+ * Diese Berechnung wird hauptsächlich für die Berechnung des Solidaritätszuschlags
+ * auf die Lohnsteuer verwendet.
+ */
+public function per month lohnsteuerMitKinderfreibetrag(): Float {
+    var angepasstesEinkommen = max(einkommen() - kinderfreibetragFürLohnsteuerSoli(), 0.0);
 
-#     return lohnsteuer_m(angepasstesEinkommen, steuerklasse);
-# }
+    return lohnsteuer(angepasstesEinkommen, steuerklasse);
+}
