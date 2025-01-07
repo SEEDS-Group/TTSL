@@ -76,6 +76,7 @@ public constant gesetzlicheKrankenversicherung {
     from 2011-01-01: Dict<String, Float> = {
         "allgemein": 0.146,
         "ermäßigt": 0.14,
+        "sonderbeitrag": 0.0,
     };
     from 2015-01-01: Dict<String, Float> = {
         "allgemein": 0.146,
@@ -84,9 +85,13 @@ public constant gesetzlicheKrankenversicherung {
     };
     # Bekanntmachung Bundesanzeiger 30.12.2015
     from 2016-01-01: Dict<String, Float> = {
+        "allgemein": 0.146,
+        "ermäßigt": 0.14,
         "meanZusatzbeitrag": 0.011
     };
     from 2018-01-01: Dict<String, Float> = {
+        "allgemein": 0.146,
+        "ermäßigt": 0.14,
         "meanZusatzbeitrag": 0.01,
     };
     from 2019-01-01: Dict<String, Float> = {
@@ -98,11 +103,15 @@ public constant gesetzlicheKrankenversicherung {
     # Temporarily reduced to 0.024 in BeiSaV 2019.
     # Reference: ("ges_krankenv" mean_zusatzbeitrag:) BAnz AT 28.10.2019 B3
     from 2020-01-01: Dict<String, Float> = {
+        "allgemein": 0.146,
+        "ermäßigt": 0.14,
         "meanZusatzbeitrag": 0.011
     };
 
     # Reference: ("ges_krankenv" mean_zusatzbeitrag:) BAnz AT 30.10.2020 B5
     from 2021-01-01: Dict<String, Float> = {
+        "allgemein": 0.146,
+        "ermäßigt": 0.14,
         "meanZusatzbeitrag": 0.013,
     };
 
@@ -111,11 +120,15 @@ public constant gesetzlicheKrankenversicherung {
     # Reference: (arbeitsl_v:) Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651
     # ("ges_krankenv" mean_zusatzbeitrag:) BAnz AT 31.10.2022 B5
     from 2023-01-01: Dict<String, Float> = {
+        "allgemein": 0.146,
+        "ermäßigt": 0.14,
         "meanZusatzbeitrag": 0.016,
     };
 
     # Reference: BAnz AT 31.10.2023 B3
     from 2024-01-01: Dict<String, Float> = {
+        "allgemein": 0.146,
+        "ermäßigt": 0.14,
         "meanZusatzbeitrag": 0.017,
     };
 }
