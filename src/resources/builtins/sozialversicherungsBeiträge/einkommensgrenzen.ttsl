@@ -190,7 +190,7 @@ public function per month midijobBemessungsentgeld(): Float {
  * to employee social insurance contribution.
  * Legal reference: Changes in § 20 SGB IV from 01.10.2022
  */
-private function per month midijobBeitragspflichtigeEinnahmeArbeitnehmer(): Float {
+public function per month midijobBeitragspflichtigeEinnahmeArbeitnehmer(): Float {
     from 2000-01-01 {
         var midijobGrenze = geringfügigeEinkommensgrenzenMonatlich["midijob"];
         var minijobGrenze = minijobGrenze();
