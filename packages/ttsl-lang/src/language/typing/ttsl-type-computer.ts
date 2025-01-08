@@ -504,6 +504,8 @@ export class TTSLTypeComputer {
             let listType = this.computeType(node.$container.list)
             if(listType instanceof ListType){
                 return listType.getTypeParameterTypeByIndex(0)
+            } if(listType instanceof DictionaryType){
+                return listType.getTypeParameterTypeByIndex(1)
             } else{
                 return UnknownType;
             }
