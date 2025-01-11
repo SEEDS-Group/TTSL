@@ -80,6 +80,7 @@ import {
     isTslStringType,
     isTslExpression,
     isTslTypeAlias,
+    isTslFunctionBlock,
 } from '../generated/ast.js';
 import { isInFile, isFile } from '../helpers/fileExtensions.js';
 import {
@@ -890,16 +891,35 @@ export class TTSLPythonGenerator {
             var start = ''
             var end = ''      
             if (statement.timespan.start){
-                start = statement.timespan.start.date + ' <='
+                start = `"` + statement.timespan.start.date + `" <=`
             }
             if (statement.timespan.end){
-                end = '< ' + statement.timespan.end.date
+                end = `< "` + statement.timespan.end.date + `"`
             }
             if (!statement.timespan.start && !statement.timespan.end){
                 throw new Error(`Timespan has neither a start nor an end value`);
             }
-            return expandTracedToNode(statement)`if ${start} date ${end}:
-                ${this.generateFunctionBlock(statement.block, frame, undefined)}`;
+
+            if(end === "" && isTslFunctionBlock(statement.$container)){
+                // calculate the missing end date
+                let index = statement.$container.statements.filter(isTslTimespanStatement).indexOf(statement)
+                let following = statement.$container.statements.filter(isTslTimespanStatement).at(index+1)
+                if(following){
+                    end = `< "` + following?.timespan.start?.date! + `"`
+                }
+            }
+            if(start === "" && isTslFunctionBlock(statement.$container)){
+                // calculate the missing start date
+                let index = statement.$container.statements.filter(isTslTimespanStatement).indexOf(statement)
+                let previous = statement.$container.statements.filter(isTslTimespanStatement).at(index-1)
+                if(previous){
+                    start = `"` + previous?.timespan.end?.date! + `" <=`
+                }
+            }
+            return expandTracedToNode(statement)`if ${start} date ${end}:`
+            .appendNewLine()
+            .indent(indentingNode =>
+                    indentingNode.append(this.generateFunctionBlock(statement.block, frame, undefined)))
         } else if (isTslConditionalStatement(statement)) {
             let elseBlock = new CompositeGeneratorNode
             if (isTslBlock(statement.elseBlock)){
@@ -955,17 +975,7 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
                 })} = ${this.generateExpression(assignment.expression!, frame)}`,
             );
         }
-        if (frame.isInsideFunction && !frame.disableRunnerIntegration) {
-            for (const savableAssignment of assignees.filter(isTslPlaceholder)) {
-                // should always be TslPlaceholder
-                frame.addImport({ importPath: RUNNER_PACKAGE });
-                assignmentStatements.push(
-                    expandTracedToNode(
-                        savableAssignment,
-                    )`${RUNNER_PACKAGE}.save_placeholder('${savableAssignment.name}', ${savableAssignment.name})`,
-                );
-            }
-        }
+
         return joinTracedToNode(assignment)(assignmentStatements, (stmt) => stmt, {
             separator: NL,
         })!;

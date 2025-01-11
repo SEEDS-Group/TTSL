@@ -30,8 +30,17 @@ class __gen_ClassConstants():
 # Functions --------------------------------------------------------------------
 
 def f(a: int, b: str):
+    z = 0
+    if "1999-01-01" <= date < "2000-01-01":
+        z = (a) + (x.getValue(date))
 
-    return (a) + (x.getValue(date))
+    if "2000-01-01" <= date < "2003-02-01":
+
+        return x.getValue(date)
+    if "2003-02-01" <= date < "2023-01-01":
+
+        return 2
+    return z
 
 # Constants --------------------------------------------------------------------
 

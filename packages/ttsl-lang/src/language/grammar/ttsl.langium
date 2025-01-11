@@ -255,14 +255,11 @@ TslBlock returns TslBlock:
     {TslBlock} '{' statements+=TslStatement* '}'
 ;
 
-interface TslFunctionBlock extends TslBlock{
-    timespanStatement: TslTimespanStatement[]
-}
+interface TslFunctionBlock extends TslBlock{}
 
 TslFunctionBlock returns TslFunctionBlock:
     {TslFunctionBlock}
-    '{' ( timespanStatement+=TslTimespanStatement
-    | statements+=TslStatement)*
+    '{' (statements+=TslStatement)*
     '}'
 ;
 
@@ -272,6 +269,7 @@ TslStatement returns TslStatement:
   | TslConditionalStatement
   | TslLoop
   | TslReturnStatement
+  | TslTimespanStatement
 ;
 
 interface TslAssignment extends TslStatement {
@@ -618,7 +616,7 @@ interface TslDictionary extends TslLiteral {
 }
 
 TslDictionary returns TslDictionary:
-    {TslDictionary} '{' (entries+=TslDictionaryEntry (',' entries+=TslDictionaryEntry)* ','? )? '}'
+    {TslDictionary} '{' (entries+=TslDictionaryEntry (',' entries+=TslDictionaryEntry)*)? '}'
 ;
 
 interface TslDictionaryEntry extends TslObject {

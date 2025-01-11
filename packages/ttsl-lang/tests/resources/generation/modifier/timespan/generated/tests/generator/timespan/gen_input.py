@@ -1,9 +1,10 @@
 # Imports ----------------------------------------------------------------------
 
-from typing import Any, TypeVar
 from gettsim import (compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)
 import pandas as pd
 import numpy as np
+from typing import Any, TypeVar
+
 # Type variables ---------------------------------------------------------------
 
 __gen_T = TypeVar("__gen_T")
@@ -26,6 +27,18 @@ class __gen_ClassConstants():
                     result = self.dict[keys[len(keys)-1-index]]
         return result
 
+# Functions --------------------------------------------------------------------
+
+def myFunction():
+    x = 0
+    if "1999-01-01" <= date < "2000-01-01":
+        x = 1
+
+    if "2000-01-01" <= date :
+        x = 2
+
+
+
 # Constants --------------------------------------------------------------------
 
 myConstantDict = {"s2000-01-01": 1, "s2001-01-01": 2}
@@ -38,9 +51,9 @@ myConstant2 = __gen_ClassConstants(myConstant2Dict)
 
 date = "2000-01-01"
 
-functions = {}
+functions = {'myFunction': myFunction}
 
 params = {'input':{'myConstant': myConstant.getValue(date), 'myConstant2': myConstant2.getValue(date)}}
 
-def simulate(data: pd.DataFrame, targets: list[str]) -> pd.DataFrame:
+def simulate() -> pd.DataFrame:
     return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = [target1, target2], functions = functions, params = params)

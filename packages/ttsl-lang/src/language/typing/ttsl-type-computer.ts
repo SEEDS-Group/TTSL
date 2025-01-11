@@ -389,7 +389,7 @@ export class TTSLTypeComputer {
         const containingFunction = AstUtils.getContainerOfType(node, isTslFunction)
         const containingTimespan = AstUtils.getContainerOfType(node, isTslTimespanStatement)
 
-        let result = this.computeTimespan(containingTimespan!.timespan, containingFunction?.body.timespanStatement.map(stmt => stmt.timespan)!)
+        let result = this.computeTimespan(containingTimespan!.timespan, containingFunction?.body.statements.filter(isTslTimespanStatement).map(stmt => stmt.timespan)!)
 
         return result
     }
