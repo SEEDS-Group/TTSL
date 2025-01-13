@@ -1186,7 +1186,7 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
             result = ', '
         }
         if(funct.timeunit !== undefined|| funct.groupedBy !== undefined){
-            return expandToNode`${result}timeunit = None, groupedBy = None, date = None`
+            return expandToNode`${result}timeunit = None, groupedBy = None`
         }
         return undefined
     }
