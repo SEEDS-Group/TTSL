@@ -551,7 +551,7 @@ export class TTSLPythonGenerator {
         .appendNewLine()
         .appendNewLine()
         .append(expandToNode`functions = {${joinToNode(getModuleMembers(module)
-            .filter(isTslFunction).map(funct => funct.name), (functName) => expandToNode`'${functName}': ${functName}`, { separator: ', ' })}}`)
+            .filter(isTslFunction).filter(funct => (funct.visibility?.isPublic || !funct.visibility)).map(funct => funct.name), (functName) => expandToNode`'${functName}': ${functName}`, { separator: ', ' })}}`)
         .appendNewLine()
         .appendNewLine()
         .append(`params = {'${inputPath.name}':{`)
