@@ -903,42 +903,48 @@ public constant mindestanteilBezugsgrößeBeitragspflichtigeEinnahmeSelbst: Floa
 public constant geringfügigeEinkommensgrenzenMonatlich {
     from 1984-01-01: Dict<String, Dict<String, Int>> = {
         "minijob": {
-            "west": 199
+            "west": 199,
+            "ost": 0
         }
     };
 
     from 1985-01-01: Dict<String, Dict<String, Int>> = {
         # deviation_from: previous
         "minijob": {
-            "west": 205
+            "west": 205,
+            "ost": 0
         }
     };
 
     from 1986-01-01: Dict<String, Dict<String, Int>> = {
         # deviation_from: previous
         "minijob": {
-            "west": 210
+            "west": 210,
+            "ost": 0
         }
     };
 
     from 1987-01-01: Dict<String, Dict<String, Int>> = {
         # deviation_from: previous
         "minijob": {
-            "west": 220
+            "west": 220,
+            "ost": 0
         }
     };
 
     from 1988-01-01: Dict<String, Dict<String, Int>> = {
         # deviation_from: previous
         "minijob": {
-            "west": 225
+            "west": 225,
+            "ost": 0
         }
     };
 
     from 1989-01-01: Dict<String, Dict<String, Int>> = {
         # deviation_from: previous
         "minijob": {
-            "west": 230
+            "west": 230,
+            "ost": 0
         }
     };
 
@@ -1041,21 +1047,18 @@ public constant geringfügigeEinkommensgrenzenMonatlich {
 
     # Reference: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
     from 2019-01-01: Dict<String, Int> = {
-        # deviation_from: previous
+        "minijob": 450,
         "midijob": 1300
     };
 
     # Reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
     # "minijob" thresholds now calculated based on statutory minimum wage
     from 2022-10-01: Dict<String, Int> = {
-        # deviation_from: previous
-        "minijob": null,
         "midijob": 1600
     };
 
     # Reference: Art. 3 G. v. 11.11.2022 BGBl. I S. 1985
     from 2023-01-01: Dict<String, Int> = {
-        # deviation_from: previous
         "midijob": 2000
     };
 }
