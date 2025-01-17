@@ -1,7 +1,7 @@
 package arbeitslosenversicherung
 
 from gesetzlichePflegeversicherung import beitrag as gesetzlichePflegeVersicherungsBeitrag
-from gesetzlicheKrankenversicherung import beitrag as gesetzlicheKrankenVersicherungsBeitrag
+# from gesetzlicheKrankenversicherung import beitrag as gesetzlicheKrankenVersicherungsBeitrag
 from gesetzlicheRentenversicherung import beitrag as gesetzlicheRentenVersicherungsBeitrag
 
 from gesetzlichePflegeversicherung import beitragArbeitgeber as gesetzlicherPflegeVersicherungsBeitragArbeitgeber
@@ -18,17 +18,25 @@ from sozialversicherungsbeitrag import arbeitslosenversicherung as beitragssatzA
 
 data per month bruttolohn: Float;
 
-/**
- * Sum of employee's social insurance contributions.
- */
-public function per month sozialversicherungsBeitrag(): Float {
-    var pv = per month gesetzlichePflegeVersicherungsBeitrag();
-    var kv = per month gesetzlicheKrankenVersicherungsBeitrag();
-    var rv = per month gesetzlicheRentenVersicherungsBeitrag();
-    var av = per month beitrag();
+# TODO: Abhängig von Krankenversicherungsbeitrag, welcher abhängig vom Transfer Rente ist
+# /**
+#  * Sum of employee's social insurance contributions.
+#  */
+# public function per month sozialversicherungsBeitrag(): Float {
+#     var pv = per month gesetzlichePflegeVersicherungsBeitrag();
+#     var kv = per month gesetzlicheKrankenVersicherungsBeitrag();
+#     var rv = per month gesetzlicheRentenVersicherungsBeitrag();
+#     var av = per month beitrag();
 
-    return pv + kv + rv + av;
-}
+#     return pv + kv + rv + av;
+# }
+
+# /**
+#  * Sum of employer's and employee's social insurance contributions.
+#  */
+# private function  per month sozialversicherungsBeitragArbeitnehmerArbeitgeber(): Float {
+#     return  per month sozialversicherungsBeitrag() +  per month sozialversicherungsBeitragArbeitgeber();
+# }
 
 /**
  * Sum of employer's social insurance contributions.
@@ -40,13 +48,6 @@ public function  per month sozialversicherungsBeitragArbeitgeber(): Float{
     var av =  per month beitragArbeitgeber();
 
     return pv + kv + rv + av;
-}
-
-/**
- * Sum of employer's and employee's social insurance contributions.
- */
-private function  per month sozialversicherungsBeitragArbeitnehmerArbeitgeber(): Float {
-    return  per month sozialversicherungsBeitrag() +  per month sozialversicherungsBeitragArbeitgeber();
 }
 
 /**
