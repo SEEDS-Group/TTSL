@@ -55,6 +55,8 @@ import {
     isTslCallable,
     isTslPredefinedFunction,
     TslPredefinedFunction,
+    isTslPlaceholder,
+    isTslParenthesizedExpression,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
 import {
@@ -260,6 +262,8 @@ export class TTSLTypeComputer {
             return this.computeType(node.data);
         } else if (isTslPredefinedFunction(node)) {
             return this.computeTypeOfPredefinedFunction(node);
+        } else if (isTslParenthesizedExpression(node)) {
+            return this.computeTypeOfExpression(node.expression);
         } /* c8 ignore start */ else {
             return UnknownType;
         } /* c8 ignore stop */
@@ -385,7 +389,7 @@ export class TTSLTypeComputer {
         const containingFunction = AstUtils.getContainerOfType(node, isTslFunction)
         const containingTimespan = AstUtils.getContainerOfType(node, isTslTimespanStatement)
 
-        let result = this.computeTimespan(containingTimespan!.timespan, containingFunction?.body.timespanStatement.map(stmt => stmt.timespan)!)
+        let result = this.computeTimespan(containingTimespan!.timespan, containingFunction?.body.statements.filter(isTslTimespanStatement).map(stmt => stmt.timespan)!)
 
         return result
     }
@@ -500,6 +504,8 @@ export class TTSLTypeComputer {
             let listType = this.computeType(node.$container.list)
             if(listType instanceof ListType){
                 return listType.getTypeParameterTypeByIndex(0)
+            } if(listType instanceof DictionaryType){
+                return listType.getTypeParameterTypeByIndex(1)
             } else{
                 return UnknownType;
             }

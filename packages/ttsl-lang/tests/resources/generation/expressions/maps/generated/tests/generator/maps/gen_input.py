@@ -6,10 +6,10 @@ def g2(param: dict[str, float]):
 def g3(param: dict[float, str]):
     pass
 
-def h1():
+def h1()->float:
     pass
 
-def h2():
+def h2()->str:
     pass
 
 def test():
@@ -18,3 +18,14 @@ def test():
     g3({1.2: "a", 1: "b"})
     g3({5.6: "c", h1(): h2()})
 
+
+# Simulation --------------------------------------------------------------------
+
+date = "2000-01-01"
+
+functions = {'g2': g2, 'g3': g3, 'h1': h1, 'h2': h2, 'test': test}
+
+params = {'input':{}}
+
+def simulate(data: pd.DataFrame, targets: list[str]) -> pd.DataFrame:
+    return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = [target1, target2], functions = functions, params = params)

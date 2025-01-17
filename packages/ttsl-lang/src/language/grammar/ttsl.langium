@@ -255,14 +255,11 @@ TslBlock returns TslBlock:
     {TslBlock} '{' statements+=TslStatement* '}'
 ;
 
-interface TslFunctionBlock extends TslBlock{
-    timespanStatement: TslTimespanStatement[]
-}
+interface TslFunctionBlock extends TslBlock{}
 
 TslFunctionBlock returns TslFunctionBlock:
     {TslFunctionBlock}
-    '{' ( timespanStatement+=TslTimespanStatement
-    | statements+=TslStatement)*
+    '{' (statements+=TslStatement)*
     '}'
 ;
 
@@ -272,6 +269,7 @@ TslStatement returns TslStatement:
   | TslConditionalStatement
   | TslLoop
   | TslReturnStatement
+  | TslTimespanStatement
 ;
 
 interface TslAssignment extends TslStatement {
@@ -377,13 +375,13 @@ TslExpression returns TslExpression:
 ;
 
 interface TslAggregation extends TslExpression{
-    function: TslString
+    function: string
     data: TslReference
     groupedBy: TslGroupedBy
 }
 
 TslAggregation returns TslAggregation:
-    'aggregate' function=TslString 'of' data=TslReference groupedBy=TslGroupedBy
+    'aggregate' function=("sum"|"count"|"mean"|"max"|"min"|"any") 'of' data=TslReference groupedBy=TslGroupedBy
 ;
 
 interface TslInfixOperation extends TslExpression {
@@ -618,7 +616,7 @@ interface TslDictionary extends TslLiteral {
 }
 
 TslDictionary returns TslDictionary:
-    {TslDictionary} '{' (entries+=TslDictionaryEntry (',' entries+=TslDictionaryEntry)* ','? )? '}'
+    {TslDictionary} '{' (entries+=TslDictionaryEntry (',' entries+=TslDictionaryEntry)*)? '}'
 ;
 
 interface TslDictionaryEntry extends TslObject {
@@ -751,7 +749,7 @@ TslTimespan returns TslTimespan:
     ('from' start=TslDate | 'to' end=TslDate | 'from' start=TslDate 'to' end=TslDate)
 ;
 
-interface TslTimespanStatement extends TslBlock, TslStatement{
+interface TslTimespanStatement extends TslStatement{
     timespan: TslTimespan
     block: TslFunctionBlock
 }

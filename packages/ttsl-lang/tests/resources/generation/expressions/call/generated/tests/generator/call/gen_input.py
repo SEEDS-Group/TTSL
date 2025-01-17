@@ -1,7 +1,9 @@
 # Imports ----------------------------------------------------------------------
 
 from typing import Any, Callable, TypeVar
-
+from gettsim import (compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)
+import pandas as pd
+import numpy as np
 # Type variables ---------------------------------------------------------------
 
 __gen_T = TypeVar("__gen_T")
@@ -16,10 +18,10 @@ def __gen_null_safe_call(receiver: Any, callable: Callable[[], __gen_T]) -> __ge
 def f(param: bool):
     pass
 
-def g(param1: int, param2: int = 0):
+def g(param1: int, param2: int = 0)->bool:
     pass
 
-def h(param1: int, param2: int = 0):
+def h(param1: int, param2: int = 0)->bool:
     pass
 
 def i(param: str):
@@ -39,3 +41,14 @@ def test():
     __gen_null_safe_call(f, lambda: f(h(2)))
     __gen_null_safe_call(i, lambda: i("abc"))
 
+
+# Simulation --------------------------------------------------------------------
+
+date = "2000-01-01"
+
+functions = {'f': f, 'g': g, 'h': h, 'i': i, 'test': test}
+
+params = {'input':{}}
+
+def simulate(data: pd.DataFrame, targets: list[str]) -> pd.DataFrame:
+    return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = [target1, target2], functions = functions, params = params)

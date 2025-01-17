@@ -56,9 +56,9 @@ export class TTSLRunner {
         return this.pythonServer.isStarted;
     }
 
-    async runFunction(documentUri: string, nodePath: string, params: string[]=[]) {
+    async runFunction(documentUri: string, nodePath: string) {
         const uri = URI.parse(documentUri);
-        const document = this.langiumDocuments.getDocument(uri);
+        const document = await this.langiumDocuments.getOrCreateDocument(uri);
         if (!document) {
             this.messaging.showErrorMessage('Could not find document.');
             return;
@@ -113,6 +113,57 @@ export class TTSLRunner {
         ];
 
         await this.executeFunction(functExecutionId, document, funct.name);
+    }
+
+    async runSimulation(documentUri: string, nodePath: string, params: string[]=[]) {
+        const uri = URI.parse(documentUri);
+        const document = await this.langiumDocuments.getOrCreateDocument(uri);
+        if (!document) {
+            this.messaging.showErrorMessage('Could not find document.');
+            return;
+        }
+
+        const functExecutionId = crypto.randomUUID();
+
+        const start = Date.now();
+        const progress = await this.messaging.showProgress('TTSL Runner', 'Starting...');
+        this.logger.info(`[${functExecutionId}] Running simulation in ${documentUri}.`);
+
+        const disposables = [
+            this.pythonServer.addMessageCallback('placeholder_type', (message) => {
+                if (message.id === functExecutionId) {
+                    progress.report(`Computed ${message.data.name}`);
+                }
+            }),
+
+            this.pythonServer.addMessageCallback('runtime_error', (message) => {
+                if (message.id === functExecutionId) {
+                    progress?.done();
+                    disposables.forEach((it) => {
+                        it.dispose();
+                    });
+                    this.messaging.showErrorMessage('An error occurred during function execution.');
+                }
+                progress.done();
+                disposables.forEach((it) => {
+                    it.dispose();
+                });
+            }),
+
+            this.pythonServer.addMessageCallback('runtime_progress', (message) => {
+                if (message.id === functExecutionId) {
+                    progress.done();
+                    const timeElapsed = Date.now() - start;
+                    this.logger.info(
+                        `[${functExecutionId}] Finished running function simulation in ${timeElapsed}ms.`,
+                    );
+                    disposables.forEach((it) => {
+                        it.dispose();
+                    });
+                }
+            }),
+        ];
+        await this.executeFunction(functExecutionId, document, "simulate");
     }
 
     async printValue(documentUri: string, nodePath: string) {
@@ -482,15 +533,15 @@ export class TTSLRunner {
         for (const generatedDocument of generatedDocuments) {
             const fsPath = URI.parse(generatedDocument.uri).fsPath;
             const workspaceRelativeFilePath = path.relative(rootGenerationDir, path.dirname(fsPath));
-            const sdsFileName = path.basename(fsPath);
-            const sdsNoExtFilename =
-                path.extname(sdsFileName).length > 0
-                    ? sdsFileName.substring(0, sdsFileName.length - path.extname(sdsFileName).length)
+            const ttslFileName = path.basename(fsPath);
+            const ttslNoExtFilename =
+                path.extname(ttslFileName).length > 0
+                    ? ttslFileName.substring(0, ttslFileName.length - path.extname(ttslFileName).length)
                     : /* c8 ignore next */
-                      sdsFileName;
+                      ttslFileName;
             // Put code in map for further use in the extension (e.g. to remap errors)
             lastGeneratedSources.set(
-                path.join(workspaceRelativeFilePath, sdsFileName).replaceAll('\\', '/'),
+                path.join(workspaceRelativeFilePath, ttslFileName).replaceAll('\\', '/'),
                 generatedDocument.getText(),
             );
             // Check for sourcemaps after they are already added to the function context
@@ -504,16 +555,14 @@ export class TTSLRunner {
                 codeMap[modulePath] = {};
             }
             // Put code in object for runner
-            codeMap[modulePath]![sdsNoExtFilename] = generatedDocument.getText();
+            codeMap[modulePath]![ttslNoExtFilename] = generatedDocument.getText();
         }
         return [codeMap, lastGeneratedSources];
     }
 
     public getMainModuleName(functDocument: LangiumDocument): string {
-        if (functDocument.uri.fsPath.endsWith('.sds')) {
-            return this.generator.sanitizeModuleNameForPython(path.basename(functDocument.uri.fsPath, '.sds'));
-        } else if (functDocument.uri.fsPath.endsWith('.sdsdev')) {
-            return this.generator.sanitizeModuleNameForPython(path.basename(functDocument.uri.fsPath, '.sdsdev'));
+        if (functDocument.uri.fsPath.endsWith('.ttsl')) {
+            return this.generator.sanitizeModuleNameForPython(path.basename(functDocument.uri.fsPath, '.ttsl'));
         } else {
             return this.generator.sanitizeModuleNameForPython(path.basename(functDocument.uri.fsPath));
         }

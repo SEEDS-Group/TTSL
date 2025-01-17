@@ -8,7 +8,7 @@ import { extractDocuments } from '../helpers/documents.js';
 import { makeParentDirectoriesSync } from '../helpers/files.js';
 import { exitIfDocumentHasErrors } from '../helpers/diagnostics.js';
 
-export const generate = async (fsPaths: string[], options: GenerateOptions): Promise<void> => {
+export const generate = async (fsPaths: string[], options: GenerateOptions, args: string[]): Promise<void> => {
     const services = (await createTTSLServices(NodeFileSystem)).TTSL;
     const documents = await extractDocuments(services, fsPaths);
 
@@ -24,7 +24,7 @@ export const generate = async (fsPaths: string[], options: GenerateOptions): Pro
             createSourceMaps: options.sourcemaps,
             targetPlaceholder: undefined,
             disableRunnerIntegration: false,
-        });
+        }, args);
 
         for (const file of generatedFiles) {
             const fsPath = URI.parse(file.uri).fsPath;

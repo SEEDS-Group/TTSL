@@ -25,6 +25,7 @@ import {
     isTslQualifiedImport,
     isTslReference,
     isTslStatement,
+    isTslTimespanStatement,
     isTslWildcardImport,
     TslArgument,
     type TslCallable,
@@ -188,14 +189,20 @@ export class TTSLScopeProvider extends DefaultScopeProvider {
         const result = [...parameters, ...placeholders];
         
         const containingLoop = AstUtils.getContainerOfType(node.$container, isTslAssignment);
+        const containingTimespan = AstUtils.getContainerOfType(node.$container, isTslTimespanStatement);
         const containingBlock = AstUtils.getContainerOfType(node.$container, isTslBlock);
         
         if(containingBlock) {
             const outerLocalDeclarations = this.localDeclarations(containingBlock, outerScope)
-            if(!containingLoop){
+            if(!containingLoop && !containingTimespan){
                 return this.createScopeForNodes(result, outerLocalDeclarations);
             }
-        } if(containingLoop){
+        } if(containingTimespan){
+            const timespanDeclarations = this.localDeclarations(containingTimespan, outerScope)
+            if(!containingLoop){
+                return this.createScopeForNodes(result, timespanDeclarations);
+            }
+        }  if(containingLoop){
             const loopDeclarations = this.localDeclarations(containingLoop, outerScope)
             return this.createScopeForNodes(result, loopDeclarations);
         } else{

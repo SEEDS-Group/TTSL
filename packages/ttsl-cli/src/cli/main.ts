@@ -43,7 +43,7 @@ program
     .argument('date', `date to be simulated on`)
     .argument('data', `csv-File needed for the simulation`)
     .argument('targets', `list of targets to be simulated`)
-    .argument('<paths...>', `list of TTSL-Files or Directories`)
+    .argument('path', `TTSL-Files or Directories`)
     .description('simulate tax and transfers')
     .action(simulate);
 

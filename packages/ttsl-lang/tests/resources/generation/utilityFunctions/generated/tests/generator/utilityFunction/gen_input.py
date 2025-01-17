@@ -1,7 +1,9 @@
 # Imports ----------------------------------------------------------------------
 
 from typing import Any, TypeVar
-
+from gettsim import (compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)
+import pandas as pd
+import numpy as np
 # Type variables ---------------------------------------------------------------
 
 __gen_T = TypeVar("__gen_T")
@@ -43,6 +45,17 @@ def testFunction():
 
 # Constants --------------------------------------------------------------------
 
-testList = __gen_ClassConstants({"empty": [1, 2, 3]})
+testList = __gen_ClassConstants({"empty": np.array([1, 2, 3])})
 
 testDict = __gen_ClassConstants({"empty": {"a": 1, "b": 2, "c": 3}})
+
+# Simulation --------------------------------------------------------------------
+
+date = "2000-01-01"
+
+functions = {'testFunction': testFunction}
+
+params = {'input':{'testList': testList.getValue(date), 'testDict': testDict.getValue(date)}}
+
+def simulate(data: pd.DataFrame, targets: list[str]) -> pd.DataFrame:
+    return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = [target1, target2], functions = functions, params = params)

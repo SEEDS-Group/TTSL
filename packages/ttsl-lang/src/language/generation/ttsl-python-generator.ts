@@ -80,6 +80,7 @@ import {
     isTslStringType,
     isTslExpression,
     isTslTypeAlias,
+    isTslFunctionBlock,
 } from '../generated/ast.js';
 import { isInFile, isFile } from '../helpers/fileExtensions.js';
 import {
@@ -357,7 +358,7 @@ export class TTSLPythonGenerator {
                 parentDirectoryPath,
                 `${this.formatGeneratedFileName(name)}_${this.getPythonNameOrDefault(funct)}`,
             )}.py`;
-            const entryPointContent = expandTracedToNode(funct)`from .${this.formatGeneratedFileName(
+            const entryPointContent = expandTracedToNode(funct)`from ${this.formatGeneratedFileName(
                 name,
             )} import ${this.getPythonNameOrDefault(
                 funct,
@@ -367,6 +368,15 @@ export class TTSLPythonGenerator {
             const generatedFunctionEntry = toStringAndTrace(entryPointContent);
             generatedFiles.set(entryPointFilename, generatedFunctionEntry.text);
         }
+        const entryPointFilename = `${path.join(
+            parentDirectoryPath,
+            `${this.formatGeneratedFileName(name)}_simulate`,
+        )}.py`;
+        const entryPointContent = expandToNode`from ${this.formatGeneratedFileName(
+            name,
+        )} import simulate\n\nif __name__ == '__main__':\n${PYTHON_INDENT}simulate()`.appendNewLine();
+        const generatedFunctionEntry = toStringAndTrace(entryPointContent);
+        generatedFiles.set(entryPointFilename, generatedFunctionEntry.text);
 
         return Array.from(generatedFiles.entries()).map(([fsPath, content]) =>
             TextDocument.create(URI.file(fsPath).toString(), 'py', 0, content),
@@ -437,6 +447,9 @@ export class TTSLPythonGenerator {
     }
 
     private getPythonNameOrDefault(object: TslDeclaration) {
+        if(isTslConstant(object)){
+            return object.name + ".getValue(date)"
+        }
         return this.builtinFunction.getPythonName(object) || object.name;
     }
 
@@ -483,14 +496,15 @@ export class TTSLPythonGenerator {
         const imports = this.generateImports(Array.from(importSet.values()));
         const output = new CompositeGeneratorNode();
         output.trace(module);
+        output.append('# Imports ----------------------------------------------------------------------');
+        output.appendNewLine();
+        output.appendNewLine();
+        output.append(`from gettsim import (compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)\nimport pandas as pd\n`)
+        output.append(`import numpy as np`)
+        output.appendNewLine();
         if (imports.length > 0) {
-            output.append('# Imports ----------------------------------------------------------------------');
-            output.appendNewLine();
-            output.appendNewLine();
             output.append(joinToNode(imports, (importDecl) => importDecl, { separator: NL }));
             output.appendNewLine();
-            output.append(`from gettsim import (compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)\nimport pandas as pd\n`)
-            output.append(`import numpy as np`)
         }
         if (typeVariableSet.size > 0) {
             output.appendNewLineIf(imports.length > 0);
@@ -546,10 +560,10 @@ export class TTSLPythonGenerator {
         .append(expandToNode`${joinToNode(getModuleMembers(module).filter(isTslConstant).map(constant => constant.name), (constName) => `'${constName}': ${constName}.getValue(date)`, { separator: ', ' })}}}`)
         .appendNewLine()
         .appendNewLine()
-        .append(`def simulate(data: pd.DataFrame, targets: list[str]) -> pd.DataFrame:`)
+        .append(`def simulate() -> pd.DataFrame:`)
         .appendNewLine()
         .indent({
-            indentedChildren:[`return compute_taxes_and_transfers(data = pd.read_csv("${params[1]}"), targets = ${params[2]}, functions = functions, params = params)`],
+            indentedChildren:[`return compute_taxes_and_transfers(data = pd.read_csv("${params[1]?.replaceAll("\\", "\\\\")}"), targets = ${params[2]}, functions = functions, params = params)`],
             indentation: PYTHON_INDENT,
         })
         return output;
@@ -646,7 +660,7 @@ export class TTSLPythonGenerator {
         infoFrame.addUtility(UTILITY_CONSTANTS);
 
         if(constant.value){
-            return expandTracedToNode(constant)`${this.getPythonNameOrDefault(constant)} = ${traceToNode(
+            return expandTracedToNode(constant)`${constant.name} = ${traceToNode(
                 constant
             )(UTILITY_CONSTANTS.name)}({"empty": ${this.generateExpression(constant.value, infoFrame)}})`
         } else if (constant.timespanValueEntries){
@@ -877,16 +891,35 @@ export class TTSLPythonGenerator {
             var start = ''
             var end = ''      
             if (statement.timespan.start){
-                start = statement.timespan.start.date + ' <='
+                start = `"` + statement.timespan.start.date + `" <=`
             }
             if (statement.timespan.end){
-                end = '< ' + statement.timespan.end.date
+                end = `< "` + statement.timespan.end.date + `"`
             }
             if (!statement.timespan.start && !statement.timespan.end){
                 throw new Error(`Timespan has neither a start nor an end value`);
             }
-            return expandTracedToNode(statement)`if ${start} date ${end}:
-                ${this.generateFunctionBlock(statement.block, frame, undefined)}`;
+
+            if(end === "" && isTslFunctionBlock(statement.$container)){
+                // calculate the missing end date
+                let index = statement.$container.statements.filter(isTslTimespanStatement).indexOf(statement)
+                let following = statement.$container.statements.filter(isTslTimespanStatement).at(index+1)
+                if(following){
+                    end = `< "` + following?.timespan.start?.date! + `"`
+                }
+            }
+            if(start === "" && isTslFunctionBlock(statement.$container)){
+                // calculate the missing start date
+                let index = statement.$container.statements.filter(isTslTimespanStatement).indexOf(statement)
+                let previous = statement.$container.statements.filter(isTslTimespanStatement).at(index-1)
+                if(previous){
+                    start = `"` + previous?.timespan.end?.date! + `" <=`
+                }
+            }
+            return expandTracedToNode(statement)`if ${start} date ${end}:`
+            .appendNewLine()
+            .indent(indentingNode =>
+                    indentingNode.append(this.generateFunctionBlock(statement.block, frame, undefined)))
         } else if (isTslConditionalStatement(statement)) {
             let elseBlock = new CompositeGeneratorNode
             if (isTslBlock(statement.elseBlock)){
@@ -942,17 +975,7 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
                 })} = ${this.generateExpression(assignment.expression!, frame)}`,
             );
         }
-        if (frame.isInsideFunction && !frame.disableRunnerIntegration) {
-            for (const savableAssignment of assignees.filter(isTslPlaceholder)) {
-                // should always be TslPlaceholder
-                frame.addImport({ importPath: RUNNER_PACKAGE });
-                assignmentStatements.push(
-                    expandTracedToNode(
-                        savableAssignment,
-                    )`${RUNNER_PACKAGE}.save_placeholder('${savableAssignment.name}', ${savableAssignment.name})`,
-                );
-            }
-        }
+
         return joinTracedToNode(assignment)(assignmentStatements, (stmt) => stmt, {
             separator: NL,
         })!;
@@ -1170,9 +1193,8 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
         if(isTslReference(expression.receiver) && expression.receiver.timeunit){
             timeunit = expression.receiver.timeunit
         }
-
         return expandTracedToNode(expression)`${this.generateExpression(expression.receiver, frame)}(`
-        .appendIf(timeunit !== undefined, `timeunit = "${timeunit!.timeunit}"`)
+        .appendIf(timeunit !== undefined, `timeunit = "${timeunit?.timeunit}"`)
         .append(expandToNode`${joinTracedToNode(
             expression.argumentList,
             'arguments',

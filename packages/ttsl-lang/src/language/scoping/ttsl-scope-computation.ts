@@ -16,9 +16,11 @@ import {
     isTslLoop,
     isTslModule,
     isTslPlaceholder,
+    isTslTimespanStatement,
     TslConditionalStatement,
     TslFunction,
     TslLoop,
+    TslTimespanStatement,
 } from '../generated/ast.js';
 
 export class TTSLScopeComputation extends DefaultScopeComputation {
@@ -44,6 +46,8 @@ export class TTSLScopeComputation extends DefaultScopeComputation {
             this.processTslLoop(node, document, scopes)
         } else if (isTslConditionalStatement(node)){
             this.processTslConditionalStatement(node, document, scopes)
+        } else if (isTslTimespanStatement(node)){
+            this.processTslTimespanStatement(node, document, scopes)
         } else {
             super.processNode(node, document, scopes);
         }
@@ -104,6 +108,16 @@ export class TTSLScopeComputation extends DefaultScopeComputation {
         if (isTslModule(containingDeclaration)) {
             this.addToScopesIfKeyIsDefined(scopes, containingDeclaration, description);
         }
+    }
+
+    private processTslTimespanStatement(node: TslTimespanStatement, document: LangiumDocument, scopes: PrecomputedScopes): void {
+        const name = this.nameProvider.getName(node);
+        if (!name) {
+            return;
+        }
+
+        const description = this.descriptions.createDescription(node.block, name, document);
+            this.addToScopesIfKeyIsDefined(scopes, node.block, description);
     }
 
     /**

@@ -1,9 +1,10 @@
 # Imports ----------------------------------------------------------------------
 
-from typing import Any, TypeVar
 from gettsim import (compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)
 import pandas as pd
 import numpy as np
+from typing import Any, TypeVar
+
 # Type variables ---------------------------------------------------------------
 
 __gen_T = TypeVar("__gen_T")
@@ -28,23 +29,30 @@ class __gen_ClassConstants():
 
 # Functions --------------------------------------------------------------------
 
-def myFunction()->int:
-    x = 0
-    for elm in list:
-        x = (x) + (elm)
-    return x
+def f(a: int, b: str):
+    z = 0
+    if "1999-01-01" <= date < "2000-01-01":
+        z = (a) + (x.getValue(date))
+
+    if "2000-01-01" <= date < "2003-02-01":
+
+        return x.getValue(date)
+    if "2003-02-01" <= date < "2023-01-01":
+
+        return 2
+    return z
 
 # Constants --------------------------------------------------------------------
 
-list = __gen_ClassConstants({"empty": np.array([1, 2, 3])})
+x = __gen_ClassConstants({"empty": 2})
 
 # Simulation --------------------------------------------------------------------
 
-date = "2000-01-01"
+date = "2000-05-01"
 
-functions = {'myFunction': myFunction}
+functions = {'f': f}
 
-params = {'input':{'list': list.getValue(date)}}
+params = {'main':{'x': x.getValue(date)}}
 
-def simulate(data: pd.DataFrame, targets: list[str]) -> pd.DataFrame:
-    return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = [target1, target2], functions = functions, params = params)
+def simulate() -> pd.DataFrame:
+    return compute_taxes_and_transfers(data = pd.read_csv("C:\\Users\\tatam\\Documents\\Uni\\Bachelor\\TTSL\\packages\\ttsl-cli\\tests\\resources\\commands\\data.csv"), targets = ['f'], functions = functions, params = params)
