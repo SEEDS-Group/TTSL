@@ -1,6 +1,6 @@
 package einkommenssteuer
 
-from einkommenssteuer import einkommenssteuerTarif
+from einkommenssteuerParam import einkommenssteuerTarif
 
 /**
  * Berechnung der Einkommenssteuer ohne Kinderfreibetrag auf Steuernummer-Ebene.
