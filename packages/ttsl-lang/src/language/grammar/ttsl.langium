@@ -608,7 +608,7 @@ interface TslDictionary extends TslLiteral {
 }
 
 TslDictionary returns TslDictionary:
-    {TslDictionary} '{' (entries+=TslDictionaryEntry (',' entries+=TslDictionaryEntry)*)? '}'
+    {TslDictionary} '{' (entries+=TslDictionaryEntry (',' entries+=TslDictionaryEntry)*)? ','? '}'
 ;
 
 interface TslDictionaryEntry extends TslObject {
