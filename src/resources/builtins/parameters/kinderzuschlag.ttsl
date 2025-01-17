@@ -116,17 +116,17 @@ constant existenzminimum: Dict<String, Dict<String, Int>>{
         "regelsatz": {
             "single": 4164,
             "paare": 7488,
-            "kinder": 2688,
+            "kinder": 2688
         },
         "kosten_der_unterkunft": {
             "single": 2592,
             "paare": 3984,
-            "kinder": 804,
+            "kinder": 804
         },
         "heizkosten": {
             "single": 600,
             "paare": 768,
-            "kinder": 156,
+            "kinder": 156
         }
     };
 
@@ -135,17 +135,17 @@ constant existenzminimum: Dict<String, Dict<String, Int>>{
         "regelsatz": {
             "single": 4140,
             "paare": 7464,
-            "kinder": 2676,
+            "kinder": 2676
         },
         "kosten_der_unterkunft": {
             "single": 2364,
             "paare": 4020,
-            "kinder": 804,
+            "kinder": 804
         },
         "heizkosten": {
             "single": 636,
             "paare": 792,
-            "kinder": 168,
+            "kinder": 168
         }
     };
 
@@ -154,18 +154,18 @@ constant existenzminimum: Dict<String, Dict<String, Int>>{
         "regelsatz": {
             "single": 4368,
             "paare": 7860,
-            "kinder": 2820,
+            "kinder": 2820
         },
         "kosten_der_unterkunft": {
             "single": 2520,
             "paare": 4164,
-            "kinder": 840,
+            "kinder": 840
         },
         "heizkosten": {
             "single": 768,
             "paare": 972,
-            "kinder": 204,
-        },
+            "kinder": 204
+        }
     };
 
     # Reference: 8. Existenzminimumsbericht, Bundestag Drucksache 17/5550, Übersicht 4
@@ -173,21 +173,21 @@ constant existenzminimum: Dict<String, Dict<String, Int>>{
         "regelsatz": {
             "single": 4488,
             "paare": 8064,
-            "kinder": 2988,
+            "kinder": 2988
         },
         "bildung_und_teilhabe": {
-            "kinder": 228,
+            "kinder": 228
         },
         "kosten_der_unterkunft": {
             "single": 2724,
             "paare": 4344,
-            "kinder": 876,
+            "kinder": 876
         },
         "heizkosten": {
             "single": 684,
             "paare": 864,
-            "kinder": 180,
-        },
+            "kinder": 180
+        }
     };
 
     # Reference: 9. Existenzminimumsbericht, Bundestag Drucksache 17/5550, Übersicht 5. Werte nur
@@ -196,20 +196,20 @@ constant existenzminimum: Dict<String, Dict<String, Int>>{
         "regelsatz": {
             "single": 4584,
             "paare": 8064,
-            "kinder": 2988,
+            "kinder": 2988
         },
         "bildung_und_teilhabe": {
-            "kinder": 228,
+            "kinder": 228
         },
         "kosten_der_unterkunft": {
             "single": 2796,
             "paare": 4344,
-            "kinder": 876,
+            "kinder": 876
         },
         "heizkosten": {
             "single": 744,
             "paare": 864,
-            "kinder": 180,
+            "kinder": 180
         }
     };
 
@@ -218,20 +218,20 @@ constant existenzminimum: Dict<String, Dict<String, Int>>{
         "regelsatz": {
             "single": 4680,
             "paare": 8448,
-            "kinder": 3096,
+            "kinder": 3096
         },
         "bildung_und_teilhabe": {
-            "kinder": 228,
+            "kinder": 228
         },
         "kosten_der_unterkunft": {
             "single": 2868,
             "paare": 4560,
-            "kinder": 912,
+            "kinder": 912
         },
         "heizkosten": {
             "single": 804,
             "paare": 1008,
-            "kinder": 204,
+            "kinder": 204
         }
     };
 
@@ -241,20 +241,20 @@ constant existenzminimum: Dict<String, Dict<String, Int>>{
         "regelsatz": {
             "single": 4788,
             "paare": 8448,
-            "kinder": 3168,
+            "kinder": 3168
         },
         "bildung_und_teilhabe": {
-            "kinder": 228,
+            "kinder": 228
         },
         "kosten_der_unterkunft": {
             "single": 2988,
             "paare": 4560,
-            "kinder": 936,
+            "kinder": 936
         },
         "heizkosten": {
             "single": 696,
             "paare": 1008,
-            "kinder": 180,
+            "kinder": 180
         }
     };
 
@@ -263,20 +263,20 @@ constant existenzminimum: Dict<String, Dict<String, Int>>{
         "regelsatz": {
             "single": 4872,
             "paare": 8784,
-            "kinder": 3228,
+            "kinder": 3228
         },
         "bildung_und_teilhabe": {
-            "kinder": 228,
+            "kinder": 228
         },
         "kosten_der_unterkunft": {
             "single": 3060,
             "paare": 4788,
-            "kinder": 960,
+            "kinder": 960
         },
         "heizkosten": {
             "single": 720,
             "paare": 900,
-            "kinder": 192,
+            "kinder": 192
         }
     };
 
@@ -285,20 +285,20 @@ constant existenzminimum: Dict<String, Dict<String, Int>>{
         "regelsatz": {
             "single": 4908,
             "paare": 8784,
-            "kinder": 3336,
+            "kinder": 3336
         },
         "bildung_und_teilhabe": {
-            "kinder": 228,
+            "kinder": 228
         },
         "kosten_der_unterkunft": {
             "single": 3312,
             "paare": 4788,
-            "kinder": 996,
+            "kinder": 996
         },
         "heizkosten": {
             "single": 600,
             "paare": 900,
-            "kinder": 156,
+            "kinder": 156
         }
     };
 
@@ -307,20 +307,20 @@ constant existenzminimum: Dict<String, Dict<String, Int>>{
         "regelsatz": {
             "single": 4968,
             "paare": 8952,
-            "kinder": 3372,
+            "kinder": 3372
         },
         "bildung_und_teilhabe": {
-            "kinder": 228,
+            "kinder": 228
         },
         "kosten_der_unterkunft": {
             "single": 3396,
             "paare": 5088,
-            "kinder": 1020,
+            "kinder": 1020
         },
         "heizkosten": {
             "single": 636,
             "paare": 816,
-            "kinder": 168,
+            "kinder": 168
         }
     };
 
@@ -329,20 +329,20 @@ constant existenzminimum: Dict<String, Dict<String, Int>>{
         "regelsatz": {
             "single": 5088,
             "paare": 8952,
-            "kinder": 3456,
+            "kinder": 3456
         },
         "bildung_und_teilhabe": {
-            "kinder": 228,
+            "kinder": 228
         },
         "kosten_der_unterkunft": {
             "single": 3468,
             "paare": 5088,
-            "kinder": 1044,
+            "kinder": 1044
         },
         "heizkosten": {
             "single": 612,
             "paare": 816,
-            "kinder": 168,
+            "kinder": 168
         }
     };
 
@@ -351,20 +351,20 @@ constant existenzminimum: Dict<String, Dict<String, Int>>{
         "regelsatz": {
             "single": 5196,
             "paare": 9360,
-            "kinder": 3528,
+            "kinder": 3528
         },
         "bildung_und_teilhabe": {
-            "kinder": 228,
+            "kinder": 228
         },
         "kosten_der_unterkunft": {
             "single": 3552,
             "paare": 5328,
-            "kinder": 1068,
+            "kinder": 1068
         },
         "heizkosten": {
             "single": 660,
             "paare": 852,
-            "kinder": 180,
+            "kinder": 180
         }
     };
 
@@ -373,20 +373,20 @@ constant existenzminimum: Dict<String, Dict<String, Int>>{
         "regelsatz": {
             "single": 5352,
             "paare": 9360,
-            "kinder": 3780,
+            "kinder": 3780
         },
         "bildung_und_teilhabe": {
-            "kinder": 324,
+            "kinder": 324
         },
         "kosten_der_unterkunft": {
             "single": 3612,
             "paare": 5328,
-            "kinder": 1092,
+            "kinder": 1092
         },
         "heizkosten": {
             "single": 780,
             "paare": 852,
-            "kinder": 216,
+            "kinder": 216
         }
     };
 
@@ -395,20 +395,20 @@ constant existenzminimum: Dict<String, Dict<String, Int>>{
         "regelsatz": {
             "single": 5400,
             "paare": 9720,
-            "kinder": 3816,
+            "kinder": 3816
         },
         "bildung_und_teilhabe": {
-            "kinder": 324,
+            "kinder": 324
         },
         "kosten_der_unterkunft": {
             "single": 3684,
             "paare": 5520,
-            "kinder": 1104,
+            "kinder": 1104
         },
         "heizkosten": {
             "single": 804,
             "paare": 1080,
-            "kinder": 216,
+            "kinder": 216
         }
     };
 
@@ -416,19 +416,19 @@ constant existenzminimum: Dict<String, Dict<String, Int>>{
     from 2023-01-01 = {
         "regelsatz": {
             "single": 6024,
-            "kinder": 4248,
+            "kinder": 4248
         },
         "bildung_und_teilhabe": {
-            "kinder": 336,
+            "kinder": 336
         },
         "kosten_der_unterkunft": {
             "single": 3828,
-            "kinder": 1152,
+            "kinder": 1152
         },
         "heizkosten": {
             "single": 1056,
-            "kinder": 288,
-        },
+            "kinder": 288
+        }
     };
 
     # Reference: 14. Existenzminimumsbericht, Bundestag Drucksache 20/4443, Übersicht 4.
@@ -436,20 +436,20 @@ constant existenzminimum: Dict<String, Dict<String, Int>>{
         "regelsatz": {
             "single": 6444,
             "paare": 11592,
-            "kinder": 4548,
+            "kinder": 4548
         },
         "bildung_und_teilhabe": {
-            "kinder": 336,
+            "kinder": 336
         },
         "kosten_der_unterkunft": {
             "single": 3924,
             "paare": 5892,
-            "kinder": 1188,
+            "kinder": 1188
         },
         "heizkosten": {
             "single": 1104,
             "paare": 1500,
-            "kinder": 312,
+            "kinder": 312
         }
     };
 }

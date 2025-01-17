@@ -21,12 +21,12 @@ public constant einkommenssteuerTarif: Dict<Int, Dict<String, Float>> {
 		1: {
 			"upper_threshold": 9251,
 			"rate_linear": 0.199,
-			"rate_quadratic": 0,
+			"rate_quadratic": 0
 		},
 		2: {
 			"upper_threshold": 55007,
 			"rate_linear": 0.23,
-			"rate_quadratic": 0,
+			"rate_quadratic": 0
 		},
 		3: {
 			"upper_threshold": 1e10,

@@ -716,7 +716,7 @@ public constant minMiete: Dict<Int, Int> {
     9: 115,
     10: 125,
     11: 155,
-    12: 245,
+    12: 245
   };
 
   # Reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
@@ -1054,7 +1054,7 @@ public constant maxMiete {
         1: 366,
         2: 378,
         3: 394
-      },
+      }
     },
     "jede_weitere_person": {
       1965: {

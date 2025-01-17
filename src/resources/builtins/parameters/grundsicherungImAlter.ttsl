@@ -12,17 +12,17 @@ package grundsicherungImAlter
 public constant vermögensfreibetrag: Dict<String, Int> {
     from 1984-01-01 = {
         "adult": 0,
-        "child": 0,
+        "child": 0
     };
 
     from 2003-01-01 = {
         "adult": 2600,
-        "child": 0,
+        "child": 0
     };
 
     from 2017-04-01 = {
         "adult": 5000,
-        "child": 500,
+        "child": 500
     };
 }
 
@@ -37,8 +37,8 @@ public constant gesetzlicheRenteAnrechnungsfrei: Dict<Int, Dict<String, Float>> 
             "lower_threshold": -1e10,
             "upper_threshold": 1e10,
             "rate": 0,
-            "intercept_at_lower_threshold": 0,
-        },
+            "intercept_at_lower_threshold": 0
+        }
     };
 
     from 2021-01-01 = {
@@ -46,17 +46,17 @@ public constant gesetzlicheRenteAnrechnungsfrei: Dict<Int, Dict<String, Float>> 
             "lower_threshold": -1e10,
             "upper_threshold": 0,
             "rate": 0,
-            "intercept_at_lower_threshold": 0,
+            "intercept_at_lower_threshold": 0
         },
         1: {
             "lower_threshold": 0,
             "upper_threshold": 100,
-            "rate": 1,
+            "rate": 1
         },
         2: {
             "upper_threshold": 1e10,
-            "rate": 0.3,
-        },
+            "rate": 0.3
+        }
     };
 }
 
@@ -98,8 +98,8 @@ public constant privateRenteAnrechnungsfrei: Dict<Int, Dict<String, Float>> {
             "lower_threshold": -1e10,
             "upper_threshold": 1e10,
             "rate": 0,
-            "intercept_at_lower_threshold": 0,
-        },
+            "intercept_at_lower_threshold": 0
+        }
     };
 
     from 2005-01-01 = {
@@ -107,17 +107,17 @@ public constant privateRenteAnrechnungsfrei: Dict<Int, Dict<String, Float>> {
             "lower_threshold": -1e10,
             "upper_threshold": 0,
             "rate": 0,
-            "intercept_at_lower_threshold": 0,
+            "intercept_at_lower_threshold": 0
         },
         1: {
             "lower_threshold": 0,
             "upper_threshold": 100,
-            "rate": 1,
+            "rate": 1
         },
         2: {
             "upper_threshold": 1e10,
-            "rate": 0.3,
-        },
+            "rate": 0.3
+        }
     };
 }
 

@@ -469,7 +469,7 @@ public constant grundrenteHöchstwert: Dict<String, Float> {
     # Reference: § 76g Abs. 4 S. 3, 4 SGB VI
     from 2021-01-01 = {
         "base": 0.0334,
-        "increment": 0.001389,
+        "increment": 0.001389
     };
 }
 
@@ -492,7 +492,7 @@ public constant grundrenteZeiten: Dict<String, Int> {
     # Reference: § 76g Abs. 4 S. 5,6 / Abs. 1 S. 1 SGB VI
     from 2021-01-01 = {
         "min": 396,
-        "max": 420,
+        "max": 420
     };
 }
 
@@ -509,16 +509,16 @@ public constant grundrenteEinkommensanrechnungSingle: Dict<Int, Dict<String, Flo
             "lower_threshold": -1e10,
             "upper_threshold": 36.56,
             "rate_linear": 0,
-            "intercept_at_lower_threshold": 0,
+            "intercept_at_lower_threshold": 0
         },
         1: {
             "upper_threshold": 46.78,
-            "rate_linear": 0.6,
+            "rate_linear": 0.6
         },
         2: {
             "upper_threshold": 1e10,
-            "rate_linear": 1,
-        },
+            "rate_linear": 1
+        }
     };
 }
 
@@ -535,16 +535,16 @@ public constant grundrenteEinkommensanrechnungMarried: Dict<Int, Dict<String, Fl
             "lower_threshold": -1e10,
             "upper_threshold": 57.03,
             "rate_linear": 0,
-            "intercept_at_lower_threshold": 0,
+            "intercept_at_lower_threshold": 0
         },
         1: {
             "upper_threshold": 67.27,
-            "rate_linear": 0.6,
+            "rate_linear": 0.6
         },
         2: {
             "upper_threshold": 1e10,
-            "rate_linear": 1,
-        },
+            "rate_linear": 1
+        }
     };
 }
 
@@ -568,7 +568,7 @@ public constant zugangsfaktorVeränderungProJahr: Dict<String, Float> {
     # Reference: §77 Abs. 2 Nr. 2 SGB VI
     from 2001-01-01 = {
         "vorzeitiger_renteneintritt": 0.036,
-        "späterer_renteneintritt": 0.06,
+        "späterer_renteneintritt": 0.06
     };
 }
 
@@ -586,20 +586,20 @@ public constant regelaltersgrenze: Dict<Int, Dict<String, Float>> {
             "lower_threshold": -1e10,
             "upper_threshold": 1946,
             "rate_linear": 0,
-            "intercept_at_lower_threshold": 65,
+            "intercept_at_lower_threshold": 65
         },
         1: {
             "upper_threshold": 1958,
-            "rate_linear": 0.083333333,
+            "rate_linear": 0.083333333
         },
         2: {
             "upper_threshold": 1964,
-            "rate_linear": 0.16666666,
+            "rate_linear": 0.16666666
         },
         3: {
             "upper_threshold": 1e10,
-            "rate_linear": 0,
-        },
+            "rate_linear": 0
+        }
     };
 }
 
@@ -615,33 +615,33 @@ public constant altersgrenzeFrauen: Dict<Int, Dict<String, Float>> {
             "lower_threshold": -1e10,
             "upper_threshold": 1939.916667,
             "rate_linear": 0,
-            "intercept_at_lower_threshold": 60,
+            "intercept_at_lower_threshold": 60
         },
         1: {
             "upper_threshold": 1944.916666666,
-            "rate_linear": 1,
+            "rate_linear": 1
         },
         2: {
             "upper_threshold": 1951.916666666,  #  65
-            "rate_linear": 0,
+            "rate_linear": 0
         },
         3: {
             "upper_threshold": 1952,
             # since 1952 abolished - regelaltersgrenze applies - jump in theshold by 6 month
-            "rate_linear": 6,
+            "rate_linear": 6
         },
         4: {
             "upper_threshold": 1958,
-            "rate_linear": 0.083333333,
+            "rate_linear": 0.083333333
         },
         5: {
             "upper_threshold": 1964,
-            "rate_linear": 0.16666666,
+            "rate_linear": 0.16666666
         },
         6: {
             "upper_threshold": 1e10,
-            "rate_linear": 0,
-        },
+            "rate_linear": 0
+        }
     };
 }
 
@@ -657,16 +657,16 @@ public constant altersgrenzeFrauenVorzeitig: Dict<Int, Dict<String, Float>> {
             "lower_threshold": -1e10,
             "upper_threshold": 1952,
             "rate_linear": 0,
-            "intercept_at_lower_threshold": 60,
+            "intercept_at_lower_threshold": 60
         },
         1: {
             "upper_threshold": 1953,
-            "rate_linear": 7,
+            "rate_linear": 7
         },
         2: {
             "upper_threshold": 1e10,  #  67
-            "rate_linear": 0,
-        },
+            "rate_linear": 0
+        }
     };
 }
 
@@ -713,7 +713,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 60.25,
             10: 60.25,
             11: 60.25,
-            12: 60.25,
+            12: 60.25
         },
         1942: {
             1: 60.333333,
@@ -727,7 +727,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 60.5,
             10: 60.5,
             11: 60.5,
-            12: 60.5,
+            12: 60.5
         },
         1943: {
             1: 60.583333,
@@ -741,7 +741,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 60.75,
             10: 60.75,
             11: 60.75,
-            12: 60.75,
+            12: 60.75
         },
         1944: {
             1: 60.833333,
@@ -755,7 +755,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 61.0,
             10: 61,
             11: 61,
-            12: 61,
+            12: 61
         },
         1945: {
             1: 61.083333,
@@ -769,7 +769,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 61.416667,
             10: 61.416667,
             11: 61.5,
-            12: 61.5,
+            12: 61.5
         },
         1946: {
             1: 61.583333,
@@ -783,7 +783,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 61.916667,
             10: 61.916667,
             11: 62.0,
-            12: 62.0,
+            12: 62.0
         },
         1947: {
             1: 62.083333,
@@ -797,7 +797,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 62.416667,
             10: 62.416667,
             11: 62.5,
-            12: 62.5,
+            12: 62.5
         },
         1948: {
             1: 62.583333,
@@ -811,7 +811,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 62.916667,
             10: 62.916667,
             11: 63.0,
-            12: 63.0,
+            12: 63.0
         },
         1949: {
             1: 63.083333,
@@ -825,7 +825,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 63.416667,
             10: 63.416667,
             11: 63.5,
-            12: 63.5,
+            12: 63.5
         },
         1950: {
             1: 63.583333,
@@ -839,7 +839,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 63.916667,
             10: 63.916667,
             11: 64.0,
-            12: 64.0,
+            12: 64.0
         },
         1951: {
             1: 64.083333,
@@ -853,7 +853,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 64.416667,
             10: 64.416667,
             11: 64.5,
-            12: 64.5,
+            12: 64.5
         },
         1952: {
             1: 64.583333,
@@ -867,8 +867,8 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 64.916667,
             10: 64.916667,
             11: 65.0,
-            12: 65.0,
-        },
+            12: 65.0
+        }
     };
 
     from 1996-07-29: Dict<Int, Dict<Int, Float>> = {
@@ -885,7 +885,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 60.75,
             10: 60.833333,
             11: 60.916667,
-            12: 61.0,
+            12: 61.0
         },
         1938: {
             1: 61.083333,
@@ -899,7 +899,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 61.75,
             10: 61.833333,
             11: 61.916667,
-            12: 62.0,
+            12: 62.0
         },
         1939: {
             1: 62.083333,
@@ -913,7 +913,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 62.75,
             10: 62.833333,
             11: 62.916667,
-            12: 63.0,
+            12: 63.0
         },
         1940: {
             1: 63.0,
@@ -927,7 +927,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 63.0,
             10: 63.0,
             11: 63.0,
-            12: 63.0,
+            12: 63.0
         },
         1941: {
             1: 63.0,
@@ -941,7 +941,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 63.0,
             10: 63.0,
             11: 63.0,
-            12: 63.0,
+            12: 63.0
         },
         1942: {
             1: 63.0,
@@ -955,7 +955,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 63.0,
             10: 63.0,
             11: 63.0,
-            12: 63.0,
+            12: 63.0
         },
         1943: {
             1: 63.0,
@@ -969,7 +969,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 63.0,
             10: 63.0,
             11: 63.0,
-            12: 63.0,
+            12: 63.0
         },
         1944: {
             1: 63.0,
@@ -983,7 +983,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 63.0,
             10: 63.0,
             11: 63.0,
-            12: 63.0,
+            12: 63.0
         },
         1945: {
             1: 63.0,
@@ -997,7 +997,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 63.0,
             10: 63.0,
             11: 63.0,
-            12: 63.0,
+            12: 63.0
         },
         1946: {
             1: 63.0,
@@ -1011,7 +1011,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 63.0,
             10: 63.0,
             11: 63.0,
-            12: 63.0,
+            12: 63.0
         },
         1947: {
             1: 63.0,
@@ -1025,7 +1025,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 63.0,
             10: 63.0,
             11: 63.0,
-            12: 63.0,
+            12: 63.0
         },
         1948: {
             1: 63.0,
@@ -1039,7 +1039,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 63.0,
             10: 63.0,
             11: 63.0,
-            12: 63.0,
+            12: 63.0
         },
         1949: {
             1: 63.083333,
@@ -1053,7 +1053,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 63.416667,
             10: 63.416667,
             11: 63.5,
-            12: 63.5,
+            12: 63.5
         },
         1950: {
             1: 63.583333,
@@ -1067,7 +1067,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 63.916667,
             10: 63.916667,
             11: 64.0,
-            12: 64.0,
+            12: 64.0
         },
         1951: {
             1: 64.083333,
@@ -1081,7 +1081,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 64.416667,
             10: 64.416667,
             11: 64.5,
-            12: 64.5,
+            12: 64.5
         },
         1952: {
             1: 64.583333,
@@ -1095,7 +1095,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 64.916667,
             10: 64.916667,
             11: 65.0,
-            12: 65.0,
+            12: 65.0
         }
     };
 
@@ -1114,7 +1114,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 60.75,
             10: 60.833333,
             11: 60.916667,
-            12: 61.0,
+            12: 61.0
         },
         1938: {
             1: 61.083333,
@@ -1128,7 +1128,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 61.75,
             10: 61.833333,
             11: 61.916667,
-            12: 62.0,
+            12: 62.0
         },
         1939: {
             1: 62.083333,
@@ -1142,7 +1142,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 62.75,
             10: 62.833333,
             11: 62.916667,
-            12: 63.0,
+            12: 63.0
         },
         1940: {
             1: 63.083333,
@@ -1156,7 +1156,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 63.75,
             10: 63.833333,
             11: 63.916667,
-            12: 64.0,
+            12: 64.0
         },
         1941: {
             1: 64.083333,
@@ -1170,8 +1170,8 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfrei {
             9: 64.75,
             10: 64.833333,
             11: 64.916667,
-            12: 65.0,
-        },
+            12: 65.0
+        }
     };
 }
 
@@ -1196,7 +1196,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfreiVertrauensschutz: Dict<
             9: 60.25,
             10: 60.25,
             11: 60.25,
-            12: 60.25,
+            12: 60.25
         },
         1942: {
             1: 60.333333,
@@ -1210,7 +1210,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfreiVertrauensschutz: Dict<
             9: 60.5,
             10: 60.5,
             11: 60.5,
-            12: 60.5,
+            12: 60.5
         },
         1943: {
             1: 60.583333,
@@ -1224,12 +1224,12 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfreiVertrauensschutz: Dict<
             9: 60.75,
             10: 60.75,
             11: 60.75,
-            12: 60.75,
+            12: 60.75
         },
         1944: {
             1: 60.833333,
-            2: 60.833333,
-        },
+            2: 60.833333
+        }
     };
 
     /*
@@ -1252,7 +1252,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfreiVertrauensschutz: Dict<
             9: 60.25,
             10: 60.25,
             11: 60.25,
-            12: 60.25,
+            12: 60.25
         },
         1942: {
             1: 60.333333,
@@ -1266,7 +1266,7 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfreiVertrauensschutz: Dict<
             9: 60.5,
             10: 60.5,
             11: 60.5,
-            12: 60.5,
+            12: 60.5
         },
         1943: {
             1: 60.583333,
@@ -1280,12 +1280,12 @@ public constant altersgrenzeArbeitslosigkeitAbschlagsfreiVertrauensschutz: Dict<
             9: 60.75,
             10: 60.75,
             11: 60.75,
-            12: 60.75,
+            12: 60.75
         },
         1944: {
             1: 60.833333,
-            2: 60.833333,
-        },
+            2: 60.833333
+        }
     };
 }
 
@@ -1366,7 +1366,7 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig {
             9: 60.416667,
             10: 60.416667,
             11: 60.5,
-            12: 60.5,
+            12: 60.5
         },
         1950: {
             1: 60.583333,
@@ -1380,7 +1380,7 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig {
             9: 60.916667,
             10: 60.916667,
             11: 61.0,
-            12: 61.0,
+            12: 61.0
         },
         1951: {
             1: 61.083333,
@@ -1394,7 +1394,7 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig {
             9: 61.416667,
             10: 61.416667,
             11: 61.5,
-            12: 61.5,
+            12: 61.5
         },
         1952: {
             1: 61.583333,
@@ -1408,8 +1408,8 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig {
             9: 61.916667,
             10: 61.916667,
             11: 62.0,
-            12: 62.0,
-        },
+            12: 62.0
+        }
     };
 
     # Increase of early retirement age from 60 to 65 for birth cohort 1937-1941.
@@ -1427,7 +1427,7 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig {
             9: 60.416667,
             10: 60.416667,
             11: 60.5,
-            12: 60.5,
+            12: 60.5
         },
         1950: {
             1: 60.583333,
@@ -1441,7 +1441,7 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig {
             9: 60.916667,
             10: 60.916667,
             11: 61.0,
-            12: 61.0,
+            12: 61.0
         },
         1951: {
             1: 61.083333,
@@ -1455,7 +1455,7 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig {
             9: 61.416667,
             10: 61.416667,
             11: 61.5,
-            12: 61.5,
+            12: 61.5
         },
         1952: {
             1: 61.583333,
@@ -1469,7 +1469,7 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig {
             9: 61.916667,
             10: 61.916667,
             11: 62.0,
-            12: 62.0,
+            12: 62.0
         }
     };
 
@@ -1490,7 +1490,7 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig {
             9: 60.75,
             10: 60.833333,
             11: 60.916667,
-            12: 61.0,
+            12: 61.0
         },
         1947: {
             1: 61.083333,
@@ -1504,7 +1504,7 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig {
             9: 61.75,
             10: 61.833333,
             11: 61.916667,
-            12: 62.0,
+            12: 62.0
         },
         1948: {
             1: 62.083333,
@@ -1518,8 +1518,8 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig {
             9: 62.75,
             10: 62.833333,
             11: 62.916667,
-            12: 63.0,
-        },
+            12: 63.0
+        }
     };
 
     # Same statutory retirement ages as before, but abolishment with birth cohort 1952.
@@ -1537,7 +1537,7 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig {
             9: 60.75,
             10: 60.833333,
             11: 60.916667,
-            12: 61.0,
+            12: 61.0
         },
         1947: {
             1: 61.083333,
@@ -1551,7 +1551,7 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig {
             9: 61.75,
             10: 61.833333,
             11: 61.916667,
-            12: 62.0,
+            12: 62.0
         },
         1948: {
             1: 62.083333,
@@ -1565,7 +1565,7 @@ public constant altersgrenzeArbeitslosigkeitVorzeitig {
             9: 62.75,
             10: 62.833333,
             11: 62.916667,
-            12: 63.0,
+            12: 63.0
         }
     };
 }
@@ -1594,36 +1594,36 @@ public constant altersgrenzeLangjährigVersicherteAbschlagsfrei: Dict<Int, Dict<
             "lower_threshold": -1e10,
             "upper_threshold": 1936.916666666,
             "rate_linear": 0,
-            "intercept_at_lower_threshold": 63,
+            "intercept_at_lower_threshold": 63
         },
         1: {
             "upper_threshold": 1938.916666666,
-            "rate_linear": 1,
+            "rate_linear": 1
         },
         2: {
             "upper_threshold": 1948.916666666,
-            "rate_linear": 0,
+            "rate_linear": 0
         },
         3: {
             "upper_threshold": 1949.25,
-            "rate_linear": 1,
+            "rate_linear": 1
         },
         4: {
             "upper_threshold": 1950,  # 1950.91667
-            "rate_linear": 0,
+            "rate_linear": 0
         },
         5: {
             "upper_threshold": 1958,
-            "rate_linear": 0.083333333,
+            "rate_linear": 0.083333333
         },
         6: {
             "upper_threshold": 1964,
-            "rate_linear": 0.16666666,
+            "rate_linear": 0.16666666
         },
         7: {
             "upper_threshold": 1e10,
-            "rate_linear": 0,
-        },
+            "rate_linear": 0
+        }
     };
 }
 
@@ -1660,8 +1660,8 @@ public constant altersgrenzeBesondersLangjährigVersicherte: Dict<Int, Dict<Int,
             "lower_threshold": -1e10,
             "upper_threshold": 1e10,
             "rate_linear": 0,
-            "intercept_at_lower_threshold": 65,
-        },
+            "intercept_at_lower_threshold": 65
+        }
     };
 
     from 2014-07-01 = {
@@ -1669,23 +1669,23 @@ public constant altersgrenzeBesondersLangjährigVersicherte: Dict<Int, Dict<Int,
             "lower_threshold": -1e10,
             "upper_threshold": 1949.5,
             "rate_linear": 0,
-            "intercept_at_lower_threshold": 65,
+            "intercept_at_lower_threshold": 65
         },
         1: {
             "upper_threshold": 1951.5,
-            "rate_linear": -1,
+            "rate_linear": -1
         },
         2: {
             "upper_threshold": 1952,
-            "rate_linear": 0,
+            "rate_linear": 0
         },
         3: {
             "upper_threshold": 1964,
-            "rate_linear": 0.16666666,
+            "rate_linear": 0.16666666
         },
         4: {
             "upper_threshold": 1e10,
-            "rate_linear": 0,
+            "rate_linear": 0
         }
     };
 }

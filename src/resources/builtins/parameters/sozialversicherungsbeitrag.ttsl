@@ -54,34 +54,34 @@ public constant gesetzlicheKrankenversicherung {
     # Reference: Art. 1 G. v. 15.12.2004, BGBl I S. 3445.
     from 2005-07-01: Dict<String, Float> = {
         "mean_allgemein": 0.133,
-        "sonderbeitrag": 0.009,
+        "sonderbeitrag": 0.009
     };
 
     from 2007-01-01: Float = 0.139;
 
     from 2008-01-01: Dict<String, Float> = {
         "mean_allgemein": 0.14,
-        "sonderbeitrag": 0.009,
+        "sonderbeitrag": 0.009
     };
     from 2009-01-01: Dict<String, Float> = {
         "allgemein": 0.146,
         "sonderbeitrag": 0.009,
-        "ermäßigt": 0.140,
+        "ermäßigt": 0.140
     };
     from 2009-07-01: Dict<String, Float> = {
         "allgemein": 0.14,
         "ermäßigt": 0.134,
-        "sonderbeitrag": 0.009,
+        "sonderbeitrag": 0.009
     };
     from 2011-01-01: Dict<String, Float> = {
         "allgemein": 0.146,
         "ermäßigt": 0.14,
-        "sonderbeitrag": 0.0,
+        "sonderbeitrag": 0.0
     };
     from 2015-01-01: Dict<String, Float> = {
         "allgemein": 0.146,
         "ermäßigt": 0.14,
-        "meanZusatzbeitrag": 0.009,
+        "meanZusatzbeitrag": 0.009
     };
     # Bekanntmachung Bundesanzeiger 30.12.2015
     from 2016-01-01: Dict<String, Float> = {
@@ -92,12 +92,12 @@ public constant gesetzlicheKrankenversicherung {
     from 2018-01-01: Dict<String, Float> = {
         "allgemein": 0.146,
         "ermäßigt": 0.14,
-        "meanZusatzbeitrag": 0.01,
+        "meanZusatzbeitrag": 0.01
     };
     from 2019-01-01: Dict<String, Float> = {
         "allgemein": 0.146,
         "ermäßigt": 0.14,
-        "meanZusatzbeitrag": 0.009,
+        "meanZusatzbeitrag": 0.009
     };
 
     # Temporarily reduced to 0.024 in BeiSaV 2019.
@@ -112,7 +112,7 @@ public constant gesetzlicheKrankenversicherung {
     from 2021-01-01: Dict<String, Float> = {
         "allgemein": 0.146,
         "ermäßigt": 0.14,
-        "meanZusatzbeitrag": 0.013,
+        "meanZusatzbeitrag": 0.013
     };
 
     # Contribution "rate" for arbeitsl_v was temporarily reduced from 2019 to 2022 in BeiSaV 2019.
@@ -122,14 +122,14 @@ public constant gesetzlicheKrankenversicherung {
     from 2023-01-01: Dict<String, Float> = {
         "allgemein": 0.146,
         "ermäßigt": 0.14,
-        "meanZusatzbeitrag": 0.016,
+        "meanZusatzbeitrag": 0.016
     };
 
     # Reference: BAnz AT 31.10.2023 B3
     from 2024-01-01: Dict<String, Float> = {
         "allgemein": 0.146,
         "ermäßigt": 0.14,
-        "meanZusatzbeitrag": 0.017,
+        "meanZusatzbeitrag": 0.017
     };
 }
 
@@ -140,36 +140,36 @@ public constant gesetzlichePflegeversicherung {
 
     from 2005-01-01: Dict<String, Float> = {
         "standard": 0.0085,
-        "zusatz_kinderlos": 0.0025,
+        "zusatz_kinderlos": 0.0025
     };
 
     from 2008-01-01: Dict<String, Float> = {
         "standard": 0.00975,
-        "zusatzKinderlos": 0.0025,
+        "zusatzKinderlos": 0.0025
     };
 
     from 2013-01-01: Dict<String, Float> = {
-        "standard": 0.01025,
+        "standard": 0.01025
     };
 
     from 2015-01-01: Dict<String, Float> = {
         "standard": 0.01175,
-        "zusatzKinderlos": 0.0025,
+        "zusatzKinderlos": 0.0025
     };
 
     from 2017-01-01: Dict<String, Float> =  {
-        "standard": 0.01275,
+        "standard": 0.01275
     };
 
     from 2019-01-01: Dict<String, Float> = {
         "standard": 0.01525,
-        "zusatzKinderlos": 0.0025,
+        "zusatzKinderlos": 0.0025
     };
 
     # Reference: Art. 2 Nr. 14 G. v. 11.07.2021, BGBl. I S. 2754.
     from 2022-01-01: Dict<String, Float> = {
         "standard": 0.01525,
-        "zusatzKinderlos": 0.0035,
+        "zusatzKinderlos": 0.0035
     };
 }
 
@@ -242,7 +242,7 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         },
         "ges_rentenv": {
             "west": 2659
-        },
+        }
     };
 
     from 1985-01-01 = {
@@ -251,7 +251,7 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         },
         "ges_rentenv": {
             "west": 2761
-        },
+        }
     };
 
     from 1986-01-01 = {
@@ -260,7 +260,7 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         },
         "ges_rentenv": {
             "west": 2863
-        },
+        }
     };
 
     from 1987-01-01 = {
@@ -269,7 +269,7 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         },
         "ges_rentenv": {
             "west": 2914
-        },
+        }
     };
 
     from 1988-01-01 = {
@@ -278,7 +278,7 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         },
         "ges_rentenv": {
             "west": 3068
-        },
+        }
     };
 
     from 1989-01-01 = {
@@ -287,7 +287,7 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         },
         "ges_rentenv": {
             "west": 3119
-        },
+        }
     };
 
     from 1990-01-01 = {
@@ -298,18 +298,18 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         "ges_rentenv": {
             "west": 3221,
             "ost": 1380
-        },
+        }
     };
 
     from 1991-01-01 = {
         "ges_krankenv": {
             "west": 2493,
-            "ost": 1151,
+            "ost": 1151
         },
         "ges_rentenv": {
             "west": 3323,
             "ost": 1534
-        },
+        }
     };
 
     from 1992-01-01 = {
@@ -319,201 +319,201 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         },
         "ges_rentenv": {
             "west": 3477,
-            "ost": 2454,
+            "ost": 2454
         }
     };
 
     from 1993-01-01 = {
         "ges_krankenv": {
             "west": 2761,
-            "ost": 2032,
+            "ost": 2032
         },
         "ges_rentenv": {
             "west": 3681,
-            "ost": 271,
+            "ost": 271
         }
     };
 
     from 1994-01-01 = {
         "ges_krankenv": {
             "west": 2914,
-            "ost": 2262,
+            "ost": 2262
         },
         "ges_rentenv": {
             "west": 3886,
-            "ost": 3017,
+            "ost": 3017
         }
     };
 
     from 1995-01-01 = {
         "ges_krankenv": {
             "west": 2991,
-            "ost": 2454,
+            "ost": 2454
         },
         "ges_rentenv": {
             "west": 3988,
-            "ost": 3272,
-        },
+            "ost": 3272
+        }
     };
 
     from 1996-01-01 = {
         "ges_krankenv": {
             "west": 3068,
-            "ost": 2608,
+            "ost": 2608
         },
         "ges_rentenv": {
             "west": 4090,
-            "ost": 3477,
+            "ost": 3477
         }
     };
 
     from 1997-01-01 = {
         "ges_krankenv": {
             "west": 3144,
-            "ost": 2723,
+            "ost": 2723
         },
         "ges_rentenv": {
             "west": 4193,
-            "ost": 3630,
+            "ost": 3630
         }
     };
 
     from 1998-01-01 = {
         "ges_krankenv": {
             "west": 3221,
-            "ost": 2684,
+            "ost": 2684
         },
         "ges_rentenv": {
             "west": 4295,
-            "ost": 3579,
+            "ost": 3579
         }
     };
 
     from 1999-01-01 = {
         "ges_krankenv": {
             "west": 3259,
-            "ost": 2761,
+            "ost": 2761
         },
         "ges_rentenv": {
             "west": 4339,
-            "ost": 3681,
-        },
+            "ost": 3681
+        }
     };
 
     from 2000-01-01 = {
         "ges_krankenv": {
             "west": 3298,
-            "ost": 2723,
+            "ost": 2723
         },
         "ges_rentenv": {
             "west": 4397,
-            "ost": 3630,
-        },
+            "ost": 3630
+        }
     };
 
     from 2001-01-01 = {
         "ges_krankenv": {
             "west": 3336,
-            "ost": 3336,
+            "ost": 3336
         },
         "ges_rentenv": {
             "west": 4448,
-            "ost": 3732,
-        },
+            "ost": 3732
+        }
     };
 
     from 2002-01-01 = {
         "ges_krankenv": {
             "west": 3375,
-            "ost": 3375,
+            "ost": 3375
         },
         "ges_rentenv": {
             "west": 4500,
-            "ost": 3750,
-        },
+            "ost": 3750
+        }
     };
 
     from 2003-01-01 = {
         "ges_krankenv": {
             "west": 3450,
-            "ost": 3375,
+            "ost": 3375
         },
         "ges_rentenv": {
             "west": 5100,
-            "ost": 4250,
-        },
+            "ost": 4250
+        }
     };
 
     from 2004-01-01 = {
         "ges_krankenv": {
             "west": 3488,
-            "ost": 3488,
+            "ost": 3488
         },
         "ges_rentenv": {
             "west": 5150,
-            "ost": 4350,
-        },
+            "ost": 4350
+        }
     };
 
     from 2005-01-01 = {
         "ges_krankenv": {
             "west": 3525,
-            "ost": 3525,
+            "ost": 3525
         },
         "ges_rentenv": {
             "west": 5200,
-            "ost": 4400,
+            "ost": 4400
         }
     };
 
     from 2006-01-01 = {
         "ges_krankenv": {
             "west": 3562.5,
-            "ost": 3562.5,
+            "ost": 3562.5
         },
         "ges_rentenv": {
             "west": 5250,
-            "ost": 4400,
+            "ost": 4400
         }
     };
 
     from 2007-01-01 = {
         # deviation_from: previous
         "ges_rentenv": {
-            "ost": 4550,
-        },
+            "ost": 4550
+        }
     };
 
     from 2008-01-01 = {
         "ges_krankenv": {
             "west": 3600,
-            "ost": 3600,
+            "ost": 3600
         },
         "ges_rentenv": {
             "west": 5300,
-            "ost": 4500,
+            "ost": 4500
         }
     };
 
     from 2009-01-01 = {
         "ges_krankenv": {
             "west": 3675,
-            "ost": 3675,
+            "ost": 3675
         },
         "ges_rentenv": {
             "west": 5400,
-            "ost": 4550,
+            "ost": 4550
         }
     };
 
     from 2010-01-01 = {
         "ges_krankenv": {
             "west": 3750,
-            "ost": 3750,
+            "ost": 3750
         },
         "ges_rentenv": {
             "west": 5500,
-            "ost": 4650,
+            "ost": 4650
         }
     };
 
@@ -521,10 +521,10 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         # deviation_from: previous
         "ges_krankenv": {
             "west": 3712.5,
-            "ost": 3712.5,
+            "ost": 3712.5
         },
         "ges_rentenv": {
-            "ost": 4800,
+            "ost": 4800
         }
     };
 
@@ -532,21 +532,21 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         # deviation_from: previous
         "ges_krankenv": {
             "west": 3825,
-            "ost": 3825,
+            "ost": 3825
         },
         "ges_rentenv": {
-            "west": 5600,
+            "west": 5600
         }
     };
 
     from 2013-01-01 = {
         "ges_krankenv": {
             "west": 3937.5,
-            "ost": 3937.5,
+            "ost": 3937.5
         },
         "ges_rentenv": {
             "west": 5800,
-            "ost": 4900,
+            "ost": 4900
         }
     };
 
@@ -554,34 +554,34 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
     from 2014-01-01 = {
         "ges_krankenv": {
             "west": 4050,
-            "ost": 4050,
+            "ost": 4050
         },
         "ges_rentenv": {
             "west": 5950,
-            "ost": 5000,
-        },
+            "ost": 5000
+        }
     };
 
     from 2015-01-01 = {
         "ges_krankenv": {
             "west": 4125,
-            "ost": 4125,
+            "ost": 4125
         },
         "ges_rentenv": {
             "west": 6050,
-            "ost": 5200,
-        },
+            "ost": 5200
+        }
     };
 
     # https:#www.bundesregierung.de/Content/DE/Artikel/2015/10/2015-10-14-sozialversicherung.html
     from 2016-01-01 = {
         "ges_krankenv": {
             "west": 4237.5,
-            "ost": 4237.5,
+            "ost": 4237.5
         },
         "ges_rentenv": {
             "west": 6200,
-            "ost": 5400,
+            "ost": 5400
         }
     };
 
@@ -589,33 +589,33 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
     from 2017-01-01 = {
         "ges_krankenv": {
             "west": 4350,
-            "ost": 4350,
+            "ost": 4350
         },
         "ges_rentenv": {
             "west": 6350,
-            "ost": 5700,
+            "ost": 5700
         }
     };
 
     from 2018-01-01 = {
         "ges_krankenv": {
             "west": 4425,
-            "ost": 4425,
+            "ost": 4425
         },
         "ges_rentenv": {
             "west": 6500,
-            "ost": 5800,
+            "ost": 5800
         }
     };
 
     from 2019-01-01 = {
         "ges_krankenv": {
             "west": 4537.5,
-            "ost": 4537.5,
+            "ost": 4537.5
         },
         "ges_rentenv": {
             "west": 6700,
-            "ost": 6150,
+            "ost": 6150
         }
     };
 
@@ -623,11 +623,11 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
     from 2020-01-01 = {
         "ges_krankenv": {
             "west": 4687.5,
-            "ost": 4687.5,
+            "ost": 4687.5
         },
         "ges_rentenv": {
             "west": 6900,
-            "ost": 6450,
+            "ost": 6450
         }
     };
 
@@ -635,11 +635,11 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
     from 2021-01-01 = {
         "ges_krankenv": {
             "west": 4837.5,
-            "ost": 4837.5,
+            "ost": 4837.5
         },
         "ges_rentenv": {
             "west": 7100,
-            "ost": 6700,
+            "ost": 6700
         }
     };
 
@@ -648,19 +648,19 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
         # deviation_from: previous
         "ges_rentenv": {
             "west": 7050,
-            "ost": 6750,
-        },
+            "ost": 6750
+        }
     };
 
     # Reference: V. v. 28.11.2022 BGBl. I. S. 2128.
     from 2023-01-01 = {
         "ges_krankenv": {
             "west": 4987.5,
-            "ost": 4987.5,
+            "ost": 4987.5
         },
         "ges_rentenv": {
             "west": 7300,
-            "ost": 7100,
+            "ost": 7100
         }
     };
 
@@ -668,11 +668,11 @@ public constant beitragsbemessungsgrenze: Dict<String, Dict<String, Int>> {
     from 2024-01-01 = {
         "ges_krankenv": {
             "west": 5175,
-            "ost": 5175,
+            "ost": 5175
         },
         "ges_rentenv": {
             "west": 7550,
-            "ost": 7450,
+            "ost": 7450
         }
     };
 }

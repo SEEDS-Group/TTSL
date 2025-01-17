@@ -2,8 +2,7 @@ package freibeträge
 
 from einkommenssteuerAbzüge import alleinerziehendFreibetrag, alleinerzFreibetragZusatz, sonderausgabenpauschbetrag, kinderbetreuungskostenAbzMaximum, kinderbetreuungskostenAbzAnteil, kinderFreibetrag
 
-from math import max
-from math import min
+from math import max, min
 
 id data kinderfreibetragEmpfänger1: Int;
 id data kinderfreibetragEmpfänger2: Int;
@@ -21,8 +20,8 @@ data betreuungskosten: Float;
  * Die Person könnte ein Elternteil oder gesetzlicher Vormund sein.
  */
 public function kinderfreibetragAnzahlAnsprüche(): Int groupedBy kinderfreibetragEmpfänger1, kinderfreibetragEmpfänger2 {
-    var anspruch1: Int = aggregate "sum" of kinderfreibetragAnspruch groupedBy kinderfreibetragEmpfänger1;
-    var anspruch2: Int = aggregate "sum" of kinderfreibetragAnspruch groupedBy kinderfreibetragEmpfänger2;
+    var anspruch1: Int = aggregate sum of kinderfreibetragAnspruch groupedBy kinderfreibetragEmpfänger1;
+    var anspruch2: Int = aggregate sum of kinderfreibetragAnspruch groupedBy kinderfreibetragEmpfänger2;
 
     return anspruch1 + anspruch2;
 }
@@ -86,7 +85,7 @@ public function per year sonderausgaben(): Float {
  * Berechnet die abzugsfähigen Kinderbetreuungskosten für jedes Kind unter 14 Jahren.
  */
 public function per year abzugsfähigeBetreuungskosten(): Float {
-    var betreuungskostenElternteil = aggregate "sum" of betreuungskosten groupedBy betreuungskostenTräger;
+    var betreuungskostenElternteil = aggregate sum of betreuungskosten groupedBy betreuungskostenTräger;
     return min(
         per year betreuungskostenElternteil,
         kinderbetreuungskostenAbzMaximum

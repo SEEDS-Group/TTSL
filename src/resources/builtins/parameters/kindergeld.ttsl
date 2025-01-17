@@ -32,91 +32,91 @@ public constant kindergeld: Dict<Int, Int> {
         1: 26,
         2: 36,
         3: 61,
-        4: 61,
+        4: 61
     };
 
     from 1978-01-01 = {
         1: 26,
         2: 41,
         3: 77,
-        4: 77,
+        4: 77
     };
 
     from 1979-01-01 = {
         1: 26,
         2: 51,
         3: 102,
-        4: 102,
+        4: 102
     };
 
     from 1979-07-01 = {
         1: 26,
         2: 61,
         3: 102,
-        4: 102,
+        4: 102
     };
 
     from 1981-02-01 = {
         1: 26,
         2: 61,
         3: 123,
-        4: 123,
+        4: 123
     };
 
     from 1982-01-01 = {
         1: 26,
         2: 51,
         3: 112,
-        4: 123,
+        4: 123
     };
 
     from 1990-07-01 = {
         1: 26,
         2: 66,
         3: 112,
-        4: 123,
+        4: 123
     };
 
     from 1992-01-01 = {
         1: 36,
         2: 66,
         3: 112,
-        4: 123,
+        4: 123
     };
 
     from 1996-01-01 = {
         1: 102,
         2: 102,
         3: 153,
-        4: 179,
+        4: 179
     };
 
     from 1997-01-01 = {
         1: 112,
         2: 112,
         3: 153,
-        4: 179,
+        4: 179
     };
 
     from 1999-01-01 = {
         1: 128,
         2: 128,
         3: 153,
-        4: 179,
+        4: 179
     };
 
     from 2000-01-01 = {
         1: 138,
         2: 138,
         3: 153,
-        4: 179,
+        4: 179
     };
 
     from 2002-01-01 = {
         1: 154,
         2: 154,
         3: 154,
-        4: 179,
+        4: 179
     };
 
     # Reference: Art. 1 G. v. 22.12.2008 BGBl. I S. 2955
@@ -124,7 +124,7 @@ public constant kindergeld: Dict<Int, Int> {
         1: 164,
         2: 164,
         3: 170,
-        4: 195,
+        4: 195
     };
 
     # Reference: Art. 1 G. v. 02.03.2009 BGBl. I S. 416
@@ -132,7 +132,7 @@ public constant kindergeld: Dict<Int, Int> {
         1: 164,
         2: 164,
         3: 170,
-        4: 195,
+        4: 195
     };
 
     # Reference: Art. 1 G. v. 22.12.2009 BGBl. I S. 3950
@@ -140,7 +140,7 @@ public constant kindergeld: Dict<Int, Int> {
         1: 184,
         2: 184,
         3: 190,
-        4: 215,
+        4: 215
     };
 
     # Reference: Art. 1 G. v. 16.07.2015 BGBl. I S. 1202
@@ -148,7 +148,7 @@ public constant kindergeld: Dict<Int, Int> {
         1: 188,
         2: 188,
         3: 194,
-        4: 219,
+        4: 219
     };
 
     # Reference: Art. 2 G. v. 16.07.2015 BGBl. I S. 1202
@@ -156,7 +156,7 @@ public constant kindergeld: Dict<Int, Int> {
         1: 190,
         2: 190,
         3: 196,
-        4: 221,
+        4: 221
     };
 
     # Reference: Art. 8 G. v. 20.12.2016 BGBl. I S. 3000
@@ -164,7 +164,7 @@ public constant kindergeld: Dict<Int, Int> {
         1: 192,
         2: 192,
         3: 198,
-        4: 223,
+        4: 223
     };
 
     # Reference: Art. 9 G. v. 20.12.2016 BGBl. I S. 3000.
@@ -172,7 +172,7 @@ public constant kindergeld: Dict<Int, Int> {
         1: 194,
         2: 194,
         3: 200,
-        4: 225,
+        4: 225
     };
 
     # Reference: Art. 2 G. v. 29.11.2018 BGBl. I S. 2210.
@@ -180,7 +180,7 @@ public constant kindergeld: Dict<Int, Int> {
         1: 204,
         2: 204,
         3: 210,
-        4: 235,
+        4: 235
     };
 
     # Reference: Art. 1 Abs. 9 G. v. 01.12.2020 BGBl. I S. 2616.
@@ -188,7 +188,7 @@ public constant kindergeld: Dict<Int, Int> {
         1: 219,
         2: 219,
         3: 225,
-        4: 250,
+        4: 250
     };
 
     # Reference: Art. 6 G. v. 08.12.2022 BGBl. I S. 2230.
@@ -196,7 +196,7 @@ public constant kindergeld: Dict<Int, Int> {
         1: 250,
         2: 250,
         3: 250,
-        4: 250,
+        4: 250
     };
 }
 

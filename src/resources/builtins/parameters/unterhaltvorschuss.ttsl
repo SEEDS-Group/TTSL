@@ -33,7 +33,7 @@ public constant altersgrenzen: Dict<Int, Int> {
     from 2017-01-01 = {
         1: 6,
         2: 12,
-        3: 18,
+        3: 18
     };
 }
 
