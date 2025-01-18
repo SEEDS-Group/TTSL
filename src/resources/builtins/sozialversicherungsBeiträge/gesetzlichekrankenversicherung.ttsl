@@ -13,7 +13,7 @@ from einkommensgrenzen import midijobBemessungsentgeld
 from einkommensgrenzen import midijobBeitragspflichtigeEinnahmeArbeitnehmer
 from einkommensgrenzen import regulärBeschäftigt
 
-from math import min, max
+from math import calc_min, calc_max
 
 data selbstständig: Boolean;
 data inPrivaterKrankenversicherung: Boolean;
@@ -209,9 +209,9 @@ public function per month beitragRegulärBeschäftigt(): Float {
  */
 public function per month bemessungsgrundlageSelbstständig(): Float{
     if (selbstständig and not inPrivaterKrankenversicherung) {
-        return min(
+        return calc_min(
             gesetzlicheKrankenversicherungBeitragsbemessungsgrenze(),
-            max(
+            calc_max(
                 gesetzlicheKrankenversicherungBezugsgröße() * mindestanteilBezugsgrößeBeitragspflichtigeEinnahmeSelbst,
                 einkommenSelbstständig
             )
@@ -226,7 +226,7 @@ public function per month bemessungsgrundlageSelbstständig(): Float{
 #  * TODO: Abhängigkeit zu Transfer Rente
 #  */
 # public function per month bemessungsgrundlageRente(): Float {
-#     min(summeGesetzlicheRentePrivateRente, gesetzlicheKrankenversicherungBeitragsbemessungsgrenze);
+#     calc_min(summeGesetzlicheRentePrivateRente, gesetzlicheKrankenversicherungBeitragsbemessungsgrenze);
 # }
 
 /**
@@ -270,7 +270,7 @@ public function per month beitragSelbstständig(): Float {
 
 # TODO: summeGesetzlicheRentePrivateRente Abhängigkeit zum Transfer Rente
 # public function bemessungsgrundlageRente(): Float per month {
-#     return min(summeGesetzlicheRentePrivateRente(), beitragsbemessungsgrenze());
+#     return calc_min(summeGesetzlicheRentePrivateRente(), beitragsbemessungsgrenze());
 # }
 
 # /**

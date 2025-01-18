@@ -919,7 +919,6 @@ public constant freibetragBehinderung {
   # Reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
   from 2020-01-01: Int = 1800;
 }
-# TODO: DEVIATION FROM BEISPIEL!!!
 
 /**
  * Behinderungsgrad für Freibetrag
@@ -1931,8 +1930,8 @@ public constant maxMiete {
         2: 395,
         3: 420,
         4: 454,
-        5: 520
-        # TODO: Eintrag vergessen?
+        5: 520,
+        6: 540
       },
       1991: {
         1: 400,

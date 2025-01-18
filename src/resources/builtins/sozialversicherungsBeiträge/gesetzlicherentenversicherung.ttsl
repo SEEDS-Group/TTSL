@@ -1,7 +1,7 @@
 package gesetzlicheRentenversicherung
 
 from sozialversicherungsbeitrag import pauschalabgabenGeringfügigeBeschäftigung
-from sozialversicherungsbeitrag import beitragssatzGesetzlicheRentenversicherung
+from sozialversicherungsbeitrag import gesetzlicheRentenversicherung as beitragssatzGesetzlicheRentenversicherung
 
 from einkommensgrenzen import geringfügigBeschäftigt
 from einkommensgrenzen import inGleitzone
@@ -10,7 +10,7 @@ from einkommensgrenzen import midijobBeitragspflichtigeEinnahmeArbeitnehmer
 
 from beitragsbemessungsgrenzen import gesetzlicheRentenversicherung as gesetzlicheRentenversicherungBeitragsbemessungsgrenze
 
-from math import min
+from math import calc_min
 
 data per month bruttolohn: Float;
 
@@ -105,5 +105,5 @@ public function per month beitragMidijobArbeitnehmer(): Float {
  * Berechnung des Bruttolohns, der der Rentenversicherung unterliegt.
  */
 public function per month beitragBruttolohn(): Float {
-    return min(bruttolohn, gesetzlicheRentenversicherungBeitragsbemessungsgrenze());
+    return calc_min(bruttolohn, gesetzlicheRentenversicherungBeitragsbemessungsgrenze());
 }

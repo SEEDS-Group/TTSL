@@ -28,7 +28,7 @@ public constant solidaritätszuschlag: Dict<Int, Dict<String, Float>> {
             "intercept_at_lower_threshold": 0,
             "upper_threshold": 1e10
         }
-    }; # TODO: BEISPIEL FÜR DEVIATION!!!!
+    };
 
     # Reference: Artikel 31 G. v. 23.06.1993 BGBl. I S. 944.
     from 1995-01-01 = {

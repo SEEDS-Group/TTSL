@@ -1,12 +1,12 @@
 package einkommen
 
-from math import max
+from math import calc_max, piecewisePolynomial
 
 from einkommenssteuerAbzüge import werbungskostenpauschbetrag
 from einkommenssteuerAbzüge import sparerpauschbetrag
 from einkommenssteuerAbzüge import sparerWerbungskostenPauschbetrag
 
-from einkommenssteuer import renteErtragsanteil
+from einkommenssteuerParam import renteErtragsanteil as renteErtragsanteilParams
 
 from einkommensgrenzen import geringfügigBeschäftigt
 
@@ -15,13 +15,14 @@ data per month summeGesamtRentePrivatRente: Float;
 data per month einkommenSelbstständig: Float;
 data per month einkommenVermietung: Float;
 data per month bruttoKapitaleinkommen: Float;
+data rentenEintrittsJahr: Int;
 
 /**
  * Aggregiere das monatliche Bruttoeinkommen aus abhängiger Beschäftigung zu einem jährlichen Einkommen und ziehe
  * die Werbungskostenpauschale ab.
  */
 public function per year einkommenAbhängigBeschäftigt(): Float {
-    return max(12 * bruttolohn - werbungskostenpauschbetrag, 0.0);
+    return calc_max(12 * bruttolohn - werbungskostenpauschbetrag, 0.0);
 }
 
 /**
@@ -40,9 +41,7 @@ public function per year zuVersteuerndesEinkommenAbhängigBeschäftigt(): Float 
  * Berechne den monatlichen Rentenbetrag, der der Besteuerung unterliegt.
  */
 public function per month zuVersteuerndeRenteMonat(): Float {
-    # rentenErtragsanteil not implemented yet
-    # return rentenErtragsanteil() * summeGesamtRentePrivatRente;
-    return 0;
+    return renteErtragsanteil() * summeGesamtRentePrivatRente;
 }
 
 /**
@@ -71,9 +70,7 @@ public function per year summeEinkommen(): Float {
  * Calculate monthly pension payment subject to taxation.
  */
 public function per month zuVersteuerndeRente(): Float {
-    # rentenErtragsanteil not implemented yet
-    # return renteErtragsanteil * summeGesamtRentePrivatRente;
-    return 0;
+    return renteErtragsanteil() * summeGesamtRentePrivatRente;
 }
 
 /**
@@ -81,20 +78,12 @@ public function per month zuVersteuerndeRente(): Float {
  */
 public function per year kapitaleinkommen(): Float {
     var abgezogen = bruttoKapitaleinkommen - sparerpauschbetrag - sparerWerbungskostenPauschbetrag;
-    return max(abgezogen, 0.0);
+    return calc_max(abgezogen, 0.0);
 }
 
-# TODO: piecewiseLinear is not defined
-# /**
-#  * Berechnung des Anteils der Rente, der der Einkommensbesteuerung unterliegt.
-#  */
-# public function renteErtragsanteil(
-#     rentenEintrittsJahr: Int,
-# ): Float {
-#     return piecewiseLinear( # TODO
-#         x = jahrRentenEintritt,
-#         thresholds = renteErtragsanteil["thresholds"],
-#         rates = renteErtragsanteil["rates"],
-#         interceptsAtLowerThresholds = renteErtragsanteil["intercepts_at_lower_thresholds"]
-#     );
-# }
+/**
+ * Berechnung des Anteils der Rente, der der Einkommensbesteuerung unterliegt.
+ */
+public function renteErtragsanteil(): Float {
+    return piecewisePolynomial(rentenEintrittsJahr, renteErtragsanteilParams);
+}

@@ -1,6 +1,7 @@
 package einkommenssteuer
 
 from einkommenssteuerParam import einkommenssteuerTarif
+from math import piecewisePolynomial
 
 /**
  * Berechnung der Einkommenssteuer ohne Kinderfreibetrag auf Steuernummer-Ebene.
@@ -27,14 +28,7 @@ public function per year mitKinderfreibetrag(): Float {
  * Berechnung des Einkommensteuertarifs auf ein Einkommen x.
  */
 public function tarif(x: Float): Float {
-    var intercept = einkommenssteuerTarif[0]["intercept_at_lower_threshold"];
-
-    foreach (interval in einkommenssteuerTarif) {
-        if(x < interval["upper_threshold"]) {
-            return intercept + interval["rate_linear"] * x + interval["rate_quadratic"] * x * x;
-        }
-        intercept = intercept + interval["rate_linear"] * interval["upper_threshold"] + interval["rate_quadratic"] * interval["upper_threshold"] * interval["upper_threshold"];
-    }
+    return piecewisePolynomial(x, einkommenssteuerTarif)
 }
 
 /**
@@ -58,7 +52,7 @@ public function per year einkommenssteuer(): Float {
  * Bestimmung, ob der Kinderfreibetrag günstiger ist als das Kindergeld.
  */
 public function kinderfreibetragGünstiger(): Boolean {
-    var differenzbetrag = einkommenssteuerOhneKinderfreibetrag() - einkommenssteuerMitKinderfreibetrag();
+    var differenzbetrag = ohneKinderfreibetrag() - mitKinderfreibetrag();
     return differenzbetrag > relativesKindergeld();
 }
 

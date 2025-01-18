@@ -2,7 +2,7 @@ package freibeträge
 
 from einkommenssteuerAbzüge import alleinerziehendFreibetrag, alleinerzFreibetragZusatz, sonderausgabenpauschbetrag, kinderbetreuungskostenAbzMaximum, kinderbetreuungskostenAbzAnteil, kinderFreibetrag
 
-from math import max, min
+from math import calc_max, calc_min
 
 id data kinderfreibetragEmpfänger1: Int;
 id data kinderfreibetragEmpfänger2: Int;
@@ -77,7 +77,7 @@ public function per year sonderausgaben(): Float {
         var sonderausgabenGesamt = sonderausgabenBetreuung();
         var pauschale = sonderausgabenpauschbetrag * anzPersonen;
 
-        return max(sonderausgabenGesamt, pauschale);
+        return calc_max(sonderausgabenGesamt, pauschale);
     }
 }
 
@@ -86,7 +86,7 @@ public function per year sonderausgaben(): Float {
  */
 public function per year abzugsfähigeBetreuungskosten(): Float {
     var betreuungskostenElternteil = aggregate sum of betreuungskosten groupedBy betreuungskostenTräger;
-    return min(
+    return calc_min(
         per year betreuungskostenElternteil,
         kinderbetreuungskostenAbzMaximum
     );

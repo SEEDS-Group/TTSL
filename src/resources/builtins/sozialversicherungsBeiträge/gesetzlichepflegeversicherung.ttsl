@@ -12,7 +12,7 @@ from gesetzlicheKrankenversicherung import betragBruttolohn as gesetzlicheKranke
 from gesetzlicheKrankenversicherung import bemessungsgrundlageSelbstständig
 from gesetzlicheKrankenversicherung import bemessungsgrundlageRente
 
-from math import min
+from math import calc_min
 
 data hatKinder: Boolean;
 data alter: Int;
@@ -56,7 +56,7 @@ public function per year beitragssatz(): Float {
             out = out + gesetzlichePflegeversicherung["zusatz_kinderlos"];
         }
         if (anzEigeneKinderBis24 >= 2) {
-            out = out - gesetzlichePflegeversicherung["abschlag_kinder"] * min(anzEigeneKinderBis24 - 1, 4);
+            out = out - gesetzlichePflegeversicherung["abschlag_kinder"] * calc_min(anzEigeneKinderBis24 - 1, 4);
         }
         return out;
     }
@@ -201,7 +201,7 @@ public function per month beitragMidijobArbeitnehmer(): Float {
     from 2023-07-01 {
         var pflegevRate = gesetzlichePflegeversicherung["standard"];
         if (anzEigeneKinderBis24 >= 2) {
-            pflegevRate = pflegevRate - gesetzlichePflegeversicherung["abschlag_kinder"] * min(anzEigeneKinderBis24 - 1, 4);
+            pflegevRate = pflegevRate - gesetzlichePflegeversicherung["abschlag_kinder"] * calc_min(anzEigeneKinderBis24 - 1, 4);
         }
         var anBeitragMidijob = midijobBeitragspflichtigeEinnahmeArbeitnehmer() * pflegevRate;
         if (zusatzbeitragKinderlos()) {

@@ -1,6 +1,6 @@
 package lohnsteuer
 
-from math import min, max
+from math import calc_min, calc_max
 
 from lohnsteuerParam import lohnsteuerEinkommensgrenzen
 from einkommenssteuerAbzüge import alleinerziehendFreibetrag, sparerWerbungskostenPauschbetrag, sonderausgabenpauschbetrag, vorsorgepauschaleMindestanteil, vorsorgepauschaleKvMax, vorsorgepauschaleRentenversicherungsAnteil, kinderFreibetrag
@@ -36,12 +36,12 @@ public function per year einkommen(): Float {
     }
 
     # Zu versteuerndes Einkommen / tax base for Lohnsteuer.
-    var out = max(
+    var out = calc_max(
         12 * per month bruttolohn
         - werbungskosten
         - sonderausgaben
         - entlastung_freibetrag_alleinerz
-        - per year vorsorgepauschale(),
+        - per year vorsorgePauschale(),
         0.0
     )
 
@@ -52,7 +52,7 @@ public function per year einkommen(): Float {
  * Berechnung der Lohnsteuer für die Steuerklassen 5 und 6, basierend auf dem zu versteuernden Einkommen.
  */
 private function berechneLohnsteuerKlasse5_6Basis(zuVersteuerndesEinkommen: Float): Float {
-    return max(
+    return calc_max(
         2 * (
             tarif(zuVersteuerndesEinkommen * 1.25) - tarif(zuVersteuerndesEinkommen * 0.75)),
         zuVersteuerndesEinkommen * einkommenssteuerTarif[0][1]
@@ -94,7 +94,7 @@ public function per year vorsorgeKrankenversicherungOptionA(): Float {
         var maxPauschale = vorsorgepauschaleKvMax["steuerklasseNicht3"];
     }
 
-    return min(maxPauschale, basisPauschale);
+    return calc_min(maxPauschale, basisPauschale);
 }
 
 /**
@@ -108,24 +108,24 @@ public function per year vorsorgePauschale(): Float{
     from 2010-01-01 {
         var bruttolohnRente: Float = 0.0;
         if (wohnortOst) {
-            var bruttolohnRente = min(
+            var bruttolohnRente = calc_min(
                 bruttolohn * 12,
                 beitragsbemessungsgrenze["ges_rentenv"]["ost"] * 12
             );
         } else {
-            var bruttolohnRente = min(
+            var bruttolohnRente = calc_min(
                 bruttolohn * 12,
                 beitragsbemessungsgrenze["ges_rentenv"]["west"] * 12
             );
         }
 
-        # TODO: vorsorgepauschaleRentenversicherungsAnteil is piecewise polynomial function
+        # TODO: vorsorgepauschaleRentenversicherungsAnteil is piecewise polynomial param
         var vorsorgeRente = 0.0;
         # var vorsorgeRente = bruttolohnRente
         #     * gesetzlicheRentenversicherung
         #     * vorsorgepauschaleRentenversicherungsAnteil;
 
-        var vorsorgeKrankenversicherung = max(vorsorgeKrankenversicherungOptionA(), vorsorgeKrankenversicherungOptionB());
+        var vorsorgeKrankenversicherung = calc_max(vorsorgeKrankenversicherungOptionA(), vorsorgeKrankenversicherungOptionB());
 
         return vorsorgeRente + vorsorgeKrankenversicherung;
     }
@@ -167,7 +167,7 @@ public function per month lohnsteuer(einkommen: Float, steuerklasse: Int): Float
     if (einkommen < grenze1) {
         lohnsteuerKlasse5_6 = lohnsteuerKlasse5_6Basis;
     } else { if (grenze1 <= einkommen and einkommen < grenze2) {
-        lohnsteuerKlasse5_6 = min(maxLohnsteuer, berechneLohnsteuerKlasse5_6Basis(einkommen));
+        lohnsteuerKlasse5_6 = calc_min(maxLohnsteuer, berechneLohnsteuerKlasse5_6Basis(einkommen));
     } else { if (grenze2 <= einkommen and einkommen < grenze3) {
         lohnsteuerKlasse5_6 = lohnsteuerGrenze2 + (einkommen - grenze2) * einkommenssteuerTarif[3]["rate_linear"];
     } else {
@@ -186,7 +186,7 @@ public function per month lohnsteuer(einkommen: Float, steuerklasse: Int): Float
     }
     }
 
-    return max(lohnsteuer / 12, 0.0);
+    return calc_max(lohnsteuer / 12, 0.0);
 }
 
 /**
@@ -195,7 +195,7 @@ public function per month lohnsteuer(einkommen: Float, steuerklasse: Int): Float
  * auf die Lohnsteuer verwendet.
  */
 public function per month lohnsteuerMitKinderfreibetrag(): Float {
-    var angepasstesEinkommen = max(einkommen() - kinderfreibetragFürLohnsteuerSoli(), 0.0);
+    var angepasstesEinkommen = calc_max(einkommen() - kinderfreibetragFürLohnsteuerSoli(), 0.0);
 
     return lohnsteuer(angepasstesEinkommen, steuerklasse);
 }
