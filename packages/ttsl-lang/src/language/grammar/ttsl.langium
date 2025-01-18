@@ -133,7 +133,7 @@ interface TslFunction extends TslCallable, TslModuleMember {
     result?: TslResult
     timeunit?: TslTimeunit
     groupedBy?: TslGroupedBy
-    body: TslFunctionBlock
+    body: TslBlock
 }
 
 fragment TslFunctionFragment:
@@ -145,7 +145,7 @@ fragment TslFunctionFragment:
     parameterList=TslParameterList
     (result=TslResult)?
     (groupedBy=TslGroupedBy)?
-    body=TslFunctionBlock
+    body=TslBlock
 ;
 
 interface TslConstant extends TslModuleMember, TslDeclaration {
@@ -253,14 +253,6 @@ interface TslBlock extends TslObject {
 
 TslBlock returns TslBlock:
     {TslBlock} '{' statements+=TslStatement* '}'
-;
-
-interface TslFunctionBlock extends TslBlock{}
-
-TslFunctionBlock returns TslFunctionBlock:
-    {TslFunctionBlock}
-    '{' (statements+=TslStatement)*
-    '}'
 ;
 
 TslStatement returns TslStatement:
@@ -616,7 +608,7 @@ interface TslDictionary extends TslLiteral {
 }
 
 TslDictionary returns TslDictionary:
-    {TslDictionary} '{' (entries+=TslDictionaryEntry (',' entries+=TslDictionaryEntry)*)? '}'
+    {TslDictionary} '{' (entries+=TslDictionaryEntry (',' entries+=TslDictionaryEntry)*)? ','? '}'
 ;
 
 interface TslDictionaryEntry extends TslObject {
@@ -751,11 +743,11 @@ TslTimespan returns TslTimespan:
 
 interface TslTimespanStatement extends TslStatement{
     timespan: TslTimespan
-    block: TslFunctionBlock
+    block: TslBlock
 }
 
 TslTimespanStatement returns TslTimespanStatement:
-    timespan=TslTimespan block=TslFunctionBlock 
+    timespan=TslTimespan block=TslBlock 
 ;
 
 interface TslTimespanValueEntry extends TslObject{

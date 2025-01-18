@@ -38,7 +38,6 @@ import {
     TslArgument,
     TslAssignee,
     TslAssignment,
-    TslBlock,
     TslCall,
     TslDeclaration,
     TslExpression,
@@ -53,13 +52,12 @@ import {
     isTslForeachLoop,
     isTslWhileLoop,
     TslFunction,
-    TslFunctionBlock,
+    TslBlock,
     isTslAggregation,
     isTslTimespanStatement,
     isTslConstant,
     TslConstant,
     TslTimespan,
-    isTslBlock,
     TslTimeunit,
     isTslString,
     isTslParenthesizedExpression,
@@ -80,7 +78,7 @@ import {
     isTslStringType,
     isTslExpression,
     isTslTypeAlias,
-    isTslFunctionBlock,
+    isTslBlock,
 } from '../generated/ast.js';
 import { isInFile, isFile } from '../helpers/fileExtensions.js';
 import {
@@ -553,7 +551,7 @@ export class TTSLPythonGenerator {
         .appendNewLine()
         .appendNewLine()
         .append(expandToNode`functions = {${joinToNode(getModuleMembers(module)
-            .filter(isTslFunction).map(funct => funct.name), (functName) => expandToNode`'${functName}': ${functName}`, { separator: ', ' })}}`)
+            .filter(isTslFunction).filter(funct => (funct.visibility?.isPublic || !funct.visibility)).map(funct => funct.name), (functName) => expandToNode`'${functName}': ${functName}`, { separator: ', ' })}}`)
         .appendNewLine()
         .appendNewLine()
         .append(`params = {'${inputPath.name}':{`)
@@ -587,13 +585,13 @@ export class TTSLPythonGenerator {
         return expandTracedToNode(funct)`def ${traceToNode(
             funct,
             'name',
-        )(this.getPythonNameOrDefault(funct))}(${this.generateFunctionParameter(funct)}${this.generateParameters(funct.parameterList, infoFrame)})`.appendIf(funct.result !== undefined, expandToNode`->${this.generateType(funct.result?.type, infoFrame, true)}`).append(`:`)
+        )(this.getPythonNameOrDefault(funct))}(${this.generateParameters(funct.parameterList, infoFrame)}${this.generateFunctionParameter(funct)})`.appendIf(funct.result !== undefined, expandToNode`->${this.generateType(funct.result?.type, infoFrame, true)}`).append(`:`)
             .appendNewLine()
-            .indent({ indentedChildren: [this.generateFunctionBlock(funct.body, infoFrame, funct.timeunit)], indentation: PYTHON_INDENT });
+            .indent({ indentedChildren: [this.generateBlock(funct.body, infoFrame, funct.timeunit)], indentation: PYTHON_INDENT });
     }
 
-    private generateFunctionBlock(
-        block: TslFunctionBlock,
+    private generateBlock(
+        block: TslBlock,
         frame: GenerationInfoFrame,
         timeunit: TslTimeunit | undefined,
     ): CompositeGeneratorNode {
@@ -604,42 +602,42 @@ export class TTSLPythonGenerator {
                 statements = this.slicer.computeBackwardSlice(statements, targetPlaceholders);
             }
         }
-        let resultBlock = new CompositeGeneratorNode();
-        let returnStatement = statements.filter(isTslReturnStatement).at(0);
-        let restStatements = statements.filter(stmt => !isTslReturnStatement(stmt))
-
-        if (returnStatement){
-            if(isTslTimeunit(timeunit)){
-                resultBlock.append(`if timeunit != None:`)
-                if (timeunit?.timeunit === 'day'){
-                    frame.addUtility(UTILITY_TIMEUNIT_DAY);
-                    resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_DAY.name}(${this.generateExpression(returnStatement.result, frame)}, timeunit)`]).appendNewLine()
-                } else if (timeunit?.timeunit === 'week'){
-                    frame.addUtility(UTILITY_TIMEUNIT_WEEK);
-                    resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_WEEK.name}(${this.generateExpression(returnStatement.result, frame)}, timeunit)`]).appendNewLine()
-                } else if (timeunit?.timeunit === 'month'){
-                    frame.addUtility(UTILITY_TIMEUNIT_MONTH);
-                    resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_MONTH.name}(${this.generateExpression(returnStatement.result, frame)}, timeunit)`]).appendNewLine()
-                } else if (timeunit?.timeunit === 'year'){
-                    frame.addUtility(UTILITY_TIMEUNIT_YEAR);
-                    resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_YEAR.name}(${this.generateExpression(returnStatement.result, frame)}, timeunit)`]).appendNewLine()
-                }
-                resultBlock.append(expandToNode`return result`)
-            }else{
-                resultBlock.append(expandToNode`return ${this.generateExpression(returnStatement.result, frame)}`)
-            }
-            
-        } else if (restStatements.length === 0) {
+        if (statements.length === 0) {
             return traceToNode(block)('pass');
         }
-        
+
         return joinTracedToNode(block, 'statements')(
-            restStatements,
-            (stmt) => this.generateStatement(stmt, frame),
-            {
-                separator: NL,
-            },
-        )?.appendNewLine().append(resultBlock)!;
+            statements,
+            (stmt) => {
+                if (isTslReturnStatement(stmt)) {
+                    let resultBlock = new CompositeGeneratorNode();
+                    if(isTslTimeunit(timeunit)){
+                        resultBlock.append(`if timeunit != None:`)
+                        if (timeunit?.timeunit === 'day'){
+                            frame.addUtility(UTILITY_TIMEUNIT_DAY);
+                            resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_DAY.name}(${this.generateExpression(stmt.result, frame)}, timeunit)`]).appendNewLine()
+                        } else if (timeunit?.timeunit === 'week'){
+                            frame.addUtility(UTILITY_TIMEUNIT_WEEK);
+                            resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_WEEK.name}(${this.generateExpression(stmt.result, frame)}, timeunit)`]).appendNewLine()
+                        } else if (timeunit?.timeunit === 'month'){
+                            frame.addUtility(UTILITY_TIMEUNIT_MONTH);
+                            resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_MONTH.name}(${this.generateExpression(stmt.result, frame)}, timeunit)`]).appendNewLine()
+                        } else if (timeunit?.timeunit === 'year'){
+                            frame.addUtility(UTILITY_TIMEUNIT_YEAR);
+                            resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_YEAR.name}(${this.generateExpression(stmt.result, frame)}, timeunit)`]).appendNewLine()
+                        }
+                        resultBlock.append(expandToNode`return result`)
+                    }else{
+                        resultBlock.append(expandToNode`return ${this.generateExpression(stmt.result, frame)}`)
+                    }
+                    return resultBlock
+                } else {
+                    return this.generateStatement(stmt, timeunit, frame)  
+                }                
+            },{
+                    separator: NL,
+                 } 
+        )!;
     }
 
     private generateConstant(
@@ -800,29 +798,6 @@ export class TTSLPythonGenerator {
         }
     }
 
-    private generateBlock(
-        block: TslBlock,
-        frame: GenerationInfoFrame,
-    ): CompositeGeneratorNode {
-        let statements = getStatements(block);
-        if (frame.targetPlaceholder) {
-            const targetPlaceholders = frame.targetPlaceholder.flatMap((it) => getPlaceholderByName(block, it) ?? []);
-            if (!isEmpty(targetPlaceholders)) {
-                statements = this.slicer.computeBackwardSlice(statements, targetPlaceholders);
-            }
-        }
-        if (statements.length === 0 && !isTslForLoop(block.$container)) {
-            return traceToNode(block)('pass');
-        }
-        return joinTracedToNode(block, 'statements')(
-            statements,
-            (stmt) => this.generateStatement(stmt, frame),
-            {
-                separator: NL,
-            },
-        )!;
-    }
-
     private getStatementsNeededForPartialExecution(
         targetPlaceholder: TslPlaceholder,
         statementsWithEffect: TslStatement[],
@@ -874,6 +849,7 @@ export class TTSLPythonGenerator {
 
     private generateStatement(
         statement: TslStatement,
+        timeunit: TslTimeunit | undefined,
         frame: GenerationInfoFrame,
     ): CompositeGeneratorNode {
         const code: CompositeGeneratorNode[] = [];
@@ -900,7 +876,7 @@ export class TTSLPythonGenerator {
                 throw new Error(`Timespan has neither a start nor an end value`);
             }
 
-            if(end === "" && isTslFunctionBlock(statement.$container)){
+            if(end === "" && isTslBlock(statement.$container)){
                 // calculate the missing end date
                 let index = statement.$container.statements.filter(isTslTimespanStatement).indexOf(statement)
                 let following = statement.$container.statements.filter(isTslTimespanStatement).at(index+1)
@@ -908,7 +884,7 @@ export class TTSLPythonGenerator {
                     end = `< "` + following?.timespan.start?.date! + `"`
                 }
             }
-            if(start === "" && isTslFunctionBlock(statement.$container)){
+            if(start === "" && isTslBlock(statement.$container)){
                 // calculate the missing start date
                 let index = statement.$container.statements.filter(isTslTimespanStatement).indexOf(statement)
                 let previous = statement.$container.statements.filter(isTslTimespanStatement).at(index-1)
@@ -919,36 +895,36 @@ export class TTSLPythonGenerator {
             return expandTracedToNode(statement)`if ${start} date ${end}:`
             .appendNewLine()
             .indent(indentingNode =>
-                    indentingNode.append(this.generateFunctionBlock(statement.block, frame, undefined)))
+                    indentingNode.append(this.generateBlock(statement.block, frame, timeunit)))
         } else if (isTslConditionalStatement(statement)) {
             let elseBlock = new CompositeGeneratorNode
             if (isTslBlock(statement.elseBlock)){
-                let generatedBlock = this.generateBlock((statement.elseBlock), frame)
+                let generatedBlock = this.generateBlock((statement.elseBlock), frame, timeunit)
                 elseBlock.append(`else:`).appendNewLine().indent(indentingNode =>
                     indentingNode.append(generatedBlock))
             }
             return expandTracedToNode(statement)`if (${this.generateExpression((statement.expression), frame)}):`
                 .appendNewLine().indent(indentingNode =>
-                    indentingNode.append(this.generateBlock((statement.ifBlock), frame)))
+                    indentingNode.append(this.generateBlock((statement.ifBlock), frame, timeunit)))
                 .appendNewLine().append(elseBlock);
         } else if (isTslLoop(statement)) {
             if (isTslWhileLoop(statement)){
                 return expandTracedToNode(statement)`while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine().indent(indentingNode =>
-                    indentingNode.append(this.generateBlock((statement.block), frame)));
+                    indentingNode.append(this.generateBlock((statement.block), frame, timeunit)));
             } else if (isTslForLoop(statement)){
                 let firstParameter, thirdParameter = new CompositeGeneratorNode
                 if (statement.definitionStatement){
-                    firstParameter = this.generateStatement((statement.definitionStatement), frame)
+                    firstParameter = this.generateStatement((statement.definitionStatement), timeunit, frame)
                 }
                 if (statement.iteration){
-                    thirdParameter = this.generateStatement((statement.iteration), frame)
+                    thirdParameter = this.generateStatement((statement.iteration), timeunit, frame)
                 }
                 return expandTracedToNode(statement)`${firstParameter}
 while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine().indent(indentingNode =>
-                    indentingNode.append(this.generateBlock((statement.block), frame)).append(thirdParameter));
+                    indentingNode.append(this.generateBlock((statement.block), frame, timeunit)).append(thirdParameter));
             } else if (isTslForeachLoop(statement)){
                 return expandTracedToNode(statement)`for ${statement.element.name} in ${this.generateExpression(statement.list, frame).contents}:`.appendNewLine().indent(indentingNode =>
-                    indentingNode.append(this.generateBlock((statement.block), frame)));
+                    indentingNode.append(this.generateBlock((statement.block), frame, timeunit)));
             } 
         }else if (isTslReturnStatement(statement)){
                 return expandTracedToNode(statement)`return ${this.generateExpression(statement.result, frame)}`;
@@ -1194,18 +1170,23 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
             timeunit = expression.receiver.timeunit
         }
         return expandTracedToNode(expression)`${this.generateExpression(expression.receiver, frame)}(`
-        .appendIf(timeunit !== undefined, `timeunit = "${timeunit?.timeunit}"`)
         .append(expandToNode`${joinTracedToNode(
             expression.argumentList,
             'arguments',
-        )(sortedArgs, (arg) => this.generateArgument(arg, frame), { separator: ', ' })})`);
-    }
+        )(sortedArgs, (arg) => this.generateArgument(arg, frame), { separator: ', ' })}`)
+        .appendIf(timeunit !== undefined, `, timeunit = "${timeunit?.timeunit}"`)
+        .append(')');
+        }
 
     private generateFunctionParameter(
         funct: TslFunction,
     ): CompositeGeneratorNode | undefined {
+        let result = ''
+        if(funct.parameterList?.parameters.length!= 0){
+            result = ', '
+        }
         if(funct.timeunit !== undefined|| funct.groupedBy !== undefined){
-            return expandToNode`timeunit = None, groupedBy = None, date = None, `
+            return expandToNode`${result}timeunit = None, groupedBy = None`
         }
         return undefined
     }
