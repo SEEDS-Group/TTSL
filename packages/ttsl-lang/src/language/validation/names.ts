@@ -23,7 +23,6 @@ import { TTSLServices } from '../ttsl-module.js';
 
 export const CODE_NAME_CODEGEN_PREFIX = 'name/codegen-prefix';
 export const CODE_NAME_CORE_DECLARATION = 'name/core-declaration';
-export const CODE_NAME_CASING = 'name/casing';
 export const CODE_NAME_DUPLICATE = 'name/duplicate';
 
 // -----------------------------------------------------------------------------
@@ -73,71 +72,6 @@ export const nameMustNotOccurOnCoreDeclaration = (services: TTSLServices) => {
             });
         }
     };
-};
-
-// -----------------------------------------------------------------------------
-// Casing
-// -----------------------------------------------------------------------------
-
-export const nameShouldHaveCorrectCasing = (services: TTSLServices) => {
-    const settingsProvider = services.workspace.SettingsProvider;
-
-    return async (node: TslDeclaration, accept: ValidationAcceptor) => {
-        if (!(await settingsProvider.shouldValidateNameConvention())) {
-            /* c8 ignore next 2 */
-            return;
-        }
-
-        switch (node.$type) {
-            case TslFunction:
-                return nameShouldBeLowerCamelCase(node, 'functions', accept);
-            case TslModule:
-                const name = node.name ?? '';
-                const segments = name.split('.');
-                if (name !== '' && segments.every((it) => it !== '') && !segments.every(isLowerCamelCase)) {
-                    accept('warning', 'All segments of the qualified name of a package should be lowerCamelCase.', {
-                        node,
-                        property: 'name',
-                        code: CODE_NAME_CASING,
-                    });
-                }
-                return;
-            case TslParameter:
-                return nameShouldBeLowerCamelCase(node, 'parameters', accept);
-            case TslPlaceholder:
-                return nameShouldBeLowerCamelCase(node, 'placeholders', accept);
-            case TslResult:
-                if(node.name){
-                    return nameShouldBeLowerCamelCase(node, 'results', accept);
-                }
-                
-        }
-        /* c8 ignore next */
-    };
-};
-
-const nameShouldBeLowerCamelCase = (node: TslDeclaration, nodeName: string, accept: ValidationAcceptor): void => {
-    const name = node.name ?? '';
-    if (!isLowerCamelCase(name)) {
-        acceptCasingWarning(node, nodeName, 'lowerCamelCase', accept);
-    }
-};
-
-const isLowerCamelCase = (name: string): boolean => {
-    return /^[a-zäöüß][a-zA-Z0-9äöüß]*$/gu.test(name);
-};
-
-const acceptCasingWarning = (
-    node: TslDeclaration,
-    nodeName: string,
-    expectedCasing: string,
-    accept: ValidationAcceptor,
-) => {
-    accept('warning', `Names of ${nodeName} should be ${expectedCasing}.`, {
-        node,
-        property: 'name',
-        code: CODE_NAME_CASING,
-    });
 };
 
 // -----------------------------------------------------------------------------

@@ -346,7 +346,7 @@ export class TTSLTypeComputer {
         const target = node.target.ref;
         
         // Compute Type of Constant with different Types for different Timespans
-        if(isTslConstant(target) && (!target.type.at(0) || target.type.length >= 2)){
+        if(isTslConstant(target) && (target.timespanValueEntries.at(0)?.type || target.type.length >= 2)){
 
             const containingTimespan = this.computeContainingTimespan(node);
             const constantTimespans = this.fillinTimespans(target.timespanValueEntries)
