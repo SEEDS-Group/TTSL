@@ -6,7 +6,6 @@ import {
     moduleMustContainUniqueNames,
     nameMustNotOccurOnCoreDeclaration,
     nameMustNotStartWithCodegenPrefix,
-    nameShouldHaveCorrectCasing,
 } from './names.js';
 import {
     argumentListMustNotHavePositionalArgumentsAfterNamedArguments,
@@ -31,10 +30,8 @@ import {
     moduleWithDeclarationsMustStatePackage,
 } from './other/modules.js';
 import {
-    callArgumentListShouldBeNeeded,
     chainedExpressionNullSafetyShouldBeNeeded,
     elvisOperatorShouldBeNeeded,
-    functionResultListShouldNotBeEmpty,
     importedDeclarationAliasShouldDifferFromDeclarationName,
 } from './style.js';
 import {
@@ -73,7 +70,6 @@ export const registerValidationChecks = function (services: TTSLServices) {
             groupByVariableMustBeASingleID(),
         ],
         TslCall: [
-            callArgumentListShouldBeNeeded(services),
             callArgumentMustBeConstantIfParameterIsConstant(services),
             callArgumentTypesMustMatchParameterTypes(services),
             callMustNotBeRecursive(services),
@@ -86,10 +82,8 @@ export const registerValidationChecks = function (services: TTSLServices) {
         TslDeclaration: [
             nameMustNotOccurOnCoreDeclaration(services),
             nameMustNotStartWithCodegenPrefix,
-            nameShouldHaveCorrectCasing(services),
         ],
         TslFunction: [
-            functionResultListShouldNotBeEmpty(services),
             groupedFunctionHasAggregation(),
             groupedFunctionHasValidID(),
         ],
