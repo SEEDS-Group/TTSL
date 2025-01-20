@@ -5,6 +5,8 @@ from einkommenssteuerAbzüge import sparerpauschbetrag
 from einkommenssteuerAbzüge import sparerWerbungskostenPauschbetrag
 from math import calc_max
 
+id data person: Int;
+
 /**
  * Berechnung der Abgeltungssteuer auf Steuernummer-Ebene.
  */
@@ -18,7 +20,8 @@ public function per year abgeltungssteuer(): Float {
  * Berechnung des zu versteuernden Einkommens auf Steuernummer-Ebene.
  */
 public function per year zuVersteuerndeKapitalerträge(): Float {
-    var abzug = anzahlPersonen() * ( # TODO: anzahlPersonen() is not defined
+    var anzahlPersonen = aggregate count of person groupedBy person;
+    var abzug = anzahlPersonen * (
         sparerpauschbetrag
         + sparerWerbungskostenPauschbetrag
     );
