@@ -10,7 +10,7 @@ import {
     isTslExpressionStatement,
     isTslFunction, 
     isTslLoop,
-    isTslPlaceholder
+    isTslTimespanStatement
 } from '../generated/ast.js';
 import { getParameters } from '../helpers/nodeProperties.js';
 
@@ -90,33 +90,28 @@ export const groupedFunctionHasAggregation = () => {
                 }
             }
         })
-        
-        
     }
 };
 
-const hasAggregation = (statements: TslStatement[]| undefined, id: string) => {
-    let result =  false
+const hasAggregation = (statements: TslStatement[]| undefined, id: string, prev: boolean = false) => {
     if(statements === undefined){
-        return result
+        return false || prev
     }
+    statements.forEach(stmt => {
+        if(isTslExpressionStatement(stmt) && isTslAggregation(stmt.expression) && stmt.expression.groupedBy.id.map(elmId => elmId.target.ref?.name).includes(id)){
+            prev =  true;
+        } else if (isTslAssignment(stmt) && isTslAggregation(stmt.expression) && stmt.expression.groupedBy.id.map(elmId => elmId.target.ref?.name).includes(id)){
+            prev = true;
+        }
+    })
+
     statements.forEach(elm => {
-        if(isTslExpressionStatement(elm) && isTslAggregation(elm.expression) && elm.expression.groupedBy.id.map(elmId => elmId.target.ref?.name).includes(id)){
-            result = true
-        } else if(isTslConditionalStatement(elm)){
-            result = (hasAggregation(elm.ifBlock.statements, id) && hasAggregation(elm.elseBlock?.statements, id))
-        } else if(isTslLoop(elm)){
-            result = hasAggregation(elm.block.statements, id)
-        } else if(isTslAssignment(elm)){
-            if(isTslAggregation(elm.expression)){
-                result = true
-            }else if(isTslPlaceholder(elm.assignee)){
-                if(elm.assignee.groupedBy?.id.map(elmId => elmId.target.ref?.name).includes(id)){
-                    result = true
-                }
-            }
+        if(isTslConditionalStatement(elm)){
+            prev = hasAggregation(elm.ifBlock.statements, id, prev) && hasAggregation(elm.elseBlock?.statements, id, prev)
+        } else if(isTslLoop(elm) || isTslTimespanStatement(elm)){
+            prev = hasAggregation(elm.block.statements, id, prev)
         }
     });
-    return result
+    return prev
 }
 

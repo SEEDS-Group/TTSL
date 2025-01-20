@@ -293,7 +293,7 @@ interface TslExpressionStatement extends TslStatement {
 }
 
 TslExpressionStatement returns TslExpressionStatement:
-    expression=TslExpression ';'
+    expression=TslExpression ';'?
 ;
 
 interface TslConditionalStatement extends TslStatement{
