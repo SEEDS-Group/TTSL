@@ -8,7 +8,7 @@ from sozialversicherungsbeitrag import gesetzlicheKrankenversicherung, gesetzlic
 from einkommenssteuerParam import einkommenssteuerTarif
 
 from freibeträge import kinderfreibetragAnzahlAnsprüche
-from einkommenssteuer import einkommenssteuer, tarif
+from einkommenssteuer import tarif
 
 from gesetzlicheKrankenversicherung import bruttolohnRegulärBeschäftigt as krankenversicherungBruttolohnRegulärBeschäftigt
 from gesetzlicheKrankenversicherung import zusatzbeitragssatz as krankenversicherungZusatzbeitragssatz

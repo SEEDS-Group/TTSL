@@ -4,8 +4,8 @@ from math import calc_max
 
 from einkommen import summeEinkommen
 from freibeträge import sonderausgaben
-from einkommenssteuer import ohneKinderfreibetrag as einkommenssteuerMitKinderfreibetrag
-from einkommenssteuer import kinderfreibetragGünstiger
+# from einkommenssteuer import ohneKinderfreibetrag as einkommenssteuerMitKinderfreibetrag
+# from einkommenssteuer import kinderfreibetragGünstiger
 
 # /**
 #  * Sum up all tax-deductible allowances applicable at the individual level.

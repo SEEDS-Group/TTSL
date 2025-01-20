@@ -5,27 +5,28 @@ from math import piecewisePolynomial
 
 id data person: Int;
 
-/**
- * Berechnung der Einkommenssteuer ohne Kinderfreibetrag auf Steuernummer-Ebene.
- */
-public function per year ohneKinderfreibetrag(): Float {
-    var anzahlPersonen = aggregate count of person groupedBy person;
-    var zuVerstEinkProPerson = zuVersteuerndesEinkommenOhneKinderfreibetrag() / anzahlPersonen;
-    var einkommensteuer = anzahlPersonen * tarif(zuVerstEinkProPerson);
-    return einkommensteuer;
-}
+# TODO: Abhängig von zuVersteuerndesEinkommenOhneKinderfreibetrag, welches abhängig von behinderungsgradPauschbetrag ist
+# /**
+#  * Berechnung der Einkommenssteuer ohne Kinderfreibetrag auf Steuernummer-Ebene.
+#  */
+# public function per year ohneKinderfreibetrag(): Float {
+#     var anzahlPersonen = aggregate count of person groupedBy person;
+#     var zuVerstEinkProPerson = zuVersteuerndesEinkommenOhneKinderfreibetrag() / anzahlPersonen;
+#     var einkommensteuer = anzahlPersonen * tarif(zuVerstEinkProPerson);
+#     return einkommensteuer;
+# }
 
-/**
- * Berechnung der Einkommenssteuer mit Kinderfreibetrag auf Steuernummer-Ebene ab 2002.
- * TODO
- */
-public function per year mitKinderfreibetrag(): Float {
-    from 2002-01-01 {
-        var zuVerstEinkProPerson = zuVersteuerndesEinkommenMitKinderfreibetrag() / anzahlPersonen();
-        var einkommensteuer = anzahlPersonen() * einkommensteuerTarif(zuVerstEinkProPerson, einkommensteuerParameter);
-        return einkommensteuer;
-    }
-}
+# /**
+#  * Berechnung der Einkommenssteuer mit Kinderfreibetrag auf Steuernummer-Ebene ab 2002.
+#  */
+# public function per year mitKinderfreibetrag(): Float {
+#     from 2002-01-01 {
+#         var anzahlPersonen = aggregate count of person groupedBy person;
+#         var zuVerstEinkProPerson = zuVersteuerndesEinkommenMitKinderfreibetrag() / anzahlPersonen;
+#         var einkommensteuer = anzahlPersonen * einkommensteuerTarif(zuVerstEinkProPerson, einkommensteuerParameter);
+#         return einkommensteuer;
+#     }
+# }
 
 /**
  * Berechnung des Einkommensteuertarifs auf ein Einkommen x.
@@ -34,36 +35,36 @@ public function tarif(x: Float): Float {
     return piecewisePolynomial(x, einkommenssteuerTarif);
 }
 
-/**
- * Einkommenssteuer auf Steuernummer-Ebene, die Kindergeld oder Kinderfreibetrag berücksichtigt.
- */
-public function per year einkommenssteuer(): Float {
-    to 1996-12-31 {
-        return einkommenssteuerMitKinderfreibetrag();
-    }
+# /**
+#  * Einkommenssteuer auf Steuernummer-Ebene, die Kindergeld oder Kinderfreibetrag berücksichtigt.
+#  */
+# public function per year einkommenssteuer(): Float {
+#     to 1996-12-31 {
+#         return mitKinderfreibetrag();
+#     }
 
-    from 1997-01-01 {
-        if (kinderfreibetragGünstiger()) {
-            return einkommenssteuerMitKinderfreibetrag() + relativesKindergeld();
-        } else {
-            return einkommenssteuerOhneKinderfreibetrag();
-        }
-    }
-}
+#     from 1997-01-01 {
+#         if (kinderfreibetragGünstiger()) {
+#             return mitKinderfreibetrag() + relativesKindergeld();
+#         } else {
+#             return ohneKinderfreibetrag();
+#         }
+#     }
+# }
 
-/**
- * Bestimmung, ob der Kinderfreibetrag günstiger ist als das Kindergeld.
- */
-public function kinderfreibetragGünstiger(): Boolean {
-    var differenzbetrag = ohneKinderfreibetrag() - mitKinderfreibetrag();
-    return differenzbetrag > relativesKindergeld();
-}
+# /**
+#  * Bestimmung, ob der Kinderfreibetrag günstiger ist als das Kindergeld.
+#  */
+# public function kinderfreibetragGünstiger(): Boolean {
+#     var differenzbetrag = ohneKinderfreibetrag() - mitKinderfreibetrag();
+#     return differenzbetrag > relativesKindergeld();
+# }
 
 # TODO: kindergeldParameter["kindergeld"].keys() nicht Möglich
 # /**
 #  * Kindergeld relevant für die Einkommenssteuer ohne Staffelung ab 2023.
 #  */
-# public function per month relativesKindergeldOhneStaffelung(): Float {
+# public function per month relativesKindergeld(): Float {
 #     to 2022-12-31 {
 #         var anzahlAnsprüche = anzahlAnsprüche1() + anzahlAnsprüche2();
 #         if (anzahlAnsprüche == 0) {
