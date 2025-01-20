@@ -39,6 +39,7 @@ import { TTSLPythonServer } from './runtime/ttsl-python-server.js';
 import { TTSLRunner } from './runtime/ttsl-runner.js';
 import { TTSLSlicer } from './flow/ttsl-slicer.js';
 import { TTSLServiceRegistry } from './ttsl-service-registry.js';
+import { TTSLTimespanComputer } from './helpers/timespanComputer.js';
 
 /**
  * Declaration of custom services - add your own service classes here.
@@ -62,6 +63,7 @@ export type TTSLAddedServices = {
     };
     helpers: {
         NodeMapper: TTSLNodeMapper;
+        TimespanComputer: TTSLTimespanComputer
     };
     lsp: {
         NodeInfoProvider: TTSLNodeInfoProvider;
@@ -120,6 +122,7 @@ export const TTSLModule: Module<TTSLServices, PartialLangiumServices & TTSLAdded
     },
     helpers: {
         NodeMapper: (services) => new TTSLNodeMapper(services),
+        TimespanComputer: (services) => new TTSLTimespanComputer()
     },
     lsp: {
         CallHierarchyProvider: (services) => new TTSLCallHierarchyProvider(services),

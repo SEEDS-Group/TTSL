@@ -72,16 +72,19 @@ import {
     AnyType,
 } from './model.js';
 import type { TTSLTypeChecker } from './ttsl-type-checker.js';
+import { TTSLTimespanComputer } from '../helpers/timespanComputer.js';
 
 export class TTSLTypeComputer {
     private readonly astNodeLocator: AstNodeLocator;
     private readonly typeChecker: TTSLTypeChecker;
+    private readonly timespanComputer: TTSLTimespanComputer
 
     private readonly nodeTypeCache: WorkspaceCache<string, Type>;
 
     constructor(services: TTSLServices) {
         this.astNodeLocator = services.workspace.AstNodeLocator;
         this.typeChecker = services.types.TypeChecker;
+        this.timespanComputer = services.helpers.TimespanComputer;
 
         this.nodeTypeCache = new WorkspaceCache(services.shared);
     }
@@ -348,7 +351,7 @@ export class TTSLTypeComputer {
         // Compute Type of Constant with different Types for different Timespans
         if(isTslConstant(target) && (target.timespanValueEntries.at(0)?.type || target.type.length >= 2)){
 
-            const containingTimespan = this.computeContainingTimespan(node);
+            const containingTimespan = this.timespanComputer.computeContainingTimespan(node);
             const constantTimespans = this.fillinTimespans(target.timespanValueEntries)
 
             if(containingTimespan && constantTimespans){
@@ -383,47 +386,6 @@ export class TTSLTypeComputer {
             }
         }
         return UnknownType
-    }
-
-    private computeContainingTimespan(node: TslReference): string[] {
-        const containingFunction = AstUtils.getContainerOfType(node, isTslFunction)
-        const containingTimespan = AstUtils.getContainerOfType(node, isTslTimespanStatement)
-
-        let result = this.computeTimespan(containingTimespan!.timespan, containingFunction?.body.statements.filter(isTslTimespanStatement).map(stmt => stmt.timespan)!)
-
-        return result
-    }
-
-    private computeTimespan(node: TslTimespan, allTimespans: TslTimespan[]): string[]{
-        const indexOfTimespan = allTimespans.findIndex(timespan => timespan === node)!
-
-        let start = ""
-        let end = ""
-        // compute missing Timespan date if needed
-        if(!node.end && node.start){
-            start = node.start.date
-            
-            const followingTimespan = allTimespans.at(indexOfTimespan + 1)
-            if(!followingTimespan?.start){
-                end = new Date().toLocaleString("fr-CA").split(' ')[0]!
-            } else {
-                end = followingTimespan.start!.date!
-            }
-        } else if(!node.start && node.end){
-            end = node.end.date
-
-            const beforeTimespan = allTimespans.at(indexOfTimespan - 1)
-
-            if(!beforeTimespan?.end){
-                start = "1900-01-01"
-            } else {
-                start = beforeTimespan.end!.date!
-            }
-        } else {
-            start = node.start!.date!
-            end = node.end!.date!
-        }
-        return [start, end]
     }
 
     private fillinTimespans(node: TslTimespanValueEntry[]): String[][]{

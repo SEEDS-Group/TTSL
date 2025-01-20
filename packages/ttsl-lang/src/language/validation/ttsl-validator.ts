@@ -51,6 +51,7 @@ import {
 import { indexedAccessIndexMustBeValid } from './other/expressions/indexedAccess.js';
 import { chainedExpressionsMustBeNullSafeIfReceiverIsNullable } from './other/expressions/chainedExpressions.js';
 import { groupByVariableMustBeASingleID, groupedFunctionHasAggregation, groupedFunctionHasValidID } from './aggregation.js';
+import { followingOrPreviousMustFillInMissingTimespanInformation } from './other/modifier/timespans.js';
 
 /**
  * Register custom validation checks.
@@ -121,6 +122,7 @@ export const registerValidationChecks = function (services: TTSLServices) {
         TslResult: [resultMustHaveTypeHint],
         TslTemplateString: [templateStringMustHaveExpressionBetweenTwoStringParts],
         TslTypeCast: [typeCastExpressionMustHaveUnknownType(services)],
+        TslTimespan: [followingOrPreviousMustFillInMissingTimespanInformation(services)]
     };
     registry.register(checks);
 };
