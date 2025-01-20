@@ -108,12 +108,12 @@ public function per year vorsorgePauschale(): Float{
     from 2010-01-01 {
         var bruttolohnRente: Float = 0.0;
         if (wohnortOst) {
-            var bruttolohnRente = calc_min(
+            bruttolohnRente = calc_min(
                 bruttolohn * 12,
                 beitragsbemessungsgrenze["ges_rentenv"]["ost"] * 12
             );
         } else {
-            var bruttolohnRente = calc_min(
+            bruttolohnRente = calc_min(
                 bruttolohn * 12,
                 beitragsbemessungsgrenze["ges_rentenv"]["west"] * 12
             );
@@ -135,7 +135,7 @@ public function per year vorsorgePauschale(): Float{
  * Berechnung des Kinderfreibetrags für die Lohnsteuer und den Solidaritätszuschlag.
  */
 public function per year kinderfreibetragFürLohnsteuerSoli(): Float {
-    var kinderfreibetragBasis = kinderfreibetrag["sächlichesExistenzminimum"] + kinderfreibetrag["beitragErziehungAusbildung"];
+    var kinderfreibetragBasis = kinderFreibetrag["sächlichesExistenzminimum"] + kinderFreibetrag["beitragErziehungAusbildung"];
 
     if (steuerklasse == 1 or steuerklasse == 2 or steuerklasse == 3) {
         return kinderfreibetragBasis * 2 * kinderfreibetragAnzahlAnsprüche();
