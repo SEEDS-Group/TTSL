@@ -109,7 +109,7 @@ public function per month beitragssatzJahresanfang(): Float {
     }
     from 2019-01-01 {
         var allgemeinerBeitragssatz = beitragssatzGesetzlicheKrankenversicherung["allgemein"];
-        return (allgemeinerBeitragssatz() + zusatzbeitragssatz()) / 2;
+        return (allgemeinerBeitragssatz + zusatzbeitragssatz()) / 2;
     }
 }
 
@@ -140,7 +140,7 @@ public function per month beitragssatzArbeitgeber(): Float {
     from 2019-01-01 {
         var allgemeinerBeitragssatz = beitragssatzGesetzlicheKrankenversicherung["allgemein"];
         var zusatzbeitragssatz = beitragssatzGesetzlicheKrankenversicherung["mean_zusatzbeitrag"];
-        return (allgemeinerBeitragssatz + zusatzbeitragssatz()) / 2;
+        return (allgemeinerBeitragssatz + zusatzbeitragssatz) / 2;
     }
 }
 
