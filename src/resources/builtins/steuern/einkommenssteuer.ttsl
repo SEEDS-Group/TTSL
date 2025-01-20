@@ -3,14 +3,14 @@ package einkommenssteuer
 from einkommenssteuerParam import einkommenssteuerTarif
 from math import piecewisePolynomial
 
-id data person: Int;
+id data steuernummer: Int;
 
 # TODO: Abhängig von zuVersteuerndesEinkommenOhneKinderfreibetrag, welches abhängig von behinderungsgradPauschbetrag ist
 # /**
 #  * Berechnung der Einkommenssteuer ohne Kinderfreibetrag auf Steuernummer-Ebene.
 #  */
-# public function per year ohneKinderfreibetrag(): Float {
-#     var anzahlPersonen = aggregate count of person groupedBy person;
+# public function per year ohneKinderfreibetrag(): Float groupedBy steuernummer {
+#     var anzahlPersonen = aggregate count of steuernummer groupedBy steuernummer;
 #     var zuVerstEinkProPerson = zuVersteuerndesEinkommenOhneKinderfreibetrag() / anzahlPersonen;
 #     var einkommensteuer = anzahlPersonen * tarif(zuVerstEinkProPerson);
 #     return einkommensteuer;
@@ -19,9 +19,9 @@ id data person: Int;
 # /**
 #  * Berechnung der Einkommenssteuer mit Kinderfreibetrag auf Steuernummer-Ebene ab 2002.
 #  */
-# public function per year mitKinderfreibetrag(): Float {
+# public function per year mitKinderfreibetrag(): Float groupedBy steuernummer {
 #     from 2002-01-01 {
-#         var anzahlPersonen = aggregate count of person groupedBy person;
+#         var anzahlPersonen = aggregate count of steuernummer groupedBy steuernummer;
 #         var zuVerstEinkProPerson = zuVersteuerndesEinkommenMitKinderfreibetrag() / anzahlPersonen;
 #         var einkommensteuer = anzahlPersonen * einkommensteuerTarif(zuVerstEinkProPerson, einkommensteuerParameter);
 #         return einkommensteuer;
