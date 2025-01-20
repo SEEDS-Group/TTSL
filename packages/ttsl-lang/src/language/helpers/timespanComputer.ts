@@ -1,5 +1,5 @@
 import { AstUtils } from "langium"
-import { isTslFunction, isTslTimespanStatement, TslReference, TslTimespan } from "../generated/ast.js"
+import { isTslFunction, isTslTimespan, isTslTimespanStatement, TslReference, TslTimespan } from "../generated/ast.js"
 
 export class TTSLTimespanComputer {
     // -----------------------------------------------------------------------------------------------------------------
@@ -62,7 +62,7 @@ export class TTSLTimespanComputer {
     }
 
     hasPreviousTimespan(node: TslTimespan): boolean {
-        return this.getPreviousTimespan !== undefined
+        return isTslTimespan(this.getPreviousTimespan)
     }
 
     getFollowingTimespan(node: TslTimespan): TslTimespan|undefined {
@@ -76,6 +76,6 @@ export class TTSLTimespanComputer {
     }
 
     hasFollowingTimespan(node: TslTimespan): boolean {
-        return this.getFollowingTimespan !== undefined
+        return isTslTimespan(this.getFollowingTimespan)
     }
 }
