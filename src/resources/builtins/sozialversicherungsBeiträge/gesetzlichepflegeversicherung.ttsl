@@ -10,7 +10,7 @@ from einkommensgrenzen import midijobBeitragspflichtigeEinnahmeArbeitnehmer
 
 from gesetzlicheKrankenversicherung import betragBruttolohn as gesetzlicheKrankenversicherungBruttolohn
 from gesetzlicheKrankenversicherung import bemessungsgrundlageSelbstständig
-from gesetzlicheKrankenversicherung import bemessungsgrundlageRente
+# from gesetzlicheKrankenversicherung import bemessungsgrundlageRente
 
 from math import calc_min
 
@@ -63,34 +63,6 @@ public function per year beitragssatz(): Float {
 }
 
 /**
- * Beitrag für die gesetzliche Pflegeversicherung bis März 2003.
- */
-public function per month beitrag(): Float {
-    to 2003-03-31 {
-        if (selbstständig) {
-            return beitragSelbstständig() + beitragRente();
-        }
-        if (geringfügigBeschäftigt()) {
-            return 0 + beitragRente();
-        }
-        return beitragRegulärBeschäftigt() + beitragRente();
-    }
-
-    from 2003-04-01 {
-        if (selbstständig) {
-            return beitragSelbstständig() + beitragRente();
-        }
-        if (geringfügigBeschäftigt()) {
-            return 0 + beitragRente();
-        }
-        if (inGleitzone()) {
-            return beitragMidijobArbeitnehmer() + beitragRente();
-        }
-        return beitragRegulärBeschäftigt() + beitragRente();
-    }
-}
-
-/**
  * Beitrag für regulär Beschäftigte in der gesetzlichen Pflegeversicherung.
  */
 public function per month beitragRegulärBeschäftigt(): Float {
@@ -134,23 +106,51 @@ public function per month beitragSelbstständig(): Float {
         return bemessungsgrundlageSelbstständig() * (beitragssatz() + gesetzlichePflegeversicherung["standard"]);
     }
 }
+# TODO: Abhängig von bemessungsgrundlageRente, welche abhängig von der Rente ist
+# /**
+#  * Beitrag für Renteneinkommen in der gesetzlichen Pflegeversicherung.
+#  */
+# public function per month beitragRente(): Float {
+#     to 2004-03-31 {
+#         return bemessungsgrundlageRente() * beitragssatz();
+#     }
 
-/**
- * Beitrag für Renteneinkommen in der gesetzlichen Pflegeversicherung.
- */
-public function per month beitragRente(): Float {
-    to 2004-03-31 {
-        return bemessungsgrundlageRente() * beitragssatz();
-    }
+#     from 2004-04-01 to 2004-12-31 {
+#         return bemessungsgrundlageRente() * beitragssatz() * 2;
+#     }
 
-    from 2004-04-01 to 2004-12-31 {
-        return bemessungsgrundlageRente() * beitragssatz() * 2;
-    }
+#     from 2005-01-01 {
+#         return bemessungsgrundlageRente() * beitragssatz() + gesetzlichePflegeversicherung["standard"];
+#     }
+# }
 
-    from 2005-01-01 {
-        return bemessungsgrundlageRente() * beitragssatz() + gesetzlichePflegeversicherung["standard"];
-    }
-}
+# /**
+#  * Beitrag für die gesetzliche Pflegeversicherung bis März 2003.
+#  */
+# public function per month beitrag(): Float {
+#     to 2003-03-31 {
+#         if (selbstständig) {
+#             return beitragSelbstständig() + beitragRente();
+#         }
+#         if (geringfügigBeschäftigt()) {
+#             return 0 + beitragRente();
+#         }
+#         return beitragRegulärBeschäftigt() + beitragRente();
+#     }
+
+#     from 2003-04-01 {
+#         if (selbstständig) {
+#             return beitragSelbstständig() + beitragRente();
+#         }
+#         if (geringfügigBeschäftigt()) {
+#             return 0 + beitragRente();
+#         }
+#         if (inGleitzone()) {
+#             return beitragMidijobArbeitnehmer() + beitragRente();
+#         }
+#         return beitragRegulärBeschäftigt() + beitragRente();
+#     }
+# }
 
 /**
  * Beitrag für Midijobs.

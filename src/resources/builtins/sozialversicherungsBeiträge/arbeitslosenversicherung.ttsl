@@ -1,6 +1,6 @@
 package arbeitslosenversicherung
 
-from gesetzlichePflegeversicherung import beitrag as gesetzlichePflegeVersicherungsBeitrag
+# from gesetzlichePflegeversicherung import beitrag as gesetzlichePflegeVersicherungsBeitrag
 # from gesetzlicheKrankenversicherung import beitrag as gesetzlicheKrankenVersicherungsBeitrag
 from gesetzlicheRentenversicherung import beitrag as gesetzlicheRentenVersicherungsBeitrag
 
