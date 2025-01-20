@@ -22,9 +22,8 @@ public function per month beitrag(): Float {
         var beitrRegularJob = beitragBruttolohn() * beitragssatzGesetzlicheRentenversicherung;
         if (geringfügigBeschäftigt()) {
             return 0.0;
-        } else {
-            return beitrRegularJob;
         }
+        return beitrRegularJob;
     }
 
     from 2003-04-01 {
@@ -47,9 +46,8 @@ public function per month beitragArbeitgeber(): Float {
         var beitrRegularJob = beitragBruttolohn() * beitragssatzGesetzlicheRentenversicherung;
         if (geringfügigBeschäftigt()) {
             return bruttolohn * pauschalabgabenGeringfügigeBeschäftigung["ges_rentenv"];
-        } else {
-            return beitrRegularJob;
         }
+        return beitrRegularJob;
     }
 
     from 2003-04-01 {
@@ -60,9 +58,8 @@ public function per month beitragArbeitgeber(): Float {
 
         if (inGleitzone()) {
             return beitragMidijobArbeitgeber();
-        } else {
-            return beitrRegularJob;
         }
+        return beitrRegularJob;
     }
 }
 
@@ -97,7 +94,7 @@ public function per month beitragMidijobArbeitnehmer(): Float {
     }
 
     from 2022-10-01 {
-        return midijobBeitragspflichtigeEinnahmeArbeitnehmer * beitragssatzGesetzlicheRentenversicherung;
+        return midijobBeitragspflichtigeEinnahmeArbeitnehmer() * beitragssatzGesetzlicheRentenversicherung;
     }
 }
 
