@@ -15,7 +15,7 @@ export const followingOrPreviousMustFillInMissingTimespanInformation = (services
                 code: CODE_MISSMATCHING_TIMESPAN,
             });
         }
-        else if (!node.end && timespanComputer.hasFollowingTimespan(node) && !timespanComputer.getFollowingTimespan(node)?.end){
+        else if (!node.end && timespanComputer.hasFollowingTimespan(node) && !timespanComputer.getFollowingTimespan(node)?.start){
             accept('error', `Timespan is missing an ending date.`, {
                 node: node,
                 code: CODE_MISSMATCHING_TIMESPAN,
