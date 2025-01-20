@@ -404,20 +404,20 @@ export class TTSLTypeComputer {
             start = node.start.date
             
             const followingTimespan = allTimespans.at(indexOfTimespan + 1)
-            if(!followingTimespan){
+            if(!followingTimespan?.start){
                 end = new Date().toLocaleString("fr-CA").split(' ')[0]!
             } else {
-                end = followingTimespan?.start!.date!
+                end = followingTimespan.start!.date!
             }
         } else if(!node.start && node.end){
             end = node.end.date
 
             const beforeTimespan = allTimespans.at(indexOfTimespan - 1)
 
-            if(!beforeTimespan){
+            if(!beforeTimespan?.end){
                 start = "1900-01-01"
             } else {
-                start = beforeTimespan?.end!.date!
+                start = beforeTimespan.end!.date!
             }
         } else {
             start = node.start!.date!
