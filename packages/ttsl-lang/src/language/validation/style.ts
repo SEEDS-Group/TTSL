@@ -15,41 +15,9 @@ import { NullConstant } from '../partialEvaluation/model.js';
 import { TTSLServices } from '../ttsl-module.js';
 import { UnknownType } from '../typing/model.js';
 
-export const CODE_STYLE_UNNECESSARY_ARGUMENT_LIST = 'style/unnecessary-argument-list';
 export const CODE_STYLE_UNNECESSARY_ELVIS_OPERATOR = 'style/unnecessary-elvis-operator';
 export const CODE_STYLE_UNNECESSARY_IMPORT_ALIAS = 'style/unnecessary-import-alias';
 export const CODE_STYLE_UNNECESSARY_NULL_SAFETY = 'style/unnecessary-null-safety';
-export const CODE_STYLE_UNNECESSARY_RESULT_LIST = 'style/unnecessary-result-list';
-
-// -----------------------------------------------------------------------------
-// Unnecessary argument lists
-// -----------------------------------------------------------------------------
-
-export const callArgumentListShouldBeNeeded = (services: TTSLServices) => {
-    const settingsProvider = services.workspace.SettingsProvider;
-
-    return async (node: TslCall, accept: ValidationAcceptor) => {
-        if (!(await settingsProvider.shouldValidateCodeStyle())) {
-            /* c8 ignore next 2 */
-            return;
-        }
-
-        const argumentList = node.argumentList;
-        if (!argumentList || !isEmpty(argumentList.arguments)) {
-            // If there are arguments, they are either needed or erroneous (i.e. we already show an error)
-            return;
-        }
-
-        const callable = services.helpers.NodeMapper.callToCallable(node);
-
-        if (isEmpty(getParameters(callable))) {
-            accept('info', 'This argument list can be removed.', {
-                node: argumentList,
-                code: CODE_STYLE_UNNECESSARY_ARGUMENT_LIST,
-            });
-        }
-    };
-};
 
 // -----------------------------------------------------------------------------
 // Unnecessary bodies
@@ -174,29 +142,6 @@ export const chainedExpressionNullSafetyShouldBeNeeded = (services: TTSLServices
             accept('info', 'The receiver is never null, so null-safety is unnecessary.', {
                 node,
                 code: CODE_STYLE_UNNECESSARY_NULL_SAFETY,
-            });
-        }
-    };
-};
-
-// -----------------------------------------------------------------------------
-// Unnecessary result lists
-// -----------------------------------------------------------------------------
-
-export const functionResultListShouldNotBeEmpty = (services: TTSLServices) => {
-    const settingsProvider = services.workspace.SettingsProvider;
-
-    return async (node: TslFunction, accept: ValidationAcceptor) => {
-        if (!(await settingsProvider.shouldValidateCodeStyle())) {
-            /* c8 ignore next 2 */
-            return;
-        }
-
-        if (node.result && node.body.statements.filter(isTslReturnStatement).at(0) === undefined) {
-            accept('info', 'This result list can be removed.', {
-                node,
-                property: 'result',
-                code: CODE_STYLE_UNNECESSARY_RESULT_LIST,
             });
         }
     };
