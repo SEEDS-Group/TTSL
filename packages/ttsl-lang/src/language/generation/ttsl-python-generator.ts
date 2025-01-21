@@ -79,6 +79,7 @@ import {
     isTslExpression,
     isTslTypeAlias,
     isTslBlock,
+    isTslData,
 } from '../generated/ast.js';
 import { isInFile, isFile } from '../helpers/fileExtensions.js';
 import {
@@ -582,10 +583,11 @@ export class TTSLPythonGenerator {
             generateOptions.targetPlaceholder,
             generateOptions.disableRunnerIntegration,
         );
+
         return expandTracedToNode(funct)`def ${traceToNode(
             funct,
             'name',
-        )(this.getPythonNameOrDefault(funct))}(${this.generateParameters(funct.parameterList, infoFrame)}${this.generateFunctionParameter(funct)})`.appendIf(funct.result !== undefined, expandToNode`->${this.generateType(funct.result?.type, infoFrame, true)}`).append(`:`)
+        )(this.getPythonNameOrDefault(funct))}(${this.containedData(funct, infoFrame)}`.append(expandToNode`${this.generateParameters(funct.parameterList, infoFrame)}`).append(expandToNode`${this.generateFunctionParameter(funct)})`).appendIf(funct.result !== undefined, expandToNode`->${this.generateType(funct.result?.type, infoFrame, true)}`).append(`:`)
             .appendNewLine()
             .indent({ indentedChildren: [this.generateBlock(funct.body, infoFrame, funct.timeunit)], indentation: PYTHON_INDENT });
     }
@@ -693,6 +695,33 @@ export class TTSLPythonGenerator {
             /* c8 ignore next 2 */
             return undefined;
         }
+    }
+
+    private containedData(
+        funct: TslFunction,
+        frame: GenerationInfoFrame,
+    ): CompositeGeneratorNode | undefined {
+        let result = new CompositeGeneratorNode()
+
+        let datas = AstUtils.streamAllContents(funct).flatMap((it) => {
+            if (isTslReference(it) && isTslData(it.target.ref)) {
+                return [it.target.ref];
+            } else {
+                return [];
+            }
+        });
+        if(datas.isEmpty()){
+            return undefined
+        }
+
+        datas = datas.distinct()
+
+        datas.forEach(data => {
+            result.append(expandToNode`${data.name}`.append(expandToNode`${this.generateType(data.type, frame)}, `))
+        })
+        
+
+        return result
     }
 
     private generateParameters(
@@ -1182,9 +1211,11 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
         funct: TslFunction,
     ): CompositeGeneratorNode | undefined {
         let result = ''
-        if(funct.parameterList?.parameters.length!= 0){
+
+        if(funct.parameterList?.parameters.length !== 0){
             result = ', '
         }
+
         if(funct.timeunit !== undefined|| funct.groupedBy !== undefined){
             return expandToNode`${result}timeunit = None, groupedBy = None`
         }
