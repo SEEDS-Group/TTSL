@@ -116,7 +116,7 @@ export class TTSLScopeComputation extends DefaultScopeComputation {
             return;
         }
 
-        const description = this.descriptions.createDescription(node.block, name, document);
+        const description = this.descriptions.createDescription(node, name, document);
             this.addToScopesIfKeyIsDefined(scopes, node.block, description);
     }
 

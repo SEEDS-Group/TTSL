@@ -15,6 +15,7 @@ import {
     isTslAssignment,
     isTslBlock,
     isTslCallable,
+    isTslConditionalStatement,
     isTslDeclaration,
     isTslForeachLoop,
     isTslForLoop,
@@ -189,20 +190,14 @@ export class TTSLScopeProvider extends DefaultScopeProvider {
         const result = [...parameters, ...placeholders];
         
         const containingLoop = AstUtils.getContainerOfType(node.$container, isTslAssignment);
-        const containingTimespan = AstUtils.getContainerOfType(node.$container, isTslTimespanStatement);
         const containingBlock = AstUtils.getContainerOfType(node.$container, isTslBlock);
-        
+
         if(containingBlock) {
             const outerLocalDeclarations = this.localDeclarations(containingBlock, outerScope)
-            if(!containingLoop && !containingTimespan){
+            if(!containingLoop){
                 return this.createScopeForNodes(result, outerLocalDeclarations);
             }
-        } if(containingTimespan){
-            const timespanDeclarations = this.localDeclarations(containingTimespan, outerScope)
-            if(!containingLoop){
-                return this.createScopeForNodes(result, timespanDeclarations);
-            }
-        }  if(containingLoop){
+        } if(containingLoop){
             const loopDeclarations = this.localDeclarations(containingLoop, outerScope)
             return this.createScopeForNodes(result, loopDeclarations);
         } else{
