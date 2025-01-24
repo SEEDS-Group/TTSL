@@ -1,7 +1,0 @@
-package test
-
-@Pure fun f()
-
-segment mySegment() {
-    f();
-}

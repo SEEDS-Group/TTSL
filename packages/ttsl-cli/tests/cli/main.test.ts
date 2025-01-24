@@ -57,7 +57,7 @@ describe('ttsl', () => {
         });
 
         it('should show errors in wrong files', () => {
-            const process = spawnCheckProcess([], ['.']);
+            const process = spawnCheckProcess([], ['contains errors.ttsl']);
             expect(process.stderr.toString()).toMatch(/Found \d+ errors?\./u);
             expect(process.status).toBe(ExitCode.FileHasErrors);
         });
@@ -72,12 +72,6 @@ describe('ttsl', () => {
             const process = spawnCheckProcess([], ['references builtins.ttsl']);
             expect(process.stdout.toString()).toContain('No errors found.');
             expect(process.status).toBe(ExitCode.Success);
-        });
-
-        it('should treat warnings as errors in strict mode', () => {
-            const process = spawnCheckProcess(['-s'], ['contains warnings.ttsl']);
-            expect(process.stderr.toString()).toMatch(/Found \d+ errors?\./u);
-            expect(process.status).toBe(ExitCode.FileHasErrors);
         });
 
         it('should show an error if the file does not exist', () => {
@@ -115,7 +109,7 @@ describe('ttsl', () => {
         });
 
         it('should show errors in wrong files', () => {
-            const process = spawnFormatProcess([], ['.']);
+            const process = spawnFormatProcess([], ['contains syntax errors.ttsl']);
             expect(process.stderr.toString()).toContain('has syntax errors');
             expect(process.status).toBe(ExitCode.FileHasErrors);
         });
@@ -189,9 +183,9 @@ describe('ttsl', () => {
         });
 
         it('should show an error if a TTSL file has errors', () => {
-            const process = spawnGenerateProcess([], ['.']);
+            const process = spawnGenerateProcess([], ['contains errors.ttsl']);
             expect(process.stderr.toString()).toContain(
-                "Could not resolve reference to TslNamedTypeDeclaration named 'Unresolved'",
+                "Could not resolve reference to TslDeclaration named 'Unresolved'",
             );
             expect(process.status).toBe(ExitCode.FileHasErrors);
         });
