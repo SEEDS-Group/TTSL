@@ -1,4 +1,0 @@
-package tests.generator.differentPackageWildcard
-
-function function1InDifferentPackage() : Int {}
-function function2InDifferentPackage() : Int {}

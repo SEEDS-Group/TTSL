@@ -1,9 +1,10 @@
 # Imports ----------------------------------------------------------------------
 
-from typing import Any, TypeVar
 from gettsim import (compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)
 import pandas as pd
 import numpy as np
+from typing import Any, TypeVar
+
 # Type variables ---------------------------------------------------------------
 
 __gen_T = TypeVar("__gen_T")
@@ -48,26 +49,22 @@ def __gen_TimeUnitYear(value, timeunit):
 
 # Functions --------------------------------------------------------------------
 
-def daytest(timeunit = None, groupedBy = None, date = None, )->int:
-
+def daytest(timeunit = None)->int:
     if timeunit != None:
         result = __gen_TimeUnitDay(100, timeunit)
     return result
 
-def weektest(timeunit = None, groupedBy = None, date = None, )->int:
-
+def weektest(timeunit = None)->int:
     if timeunit != None:
         result = __gen_TimeUnitWeek(100, timeunit)
     return result
 
-def monthtest(timeunit = None, groupedBy = None, date = None, )->int:
-
+def monthtest(timeunit = None)->int:
     if timeunit != None:
         result = __gen_TimeUnitMonth(100, timeunit)
     return result
 
-def yeartest(timeunit = None, groupedBy = None, date = None, )->int:
-
+def yeartest(timeunit = None)->int:
     if timeunit != None:
         result = __gen_TimeUnitYear(100, timeunit)
     return result
@@ -80,5 +77,5 @@ functions = {'daytest': daytest, 'weektest': weektest, 'monthtest': monthtest, '
 
 params = {'input':{}}
 
-def simulate(data: pd.DataFrame, targets: list[str]) -> pd.DataFrame:
+def simulate() -> pd.DataFrame:
     return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = [target1, target2], functions = functions, params = params)

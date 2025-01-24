@@ -1,0 +1,7 @@
+package tests.generator.timespan
+
+public function myPublicFunction() {}
+
+private function myPrivateFunction() {}
+
+packageprivate function myPackagePrivateFunction() {}

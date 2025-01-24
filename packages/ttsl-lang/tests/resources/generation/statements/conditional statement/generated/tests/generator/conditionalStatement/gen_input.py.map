@@ -1,1 +1,1 @@
-{"version":3,"sources":["input.ttsl"],"names":["test"],"mappings":"AAAA;;AAEA,IAASA,IAAI;IACT,IAAI,CAAA,CAAC,EAAC,EAAE,EAAC,CAAC;QACN,CAAC;;QAED,CAAC","file":"gen_input.py"}
+{"version":3,"sources":["input.ttsl"],"names":["test"],"mappings":"AAAA;;;;;AAEA,IAASA,IAAI;IACT,IAAI,CAAA,CAAC,EAAC,EAAE,EAAC,CAAC;QACN,CAAC;;QAED,CAAC","file":"gen_input.py"}

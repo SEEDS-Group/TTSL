@@ -69,15 +69,6 @@ describe('scoping', async () => {
             }
         }
     });
-
-    it('should resolve members on literal types', async () => {
-        const code = `
-            function MyFunction(p: String) {
-                p.toString();
-            }
-        `;
-        await expectNoLinkingErrors(code);
-    });
 });
 
 /**

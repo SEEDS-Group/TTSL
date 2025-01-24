@@ -1,10 +1,11 @@
 # Imports ----------------------------------------------------------------------
 
-import pandas as pd
-from typing import TypeVar
 from gettsim import (compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)
 import pandas as pd
 import numpy as np
+import pandas as pd
+from typing import TypeVar
+
 # Type variables ---------------------------------------------------------------
 
 __gen_T = TypeVar("__gen_T")
@@ -18,9 +19,8 @@ def __gen_aggregation(dataFrame: pd.Dataframe, data, id, function: str) -> pd.Da
 
 # Functions --------------------------------------------------------------------
 
-def testFunction(timeunit = None, groupedBy = None, date = None, ):
+def testFunction(testID: int, testData: int, ):
     __gen_aggregation(dataframe, testData, testID, 'sum')
-
 
 # Simulation --------------------------------------------------------------------
 
@@ -30,5 +30,5 @@ functions = {'testFunction': testFunction}
 
 params = {'input':{}}
 
-def simulate(data: pd.DataFrame, targets: list[str]) -> pd.DataFrame:
+def simulate() -> pd.DataFrame:
     return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = [target1, target2], functions = functions, params = params)

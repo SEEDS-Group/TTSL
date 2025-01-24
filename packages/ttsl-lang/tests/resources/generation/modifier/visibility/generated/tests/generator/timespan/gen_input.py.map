@@ -1,0 +1,1 @@
+{"version":3,"sources":["input.ttsl"],"names":["mypublicfunction","myprivatefunction","mypackageprivatefunction"],"mappings":"AAAA;;;;;AAEA,IAAgBA,gBAAgB;IAAG,IAAE;;AAErC,IAAiBC,iBAAiB;IAAG,IAAE;;AAEvC,IAAwBC,wBAAwB;IAAG,IAAE","file":"gen_input.py"}
