@@ -373,7 +373,7 @@ export class TTSLPythonGenerator {
         )}.py`;
         const entryPointContent = expandToNode`from ${this.formatGeneratedFileName(
             name,
-        )} import simulate\n\nif __name__ == '__main__':\n${PYTHON_INDENT}simulate()`.appendNewLine();
+        )} import simulate\n\nif __name__ == '__main__':\n${PYTHON_INDENT}print(simulate())`.appendNewLine();
         const generatedFunctionEntry = toStringAndTrace(entryPointContent);
         generatedFiles.set(entryPointFilename, generatedFunctionEntry.text);
 

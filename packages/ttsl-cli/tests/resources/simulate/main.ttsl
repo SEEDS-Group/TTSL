@@ -1,0 +1,9 @@
+package tests.simulate.main
+
+function f(a: Int){
+    return a;
+}
+
+function g(b: String){
+    return b;
+}
