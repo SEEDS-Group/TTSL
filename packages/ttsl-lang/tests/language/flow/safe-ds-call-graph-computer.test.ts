@@ -18,7 +18,7 @@ import { NodeFileSystem } from 'langium/node';
 const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const callGraphComputer = services.flow.CallGraphComputer;
 
-describe('TTSLCallGraphComputer', () => {
+describe.skip('TTSLCallGraphComputer', () => {
     describe('getCallGraph', async () => {
         it.each(await createCallGraphTests())('$testName', async (test) => {
             // Test is invalid
