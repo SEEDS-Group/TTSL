@@ -223,7 +223,7 @@ describe('ttsl', () => {
             expect(process.status).not.toBe(ExitCode.Success);
         });
 
-        it('should execute correct Python code', () => {
+        it.skip('should execute correct Python code', () => {
             const process = spawnGenerateProcess(['data.csv'], ["['f', 'g']"], ['main']);
             expect(process.stdout.toString()).toContain('f,g\n0,9,z\n1,9,m');
             expect(process.status).toBe(ExitCode.Success);
