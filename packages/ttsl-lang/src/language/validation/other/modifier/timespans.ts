@@ -9,13 +9,13 @@ export const followingOrPreviousMustFillInMissingTimespanInformation = (services
     const timespanComputer = services.helpers.TimespanComputer;
 
     return (node: TslTimespan, accept: ValidationAcceptor): void => {
-        if (!node.start && timespanComputer.hasPreviousTimespan(node) && !timespanComputer.getPreviousTimespan(node)?.end) {
+        if (!node.start && timespanComputer.hasPreviousTimespan() && !timespanComputer.getPreviousTimespan(node)?.end) {
             accept('error', `Timespan is missing a starting date.`, {
                 node: node,
                 code: CODE_MISSMATCHING_TIMESPAN,
             });
         }
-        else if (!node.end && timespanComputer.hasFollowingTimespan(node) && !timespanComputer.getFollowingTimespan(node)?.start){
+        else if (!node.end && timespanComputer.hasFollowingTimespan() && !timespanComputer.getFollowingTimespan(node)?.start){
             accept('error', `Timespan is missing an ending date.`, {
                 node: node,
                 code: CODE_MISSMATCHING_TIMESPAN,
