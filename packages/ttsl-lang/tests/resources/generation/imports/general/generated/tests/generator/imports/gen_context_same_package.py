@@ -23,4 +23,4 @@ functions = {'impureFunction': impureFunction, 'function1InSamePackage': functio
 params = {'context same package':{}}
 
 def simulate() -> pd.DataFrame:
-    return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = [target1, target2], functions = functions, params = params)
+    return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = ['target1', 'target2'], functions = functions, params = params)

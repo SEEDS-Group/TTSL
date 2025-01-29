@@ -17,4 +17,4 @@ functions = {'myFunction': myFunction}
 params = {'input':{}}
 
 def simulate() -> pd.DataFrame:
-    return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = [target1, target2], functions = functions, params = params)
+    return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = ['target1', 'target2'], functions = functions, params = params)

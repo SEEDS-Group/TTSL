@@ -32,4 +32,4 @@ functions = {'g2': g2, 'g3': g3, 'h1': h1, 'h2': h2, 'test': test}
 params = {'input':{}}
 
 def simulate() -> pd.DataFrame:
-    return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = [target1, target2], functions = functions, params = params)
+    return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = ['target1', 'target2'], functions = functions, params = params)
