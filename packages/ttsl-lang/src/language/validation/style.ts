@@ -1,16 +1,11 @@
 import { ValidationAcceptor } from 'langium';
-import { isEmpty } from '../../helpers/collections.js';
 import {
     isTslCall,
     isTslIndexedAccess,
-    isTslReturnStatement,
-    TslCall,
     TslChainedExpression,
-    TslFunction,
     TslImportedDeclaration,
     TslInfixOperation,
 } from '../generated/ast.js';
-import { getParameters} from '../helpers/nodeProperties.js';
 import { NullConstant } from '../partialEvaluation/model.js';
 import { TTSLServices } from '../ttsl-module.js';
 import { UnknownType } from '../typing/model.js';
@@ -18,10 +13,6 @@ import { UnknownType } from '../typing/model.js';
 export const CODE_STYLE_UNNECESSARY_ELVIS_OPERATOR = 'style/unnecessary-elvis-operator';
 export const CODE_STYLE_UNNECESSARY_IMPORT_ALIAS = 'style/unnecessary-import-alias';
 export const CODE_STYLE_UNNECESSARY_NULL_SAFETY = 'style/unnecessary-null-safety';
-
-// -----------------------------------------------------------------------------
-// Unnecessary bodies
-// -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
 // Unnecessary elvis operator

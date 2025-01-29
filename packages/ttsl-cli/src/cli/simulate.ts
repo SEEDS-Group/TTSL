@@ -1,5 +1,5 @@
 import { generate } from './generate.js';
-import { execSync, spawn } from 'child_process';
+import { spawn } from 'child_process';
 
 export const simulate = async (date: string, data: string, targets: string, fsPaths: string ): Promise<void> => {
     let args = [date, data, targets]

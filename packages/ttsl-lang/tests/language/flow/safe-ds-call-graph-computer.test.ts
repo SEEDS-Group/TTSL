@@ -39,7 +39,7 @@ describe.skip('TTSLCallGraphComputer', () => {
                 const actualCallables = getActualCallables(node);
                 try {
                     expect(actualCallables).toStrictEqual(expectedCallables);
-                } catch (e) {
+                } catch (_e) {
                     throw new AssertionError({
                         message: `Got wrong callables at ${locationToString(
                             location,

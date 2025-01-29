@@ -45,7 +45,7 @@ const createCallGraphTest = async (uri: URI): Promise<CallGraphTest> => {
                 location: check.location!,
                 expectedCallables: parseResult,
             });
-        } catch (e) {
+        } catch (_e) {
             return invalidTest(new InvalidCommentError(check.comment, uri));
         }
     }

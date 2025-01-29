@@ -115,14 +115,14 @@ export const TTSLModule: Module<TTSLServices, PartialLangiumServices & TTSLAdded
     },
     flow: {
         CallGraphComputer: (services) => new TTSLCallGraphComputer(services),
-        Slicer: (services) => new TTSLSlicer(),
+        Slicer: () => new TTSLSlicer(),
     },
     generation: {
         PythonGenerator: (services) => new TTSLPythonGenerator(services),
     },
     helpers: {
         NodeMapper: (services) => new TTSLNodeMapper(services),
-        TimespanComputer: (services) => new TTSLTimespanComputer()
+        TimespanComputer: () => new TTSLTimespanComputer()
     },
     lsp: {
         CallHierarchyProvider: (services) => new TTSLCallHierarchyProvider(services),

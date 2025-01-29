@@ -94,24 +94,25 @@ export const groupedFunctionHasAggregation = () => {
 };
 
 const hasAggregation = (statements: TslStatement[]| undefined, id: string, prev: boolean = false) => {
+    let result = prev
     if(statements === undefined){
-        return false || prev
+        return false || result
     }
     statements.forEach(stmt => {
         if(isTslExpressionStatement(stmt) && isTslAggregation(stmt.expression) && stmt.expression.groupedBy.id.map(elmId => elmId.target.ref?.name).includes(id)){
-            prev =  true;
+            result =  true;
         } else if (isTslAssignment(stmt) && isTslAggregation(stmt.expression) && stmt.expression.groupedBy.id.map(elmId => elmId.target.ref?.name).includes(id)){
-            prev = true;
+            result = true;
         }
     })
 
     statements.forEach(elm => {
         if(isTslConditionalStatement(elm)){
-            prev = hasAggregation(elm.ifBlock.statements, id, prev) && hasAggregation(elm.elseBlock?.statements, id, prev)
+            result = hasAggregation(elm.ifBlock.statements, id, result) && hasAggregation(elm.elseBlock?.statements, id, result)
         } else if(isTslLoop(elm) || isTslTimespanStatement(elm)){
-            prev = hasAggregation(elm.block.statements, id, prev)
+            result = hasAggregation(elm.block.statements, id, result)
         }
     });
-    return prev
+    return result
 }
 

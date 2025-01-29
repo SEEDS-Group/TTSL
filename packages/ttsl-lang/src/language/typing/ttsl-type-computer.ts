@@ -47,15 +47,12 @@ import {
     isTslNothingType,
     isTslNull,
     isTslData,
-    TslTimespan,
-    isTslTimespanStatement,
     TslTimespanValueEntry,
     isTslAggregation,
     isTslTypeAlias,
     isTslCallable,
     isTslPredefinedFunction,
     TslPredefinedFunction,
-    isTslPlaceholder,
     isTslParenthesizedExpression,
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';

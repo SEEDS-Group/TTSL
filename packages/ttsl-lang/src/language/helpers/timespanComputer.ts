@@ -61,7 +61,7 @@ export class TTSLTimespanComputer {
         return previousTimespan
     }
 
-    hasPreviousTimespan(node: TslTimespan): boolean {
+    hasPreviousTimespan(): boolean {
         return isTslTimespan(this.getPreviousTimespan)
     }
 
@@ -75,7 +75,7 @@ export class TTSLTimespanComputer {
         return followingTimespan
     }
 
-    hasFollowingTimespan(node: TslTimespan): boolean {
+    hasFollowingTimespan(): boolean {
         return isTslTimespan(this.getFollowingTimespan)
     }
 }

@@ -7,7 +7,7 @@ import {
     TslParameter,
 } from '../../../../src/language/generated/ast.js';
 import { createTTSLServices, getModuleMembers, getParameters } from '../../../../src/language/index.js';
-import { Constant, IntConstant } from '../../../../src/language/partialEvaluation/model.js';
+import { Constant } from '../../../../src/language/partialEvaluation/model.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
 
 const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;

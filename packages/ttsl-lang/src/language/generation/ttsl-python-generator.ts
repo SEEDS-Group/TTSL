@@ -541,14 +541,15 @@ export class TTSLPythonGenerator {
             output.append(joinToNode(constants, (constant) => constant, { separator: SPACING }));
             output.appendNewLine();
         }
-        if(params.length !== 3){
-            params = ["2000-01-01", "dataFile.csv", "[target1, target2]"]
+        let simulateParams = params
+        if(simulateParams.length !== 3){
+            simulateParams = ["2000-01-01", "dataFile.csv", "['target1', 'target2']"]
         }
         output.appendNewLine()
         .append(`# Simulation --------------------------------------------------------------------`)
         .appendNewLine()
         .appendNewLine()
-        .append(expandToNode`date = "${params[0]}"`)
+        .append(expandToNode`date = "${simulateParams[0]}"`)
         .appendNewLine()
         .appendNewLine()
         .append(expandToNode`functions = {${joinToNode(getModuleMembers(module)
@@ -562,7 +563,7 @@ export class TTSLPythonGenerator {
         .append(`def simulate() -> pd.DataFrame:`)
         .appendNewLine()
         .indent({
-            indentedChildren:[`return compute_taxes_and_transfers(data = pd.read_csv("${params[1]?.replaceAll("\\", "\\\\")}"), targets = ${params[2]}, functions = functions, params = params)`],
+            indentedChildren:[`return compute_taxes_and_transfers(data = pd.read_csv("${simulateParams[1]?.replaceAll("\\", "\\\\")}"), targets = ${simulateParams[2]}, functions = functions, params = params)`],
             indentation: PYTHON_INDENT,
         })
         return output;
@@ -910,7 +911,7 @@ export class TTSLPythonGenerator {
                 let index = statement.$container.statements.filter(isTslTimespanStatement).indexOf(statement)
                 let following = statement.$container.statements.filter(isTslTimespanStatement).at(index+1)
                 if(following){
-                    end = `< "` + following?.timespan.start?.date! + `"`
+                    end = `< "${following?.timespan.start?.date!}"`
                 }
             }
             if(start === "" && isTslBlock(statement.$container)){
@@ -918,7 +919,7 @@ export class TTSLPythonGenerator {
                 let index = statement.$container.statements.filter(isTslTimespanStatement).indexOf(statement)
                 let previous = statement.$container.statements.filter(isTslTimespanStatement).at(index-1)
                 if(previous){
-                    start = `"` + previous?.timespan.end?.date! + `" <=`
+                    start = `"${previous?.timespan.end?.date!}" <=`
                 }
             }
             return expandTracedToNode(statement)`if ${start} date ${end}:`

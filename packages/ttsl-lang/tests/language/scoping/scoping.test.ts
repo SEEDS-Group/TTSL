@@ -123,12 +123,3 @@ const findActualReference = (document: LangiumDocument, expectedReference: Expec
     }
     return actualReference;
 };
-
-/**
- * The given code should have no linking errors or an `AssertionError` is thrown.
- */
-const expectNoLinkingErrors = async (code: string) => {
-    const { diagnostics } = await validationHelper(services)(code);
-    const linkingError = diagnostics.filter((d) => d.data?.code === DocumentValidator.LinkingError);
-    expect(linkingError).toStrictEqual([]);
-};

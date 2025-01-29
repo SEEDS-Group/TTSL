@@ -1,12 +1,8 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
 import {
-    isTslAssignment,
     isTslPlaceholder,
-    isTslResult,
-    TslAssignee,
 } from '../../../../src/language/generated/ast.js';
-import { getAssignees } from '../../../../src/language/helpers/nodeProperties.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
 import { createTTSLServices } from '../../../../src/language/index.js';
 

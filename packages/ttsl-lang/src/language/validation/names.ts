@@ -5,12 +5,8 @@ import { BUILTINS_LANG_PACKAGE, BUILTINS_ROOT_PACKAGE } from '../builtins/packag
 import {
     isTslQualifiedImport,
     TslDeclaration,
-    TslFunction,
     TslImportedDeclaration,
     TslModule,
-    TslParameter,
-    TslPlaceholder,
-    TslResult,
 } from '../generated/ast.js';
 import { CODEGEN_PREFIX } from '../generation/ttsl-python-generator.js';
 import {

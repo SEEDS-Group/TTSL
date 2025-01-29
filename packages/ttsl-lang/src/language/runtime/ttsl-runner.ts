@@ -115,57 +115,6 @@ export class TTSLRunner {
         await this.executeFunction(functExecutionId, document, funct.name);
     }
 
-    async runSimulation(documentUri: string, nodePath: string, params: string[]=[]) {
-        const uri = URI.parse(documentUri);
-        const document = await this.langiumDocuments.getOrCreateDocument(uri);
-        if (!document) {
-            this.messaging.showErrorMessage('Could not find document.');
-            return;
-        }
-
-        const functExecutionId = crypto.randomUUID();
-
-        const start = Date.now();
-        const progress = await this.messaging.showProgress('TTSL Runner', 'Starting...');
-        this.logger.info(`[${functExecutionId}] Running simulation in ${documentUri}.`);
-
-        const disposables = [
-            this.pythonServer.addMessageCallback('placeholder_type', (message) => {
-                if (message.id === functExecutionId) {
-                    progress.report(`Computed ${message.data.name}`);
-                }
-            }),
-
-            this.pythonServer.addMessageCallback('runtime_error', (message) => {
-                if (message.id === functExecutionId) {
-                    progress?.done();
-                    disposables.forEach((it) => {
-                        it.dispose();
-                    });
-                    this.messaging.showErrorMessage('An error occurred during function execution.');
-                }
-                progress.done();
-                disposables.forEach((it) => {
-                    it.dispose();
-                });
-            }),
-
-            this.pythonServer.addMessageCallback('runtime_progress', (message) => {
-                if (message.id === functExecutionId) {
-                    progress.done();
-                    const timeElapsed = Date.now() - start;
-                    this.logger.info(
-                        `[${functExecutionId}] Finished running function simulation in ${timeElapsed}ms.`,
-                    );
-                    disposables.forEach((it) => {
-                        it.dispose();
-                    });
-                }
-            }),
-        ];
-        await this.executeFunction(functExecutionId, document, "simulate");
-    }
-
     async printValue(documentUri: string, nodePath: string) {
         const uri = URI.parse(documentUri);
         const document = this.langiumDocuments.getDocument(uri);
