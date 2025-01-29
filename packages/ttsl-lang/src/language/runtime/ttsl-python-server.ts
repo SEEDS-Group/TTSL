@@ -559,7 +559,7 @@ export class TTSLPythonServer {
 
         try {
             await this.doConnectToServer(port);
-        } catch (_error) {
+        } catch (error) {
             await this.stop();
         }
     }
