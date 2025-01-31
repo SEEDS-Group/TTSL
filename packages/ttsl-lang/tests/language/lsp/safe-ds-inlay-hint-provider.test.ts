@@ -76,7 +76,7 @@ describe('TTSLInlayHintProvider', async () => {
 
         expect(firstInlayHint?.tooltip).toStrictEqual({ kind: 'markdown', value: 'Lorem ipsum.' });
     });
-/* 
+    /* 
     it.each([
         {
             testName: 'function',

@@ -74,7 +74,7 @@ import { TTSLTimespanComputer } from '../helpers/timespanComputer.js';
 export class TTSLTypeComputer {
     private readonly astNodeLocator: AstNodeLocator;
     private readonly typeChecker: TTSLTypeChecker;
-    private readonly timespanComputer: TTSLTimespanComputer
+    private readonly timespanComputer: TTSLTimespanComputer;
 
     private readonly nodeTypeCache: WorkspaceCache<string, Type>;
 
@@ -100,9 +100,7 @@ export class TTSLTypeComputer {
         }
 
         // Ignore type parameter substitutions for caching
-        const unsubstitutedType = this.nodeTypeCache.get(this.getNodeId(node), () =>
-            this.doComputeType(node),
-        );
+        const unsubstitutedType = this.nodeTypeCache.get(this.getNodeId(node), () => this.doComputeType(node));
         return unsubstitutedType;
     }
 
@@ -144,23 +142,23 @@ export class TTSLTypeComputer {
             return this.computeTypeOfParameter(node);
         } else if (isTslResult(node) || isTslData(node) || isTslTypeAlias(node)) {
             return this.computeType(node.type);
-        } else if (isTslConstant(node)){
-            if(node.type.length === 1){
+        } else if (isTslConstant(node)) {
+            if (node.type.length === 1) {
                 return this.computeType(node.type.at(0));
-            }else{
+            } else {
                 return UnknownType;
             }
-        } else if (isTslLocalVariable(node) && isTslForeachLoop(node.$container)){
+        } else if (isTslLocalVariable(node) && isTslForeachLoop(node.$container)) {
             return this.computeTypeOfElm(node);
-        }/* c8 ignore start */ else {
+        } /* c8 ignore start */ else {
             return UnknownType;
         } /* c8 ignore stop */
     }
 
-    private computeTypeOfCallableWithManifestTypes(node: TslFunction ): Type {
-        if(isTslFunction(node)){
+    private computeTypeOfCallableWithManifestTypes(node: TslFunction): Type {
+        if (isTslFunction(node)) {
             return this.computeType(node.result);
-        }else{
+        } else {
             return UnknownType;
         }
     }
@@ -188,15 +186,15 @@ export class TTSLTypeComputer {
             return new DictionaryType([keyType, valueType], false);
         } else if (isTslTemplateString(node)) {
             return new StringType(false);
-        } else if(isTslInt(node)){
+        } else if (isTslInt(node)) {
             return new IntType(false);
-        } else if(isTslFloat(node)){
+        } else if (isTslFloat(node)) {
             return new FloatType(false);
-        } else if(isTslBoolean(node)){
+        } else if (isTslBoolean(node)) {
             return new BooleanType(false);
-        } else if(isTslString(node) || isTslTemplateString(node)){
+        } else if (isTslString(node) || isTslTemplateString(node)) {
             return new StringType(false);
-        } else if(isTslNull(node)){
+        } else if (isTslNull(node)) {
             return new NothingType(true);
         }
 
@@ -254,7 +252,7 @@ export class TTSLTypeComputer {
                 // Unknown operator
                 /* c8 ignore next 2 */
                 default:
-                    return UnknownType; 
+                    return UnknownType;
             }
         } else if (isTslReference(node)) {
             return this.computeTypeOfReference(node);
@@ -270,12 +268,12 @@ export class TTSLTypeComputer {
     }
 
     private computeTypeOfCall(node: TslCall): Type {
-        if(isTslReference(node.receiver) && !isTslCallable(node.receiver.target.ref)){
-            return UnknownType
+        if (isTslReference(node.receiver) && !isTslCallable(node.receiver.target.ref)) {
+            return UnknownType;
         }
         const receiverType = this.computeType(node.receiver);
-        let result = receiverType
-        
+        let result = receiverType;
+
         // Update nullability
         return result.withExplicitNullability(receiverType.isExplicitlyNullable && node.isNullSafe);
     }
@@ -307,10 +305,7 @@ export class TTSLTypeComputer {
         const leftOperandType = this.computeType(node.leftOperand);
         const rightOperandType = this.computeType(node.rightOperand);
 
-        if (
-            leftOperandType instanceof IntType &&
-            rightOperandType instanceof IntType
-        ) {
+        if (leftOperandType instanceof IntType && rightOperandType instanceof IntType) {
             return new IntType(false);
         } else {
             return new FloatType(false);
@@ -321,9 +316,9 @@ export class TTSLTypeComputer {
         const leftOperandType = this.computeType(node.leftOperand);
         if (leftOperandType.isExplicitlyNullable) {
             const rightOperandType = this.computeType(node.rightOperand);
-            if (rightOperandType.toString().includes(leftOperandType.toString().replace('?',''))){
+            if (rightOperandType.toString().includes(leftOperandType.toString().replace('?', ''))) {
                 return rightOperandType;
-            } else if(rightOperandType instanceof NothingType){
+            } else if (rightOperandType instanceof NothingType) {
                 return leftOperandType;
             }
             return new AnyType(rightOperandType.isExplicitlyNullable);
@@ -344,20 +339,27 @@ export class TTSLTypeComputer {
 
     private computeTypeOfReference(node: TslReference): Type {
         const target = node.target.ref;
-        
+
         // Compute Type of Constant with different Types for different Timespans
-        if(isTslConstant(target) && (target.timespanValueEntries.at(0)?.type || target.type.length >= 2)){
-
+        if (isTslConstant(target) && (target.timespanValueEntries.at(0)?.type || target.type.length >= 2)) {
             const containingTimespan = this.timespanComputer.computeContainingTimespan(node);
-            const constantTimespans = this.fillinTimespans(target.timespanValueEntries)
+            const constantTimespans = this.fillinTimespans(target.timespanValueEntries);
 
-            if(containingTimespan && constantTimespans){
-                let indexOfCorrectConstant = constantTimespans.indexOf(constantTimespans.filter(timespan => 
-                    timespan.at(0)! >= containingTimespan.at(0)! && timespan.at(0)! < containingTimespan.at(1)! ||
-                    timespan.at(1)! > containingTimespan.at(0)! && timespan.at(1)! < containingTimespan.at(1)! ||
-                    timespan.at(0)! <= containingTimespan.at(0)! && timespan.at(1)! >= containingTimespan.at(1)!
-                ).at(0)!)
-                return this.doComputeType(target.timespanValueEntries.at(indexOfCorrectConstant)!.value)
+            if (containingTimespan && constantTimespans) {
+                let indexOfCorrectConstant = constantTimespans.indexOf(
+                    constantTimespans
+                        .filter(
+                            (timespan) =>
+                                (timespan.at(0)! >= containingTimespan.at(0)! &&
+                                    timespan.at(0)! < containingTimespan.at(1)!) ||
+                                (timespan.at(1)! > containingTimespan.at(0)! &&
+                                    timespan.at(1)! < containingTimespan.at(1)!) ||
+                                (timespan.at(0)! <= containingTimespan.at(0)! &&
+                                    timespan.at(1)! >= containingTimespan.at(1)!),
+                        )
+                        .at(0)!,
+                );
+                return this.doComputeType(target.timespanValueEntries.at(indexOfCorrectConstant)!.value);
             }
         }
         const instanceType = this.computeType(target);
@@ -366,90 +368,89 @@ export class TTSLTypeComputer {
     }
 
     private computeTypeOfPredefinedFunction(node: TslPredefinedFunction): Type {
-        const obj = node.object.target.ref
-        const typeOfObj = this.computeType(obj)
+        const obj = node.object.target.ref;
+        const typeOfObj = this.computeType(obj);
 
-        if(!(typeOfObj instanceof ListType || typeOfObj instanceof DictionaryType)){
+        if (!(typeOfObj instanceof ListType || typeOfObj instanceof DictionaryType)) {
             return UnknownType;
         }
 
-        if(node.name === "len"){
+        if (node.name === 'len') {
             return new IntType(false);
-        } else if (typeOfObj instanceof DictionaryType){
-            if(node.name === "keys"){
-                return new ListType([typeOfObj.getTypeParameterTypeByIndex(0)], false)
+        } else if (typeOfObj instanceof DictionaryType) {
+            if (node.name === 'keys') {
+                return new ListType([typeOfObj.getTypeParameterTypeByIndex(0)], false);
             } else {
-                return new ListType([typeOfObj.getTypeParameterTypeByIndex(1)], false)
+                return new ListType([typeOfObj.getTypeParameterTypeByIndex(1)], false);
             }
         }
-        return UnknownType
+        return UnknownType;
     }
 
-    private fillinTimespans(node: TslTimespanValueEntry[]): String[][]{
-        let result = [["start", "end"]]
-        let now = new Date().toLocaleString("fr-CA").split(' ')[0]!
-        node.forEach(timespan => {
-                let index = node.indexOf(timespan)
-                if(!timespan.timespan.end && timespan.timespan.start){
-                    if(!node.at(index+1)){
-                        result.push([timespan.timespan.start?.date, now])
-                    }else{
-                        result.push([timespan.timespan.start?.date, node.at(index+1)?.timespan.start?.date!])
-                    }
-                } else if(!timespan.timespan.start && timespan.timespan.end){
-                    if(!node.at(index-1)){
-                        result.push(["1900-01-01", timespan.timespan.end?.date])
-                    }else{
-                        result.push([node.at(index-1)?.timespan.end?.date!, timespan.timespan.end?.date])
-                    }
+    private fillinTimespans(node: TslTimespanValueEntry[]): String[][] {
+        let result = [['start', 'end']];
+        let now = new Date().toLocaleString('fr-CA').split(' ')[0]!;
+        node.forEach((timespan) => {
+            let index = node.indexOf(timespan);
+            if (!timespan.timespan.end && timespan.timespan.start) {
+                if (!node.at(index + 1)) {
+                    result.push([timespan.timespan.start?.date, now]);
                 } else {
-                    result.push([timespan.timespan.start?.date!, timespan.timespan.end?.date!])
+                    result.push([timespan.timespan.start?.date, node.at(index + 1)?.timespan.start?.date!]);
                 }
+            } else if (!timespan.timespan.start && timespan.timespan.end) {
+                if (!node.at(index - 1)) {
+                    result.push(['1900-01-01', timespan.timespan.end?.date]);
+                } else {
+                    result.push([node.at(index - 1)?.timespan.end?.date!, timespan.timespan.end?.date]);
+                }
+            } else {
+                result.push([timespan.timespan.start?.date!, timespan.timespan.end?.date!]);
             }
-        )
-        return result.slice(1)
+        });
+        return result.slice(1);
     }
 
     private computeTypeOfType(node: TslType): Type {
         if (isTslIntType(node)) {
-            if (node.isNullable){
+            if (node.isNullable) {
                 return new IntType(true);
             }
             return new IntType(false);
         } else if (isTslFloatType(node)) {
-            if (node.isNullable){
+            if (node.isNullable) {
                 return new FloatType(true);
             }
             return new FloatType(false);
         } else if (isTslStringType(node)) {
-            if (node.isNullable){
+            if (node.isNullable) {
                 return new StringType(true);
             }
             return new StringType(false);
         } else if (isTslBooleanType(node)) {
-            if (node.isNullable){
+            if (node.isNullable) {
                 return new BooleanType(true);
             }
             return new BooleanType(false);
         } else if (isTslAnyType(node)) {
-            if (node.isNullable){
+            if (node.isNullable) {
                 return new AnyType(true);
             }
             return new AnyType(false);
         } else if (isTslListType(node)) {
             const elementType = node.typeParameterList.typeParameters.map((it) => this.computeTypeOfType(it.type));
-            if (node.isNullable){
+            if (node.isNullable) {
                 return new ListType(elementType, true);
             }
             return new ListType(elementType, false);
         } else if (isTslDictionaryType(node)) {
             const types = node.typeParameterList.typeParameters.map((it) => this.computeTypeOfType(it.type));
-            if (node.isNullable){
+            if (node.isNullable) {
                 return new DictionaryType(types, true);
             }
             return new DictionaryType(types, false);
         } else if (isTslNothingType(node)) {
-            if (node.isNullable){
+            if (node.isNullable) {
                 return new NothingType(true);
             }
             return new NothingType(false);
@@ -458,14 +459,15 @@ export class TTSLTypeComputer {
         } /* c8 ignore stop */
     }
 
-    private computeTypeOfElm(node: TslLocalVariable): Type{
-        if(isTslForeachLoop(node.$container)){
-            let listType = this.computeType(node.$container.list)
-            if(listType instanceof ListType){
-                return listType.getTypeParameterTypeByIndex(0)
-            } if(listType instanceof DictionaryType){
-                return listType.getTypeParameterTypeByIndex(1)
-            } else{
+    private computeTypeOfElm(node: TslLocalVariable): Type {
+        if (isTslForeachLoop(node.$container)) {
+            let listType = this.computeType(node.$container.list);
+            if (listType instanceof ListType) {
+                return listType.getTypeParameterTypeByIndex(0);
+            }
+            if (listType instanceof DictionaryType) {
+                return listType.getTypeParameterTypeByIndex(1);
+            } else {
                 return UnknownType;
             }
         } /* c8 ignore start */ else {
@@ -484,8 +486,7 @@ export class TTSLTypeComputer {
         return type.withExplicitNullability(false);
     }
 
-
-// -----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
     // Lowest common supertype
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -496,8 +497,8 @@ export class TTSLTypeComputer {
         // A single type is its own lowest common supertype
         if (types.length === 1) {
             return types[0]!;
-        } else if(types.length === 0){
-            return new NothingType(false)
+        } else if (types.length === 0) {
+            return new NothingType(false);
         }
 
         // Partition types by their kind
@@ -516,18 +517,20 @@ export class TTSLTypeComputer {
             return new AnyType(isNullable);
         }
 
-        let firstType = types.at(0)
-        if (firstType && types.every(type => type.toString() === firstType.toString())){
-            return types[0]!
-        } else if (firstType && types.every(type => type.toString() === firstType.toString() || type instanceof NothingType)){
-            return types[0]?.withExplicitNullability(true)!
-        } else if( firstType && !(types.every(type => type.toString() === firstType.toString()))){
-            return new AnyType(isNullable)
+        let firstType = types.at(0);
+        if (firstType && types.every((type) => type.toString() === firstType.toString())) {
+            return types[0]!;
+        } else if (
+            firstType &&
+            types.every((type) => type.toString() === firstType.toString() || type instanceof NothingType)
+        ) {
+            return types[0]?.withExplicitNullability(true)!;
+        } else if (firstType && !types.every((type) => type.toString() === firstType.toString())) {
+            return new AnyType(isNullable);
         }
 
-        return UnknownType
+        return UnknownType;
     }
-
 
     /**
      * Partitions the given types by their kind. This function assumes that union types have been removed. It is only
@@ -538,13 +541,13 @@ export class TTSLTypeComputer {
             containsUnknownType: false,
             containsOtherType: false,
         };
-        
+
         for (const type of types) {
             if (type.equals(new NothingType(false)) || type.equals(new NothingType(true))) {
                 // Drop Nothing/Nothing? types. They are compatible to everything with appropriate nullability.
             } else if (type === UnknownType) {
                 result.containsUnknownType = true;
-            } else if(!(type instanceof AnyType)) {
+            } else if (!(type instanceof AnyType)) {
                 // Since these types don't occur in legal programs, we don't need to handle them better
                 result.containsOtherType = true;
                 return result;
@@ -561,7 +564,6 @@ export class TTSLTypeComputer {
     private Any(isNullable: boolean): Type {
         return isNullable ? new AnyType(true) : new AnyType(false);
     }
-
 }
 
 interface PartitionTypesLCSResult {

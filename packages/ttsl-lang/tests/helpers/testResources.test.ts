@@ -28,10 +28,7 @@ describe('listTestTTSLFiles', () => {
     it('should return all TTSL files in a resource directory that are not skipped', () => {
         const rootResourceName = 'helpers/listTTSLFiles';
         const actual = listTestTTSLFiles(rootResourceName);
-        const expected = [
-            'function file.ttsl',
-            'nested/function file.ttsl',
-        ];
+        const expected = ['function file.ttsl', 'nested/function file.ttsl'];
 
         expectFileListsToMatch(rootResourceName, actual, expected);
     });
@@ -68,9 +65,7 @@ describe('listTestTTSLFilesGroupedByParentDirectory', () => {
         const actualValuesInNested = [...result.entries()].find(
             ([key]) => uriToShortenedTestResourceName(key, rootResourceName) === 'nested',
         )!;
-        const expectedValuesInNested = [
-            'nested/function file.ttsl',
-        ];
+        const expectedValuesInNested = ['nested/function file.ttsl'];
         expectFileListsToMatch(rootResourceName, actualValuesInNested[1], expectedValuesInNested);
     });
 });

@@ -72,7 +72,9 @@ const acceptRunRequests = function (context: vscode.ExtensionContext) {
 
 const registerVSCodeCommands = function (context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand('ttsl.dumpDiagnostics', dumpDiagnostics(context)));
-    context.subscriptions.push(vscode.commands.registerCommand('ttsl.openDiagnosticsDumps', openDiagnosticsDumps(context)),);
+    context.subscriptions.push(
+        vscode.commands.registerCommand('ttsl.openDiagnosticsDumps', openDiagnosticsDumps(context)),
+    );
     context.subscriptions.push(
         vscode.commands.registerCommand('ttsl.openDiagnosticsDumps', openDiagnosticsDumps(context)),
         vscode.commands.registerCommand('ttsl.installRunne', installRunner(client)),

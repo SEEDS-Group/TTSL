@@ -40,7 +40,7 @@ export class TTSLRunner {
         this.logger = services.communication.MessagingProvider.createTaggedLogger(RUNNER_TAG);
         this.messaging = services.communication.MessagingProvider;
         this.pythonServer = services.runtime.PythonServer;
-        this.ttslFunct = services.builtins.Functions
+        this.ttslFunct = services.builtins.Functions;
 
         this.registerMessageLoggingCallbacks();
 
@@ -142,9 +142,7 @@ export class TTSLRunner {
 
         const progress = await this.messaging.showProgress('TTSL Runner', 'Starting...');
 
-        this.logger.info(
-            `[${functExecutionId}] Printing value "${funct.name}/${placeholder.name}" in ${documentUri}.`,
-        );
+        this.logger.info(`[${functExecutionId}] Printing value "${funct.name}/${placeholder.name}" in ${documentUri}.`);
 
         const disposables = [
             this.pythonServer.addMessageCallback('runtime_error', (message) => {
@@ -212,9 +210,7 @@ export class TTSLRunner {
 
         const progress = await this.messaging.showProgress('TTSL Runner', 'Starting...');
 
-        this.logger.info(
-            `[${functExecutionId}] Showing image "${funct.name}/${placeholder.name}" in ${documentUri}.`,
-        );
+        this.logger.info(`[${functExecutionId}] Showing image "${funct.name}/${placeholder.name}" in ${documentUri}.`);
 
         const disposables = [
             this.pythonServer.addMessageCallback('runtime_error', (message) => {
@@ -271,9 +267,7 @@ export class TTSLRunner {
 
             this.pythonServer.addMessageCallback('placeholder_value', placeholderValueCallback);
             this.logger.info('Getting placeholder from Runner ...');
-            this.pythonServer.sendMessageToPythonServer(
-                createPlaceholderQueryMessage(functExecutionId, placeholder),
-            );
+            this.pythonServer.sendMessageToPythonServer(createPlaceholderQueryMessage(functExecutionId, placeholder));
 
             setTimeout(() => {
                 resolve(undefined);
@@ -329,7 +323,7 @@ export class TTSLRunner {
         functDocument: LangiumDocument,
         functName: string,
         targetPlaceholders: string[] | undefined = undefined,
-        params: string[] = []
+        params: string[] = [],
     ) {
         const node = functDocument.parseResult.value;
         if (!isTslModule(node)) {
@@ -468,15 +462,19 @@ export class TTSLRunner {
     public generateCodeForRunner(
         functDocument: LangiumDocument,
         targetPlaceholder: string[] | undefined,
-        params: string[] = []
+        params: string[] = [],
     ): [ProgramCodeMap, Map<string, string>] {
         const rootGenerationDir = path.parse(functDocument.uri.fsPath).dir;
-        const generatedDocuments = this.generator.generate(functDocument, {
-            destination: URI.file(rootGenerationDir), // actual directory of main module file
-            createSourceMaps: true,
-            targetPlaceholder,
-            disableRunnerIntegration: false,
-        }, params);
+        const generatedDocuments = this.generator.generate(
+            functDocument,
+            {
+                destination: URI.file(rootGenerationDir), // actual directory of main module file
+                createSourceMaps: true,
+                targetPlaceholder,
+                disableRunnerIntegration: false,
+            },
+            params,
+        );
         const lastGeneratedSources = new Map<string, string>();
         let codeMap: ProgramCodeMap = {};
         for (const generatedDocument of generatedDocuments) {

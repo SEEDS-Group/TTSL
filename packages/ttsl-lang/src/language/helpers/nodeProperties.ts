@@ -42,11 +42,11 @@ import {
 // -------------------------------------------------------------------------------------------------
 
 export const isPackagePrivate = (node: TslDeclaration | undefined): boolean => {
-    return (node?.visibility?.isPackageprivate ?? false);
+    return node?.visibility?.isPackageprivate ?? false;
 };
 
 export const isPrivate = (node: TslDeclaration | undefined): boolean => {
-    return (node?.visibility?.isPrivate ?? false);
+    return node?.visibility?.isPrivate ?? false;
 };
 
 export namespace Argument {
@@ -87,7 +87,7 @@ export const getResults = (node: TslFunction | undefined): TslResult[] => {
 
     if (isTslFunction(node) && node.result) {
         return [node.result];
-    }/* c8 ignore start */ else {
+    } /* c8 ignore start */ else {
         return [];
     } /* c8 ignore stop */
 };
@@ -101,12 +101,11 @@ export const getArguments = (node: TslArgumentList | TslAbstractCall | undefined
 };
 
 export const getAssignees = (node: TslAssignment | undefined): TslAssignee[] => {
-    if(node?.assignee){
+    if (node?.assignee) {
         return [node?.assignee];
-    }else{
-        return []
+    } else {
+        return [];
     }
-    
 };
 
 export const getImports = (node: TslModule | undefined): TslImport[] => {
@@ -176,7 +175,7 @@ export const getTypeParameters = (
         return node.typeParameters;
     } else if (isTslDictionaryType(node) || isTslListType(node)) {
         return getTypeParameters(node.typeParameterList);
-    }  /* c8 ignore start */ else {
+    } /* c8 ignore start */ else {
         return [];
     } /* c8 ignore stop */
 };

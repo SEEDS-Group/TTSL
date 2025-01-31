@@ -86,18 +86,18 @@ export class TTSLSignatureHelpProvider implements SignatureHelpProvider {
     }
 
     private getLabel(callable: TslCallable): string {
-        if(isTslFunction(callable)){
-            const parameterTypes = callable.parameterList?.parameters.map(param =>{
-                let result = param.name
-                if(param.defaultValue){
-                    result = result + "?"
+        if (isTslFunction(callable)) {
+            const parameterTypes = callable.parameterList?.parameters.map((param) => {
+                let result = param.name;
+                if (param.defaultValue) {
+                    result = result + '?';
                 }
-                return result + ": "+ this.typeComputer.computeType(param).toString()
-            })
-            const resultType = this.typeComputer.computeType(callable.result)
-            return callable.name + "(" + parameterTypes + "): " + resultType
-        } else{
-            return "$unknown"
+                return result + ': ' + this.typeComputer.computeType(param).toString();
+            });
+            const resultType = this.typeComputer.computeType(callable.result);
+            return callable.name + '(' + parameterTypes + '): ' + resultType;
+        } else {
+            return '$unknown';
         }
     }
 

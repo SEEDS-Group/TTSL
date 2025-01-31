@@ -63,7 +63,7 @@ export type TTSLAddedServices = {
     };
     helpers: {
         NodeMapper: TTSLNodeMapper;
-        TimespanComputer: TTSLTimespanComputer
+        TimespanComputer: TTSLTimespanComputer;
     };
     lsp: {
         NodeInfoProvider: TTSLNodeInfoProvider;
@@ -90,7 +90,8 @@ export type TTSLAddedSharedServices = {
  * Union of Langium default services and your custom services - use this as constructor parameter
  * of custom service classes.
  */
-export type TTSLServices = LangiumServices & TTSLAddedServices & {
+export type TTSLServices = LangiumServices &
+    TTSLAddedServices & {
         shared: TTSLAddedSharedServices;
     };
 
@@ -122,7 +123,7 @@ export const TTSLModule: Module<TTSLServices, PartialLangiumServices & TTSLAdded
     },
     helpers: {
         NodeMapper: (services) => new TTSLNodeMapper(services),
-        TimespanComputer: () => new TTSLTimespanComputer()
+        TimespanComputer: () => new TTSLTimespanComputer(),
     },
     lsp: {
         CallHierarchyProvider: (services) => new TTSLCallHierarchyProvider(services),

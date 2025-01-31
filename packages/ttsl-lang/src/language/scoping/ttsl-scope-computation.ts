@@ -42,12 +42,12 @@ export class TTSLScopeComputation extends DefaultScopeComputation {
     protected override processNode(node: AstNode, document: LangiumDocument, scopes: PrecomputedScopes): void {
         if (isTslFunction(node)) {
             this.processTslFunction(node, document, scopes);
-        } else if (isTslLoop(node)){
-            this.processTslLoop(node, document, scopes)
-        } else if (isTslConditionalStatement(node)){
-            this.processTslConditionalStatement(node, document, scopes)
-        } else if (isTslTimespanStatement(node)){
-            this.processTslTimespanStatement(node, document, scopes)
+        } else if (isTslLoop(node)) {
+            this.processTslLoop(node, document, scopes);
+        } else if (isTslConditionalStatement(node)) {
+            this.processTslConditionalStatement(node, document, scopes);
+        } else if (isTslTimespanStatement(node)) {
+            this.processTslTimespanStatement(node, document, scopes);
         } else {
             super.processNode(node, document, scopes);
         }
@@ -77,15 +77,19 @@ export class TTSLScopeComputation extends DefaultScopeComputation {
             return;
         }
 
-        if (isTslForLoop(node) && isTslAssignment(node.definitionStatement) && isTslPlaceholder(node.definitionStatement.assignee)){
+        if (
+            isTslForLoop(node) &&
+            isTslAssignment(node.definitionStatement) &&
+            isTslPlaceholder(node.definitionStatement.assignee)
+        ) {
             const description = this.descriptions.createDescription(node.definitionStatement.assignee, name, document);
             this.addToScopesIfKeyIsDefined(scopes, node.block, description);
-        } else if(isTslForeachLoop(node)){
+        } else if (isTslForeachLoop(node)) {
             const description = this.descriptions.createDescription(node, name, document);
             this.addToScopesIfKeyIsDefined(scopes, node.element, description);
             this.addToScopesIfKeyIsDefined(scopes, node.block, description);
         }
-/*
+        /*
         const containingDeclaration = AstUtils.getContainerOfType(node.$container, isTslDeclaration);
         if (isTslModule(containingDeclaration)) {
             this.addToScopesIfKeyIsDefined(scopes, containingDeclaration, description);
@@ -93,7 +97,11 @@ export class TTSLScopeComputation extends DefaultScopeComputation {
             */
     }
 
-    private processTslConditionalStatement(node: TslConditionalStatement, document: LangiumDocument, scopes: PrecomputedScopes): void {
+    private processTslConditionalStatement(
+        node: TslConditionalStatement,
+        document: LangiumDocument,
+        scopes: PrecomputedScopes,
+    ): void {
         const name = this.nameProvider.getName(node);
         if (!name) {
             return;
@@ -110,14 +118,18 @@ export class TTSLScopeComputation extends DefaultScopeComputation {
         }
     }
 
-    private processTslTimespanStatement(node: TslTimespanStatement, document: LangiumDocument, scopes: PrecomputedScopes): void {
+    private processTslTimespanStatement(
+        node: TslTimespanStatement,
+        document: LangiumDocument,
+        scopes: PrecomputedScopes,
+    ): void {
         const name = this.nameProvider.getName(node);
         if (!name) {
             return;
         }
 
         const description = this.descriptions.createDescription(node, name, document);
-            this.addToScopesIfKeyIsDefined(scopes, node.block, description);
+        this.addToScopesIfKeyIsDefined(scopes, node.block, description);
     }
 
     /**

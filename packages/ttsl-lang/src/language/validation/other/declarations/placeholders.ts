@@ -1,10 +1,4 @@
-import {
-    isTslAssignment,
-    isTslBlock,
-    isTslReference,
-    isTslStatement,
-    TslPlaceholder,
-} from '../../../generated/ast.js';
+import { isTslAssignment, isTslBlock, isTslReference, isTslStatement, TslPlaceholder } from '../../../generated/ast.js';
 import { AstUtils, ValidationAcceptor } from 'langium';
 import { TTSLServices } from '../../../ttsl-module.js';
 import { getStatements } from '../../../helpers/nodeProperties.js';

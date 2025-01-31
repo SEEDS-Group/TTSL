@@ -26,7 +26,7 @@ describe('processPaths', async () => {
             testName: 'duplicates',
             paths: ['a.ttsl', 'a.ttsl'],
             expected: Result.ok(['a.ttsl']),
-        },/*
+        } /*
         {
             testName: 'directory',
             paths: [''],
@@ -36,7 +36,7 @@ describe('processPaths', async () => {
                 'nested/a.ttsl',
                 'nested/b.ttsl',
             ]),
-        },*/
+        },*/,
         {
             testName: 'missing file',
             paths: ['missing.txt'],

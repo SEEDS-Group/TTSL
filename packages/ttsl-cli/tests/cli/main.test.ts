@@ -194,8 +194,8 @@ describe('ttsl', () => {
     describe('simulate', () => {
         const testResourcesRoot = new URL('../resources/simulate/', import.meta.url);
         const spawnGenerateProcess = (dataPaths: string[], targets: string[], fileName: string[]) => {
-            const fsPaths = fileName.map(p => fileURLToPath(new URL(p+'.ttsl', testResourcesRoot)));
-            const dataFsPath = dataPaths.map(p => fileURLToPath(new URL(p, testResourcesRoot)));
+            const fsPaths = fileName.map((p) => fileURLToPath(new URL(p + '.ttsl', testResourcesRoot)));
+            const dataFsPath = dataPaths.map((p) => fileURLToPath(new URL(p, testResourcesRoot)));
             return spawnSync('node', ['./bin/cli', 'simulate', '1999-05-01', ...dataFsPath, ...targets, ...fsPaths], {
                 cwd: projectRoot,
             });

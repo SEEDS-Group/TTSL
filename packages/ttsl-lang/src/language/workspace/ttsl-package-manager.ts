@@ -112,7 +112,9 @@ export class TTSLPackageManager {
         }
 
         if (hideInternal) {
-            result = result.filter((it) => !isTslDeclaration(it.node) || (!isPackagePrivate(it.node) && !isPrivate(it.node)));
+            result = result.filter(
+                (it) => !isTslDeclaration(it.node) || (!isPackagePrivate(it.node) && !isPrivate(it.node)),
+            );
         }
 
         return result;

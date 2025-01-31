@@ -126,10 +126,7 @@ export const chainedExpressionNullSafetyShouldBeNeeded = (services: TTSLServices
             return;
         }
 
-        if (
-            (isTslCall(node)) ||
-            (isTslIndexedAccess(node) && typeChecker.canBeAccessedByIndex(receiverType))
-        ) {
+        if (isTslCall(node) || (isTslIndexedAccess(node) && typeChecker.canBeAccessedByIndex(receiverType))) {
             accept('info', 'The receiver is never null, so null-safety is unnecessary.', {
                 node,
                 code: CODE_STYLE_UNNECESSARY_NULL_SAFETY,

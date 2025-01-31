@@ -45,7 +45,7 @@ describe('TTSLSemanticTokenProvider', async () => {
                 }
             `,
             expectedTokenTypes: [SemanticTokenTypes.variable],
-        },/* 
+        } /* 
         {
             testName: 'result declaration',
             code: 'fun f() -> (<|r|>: String)',
@@ -55,17 +55,17 @@ describe('TTSLSemanticTokenProvider', async () => {
             testName: 'type alias declaration',
             code: 'typealias <|T|> = List<Int>',
             expectedTokenTypes: [SemanticTokenTypes.typealias],
-        },*/
+        },*/,
         {
             testName: 'import',
             code: 'from <|a.b.c|> import X',
             expectedTokenTypes: [SemanticTokenTypes.namespace],
-        },/* 
+        } /* 
         {
             testName: 'imported declaration',
             code: 'from TTSL.lang import <|Any|>',
             expectedTokenTypes: [SemanticTokenTypes.function],
-        }, */
+        }, */,
         {
             testName: 'reference',
             code: `

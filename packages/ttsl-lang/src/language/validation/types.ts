@@ -16,12 +16,12 @@ import {
 } from '../generated/ast.js';
 import { getArguments } from '../helpers/nodeProperties.js';
 import { TTSLServices } from '../ttsl-module.js';
-import {AnyType, BooleanType, DictionaryType, FloatType, IntType, ListType, UnknownType } from '../typing/model.js';
+import { AnyType, BooleanType, DictionaryType, FloatType, IntType, ListType, UnknownType } from '../typing/model.js';
 
 export const CODE_TYPE_CALLABLE_RECEIVER = 'type/callable-receiver';
 export const CODE_TYPE_MISMATCH = 'type/mismatch';
 export const CODE_TYPE_MISSING_TYPE_HINT = 'type/missing-type-hint';
-export const CODE_NO_TYPE_ALIAS_GIVEN = "type/no-type-alias-given"
+export const CODE_NO_TYPE_ALIAS_GIVEN = 'type/no-type-alias-given';
 
 // -----------------------------------------------------------------------------
 // Type checking
@@ -32,7 +32,6 @@ export const callArgumentTypesMustMatchParameterTypes = (services: TTSLServices)
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslCall, accept: ValidationAcceptor) => {
-
         for (const argument of getArguments(node)) {
             const parameter = nodeMapper.argumentToParameter(argument);
             if (!parameter) {
@@ -146,29 +145,17 @@ export const infixOperationOperandsMustHaveCorrectType = (services: TTSLServices
             case '-':
             case '*':
             case '/':
-                if (
-                    node.leftOperand &&
-                    !(leftType instanceof FloatType) &&
-                    !(leftType instanceof IntType)
-                ) {
+                if (node.leftOperand && !(leftType instanceof FloatType) && !(leftType instanceof IntType)) {
                     accept('error', `Expected type 'Float' or 'Int' but got '${leftType}'.`, {
                         node: node.leftOperand,
                         code: CODE_TYPE_MISMATCH,
                     });
                 }
-                if (
-                    node.rightOperand &&
-                    !(rightType instanceof FloatType) &&
-                    !(rightType instanceof IntType)
-                ) {
-                    accept(
-                        'error',
-                        `Expected type 'Float' or 'Int' but got '${rightType}'.`,
-                        {
-                            node: node.rightOperand,
-                            code: CODE_TYPE_MISMATCH,
-                        },
-                    );
+                if (node.rightOperand && !(rightType instanceof FloatType) && !(rightType instanceof IntType)) {
+                    accept('error', `Expected type 'Float' or 'Int' but got '${rightType}'.`, {
+                        node: node.rightOperand,
+                        code: CODE_TYPE_MISMATCH,
+                    });
                 }
                 return;
         }
@@ -255,19 +242,12 @@ export const prefixOperationOperandMustHaveCorrectType = (services: TTSLServices
                 }
                 return;
             case '-':
-                if (
-                    !(operandType instanceof FloatType) &&
-                    !(operandType instanceof IntType)
-                ) {
-                    accept(
-                        'error',
-                        `Expected type 'Float' or 'Int' but got '${operandType}'.`,
-                        {
-                            node,
-                            property: 'operand',
-                            code: CODE_TYPE_MISMATCH,
-                        },
-                    );
+                if (!(operandType instanceof FloatType) && !(operandType instanceof IntType)) {
+                    accept('error', `Expected type 'Float' or 'Int' but got '${operandType}'.`, {
+                        node,
+                        property: 'operand',
+                        code: CODE_TYPE_MISMATCH,
+                    });
                 }
                 return;
         }
@@ -291,14 +271,14 @@ export const typeCastExpressionMustHaveUnknownType = (services: TTSLServices) =>
 
 export const typeReferenceMustBeReferencingATypeAlias = () => {
     return (node: TslReference, accept: ValidationAcceptor): void => {
-        if(node.$containerProperty?.includes("type") && !isTslTypeAlias(node.target.ref)){
+        if (node.$containerProperty?.includes('type') && !isTslTypeAlias(node.target.ref)) {
             accept('error', 'The Type has to be either a type or a reference to a typealias.', {
-                node: node,
+                node,
                 code: CODE_NO_TYPE_ALIAS_GIVEN,
             });
         }
-    }
-}
+    };
+};
 
 // -----------------------------------------------------------------------------
 // Missing type hints
@@ -311,7 +291,6 @@ export const parameterMustHaveTypeHint = (node: TslParameter, accept: Validation
             property: 'name',
             code: CODE_TYPE_MISSING_TYPE_HINT,
         });
-        
     }
 };
 

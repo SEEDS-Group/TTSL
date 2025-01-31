@@ -144,17 +144,10 @@ export class TTSLPartialEvaluator {
             return UnknownEvaluatedNode;
         }
 
-        return this.evaluateWithRecursionCheck(
-            containingAssignment.expression,
-            substitutions,
-            visited,
-        );
+        return this.evaluateWithRecursionCheck(containingAssignment.expression, substitutions, visited);
     }
 
-    private evaluateDeclaration(
-        node: TslDeclaration,
-        substitutions: ParameterSubstitutions,
-    ): EvaluatedNode {
+    private evaluateDeclaration(node: TslDeclaration, substitutions: ParameterSubstitutions): EvaluatedNode {
         if (isTslFunction(node)) {
             return new NamedCallable(node);
         } else if (isTslParameter(node)) {
@@ -409,7 +402,11 @@ export class TTSLPartialEvaluator {
         );
     }
 
-    private evaluateMap(node: TslDictionary, substitutions: ParameterSubstitutions, visited: VisitedState[]): EvaluatedNode {
+    private evaluateMap(
+        node: TslDictionary,
+        substitutions: ParameterSubstitutions,
+        visited: VisitedState[],
+    ): EvaluatedNode {
         return new EvaluatedMap(
             node.entries.map((it) => {
                 const key = this.evaluateWithRecursionCheck(it.key, substitutions, visited);

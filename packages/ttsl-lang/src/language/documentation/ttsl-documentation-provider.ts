@@ -8,13 +8,7 @@ import {
     type JSDocTag,
     parseJSDoc,
 } from 'langium';
-import {
-    isTslCallable,
-    isTslParameter,
-    isTslResult,
-    TslParameter,
-    TslResult,
-} from '../generated/ast.js';
+import { isTslCallable, isTslParameter, isTslResult, TslParameter, TslResult } from '../generated/ast.js';
 
 const PARAM_TAG = 'param';
 const RESULT_TAG = 'result';
@@ -60,10 +54,7 @@ export class TTSLDocumentationProvider extends JSDocDocumentationProvider {
         return undefined;
     }
 
-    private getMatchingTagContent(
-        comment: JSDocComment,
-        node: TslParameter | TslResult,
-    ): string | undefined {
+    private getMatchingTagContent(comment: JSDocComment, node: TslParameter | TslResult): string | undefined {
         const name = node.name;
         /* c8 ignore start */
         if (!name) {

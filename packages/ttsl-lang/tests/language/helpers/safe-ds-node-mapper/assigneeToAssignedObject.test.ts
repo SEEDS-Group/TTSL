@@ -1,8 +1,6 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
-import {
-    isTslPlaceholder,
-} from '../../../../src/language/generated/ast.js';
+import { isTslPlaceholder } from '../../../../src/language/generated/ast.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
 import { createTTSLServices } from '../../../../src/language/index.js';
 
@@ -107,4 +105,4 @@ describe('TTSLNodeMapper', () => {
         };
         */
     });
-}); 
+});

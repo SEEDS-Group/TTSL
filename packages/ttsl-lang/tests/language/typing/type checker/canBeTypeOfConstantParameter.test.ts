@@ -1,7 +1,18 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
 import { createTTSLServices } from '../../../../src/language/index.js';
-import { AnyType, BooleanType, DictionaryType, FloatType, IntType, ListType, NothingType, StringType, Type, UnknownType } from '../../../../src/language/typing/model.js';
+import {
+    AnyType,
+    BooleanType,
+    DictionaryType,
+    FloatType,
+    IntType,
+    ListType,
+    NothingType,
+    StringType,
+    Type,
+    UnknownType,
+} from '../../../../src/language/typing/model.js';
 
 const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const typeChecker = services.types.TypeChecker;

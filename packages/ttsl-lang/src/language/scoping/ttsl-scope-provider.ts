@@ -120,7 +120,6 @@ export class TTSLScopeProvider extends DefaultScopeProvider {
         // Declarations in containing blocks
         currentScope = this.localDeclarations(node, currentScope);
 
-
         // Core declarations
         return this.coreDeclarations(TslDeclaration, currentScope);
     }
@@ -174,33 +173,38 @@ export class TTSLScopeProvider extends DefaultScopeProvider {
         const containingStatement = AstUtils.getContainerOfType(node.$container, isTslStatement);
 
         let placeholders: TslLocalVariable[] = [];
-        if(isTslForLoop(containingStatement) && isTslAssignment(containingStatement.definitionStatement) && isTslPlaceholder(containingStatement.definitionStatement.assignee)){
-            placeholders.push(containingStatement.definitionStatement.assignee)
-        } else if (isTslForeachLoop(containingStatement)){
-            placeholders.push(containingStatement.element)
+        if (
+            isTslForLoop(containingStatement) &&
+            isTslAssignment(containingStatement.definitionStatement) &&
+            isTslPlaceholder(containingStatement.definitionStatement.assignee)
+        ) {
+            placeholders.push(containingStatement.definitionStatement.assignee);
+        } else if (isTslForeachLoop(containingStatement)) {
+            placeholders.push(containingStatement.element);
         }
-        
+
         if (!containingCallable || isContainedInOrEqual(containingStatement, containingCallable)) {
             placeholders.push(...this.placeholdersUpToStatement(containingStatement));
         }
 
         // Local declarations
         const result = [...parameters, ...placeholders];
-        
+
         const containingLoop = AstUtils.getContainerOfType(node.$container, isTslAssignment);
         const containingBlock = AstUtils.getContainerOfType(node.$container, isTslBlock);
 
-        if(containingBlock) {
-            const outerLocalDeclarations = this.localDeclarations(containingBlock, outerScope)
-            if(!containingLoop){
+        if (containingBlock) {
+            const outerLocalDeclarations = this.localDeclarations(containingBlock, outerScope);
+            if (!containingLoop) {
                 return this.createScopeForNodes(result, outerLocalDeclarations);
             }
-        } if(containingLoop){
-            const loopDeclarations = this.localDeclarations(containingLoop, outerScope)
+        }
+        if (containingLoop) {
+            const loopDeclarations = this.localDeclarations(containingLoop, outerScope);
             return this.createScopeForNodes(result, loopDeclarations);
-        } else{
+        } else {
             return this.createScopeForNodes(result, outerScope);
-        } 
+        }
     }
 
     private *parametersUpToParameter(

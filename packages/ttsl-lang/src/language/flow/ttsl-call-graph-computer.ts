@@ -209,7 +209,7 @@ export class TTSLCallGraphComputer {
 
         // First try to get the callable via the partial evaluator
         const value = this.partialEvaluator.evaluate(expression, substitutions);
-        if (value instanceof EvaluatedCallable) { 
+        if (value instanceof EvaluatedCallable) {
             return value;
         }
 

@@ -42,7 +42,7 @@ export class TTSLInlayHintProvider extends AbstractInlayHintProvider {
         } else if (isTslPlaceholder(node)) {
             const type = this.typeComputer.computeType(node);
             let tooltip: MarkupContent | undefined = undefined;
-            if(!node.type){
+            if (!node.type) {
                 acceptor({
                     position: cstNode.range.end,
                     label: `: ${type}`,
@@ -50,7 +50,6 @@ export class TTSLInlayHintProvider extends AbstractInlayHintProvider {
                     tooltip,
                 });
             }
-            
         }
     }
 }

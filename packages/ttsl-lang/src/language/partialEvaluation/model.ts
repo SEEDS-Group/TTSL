@@ -1,10 +1,5 @@
 import { stream } from 'langium';
-import {
-    TslResult,
-    type TslCallable,
-    type TslDeclaration,
-    type TslParameter,
-} from '../generated/ast.js';
+import { TslResult, type TslCallable, type TslDeclaration, type TslParameter } from '../generated/ast.js';
 import { escapeString } from '../grammar/ttsl-value-converter.js';
 
 export type ParameterSubstitutions = Map<TslParameter, EvaluatedNode>;

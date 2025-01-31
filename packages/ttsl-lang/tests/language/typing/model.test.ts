@@ -66,7 +66,7 @@ describe('type model', async () => {
     });
 
     const substitutions1 = [new IntType(false)];
-    const booleanType = new BooleanType(false)
+    const booleanType = new BooleanType(false);
     const substituteTypeParametersTest: SubstituteTypeParametersTest[] = [
         {
             type: new ListType([], false),
@@ -144,7 +144,7 @@ describe('type model', async () => {
             });
         });
     });
-})
+});
 /**
  * Tests for {@link Type.substituteTypeParameters}.
  */

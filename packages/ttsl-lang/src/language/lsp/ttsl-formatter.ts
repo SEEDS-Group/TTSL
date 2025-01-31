@@ -1,12 +1,11 @@
 import { AstNode, CstNode, CstUtils, isAstNode } from 'langium';
 import * as ast from '../generated/ast.js';
-import { AbstractFormatter, Formatting} from 'langium/lsp';
+import { AbstractFormatter, Formatting } from 'langium/lsp';
 import indent = Formatting.indent;
 import newLine = Formatting.newLine;
 import newLines = Formatting.newLines;
 import noSpace = Formatting.noSpace;
 import oneSpace = Formatting.oneSpace;
-
 
 export class TTSLFormatter extends AbstractFormatter {
     protected override format(node: AstNode): void {
@@ -104,7 +103,7 @@ export class TTSLFormatter extends AbstractFormatter {
             this.formatTslListType(node);
         } else if (ast.isTslDictionaryType(node)) {
             this.formatTslDictionaryType(node);
-        } 
+        }
     }
 
     // -----------------------------------------------------------------------------
@@ -215,9 +214,7 @@ export class TTSLFormatter extends AbstractFormatter {
 
         const parameters = node.parameters ?? [];
 
-        if (
-            parameters.length >= 3
-        ) {
+        if (parameters.length >= 3) {
             formatter.nodes(...parameters).prepend(indent());
             formatter.keywords(',').prepend(noSpace());
             closingParenthesis.prepend(newLine());
@@ -248,9 +245,7 @@ export class TTSLFormatter extends AbstractFormatter {
 
         const results = node.results ?? [];
 
-        if (
-            results.length >= 3
-        ) {
+        if (results.length >= 3) {
             formatter.nodes(...results).prepend(indent());
             formatter.keywords(',').prepend(noSpace());
             closingParenthesis.prepend(newLine());

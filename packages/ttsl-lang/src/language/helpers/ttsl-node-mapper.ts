@@ -20,12 +20,7 @@ import {
 } from '../generated/ast.js';
 import { TTSLServices } from '../ttsl-module.js';
 import { TTSLTypeComputer } from '../typing/ttsl-type-computer.js';
-import {
-    Argument,
-    getArguments,
-    getParameters,
-    getResults,
-} from './nodeProperties.js';
+import { Argument, getArguments, getParameters, getResults } from './nodeProperties.js';
 
 export class TTSLNodeMapper {
     private readonly typeComputer: () => TTSLTypeComputer;
@@ -109,15 +104,15 @@ export class TTSLNodeMapper {
         if (!node) {
             return undefined;
         }
-        
+
         if (isTslCall(node)) {
             // We ignore nullability, since calls can be made null-safe. For scoping, for instance, we still want to
             // link the arguments of the call properly, even if the user forgot to make the call null-safe. In this
             // case, an error is being shown anyway.
 
-            if(isTslReference(node.receiver)){
-                if(isTslCallable(node.receiver.target.ref)){
-                    return node.receiver.target.ref
+            if (isTslReference(node.receiver)) {
+                if (isTslCallable(node.receiver.target.ref)) {
+                    return node.receiver.target.ref;
                 }
             }
         }

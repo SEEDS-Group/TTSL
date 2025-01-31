@@ -1,8 +1,6 @@
 import { type AstNode, type LangiumDocument } from 'langium';
 import type { DocumentSymbol } from 'vscode-languageserver';
-import {
-    isTslFunction,
-} from '../generated/ast.js';
+import { isTslFunction } from '../generated/ast.js';
 import type { TTSLServices } from '../ttsl-module.js';
 import type { TTSLNodeInfoProvider } from './ttsl-node-info-provider.js';
 import { DefaultDocumentSymbolProvider } from 'langium/lsp';
@@ -45,8 +43,6 @@ export class TTSLDocumentSymbolProvider extends DefaultDocumentSymbolProvider {
     }
 
     private isLeaf(node: AstNode): boolean {
-        return (
-            isTslFunction(node)
-        );
+        return isTslFunction(node);
     }
 }
