@@ -3,7 +3,7 @@
 _Packages_ are used to prevent conflicts when multiple files have declarations with the same name. They accomplish this by grouping all declarations in a file into a namespace. Here is an example for a package declaration:
 
 ```ttsl
-package de.unibonn.speedPrediction
+package parameter.sozialversicherung.gesetzlicheKrankenversicherung
 ```
 
 It has these syntactic elements:
