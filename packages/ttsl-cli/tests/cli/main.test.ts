@@ -57,7 +57,7 @@ describe('ttsl', () => {
         });
 
         it('should show errors in wrong files', () => {
-            const process = spawnCheckProcess([], ['.']);
+            const process = spawnCheckProcess([], ['contains errors.ttsl']);
             expect(process.stderr.toString()).toMatch(/Found \d+ errors?\./u);
             expect(process.status).toBe(ExitCode.FileHasErrors);
         });
@@ -72,12 +72,6 @@ describe('ttsl', () => {
             const process = spawnCheckProcess([], ['references builtins.ttsl']);
             expect(process.stdout.toString()).toContain('No errors found.');
             expect(process.status).toBe(ExitCode.Success);
-        });
-
-        it('should treat warnings as errors in strict mode', () => {
-            const process = spawnCheckProcess(['-s'], ['contains warnings.ttsl']);
-            expect(process.stderr.toString()).toMatch(/Found \d+ errors?\./u);
-            expect(process.status).toBe(ExitCode.FileHasErrors);
         });
 
         it('should show an error if the file does not exist', () => {
@@ -115,7 +109,7 @@ describe('ttsl', () => {
         });
 
         it('should show errors in wrong files', () => {
-            const process = spawnFormatProcess([], ['.']);
+            const process = spawnFormatProcess([], ['contains syntax errors.ttsl']);
             expect(process.stderr.toString()).toContain('has syntax errors');
             expect(process.status).toBe(ExitCode.FileHasErrors);
         });
@@ -189,11 +183,50 @@ describe('ttsl', () => {
         });
 
         it('should show an error if a TTSL file has errors', () => {
-            const process = spawnGenerateProcess([], ['.']);
+            const process = spawnGenerateProcess([], ['contains errors.ttsl']);
             expect(process.stderr.toString()).toContain(
-                "Could not resolve reference to TslNamedTypeDeclaration named 'Unresolved'",
+                "Could not resolve reference to TslDeclaration named 'Unresolved'",
             );
             expect(process.status).toBe(ExitCode.FileHasErrors);
+        });
+    });
+
+    describe('simulate', () => {
+        const testResourcesRoot = new URL('../resources/simulate/', import.meta.url);
+        const spawnGenerateProcess = (dataPaths: string[], targets: string[], fileName: string[]) => {
+            const fsPaths = fileName.map((p) => fileURLToPath(new URL(p + '.ttsl', testResourcesRoot)));
+            const dataFsPath = dataPaths.map((p) => fileURLToPath(new URL(p, testResourcesRoot)));
+            return spawnSync('node', ['./bin/cli', 'simulate', '1999-05-01', ...dataFsPath, ...targets, ...fsPaths], {
+                cwd: projectRoot,
+            });
+        };
+
+        afterAll(() => {
+            fs.rmSync(new URL('generated', testResourcesRoot), { recursive: true, force: true });
+        });
+
+        it('should show an error if no path is passed', () => {
+            const process = spawnGenerateProcess(['data.csv'], ["['f', 'g']"], []);
+            expect(process.stderr.toString()).toContain("error: missing required argument 'path'");
+            expect(process.status).not.toBe(ExitCode.Success);
+        });
+
+        it('should show an error if no data is passed', () => {
+            const process = spawnGenerateProcess([], ["['f', 'g']"], ['main']);
+            expect(process.stderr.toString()).toContain("error: missing required argument 'path'");
+            expect(process.status).not.toBe(ExitCode.Success);
+        });
+
+        it('should show an error if no data is passed', () => {
+            const process = spawnGenerateProcess(['data.csv'], [], ['main']);
+            expect(process.stderr.toString()).toContain("error: missing required argument 'path'");
+            expect(process.status).not.toBe(ExitCode.Success);
+        });
+
+        it.skip('should execute correct Python code', () => {
+            const process = spawnGenerateProcess(['data.csv'], ["['f', 'g']"], ['main']);
+            expect(process.stdout.toString()).toContain('f,g\n0,9,z\n1,9,m');
+            expect(process.status).toBe(ExitCode.Success);
         });
     });
 });

@@ -1,11 +1,11 @@
-import { URI } from "langium";
-import { resourceNameToUri } from "../../helpers/resources.js";
-import { TslFunction, TslModule, TslObject, isTslFunction } from "../generated/ast.js";
-import { TTSLNodeMapper } from "../helpers/ttsl-node-mapper.js";
-import { EvaluatedNode, StringConstant, UnknownEvaluatedNode } from "../partialEvaluation/model.js";
-import { TTSLPartialEvaluator } from "../partialEvaluation/ttsl-partial-evaluator.js";
-import { TTSLServices } from "../ttsl-module.js";
-import { TTSLModuleMembers } from "./ttsl-module-members.js";
+import { URI } from 'langium';
+import { resourceNameToUri } from '../../helpers/resources.js';
+import { TslFunction, TslModule, TslObject, isTslFunction } from '../generated/ast.js';
+import { TTSLNodeMapper } from '../helpers/ttsl-node-mapper.js';
+import { EvaluatedNode, StringConstant, UnknownEvaluatedNode } from '../partialEvaluation/model.js';
+import { TTSLPartialEvaluator } from '../partialEvaluation/ttsl-partial-evaluator.js';
+import { TTSLServices } from '../ttsl-module.js';
+import { TTSLModuleMembers } from './ttsl-module-members.js';
 
 const CODE_GENERATION_URI = resourceNameToUri('builtins/TTSL/lang/codeGeneration.ttsl');
 
@@ -72,9 +72,9 @@ export class TTSLFunction extends TTSLModuleMembers<TslFunction> {
         funct: TslFunction | undefined,
         parameterName: string,
     ): EvaluatedNode {
-        const value = funct?.parameterList?.parameters.find((param) => param.name === parameterName)
-        if(!value){
-            return UnknownEvaluatedNode
+        const value = funct?.parameterList?.parameters.find((param) => param.name === parameterName);
+        if (!value) {
+            return UnknownEvaluatedNode;
         }
 
         return this.partialEvaluator.evaluate(value);

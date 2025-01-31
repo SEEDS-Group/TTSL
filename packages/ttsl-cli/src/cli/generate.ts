@@ -19,12 +19,16 @@ export const generate = async (fsPaths: string[], options: GenerateOptions, args
 
     // Generate code
     for (const document of documents) {
-        const generatedFiles = services.generation.PythonGenerator.generate(document, {
-            destination: URI.file(path.resolve(options.out)),
-            createSourceMaps: options.sourcemaps,
-            targetPlaceholder: undefined,
-            disableRunnerIntegration: false,
-        }, args);
+        const generatedFiles = services.generation.PythonGenerator.generate(
+            document,
+            {
+                destination: URI.file(path.resolve(options.out)),
+                createSourceMaps: options.sourcemaps,
+                targetPlaceholder: undefined,
+                disableRunnerIntegration: false,
+            },
+            args,
+        );
 
         for (const file of generatedFiles) {
             const fsPath = URI.parse(file.uri).fsPath;

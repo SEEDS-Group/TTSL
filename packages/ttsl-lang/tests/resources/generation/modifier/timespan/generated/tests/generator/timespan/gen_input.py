@@ -33,11 +33,8 @@ def myFunction():
     x = 0
     if "1999-01-01" <= date < "2000-01-01":
         x = 1
-
     if "2000-01-01" <= date :
         x = 2
-
-
 
 # Constants --------------------------------------------------------------------
 
@@ -56,4 +53,4 @@ functions = {'myFunction': myFunction}
 params = {'input':{'myConstant': myConstant.getValue(date), 'myConstant2': myConstant2.getValue(date)}}
 
 def simulate() -> pd.DataFrame:
-    return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = [target1, target2], functions = functions, params = params)
+    return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = ['target1', 'target2'], functions = functions, params = params)

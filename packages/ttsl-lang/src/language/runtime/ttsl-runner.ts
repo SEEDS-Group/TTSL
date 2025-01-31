@@ -40,7 +40,7 @@ export class TTSLRunner {
         this.logger = services.communication.MessagingProvider.createTaggedLogger(RUNNER_TAG);
         this.messaging = services.communication.MessagingProvider;
         this.pythonServer = services.runtime.PythonServer;
-        this.ttslFunct = services.builtins.Functions
+        this.ttslFunct = services.builtins.Functions;
 
         this.registerMessageLoggingCallbacks();
 
@@ -115,57 +115,6 @@ export class TTSLRunner {
         await this.executeFunction(functExecutionId, document, funct.name);
     }
 
-    async runSimulation(documentUri: string, nodePath: string, params: string[]=[]) {
-        const uri = URI.parse(documentUri);
-        const document = await this.langiumDocuments.getOrCreateDocument(uri);
-        if (!document) {
-            this.messaging.showErrorMessage('Could not find document.');
-            return;
-        }
-
-        const functExecutionId = crypto.randomUUID();
-
-        const start = Date.now();
-        const progress = await this.messaging.showProgress('TTSL Runner', 'Starting...');
-        this.logger.info(`[${functExecutionId}] Running simulation in ${documentUri}.`);
-
-        const disposables = [
-            this.pythonServer.addMessageCallback('placeholder_type', (message) => {
-                if (message.id === functExecutionId) {
-                    progress.report(`Computed ${message.data.name}`);
-                }
-            }),
-
-            this.pythonServer.addMessageCallback('runtime_error', (message) => {
-                if (message.id === functExecutionId) {
-                    progress?.done();
-                    disposables.forEach((it) => {
-                        it.dispose();
-                    });
-                    this.messaging.showErrorMessage('An error occurred during function execution.');
-                }
-                progress.done();
-                disposables.forEach((it) => {
-                    it.dispose();
-                });
-            }),
-
-            this.pythonServer.addMessageCallback('runtime_progress', (message) => {
-                if (message.id === functExecutionId) {
-                    progress.done();
-                    const timeElapsed = Date.now() - start;
-                    this.logger.info(
-                        `[${functExecutionId}] Finished running function simulation in ${timeElapsed}ms.`,
-                    );
-                    disposables.forEach((it) => {
-                        it.dispose();
-                    });
-                }
-            }),
-        ];
-        await this.executeFunction(functExecutionId, document, "simulate");
-    }
-
     async printValue(documentUri: string, nodePath: string) {
         const uri = URI.parse(documentUri);
         const document = this.langiumDocuments.getDocument(uri);
@@ -193,9 +142,7 @@ export class TTSLRunner {
 
         const progress = await this.messaging.showProgress('TTSL Runner', 'Starting...');
 
-        this.logger.info(
-            `[${functExecutionId}] Printing value "${funct.name}/${placeholder.name}" in ${documentUri}.`,
-        );
+        this.logger.info(`[${functExecutionId}] Printing value "${funct.name}/${placeholder.name}" in ${documentUri}.`);
 
         const disposables = [
             this.pythonServer.addMessageCallback('runtime_error', (message) => {
@@ -263,9 +210,7 @@ export class TTSLRunner {
 
         const progress = await this.messaging.showProgress('TTSL Runner', 'Starting...');
 
-        this.logger.info(
-            `[${functExecutionId}] Showing image "${funct.name}/${placeholder.name}" in ${documentUri}.`,
-        );
+        this.logger.info(`[${functExecutionId}] Showing image "${funct.name}/${placeholder.name}" in ${documentUri}.`);
 
         const disposables = [
             this.pythonServer.addMessageCallback('runtime_error', (message) => {
@@ -322,9 +267,7 @@ export class TTSLRunner {
 
             this.pythonServer.addMessageCallback('placeholder_value', placeholderValueCallback);
             this.logger.info('Getting placeholder from Runner ...');
-            this.pythonServer.sendMessageToPythonServer(
-                createPlaceholderQueryMessage(functExecutionId, placeholder),
-            );
+            this.pythonServer.sendMessageToPythonServer(createPlaceholderQueryMessage(functExecutionId, placeholder));
 
             setTimeout(() => {
                 resolve(undefined);
@@ -380,7 +323,7 @@ export class TTSLRunner {
         functDocument: LangiumDocument,
         functName: string,
         targetPlaceholders: string[] | undefined = undefined,
-        params: string[] = []
+        params: string[] = [],
     ) {
         const node = functDocument.parseResult.value;
         if (!isTslModule(node)) {
@@ -519,15 +462,19 @@ export class TTSLRunner {
     public generateCodeForRunner(
         functDocument: LangiumDocument,
         targetPlaceholder: string[] | undefined,
-        params: string[] = []
+        params: string[] = [],
     ): [ProgramCodeMap, Map<string, string>] {
         const rootGenerationDir = path.parse(functDocument.uri.fsPath).dir;
-        const generatedDocuments = this.generator.generate(functDocument, {
-            destination: URI.file(rootGenerationDir), // actual directory of main module file
-            createSourceMaps: true,
-            targetPlaceholder,
-            disableRunnerIntegration: false,
-        }, params);
+        const generatedDocuments = this.generator.generate(
+            functDocument,
+            {
+                destination: URI.file(rootGenerationDir), // actual directory of main module file
+                createSourceMaps: true,
+                targetPlaceholder,
+                disableRunnerIntegration: false,
+            },
+            params,
+        );
         const lastGeneratedSources = new Map<string, string>();
         let codeMap: ProgramCodeMap = {};
         for (const generatedDocument of generatedDocuments) {

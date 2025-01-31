@@ -19,4 +19,3 @@ export const moduleWithDeclarationsMustStatePackage = (node: TslModule, accept: 
         }
     }
 };
-

@@ -1,10 +1,5 @@
 import { stream } from 'langium';
-import {
-    TslResult,
-    type TslCallable,
-    type TslDeclaration,
-    type TslParameter,
-} from '../generated/ast.js';
+import { TslResult, type TslCallable, type TslDeclaration, type TslParameter } from '../generated/ast.js';
 import { escapeString } from '../grammar/ttsl-value-converter.js';
 
 export type ParameterSubstitutions = Map<TslParameter, EvaluatedNode>;
@@ -317,7 +312,7 @@ export class EvaluatedNamedTuple extends EvaluatedNode {
      */
     override unwrap(): EvaluatedNode {
         if (this.entries.size === 1) {
-            return this.entries.values().next().value;
+            return this.entries.values().next().value!;
         } else {
             return this;
         }

@@ -39,6 +39,7 @@ import { TTSLPythonServer } from './runtime/ttsl-python-server.js';
 import { TTSLRunner } from './runtime/ttsl-runner.js';
 import { TTSLSlicer } from './flow/ttsl-slicer.js';
 import { TTSLServiceRegistry } from './ttsl-service-registry.js';
+import { TTSLTimespanComputer } from './helpers/timespanComputer.js';
 
 /**
  * Declaration of custom services - add your own service classes here.
@@ -62,6 +63,7 @@ export type TTSLAddedServices = {
     };
     helpers: {
         NodeMapper: TTSLNodeMapper;
+        TimespanComputer: TTSLTimespanComputer;
     };
     lsp: {
         NodeInfoProvider: TTSLNodeInfoProvider;
@@ -88,7 +90,8 @@ export type TTSLAddedSharedServices = {
  * Union of Langium default services and your custom services - use this as constructor parameter
  * of custom service classes.
  */
-export type TTSLServices = LangiumServices & TTSLAddedServices & {
+export type TTSLServices = LangiumServices &
+    TTSLAddedServices & {
         shared: TTSLAddedSharedServices;
     };
 
@@ -113,13 +116,14 @@ export const TTSLModule: Module<TTSLServices, PartialLangiumServices & TTSLAdded
     },
     flow: {
         CallGraphComputer: (services) => new TTSLCallGraphComputer(services),
-        Slicer: (services) => new TTSLSlicer(),
+        Slicer: () => new TTSLSlicer(),
     },
     generation: {
         PythonGenerator: (services) => new TTSLPythonGenerator(services),
     },
     helpers: {
         NodeMapper: (services) => new TTSLNodeMapper(services),
+        TimespanComputer: () => new TTSLTimespanComputer(),
     },
     lsp: {
         CallHierarchyProvider: (services) => new TTSLCallHierarchyProvider(services),

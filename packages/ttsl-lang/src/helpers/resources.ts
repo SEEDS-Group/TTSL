@@ -8,7 +8,7 @@ let RESOURCES_PATH: string;
 try {
     // For CJS (ttsl-vscode)
     RESOURCES_PATH = path.join(__dirname, '..', 'resources');
-} /* c8 ignore start */ catch (e) {
+} /* c8 ignore start */ catch {
     // For ESM (ttsl-cli)
     RESOURCES_PATH = fileURLToPath(new URL('../resources', import.meta.url));
 } /* c8 ignore stop */

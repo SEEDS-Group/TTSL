@@ -21,14 +21,10 @@ import {
 import { placeholderShouldBeUsed, placeholdersMustNotBeAnAlias } from './other/declarations/placeholders.js';
 import { callArgumentMustBeConstantIfParameterIsConstant, callMustNotBeRecursive } from './other/expressions/calls.js';
 import { divisionDivisorMustNotBeZero } from './other/expressions/infixOperations.js';
-import {
-    referenceMustNotBeFunctionPointer,
-} from './other/expressions/references.js';
+import { referenceMustNotBeFunctionPointer } from './other/expressions/references.js';
 import { templateStringMustHaveExpressionBetweenTwoStringParts } from './other/expressions/templateStrings.js';
 import { importPackageMustExist, importPackageShouldNotBeEmpty } from './other/imports.js';
-import {
-    moduleWithDeclarationsMustStatePackage,
-} from './other/modules.js';
+import { moduleWithDeclarationsMustStatePackage } from './other/modules.js';
 import {
     chainedExpressionNullSafetyShouldBeNeeded,
     elvisOperatorShouldBeNeeded,
@@ -50,7 +46,12 @@ import {
 } from './types.js';
 import { indexedAccessIndexMustBeValid } from './other/expressions/indexedAccess.js';
 import { chainedExpressionsMustBeNullSafeIfReceiverIsNullable } from './other/expressions/chainedExpressions.js';
-import { groupByVariableMustBeASingleID, groupedFunctionHasAggregation, groupedFunctionHasValidID } from './aggregation.js';
+import {
+    groupByVariableMustBeASingleID,
+    groupedFunctionHasAggregation,
+    groupedFunctionHasValidID,
+} from './aggregation.js';
+import { followingOrPreviousMustFillInMissingTimespanInformation } from './other/modifier/timespans.js';
 
 /**
  * Register custom validation checks.
@@ -66,9 +67,7 @@ export const registerValidationChecks = function (services: TTSLServices) {
             argumentListMustNotHavePositionalArgumentsAfterNamedArguments,
             argumentListMustNotSetParameterMultipleTimes(services),
         ],
-        TslAggregation: [
-            groupByVariableMustBeASingleID(),
-        ],
+        TslAggregation: [groupByVariableMustBeASingleID()],
         TslCall: [
             callArgumentMustBeConstantIfParameterIsConstant(services),
             callArgumentTypesMustMatchParameterTypes(services),
@@ -79,14 +78,8 @@ export const registerValidationChecks = function (services: TTSLServices) {
             chainedExpressionsMustBeNullSafeIfReceiverIsNullable(services),
             chainedExpressionNullSafetyShouldBeNeeded(services),
         ],
-        TslDeclaration: [
-            nameMustNotOccurOnCoreDeclaration(services),
-            nameMustNotStartWithCodegenPrefix,
-        ],
-        TslFunction: [
-            groupedFunctionHasAggregation(),
-            groupedFunctionHasValidID(),
-        ],
+        TslDeclaration: [nameMustNotOccurOnCoreDeclaration(services), nameMustNotStartWithCodegenPrefix],
+        TslFunction: [groupedFunctionHasAggregation(), groupedFunctionHasValidID()],
         TslImport: [importPackageMustExist(services), importPackageShouldNotBeEmpty(services)],
         TslImportedDeclaration: [importedDeclarationAliasShouldDifferFromDeclarationName(services)],
         TslIndexedAccess: [
@@ -115,12 +108,11 @@ export const registerValidationChecks = function (services: TTSLServices) {
         TslParameterList: [parameterListMustNotHaveRequiredParametersAfterOptionalParameters],
         TslPlaceholder: [placeholdersMustNotBeAnAlias, placeholderShouldBeUsed(services)],
         TslPrefixOperation: [prefixOperationOperandMustHaveCorrectType(services)],
-        TslReference: [
-            referenceMustNotBeFunctionPointer,
-        ],
+        TslReference: [referenceMustNotBeFunctionPointer],
         TslResult: [resultMustHaveTypeHint],
         TslTemplateString: [templateStringMustHaveExpressionBetweenTwoStringParts],
         TslTypeCast: [typeCastExpressionMustHaveUnknownType(services)],
+        TslTimespan: [followingOrPreviousMustFillInMissingTimespanInformation(services)],
     };
     registry.register(checks);
 };

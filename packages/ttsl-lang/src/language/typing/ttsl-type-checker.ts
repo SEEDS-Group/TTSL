@@ -1,13 +1,6 @@
-import {
-    AnyType,
-    DictionaryType,
-    ListType,
-    Type,
-} from './model.js';
+import { AnyType, DictionaryType, ListType, Type } from './model.js';
 
 export class TTSLTypeChecker {
-
-
     // -----------------------------------------------------------------------------------------------------------------
     // General cases
     // -----------------------------------------------------------------------------------------------------------------
@@ -57,6 +50,6 @@ export class TTSLTypeChecker {
      * Checks whether {@link type} is allowed as the type of a constant parameter.
      */
     canBeTypeOfConstantParameter = (type: Type): boolean => {
-        return type instanceof AnyType
+        return type instanceof AnyType;
     };
 }

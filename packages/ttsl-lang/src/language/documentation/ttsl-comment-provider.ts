@@ -1,15 +1,10 @@
 import { AstNode, DefaultCommentProvider, isAstNodeWithComment } from 'langium';
 import { MarkupContent } from 'vscode-languageserver';
-import {
-    isTslDeclaration,
-    isTslParameter,
-    isTslPlaceholder,
-    isTslResult,
-} from '../generated/ast.js';
+import { isTslDeclaration, isTslParameter, isTslPlaceholder, isTslResult } from '../generated/ast.js';
 
 export class TTSLCommentProvider extends DefaultCommentProvider {
     override getComment(node: AstNode): string | undefined {
-        /* c8 ignore start */ if (isAstNodeWithComment(node)) { 
+        /* c8 ignore start */ if (isAstNodeWithComment(node)) {
             return node.$comment;
         } /* c8 ignore stop */ else if (
             !isTslDeclaration(node) ||

@@ -1,13 +1,8 @@
 import { EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
-import {
-    isTslModule,
-    TslAbstractCall,
-    TslFunction,
-    TslParameter,
-} from '../../../../src/language/generated/ast.js';
+import { isTslModule, TslAbstractCall, TslFunction, TslParameter } from '../../../../src/language/generated/ast.js';
 import { createTTSLServices, getModuleMembers, getParameters } from '../../../../src/language/index.js';
-import { Constant, IntConstant } from '../../../../src/language/partialEvaluation/model.js';
+import { Constant } from '../../../../src/language/partialEvaluation/model.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
 
 const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
@@ -52,7 +47,7 @@ describe('TTSLNodeMapper', () => {
             call: call1,
             parameter: undefined,
             expectedResult: undefined,
-        },/* 
+        } /* 
         {
             testName: 'parameter is object, required parameter, value provided',
             call: call1,
@@ -64,13 +59,13 @@ describe('TTSLNodeMapper', () => {
             call: call1,
             parameter: p2,
             expectedResult: new IntConstant(2n),
-        }, */
+        }, */,
         {
             testName: 'parameter is object, required parameter, no value provided',
             call: call2,
             parameter: p1,
             expectedResult: undefined,
-        },/* 
+        } /* 
         {
             testName: 'parameter is object, optional parameter, no value provided',
             call: call2,
@@ -88,19 +83,19 @@ describe('TTSLNodeMapper', () => {
             call: call1,
             parameter: 'p2',
             expectedResult: new IntConstant(2n),
-        },*/
+        },*/,
         {
             testName: 'parameter is string, required parameter, no value provided',
             call: call2,
             parameter: 'p1',
             expectedResult: undefined,
-        },/* 
+        } /* 
         {
             testName: 'parameter is string, optional parameter, no value provided',
             call: call2,
             parameter: 'p2',
             expectedResult: new IntConstant(0n),
-        }, */
+        }, */,
         {
             testName: 'parameter is object, required parameter, unresolved callable',
             call: call3,

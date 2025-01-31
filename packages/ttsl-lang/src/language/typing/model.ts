@@ -1,7 +1,7 @@
 import { stream } from 'langium';
 import { isEmpty } from '../../helpers/collections.js';
 
-export type TypeParameterSubstitutions =Type[];
+export type TypeParameterSubstitutions = Type[];
 
 /**
  * The type of an AST node.
@@ -41,9 +41,7 @@ export abstract class Type {
 }
 
 export class AnyType extends Type {
-    constructor(
-        override readonly isExplicitlyNullable: boolean,
-    ) {
+    constructor(override readonly isExplicitlyNullable: boolean) {
         super();
     }
 
@@ -58,7 +56,7 @@ export class AnyType extends Type {
             return false;
         }
 
-        return (other instanceof AnyType) && other.isExplicitlyNullable === this.isExplicitlyNullable;
+        return other instanceof AnyType && other.isExplicitlyNullable === this.isExplicitlyNullable;
     }
 
     override toString(): string {
@@ -85,9 +83,7 @@ export class AnyType extends Type {
 }
 
 export class IntType extends AnyType {
-    constructor(
-        override readonly isExplicitlyNullable: boolean,
-    ) {
+    constructor(override readonly isExplicitlyNullable: boolean) {
         super(isExplicitlyNullable);
     }
 
@@ -111,9 +107,7 @@ export class IntType extends AnyType {
 }
 
 export class FloatType extends AnyType {
-    constructor(
-        override readonly isExplicitlyNullable: boolean,
-    ) {
+    constructor(override readonly isExplicitlyNullable: boolean) {
         super(isExplicitlyNullable);
     }
 
@@ -137,9 +131,7 @@ export class FloatType extends AnyType {
 }
 
 export class StringType extends AnyType {
-    constructor(
-        override readonly isExplicitlyNullable: boolean,
-    ) {
+    constructor(override readonly isExplicitlyNullable: boolean) {
         super(isExplicitlyNullable);
     }
 
@@ -163,9 +155,7 @@ export class StringType extends AnyType {
 }
 
 export class BooleanType extends AnyType {
-    constructor(
-        override readonly isExplicitlyNullable: boolean,
-    ) {
+    constructor(override readonly isExplicitlyNullable: boolean) {
         super(isExplicitlyNullable);
     }
 
@@ -202,7 +192,7 @@ export class DictionaryType extends AnyType {
         if (this._isFullySubstituted === undefined && !isEmpty(this.substitutions)) {
             this._isFullySubstituted = stream(this.substitutions.values()).every((it) => it.isFullySubstituted);
         } else {
-            this._isFullySubstituted = false
+            this._isFullySubstituted = false;
         }
 
         return this._isFullySubstituted;
@@ -247,7 +237,7 @@ export class DictionaryType extends AnyType {
     }
 }
 
-export class ListType extends AnyType{
+export class ListType extends AnyType {
     private _isFullySubstituted: boolean | undefined;
 
     constructor(
@@ -261,7 +251,7 @@ export class ListType extends AnyType{
         if (this._isFullySubstituted === undefined && !isEmpty(this.substitutions)) {
             this._isFullySubstituted = stream(this.substitutions.values()).every((it) => it.isFullySubstituted);
         } else {
-            this._isFullySubstituted = false
+            this._isFullySubstituted = false;
         }
 
         return this._isFullySubstituted;
@@ -306,10 +296,8 @@ export class ListType extends AnyType{
     }
 }
 
-export class NothingType extends AnyType{
-    constructor(
-        override readonly isExplicitlyNullable: boolean,
-    ) {
+export class NothingType extends AnyType {
+    constructor(override readonly isExplicitlyNullable: boolean) {
         super(isExplicitlyNullable);
     }
 
@@ -333,7 +321,6 @@ export class NothingType extends AnyType{
 }
 
 class UnknownTypeClass extends AnyType {
-
     override equals(other: unknown): boolean {
         return other instanceof UnknownTypeClass;
     }

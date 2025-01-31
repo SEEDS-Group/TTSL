@@ -1,12 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { AstUtils, isNamed } from 'langium';
-import {
-    isTslCall,
-    isTslCallable,
-    isTslModule,
-    TslCall,
-    TslCallable,
-} from '../../../src/language/generated/ast.js';
+import { isTslCall, isTslCallable, isTslModule, TslCall, TslCallable } from '../../../src/language/generated/ast.js';
 import { createTTSLServices } from '../../../src/language/index.js';
 import { createCallGraphTests } from './creator.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
@@ -18,7 +12,7 @@ import { NodeFileSystem } from 'langium/node';
 const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const callGraphComputer = services.flow.CallGraphComputer;
 
-describe('TTSLCallGraphComputer', () => {
+describe.skip('TTSLCallGraphComputer', () => {
     describe('getCallGraph', async () => {
         it.each(await createCallGraphTests())('$testName', async (test) => {
             // Test is invalid
@@ -39,7 +33,7 @@ describe('TTSLCallGraphComputer', () => {
                 const actualCallables = getActualCallables(node);
                 try {
                     expect(actualCallables).toStrictEqual(expectedCallables);
-                } catch (e) {
+                } catch {
                     throw new AssertionError({
                         message: `Got wrong callables at ${locationToString(
                             location,

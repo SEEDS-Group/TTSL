@@ -41,17 +41,17 @@
     },
     "While": {
         "prefix": ["while"],
-        "body": ["while($1){", "    $0","}"],
+        "body": ["while($1){", "    $0", "}"],
         "description": "A while-loop."
     },
     "For": {
         "prefix": ["for"],
-        "body": ["for($1; $2; $3){", "    $0","}"],
+        "body": ["for($1; $2; $3){", "    $0", "}"],
         "description": "A for-loop."
     },
     "Foreach": {
         "prefix": ["foreach"],
-        "body": ["foreach($1 in $2){", "    $0","}"],
+        "body": ["foreach($1 in $2){", "    $0", "}"],
         "description": "A foreach loop."
     },
     "If": {

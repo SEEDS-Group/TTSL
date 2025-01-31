@@ -1,8 +1,4 @@
-import {
-    isTslCall,
-    isTslFunction,
-    TslReference,
-} from '../../../generated/ast.js';
+import { isTslCall, isTslFunction, TslReference } from '../../../generated/ast.js';
 import { AstNode, ValidationAcceptor } from 'langium';
 
 export const CODE_REFERENCE_FUNCTION_POINTER = 'reference/function-pointer';
@@ -17,14 +13,9 @@ export const referenceMustNotBeFunctionPointer = (node: TslReference, accept: Va
     let nodeOrContainer: AstNode | undefined = node;
 
     if (!isTslCall(nodeOrContainer?.$container)) {
-        accept(
-            'error',
-            'Function pointers are not allowed to provide a cleaner graphical view.',
-            {
-                node,
-                code: CODE_REFERENCE_FUNCTION_POINTER,
-            },
-        );
+        accept('error', 'Function pointers are not allowed to provide a cleaner graphical view.', {
+            node,
+            code: CODE_REFERENCE_FUNCTION_POINTER,
+        });
     }
 };
-

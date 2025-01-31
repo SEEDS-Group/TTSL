@@ -2,23 +2,9 @@ import { AstNodeDescription, AstUtils, ValidationAcceptor } from 'langium';
 import { duplicatesBy } from '../../helpers/collections.js';
 import { listBuiltinFiles } from '../builtins/fileFinder.js';
 import { BUILTINS_LANG_PACKAGE, BUILTINS_ROOT_PACKAGE } from '../builtins/packageNames.js';
-import {
-    isTslQualifiedImport,
-    TslDeclaration,
-    TslFunction,
-    TslImportedDeclaration,
-    TslModule,
-    TslParameter,
-    TslPlaceholder,
-    TslResult,
-} from '../generated/ast.js';
+import { isTslQualifiedImport, TslDeclaration, TslImportedDeclaration, TslModule } from '../generated/ast.js';
 import { CODEGEN_PREFIX } from '../generation/ttsl-python-generator.js';
-import {
-    getImportedDeclarations,
-    getImports,
-    getModuleMembers,
-    getPackageName,
-} from '../helpers/nodeProperties.js';
+import { getImportedDeclarations, getImports, getModuleMembers, getPackageName } from '../helpers/nodeProperties.js';
 import { TTSLServices } from '../ttsl-module.js';
 
 export const CODE_NAME_CODEGEN_PREFIX = 'name/codegen-prefix';

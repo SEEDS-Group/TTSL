@@ -1,4 +1,0 @@
-package tests.generator.withPythonModuleWildcard
-
-function function1InCompilationUnitWithPythonModule(): Int {}
-function function2InCompilationUnitWithPythonModule(): Int {}

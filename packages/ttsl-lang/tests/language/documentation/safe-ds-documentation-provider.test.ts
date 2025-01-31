@@ -1,12 +1,7 @@
 import { AstNode, EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
 import { normalizeLineBreaks } from '../../../src/helpers/strings.js';
-import {
-    isTslFunction,
-    isTslParameter,
-    isTslResult,
-    isTslTypeParameter,
-} from '../../../src/language/generated/ast.js';
+import { isTslFunction, isTslParameter, isTslResult, isTslTypeParameter } from '../../../src/language/generated/ast.js';
 import { createTTSLServices } from '../../../src/language/index.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
 import { expandToString } from 'langium/generate';
@@ -69,7 +64,7 @@ describe('TTSLDocumentationProvider', () => {
             `,
             predicate: isTslParameter,
             expectedDocumentation: undefined,
-        },/* 
+        } /* 
         {
             testName: 'documented result',
             code: `
@@ -92,7 +87,7 @@ describe('TTSLDocumentationProvider', () => {
             `,
             predicate: isTslResult,
             expectedDocumentation: testDocumentation,
-        },*/
+        },*/,
         {
             testName: 'undocumented result',
             code: `
@@ -111,7 +106,7 @@ describe('TTSLDocumentationProvider', () => {
             `,
             predicate: isTslResult,
             expectedDocumentation: undefined,
-        },/* 
+        } /* 
         {
             testName: 'documented type parameter',
             code: `
@@ -135,7 +130,7 @@ describe('TTSLDocumentationProvider', () => {
             `,
             predicate: isTslTypeParameter,
             expectedDocumentation: testDocumentation,
-        }, */
+        }, */,
         {
             testName: 'undocumented type parameter',
             code: `

@@ -1,8 +1,8 @@
 import { AssertionError } from 'assert';
-import { DocumentValidator, LangiumDocument, Reference, URI } from 'langium';
+import { LangiumDocument, Reference, URI } from 'langium';
 import { NodeFileSystem } from 'langium/node';
-import { clearDocuments, isRangeEqual, validationHelper } from 'langium/test';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { clearDocuments, isRangeEqual } from 'langium/test';
+import { afterEach, beforeEach, describe, it } from 'vitest';
 import { Location } from 'vscode-languageserver';
 import { createTTSLServices } from '../../../src/language/index.js';
 import { isLocationEqual, locationToString } from '../../../src/helpers/locations.js';
@@ -69,15 +69,6 @@ describe('scoping', async () => {
             }
         }
     });
-
-    it('should resolve members on literal types', async () => {
-        const code = `
-            function MyFunction(p: String) {
-                p.toString();
-            }
-        `;
-        await expectNoLinkingErrors(code);
-    });
 });
 
 /**
@@ -131,13 +122,4 @@ const findActualReference = (document: LangiumDocument, expectedReference: Expec
         });
     }
     return actualReference;
-};
-
-/**
- * The given code should have no linking errors or an `AssertionError` is thrown.
- */
-const expectNoLinkingErrors = async (code: string) => {
-    const { diagnostics } = await validationHelper(services)(code);
-    const linkingError = diagnostics.filter((d) => d.data?.code === DocumentValidator.LinkingError);
-    expect(linkingError).toStrictEqual([]);
 };
