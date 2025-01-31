@@ -21,7 +21,7 @@ data rentenEintrittsJahr: Int;
  * Aggregiere das monatliche Bruttoeinkommen aus abhängiger Beschäftigung zu einem jährlichen Einkommen und ziehe
  * die Werbungskostenpauschale ab.
  */
-public function per year einkommenAbhängigBeschäftigt(): Float {
+public function per year einkommenAbhängigBeschäftigt(): Int {
     return calc_max(12 * bruttolohn - werbungskostenpauschbetrag, 0.0);
 }
 
@@ -29,9 +29,9 @@ public function per year einkommenAbhängigBeschäftigt(): Float {
  * Berechne das zu versteuernde Einkommen aus abhängiger Beschäftigung. Für geringfügig Beschäftigte wird das zu
  * versteuernde Einkommen auf 0 gesetzt.
  */
-public function per year zuVersteuerndesEinkommenAbhängigBeschäftigt(): Float {
+public function per year zuVersteuerndesEinkommenAbhängigBeschäftigt(): Int {
     if (geringfügigBeschäftigt()) {
-        return 0.0;
+        return 0;
     } else {
         return einkommenAbhängigBeschäftigt();
     }
