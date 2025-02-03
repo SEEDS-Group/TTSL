@@ -15,7 +15,7 @@ from math import calc_min
 data per month bruttolohn: Float;
 
 /**
- * Beitrag für die gesetzliche Rentenversicherung.
+ * Beitrag für die gesetzliche Rentenversicherung für Arbeitnehmer.
  */
 public function per month beitrag(): Float {
     to 2003-03-31 {
