@@ -110,23 +110,8 @@
                 "category": "TTSL"
             },
             {
-                "command": "ttsl.installRunner",
-                "title": "Install the TTSL Runner",
-                "category": "TTSL"
-            },
-            {
                 "command": "ttsl.openDiagnosticsDumps",
                 "title": "Open Diagnostics Dumps in New VS Code Window",
-                "category": "TTSL"
-            },
-            {
-                "command": "ttsl.refreshWebview",
-                "title": "Refresh Webview",
-                "category": "TTSL"
-            },
-            {
-                "command": "ttsl.updateRunner",
-                "title": "Update the TTSL Runner",
                 "category": "TTSL"
             }
         ],
@@ -153,7 +138,6 @@
     },
     "devDependencies": {
         "@types/node": "^18.18.12",
-        "@types/semver": "^7.5.8",
         "@types/vscode": "^1.87.0",
         "@vscode/vsce": "^2.24.0",
         "esbuild": "^0.24.2",

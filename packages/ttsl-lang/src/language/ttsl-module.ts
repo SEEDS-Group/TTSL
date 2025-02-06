@@ -35,8 +35,6 @@ import { TTSLSettingsProvider } from './workspace/ttsl-settings-provider.js';
 import { TTSLRenameProvider } from './lsp/ttsl-rename-provider.js';
 import { TTSLFunction } from './builtins/ttsl-functions.js';
 import { TTSLMessagingProvider } from './communication/ttsl-messaging-provider.js';
-import { TTSLPythonServer } from './runtime/ttsl-python-server.js';
-import { TTSLRunner } from './runtime/ttsl-runner.js';
 import { TTSLSlicer } from './flow/ttsl-slicer.js';
 import { TTSLServiceRegistry } from './ttsl-service-registry.js';
 import { TTSLTimespanComputer } from './helpers/timespanComputer.js';
@@ -67,10 +65,6 @@ export type TTSLAddedServices = {
     };
     lsp: {
         NodeInfoProvider: TTSLNodeInfoProvider;
-    };
-    runtime: {
-        PythonServer: TTSLPythonServer;
-        Runner: TTSLRunner;
     };
     types: {
         TypeChecker: TTSLTypeChecker;
@@ -141,10 +135,6 @@ export const TTSLModule: Module<TTSLServices, PartialLangiumServices & TTSLAdded
     references: {
         ScopeComputation: (services) => new TTSLScopeComputation(services),
         ScopeProvider: (services) => new TTSLScopeProvider(services),
-    },
-    runtime: {
-        PythonServer: (services) => new TTSLPythonServer(services),
-        Runner: (services) => new TTSLRunner(services),
     },
     types: {
         TypeChecker: () => new TTSLTypeChecker(),
