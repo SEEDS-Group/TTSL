@@ -1,0 +1,22 @@
+package tests.typing.declarations.localVariable
+
+
+function test(){
+    # $TEST$ serialization Int
+    var »myVar1«: Int = 0
+
+    # $TEST$ serialization String
+    var »myVar2«: String = "a"
+
+    # $TEST$ serialization Float
+    var »myVar3«: Float = 0.0
+
+    # $TEST$ serialization Boolean
+    var »myVar4«: Boolean = true
+
+    # $TEST$ serialization List<Int>
+    var »myVar5«: List<Int> = [1, 2, 3]
+
+    # $TEST$ serialization Dictionary<Int, String>
+    var »myVar6«: Dict<Int, String> = {1: "a"}
+}

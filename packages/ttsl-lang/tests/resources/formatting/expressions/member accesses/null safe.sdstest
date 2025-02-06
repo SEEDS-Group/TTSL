@@ -1,9 +1,9 @@
-pipeline myPipeline {
+function myFunction () {
     a ? . member;
 }
 
-// -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
-pipeline myPipeline {
+function myFunction () {
     a?.member;
 }

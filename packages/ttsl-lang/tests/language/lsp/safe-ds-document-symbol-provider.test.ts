@@ -2,121 +2,43 @@ import { NodeFileSystem } from 'langium/node';
 import { parseDocument, textDocumentParams } from 'langium/test';
 import { describe, expect, it } from 'vitest';
 import { DocumentSymbol, SymbolKind, SymbolTag } from 'vscode-languageserver';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const symbolProvider = services.lsp.DocumentSymbolProvider!;
 
-describe('SafeDsSemanticTokenProvider', async () => {
+describe('TTSLSemanticTokenProvider', async () => {
     const testCases: DocumentSymbolProviderTest[] = [
         {
-            testName: 'annotation declaration',
-            code: 'annotation A(p: Int)',
-            expectedSymbols: [
-                {
-                    name: 'A',
-                    kind: SymbolKind.Interface,
-                },
-            ],
-        },
-        {
-            testName: 'attribute declaration',
-            code: `
-                class C {
-                    attr a: Int
-                    static attr b: (p: Int) -> r: Int
-                }
-            `,
-            expectedSymbols: [
-                {
-                    name: 'C',
-                    kind: SymbolKind.Class,
-                    children: [
-                        {
-                            name: 'a',
-                            kind: SymbolKind.Property,
-                            detail: ': Int',
-                        },
-                        {
-                            name: 'b',
-                            kind: SymbolKind.Property,
-                            detail: ': (p: Int) -> (r: Int)',
-                        },
-                    ],
-                },
-            ],
-        },
-        {
-            testName: 'class declaration',
-            code: 'class C<T>(p: Int)',
-            expectedSymbols: [
-                {
-                    name: 'C',
-                    kind: SymbolKind.Class,
-                },
-            ],
-        },
-        {
-            testName: 'enum declaration',
-            code: 'enum E',
-            expectedSymbols: [
-                {
-                    name: 'E',
-                    kind: SymbolKind.Enum,
-                },
-            ],
-        },
-        {
-            testName: 'enum variant declaration',
-            code: `
-                enum E {
-                    V(p: Int)
-                }
-            `,
-            expectedSymbols: [
-                {
-                    name: 'E',
-                    kind: SymbolKind.Enum,
-                    children: [
-                        {
-                            name: 'V',
-                            kind: SymbolKind.EnumMember,
-                        },
-                    ],
-                },
-            ],
-        },
-        {
             testName: 'function declaration',
+            code: 'function F(p: Int): Int {}',
+            expectedSymbols: [
+                {
+                    name: 'F',
+                    detail: 'Int',
+                    kind: SymbolKind.Function,
+                },
+            ],
+        },
+        {
+            testName: 'constant declaration',
+            code: 'constant c: Int = 0',
+            expectedSymbols: [
+                {
+                    name: 'c',
+                    kind: SymbolKind.Constant,
+                },
+            ],
+        },
+        {
+            testName: 'data declaration',
             code: `
-                class C {
-                    fun f<T>(p: Int) -> r: Int
-                    static fun g<T>(p: Int) -> r: Int
-                }
-
-                fun f<T>(p: Int) -> r: Int
+                data d: Int
             `,
             expectedSymbols: [
                 {
-                    name: 'C',
-                    kind: SymbolKind.Class,
-                    children: [
-                        {
-                            name: 'f',
-                            kind: SymbolKind.Method,
-                            detail: '(p: Int) -> (r: Int)',
-                        },
-                        {
-                            name: 'g',
-                            kind: SymbolKind.Method,
-                            detail: '(p: Int) -> (r: Int)',
-                        },
-                    ],
-                },
-                {
-                    name: 'f',
-                    kind: SymbolKind.Function,
-                    detail: '(p: Int) -> (r: Int)',
+                    name: 'd',
+                    kind: SymbolKind.Property,
                 },
             ],
         },
@@ -127,79 +49,6 @@ describe('SafeDsSemanticTokenProvider', async () => {
                 {
                     name: 'a.b.c',
                     kind: SymbolKind.Package,
-                },
-            ],
-        },
-        {
-            testName: 'pipeline declaration',
-            code: `
-                pipeline p {
-                    val a = 1;
-
-                    (q: Int) {
-                        yield r = 1;
-                    };
-                }
-            `,
-            expectedSymbols: [
-                {
-                    name: 'p',
-                    kind: SymbolKind.Function,
-                },
-            ],
-        },
-        {
-            testName: 'schema declaration',
-            code: `
-                schema S {
-                    "a": Int
-                }
-            `,
-            expectedSymbols: [
-                {
-                    name: 'S',
-                    kind: SymbolKind.Struct,
-                },
-            ],
-        },
-        {
-            testName: 'segment declaration',
-            code: `
-                segment s(p: Int) -> r: Int {
-                    val a = 1;
-
-                    (p: Int) {
-                        yield r = 1;
-                    };
-                }
-            `,
-            expectedSymbols: [
-                {
-                    name: 's',
-                    kind: SymbolKind.Function,
-                    detail: '(p: Int) -> (r: Int)',
-                },
-            ],
-        },
-        {
-            testName: 'deprecated declaration',
-            code: `
-                package test
-
-                @Deprecated
-                class C
-            `,
-            expectedSymbols: [
-                {
-                    name: 'test',
-                    kind: SymbolKind.Package,
-                    children: [
-                        {
-                            name: 'C',
-                            kind: SymbolKind.Class,
-                            tags: [SymbolTag.Deprecated],
-                        },
-                    ],
                 },
             ],
         },

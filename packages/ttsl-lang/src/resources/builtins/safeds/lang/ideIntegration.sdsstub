@@ -1,8 +1,0 @@
-package safeds.lang
-
-/**
- * This parameter should only be used by expert users.
- */
-@Experimental
-@Target([AnnotationTarget.Parameter])
-annotation Expert

@@ -1,0 +1,9 @@
+package tests.partialValidation.recursiveCases.calls.onNull
+
+function myFunction() {
+    # $TEST$ serialization ?
+    »null()«;
+
+    # $TEST$ serialization null
+    »null?()«;
+}

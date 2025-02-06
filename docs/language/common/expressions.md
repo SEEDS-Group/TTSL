@@ -48,7 +48,7 @@ In order to interpolate text with other computed values, use [template strings](
 
 ### Boolean Literals
 
-To work with truthiness, Safe-DS has the two boolean literals `#!ttsl false` and `#!ttsl true`.
+To work with truthiness, TTSL has the two boolean literals `#!ttsl false` and `#!ttsl true`.
 
 ### `#!ttsl null` Literal
 

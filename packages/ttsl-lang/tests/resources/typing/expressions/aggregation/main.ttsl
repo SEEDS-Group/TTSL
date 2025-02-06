@@ -1,0 +1,17 @@
+package tests.typing.expressions.aggregation
+
+data IntData: Int
+data FloatData: Float
+data StringData: String
+data BooleanData: Boolean
+id data testID: Int
+
+function testFunction() groupedBy testID {
+    # $TEST$ serialization Int
+    var »int« = aggregate sum of IntData groupedBy testID;
+    # $TEST$ serialization Float
+    var »float« = aggregate sum of FloatData groupedBy testID;
+    # $TEST$ serialization String
+    var »string« = aggregate count of StringData groupedBy testID;
+}
+

@@ -1,0 +1,19 @@
+package tests.typing.declarations.datas
+
+# $TEST$ serialization Int
+data »myData1«: Int
+
+# $TEST$ serialization String
+data »myData2«: String
+
+# $TEST$ serialization Float
+data »myData3«: Float
+
+# $TEST$ serialization Boolean
+data »myData4«: Boolean
+
+# $TEST$ serialization List<Int>
+data »myData5«: List<Int>
+
+# $TEST$ serialization Dictionary<Int, String>
+data »myData6«: Dict<Int, String>

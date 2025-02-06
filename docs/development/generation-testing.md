@@ -14,11 +14,11 @@ generation test.
 
         If you want to skip a test, add the prefix `skip-` to the folder name.
 
-2. Add files with the extension `.Tsltest`, `.Tslpipe`, or `.Tslstub` **directly inside the folder**. All files in a
+2. Add files with the extension `.ttsl`, `.Tslpipe`, or `.Tslstub` **directly inside the folder**. All files in a
    folder will be loaded into the same workspace, so they can reference each other. Files in different folders are
    loaded into different workspaces, so they cannot reference each other. Generation will be triggered for all files in
    the folder.
-3. Add the Safe-DS code that you want to test to the files.
+3. Add the TTSL code that you want to test to the files.
 4. If you want to run the program only up to a specific placeholder of a pipeline, surround **the name** of that
    placeholder with test markers, e.g. `val »a« = 1;`. You may only mark a single placeholder this way. Add a comment in
    the preceding line with the following format:

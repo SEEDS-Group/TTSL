@@ -1,0 +1,10 @@
+package tests.generator.const
+
+function f(param: Any?){}
+
+function test () {
+    f(1 < 2);
+    f(1.0 - 1.0);
+    f(1 + 1);
+    f(null);
+}

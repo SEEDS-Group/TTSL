@@ -6,7 +6,7 @@ package tests.validation.other.expression.calls.recurcion.notRecursive
  */
 
 segment s1() {
-    // $TEST$ no error "Call leads to infinite recursion."
+    # $TEST$ no error "Call leads to infinite recursion."
     »s2(() -> s2())«;
 }
 

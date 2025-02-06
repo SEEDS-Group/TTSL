@@ -1,0 +1,6 @@
+package tests.partialValidation.recursiveCases.calls.recursion
+
+function myFunction(): Int {
+    # $TEST$ serialization ?
+    return let r = »myFunction()«;
+}

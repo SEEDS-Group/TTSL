@@ -1,30 +1,26 @@
-# Segments ---------------------------------------------------------------------
+# Imports ----------------------------------------------------------------------
 
-def testSegment():
-    g()
-    a, _, __gen_yield_c = g()
-    x, _, _ = g()
-    f1(a)
-    f1(x)
-    return __gen_yield_c
+from gettsim import (compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)
+import pandas as pd
+import numpy as np
+# Functions --------------------------------------------------------------------
 
-# Pipelines --------------------------------------------------------------------
+def f()->int:
+    pass
 
-def testPipeline():
-    g()
-    a, _, _ = g()
-    x, _, _ = g()
-    f1(a)
-    f1(x)
-    l, m, n = g()
-    f1(l)
-    f1(m)
-    f1(n)
-    def __gen_block_lambda_0():
-        g()
-        a, _, __gen_block_lambda_result_c = g()
-        x, _, _ = g()
-        f1(a)
-        f1(x)
-        return __gen_block_lambda_result_c
-    f2(__gen_block_lambda_0)
+def g(x: int = 0):
+    pass
+
+def testFunction():
+    a = f()
+
+# Simulation --------------------------------------------------------------------
+
+date = "2000-01-01"
+
+functions = {'f': f, 'g': g, 'testFunction': testFunction}
+
+params = {'input':{}}
+
+def simulate() -> pd.DataFrame:
+    return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = ['target1', 'target2'], functions = functions, params = params)

@@ -15,7 +15,7 @@
         "programming language",
         "static checking"
     ],
-    "homepage": "https://dsl.safeds.com",
+    "homepage": "https://dsl.TTSL.com",
     "bugs": {
         "url": "https://github.com/SEEDS-Group/TTSL/issues"
     },
@@ -37,13 +37,13 @@
     "qna": "https://github.com/SEEDS-Group/TTSL/discussions",
     "badges": [
         {
-            "url": "https://github.com/Safe-DS/DSL/actions/workflows/main.yml/badge.svg",
-            "href": "https://github.com/Safe-DS/DSL/actions/workflows/main.yml",
+            "url": "https://github.com/TTSL/DSL/actions/workflows/main.yml/badge.svg",
+            "href": "https://github.com/TTSL/DSL/actions/workflows/main.yml",
             "description": "Main"
         },
         {
-            "url": "https://codecov.io/gh/Safe-DS/DSL/branch/main/graph/badge.svg?token=ma0ytglhO1",
-            "href": "https://codecov.io/gh/Safe-DS/DSL",
+            "url": "https://codecov.io/gh/TTSL/DSL/branch/main/graph/badge.svg?token=ma0ytglhO1",
+            "href": "https://codecov.io/gh/TTSL/DSL",
             "description": "codecov"
         }
     ],
@@ -110,8 +110,23 @@
                 "category": "TTSL"
             },
             {
+                "command": "ttsl.installRunner",
+                "title": "Install the TTSL Runner",
+                "category": "TTSL"
+            },
+            {
                 "command": "ttsl.openDiagnosticsDumps",
                 "title": "Open Diagnostics Dumps in New VS Code Window",
+                "category": "TTSL"
+            },
+            {
+                "command": "ttsl.refreshWebview",
+                "title": "Refresh Webview",
+                "category": "TTSL"
+            },
+            {
+                "command": "ttsl.updateRunner",
+                "title": "Update the TTSL Runner",
                 "category": "TTSL"
             }
         ],
@@ -138,9 +153,10 @@
     },
     "devDependencies": {
         "@types/node": "^18.18.12",
+        "@types/semver": "^7.5.8",
         "@types/vscode": "^1.87.0",
         "@vscode/vsce": "^2.24.0",
-        "esbuild": "^0.20.2",
+        "esbuild": "^0.24.2",
         "esbuild-plugin-copy": "^2.1.1"
     },
     "engines": {

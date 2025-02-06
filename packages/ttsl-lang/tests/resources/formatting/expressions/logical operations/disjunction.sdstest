@@ -1,9 +1,9 @@
-pipeline myPipeline {
+function myFunction () {
     true  or  true;
 }
 
-// -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
-pipeline myPipeline {
+function myFunction () {
     true or true;
 }

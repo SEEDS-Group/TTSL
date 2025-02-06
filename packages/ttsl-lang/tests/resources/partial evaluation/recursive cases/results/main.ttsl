@@ -1,0 +1,7 @@
+package tests.partialEvaluation.recursiveCases.assignees.results
+
+# $TEST$ serialization 1
+function myFunction(): »Int« {
+    return 1;
+    return 2;
+}

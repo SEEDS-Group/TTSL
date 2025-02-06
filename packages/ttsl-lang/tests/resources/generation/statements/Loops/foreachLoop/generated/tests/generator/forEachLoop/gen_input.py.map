@@ -1,0 +1,1 @@
+{"version":3,"sources":["input.ttsl"],"names":["myfunction","x","elm"],"mappings":"AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAIA,IAASA,UAAU;IACf,IAAQ,CAAC;IACT;QACIC,CAAC,GAAG,CAAAA,CAAC,EAAC,CAAC,EAACC,GAAG;IAEf,OAAOD,CAAC;;;;AAPZ,OAAA,+BAA2B,UAAC,CAAC,EAAC,CAAC,EAAC,CAAC","file":"gen_input.py"}

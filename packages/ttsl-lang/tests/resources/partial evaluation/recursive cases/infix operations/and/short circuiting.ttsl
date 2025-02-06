@@ -1,0 +1,11 @@
+package tests.partialValidation.recursiveCases.infixOperations.`and`
+
+function pureFunction(): Boolean {}
+
+function test () {
+    # $TEST$ serialization false
+    »false and pureFunction()«;
+
+    # $TEST$ serialization ?
+    »true and pureFunction()«;
+}

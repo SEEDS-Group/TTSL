@@ -2,9 +2,11 @@ import * as path from 'node:path';
 import * as vscode from 'vscode';
 import type { LanguageClientOptions, ServerOptions } from 'vscode-languageclient/node.js';
 import { LanguageClient, TransportKind } from 'vscode-languageclient/node.js';
-import { getSafeDSOutputChannel, initializeLog } from './output.js';
+import { getTTSLOutputChannel, initializeLog } from './output.js';
 import { dumpDiagnostics } from './commands/dumpDiagnostics.js';
 import { openDiagnosticsDumps } from './commands/openDiagnosticsDumps.js';
+import { installRunner } from './actions/installRunner.ts';
+import { updateRunner } from './actions/updateRunner.ts';
 
 let client: LanguageClient;
 
@@ -47,16 +49,16 @@ const startLanguageClient = function (context: vscode.ExtensionContext): Languag
 
     // Options to control the language client
     const clientOptions: LanguageClientOptions = {
-        documentSelector: [{ scheme: 'file', language: 'safe-ds' }],
+        documentSelector: [{ scheme: 'file', language: 'ttsl' }],
         synchronize: {
             // Notify the server about file changes to files contained in the workspace
             fileEvents: fileSystemWatcher,
         },
-        outputChannel: getSafeDSOutputChannel('[LanguageClient] '),
+        outputChannel: getTTSLOutputChannel('[LanguageClient] '),
     };
 
     // Create the language client and start the client.
-    const result = new LanguageClient('safe-ds', 'Safe-DS', serverOptions, clientOptions);
+    const result = new LanguageClient('ttsl', 'TTSL', serverOptions, clientOptions);
 
     // Start the client. This will also launch the server
     result.start();
@@ -72,5 +74,10 @@ const registerVSCodeCommands = function (context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand('ttsl.dumpDiagnostics', dumpDiagnostics(context)));
     context.subscriptions.push(
         vscode.commands.registerCommand('ttsl.openDiagnosticsDumps', openDiagnosticsDumps(context)),
+    );
+    context.subscriptions.push(
+        vscode.commands.registerCommand('ttsl.openDiagnosticsDumps', openDiagnosticsDumps(context)),
+        vscode.commands.registerCommand('ttsl.installRunne', installRunner(client)),
+        vscode.commands.registerCommand('ttsl.updateRunner', updateRunner(context, client)),
     );
 };

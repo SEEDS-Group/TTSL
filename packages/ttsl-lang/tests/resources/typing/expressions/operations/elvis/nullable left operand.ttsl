@@ -1,0 +1,19 @@
+package tests.typing.operations.elvis.nullableLeftOperand
+
+function intOrNull(): Int? {}
+function stringOrNull(): String? {}
+
+function elvisWithNullableLeftOperand() {
+    # $TEST$ serialization Int?
+    »intOrNull?() ?: intOrNull?()«;
+    # $TEST$ serialization Int?
+    »intOrNull?() ?: null«;
+    # $TEST$ serialization Int
+    »intOrNull?() ?: 1«;
+    # $TEST$ serialization Any
+    »intOrNull?() ?: 1.0«;
+    # $TEST$ serialization Any
+    »intOrNull?() ?: ""«;
+    # $TEST$ serialization Any?
+    »intOrNull?() ?: stringOrNull?()«;
+}

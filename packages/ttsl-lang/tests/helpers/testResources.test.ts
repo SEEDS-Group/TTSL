@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
     listTestFilesWithExtensions,
-    listTestSafeDsFiles,
-    listTestSafeDsFilesGroupedByParentDirectory,
+    listTestTTSLFiles,
+    listTestTTSLFilesGroupedByParentDirectory,
     ShortenedTestResourceName,
     TestResourceName,
     testResourceNameToUri,
@@ -12,30 +12,23 @@ import { URI } from 'langium';
 
 describe('uriToShortenedTestResourceName', () => {
     it('should return the corresponding resource name if no root resource name is given', () => {
-        const resourceName = 'helpers/listSafeDsFiles';
+        const resourceName = 'helpers/listTTSLFiles';
         const actual = uriToShortenedTestResourceName(testResourceNameToUri(resourceName));
         expect(normalizeResourceName(actual)).toBe(normalizeResourceName(resourceName));
     });
 
     it('should return a shortened resource name if a root resource name is given', () => {
-        const resourceName = 'helpers/nested/listSafeDsFiles';
+        const resourceName = 'helpers/nested/listTTSLFiles';
         const actual = uriToShortenedTestResourceName(testResourceNameToUri(resourceName), 'helpers/nested');
-        expect(actual).toBe('listSafeDsFiles');
+        expect(actual).toBe('listTTSLFiles');
     });
 });
 
-describe('listTestSafeDsFiles', () => {
-    it('should return all Safe-DS files in a resource directory that are not skipped', () => {
-        const rootResourceName = 'helpers/listSafeDsFiles';
-        const actual = listTestSafeDsFiles(rootResourceName);
-        const expected = [
-            'pipeline file.Tslpipe',
-            'stub file.Tslstub',
-            'test file.Tsltest',
-            'nested/pipeline file.Tslpipe',
-            'nested/stub file.Tslstub',
-            'nested/test file.Tsltest',
-        ];
+describe('listTestTTSLFiles', () => {
+    it('should return all TTSL files in a resource directory that are not skipped', () => {
+        const rootResourceName = 'helpers/listTTSLFiles';
+        const actual = listTestTTSLFiles(rootResourceName);
+        const expected = ['function file.ttsl', 'nested/function file.ttsl'];
 
         expectFileListsToMatch(rootResourceName, actual, expected);
     });
@@ -51,10 +44,10 @@ describe('listTestFilesWithExtensions', () => {
     });
 });
 
-describe('listTestSafeDsFilesGroupedByParentDirectory', () => {
-    it('should return all Safe-DS files in a directory that are not skipped and group them by parent directory', () => {
-        const rootResourceName = 'helpers/listSafeDsFiles';
-        const result = new Map(listTestSafeDsFilesGroupedByParentDirectory(rootResourceName));
+describe('listTestTTSLFilesGroupedByParentDirectory', () => {
+    it('should return all TTSL files in a directory that are not skipped and group them by parent directory', () => {
+        const rootResourceName = 'helpers/listTTSLFiles';
+        const result = new Map(listTestTTSLFilesGroupedByParentDirectory(rootResourceName));
 
         // Compare the keys, i.e. the parent directories
         const actualKeys = [...result.keys()];
@@ -65,18 +58,14 @@ describe('listTestSafeDsFilesGroupedByParentDirectory', () => {
         const actualValuesDirectlyInRoot = [...result.entries()].find(
             ([key]) => uriToShortenedTestResourceName(key, rootResourceName) === '',
         )!;
-        const expectedValuesDirectlyInRoot = ['pipeline file.Tslpipe', 'stub file.Tslstub', 'test file.Tsltest'];
+        const expectedValuesDirectlyInRoot = ['function file.ttsl'];
         expectFileListsToMatch(rootResourceName, actualValuesDirectlyInRoot[1], expectedValuesDirectlyInRoot);
 
         // Compare the values, i.e. the files, in the nested directory
         const actualValuesInNested = [...result.entries()].find(
             ([key]) => uriToShortenedTestResourceName(key, rootResourceName) === 'nested',
         )!;
-        const expectedValuesInNested = [
-            'nested/pipeline file.Tslpipe',
-            'nested/stub file.Tslstub',
-            'nested/test file.Tsltest',
-        ];
+        const expectedValuesInNested = ['nested/function file.ttsl'];
         expectFileListsToMatch(rootResourceName, actualValuesInNested[1], expectedValuesInNested);
     });
 });

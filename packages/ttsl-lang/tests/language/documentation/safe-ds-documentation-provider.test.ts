@@ -1,22 +1,16 @@
 import { AstNode, EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
 import { normalizeLineBreaks } from '../../../src/helpers/strings.js';
-import {
-    isTslAnnotation,
-    isTslFunction,
-    isTslParameter,
-    isTslResult,
-    isTslTypeParameter,
-} from '../../../src/language/generated/ast.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { isTslFunction, isTslParameter, isTslResult, isTslTypeParameter } from '../../../src/language/generated/ast.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
 import { expandToString } from 'langium/generate';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 const documentationProvider = services.documentation.DocumentationProvider;
 const testDocumentation = 'Lorem ipsum.';
 
-describe('SafeDsDocumentationProvider', () => {
+describe('TTSLDocumentationProvider', () => {
     const testCases: DocumentationProviderTest[] = [
         {
             testName: 'module member',
@@ -24,9 +18,9 @@ describe('SafeDsDocumentationProvider', () => {
                 /**
                  * ${testDocumentation}
                  */
-                annotation MyAnnotation
+                function F() {}
             `,
-            predicate: isTslAnnotation,
+            predicate: isTslFunction,
             expectedDocumentation: testDocumentation,
         },
         {
@@ -35,7 +29,7 @@ describe('SafeDsDocumentationProvider', () => {
                 /**
                  * @param param ${testDocumentation}
                  */
-                fun myFunction(param: String)
+                function myFunction(param: String) {}
             `,
             predicate: isTslParameter,
             expectedDocumentation: testDocumentation,
@@ -47,7 +41,7 @@ describe('SafeDsDocumentationProvider', () => {
                  * @param param ${testDocumentation}
                  * @param param bla
                  */
-                fun myFunction(param: String)
+                function myFunction(param: String) {}
             `,
             predicate: isTslParameter,
             expectedDocumentation: testDocumentation,
@@ -58,7 +52,7 @@ describe('SafeDsDocumentationProvider', () => {
                 /**
                  * @param param ${testDocumentation}
                  */
-                fun myFunction(param2: String)
+                function myFunction(param2: String) {}
             `,
             predicate: isTslParameter,
             expectedDocumentation: undefined,
@@ -66,41 +60,41 @@ describe('SafeDsDocumentationProvider', () => {
         {
             testName: 'parameter (no documentation on containing callable)',
             code: `
-                fun myFunction(p: Int)
+                function myFunction(p: Int) {}
             `,
             predicate: isTslParameter,
             expectedDocumentation: undefined,
-        },
+        } /* 
         {
             testName: 'documented result',
             code: `
                 /**
                  * @result res ${testDocumentation}
-                 */
-                fun myFunction() -> (res: String)
+                 *
+                function myFunction(): res: String {}
             `,
             predicate: isTslResult,
             expectedDocumentation: testDocumentation,
-        },
+        }, 
         {
             testName: 'documented result (duplicate)',
             code: `
                 /**
-                 * @result res ${testDocumentation}
-                 * @result res bla
-                 */
-                fun myFunction() -> (res: String)
+                 * @result ${testDocumentation}
+                 * @result bla
+                 
+                function myFunction(): String {}
             `,
             predicate: isTslResult,
             expectedDocumentation: testDocumentation,
-        },
+        },*/,
         {
             testName: 'undocumented result',
             code: `
                 /**
-                 * @result res ${testDocumentation}
+                 * @result ${testDocumentation}
                  */
-                fun myFunction() -> (res2: String)
+                function myFunction(): String {}
             `,
             predicate: isTslResult,
             expectedDocumentation: undefined,
@@ -108,19 +102,19 @@ describe('SafeDsDocumentationProvider', () => {
         {
             testName: 'result (no documentation on containing callable)',
             code: `
-                fun myFunction() -> r: Int
+                function myFunction(): Int {}
             `,
             predicate: isTslResult,
             expectedDocumentation: undefined,
-        },
+        } /* 
         {
             testName: 'documented type parameter',
             code: `
                 /**
                  * @typeParam T
                  *     ${testDocumentation}
-                 */
-                class MyClass<T>
+                 *
+                constant c: List<T> = [0, 1, 2];
             `,
             predicate: isTslTypeParameter,
             expectedDocumentation: testDocumentation,
@@ -131,12 +125,12 @@ describe('SafeDsDocumentationProvider', () => {
                 /**
                  * @typeParam T ${testDocumentation}
                  * @typeParam T bla
-                 */
-                class MyClass<T>
+                 *
+                constant c: List<T> = [0, 1, 2];
             `,
             predicate: isTslTypeParameter,
             expectedDocumentation: testDocumentation,
-        },
+        }, */,
         {
             testName: 'undocumented type parameter',
             code: `
@@ -144,15 +138,7 @@ describe('SafeDsDocumentationProvider', () => {
                  * @typeParam T
                  *     ${testDocumentation}
                  */
-                class MyClass<T2>
-            `,
-            predicate: isTslTypeParameter,
-            expectedDocumentation: undefined,
-        },
-        {
-            testName: 'type parameter (no documentation on containing callable)',
-            code: `
-                fun myFunction<T>()
+                constant c: List<T> = [0, 1, 2];
             `,
             predicate: isTslTypeParameter,
             expectedDocumentation: undefined,
@@ -165,10 +151,9 @@ describe('SafeDsDocumentationProvider', () => {
                  *
                  * @param param ${testDocumentation}
                  * @result result ${testDocumentation}
-                 * @typeParam T ${testDocumentation}
                  * @since 1.0.0
                  */
-                fun myFunction<T>(param: String) -> result: String
+                function myFunction(param: String): String {}
             `,
             predicate: isTslFunction,
             expectedDocumentation: expandToString`
@@ -177,8 +162,6 @@ describe('SafeDsDocumentationProvider', () => {
                 **@param** *param* — Lorem ipsum.
 
                 **@result** *result* — Lorem ipsum.
-
-                **@typeParam** *T* — Lorem ipsum.
 
                 **@since** — 1.0.0
             `,
@@ -197,9 +180,9 @@ describe('SafeDsDocumentationProvider', () => {
             /**
              * {@link myFunction2}
              */
-            fun myFunction1()
+            function myFunction1(){}
 
-            fun myFunction2()
+            function myFunction2(){}
         `;
         const node = await getNodeOfType(services, code, isTslFunction);
         expect(documentationProvider.getDocumentation(node)).toMatch(/\[myFunction2\]\(.*\)/u);

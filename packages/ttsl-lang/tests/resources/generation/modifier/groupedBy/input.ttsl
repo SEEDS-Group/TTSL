@@ -1,0 +1,8 @@
+package tests.generator.groupedby
+
+id data myID: Int
+data myData: Int
+
+function myFunction() groupedBy myID {
+    var x: Int = aggregate sum of myData groupedBy myID
+}

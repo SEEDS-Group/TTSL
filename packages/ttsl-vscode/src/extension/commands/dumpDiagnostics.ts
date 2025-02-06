@@ -6,8 +6,8 @@ export const dumpDiagnostics = (context: ExtensionContext) => async () => {
     if (!currentDocument) {
         vscode.window.showErrorMessage('No active document.');
         return;
-    } else if (currentDocument.languageId !== 'safe-ds') {
-        vscode.window.showErrorMessage('The active document is not a Safe-DS document.');
+    } else if (currentDocument.languageId !== 'ttsl') {
+        vscode.window.showErrorMessage('The active document is not a TTSL document.');
         return;
     }
 

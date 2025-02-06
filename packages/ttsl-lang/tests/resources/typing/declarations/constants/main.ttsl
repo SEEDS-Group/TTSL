@@ -1,0 +1,27 @@
+package tests.typing.declarations.consts
+
+private typealias sf = Dict<String, Float>
+
+# $TEST$ serialization Dictionary<String, Float>
+constant »myConstant«: sf = 0
+
+constant myConstant2 {
+    from 1999-01-01: Int = 0;
+    from 2001-01-01: Float = 0.0;
+    from 2003-01-01: Boolean = false;
+}
+
+function myFunction() {
+    # $TEST$ serialization Dictionary<String, Float>
+    var »myVariable« = myConstant
+    from 1999-05-05{
+        # $TEST$ serialization Int
+        var »myData« = myConstant2
+    } from 2001-09-09{
+        # $TEST$ serialization Float
+        var »myData« = myConstant2
+    } from 2003-01-01{
+        # $TEST$ serialization Boolean
+        var »myData« = myConstant2
+    }
+}

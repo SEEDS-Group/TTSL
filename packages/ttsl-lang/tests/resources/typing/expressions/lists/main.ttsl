@@ -1,0 +1,22 @@
+package tests.typing.expressions.lists
+
+function float(): Float {}
+function string(): String {}
+
+function myFunction() {
+
+    # $TEST$ serialization List<Nothing>
+    »[]«;
+
+    # $TEST$ serialization List<Int>
+    »[1, 2, 3]«;
+
+    # $TEST$ serialization List<Any>
+    »[1, float(), 3]«;
+
+    # $TEST$ serialization List<Any>
+    »[1, string(), 3]«;
+
+    # $TEST$ serialization List<Any?>
+    »[1, string(), null]«;
+}

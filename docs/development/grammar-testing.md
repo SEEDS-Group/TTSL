@@ -5,7 +5,7 @@ test.
 
 ## Adding a grammar test
 
-1. Create a new file with the extension `.Tsltest` in the `tests/resources/grammar` directory or any subdirectory. Give
+1. Create a new file with the extension `.ttsl` in the `tests/resources/grammar` directory or any subdirectory. Give
    the file a descriptive name, since the file name becomes part of the test name.
 
     !!! note "Naming convention"
@@ -33,7 +33,7 @@ test.
 
         By convention, the comment should be placed at the start of the file.
 
-3. Add the Safe-DS code that you want to test to the file.
+3. Add the TTSL code that you want to test to the file.
 4. Run the tests. The test runner will automatically pick up the new test.
 
 [^1]: We do not differentiate whether the error originated in the lexer (error code `lexing-error`) or the actual parser (error code `parsing-error`). Both are treated as syntax errors.

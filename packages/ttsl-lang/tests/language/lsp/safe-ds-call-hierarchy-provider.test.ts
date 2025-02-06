@@ -3,34 +3,34 @@ import { parseHelper } from 'langium/test';
 import { describe, expect, it } from 'vitest';
 import { type CallHierarchyItem } from 'vscode-languageserver';
 import { findTestRanges } from '../../helpers/testRanges.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const callHierarchyProvider = services.lsp.CallHierarchyProvider!;
 const parse = parseHelper(services);
 
-describe('SafeDsCallHierarchyProvider', async () => {
+describe('TTSLCallHierarchyProvider', async () => {
     describe('incomingCalls', () => {
         const testCases: IncomingCallTest[] = [
             {
                 testName: 'unused',
-                code: `class »«C`,
+                code: `function »«f() {}`,
                 expectedIncomingCalls: undefined,
             },
             {
                 testName: 'single caller, single call',
                 code: `
-                    class »«C()
-                    class D()
+                    function »«C() {}
+                    function D() {}
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         C();
                         D();
                     }
                 `,
                 expectedIncomingCalls: [
                     {
-                        fromName: 'myPipeline',
+                        fromName: 'myFunction',
                         fromRangesLength: 1,
                     },
                 ],
@@ -38,19 +38,19 @@ describe('SafeDsCallHierarchyProvider', async () => {
             {
                 testName: 'single caller, multiple calls',
                 code: `
-                    class »«C()
-                    class D()
+                    function »«C() {}
+                    function D() {}
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         C();
-                        () -> C();
-                        () { C() };
+                        C();
+                        C();
                         D();
                     }
                 `,
                 expectedIncomingCalls: [
                     {
-                        fromName: 'myPipeline',
+                        fromName: 'myFunction',
                         fromRangesLength: 3,
                     },
                 ],
@@ -58,16 +58,16 @@ describe('SafeDsCallHierarchyProvider', async () => {
             {
                 testName: 'multiple callers',
                 code: `
-                    class »«C()
-                    class D()
+                    function »«C(): Int {}
+                    function D() {}
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         C();
                         C();
                         D();
                     }
 
-                   segment mySegment(myParam: C = C()) {
+                   function myFunction2(param1: Int = C()) {
                        C();
                        C();
                        D();
@@ -75,39 +75,21 @@ describe('SafeDsCallHierarchyProvider', async () => {
                 `,
                 expectedIncomingCalls: [
                     {
-                        fromName: 'myPipeline',
+                        fromName: 'myFunction',
                         fromRangesLength: 2,
                     },
                     {
-                        fromName: 'mySegment',
+                        fromName: 'myFunction2',
                         fromRangesLength: 3,
-                    },
-                ],
-            },
-            {
-                testName: 'null-safe',
-                code: `
-                    class C {
-                        fun »«f()
-                    }
-
-                    segment s(cOrNull: C?) {
-                        cOrNull?.f?();
-                    }
-                `,
-                expectedIncomingCalls: [
-                    {
-                        fromName: 's',
-                        fromRangesLength: 1,
                     },
                 ],
             },
             {
                 testName: 'only referenced',
                 code: `
-                    class »«C()
+                    function »«C() {}
 
-                    pipeline p {
+                    function f() {
                         C;
                     }
                 `,
@@ -125,15 +107,15 @@ describe('SafeDsCallHierarchyProvider', async () => {
         const testCases: OutgoingCallTest[] = [
             {
                 testName: 'no calls',
-                code: `pipeline »«p {}`,
+                code: `function »«p() {}`,
                 expectedOutgoingCalls: undefined,
             },
             {
                 testName: 'single callee, single call',
                 code: `
-                    fun f()
+                    function f() {}
 
-                    pipeline »«p {
+                    function »«p() {
                         f();
                     }
                 `,
@@ -147,12 +129,12 @@ describe('SafeDsCallHierarchyProvider', async () => {
             {
                 testName: 'single callee, multiple calls',
                 code: `
-                    fun f()
+                    function f() {}
 
-                    pipeline »«p {
+                    function »«p() {
                         f();
-                        () -> f();
-                        () { f() };
+                        f();
+                        (f());
                     }
                 `,
                 expectedOutgoingCalls: [
@@ -165,10 +147,10 @@ describe('SafeDsCallHierarchyProvider', async () => {
             {
                 testName: 'multiple callees',
                 code: `
-                    fun f()
-                    fun g()
+                    function f() {}
+                    function g() {}
 
-                    pipeline »«p {
+                    function »«p() {
                         f();
                         f();
                         g();
@@ -186,29 +168,11 @@ describe('SafeDsCallHierarchyProvider', async () => {
                 ],
             },
             {
-                testName: 'null-safe',
-                code: `
-                    class C {
-                        fun f()
-                    }
-
-                    segment »«s(cOrNull: C?) {
-                        cOrNull?.f?();
-                    }
-                `,
-                expectedOutgoingCalls: [
-                    {
-                        fromRangesLength: 1,
-                        toName: 'f',
-                    },
-                ],
-            },
-            {
                 testName: 'only referenced',
                 code: `
-                    fun f()
+                    function f() {}
 
-                    pipeline »«p {
+                    function »«p() {
                         f;
                     }
                 `,
@@ -277,7 +241,7 @@ const getUniqueCallHierarchyItem = async (code: string): Promise<CallHierarchyIt
 };
 
 /**
- * A test case for {@link SafeDsCallHierarchyProvider.incomingCalls}.
+ * A test case for {@link TTSLCallHierarchyProvider.incomingCalls}.
  */
 interface IncomingCallTest {
     /**
@@ -312,7 +276,7 @@ interface SimpleIncomingCall {
 }
 
 /**
- * A test case for {@link SafeDsCallHierarchyProvider.outgoingCalls}.
+ * A test case for {@link TTSLCallHierarchyProvider.outgoingCalls}.
  */
 interface OutgoingCallTest {
     /**

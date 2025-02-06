@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { generate } from './generate.js';
 import { check } from './check.js';
 import { format } from './format.js';
+import { simulate } from './simulate.js';
 
 const program = new Command();
 
@@ -17,14 +18,14 @@ program
     .command('check')
     .argument('<paths...>', `list of files or directories to check`)
     .option('-s, --strict', 'whether the program should fail on warnings', false)
-    .description('check Safe-DS code')
+    .description('check TTSL code')
     .action(check);
 
 // Format command
 program
     .command('format')
     .argument('<paths...>', `list of files or directories to format`)
-    .description('format Safe-DS code')
+    .description('format TTSL code')
     .action(format);
 
 // Generate command
@@ -35,5 +36,15 @@ program
     .option('-s, --sourcemaps', 'whether source maps should be generated', false)
     .description('generate Python code')
     .action(generate);
+
+// simulate command
+program
+    .command('simulate')
+    .argument('date', `date to be simulated on`)
+    .argument('data', `csv-File needed for the simulation`)
+    .argument('targets', `list of targets to be simulated`)
+    .argument('path', `TTSL-Files or Directories`)
+    .description('simulate tax and transfers')
+    .action(simulate);
 
 program.parse(process.argv);

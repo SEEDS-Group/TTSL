@@ -4,7 +4,7 @@ enum MyEnum {
     MyEnumVariant
 }
 
-pipeline myPipeline {
-    // $TEST$ unresolved
+function myFunction () {
+    # $TEST$ unresolved
     »MyEnumVariant«;
 }

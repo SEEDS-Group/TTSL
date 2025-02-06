@@ -4,7 +4,7 @@ class MyClass {
     @Pure static fun myFunction()
 }
 
-pipeline myPipeline {
-    // $TEST$ ["myFunction"]
+function myFunction () {
+    # $TEST$ ["myFunction"]
     »MyClass.myFunction()«;
 }

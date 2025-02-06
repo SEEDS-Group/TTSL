@@ -1,0 +1,15 @@
+package tests.scoping.references.inSameFile.toPlaceholders.ofContainingTimespan
+
+function myFunction() {
+    # $TEST$ target variable
+    var »variable«: Int = 0;
+
+    for(var i:Int = 0; i <= 3; i = i+1){
+        variable = i
+    }
+
+    from 1999-01-01{
+        # $TEST$ references variable
+        »variable« = 2;
+    }
+}

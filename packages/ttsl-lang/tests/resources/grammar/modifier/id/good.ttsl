@@ -1,0 +1,5 @@
+# $TEST$ no_syntax_error
+
+id data testData: Int;
+
+id function testFunction(y: Int): Int {}

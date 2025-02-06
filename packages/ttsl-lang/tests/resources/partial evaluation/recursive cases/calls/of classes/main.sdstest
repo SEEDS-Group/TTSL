@@ -1,8 +1,0 @@
-package tests.partialValidation.recursiveCases.calls.ofClasses
-
-class C()
-
-pipeline test {
-    // $TEST$ serialization ?
-    »C()«;
-}

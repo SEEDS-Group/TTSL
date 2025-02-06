@@ -1,0 +1,12 @@
+package tests.scoping.references.inSameFile.toFunction
+
+constant myConstant : Float = 0.0;
+
+id data myDataID: Int
+constant myKonstante: Int {
+    from 1999-01-01 = myConstant + 1;
+    from 2000-01-01 = myConstant + 2;
+}
+function myFunction() {
+    var y: Int = m
+}

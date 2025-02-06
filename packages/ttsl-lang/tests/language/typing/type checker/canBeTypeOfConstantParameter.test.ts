@@ -1,98 +1,54 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
-import { isTslClass, isTslEnum, isTslModule } from '../../../../src/language/generated/ast.js';
-import { createSafeDsServices, getEnumVariants, getModuleMembers } from '../../../../src/language/index.js';
-import { ClassType, EnumType, EnumVariantType, Type, UnknownType } from '../../../../src/language/typing/model.js';
-import { getNodeOfType } from '../../../helpers/nodeFinder.js';
+import { createTTSLServices } from '../../../../src/language/index.js';
+import {
+    AnyType,
+    BooleanType,
+    DictionaryType,
+    FloatType,
+    IntType,
+    ListType,
+    NothingType,
+    StringType,
+    Type,
+    UnknownType,
+} from '../../../../src/language/typing/model.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
-const coreTypes = services.types.CoreTypes;
-const factory = services.types.TypeFactory;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const typeChecker = services.types.TypeChecker;
-const typeComputer = services.types.TypeComputer;
 
-const code = `
-    class MyClass
-
-    enum ConstantEnum {
-        Variant1
-        Variant2(const param: Int)
-    }
-
-    enum NormalEnum {
-        Variant1
-        Variant2(param: Int)
-    }
-`;
-const module = await getNodeOfType(services, code, isTslModule);
-const classes = getModuleMembers(module).filter(isTslClass);
-const myClassType = typeComputer.computeType(classes[0]) as ClassType;
-
-const enums = getModuleMembers(module).filter(isTslEnum);
-const constantEnum = enums[0];
-const normalEnum = enums[1];
-const constantEnumType = typeComputer.computeType(constantEnum) as EnumType;
-const normalEnumType = typeComputer.computeType(normalEnum) as EnumType;
-
-const constantEnumVariantType = typeComputer.computeType(getEnumVariants(constantEnum)[1]) as EnumVariantType;
-const normalEnumVariantType = typeComputer.computeType(getEnumVariants(normalEnum)[1]) as EnumVariantType;
-
-describe('SafeDsTypeChecker', async () => {
+describe('TTSLTypeChecker', async () => {
     const testCases: CanBeTypeOfConstantParameterTest[] = [
         {
-            type: coreTypes.Any,
-            expected: false,
-        },
-        {
-            type: coreTypes.Boolean,
+            type: new AnyType(false),
             expected: true,
         },
         {
-            type: coreTypes.Float,
+            type: new BooleanType(false),
             expected: true,
         },
         {
-            type: coreTypes.Int,
+            type: new FloatType(false),
             expected: true,
         },
         {
-            type: coreTypes.List(coreTypes.Int),
+            type: new IntType(false),
             expected: true,
         },
         {
-            type: coreTypes.Map(coreTypes.String, coreTypes.Int),
+            type: new ListType([new IntType(false)], false),
             expected: true,
         },
         {
-            type: coreTypes.Nothing,
+            type: new DictionaryType([new StringType(false), new IntType(false)], false),
             expected: true,
         },
         {
-            type: coreTypes.String,
+            type: new NothingType(false),
             expected: true,
         },
         {
-            type: myClassType,
-            expected: false,
-        },
-        {
-            type: constantEnumType,
-            expected: true,
-        },
-        {
-            type: normalEnumType,
-            expected: false,
-        },
-        {
-            type: constantEnumVariantType,
-            expected: true,
-        },
-        {
-            type: normalEnumVariantType,
-            expected: false,
-        },
-        {
-            type: factory.createLiteralType(),
+            type: new StringType(false),
             expected: true,
         },
         {
@@ -113,7 +69,7 @@ describe('SafeDsTypeChecker', async () => {
 });
 
 /**
- * A test case for {@link SafeDsTypeChecker.canBeTypeOfConstantParameter}.
+ * A test case for {@link TTSLTypeChecker.canBeTypeOfConstantParameter}.
  */
 interface CanBeTypeOfConstantParameterTest {
     /**

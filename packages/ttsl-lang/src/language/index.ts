@@ -1,6 +1,8 @@
+import { pipVersionRange } from './runtime/ttsl-python-server.js';
+
 // Services
-export type { SafeDsServices } from './safe-ds-module.js';
-export { createSafeDsServices } from './safe-ds-module.js';
+export type { TTSLServices } from './ttsl-module.js';
+export { createTTSLServices } from './ttsl-module.js';
 
 // Language Server
 export { startLanguageServer } from './main.js';
@@ -14,3 +16,12 @@ export * from './helpers/nodeProperties.js';
 
 // Location
 export { locationToString, positionToString, rangeToString } from '../helpers/locations.js';
+
+// RPC
+export * as rpc from './communication/rpc.js';
+
+export const dependencies = {
+    'ttsl-runner': {
+        pipVersionRange,
+    },
+};

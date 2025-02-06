@@ -1,4 +1,4 @@
-pipeline myPipeline {
+function myFunction () {
     () {
 
          val  a  =  0 ;
@@ -8,9 +8,9 @@ pipeline myPipeline {
      };
 }
 
-// -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
-pipeline myPipeline {
+function myFunction () {
     () {
 
         val a = 0;

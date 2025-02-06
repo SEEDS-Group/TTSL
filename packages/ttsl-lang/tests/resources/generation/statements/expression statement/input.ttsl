@@ -1,0 +1,8 @@
+package tests.generator.expressionStatement
+
+function f(){}
+
+function test(){
+    f();
+    1;
+}

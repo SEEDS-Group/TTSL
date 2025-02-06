@@ -1,11 +1,11 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
 import { getLinkingErrors } from '../../helpers/diagnostics.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 
-describe('SafeDsWorkspaceManager', () => {
+describe('TTSLWorkspaceManager', () => {
     describe('loadAdditionalDocuments', () => {
         it.each(['Any', 'Boolean', 'Float', 'Int', 'Nothing', 'Number', 'String'])(
             'should be possible to refer to %s',
