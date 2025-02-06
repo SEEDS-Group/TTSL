@@ -1,0 +1,5 @@
+# $TEST$ no_syntax_error
+
+private typealias sf = Dict<String, Float>
+
+constant myConstant: sf = {"a": 0.0, "b": 1.0}

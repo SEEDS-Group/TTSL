@@ -1,13 +1,13 @@
 import { TslIndexedAccess } from '../../../generated/ast.js';
 import { ValidationAcceptor } from 'langium';
-import { SafeDsServices } from '../../../safe-ds-module.js';
+import { TTSLServices } from '../../../ttsl-module.js';
 import { EvaluatedList, EvaluatedMap, IntConstant } from '../../../partialEvaluation/model.js';
+import { ListType } from '../../../typing/model.js';
 
 export const CODE_INDEXED_ACCESS_INVALID_INDEX = 'indexed-access/invalid-index';
 
-export const indexedAccessIndexMustBeValid = (services: SafeDsServices) => {
+export const indexedAccessIndexMustBeValid = (services: TTSLServices) => {
     const partialEvaluator = services.evaluation.PartialEvaluator;
-    const typeChecker = services.types.TypeChecker;
     const typeComputer = services.types.TypeComputer;
 
     return (node: TslIndexedAccess, accept: ValidationAcceptor): void => {
@@ -17,11 +17,10 @@ export const indexedAccessIndexMustBeValid = (services: SafeDsServices) => {
         }
 
         const receiverValue = partialEvaluator.evaluate(node.receiver);
-
         // Check map key
         if (receiverValue instanceof EvaluatedMap) {
             if (!receiverValue.has(indexValue)) {
-                accept('error', `Map key '${indexValue}' does not exist.`, {
+                accept('error', `Dictionary key '${indexValue}' does not exist.`, {
                     node,
                     property: 'index',
                     code: CODE_INDEXED_ACCESS_INVALID_INDEX,
@@ -46,7 +45,7 @@ export const indexedAccessIndexMustBeValid = (services: SafeDsServices) => {
         }
 
         const receiverType = typeComputer.computeType(node.receiver);
-        if (typeChecker.isList(receiverType)) {
+        if (receiverType instanceof ListType) {
             if (indexValue.value < 0) {
                 accept('error', `List index '${indexValue}' is out of bounds.`, {
                     node,

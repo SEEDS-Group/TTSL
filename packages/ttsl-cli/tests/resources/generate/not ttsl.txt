@@ -1,0 +1,3 @@
+package test.generate
+
+function f(p: Unresolved) {}

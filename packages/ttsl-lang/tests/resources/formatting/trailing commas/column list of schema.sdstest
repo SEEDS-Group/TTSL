@@ -3,7 +3,7 @@ schema MySchemaWithTrailingComma {
      "column2" : String ,
  }
 
-// -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 schema MySchemaWithTrailingComma {
     "column1": Int,

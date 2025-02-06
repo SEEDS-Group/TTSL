@@ -1,0 +1,7 @@
+package tests.generator.iD
+
+id data myID: Int
+
+id function myFunction() {
+}
+

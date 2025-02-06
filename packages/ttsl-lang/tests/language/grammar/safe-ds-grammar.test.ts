@@ -1,11 +1,11 @@
 import { describe, it } from 'vitest';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 import { AssertionError } from 'assert';
 import { NodeFileSystem } from 'langium/node';
 import { createGrammarTests } from './creator.js';
 import { getSyntaxErrors } from '../../helpers/diagnostics.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 
 describe('grammar', () => {
     it.each(createGrammarTests())('$testName', async (test) => {

@@ -1,4 +1,4 @@
-import { createSafeDsServices } from '@ttsl/lang';
+import { createTTSLServices } from '@ttsl/lang';
 import chalk from 'chalk';
 import { URI } from 'langium';
 import { NodeFileSystem } from 'langium/node';
@@ -8,8 +8,8 @@ import { extractDocuments } from '../helpers/documents.js';
 import { makeParentDirectoriesSync } from '../helpers/files.js';
 import { exitIfDocumentHasErrors } from '../helpers/diagnostics.js';
 
-export const generate = async (fsPaths: string[], options: GenerateOptions): Promise<void> => {
-    const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+export const generate = async (fsPaths: string[], options: GenerateOptions, args: string[]): Promise<void> => {
+    const services = (await createTTSLServices(NodeFileSystem)).TTSL;
     const documents = await extractDocuments(services, fsPaths);
 
     // Exit if any document has errors before generating code
@@ -19,12 +19,16 @@ export const generate = async (fsPaths: string[], options: GenerateOptions): Pro
 
     // Generate code
     for (const document of documents) {
-        const generatedFiles = services.generation.PythonGenerator.generate(document, {
-            destination: URI.file(path.resolve(options.out)),
-            createSourceMaps: options.sourcemaps,
-            targetPlaceholder: undefined,
-            disableRunnerIntegration: false,
-        });
+        const generatedFiles = services.generation.PythonGenerator.generate(
+            document,
+            {
+                destination: URI.file(path.resolve(options.out)),
+                createSourceMaps: options.sourcemaps,
+                targetPlaceholder: undefined,
+                disableRunnerIntegration: false,
+            },
+            args,
+        );
 
         for (const file of generatedFiles) {
             const fsPath = URI.parse(file.uri).fsPath;

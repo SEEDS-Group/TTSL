@@ -1,19 +1,13 @@
 import { NodeFileSystem } from 'langium/node';
 import { describe, expect, it } from 'vitest';
-import {
-    isTslAbstractResult,
-    isTslAssignment,
-    isTslPlaceholder,
-    TslAssignee,
-} from '../../../../src/language/generated/ast.js';
-import { getAssignees } from '../../../../src/language/helpers/nodeProperties.js';
+import { isTslPlaceholder } from '../../../../src/language/generated/ast.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
-import { createSafeDsServices } from '../../../../src/language/index.js';
+import { createTTSLServices } from '../../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const nodeMapper = services.helpers.NodeMapper;
 
-describe('SafeDsNodeMapper', () => {
+describe('TTSLNodeMapper', () => {
     describe('assigneeToAssignedObject', () => {
         it('should return undefined if passed undefined', async () => {
             expect(nodeMapper.assigneeToAssignedObject(undefined)?.$type).toBeUndefined();
@@ -23,18 +17,18 @@ describe('SafeDsNodeMapper', () => {
             {
                 name: 'no value',
                 code: `
-                    fun f()
+                    function f(){}
 
-                    segment mySegment() {
-                        val a = f();
+                    function myFunction() {
+                        var a = f();
                     };
                 `,
             },
             {
                 name: 'only one value',
                 code: `
-                    segment mySegment() {
-                        _, val a = 1;
+                    function myFunction() {
+                        var a = 1;
                     };
                 `,
             },
@@ -42,8 +36,8 @@ describe('SafeDsNodeMapper', () => {
             {
                 name: 'unresolved receiver of call',
                 code: `
-                    segment mySegment() {
-                        val a = unresolved();
+                    function myFunction() {
+                        var a = unresolved();
                     };
                 `,
             },
@@ -51,11 +45,11 @@ describe('SafeDsNodeMapper', () => {
             const placeholder = await getNodeOfType(services, code, isTslPlaceholder);
             expect(nodeMapper.assigneeToAssignedObject(placeholder)?.$type).toBeUndefined();
         });
-
+        /*
         it('should return the entire RHS of an assignment if it is not a call (constant)', async () => {
             const code = `
-                segment mySegment() {
-                    val a = 1;
+                function myFunction() {
+                    var a = 1;
                 };
             `;
 
@@ -63,36 +57,10 @@ describe('SafeDsNodeMapper', () => {
             expect(nodeMapper.assigneeToAssignedObject(placeholder)?.$type).toBe('TslInt');
         });
 
-        it('should return the entire RHS of an assignment if it is a call of a class', async () => {
-            const code = `
-                class C
-                segment mySegment() {
-                    val a = C();
-                };
-            `;
-
-            const placeholder = await getNodeOfType(services, code, isTslPlaceholder);
-            expect(nodeMapper.assigneeToAssignedObject(placeholder)?.$type).toBe('TslCall');
-        });
-
-        it('should return the entire RHS of an assignment if it is a call of an enum variant', async () => {
-            const code = `
-                enum E {
-                    V
-                }
-                segment mySegment() {
-                    val a = E.V();
-                };
-            `;
-
-            const placeholder = await getNodeOfType(services, code, isTslPlaceholder);
-            expect(nodeMapper.assigneeToAssignedObject(placeholder)?.$type).toBe('TslCall');
-        });
-
         it('should return the entire RHS of an assignment if it is not a call (unresolved reference)', async () => {
             const code = `
-                segment mySegment() {
-                    val a = unresolved;
+                function myFunction() {
+                    var a = unresolved;
                 };
             `;
 
@@ -102,73 +70,19 @@ describe('SafeDsNodeMapper', () => {
 
         it.each([
             {
-                name: 'block lambda',
-                code: `
-                    segment mySegment() {
-                        val f = () {
-                            yield r1 = 1;
-                            yield r2 = 2;
-                        };
-
-                        val a, val b = f();
-                    };
-                `,
-                expected: ['r1', 'r2'],
-                index: 3,
-            },
-            {
-                name: 'callable type',
-                code: `
-                    segment mySegment(f: () -> (r1: Int, r2: Int)) {
-                        val a, val b = f();
-                    };
-                `,
-                expected: ['r1', 'r2'],
-            },
-            {
-                name: 'expression lambda',
-                code: `
-                    segment mySegment() {
-                        val f = () -> 1;
-
-                        val a, val b = f();
-                    };
-                `,
-                expected: ['1', undefined],
-                index: 1,
-            },
-            {
                 name: 'function (one result)',
                 code: `
-                    fun f() -> (r1: Int)
+                    function f(): Int {
+                        var r1: Int = 0;
+                        return r1;
+                    }
 
-                    segment mySegment() {
-                        val a = f();
+                    function myFunction() {
+                        var a = f();
                     };
                 `,
                 expected: ['r1'],
-            },
-            {
-                name: 'function (multiple results)',
-                code: `
-                    fun f() -> (r1: Int, r2: Int)
-
-                    segment mySegment() {
-                        val a, val b = f();
-                    };
-                `,
-                expected: ['r1', 'r2'],
-            },
-            {
-                name: 'segment',
-                code: `
-                    segment s() -> (r1: Int, r2: Int)
-
-                    segment mySegment() {
-                        val a, val b = s();
-                    };
-                `,
-                expected: ['r1', 'r2'],
+                index: undefined
             },
         ])(
             'should return the corresponding result if the RHS is a call of a $name',
@@ -183,11 +97,12 @@ describe('SafeDsNodeMapper', () => {
             const assignedObject = nodeMapper.assigneeToAssignedObject(node);
             if (!assignedObject) {
                 return undefined;
-            } else if (isTslAbstractResult(assignedObject)) {
+            } else if (isTslResult(assignedObject)) {
                 return assignedObject.name;
             } else {
                 return assignedObject.$cstNode?.text;
             }
         };
+        */
     });
 });

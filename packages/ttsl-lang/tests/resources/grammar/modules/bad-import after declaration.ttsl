@@ -1,0 +1,5 @@
+# $TEST$ syntax_error
+
+function F() {}
+
+from myPackage import MyFunction

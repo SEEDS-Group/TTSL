@@ -1,20 +1,20 @@
 package tests.scoping.references.acrossFiles.toAnnotations
 
-from safeds.scoping.references.acrossFiles.toAnnotations import *
+from TTSL.scoping.references.acrossFiles.toAnnotations import *
 
-pipeline myPipeline {
-    // $TEST$ references safeds_MyAnnotation
+function myFunction () {
+    # $TEST$ references TTSL_MyAnnotation
     »MyAnnotation«;
 
-    // $TEST$ references same_AnnotationInSamePackage
+    # $TEST$ references same_AnnotationInSamePackage
     »AnnotationInSamePackage«;
 
-    // $TEST$ references safeds_AnnotationInSafeDsPackage
-    »AnnotationInSafeDsPackage«;
+    # $TEST$ references TTSL_AnnotationInTTSLPackage
+    »AnnotationInTTSLPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »AnnotationInAnotherPackage«;
 
-    // $TEST$ unresolved
+    # $TEST$ unresolved
     »AnnotationWithoutPackage«;
 }

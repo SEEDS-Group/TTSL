@@ -1,0 +1,29 @@
+package tests.validation.other.indexedAccess.dictKeyDoesNotExist
+
+function f(): Dict<String, Int> {}
+
+function myFunction(parameterDict: Dict<String, Int>, parameterKey: String) {
+    var placeholderDict = {"key": 1};
+
+    # $TEST$ no error r"Dictionary key '.*' does not exist\."
+    f()[»"unknown"«];
+    # $TEST$ no error r"Dictionary key '.*' does not exist\."
+    f()[»"key"«];
+    # $TEST$ no error r"Dictionary key '.*' does not exist\."
+    f()[»parameterKey«];
+
+    # $TEST$ no error r"Dictionary key '.*' does not exist\."
+    parameterDict[»"unknown"«];
+    # $TEST$ no error r"Dictionary key '.*' does not exist\."
+    parameterDict[»"key"«];
+    # $TEST$ no error r"Dictionary key '.*' does not exist\."
+    parameterDict[»parameterKey«];
+
+    # $TEST$ error "Dictionary key '"unknown"' does not exist."
+    placeholderDict[»"unknown"«];
+    # $TEST$ no error r"Dictionary key '.*' does not exist\."
+    placeholderDict[»"key"«];
+    # $TEST$ no error r"Dictionary key '.*' does not exist\."
+    placeholderDict[»parameterKey«];
+
+}

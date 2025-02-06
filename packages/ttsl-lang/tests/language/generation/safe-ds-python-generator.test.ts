@@ -3,9 +3,9 @@ import { NodeFileSystem } from 'langium/node';
 import { createGenerationTests } from './creator.js';
 import { loadDocuments } from '../../helpers/testResources.js';
 import { stream, URI } from 'langium';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const langiumDocuments = services.shared.workspace.LangiumDocuments;
 const pythonGenerator = services.generation.PythonGenerator;
 
@@ -22,10 +22,10 @@ describe('generation', async () => {
         const documents = await loadDocuments(services, test.inputUris);
 
         // Get target placeholder name for "run until"
-        let runUntilPlaceholderName: string | undefined = undefined;
+        let runUntilPlaceholderName: string[] | undefined = undefined;
         if (test.runUntil) {
             const document = langiumDocuments.getDocument(URI.parse(test.runUntil.uri))!;
-            runUntilPlaceholderName = document.textDocument.getText(test.runUntil.range);
+            runUntilPlaceholderName = [document.textDocument.getText(test.runUntil.range)];
         }
 
         // Generate code for all documents

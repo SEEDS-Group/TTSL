@@ -1,0 +1,13 @@
+package tests.generator.reference
+
+function f(param: Any?){}
+
+function explainModel(): Int{}
+
+function test () {
+    f(explainModel());
+}
+
+private typealias i = Int
+
+function g(param: i){}

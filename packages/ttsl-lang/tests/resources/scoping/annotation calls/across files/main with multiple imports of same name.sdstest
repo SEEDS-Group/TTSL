@@ -1,10 +1,10 @@
 package tests.scoping.annotationCalls.acrossFiles
 
-from safeds.scoping.annotationCalls.acrossFiles import MyAnnotation
+from TTSL.scoping.annotationCalls.acrossFiles import MyAnnotation
 from tests.scoping.annotationCalls.acrossFiles.other import MyAnnotation
 from tests.scoping.annotationCalls.acrossFiles import MyAnnotation
 
-pipeline myPipeline {
-    // $TEST$ references safeds_MyAnnotation
+function myFunction () {
+    # $TEST$ references TTSL_MyAnnotation
     »MyAnnotation«;
 }

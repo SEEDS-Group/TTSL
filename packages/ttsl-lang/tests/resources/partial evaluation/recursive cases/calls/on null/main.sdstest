@@ -1,9 +1,0 @@
-package tests.partialValidation.recursiveCases.calls.onNull
-
-segment mySegment() {
-    // $TEST$ serialization ?
-    »null()«;
-
-    // $TEST$ serialization null
-    »null?()«;
-}

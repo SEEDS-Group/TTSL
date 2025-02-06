@@ -1,0 +1,31 @@
+package tests.typing.types.namedTypes
+
+function nonNullableTypes(
+    # $TEST$ serialization Int
+    a: »Int«,
+    # $TEST$ serialization Float
+    b: »Float«,
+    # $TEST$ serialization String
+    c: »String«,
+    # $TEST$ serialization Boolean
+    d: »Boolean«,
+    # $TEST$ serialization List<Int>
+    e: »List<Int>«,
+    # $TEST$ serialization Dictionary<String, Int>
+    f: »Dict<String, Int>«,
+){}
+
+function nullableNamedTypes(
+    # $TEST$ serialization Int?
+    a: »Int?«,
+    # $TEST$ serialization Float?
+    b: »Float?«,
+    # $TEST$ serialization String?
+    c: »String?«,
+    # $TEST$ serialization Boolean?
+    d: »Boolean?«,
+    # $TEST$ serialization List<Int>?
+    e: »List<Int>?«,
+    # $TEST$ serialization Dictionary<String, Int>?
+    f: »Dict<String, Int>?«,
+){}

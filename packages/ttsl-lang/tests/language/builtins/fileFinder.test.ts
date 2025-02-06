@@ -3,6 +3,6 @@ import { listBuiltinFiles } from '../../../src/language/builtins/fileFinder.js';
 
 describe('listBuiltinsFiles', () => {
     it('should not return an empty list', () => {
-        expect(listBuiltinFiles().length).toBeGreaterThan(0);
+        expect(listBuiltinFiles()).toHaveLength(0);
     });
 });

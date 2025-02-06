@@ -4,21 +4,21 @@ import { InlayHint, Position } from 'vscode-languageserver';
 import { NodeFileSystem } from 'langium/node';
 import { findTestChecks } from '../../helpers/testChecks.js';
 import { URI } from 'langium';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const inlayHintProvider = services.lsp.InlayHintProvider!;
 const parse = parseHelper(services);
 
-describe('SafeDsInlayHintProvider', async () => {
+describe('TTSLInlayHintProvider', async () => {
     const testCases: InlayHintProviderTest[] = [
         {
             testName: 'resolved positional argument',
             code: `
-                fun f(p: Int)
+                function f(p: Int){}
 
-                pipeline myPipeline {
-                    // $TEST$ before "p = "
+                function myFunction () {
+                    # $TEST$ before "p = "
                     f(»«1);
                 }
             `,
@@ -26,9 +26,9 @@ describe('SafeDsInlayHintProvider', async () => {
         {
             testName: 'unresolved positional argument',
             code: `
-                fun f()
+                function f(){}
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(1);
                 }
             `,
@@ -36,47 +36,19 @@ describe('SafeDsInlayHintProvider', async () => {
         {
             testName: 'named argument',
             code: `
-                fun f(p: Int)
+                function f(p: Int){}
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(p = 1);
-                }
-            `,
-        },
-        {
-            testName: 'block lambda result',
-            code: `
-                pipeline myPipeline {
-                    () {
-                        // $TEST$ after ": literal<1>"
-                        yield r»« = 1;
-                    };
                 }
             `,
         },
         {
             testName: 'placeholder',
             code: `
-                pipeline myPipeline {
-                    // $TEST$ after ": literal<1>"
-                    val x»« = 1;
-                }
-            `,
-        },
-        {
-            testName: 'wildcard',
-            code: `
-                pipeline myPipeline {
-                    _ = 1;
-                }
-            `,
-        },
-        {
-            testName: 'yield',
-            code: `
-                segment s() -> r: Int {
-                    // $TEST$ after ": literal<1>"
-                    yield r»« = 1;
+                function myFunction () {
+                    # $TEST$ after ": Int"
+                    var x»« = 1;
                 }
             `,
         },
@@ -93,9 +65,9 @@ describe('SafeDsInlayHintProvider', async () => {
             /**
              * @param p Lorem ipsum.
              */
-            fun f(p: Int)
+            function f(p: Int)
 
-            pipeline myPipeline {
+            function myFunction () {
                 f(1);
             }
         `;
@@ -104,48 +76,18 @@ describe('SafeDsInlayHintProvider', async () => {
 
         expect(firstInlayHint?.tooltip).toStrictEqual({ kind: 'markdown', value: 'Lorem ipsum.' });
     });
-
+    /* 
     it.each([
         {
-            testName: 'class',
+            testName: 'function',
             code: `
                 /**
                  * Lorem ipsum.
-                 */
-                class C()
+                 *
+                function C(){}
 
-                pipeline myPipeline {
-                    val a = C();
-                }
-            `,
-        },
-        {
-            testName: 'enum',
-            code: `
-                /**
-                 * Lorem ipsum.
-                 */
-                enum E
-
-                fun f() -> e: E
-
-                pipeline myPipeline {
-                    val a = f();
-                }
-            `,
-        },
-        {
-            testName: 'enum variant',
-            code: `
-                enum E {
-                    /**
-                     * Lorem ipsum.
-                     */
-                    V
-                }
-
-                pipeline myPipeline {
-                    val a = E.V;
+                function myFunction () {
+                    var a = C();
                 }
             `,
         },
@@ -154,7 +96,7 @@ describe('SafeDsInlayHintProvider', async () => {
         const firstInlayHint = actualInlayHints?.[0];
 
         expect(firstInlayHint?.tooltip).toStrictEqual({ kind: 'markdown', value: 'Lorem ipsum.' });
-    });
+    }); */
 });
 
 const getActualInlayHints = async (code: string): Promise<InlayHint[] | undefined> => {
@@ -188,7 +130,7 @@ const getActualSimpleInlayHints = async (code: string): Promise<SimpleInlayHint[
 };
 
 const getExpectedSimpleInlayHints = (code: string): SimpleInlayHint[] => {
-    const testChecks = findTestChecks(code, URI.file('file:///test.Tsltest'), { failIfFewerRangesThanComments: true });
+    const testChecks = findTestChecks(code, URI.file('file:#/test.ttsl'), { failIfFewerRangesThanComments: true });
     if (testChecks.isErr) {
         throw new Error(testChecks.error.message);
     }

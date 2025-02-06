@@ -16,19 +16,23 @@
         },
         {
             "name": "storage.type.ttsl",
-            "match": "\\b(annotation|attr|class|enum|fun|package|pipeline|schema|segment|val)\\b"
+            "match": "\\b(annotation|attr|class|enum|function|constant|data|package|pipeline|schema|segment|var|return|typealias)\\b"
         },
         {
             "name": "storage.modifier.ttsl",
-            "match": "\\b(const|in|internal|out|private|static)\\b"
+            "match": "\\b(const|in|internal|out|private|public|packageprivate|groupedBy|per day|per week|per month|per year|id|static|from|to)\\b"
         },
         {
             "name": "keyword.operator.expression.ttsl",
-            "match": "\\b(and|not|or|sub)\\b"
+            "match": "\\b(and|not|or|sub|aggregation)\\b"
         },
         {
             "name": "keyword.other.ttsl",
             "match": "\\b(as|from|import|literal|union|where|yield)\\b"
+        },
+        {
+            "name": "keyword.control.ttsl",
+            "match": "\\b(if|for|while|foreach)\\b"
         },
         {
             "name": "meta.ttsl",
@@ -61,7 +65,7 @@
             "patterns": [
                 {
                     "name": "comment.line.double-slash.ttsl",
-                    "begin": "//",
+                    "begin": "#",
                     "end": "(?=$)"
                 },
                 {

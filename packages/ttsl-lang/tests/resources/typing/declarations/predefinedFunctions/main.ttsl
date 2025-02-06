@@ -1,0 +1,16 @@
+package tests.typing.declarations.functions
+
+constant list: List<Int> = [1,2,3,4]
+
+constant dict: Dict<String, Int> = {"a": 1, "b": 2}
+
+function myFunction() {
+    # $TEST$ serialization Int
+    var »myVariable1« = len(list)
+
+    # $TEST$ serialization List<String>
+    var »myVariable2« = keys(dict)
+
+    # $TEST$ serialization List<Int>
+    var »myVariable3« = values(dict)
+}

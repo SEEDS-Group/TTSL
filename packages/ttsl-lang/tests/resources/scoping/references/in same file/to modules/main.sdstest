@@ -1,6 +1,6 @@
 package tests
 
-pipeline myPipeline {
-    // $TEST$ unresolved
+function myFunction () {
+    # $TEST$ unresolved
     »tests«;
 }

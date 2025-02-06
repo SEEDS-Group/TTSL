@@ -1,20 +1,9 @@
 import { stream } from 'langium';
-import {
-    type TslAbstractResult,
-    type TslBlockLambda,
-    type TslBlockLambdaResult,
-    type TslCallable,
-    type TslDeclaration,
-    type TslEnumVariant,
-    type TslExpression,
-    type TslExpressionLambda,
-    type TslParameter,
-} from '../generated/ast.js';
-import { getParameters, streamBlockLambdaResults } from '../helpers/nodeProperties.js';
-import { escapeString } from '../grammar/safe-ds-value-converter.js';
+import { TslResult, type TslCallable, type TslDeclaration, type TslParameter } from '../generated/ast.js';
+import { escapeString } from '../grammar/ttsl-value-converter.js';
 
 export type ParameterSubstitutions = Map<TslParameter, EvaluatedNode>;
-export type ResultSubstitutions = Map<TslAbstractResult, EvaluatedNode>;
+export type ResultSubstitutions = Map<TslResult, EvaluatedNode>;
 
 /**
  * A node that has been partially evaluated.
@@ -154,64 +143,6 @@ export abstract class EvaluatedCallable extends EvaluatedNode {
     override readonly isFullyEvaluated: boolean = false;
 }
 
-export class BlockLambdaClosure extends EvaluatedCallable {
-    readonly results: TslBlockLambdaResult[];
-
-    constructor(
-        override readonly callable: TslBlockLambda,
-        override readonly substitutionsOnCreation: ParameterSubstitutions,
-    ) {
-        super();
-        this.results = streamBlockLambdaResults(callable).toArray();
-    }
-
-    override equals(other: unknown): boolean {
-        if (other === this) {
-            return true;
-        } else if (!(other instanceof BlockLambdaClosure)) {
-            return false;
-        }
-
-        return (
-            this.callable === other.callable &&
-            substitutionsAreEqual(this.substitutionsOnCreation, other.substitutionsOnCreation)
-        );
-    }
-
-    override toString(): string {
-        return `$blockLambdaClosure`;
-    }
-}
-
-export class ExpressionLambdaClosure extends EvaluatedCallable {
-    readonly result: TslExpression;
-
-    constructor(
-        override readonly callable: TslExpressionLambda,
-        override readonly substitutionsOnCreation: ParameterSubstitutions,
-    ) {
-        super();
-        this.result = callable.result;
-    }
-
-    override equals(other: unknown): boolean {
-        if (other === this) {
-            return true;
-        } else if (!(other instanceof ExpressionLambdaClosure)) {
-            return false;
-        }
-
-        return (
-            this.callable === other.callable &&
-            substitutionsAreEqual(this.substitutionsOnCreation, other.substitutionsOnCreation)
-        );
-    }
-
-    override toString(): string {
-        return '$expressionLambdaClosure';
-    }
-}
-
 export class NamedCallable<T extends (TslCallable & TslDeclaration) | TslParameter> extends EvaluatedCallable {
     override readonly isFullyEvaluated: boolean = false;
     override readonly substitutionsOnCreation: ParameterSubstitutions = new Map();
@@ -232,66 +163,6 @@ export class NamedCallable<T extends (TslCallable & TslDeclaration) | TslParamet
 // -------------------------------------------------------------------------------------------------
 // Other
 // -------------------------------------------------------------------------------------------------
-
-export class EvaluatedEnumVariant extends EvaluatedNode {
-    constructor(
-        readonly variant: TslEnumVariant,
-        private readonly substitutions: ParameterSubstitutions | undefined,
-    ) {
-        super();
-    }
-
-    readonly hasBeenInstantiated = this.substitutions !== undefined;
-
-    override readonly isFullyEvaluated: boolean = getParameters(this.variant).every(
-        (it) => this.substitutions?.get(it)?.isFullyEvaluated ?? false,
-    );
-
-    /**
-     * Returns the substitution for the parameter with the given name. If the parameter is not specified,
-     * `UnknownEvaluatedNode` is returned.
-     *
-     * @param name The name of the parameter to look for.
-     */
-    getParameterValueByName(name: string): EvaluatedNode {
-        if (!this.substitutions) {
-            return UnknownEvaluatedNode;
-        }
-
-        const parameter = getParameters(this.variant).find((it) => it.name === name);
-        if (!parameter) {
-            return UnknownEvaluatedNode;
-        }
-
-        return this.substitutions.get(parameter) ?? UnknownEvaluatedNode;
-    }
-
-    override equals(other: unknown): boolean {
-        if (other === this) {
-            return true;
-        } else if (!(other instanceof EvaluatedEnumVariant)) {
-            return false;
-        }
-
-        return (
-            this.variant === other.variant &&
-            this.hasBeenInstantiated === other.hasBeenInstantiated &&
-            substitutionsAreEqual(this.substitutions, other.substitutions)
-        );
-    }
-
-    override toString(): string {
-        if (!this.substitutions) {
-            return this.variant.name;
-        } else {
-            const parameterValues = getParameters(this.variant)
-                .map((it) => `${it.name} = ${this.substitutions?.get(it) ?? UnknownEvaluatedNode}`)
-                .join(', ');
-
-            return `${this.variant.name}(${parameterValues})`;
-        }
-    }
-}
 
 export class EvaluatedList extends EvaluatedNode {
     constructor(readonly elements: EvaluatedNode[]) {
@@ -441,7 +312,7 @@ export class EvaluatedNamedTuple extends EvaluatedNode {
      */
     override unwrap(): EvaluatedNode {
         if (this.entries.size === 1) {
-            return this.entries.values().next().value;
+            return this.entries.values().next().value!;
         } else {
             return this;
         }

@@ -2,17 +2,17 @@ import fs from 'fs';
 import { EmptyFileSystem, URI } from 'langium';
 import { Diagnostic } from 'vscode-languageserver';
 import { normalizeLineBreaks } from '../../../../src/helpers/strings.js';
-import { createSafeDsServices } from '../../../../src/language/index.js';
+import { createTTSLServices } from '../../../../src/language/index.js';
 import { getSyntaxErrors } from '../../../helpers/diagnostics.js';
 import { TestDescription, TestDescriptionError } from '../../../helpers/testDescription.js';
-import { listTestSafeDsFiles, uriToShortenedTestResourceName } from '../../../helpers/testResources.js';
+import { listTestTTSLFiles, uriToShortenedTestResourceName } from '../../../helpers/testResources.js';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 const rootResourceName = 'formatting';
 const separator = '// -----------------------------------------------------------------------------';
 
 export const createFormattingTests = async (): Promise<FormattingTest[]> => {
-    const testCases = listTestSafeDsFiles(rootResourceName).map(createFormattingTest);
+    const testCases = listTestTTSLFiles(rootResourceName).map(createFormattingTest);
     return Promise.all(testCases);
 };
 

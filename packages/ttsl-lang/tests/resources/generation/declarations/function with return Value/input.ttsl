@@ -1,0 +1,7 @@
+package tests.generator.functionWithReturnValue
+
+function test(): Int {
+    return x;
+}
+
+constant x: Int = test()

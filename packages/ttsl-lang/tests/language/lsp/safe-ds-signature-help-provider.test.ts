@@ -3,18 +3,18 @@ import { parseHelper } from 'langium/test';
 import { SignatureHelp } from 'vscode-languageserver';
 import { NodeFileSystem } from 'langium/node';
 import { findTestRanges } from '../../helpers/testRanges.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 
-const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+const services = (await createTTSLServices(NodeFileSystem)).TTSL;
 const signatureHelpProvider = services.lsp.SignatureHelp!;
 const parse = parseHelper(services);
 
-describe('SafeDsSignatureHelpProvider', async () => {
+describe('TTSLSignatureHelpProvider', async () => {
     it('should always select the first signature', async () => {
         const code = `
-            fun f(p: Int)
+            function f(p: Int) {}
 
-            pipeline myPipeline {
+            function myFunction () {
                 f(»«);
             }
         `;
@@ -27,9 +27,9 @@ describe('SafeDsSignatureHelpProvider', async () => {
         {
             testName: 'empty argument list',
             code: `
-                fun f(p: Int)
+                function f(p: Int){}
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(»«);
                 }
             `,
@@ -38,9 +38,9 @@ describe('SafeDsSignatureHelpProvider', async () => {
         {
             testName: 'before comma',
             code: `
-                fun f(p: Int)
+                function f(p: Int) {}
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(»«, );
                 }
             `,
@@ -49,9 +49,9 @@ describe('SafeDsSignatureHelpProvider', async () => {
         {
             testName: 'after comma',
             code: `
-                fun f(p: Int)
+                function f(p: Int) {}
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(1, »«);
                 }
             `,
@@ -71,64 +71,11 @@ describe('SafeDsSignatureHelpProvider', async () => {
         {
             testName: 'unresolved callable',
             code: `
-                pipeline myPipeline {
+                function myFunction () {
                     f(»«);
                 }
             `,
             expectedSignature: undefined,
-        },
-        {
-            testName: 'annotation call',
-            code: `
-                /**
-                 * Lorem ipsum.
-                 */
-                annotation A(p: Int)
-
-                @A(»«)
-                pipeline myPipeline {}
-            `,
-            expectedSignature: [
-                {
-                    label: 'A(p: Int) -> ()',
-                    documentation: {
-                        kind: 'markdown',
-                        value: 'Lorem ipsum.',
-                    },
-                    parameters: [
-                        {
-                            label: 'p: Int',
-                        },
-                    ],
-                },
-            ],
-        },
-        {
-            testName: 'call (class)',
-            code: `
-                /**
-                 * Lorem ipsum.
-                 */
-                class C(p: Int)
-
-                pipeline myPipeline {
-                    C(»«);
-                }
-            `,
-            expectedSignature: [
-                {
-                    label: 'C(p: Int)',
-                    documentation: {
-                        kind: 'markdown',
-                        value: 'Lorem ipsum.',
-                    },
-                    parameters: [
-                        {
-                            label: 'p: Int',
-                        },
-                    ],
-                },
-            ],
         },
         {
             testName: 'call (function)',
@@ -136,15 +83,15 @@ describe('SafeDsSignatureHelpProvider', async () => {
                 /**
                  * Lorem ipsum.
                  */
-                fun f(p: Int)
+                function f(p: Int) {}
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(»«);
                 }
             `,
             expectedSignature: [
                 {
-                    label: 'f(p: Int) -> ()',
+                    label: 'f(p: Int): $unknown',
                     documentation: {
                         kind: 'markdown',
                         value: 'Lorem ipsum.',
@@ -158,37 +105,17 @@ describe('SafeDsSignatureHelpProvider', async () => {
             ],
         },
         {
-            testName: 'call (lambda)',
-            code: `
-                pipeline myPipeline {
-                    ((p: Int) {})(»«);
-                }
-            `,
-            expectedSignature: [
-                {
-                    label: '(p: Int) -> ()',
-                    documentation: undefined,
-                    parameters: [
-                        {
-                            label: 'p: Int',
-                        },
-                    ],
-                },
-            ],
-        },
-        // https://github.com/Safe-DS/DSL/issues/791
-        {
             testName: 'optional parameter',
             code: `
-                fun f(p: Int = 0)
+                function f(p: Int = 0): Int {}
 
-                pipeline myPipeline {
+                function myFunction () {
                     f(»«);
                 }
             `,
             expectedSignature: [
                 {
-                    label: 'f(p?: Int) -> ()',
+                    label: 'f(p?: Int): Int',
                     documentation: undefined,
                     parameters: [
                         {

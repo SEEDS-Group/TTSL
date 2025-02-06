@@ -1,7 +1,7 @@
-package safeds.scoping.references.acrossFiles.toGlobalEnums
+package TTSL.scoping.references.acrossFiles.toGlobalEnums
 
-// $TEST$ target safeds_MyEnum
+# $TEST$ target TTSL_MyEnum
 enum »MyEnum«
 
-// $TEST$ target safeds_EnumInSafeDsPackage
-enum »EnumInSafeDsPackage«
+# $TEST$ target TTSL_EnumInTTSLPackage
+enum »EnumInTTSLPackage«

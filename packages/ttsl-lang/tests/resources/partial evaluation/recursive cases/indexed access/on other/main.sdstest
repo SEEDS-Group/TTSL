@@ -1,9 +1,0 @@
-package tests.partialValidation.recursiveCases.indexedAccess.onOther
-
-pipeline test {
-    // $TEST$ serialization ?
-    »1[1]«;
-
-    // $TEST$ serialization ?
-    »unresolved[1]«;
-}

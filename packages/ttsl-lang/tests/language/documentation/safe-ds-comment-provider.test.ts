@@ -2,43 +2,30 @@ import { AssertionError } from 'assert';
 import { AstNode, EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
 import {
-    isTslAnnotation,
-    isTslAttribute,
-    isTslBlockLambdaResult,
-    isTslEnumVariant,
     isTslExpressionStatement,
+    isTslFunction,
+    isTslLocalVariable,
     isTslParameter,
-    isTslPlaceholder,
     isTslResult,
     isTslTypeParameter,
 } from '../../../src/language/generated/ast.js';
-import { createSafeDsServices } from '../../../src/language/index.js';
+import { createTTSLServices } from '../../../src/language/index.js';
 import { getNodeOfType } from '../../helpers/nodeFinder.js';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 const commentProvider = services.documentation.CommentProvider;
 const testComment = '/* test */';
 
-describe('SafeDsCommentProvider', () => {
+describe('TTSLCommentProvider', () => {
     const testCases: CommentProviderTest[] = [
         {
-            testName: 'commented module member (without annotations)',
+            testName: 'commented module member (missing package)',
             code: `
                 ${testComment}
-                annotation MyAnnotation
+                function F(){}
             `,
-            predicate: isTslAnnotation,
+            predicate: isTslFunction,
             expectedComment: testComment,
-        },
-        {
-            testName: 'commented module member (with annotations, missing package)',
-            code: `
-                ${testComment}
-                @Test
-                annotation MyAnnotation
-            `,
-            predicate: isTslAnnotation,
-            expectedComment: undefined,
         },
         {
             testName: 'commented module member (with annotations, with package)',
@@ -46,115 +33,44 @@ describe('SafeDsCommentProvider', () => {
                 package test
 
                 ${testComment}
-                @Test
-                annotation MyAnnotation
+                function F(){}
             `,
-            predicate: isTslAnnotation,
+            predicate: isTslFunction,
             expectedComment: testComment,
         },
         {
             testName: 'uncommented module member',
             code: `
-                annotation MyAnnotation
+                function F(){}
             `,
-            predicate: isTslAnnotation,
+            predicate: isTslFunction,
             expectedComment: undefined,
         },
         {
-            testName: 'commented class member (without annotations)',
+            testName: 'commented function member',
             code: `
-                class MyClass {
+                function F() {
                     ${testComment}
-                    attr a: Int
+                    var a: Int = 0;
                 }
             `,
-            predicate: isTslAttribute,
-            expectedComment: testComment,
-        },
-        {
-            testName: 'commented class member (with annotations)',
-            code: `
-                class MyClass {
-                    ${testComment}
-                    @Test
-                    attr a: Int
-                }
-            `,
-            predicate: isTslAttribute,
-            expectedComment: testComment,
-        },
-        {
-            testName: 'uncommented class member',
-            code: `
-                class MyClass {
-                    attr a: Int
-                }
-            `,
-            predicate: isTslAttribute,
+            predicate: isTslLocalVariable,
             expectedComment: undefined,
         },
         {
-            testName: 'commented enum variant (without annotations)',
+            testName: 'uncommented function member',
             code: `
-                enum MyEnum {
-                    ${testComment}
-                    MyEnumVariant
+                function F() {
+                    var a: Int = 0;
                 }
             `,
-            predicate: isTslEnumVariant,
-            expectedComment: testComment,
-        },
-        {
-            testName: 'commented enum variant (with annotations)',
-            code: `
-                enum MyEnum {
-                    ${testComment}
-                    @Test
-                    MyEnumVariant
-                }
-            `,
-            predicate: isTslEnumVariant,
-            expectedComment: testComment,
-        },
-        {
-            testName: 'uncommented enum variant',
-            code: `
-                enum MyEnum {
-                    MyEnumVariant
-                }
-            `,
-            predicate: isTslEnumVariant,
-            expectedComment: undefined,
-        },
-        {
-            testName: 'commented block lambda result',
-            code: `
-                pipeline myPipeline {
-                    () {
-                        ${testComment}
-                        yield r = 1;
-                    }
-                }
-            `,
-            predicate: isTslBlockLambdaResult,
-            expectedComment: undefined,
-        },
-        {
-            testName: 'uncommented block lambda result',
-            code: `
-                pipeline myPipeline {
-                    () {
-                        yield r = 1;
-                    }
-                }
-            `,
-            predicate: isTslBlockLambdaResult,
+            predicate: isTslLocalVariable,
             expectedComment: undefined,
         },
         {
             testName: 'commented parameter',
             code: `
-                segment mySegment(${testComment} p: Int) {}
+                function F(${testComment} p: Int) {}
             `,
             predicate: isTslParameter,
             expectedComment: undefined,
@@ -162,36 +78,15 @@ describe('SafeDsCommentProvider', () => {
         {
             testName: 'uncommented parameter',
             code: `
-                segment mySegment(p: Int) {}
+                function F(p: Int) {}
             `,
             predicate: isTslParameter,
             expectedComment: undefined,
         },
         {
-            testName: 'commented placeholder',
-            code: `
-                segment mySegment() {
-                    ${testComment}
-                    val p = 1;
-                }
-            `,
-            predicate: isTslPlaceholder,
-            expectedComment: undefined,
-        },
-        {
-            testName: 'uncommented placeholder',
-            code: `
-                segment mySegment(p: Int) {
-                    val p = 1;
-                }
-            `,
-            predicate: isTslPlaceholder,
-            expectedComment: undefined,
-        },
-        {
             testName: 'commented result',
             code: `
-                segment mySegment() -> (${testComment} r: Int) {}
+                function F(): ${testComment} Int {}
             `,
             predicate: isTslResult,
             expectedComment: undefined,
@@ -199,7 +94,7 @@ describe('SafeDsCommentProvider', () => {
         {
             testName: 'uncommented result',
             code: `
-                segment mySegment() -> (r: Int) {}
+                function F(): Int {}
             `,
             predicate: isTslResult,
             expectedComment: undefined,
@@ -207,7 +102,7 @@ describe('SafeDsCommentProvider', () => {
         {
             testName: 'commented type parameter',
             code: `
-                class MyClass<${testComment} T>
+                constant c: List<${testComment} Int> = [0, 1];
             `,
             predicate: isTslTypeParameter,
             expectedComment: undefined,
@@ -215,7 +110,7 @@ describe('SafeDsCommentProvider', () => {
         {
             testName: 'uncommented type parameter',
             code: `
-                class MyClass<T>
+                constant c: List<Int> = [0, 1];
             `,
             predicate: isTslTypeParameter,
             expectedComment: undefined,
@@ -223,7 +118,7 @@ describe('SafeDsCommentProvider', () => {
         {
             testName: 'commented not-a-declaration',
             code: `
-                segment mySegment(p: Int) {
+                function F(p: Int) {
                     ${testComment}
                     f();
                 }
@@ -234,7 +129,7 @@ describe('SafeDsCommentProvider', () => {
         {
             testName: 'uncommented not-a-declaration',
             code: `
-                segment mySegment(p: Int) {
+                function F(p: Int) {
                     f();
                 }
             `,

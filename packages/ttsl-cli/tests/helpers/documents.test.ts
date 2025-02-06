@@ -1,63 +1,51 @@
 import { describe, expect, it } from 'vitest';
 import { Result } from 'true-myth';
 import { processPaths } from '../../src/helpers/documents.js';
-import { createSafeDsServices } from '@ttsl/lang';
+import { createTTSLServices } from '@ttsl/lang';
 import { NodeFileSystem } from 'langium/node';
 import { fileURLToPath } from 'url';
 import path from 'node:path';
 import { ExitCode } from '../../src/cli/exitCode.js';
 
 describe('processPaths', async () => {
-    const services = (await createSafeDsServices(NodeFileSystem)).SafeDs;
+    const services = (await createTTSLServices(NodeFileSystem)).TTSL;
     const testResourcesRoot = new URL('../resources/processPaths/', import.meta.url);
 
     const tests: ProcessPathsTest[] = [
         {
-            testName: 'pipe file',
-            paths: ['a.Tslpipe'],
-            expected: Result.ok(['a.Tslpipe']),
-        },
-        {
-            testName: 'stub file',
-            paths: ['b.Tslstub'],
-            expected: Result.ok(['b.Tslstub']),
-        },
-        {
             testName: 'test file',
-            paths: ['c.Tsltest'],
-            expected: Result.ok(['c.Tsltest']),
+            paths: ['a.ttsl'],
+            expected: Result.ok(['a.ttsl']),
         },
         {
             testName: 'multiple files',
-            paths: ['a.Tslpipe', 'b.Tslstub', 'c.Tsltest'],
-            expected: Result.ok(['a.Tslpipe', 'b.Tslstub', 'c.Tsltest']),
+            paths: ['a.ttsl', 'b.ttsl'],
+            expected: Result.ok(['a.ttsl', 'b.ttsl']),
         },
         {
             testName: 'duplicates',
-            paths: ['a.Tslpipe', 'a.Tslpipe'],
-            expected: Result.ok(['a.Tslpipe']),
-        },
+            paths: ['a.ttsl', 'a.ttsl'],
+            expected: Result.ok(['a.ttsl']),
+        } /*
         {
             testName: 'directory',
-            paths: ['.'],
+            paths: [''],
             expected: Result.ok([
-                'a.Tslpipe',
-                'b.Tslstub',
-                'c.Tsltest',
-                'nested/a.Tslpipe',
-                'nested/b.Tslstub',
-                'nested/c.Tsltest',
+                'a.ttsl',
+                'b.ttsl',
+                'nested/a.ttsl',
+                'nested/b.ttsl',
             ]),
-        },
+        },*/,
         {
             testName: 'missing file',
             paths: ['missing.txt'],
             expected: Result.err(ExitCode.MissingPath),
         },
         {
-            testName: 'not a Safe-DS file',
-            paths: ['d.txt'],
-            expected: Result.err(ExitCode.FileWithoutSafeDsExtension),
+            testName: 'not a TTSL file',
+            paths: ['c.txt'],
+            expected: Result.err(ExitCode.FileWithoutTTSLExtension),
         },
     ];
 

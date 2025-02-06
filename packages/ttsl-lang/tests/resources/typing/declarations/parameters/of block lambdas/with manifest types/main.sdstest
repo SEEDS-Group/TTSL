@@ -1,7 +1,0 @@
-package tests.typing.declarations.parameters.ofBlockLambdas.withManifestTypes
-
-segment mySegment() {
-    // $TEST$ equivalence_class parameterType3
-    // $TEST$ equivalence_class parameterType3
-    (»p«: »Int«) {};
-}

@@ -1,0 +1,9 @@
+package tests.generator.lists
+
+function h(): Int{}
+
+function test () {
+    [];
+    [1, 2, 3];
+    [1, h(), h() + 5];
+}

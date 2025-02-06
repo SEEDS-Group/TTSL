@@ -7,7 +7,7 @@
             "pattern": "^#"
         },
         {
-            "pattern": "^https://github.com/Safe-DS/DSL/blob/main"
+            "pattern": "^https://github.com/TTSL/DSL/blob/main"
         }
     ]
 }

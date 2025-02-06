@@ -5,14 +5,14 @@ graph test.
 
 ## Adding a call graph test
 
-1. Create a new file with the extension `.Tsltest` in the `tests/resources/call graph` directory or any subdirectory.
+1. Create a new file with the extension `.ttsl` in the `tests/resources/call graph` directory or any subdirectory.
    Give the file a descriptive name, since the file name becomes part of the test name.
 
     !!! tip "Skipping a test"
 
         If you want to skip a test, add the prefix `skip-` to the file name.
 
-2. Add the Safe-DS code that you want to test to the file.
+2. Add the TTSL code that you want to test to the file.
 3. Surround calls or callables for which you want to compute a call graph with test markers, e.g. `»f()«`. Add a
    comment in the preceding line with the following format:
     ```ts

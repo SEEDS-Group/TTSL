@@ -1,13 +1,13 @@
 import { EmptyFileSystem } from 'langium';
 import { describe, expect, it } from 'vitest';
 import { isTslAbstractCall, TslArgument } from '../../../../src/language/generated/ast.js';
-import { createSafeDsServices, getArguments } from '../../../../src/language/index.js';
+import { createTTSLServices, getArguments } from '../../../../src/language/index.js';
 import { getNodeOfType } from '../../../helpers/nodeFinder.js';
 
-const services = (await createSafeDsServices(EmptyFileSystem, { omitBuiltins: true })).SafeDs;
+const services = (await createTTSLServices(EmptyFileSystem, { omitBuiltins: true })).TTSL;
 const nodeMapper = services.helpers.NodeMapper;
 
-describe('SafeDsNodeMapper', () => {
+describe('TTSLNodeMapper', () => {
     describe('argumentToParameter', () => {
         it('should return undefined if passed undefined', () => {
             expect(nodeMapper.argumentToParameter(undefined)?.$type).toBeUndefined();
@@ -16,9 +16,9 @@ describe('SafeDsNodeMapper', () => {
         describe('named argument', () => {
             it('should return undefined if the parameter is unresolved', async () => {
                 const code = `
-                    fun f(p: Int) {}
+                    function f(p: Int) {}
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         f(unresolved = 1);
                     }
                 `;
@@ -30,9 +30,9 @@ describe('SafeDsNodeMapper', () => {
 
             it('should return the resolved parameter', async () => {
                 const code = `
-                    fun f(p1: Int, p2: Int, p3: Int) {}
+                    function f(p1: Int, p2: Int, p3: Int) {}
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         f(p2 = 1, p3 = 1, p1 = 1);
                     }
                 `;
@@ -46,9 +46,9 @@ describe('SafeDsNodeMapper', () => {
         describe('positional argument', () => {
             it('should return the parameter at the same index if all prior arguments are positional', async () => {
                 const code = `
-                    fun f(p1: Int = 0, p2: Int, p3: Int) {}
+                    function f(p1: Int = 0, p2: Int, p3: Int) {}
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         f(1, 2, 3);
                     }
                 `;
@@ -60,9 +60,9 @@ describe('SafeDsNodeMapper', () => {
 
             it('should return undefined if a prior argument is named', async () => {
                 const code = `
-                    fun f(p1: Int = 0, p2: Int, p3: Int) {}
+                    function f(p1: Int = 0, p2: Int, p3: Int) {}
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         f(p2 = 1, 2, 3);
                     }
                 `;
@@ -74,9 +74,9 @@ describe('SafeDsNodeMapper', () => {
 
             it('should return undefined if argument is out of bounds', async () => {
                 const code = `
-                    fun f(p1: Int, p2: Int) {}
+                    function f(p1: Int, p2: Int) {}
 
-                    pipeline myPipeline {
+                    function myFunction () {
                         f(1, 2, 3);
                     }
                 `;

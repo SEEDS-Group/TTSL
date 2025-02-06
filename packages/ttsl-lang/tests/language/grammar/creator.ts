@@ -1,4 +1,4 @@
-import { listTestSafeDsFiles, uriToShortenedTestResourceName } from '../../helpers/testResources.js';
+import { listTestTTSLFiles, uriToShortenedTestResourceName } from '../../helpers/testResources.js';
 import fs from 'fs';
 import { findTestComments } from '../../helpers/testComments.js';
 import { NoCommentsError } from '../../helpers/testChecks.js';
@@ -8,7 +8,7 @@ import { URI } from 'langium';
 const rootResourceName = 'grammar';
 
 export const createGrammarTests = (): GrammarTest[] => {
-    return listTestSafeDsFiles(rootResourceName).map(createGrammarTest);
+    return listTestTTSLFiles(rootResourceName).map(createGrammarTest);
 };
 
 const createGrammarTest = (uri: URI): GrammarTest => {
