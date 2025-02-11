@@ -1,0 +1,89 @@
+package einkommen
+
+from math import calc_max, piecewisePolynomial
+
+from einkommenssteuerAbzüge import werbungskostenpauschbetrag
+from einkommenssteuerAbzüge import sparerpauschbetrag
+from einkommenssteuerAbzüge import sparerWerbungskostenPauschbetrag
+
+from einkommenssteuerParam import renteErtragsanteil as renteErtragsanteilParams
+
+from einkommensgrenzen import geringfügigBeschäftigt
+
+data per month bruttolohn: Float;
+data per month summeGesamtRentePrivatRente: Float;
+data per month einkommenSelbstständig: Float;
+data per month einkommenVermietung: Float;
+data per month bruttoKapitaleinkommen: Float;
+data rentenEintrittsJahr: Int;
+
+/**
+ * Aggregiere das monatliche Bruttoeinkommen aus abhängiger Beschäftigung zu einem jährlichen Einkommen und ziehe
+ * die Werbungskostenpauschale ab.
+ */
+public function per year einkommenAbhängigBeschäftigt(): Float {
+    return calc_max(12 * bruttolohn - werbungskostenpauschbetrag, 0.0);
+}
+
+/**
+ * Berechne das zu versteuernde Einkommen aus abhängiger Beschäftigung. Für geringfügig Beschäftigte wird das zu
+ * versteuernde Einkommen auf 0 gesetzt.
+ */
+public function per year zuVersteuerndesEinkommenAbhängigBeschäftigt(): Float {
+    if (geringfügigBeschäftigt()) {
+        return 0.0;
+    } else {
+        return einkommenAbhängigBeschäftigt();
+    }
+}
+
+/**
+ * Berechne den monatlichen Rentenbetrag, der der Besteuerung unterliegt.
+ */
+public function per month zuVersteuerndeRenteMonat(): Float {
+    return renteErtragsanteil() * summeGesamtRentePrivatRente;
+}
+
+/**
+ * Summe der Bruttoeinkünfte ohne Kapitaleinkommen.
+ *
+ * Seit 2009 unterliegt das Kapitaleinkommen nicht der normalen Besteuerung.
+ */
+public function per year summeEinkommen(): Float {
+    to 2008-12-31 {
+        return per year einkommenSelbstständig
+            + per year zuVersteuerndesEinkommenAbhängigBeschäftigt()
+            + per year einkommenVermietung
+            + per year zuVersteuerndeRente()
+            + per year kapitaleinkommen();
+    }
+
+    from 2009-01-01 {
+        return per year einkommenSelbstständig
+            + per year zuVersteuerndesEinkommenAbhängigBeschäftigt()
+            + per year einkommenVermietung
+            + per year zuVersteuerndeRente();
+    }
+}
+
+/**
+ * Calculate monthly pension payment subject to taxation.
+ */
+public function per month zuVersteuerndeRente(): Float {
+    return renteErtragsanteil() * summeGesamtRentePrivatRente;
+}
+
+/**
+ * Kapitalerträge abzüglich Sparerpauschbetrag.
+ */
+public function per year kapitaleinkommen(): Float {
+    var abgezogen = bruttoKapitaleinkommen - sparerpauschbetrag - sparerWerbungskostenPauschbetrag;
+    return calc_max(abgezogen, 0.0);
+}
+
+/**
+ * Berechnung des Anteils der Rente, der der Einkommensbesteuerung unterliegt.
+ */
+public function renteErtragsanteil(): Float {
+    return piecewisePolynomial(rentenEintrittsJahr, renteErtragsanteilParams);
+}

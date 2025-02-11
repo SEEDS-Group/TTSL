@@ -1,0 +1,36 @@
+package math
+
+public function calc_min(a: Float, b: Float): Float {
+    if(a < b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
+public function calc_max(a: Float, b: Float): Float {
+    if(a > b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
+public function calc_sum(list: List<Float>): Float {
+    var summe: Float = 0.0;
+    for(var i: Int = 0; i < len(list); i = i + 1) {
+        summe = summe + list[i];
+    }
+    return summe;
+}
+
+public function piecewisePolynomial(x: Float, param: Dict<Int, Dict<String, Float>>) {
+    var intercept = param[0]["intercept_at_lower_threshold"];
+
+    foreach (interval in param) {
+        if(x < interval["upper_threshold"]) {
+            return intercept + interval["rate_linear"] * x + interval["rate_quadratic"] * x * x;
+        }
+        intercept = intercept + interval["rate_linear"] * interval["upper_threshold"] + interval["rate_quadratic"] * interval["upper_threshold"] * interval["upper_threshold"];
+    }
+}

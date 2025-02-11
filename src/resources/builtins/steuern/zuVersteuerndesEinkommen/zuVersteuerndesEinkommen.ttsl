@@ -1,0 +1,47 @@
+package zuVersteuerndesEinkommen
+
+from math import calc_max
+
+from einkommen import summeEinkommen
+from freibeträge import sonderausgaben
+# from einkommenssteuer import ohneKinderfreibetrag as einkommenssteuerMitKinderfreibetrag
+# from einkommenssteuer import kinderfreibetragGünstiger
+
+# /**
+#  * Sum up all tax-deductible allowances applicable at the individual level.
+#  */
+# public function freibeträge_ind(): Float {
+#     TODO: depends on behinderungsgradPauschbetrag
+# }
+
+# /**
+#  * Calculate total allowances on Steuernummer level.
+#  */
+# public function per year freibeträge(): Float {
+#     return sonderausgaben() + vorsorgeaufwand() + freibeträge_ind();
+# }
+
+# /**
+#  * Calculate taxable income without child allowance on Steuernummer level.
+#  */
+# public function ohneKinderfreibetrag(): Float {
+#     return calc_max(0.0, summeEinkommen() - freibeträge());
+# }
+
+# /**
+#  * Calculate taxable income with child allowance on Steuernummer level.
+#  */
+# public function mitKinderfreibetrag(): Float {
+#     return calc_max(0.0, ohneKinderfreibetrag() - einkommenssteuerMitKinderfreibetrag());
+# }
+
+# /**
+#  * Calculate taxable income on Steuernummer level.
+#  */
+# public function per year zuVersteuerndesEinkommen(): Float {
+#     if (kinderfreibetragGünstiger()) {
+#         return einkommenssteuerMitKinderfreibetrag();
+#     } else {
+#         return ohneKinderfreibetrag();
+#     }
+# }

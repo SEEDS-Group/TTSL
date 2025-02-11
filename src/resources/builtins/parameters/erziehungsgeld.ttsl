@@ -1,0 +1,99 @@
+package erziehungsgeld
+
+# erziehungsgeld.yaml ---------------------------------------------------
+
+/**
+ * Einkommensgrenze für abzugsfreies Erziehungsgeld
+ * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (p.209)
+ */
+public constant erziehungsgeldEinkommensgrenze: Dict<String, Dict<String, Dict<String, Int>>> {
+	from 2004-02-09 = {
+		"limit": {
+			"alleinerz": {
+				"regelsatz": 23000,
+				"budgetsatz": 19086
+			},
+			"paar": {
+				"regelsatz": 30000,
+				"budgetsatz": 22086
+			}
+		},
+		"reduced_limit": {
+			"alleinerz": {
+				"regelsatz": 13500,
+				"budgetsatz": 13500
+			},
+			"paar": {
+				"regelsatz": 16500,
+				"budgetsatz": 16500
+			}
+		}
+	};
+}
+
+/**
+ * Erhöhung der Einkommensgrenze pro weiterem Kind
+ * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (p.209)
+ */
+public constant erziehungsgeldAufschlagEinkommen: Dict<String, Int> {
+	from 2004-02-09 = 3140;
+}
+
+/**
+ * Höhe des Erziehungsgeldes abhängig vom beantragtem Satz
+ * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 5 (p.208)
+ */
+public constant erziehungsgeldSatz: Dict<String, Int> {
+	from 2004-02-09 = {
+		"regelsatz": 300,
+		"budgetsatz": 450
+	};
+}
+
+/**
+ * Abschlagfaktor
+ * Faktor zur Berechnung des Abschlag des Erziehungsgeld bei einer
+ * Überschreitung der Einkommensgrenze ab dem 7 Lebensmonat.
+ * Der Faktor wird mit dem relevanten Einkommen multipliziert und
+ * das Produkt entsprechend vom Erziehungsgeld Anspruch abgezogen
+ * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
+ */
+public constant abschlagFaktor: Float {
+	from 2004-02-09 = 0.052;
+}
+
+/**
+ * Faktor um den das Einkommen pauschal reduziert wird um das das
+ * relevanten Einkommen zu berechnen
+ * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 6 (p.209)
+ */
+public constant pauschalAbzugAufEinkommen: Float {
+	from 2004-02-09 = 0.76;
+}
+
+/**
+ * Grenze der wöchentlichen Arbeitsstunden bis zu der Erziehungsgeld ausgezahlt wird
+ * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 15 (p.211)
+ */
+public constant arbeitsstundenWöchentlicheGrenze: Int {
+	from 2004-02-09 = 30;
+}
+
+/**
+ * Alter des Kindes in Monaten bis zu dem der Regelsatz bezogen werden kann.
+ * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
+ */
+public constant endAlterKindRegelsatz: Int {
+	from 2004-01-01 = 24;
+}
+
+/**
+ * Alter des Kindes in Monaten bis zu dem der Budgetsatz bezogen werden kann.
+ * Reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
+ */
+public constant endAlterKindBudgetsatz: Int {
+	from 2004-01-01 = 12;
+}
+
+# TODO: rounding
+
