@@ -1,0 +1,106 @@
+package gesetzlicheRentenversicherung
+
+from sozialversicherungsbeitrag import pauschalabgabenGeringfügigeBeschäftigung
+from sozialversicherungsbeitrag import gesetzlicheRentenversicherung as beitragssatzGesetzlicheRentenversicherung
+
+from einkommensgrenzen import geringfügigBeschäftigt
+from einkommensgrenzen import inGleitzone
+from einkommensgrenzen import midijobBemessungsentgeld
+from einkommensgrenzen import midijobBeitragspflichtigeEinnahmeArbeitnehmer
+
+from beitragsbemessungsgrenzen import gesetzlicheRentenversicherung as gesetzlicheRentenversicherungBeitragsbemessungsgrenze
+
+from math import calc_min
+
+data per month bruttolohn: Float;
+
+/**
+ * Beitrag für die gesetzliche Rentenversicherung.
+ */
+public function per month beitrag(): Float {
+    to 2003-03-31 {
+        var beitrRegularJob = beitragBruttolohn() * beitragssatzGesetzlicheRentenversicherung;
+        if (geringfügigBeschäftigt()) {
+            return 0.0;
+        }
+        return beitrRegularJob;
+    }
+
+    from 2003-04-01 {
+        var beitrRegularJob = beitragBruttolohn() * beitragssatzGesetzlicheRentenversicherung;
+        if (geringfügigBeschäftigt()) {
+            return 0.0;
+        }
+        if (inGleitzone()) {
+            return beitragMidijobArbeitnehmer();
+        }
+        return beitrRegularJob;
+    }
+}
+
+/**
+ * Arbeitgeberanteil für die gesetzliche Rentenversicherung bis März 2003.
+ */
+public function per month beitragArbeitgeber(): Float {
+    to 2003-03-31 {
+        var beitrRegularJob = beitragBruttolohn() * beitragssatzGesetzlicheRentenversicherung;
+        if (geringfügigBeschäftigt()) {
+            return bruttolohn * pauschalabgabenGeringfügigeBeschäftigung["ges_rentenv"];
+        }
+        return beitrRegularJob;
+    }
+
+    from 2003-04-01 {
+        var beitrRegularJob = beitragBruttolohn() * beitragssatzGesetzlicheRentenversicherung;
+        if (geringfügigBeschäftigt()) {
+            return bruttolohn * pauschalabgabenGeringfügigeBeschäftigung["ges_rentenv"];
+        }
+
+        if (inGleitzone()) {
+            return beitragMidijobArbeitgeber();
+        }
+        return beitrRegularJob;
+    }
+}
+
+/**
+ * Summe der Arbeitgeber- und Arbeitnehmerbeiträge zur Rentenversicherung für Midijobs.
+ */
+public function per month beitragMidijobSummeArbeitnehmerArbeitgeber(): Float {
+    from 2003-04-01 {
+        return midijobBemessungsentgeld() * 2 * beitragssatzGesetzlicheRentenversicherung;
+    }
+}
+
+/**
+ * Arbeitgeberanteil für Midijobs.
+ */
+public function per month beitragMidijobArbeitgeber(): Float {
+    to 2022-09-30 {
+        return bruttolohn * beitragssatzGesetzlicheRentenversicherung;
+    }
+
+    from 2022-10-01 {
+        return beitragMidijobSummeArbeitnehmerArbeitgeber() - beitragMidijobArbeitnehmer();
+    }
+}
+
+/**
+ * Arbeitnehmeranteil für Midijobs in der gesetzlichen Rentenversicherung.
+ */
+public function per month beitragMidijobArbeitnehmer(): Float {
+    to 2022-09-30 {
+        return beitragMidijobSummeArbeitnehmerArbeitgeber() - beitragMidijobArbeitgeber();
+    }
+
+    from 2022-10-01 {
+        return midijobBeitragspflichtigeEinnahmeArbeitnehmer() * beitragssatzGesetzlicheRentenversicherung;
+    }
+}
+
+/**
+ * Berechnung des Bruttolohns, der der Rentenversicherung unterliegt.
+ */
+public function per month beitragBruttolohn(): Float {
+    return calc_min(bruttolohn, gesetzlicheRentenversicherungBeitragsbemessungsgrenze());
+}
