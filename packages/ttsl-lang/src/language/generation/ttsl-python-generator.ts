@@ -498,7 +498,7 @@ export class TTSLPythonGenerator {
         output.append('# Imports ----------------------------------------------------------------------');
         output.appendNewLine();
         output.appendNewLine();
-        output.append(`from gettsim import (compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)\nimport pandas as pd\n`)
+        output.append(`from gettsim import (compute_taxes_and_transfers)\nimport pandas as pd\n`)
         output.append(`import numpy as np`)
         output.appendNewLine();
         if (imports.length > 0) {
@@ -549,6 +549,9 @@ export class TTSLPythonGenerator {
         .append(`# Simulation --------------------------------------------------------------------`)
         .appendNewLine()
         .appendNewLine()
+        .append(expandToNode`dataFrame = pd.read_csv("${simulateParams[1]?.replaceAll("\\", "\\\\")}")`)
+        .appendNewLine()
+        .appendNewLine()
         .append(expandToNode`date = "${simulateParams[0]}"`)
         .appendNewLine()
         .appendNewLine()
@@ -563,7 +566,7 @@ export class TTSLPythonGenerator {
         .append(`def simulate() -> pd.DataFrame:`)
         .appendNewLine()
         .indent({
-            indentedChildren:[`return compute_taxes_and_transfers(data = pd.read_csv("${simulateParams[1]?.replaceAll("\\", "\\\\")}"), targets = ${simulateParams[2]}, functions = functions, params = params)`],
+            indentedChildren:[`return compute_taxes_and_transfers(data = dataFrame, targets = ${simulateParams[2]}, functions = functions, params = params)`],
             indentation: PYTHON_INDENT,
         })
         return output;
