@@ -591,9 +591,10 @@ export class TTSLPythonGenerator {
         return expandTracedToNode(funct)`def ${traceToNode(
             funct,
             'name',
-        )(this.getPythonNameOrDefault(funct))}(${this.containedData(funct, infoFrame)}`.append(expandToNode`${this.generateParameters(funct.parameterList, infoFrame)}`).append(expandToNode`${this.generateFunctionParameter(funct)})`).appendIf(funct.result !== undefined, expandToNode`->${this.generateType(funct.result?.type, infoFrame, true)}`).append(`:`)
+        )(this.getPythonNameOrDefault(funct))}(${this.containedData(funct, infoFrame)}`.append(expandToNode`${this.generateParameters(funct.parameterList, infoFrame)})`).appendIf(funct.result !== undefined, expandToNode`->${this.generateType(funct.result?.type, infoFrame, true)}`).append(`:`)
             .appendNewLine()
-            .indent({ indentedChildren: [this.generateBlock(funct.body, infoFrame, funct.timeunit)], indentation: PYTHON_INDENT });
+            .indent({ indentedChildren: [new CompositeGeneratorNode().appendIf(funct.timeunit !== undefined, `timeunit = "${funct.timeunit?.timeunit}"`)
+                .appendNewLine().append(this.generateBlock(funct.body, infoFrame, funct.timeunit))], indentation: PYTHON_INDENT });
     }
 
     private generateBlock(
@@ -618,19 +619,21 @@ export class TTSLPythonGenerator {
                 if (isTslReturnStatement(stmt)) {
                     let resultBlock = new CompositeGeneratorNode();
                     if(isTslTimeunit(timeunit)){
+                        resultBlock.append(expandToNode`result = ${this.generateExpression(stmt.result, frame)}`)
+                        .appendNewLine()
                         resultBlock.append(`if timeunit != None:`)
                         if (timeunit?.timeunit === 'day'){
                             frame.addUtility(UTILITY_TIMEUNIT_DAY);
-                            resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_DAY.name}(${this.generateExpression(stmt.result, frame)}, timeunit)`]).appendNewLine()
+                            resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_DAY.name}(result, timeunit)`]).appendNewLine()
                         } else if (timeunit?.timeunit === 'week'){
                             frame.addUtility(UTILITY_TIMEUNIT_WEEK);
-                            resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_WEEK.name}(${this.generateExpression(stmt.result, frame)}, timeunit)`]).appendNewLine()
+                            resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_WEEK.name}(result, timeunit)`]).appendNewLine()
                         } else if (timeunit?.timeunit === 'month'){
                             frame.addUtility(UTILITY_TIMEUNIT_MONTH);
-                            resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_MONTH.name}(${this.generateExpression(stmt.result, frame)}, timeunit)`]).appendNewLine()
+                            resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_MONTH.name}(result, timeunit)`]).appendNewLine()
                         } else if (timeunit?.timeunit === 'year'){
                             frame.addUtility(UTILITY_TIMEUNIT_YEAR);
-                            resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_YEAR.name}(${this.generateExpression(stmt.result, frame)}, timeunit)`]).appendNewLine()
+                            resultBlock.appendNewLine().indent([expandToNode`result = ${UTILITY_TIMEUNIT_YEAR.name}(result, timeunit)`]).appendNewLine()
                         }
                         resultBlock.append(expandToNode`return result`)
                     }else{
@@ -638,7 +641,7 @@ export class TTSLPythonGenerator {
                     }
                     return resultBlock
                 } else {
-                    return this.generateStatement(stmt, timeunit, frame)  
+                    return this.generateStatement(stmt, timeunit, frame)
                 }                
             },{
                     separator: NL,
@@ -1207,24 +1210,8 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
             expression.argumentList,
             'arguments',
         )(sortedArgs, (arg) => this.generateArgument(arg, frame), { separator: ', ' })}`)
-        .appendIf(timeunit !== undefined, `, timeunit = "${timeunit?.timeunit}"`)
         .append(')');
         }
-
-    private generateFunctionParameter(
-        funct: TslFunction,
-    ): CompositeGeneratorNode | undefined {
-        let result = ''
-
-        if(funct.parameterList?.parameters.length !== 0){
-            result = ', '
-        }
-
-        if(funct.timeunit !== undefined){
-            return expandToNode`${result}timeunit = None`
-        }
-        return undefined
-    }
 
     private generatePythonCall(
         expression: TslCall,
