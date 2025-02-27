@@ -28,7 +28,7 @@
         "@vitest/ui": "^3.0.5",
         "concurrently": "^8.2.2",
         "conventional-changelog-conventionalcommits": "^8.0.0",
-        "semantic-release": "^23.0.6",
+        "semantic-release": "^24.2.3",
         "shx": "^0.3.4",
         "typescript": "^5.4.3",
         "vitest": "^3.0.7"
