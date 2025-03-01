@@ -30,7 +30,7 @@
         "conventional-changelog-conventionalcommits": "^8.0.0",
         "semantic-release": "^24.2.3",
         "shx": "^0.3.4",
-        "typescript": "^5.4.3",
+        "typescript": "^5.8.2",
         "vitest": "^3.0.7"
     },
     "prettier": "@lars-reimann/prettier-config",
