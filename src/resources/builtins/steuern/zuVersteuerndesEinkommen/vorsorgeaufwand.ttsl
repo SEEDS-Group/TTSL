@@ -1,0 +1,141 @@
+package vorsorgeaufwand
+
+from math import piecewisePolynomial, calc_min, calc_max
+from einkommenssteuerAbzüge import einführungsfaktor, vorsorgeAltersvorsorgeaufwendungenMax, vorsorgeSonstigeAufwendungenMax, vorsorgeKrankenMinderung, vorsorge2004Vorwegabzug, vorsorge2004KürzungVorwegabzug, vorsorge2004Grundhöchstbetrag
+
+from gesetzlicheRentenversicherung import beitrag as rentenBeitrag
+
+from arbeitslosenversicherung import beitrag as arbeitslosenVersicherungBeitrag
+# from gesetzlicheKrankenversicherung import beitrag as krankenVersicherungBeitrag
+# from gesetzlichePflegeversicherung import beitrag as pflegeVersicherungBeitrag
+
+id data steuernummer: Int;
+data bruttolohn: Float;
+
+# TODO: Need a way to get the current year. Dependency to Rente transfer.
+# /**
+#  * Determine contributions to retirement savings deductible from taxable income.
+#  *
+#  *  The share of deductible contributions increases each year from 60% in 2005 to 100%
+#  *  in 2025.
+#  */
+# public function per year alter(): Float groupedBy steuernummer {
+#     from 2005-01-01 {
+#         var anzahlPersonen = aggregate count of steuernummer groupedBy steuernummer;
+
+#         var faktor = piecewisePolynomial(aktuellesJahr, einführungsfaktor)
+#         var out = faktor * (2 * rentenBeitrag() + privateRenteBeitrag()) - rentenBeitrag(); # privateRenteBeitrag is a transfer
+#         var max_value = anzahlPersonen * vorsorgeAltersvorsorgeaufwendungenMax;
+
+#         return calc_min(out, max_value);
+#     }
+
+#     from 2023-01-01 {
+#         var anzahlPersonen = aggregate count of steuernummer groupedBy steuernummer;
+#         var out = per year rentenBeitrag() + per year privateRenteBeitrag(); # privateRenteBeitrag is a transfer
+
+#         var max_value = anzahlPersonen * vorsorgeAltersvorsorgeaufwendungenMax;
+
+#         return calc_min(out, max_value);
+#     }
+# }
+
+# /**
+#  * Calculate Vorsorgeaufwendungen from 2005 to 2009, new mode.
+#  */
+# public function per year einführungVorsorgeaufwand(): Float groupedBy steuernummer{
+#     from 2005-01-01 to 2019-12-31 {
+#         var anzahlPersonen = aggregate count of steuernummer groupedBy steuernummer;
+#         var summeVorsorge = per year rentenBeitrag() + per year arbeitslosenVersicherungBeitrag() + per year pflegeVersicherungBeitrag();
+#         var max_value = anzahlPersonen * vorsorgeAltersvorsorgeaufwendungenMax;
+
+#         summeVorsorge = calc_min(sum_vorsorge, max_value)
+#         return summeVorsorge + alter();
+#     }
+# }
+
+# /**
+#  * Calculate Vorsorgeaufwendungen from 2005 to 2019.
+#  *
+#  * With the 2005 reform, no taxpayer was supposed to be affected negatively.
+#  * Therefore, one needs to compute amounts under the 2004 and 2005 regimes
+#  * and take the more favourable one.
+#  *
+#  * After a supreme court ruling, the 2005 rule had to be changed in 2010.
+#  * Therefore, one needs to compute amounts under the 2004 and 2010 regimes
+#  * and take the more favourable one. (§10 (3a) EStG).
+#  *
+#  * Sidenote: The 2010 rules are by construction at least as beneficial as
+#  * the 2005 regime, so there is no need for a separate check.
+#  */
+# public function per year vorsorgeaufwand(): Float groupedBy steuernummer{
+#     to 2004-12-31 {
+#         vorsorgeaufwandBis2004();
+#     }
+
+#     from 2005-01-01 to 2019-12-31 {
+#         return calc_max(
+#             per year vorsorgeaufwandBis2004(),
+#             per year einführungVorsorgeaufwand()
+#         );
+#     }
+
+#     from 2020-01-01 {
+#         var anzahlPersonen = aggregate count of steuernummer groupedBy steuernummer;
+#         var basiskrankenversicherung = pflegeVersicherungBeitrag() + (1 - vorsorgeKrankenMinderung) * krankenVersicherungBeitrag()
+#         var sonstigeVorsorgeMax = vorsorgeSonstigeAufwendungenMax * vorsorgeSonstigeAufwendungenMax;
+#         var sonstigeVorsorgeVorBasisKrankenversicherung = calc_min(
+#             per year arbeitslosenVersicherungBeitrag() + per year pflegeVersicherungBeitrag + per year krankenVersicherungBeitrag(),
+#             sonstigeVorsorgeMax
+#         );
+#         var sonstigeVorsorge = calc_max(basiskrankenversicherung, sonstigeVorsorgeVorBasisKrankenversicherung);
+#         return sonstigeVorsorge + alter();
+#     }
+# }
+
+# /**
+#  * Calculate Vorsorgeaufwendungen until 2004.
+#  */
+# private function per year vorsorgeaufwandBis2004(): Float groupedBy steuernummer{
+#     to 2004-12-31 {
+#         var anzahlPersonen = aggregate count of steuernummer groupedBy steuernummer;
+#         var multiplikator1 =calc_max(
+#             per year gesetzlicheRentenversicherung() + per year gesetzlicheKrankenversicherung() - vorsorgeaufwandVomLohnBis2004(), 0
+#         )
+
+#         var item1 = (1 / anzahlPersonen) * multiplikator1;
+
+#         var multiplikator2 = 0;
+#         if (item1 > vorsorge2004Grundhöchstbetrag) {
+#             multiplikator2 = vorsorge2004Grundhöchstbetrag;
+#         } else {
+#             multiplikator2 = item1;
+#         }
+
+#         var item2 = (1 / anzahlPersonen) * multiplikator2;
+#         var höchstgrenzeItem3 = anzahlPersonen * vorsorge2004Grundhöchstbetrag;
+
+#         var item3 = 0.0;
+#         if (item1 - item2 > höchstgrenzeItem3) {
+#             item3 = 0.5 * höchstgrenzeItem3;
+#         } else {
+#             item3 = 0.5 * (item1 - item2);
+#         }
+
+#         return vorsorgeaufwandVomLohnBis2004() + item2 + item3;
+#     }
+# }
+
+/**
+ * Calculate precautionary expenditures until 2019 for singles.
+ */
+public function per year vorsorgeaufwandVomLohnBis2004(): Float groupedBy steuernummer {
+    to 2019-12-31 {
+        var anzahlPersonen = aggregate count of steuernummer groupedBy steuernummer;
+        var buttolohnBySteuernummer = aggregate sum of bruttolohn groupedBy steuernummer;
+
+        return (1 / anzahlPersonen) * (
+            anzahlPersonen * vorsorge2004Vorwegabzug - vorsorge2004KürzungVorwegabzug * buttolohnBySteuernummer
+        );
+    }
+}
