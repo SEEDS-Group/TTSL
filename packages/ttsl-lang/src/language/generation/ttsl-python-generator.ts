@@ -161,12 +161,7 @@ const UTILITY_NULL_SAFE_INDEXED_ACCESS: UtilityFunction = {
 
 const UTILITY_AGGREGATION: UtilityFunction = {
     name: `${CODEGEN_PREFIX}aggregation`,
-    code: expandToNode`def ${CODEGEN_PREFIX}aggregation(dataFrame: pd.Dataframe, data, id, function: str) -> pd.Dataframe | None:`
-        .appendNewLine()
-        .indent({
-            indentedChildren:['dataFrame = dataFrame.join(dataFrame[id])'],
-            indentation: PYTHON_INDENT,
-        })
+    code: expandToNode`def ${CODEGEN_PREFIX}aggregation(dataFrame: pd.DataFrame, data: str, id: str, function: str) -> pd.DataFrame:`
         .appendNewLine()
         .indent({
             indentedChildren:['dataFrame[data] = dataFrame.groupby(id)[data].transform(function)'],
@@ -174,7 +169,7 @@ const UTILITY_AGGREGATION: UtilityFunction = {
         })
         .appendNewLine()
         .indent({
-            indentedChildren: ['return dataFrame'],
+            indentedChildren: ['return dataFrame.drop_duplicates()'],
             indentation: PYTHON_INDENT,
         }),
     imports: [{importPath: '', declarationName: 'pandas', alias: 'pd'}],
@@ -197,6 +192,8 @@ const UTILITY_CONSTANTS: UtilityFunction = {
             .indent(indentingNode1 =>
                 indentingNode1.append(
                     'keys = sorted(self.dict.keys())'
+                ).appendNewLine().append(
+                    'result = "no entry"'
                 ).appendNewLine().append(
                     'if(keys[0] == "empty"):'
                 ).appendNewLine().indent(indentingNode2 =>
@@ -916,7 +913,7 @@ export class TTSLPythonGenerator {
                 // calculate the missing end date
                 let index = statement.$container.statements.filter(isTslTimespanStatement).indexOf(statement)
                 let following = statement.$container.statements.filter(isTslTimespanStatement).at(index+1)
-                if(following){
+                if(following?.timespan.start?.date){
                     end = `< "${following?.timespan.start?.date!}"`
                 }
             }
@@ -924,7 +921,7 @@ export class TTSLPythonGenerator {
                 // calculate the missing start date
                 let index = statement.$container.statements.filter(isTslTimespanStatement).indexOf(statement)
                 let previous = statement.$container.statements.filter(isTslTimespanStatement).at(index-1)
-                if(previous){
+                if(previous?.timespan.end?.date){
                     start = `"${previous?.timespan.end?.date!}" <=`
                 }
             }
@@ -1190,7 +1187,7 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
             frame.addUtility(UTILITY_AGGREGATION);
             return expandTracedToNode(expression)`${traceToNode(
                 expression
-            )(UTILITY_AGGREGATION.name)}(${'dataframe'}, ${expression.data.target.ref?.name}, ${expression.groupedBy.id.map(id => id.target.ref?.name).toString()}, '${expression.function}')`;
+            )(UTILITY_AGGREGATION.name)}(${'dataFrame'}, '${expression.data.target.ref?.name}', '${expression.groupedBy.id.map(id => id.target.ref?.name).toString()}', '${expression.function}')`;
         }
         /* c8 ignore next 2 */
         throw new Error(`Unknown expression type: ${expression.$type}`);
