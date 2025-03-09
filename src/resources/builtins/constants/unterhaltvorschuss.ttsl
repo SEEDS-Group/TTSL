@@ -1,0 +1,40 @@
+package unterhaltvorschuss
+
+/**
+ * Monatliches Mindesteinkommen, um UHV für Kinder ab
+ * `altersgrenze_mindesteinkommen` Jahren zu erhalten.
+ * Reference: § 1 (1a) Nr. 2 Unterhaltsvorschussgesetz
+ */
+public constant mindesteinkommen: Int {
+    # Reference: Art. 23 G. v. 14.08.2017 BGBl. I S. 3122.
+    from 2017-01-01 = 600;
+}
+
+/**
+ * Altersgrenze, ab der UHV nur mit einem Mindesteinkommen in Höhe von
+ * `mindesteinkommen` bezogen werden kann.
+ * Reference: § 1 (1a) Nr. 2 Unterhaltsvorschussgesetz
+ */
+public constant altersgrenzeMindesteinkommen: Int {
+    # Reference: Art. 23 G. v. 14.08.2017 BGBl. I S. 3122.
+    from 2017-01-01 = 12;
+}
+
+/**
+ * Altersgrenzen für den Bezug von Unterhaltsvorschuss
+ * Kinder, die das 12. Lebensjahr noch nicht vollendet haben und bei einem
+ * alleinerziehenden Elternteil leben haben Anspruch auf Unterhaltszahlungen. Zudem
+ * können auch Kinder bis zur Vollendung des 18. Lebensjahres Unterhaltsvorschuss
+ * bekommen, wenn das Elternteil ein Mindesteinkommen hat.
+ * Reference: § 1 Abs. 1, 1a UhVorschG
+ */
+public constant altersgrenzen: Dict<Int, Int> {
+    # Reference: § 1 Abs. 1, 1a UhVorschG
+    from 2017-01-01 = {
+        1: 6,
+        2: 12,
+        3: 18
+    };
+}
+
+# TODO: rounding

@@ -4,7 +4,7 @@ _Constants_ define a constant value, that can only be defined once and can not b
 
 ```ttsl
 constant value1: Int = 1
-
+```
 
 Here are the pieces of syntax:
 
