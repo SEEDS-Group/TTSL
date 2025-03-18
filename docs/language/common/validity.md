@@ -6,7 +6,7 @@ It can be definied in the following ways:
 
 ## Constants
 
-A time period in which a constant is [valid][Validity] can be defined using `valid from x to y` where `x` and `y` are two dates. Both `from` and `to` are optional. When no validity is set, the constant is always valid. If one of the dates is not set, the constant is valid from the beginning of time or until the end of time depending on which date is not set. The dates have to be in [ISO-Syntax][date syntax] (year-month-day).
+A time period in which a constant is [valid][Validity] can be defined using `from x to y` where `x` and `y` are two dates. Both `from` and `to` are optional. When no validity is set, the constant is always valid. If one of the dates is not set, the constant is valid from the beginning of time or until the end of time depending on which date is not set. The dates have to be in [ISO-Syntax][date syntax] (year-month-day).
 
 ```ttsl
 constant income: Int {
@@ -49,7 +49,7 @@ function foo() {
 }
 ```
 
-Multiple versions of the function for different timeframes can be definied by using the `valid` keyword multiple times. It is important that the timeframes cannot overlap.
+Multiple versions of the function for different timeframes can be definied by defining multiple timespans. It is important that the timeframes cannot overlap.
 
 ```ttsl
 function foo() {
@@ -69,7 +69,7 @@ When the start or end date is not set, the function is either valid from the beg
 
 ```ttsl
 function foo() {
-    valid from 2024-01-01 {
+    from 2024-01-01 {
         return 42;
     }
 }
@@ -77,7 +77,7 @@ function foo() {
 
 ```ttsl
 function bar() {
-    valid to 2024-12-31 {
+    to 2024-12-31 {
         return 42;
     }
 }
