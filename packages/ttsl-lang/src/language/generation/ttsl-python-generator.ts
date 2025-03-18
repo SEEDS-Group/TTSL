@@ -446,6 +446,9 @@ export class TTSLPythonGenerator {
         if(isTslConstant(object)){
             return object.name + ".getValue(date)"
         }
+        if(isTslData(object) && object.isID){
+            return object.name + "_id"
+        }
         return this.builtinFunction.getPythonName(object) || object.name;
     }
 
@@ -721,7 +724,11 @@ export class TTSLPythonGenerator {
         datas = datas.distinct()
 
         datas.forEach(data => {
-            result.append(expandToNode`${data.name}`.append(expandToNode`${this.generateType(data.type, frame)}, `))
+            let name = data.name
+            if(data.isID){
+                name = name + "_id"
+            }
+            result.append(expandToNode`${name}`.append(expandToNode`${this.generateType(data.type, frame)}, `))
         })
         
 
@@ -994,7 +1001,11 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
         if (isTslPlaceholder(assignee)) {
             return traceToNode(assignee)(assignee.name);
         } else if(isTslReference(assignee)) {
-            return traceToNode(assignee)(assignee.target.ref?.name)
+            if(isTslData(assignee.target.ref) && assignee.target.ref.isID){
+                return traceToNode(assignee)(assignee.target.ref?.name + "_id")
+            }else{
+                return traceToNode(assignee)(assignee.target.ref?.name)
+            }
         }
         /* c8 ignore next 2 */
         throw new Error(`Unknown TslAssignment: ${assignee.$type}`);
@@ -1187,7 +1198,7 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
             frame.addUtility(UTILITY_AGGREGATION);
             return expandTracedToNode(expression)`${traceToNode(
                 expression
-            )(UTILITY_AGGREGATION.name)}(${'dataFrame'}, '${expression.data.target.ref?.name}', '${expression.groupedBy.id.map(id => id.target.ref?.name).toString()}', '${expression.function}')`;
+            )(UTILITY_AGGREGATION.name)}(${'dataFrame'}, '${expression.data.target.ref?.name}', '${expression.groupedBy.id.map(id => id.target.ref?.name + "_id").toString()}', '${expression.function}')`;
         }
         /* c8 ignore next 2 */
         throw new Error(`Unknown expression type: ${expression.$type}`);
