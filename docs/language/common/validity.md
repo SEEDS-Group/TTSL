@@ -49,7 +49,7 @@ function foo() {
 }
 ```
 
-Multiple versions of the function for different timeframes can be definied by defining multiple timespans. It is important that the timeframes cannot overlap.
+Multiple versions of the function for different timeframes can be definied by defining multiple restrictions. It is important that the timeframes cannot overlap.
 
 ```ttsl
 function foo() {
