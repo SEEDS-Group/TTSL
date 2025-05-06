@@ -161,18 +161,13 @@ const UTILITY_NULL_SAFE_INDEXED_ACCESS: UtilityFunction = {
 
 const UTILITY_AGGREGATION: UtilityFunction = {
     name: `${CODEGEN_PREFIX}aggregation`,
-    code: expandToNode`def ${CODEGEN_PREFIX}aggregation(dataFrame: pd.DataFrame, data: str, id: str, function: str) -> pd.DataFrame:`
+    code: expandToNode`def ${CODEGEN_PREFIX}aggregation(data: str, id: str, function: str):`
         .appendNewLine()
         .indent({
-            indentedChildren:['dataFrame[data] = dataFrame.groupby(id)[data].transform(function)'],
-            indentation: PYTHON_INDENT,
-        })
-        .appendNewLine()
-        .indent({
-            indentedChildren: ['return dataFrame.drop_duplicates()'],
+            indentedChildren:[`aggregation_functions.update({function + "_" + data + "_" + id: {'source_col': data, 'aggr': function}})`],
             indentation: PYTHON_INDENT,
         }),
-    imports: [{importPath: '', declarationName: 'pandas', alias: 'pd'}],
+    imports: [],
     typeVariables: [`${CODEGEN_PREFIX}T`],
 };
 
@@ -563,10 +558,13 @@ export class TTSLPythonGenerator {
         .append(expandToNode`${joinToNode(getModuleMembers(module).filter(isTslConstant).map(constant => constant.name), (constName) => `'${constName}': ${constName}.getValue(date)`, { separator: ', ' })}}}`)
         .appendNewLine()
         .appendNewLine()
+        .append(`aggregation_functions = {}`)
+        .appendNewLine()
+        .appendNewLine()
         .append(`def simulate() -> pd.DataFrame:`)
         .appendNewLine()
         .indent({
-            indentedChildren:[`return compute_taxes_and_transfers(data = dataFrame, targets = ${simulateParams[2]}, functions = functions, params = params)`],
+            indentedChildren:[`return compute_taxes_and_transfers(data = dataFrame, targets = ${simulateParams[2]}, functions = functions, params = params, aggregation_specs = aggregation_functions)`],
             indentation: PYTHON_INDENT,
         })
         return output;
@@ -1198,7 +1196,7 @@ while ${this.generateExpression((statement.condition), frame)}:`.appendNewLine()
             frame.addUtility(UTILITY_AGGREGATION);
             return expandTracedToNode(expression)`${traceToNode(
                 expression
-            )(UTILITY_AGGREGATION.name)}(${'dataFrame'}, '${expression.data.target.ref?.name}', '${expression.groupedBy.id.map(id => id.target.ref?.name + "_id").toString()}', '${expression.function}')`;
+            )(UTILITY_AGGREGATION.name)}('${expression.data.target.ref?.name}', '${expression.groupedBy.id.map(id => id.target.ref?.name).toString()}', '${expression.function}')`;
         }
         /* c8 ignore next 2 */
         throw new Error(`Unknown expression type: ${expression.$type}`);
