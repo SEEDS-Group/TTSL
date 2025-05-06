@@ -1,9 +1,8 @@
 # Imports ----------------------------------------------------------------------
 
-from gettsim import (compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)
+from gettsim import (compute_taxes_and_transfers)
 import pandas as pd
 import numpy as np
-import pandas as pd
 from typing import TypeVar
 
 # Type variables ---------------------------------------------------------------
@@ -12,17 +11,18 @@ __gen_T = TypeVar("__gen_T")
 
 # Utils ------------------------------------------------------------------------
 
-def __gen_aggregation(dataFrame: pd.Dataframe, data, id, function: str) -> pd.Dataframe | None:
-    dataFrame = dataFrame.join(dataFrame[id])
-    dataFrame[data] = dataFrame.groupby(id)[data].transform(function)
-    return dataFrame
+def __gen_aggregation(data: str, id: str, function: str):
+    aggregation_functions.update({function + "_" + data + "_" + id: {'source_col': data, 'aggr': function}})
 
 # Functions --------------------------------------------------------------------
 
-def testFunction(testID: int, testData: int, ):
-    __gen_aggregation(dataframe, testData, testID, 'sum')
+def testFunction(testID_id: int, testData: int, ):
+
+    __gen_aggregation('testData', 'testID', 'sum')
 
 # Simulation --------------------------------------------------------------------
+
+dataFrame = pd.read_csv("dataFile.csv")
 
 date = "2000-01-01"
 
@@ -30,5 +30,7 @@ functions = {'testFunction': testFunction}
 
 params = {'input':{}}
 
+aggregation_functions = {}
+
 def simulate() -> pd.DataFrame:
-    return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = ['target1', 'target2'], functions = functions, params = params)
+    return compute_taxes_and_transfers(data = dataFrame, targets = ['target1', 'target2'], functions = functions, params = params, aggregation_specs = aggregation_functions)

@@ -1,6 +1,6 @@
 # Imports ----------------------------------------------------------------------
 
-from gettsim import (compute_taxes_and_transfers, create_synthetic_data, set_up_policy_environment)
+from gettsim import (compute_taxes_and_transfers)
 import pandas as pd
 import numpy as np
 from typing import Any, TypeVar
@@ -49,27 +49,37 @@ def __gen_TimeUnitYear(value, timeunit):
 
 # Functions --------------------------------------------------------------------
 
-def daytest(timeunit = None)->int:
+def daytest()->int:
+    timeunit = "day"
+    result = 100
     if timeunit != None:
-        result = __gen_TimeUnitDay(100, timeunit)
+        result = __gen_TimeUnitDay(result, timeunit)
     return result
 
-def weektest(timeunit = None)->int:
+def weektest()->int:
+    timeunit = "week"
+    result = 100
     if timeunit != None:
-        result = __gen_TimeUnitWeek(100, timeunit)
+        result = __gen_TimeUnitWeek(result, timeunit)
     return result
 
-def monthtest(timeunit = None)->int:
+def monthtest()->int:
+    timeunit = "month"
+    result = 100
     if timeunit != None:
-        result = __gen_TimeUnitMonth(100, timeunit)
+        result = __gen_TimeUnitMonth(result, timeunit)
     return result
 
-def yeartest(timeunit = None)->int:
+def yeartest()->int:
+    timeunit = "year"
+    result = 100
     if timeunit != None:
-        result = __gen_TimeUnitYear(100, timeunit)
+        result = __gen_TimeUnitYear(result, timeunit)
     return result
 
 # Simulation --------------------------------------------------------------------
+
+dataFrame = pd.read_csv("dataFile.csv")
 
 date = "2000-01-01"
 
@@ -77,5 +87,7 @@ functions = {'daytest': daytest, 'weektest': weektest, 'monthtest': monthtest, '
 
 params = {'input':{}}
 
+aggregation_functions = {}
+
 def simulate() -> pd.DataFrame:
-    return compute_taxes_and_transfers(data = pd.read_csv("dataFile.csv"), targets = ['target1', 'target2'], functions = functions, params = params)
+    return compute_taxes_and_transfers(data = dataFrame, targets = ['target1', 'target2'], functions = functions, params = params, aggregation_specs = aggregation_functions)
