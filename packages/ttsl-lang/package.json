@@ -57,7 +57,7 @@
         "@types/ws": "^8.18.1",
         "langium-cli": "^3.5.0",
         "langium-railroad": "^3.0.0",
-        "true-myth": "^8.5.0"
+        "true-myth": "^9.0.1"
     },
     "engines": {
         "node": ">=18.0.0"
